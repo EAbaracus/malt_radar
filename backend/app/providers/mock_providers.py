@@ -19,7 +19,8 @@ class BaseMockProvider(WhiskyProvider):
                 "tasting_notes": ["Peat", "Smoke", "Oak", "Sea salt"],
                 "companion_suggestions": ["Dark Chocolate", "Roquefort"],
                 "default_price": 4800.0,
-                "currency": "TL"
+                "currency": "TL",
+                "global_rating": 93.0
             },
             {
                 "external_id": "macallan-12",
@@ -33,7 +34,8 @@ class BaseMockProvider(WhiskyProvider):
                 "tasting_notes": ["Honey", "Vanilla", "Dried fruit", "Butterscotch"],
                 "companion_suggestions": ["Dried Figs", "Mild Cheese"],
                 "default_price": 4200.0,
-                "currency": "TL"
+                "currency": "TL",
+                "global_rating": 88.0
             },
             {
                 "external_id": "yamazaki-12",
@@ -47,7 +49,8 @@ class BaseMockProvider(WhiskyProvider):
                 "tasting_notes": ["Peach", "Pineapple", "Mizunara oak", "Orange"],
                 "companion_suggestions": ["Sushi", "Dark Fruits"],
                 "default_price": 9500.0,
-                "currency": "TL"
+                "currency": "TL",
+                "global_rating": 90.0
             },
             {
                 "external_id": "octomore-14",
@@ -61,7 +64,8 @@ class BaseMockProvider(WhiskyProvider):
                 "tasting_notes": ["Heavy smoke", "Vanilla", "Citrus", "Heather honey"],
                 "companion_suggestions": ["Smoked Brisket", "Very Strong Blue Cheese"],
                 "default_price": 7500.0,
-                "currency": "TL"
+                "currency": "TL",
+                "global_rating": 91.0
             },
             {
                 "external_id": "macallan-18",
@@ -75,7 +79,8 @@ class BaseMockProvider(WhiskyProvider):
                 "tasting_notes": ["Dried fruit", "Ginger", "Cinnamon", "Clove"],
                 "companion_suggestions": ["Dark Chocolate Truffles", "Aged Cheese"],
                 "default_price": 14500.0,
-                "currency": "TL"
+                "currency": "TL",
+                "global_rating": 94.0
             },
             {
                 "external_id": "glenfiddich-18",
@@ -89,7 +94,8 @@ class BaseMockProvider(WhiskyProvider):
                 "tasting_notes": ["Baked apple", "Cinnamon", "Oak", "Dates"],
                 "companion_suggestions": ["Apple Pie", "Cheddar"],
                 "default_price": 6200.0,
-                "currency": "TL"
+                "currency": "TL",
+                "global_rating": 89.0
             },
             {
                 "external_id": "hibiki-harmony",
@@ -103,7 +109,8 @@ class BaseMockProvider(WhiskyProvider):
                 "tasting_notes": ["Honey", "Orange peel", "White chocolate", "Rose"],
                 "companion_suggestions": ["Fruit Tarts", "Tempura"],
                 "default_price": 8500.0,
-                "currency": "TL"
+                "currency": "TL",
+                "global_rating": 87.0
             },
             {
                 "external_id": "aberlour-a-bunadh",
@@ -117,7 +124,23 @@ class BaseMockProvider(WhiskyProvider):
                 "tasting_notes": ["Dark Chocolate", "Spice", "Dried Fruit", "Cherry"],
                 "companion_suggestions": ["Dark Chocolate", "Strong Cheddar"],
                 "default_price": 4900.0,
-                "currency": "TL"
+                "currency": "TL",
+                "global_rating": 89.0
+            },
+            {
+                "external_id": "aberlour-12",
+                "name": "Aberlour 12",
+                "country": "Scotland",
+                "region": "Speyside",
+                "category": "Single Malt",
+                "age": 12,
+                "abv": 40.0,
+                "cask_type": "Double Cask",
+                "tasting_notes": ["Sherry", "Honey", "Spices", "Chocolate"],
+                "companion_suggestions": ["Roasted Almonds", "Mild Cigars"],
+                "default_price": 3100.0,
+                "currency": "TL",
+                "global_rating": 85.0
             },
             {
                 "external_id": "talisker-10",
@@ -131,7 +154,38 @@ class BaseMockProvider(WhiskyProvider):
                 "tasting_notes": ["Smoke", "Sea Salt", "Pepper", "Peat"],
                 "companion_suggestions": ["Oysters", "Smoked Salmon"],
                 "default_price": 2800.0,
-                "currency": "TL"
+                "currency": "TL",
+                "global_rating": 90.0
+            },
+            {
+                "external_id": "glenlivet-18",
+                "name": "The Glenlivet 18",
+                "country": "Scotland",
+                "region": "Speyside",
+                "category": "Single Malt",
+                "age": 18,
+                "abv": 40.0,
+                "cask_type": "First and Second Fill American Oak, Ex-Sherry",
+                "tasting_notes": ["Ripe citrus", "Winter spice", "Sweet orange"],
+                "companion_suggestions": ["Roast meats", "Foie gras"],
+                "default_price": 5400.0,
+                "currency": "TL",
+                "global_rating": 92.0
+            },
+            {
+                "external_id": "glenmorangie-10",
+                "name": "Glenmorangie The Original 10",
+                "country": "Scotland",
+                "region": "Highland",
+                "category": "Single Malt",
+                "age": 10,
+                "abv": 40.0,
+                "cask_type": "Ex-Bourbon",
+                "tasting_notes": ["Citrus", "Vanilla", "Peaches", "Soft spice"],
+                "companion_suggestions": ["Vanilla dessert", "Light seafood"],
+                "default_price": 2400.0,
+                "currency": "TL",
+                "global_rating": 86.0
             }
         ]
 
@@ -157,6 +211,7 @@ class WhiskyHunterProvider(BaseMockProvider):
                     companion_suggestions=w["companion_suggestions"],
                     default_price=w["default_price"],
                     currency=w["currency"],
+                    global_rating=w.get("global_rating"),
                     source_name=self.get_name(),
                     source_url=f"https://whiskyhunter.com/whiskies/{w['external_id']}"
                 ))
@@ -180,6 +235,7 @@ class WhiskyHunterProvider(BaseMockProvider):
                     companion_suggestions=w["companion_suggestions"],
                     default_price=w["default_price"],
                     currency=w["currency"],
+                    global_rating=w.get("global_rating"),
                     source_name=self.get_name(),
                     source_url=f"https://whiskyhunter.com/whiskies/{clean_id}"
                 )
@@ -235,6 +291,7 @@ class WhiskyEditionProvider(BaseMockProvider):
                     companion_suggestions=w["companion_suggestions"],
                     default_price=round(w["default_price"] * 1.05, -1),
                     currency=w["currency"],
+                    global_rating=w.get("global_rating"),
                     source_name=self.get_name(),
                     source_url=f"https://whiskyedition.org/bottle/{w['external_id']}"
                 ))
@@ -257,6 +314,7 @@ class WhiskyEditionProvider(BaseMockProvider):
                     companion_suggestions=w["companion_suggestions"],
                     default_price=round(w["default_price"] * 1.05, -1),
                     currency=w["currency"],
+                    global_rating=w.get("global_rating"),
                     source_name=self.get_name(),
                     source_url=f"https://whiskyedition.org/bottle/{clean_id}"
                 )

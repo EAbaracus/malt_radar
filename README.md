@@ -1,56 +1,56 @@
 # Malt Radar
 
-Malt Radar, Flutter ve Python tabanlı (FastAPI) geliştirilmiş kişisel bir viski veritabanı ve tadım notu uygulamasıdır. Kullanıcıların viski araması yapmasına, kendi 100 üzerinden referans sistemlerine göre puanlama yapmalarına ve yerel kütüphanelerinde viskilerini (fiyatları ve tadım notlarıyla) saklamalarına olanak tanır.
+Malt Radar is a personal whisky database and tasting notes application built with Flutter and Python (FastAPI). It allows users to search for whiskies, rate them according to their own 100-point reference system, and store their whiskies in a local library (along with prices and tasting notes).
 
-## Özellikler
+## Features
 
-- **Offline-First Mimari:** Yerel SQLite (Drift) veritabanı sayesinde çevrimdışı çalışabilme.
-- **Backend Entegrasyonu:** Web scraping yerine, backend üzerinden çalışan mock API sağlayıcılarla (WhiskyHunter, WhiskyEdition) veri normalizasyonu.
-- **Kişisel Skor Sistemi:** Seçtiğiniz 100 puanlık bir referans viskiye göre diğer viskileri puanlama imkanı.
-- **Modern Arayüz:** Riverpod State Management ve modern koyu tema tasarımı.
-- **Web Desteği:** Drift'in yerel Wasm dosyaları ile hızlı web derleme desteği.
+- **Offline-First Architecture:** Ability to work offline thanks to the local SQLite (Drift) database.
+- **Backend Integration and Live Web Scraping:** Instead of settling for a limited CSV dataset, the application performs "live web scraping" directly from massive sources like Distiller.com. It instantly reflects the newest and most accurate whiskies, along with up-to-date age and cask details, in the search results. (It also provides fallback data via CSV and Mock API providers.)
+- **Personal Scoring System:** The ability to rate other whiskies based on a 100-point reference whisky of your choice.
+- **Modern Interface:** Riverpod State Management and a modern dark theme design.
+- **Web Support:** Fast web compilation support with Drift's native Wasm files.
 
-## Proje Yapısı
+## Project Structure
 
-Proje iki ana klasörden oluşur:
-1. `backend/`: Python ve FastAPI ile yazılmış arka plan servisi. Veri kaynaklarını taklit eder ve arama isteklerini yanıtlar.
-2. `frontend/`: Dart ve Flutter ile yazılmış mobil/web uygulaması.
+The project consists of two main folders:
+1. `backend/`: The backend service written with Python and FastAPI. It aggregates data sources and responds to search requests.
+2. `frontend/`: The mobile/web application written with Dart and Flutter.
 
 ---
 
-## Kurulum ve Çalıştırma
+## Installation and Running
 
-Projeyi bilgisayarınızda çalıştırmak için iki terminal sekmesine ihtiyacınız olacak.
+You will need two terminal tabs to run the project locally.
 
-### 1. Backend (Python API) Sunucusunu Başlatma
+### 1. Starting the Backend (Python API) Server
 
-Backend'i çalıştırmak için Python yüklü olmalıdır.
+Python must be installed to run the backend.
 
 ```bash
-# Proje dizininden backend klasörüne gidin
+# Navigate to the backend folder from the project directory
 cd "malt radar/backend"
 
-# Gerekli bağımlılıkları yükleyin (İlk seferde gereklidir)
+# Install the required dependencies (Required for the first time)
 pip install -r requirements.txt
 
-# Geliştirici sunucusunu başlatın
+# Start the development server
 python run.py
 ```
-*(Sunucu varsayılan olarak http://localhost:8080 adresinde çalışır)*
+*(The server runs on http://localhost:8080 by default)*
 
-### 2. Frontend (Flutter Uygulaması) Sunucusunu Başlatma
+### 2. Starting the Frontend (Flutter Application) Server
 
-Ayrı bir terminal sekmesi açın. Flutter'ın yüklü ve ayarlarının yapılandırılmış olması gerekir.
+Open a separate terminal tab. Flutter must be installed and configured.
 
 ```bash
-# Proje dizininden frontend klasörüne gidin
+# Navigate to the frontend folder from the project directory
 cd "malt radar/frontend"
 
-# (Opsiyonel) Paketleri indirin
+# (Optional) Download packages
 flutter pub get
 
-# Uygulamayı Chrome tarayıcı üzerinde başlatın
+# Launch the application on the Chrome browser
 flutter run -d chrome --web-port 8888
 ```
 
-Uygulama başarıyla derlendiğinde tarayıcınızda http://localhost:8888 adresinden kullanmaya başlayabilirsiniz.
+Once the application compiles successfully, you can start using it in your browser at http://localhost:8888.

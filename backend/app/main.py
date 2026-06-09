@@ -6,9 +6,13 @@ from typing import List, Optional
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
+from fastapi import Query
 
 from app.models.schemas import WhiskySearchItem, WhiskyPriceItem, NormalizeRequest
+from app.providers.base import WhiskyProvider
+from app.providers.csv_provider import CsvWhiskyProvider
 from app.providers.mock_providers import WhiskyHunterProvider, WhiskyEditionProvider
+from app.providers.distiller_provider import DistillerProvider
 
 # Configure rate limiter (default: 60 requests per minute per IP)
 limiter = Limiter(key_func=get_remote_address)
@@ -31,10 +35,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Initialize mock providers
-providers = [
+# Initialize providers
+providers: List[WhiskyProvider] = [
+    CsvWhiskyProvider(csv_paths=["data/whisky.csv", "data/whisky2.csv"]),
+    # Yedek olarak mock sağlayıcıları da tutuyoruz (CSV yoksa boş dönmemesi için)
     WhiskyHunterProvider(),
-    WhiskyEditionProvider()
+    WhiskyEditionProvider(),
+    DistillerProvider()
 ]
 
 # Simple in-memory cache for search queries to implement the "Cache ekle" rule
@@ -53,7 +60,7 @@ async def health_check(request: Request):
     }
 
 @app.get("/api/whiskies/search", response_model=List[WhiskySearchItem])
-@limiter.limit("30/minute")
+@limiter.limit("120/minute")
 async def search_whiskies(request: Request, q: str = ""):
     if not q or len(q.strip()) < 2:
         return []
@@ -65,11 +72,15 @@ async def search_whiskies(request: Request, q: str = ""):
         return search_cache[query]
 
     combined_results = []
-    # Search all configured providers
+    # Search all configured providers, prioritizing local CSV
     for provider in providers:
         try:
             results = provider.search(query)
-            combined_results.extend(results)
+            if results:
+                combined_results.extend(results)
+                # If we found results in the local CSV, stop to prioritize local data and save time
+                if isinstance(provider, CsvWhiskyProvider):
+                    break
         except Exception as e:
             # In a real app, log error but continue trying other providers
             print(f"Error from provider {provider.get_name()}: {e}")
@@ -93,10 +104,14 @@ async def search_whiskies(request: Request, q: str = ""):
 async def get_whisky_details(request: Request, external_id: str):
     # Determine provider by prefix
     target_provider = None
-    if external_id.startswith("wh-"):
-        target_provider = providers[0]  # WhiskyHunter
+    if external_id.startswith("csv-"):
+        target_provider = providers[0]  # CsvWhiskyProvider
+    elif external_id.startswith("wh-"):
+        target_provider = providers[1]  # WhiskyHunter
     elif external_id.startswith("we-"):
-        target_provider = providers[1]  # WhiskyEdition
+        target_provider = providers[2]  # WhiskyEdition
+    elif external_id.startswith("ds-"):
+        target_provider = providers[3]  # Distiller Live
     
     if not target_provider:
         raise HTTPException(status_code=400, detail="Invalid external ID format")
@@ -111,10 +126,14 @@ async def get_whisky_details(request: Request, external_id: str):
 @limiter.limit("60/minute")
 async def get_whisky_prices(request: Request, external_id: str):
     target_provider = None
-    if external_id.startswith("wh-"):
+    if external_id.startswith("csv-"):
         target_provider = providers[0]
-    elif external_id.startswith("we-"):
+    elif external_id.startswith("wh-"):
         target_provider = providers[1]
+    elif external_id.startswith("we-"):
+        target_provider = providers[2]
+    elif external_id.startswith("ds-"):
+        target_provider = providers[3]
 
     if not target_provider:
         raise HTTPException(status_code=400, detail="Invalid external ID format")

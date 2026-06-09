@@ -21,6 +21,7 @@ class Whiskies extends Table {
   TextColumn get fetchedAt => text().nullable()();
   TextColumn get tastingNotes => text().withDefault(const Constant(''))();
   TextColumn get companionSuggestions => text().withDefault(const Constant(''))();
+  RealColumn get globalScore => real().nullable()();
 }
 
 class UserSettings extends Table {
@@ -93,5 +94,19 @@ class AppDatabase extends _$AppDatabase {
   ));
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
+
+  @override
+  MigrationStrategy get migration {
+    return MigrationStrategy(
+      onCreate: (Migrator m) async {
+        await m.createAll();
+      },
+      onUpgrade: (Migrator m, int from, int to) async {
+        if (from < 2) {
+          await m.addColumn(whiskies, whiskies.globalScore);
+        }
+      },
+    );
+  }
 }
