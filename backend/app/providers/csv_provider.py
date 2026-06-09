@@ -32,17 +32,30 @@ class CsvWhiskyProvider(WhiskyProvider):
                         if not name:
                             continue
                             
-                        category = row.get('category') or row.get('Category') or row.get('type') or "Single Malt"
-                        country = row.get('Menşei') or row.get('country') or row.get('Country') or "Scotland"
+                        category = row.get('Class') or row.get('category') or row.get('Category') or row.get('type') or "Single Malt"
+                        if row.get('Type') and row.get('Type') not in category:
+                            category = f"{category} ({row.get('Type')})"
+                        
+                        country = row.get('Country') or row.get('Menşei') or row.get('country') or "Scotland"
                         region = row.get('region') or row.get('Region') or "Unknown"
                         
                         price_str = row.get('price') or row.get('Price') or "0"
-                        try:
-                            price = float(price_str.replace('$', '').replace(',', '').strip()) if price_str else 0.0
-                        except:
-                            price = 0.0
+                        if row.get('Cost'):
+                            cost_val = row.get('Cost').strip()
+                            if cost_val == '$$$$$+': price = 300.0
+                            elif cost_val == '$$$$$': price = 150.0
+                            elif cost_val == '$$$$': price = 70.0
+                            elif cost_val == '$$$': price = 45.0
+                            elif cost_val == '$$': price = 35.0
+                            elif cost_val == '$': price = 20.0
+                            else: price = 0.0
+                        else:
+                            try:
+                                price = float(price_str.replace('$', '').replace(',', '').strip()) if price_str else 0.0
+                            except:
+                                price = 0.0
                             
-                        rating_str = row.get('Puan') or row.get('Rating') or row.get('rating') or row.get('Score') or row.get('score')
+                        rating_str = row.get('Meta Critic') or row.get('Puan') or row.get('Rating') or row.get('rating') or row.get('Score') or row.get('score')
                         try:
                             global_rating = float(rating_str) if rating_str else None
                         except:
@@ -50,11 +63,19 @@ class CsvWhiskyProvider(WhiskyProvider):
                             
                         cask_type = row.get('Fıçı Türü') or row.get('Cask Type') or "Unknown"
                         
+                        distillery = row.get('Damıtımevi') or row.get('Company') or "Unknown"
+
                         age_str = row.get('Yaşı') or row.get('Age')
                         try:
                             age = int(age_str) if age_str else None
                         except:
                             age = None
+                            
+                        abv_str = row.get('ABV') or row.get('abv') or row.get('Alkol')
+                        try:
+                            abv = float(abv_str.replace('%', '').strip()) if abv_str else None
+                        except:
+                            abv = None
 
                         tasting_notes = []
                         if row.get('Burun'): tasting_notes.append(f"Burun: {row.get('Burun')}")
@@ -64,6 +85,11 @@ class CsvWhiskyProvider(WhiskyProvider):
                         notes_str = row.get('description') or row.get('Review') or row.get('notes') or ""
                         if notes_str:
                             tasting_notes.extend([n.strip() for n in notes_str.split(',') if n.strip()])
+                            
+                        if row.get('Super Cluster'):
+                            tasting_notes.append(f"Super Cluster: {row.get('Super Cluster')}")
+                        if row.get('Cluster'):
+                            tasting_notes.append(f"Cluster: {row.get('Cluster')}")
 
                         companion_suggestions = []
                         if row.get('Eşlikçi'):
@@ -74,8 +100,10 @@ class CsvWhiskyProvider(WhiskyProvider):
                             name=name,
                             country=country,
                             region=region,
+                            distillery=distillery,
                             category=category,
                             age=age,
+                            abv=abv,
                             default_price=price,
                             currency="USD",
                             tasting_notes=tasting_notes,

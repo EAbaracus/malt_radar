@@ -8,6 +8,7 @@ class Whisky {
   final String? country;
   final String? region;
   final String? category;
+  final String? distillery;
   final int? age;
   final double? abv;
   final String? caskType;
@@ -32,6 +33,7 @@ class Whisky {
     this.country,
     this.region,
     this.category,
+    this.distillery,
     this.age,
     this.abv,
     this.caskType,
@@ -55,6 +57,7 @@ class Whisky {
     String? country,
     String? region,
     String? category,
+    String? distillery,
     int? age,
     double? abv,
     String? caskType,
@@ -77,6 +80,7 @@ class Whisky {
       country: country ?? this.country,
       region: region ?? this.region,
       category: category ?? this.category,
+      distillery: distillery ?? this.distillery,
       age: age ?? this.age,
       abv: abv ?? this.abv,
       caskType: caskType ?? this.caskType,
@@ -108,6 +112,7 @@ class Whisky {
       country: whisky.country,
       region: whisky.region,
       category: whisky.category,
+      distillery: whisky.distillery,
       age: whisky.age,
       abv: whisky.abv,
       caskType: whisky.caskType,
@@ -138,6 +143,7 @@ class Whisky {
       country: map['country'] as String?,
       region: map['region'] as String?,
       category: map['category'] as String?,
+      distillery: map['distillery'] as String?,
       age: map['age'] as int?,
       abv: (map['abv'] as num?)?.toDouble(),
       caskType: map['cask_type'] as String?,
@@ -164,6 +170,7 @@ class Whisky {
       country: Value(country),
       region: Value(region),
       category: Value(category),
+      distillery: Value(distillery),
       age: Value(age),
       abv: Value(abv),
       caskType: Value(caskType),

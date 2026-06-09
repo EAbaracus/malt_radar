@@ -6,6 +6,7 @@ class WhiskySearchItem(BaseModel):
     name: str = Field(..., description="Name of the whisky")
     country: str = Field(..., description="Country of origin")
     region: str = Field(..., description="Region within the country")
+    distillery: Optional[str] = Field(None, description="Distillery name")
     category: str = Field(..., description="Whisky category, e.g. Single Malt, Blend")
     age: Optional[int] = Field(None, description="Age of the whisky in years")
     abv: Optional[float] = Field(None, description="Alcohol By Volume percentage")
