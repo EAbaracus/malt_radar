@@ -1,12 +1,13 @@
 import csv
 import os
 import uuid
+import math
 from typing import List, Optional, Union
 from app.providers.base import WhiskyProvider
 from app.models.schemas import WhiskySearchItem, WhiskyPriceItem
 
 class CsvWhiskyProvider(WhiskyProvider):
-    def __init__(self, csv_paths: Union[str, List[str]] = "data/whisky.csv"):
+    def __init__(self, csv_paths: Union[str, List[str]] = "data/whisky_database_merged_max.csv"):
         if isinstance(csv_paths, str):
             self.csv_paths = [csv_paths]
         else:
@@ -15,7 +16,7 @@ class CsvWhiskyProvider(WhiskyProvider):
         self._load_data()
 
     def get_name(self) -> str:
-        return "CSV Database"
+        return "Merged CSV Database"
 
     def _load_data(self):
         for path in self.csv_paths:
@@ -28,75 +29,95 @@ class CsvWhiskyProvider(WhiskyProvider):
                     reader = csv.DictReader(f)
                     
                     for row in reader:
-                        name = row.get('Adı') or row.get('name') or row.get('Name') or row.get('Company') or row.get('Whisky') or row.get('whisky')
+                        # Required fields fallback mapping just in case
+                        name = row.get('whisky_name') or row.get('canonical_name') or row.get('Name') or row.get('Adı')
                         if not name:
                             continue
                             
-                        category = row.get('Class') or row.get('category') or row.get('Category') or row.get('type') or "Single Malt"
-                        if row.get('Type') and row.get('Type') not in category:
-                            category = f"{category} ({row.get('Type')})"
-                        
-                        country = row.get('Country') or row.get('Menşei') or row.get('country') or "Scotland"
-                        region = row.get('region') or row.get('Region') or "Unknown"
-                        
-                        price_str = row.get('price') or row.get('Price') or "0"
-                        if row.get('Cost'):
-                            cost_val = row.get('Cost').strip()
+                        category = row.get('class') or row.get('type') or row.get('category') or "Single Malt"
+                        if row.get('type') and row.get('type') != row.get('class') and row.get('type'):
+                            if row.get('type') not in category:
+                                category = f"{category} ({row.get('type')})"
+                                
+                        country = row.get('country') or "Scotland"
+                        region = row.get('region') or "Unknown"
+                        distillery = row.get('distillery') or row.get('brand_or_company') or "Unknown"
+                        cask_type = row.get('cask_type') or "Unknown"
+                        if row.get('finish_type'):
+                            cask_type = f"{cask_type} (Finish: {row.get('finish_type')})"
+                            
+                        # Price parsing
+                        price_str = row.get('current_price') or row.get('price') or "0"
+                        try:
+                            price = float(price_str) if price_str and price_str.strip() else 0.0
+                        except:
+                            price = 0.0
+                            
+                        # Cost tier fallback
+                        cost_val = row.get('cost_tier')
+                        if price == 0.0 and cost_val:
+                            cost_val = cost_val.strip()
                             if cost_val == '$$$$$+': price = 300.0
                             elif cost_val == '$$$$$': price = 150.0
                             elif cost_val == '$$$$': price = 70.0
                             elif cost_val == '$$$': price = 45.0
                             elif cost_val == '$$': price = 35.0
                             elif cost_val == '$': price = 20.0
-                            else: price = 0.0
-                        else:
-                            try:
-                                price = float(price_str.replace('$', '').replace(',', '').strip()) if price_str else 0.0
-                            except:
-                                price = 0.0
                             
-                        rating_str = row.get('Meta Critic') or row.get('Puan') or row.get('Rating') or row.get('rating') or row.get('Score') or row.get('score')
+                        currency = row.get('price_currency') or "USD"
+                        if not currency.strip(): currency = "USD"
+                        
+                        # Ratings parsing
+                        rating_str = row.get('meta_critic') or row.get('user_score_100')
                         try:
-                            global_rating = float(rating_str) if rating_str else None
+                            global_rating = float(rating_str) if rating_str and rating_str.strip() else None
                         except:
                             global_rating = None
                             
-                        cask_type = row.get('Fıçı Türü') or row.get('Cask Type') or "Unknown"
-                        
-                        distillery = row.get('Damıtımevi') or row.get('Company') or "Unknown"
-
-                        age_str = row.get('Yaşı') or row.get('Age')
+                        # Age parsing
+                        age_str = row.get('age_years') or row.get('age_raw')
                         try:
-                            age = int(age_str) if age_str else None
+                            age = int(float(age_str)) if age_str and age_str.strip() else None
                         except:
                             age = None
                             
-                        abv_str = row.get('ABV') or row.get('abv') or row.get('Alkol')
+                        # ABV parsing
+                        abv_str = row.get('abv_percent')
                         try:
-                            abv = float(abv_str.replace('%', '').strip()) if abv_str else None
+                            abv = float(abv_str) if abv_str and abv_str.strip() else None
                         except:
                             abv = None
 
                         tasting_notes = []
-                        if row.get('Burun'): tasting_notes.append(f"Burun: {row.get('Burun')}")
-                        if row.get('Damak'): tasting_notes.append(f"Damak: {row.get('Damak')}")
-                        if row.get('Bitiş'): tasting_notes.append(f"Bitiş: {row.get('Bitiş')}")
+                        if row.get('nose_notes'): tasting_notes.append(f"Burun: {row.get('nose_notes')}")
+                        if row.get('palate_notes'): tasting_notes.append(f"Damak: {row.get('palate_notes')}")
+                        if row.get('finish_notes'): tasting_notes.append(f"Bitiş: {row.get('finish_notes')}")
                         
-                        notes_str = row.get('description') or row.get('Review') or row.get('notes') or ""
+                        notes_str = row.get('general_notes')
                         if notes_str:
                             tasting_notes.extend([n.strip() for n in notes_str.split(',') if n.strip()])
                             
-                        if row.get('Super Cluster'):
-                            tasting_notes.append(f"Super Cluster: {row.get('Super Cluster')}")
-                        if row.get('Cluster'):
-                            tasting_notes.append(f"Cluster: {row.get('Cluster')}")
+                        tags_str = row.get('aroma_tags')
+                        if tags_str:
+                            tasting_notes.extend([n.strip() for n in tags_str.split(',') if n.strip()])
+                            
+                        if row.get('super_cluster'): tasting_notes.append(f"Super Cluster: {row.get('super_cluster')}")
+                        if row.get('cluster'): tasting_notes.append(f"Cluster: {row.get('cluster')}")
+                        
+                        if row.get('smoke_level'): tasting_notes.append(f"Smoke: {row.get('smoke_level')}")
+                        if row.get('peat_level'): tasting_notes.append(f"Peat: {row.get('peat_level')}")
+                        if row.get('sweetness'): tasting_notes.append(f"Sweetness: {row.get('sweetness')}")
+                        if row.get('spiciness'): tasting_notes.append(f"Spiciness: {row.get('spiciness')}")
+                        if row.get('body'): tasting_notes.append(f"Body: {row.get('body')}")
 
                         companion_suggestions = []
-                        if row.get('Eşlikçi'):
-                            companion_suggestions.extend([c.strip() for c in row.get('Eşlikçi').split(',') if c.strip()])
+                        if row.get('pairing_notes'):
+                            companion_suggestions.extend([c.strip() for c in row.get('pairing_notes').split(',') if c.strip()])
+                        if row.get('alternative_suggestions'):
+                            companion_suggestions.extend([c.strip() for c in row.get('alternative_suggestions').split(',') if c.strip()])
 
                         item = WhiskySearchItem(
-                            external_id=f"csv-{uuid.uuid4().hex[:8]}",
+                            external_id=row.get('record_id') or f"csv-{uuid.uuid4().hex[:8]}",
                             name=name,
                             country=country,
                             region=region,
@@ -105,7 +126,7 @@ class CsvWhiskyProvider(WhiskyProvider):
                             age=age,
                             abv=abv,
                             default_price=price,
-                            currency="USD",
+                            currency=currency,
                             tasting_notes=tasting_notes,
                             companion_suggestions=companion_suggestions,
                             cask_type=cask_type,
@@ -114,13 +135,13 @@ class CsvWhiskyProvider(WhiskyProvider):
                             source_url="https://local"
                         )
                         self.whiskies.append(item)
-                print(f"Successfully loaded {len(self.whiskies)} whiskies so far from CSVs.")
+                print(f"Successfully loaded {len(self.whiskies)} whiskies from CSV.")
             except Exception as e:
                 print(f"Error loading CSV data from {path}: {e}")
 
     def search(self, query: str) -> List[WhiskySearchItem]:
         query = query.lower()
-        results = [w for w in self.whiskies if query in w.name.lower()]
+        results = [w for w in self.whiskies if query in w.name.lower() or (w.distillery and query in w.distillery.lower())]
         return results[:20]
 
     def get_details(self, external_id: str) -> Optional[WhiskySearchItem]:

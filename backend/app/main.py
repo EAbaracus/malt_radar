@@ -37,7 +37,7 @@ app.add_middleware(
 
 # Initialize providers
 providers: List[WhiskyProvider] = [
-    CsvWhiskyProvider(csv_paths=["data/whisky.csv", "data/whisky2.csv", "data/whisky3.csv"]),
+    CsvWhiskyProvider(csv_paths=["data/whisky_database_merged_max.csv"]),
     # Yedek olarak mock sağlayıcıları da tutuyoruz (CSV yoksa boş dönmemesi için)
     WhiskyHunterProvider(),
     WhiskyEditionProvider(),
