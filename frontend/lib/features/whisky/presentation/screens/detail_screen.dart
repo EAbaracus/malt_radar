@@ -147,6 +147,7 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
   @override
   Widget build(BuildContext context) {
     final whiskyAsync = ref.watch(whiskyDetailProvider(widget.whiskyId));
+    final allWhiskiesAsync = ref.watch(whiskiesStreamProvider);
     final settingsAsync = ref.watch(referenceSettingsStreamProvider);
     final refWhiskyAsync = ref.watch(referenceWhiskyModelProvider);
 
@@ -186,14 +187,19 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
             _notesController.text = whisky.personalNotes;
             _score = whisky.personalScore;
             _initialized = true;
+            
+            // Auto-fetch details if missing
+            if (whisky.tastingNotes.isEmpty && whisky.externalId != null) {
+              Future.microtask(() => ref.read(whiskyRepositoryProvider).fetchAndUpdateDetails(whisky.id, whisky.externalId!));
+            }
           }
 
           final isReferenceWhisky = whisky.id == referenceId;
           
-          // Calculate relative score
-          int? relativeScore;
-          if (_score > 0 && referenceScore > 0) {
-            relativeScore = ((_score / referenceScore) * 100).round();
+          // Calculate relative score based on global scores
+          double? automatedRelativeScore;
+          if (refWhisky != null && refWhisky.globalScore != null && refWhisky.globalScore! > 0 && whisky.globalScore != null) {
+            automatedRelativeScore = (whisky.globalScore! / refWhisky.globalScore!) * referenceScore;
           }
 
           return SingleChildScrollView(
@@ -332,6 +338,51 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                   Divider(color: AppTheme.textMuted.withValues(alpha: 0.2)),
                   const SizedBox(height: 24),
 
+                  // Similar Whiskies (Bunu Sevdiyseniz...)
+                  allWhiskiesAsync.maybeWhen(
+                    data: (allWhiskies) {
+                      final similar = allWhiskies.where((w) => 
+                        w.id != whisky.id && 
+                        ((w.category != null && w.category == whisky.category) || 
+                         (w.region != null && w.region == whisky.region))
+                      ).take(3).toList();
+                      
+                      if (similar.isEmpty) return const SizedBox.shrink();
+                      
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildSectionHeader(context, 'Bunu Sevdiyseniz...', Icons.recommend),
+                          const SizedBox(height: 12),
+                          const Text(
+                            'Kütüphanenizdeki benzer kategorideki/bölgedeki viskiler:',
+                            style: TextStyle(color: AppTheme.textSecondary, fontSize: 13),
+                          ),
+                          const SizedBox(height: 8),
+                          ...similar.map((sim) => Card(
+                            color: AppTheme.surfaceElevated,
+                            margin: const EdgeInsets.only(bottom: 8),
+                            child: ListTile(
+                              leading: const Icon(Icons.local_bar, color: AppTheme.primary),
+                              title: Text(sim.name, style: const TextStyle(fontWeight: FontWeight.bold, color: AppTheme.textPrimary)),
+                              subtitle: Text('${sim.category ?? ''} ${sim.region ?? ''}'),
+                              onTap: () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => DetailScreen(whiskyId: sim.id)),
+                                );
+                              },
+                            ),
+                          )),
+                          const SizedBox(height: 24),
+                          Divider(color: AppTheme.textMuted.withValues(alpha: 0.2)),
+                          const SizedBox(height: 24),
+                        ],
+                      );
+                    },
+                    orElse: () => const SizedBox.shrink(),
+                  ),
+
                   // Evaluation Section
                   _buildSectionHeader(context, 'Kişisel Değerlendirmeniz', Icons.edit_note),
                   const SizedBox(height: 24),
@@ -382,22 +433,39 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                     },
                   ),
 
-                  if (!isReferenceWhisky && relativeScore != null) ...[
+                  if (!isReferenceWhisky && automatedRelativeScore != null) ...[
                     const SizedBox(height: 16),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text('Referans Göreli Puan:', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                        const Text('Otomatik Göreli Puan:', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                         Text(
-                          '$relativeScore / 100',
+                          '${automatedRelativeScore.toStringAsFixed(1)} / 100',
                           style: const TextStyle(fontSize: 22, color: AppTheme.primary, fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'Referans: ${refWhisky?.name ?? "Bilinmiyor"} (Mutlak: $referenceScore) = 100',
+                      'Hesaplama: (Bu Viski Genel Puanı: ${whisky.globalScore} / Referans: ${refWhisky?.name} Genel Puanı: ${refWhisky?.globalScore}) * $referenceScore',
                       style: const TextStyle(color: AppTheme.textMuted, fontSize: 11, fontStyle: FontStyle.italic),
+                    ),
+                  ] else if (!isReferenceWhisky && refWhisky != null) ...[
+                    const SizedBox(height: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text('Otomatik Göreli Puan:', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                        const Text(
+                          'Veri Yok',
+                          style: TextStyle(fontSize: 18, color: AppTheme.textMuted, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    const Text(
+                      'Bu viskinin veya referansın genel puan verisi bulunmuyor.',
+                      style: TextStyle(color: AppTheme.textMuted, fontSize: 11, fontStyle: FontStyle.italic),
                     ),
                   ],
                   const SizedBox(height: 24),

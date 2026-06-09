@@ -12,6 +12,7 @@ class WhiskySearchItem(BaseModel):
     cask_type: str = Field(..., description="Cask type used for aging")
     tasting_notes: List[str] = Field(default_factory=list, description="Tasting notes tags")
     companion_suggestions: List[str] = Field(default_factory=list, description="Food or activity pairing suggestions")
+    global_rating: Optional[float] = Field(None, description="Global or community rating from 0-100")
     default_price: float = Field(..., description="Default estimated price")
     currency: str = Field(..., description="Currency of default price (e.g. TL, USD)")
     source_name: str = Field(..., description="Source provider name")

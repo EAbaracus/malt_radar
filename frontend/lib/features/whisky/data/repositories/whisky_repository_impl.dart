@@ -102,8 +102,19 @@ class WhiskyRepositoryImpl implements WhiskyRepository {
       }
     }
 
+    // Fetch full details (tasting notes, etc.) from the backend before inserting
+    Whisky detailedWhisky = whisky;
+    if (whisky.externalId != null) {
+      try {
+        final detailsMap = await _apiClient.getWhiskyDetails(whisky.externalId!);
+        detailedWhisky = Whisky.fromMap(detailsMap);
+      } catch (_) {
+        // If details fetch fails, fall back to the basic info from search
+      }
+    }
+
     // Insert new entry
-    final localId = await _db.into(_db.whiskies).insert(whisky.toCompanion());
+    final localId = await _db.into(_db.whiskies).insert(detailedWhisky.toCompanion());
 
     // Fetch and cache external prices
     if (whisky.externalId != null) {
@@ -126,6 +137,18 @@ class WhiskyRepositoryImpl implements WhiskyRepository {
     }
 
     return localId;
+  }
+
+  @override
+  Future<void> fetchAndUpdateDetails(int id, String externalId) async {
+    try {
+      final detailsMap = await _apiClient.getWhiskyDetails(externalId);
+      final detailedWhisky = Whisky.fromMap(detailsMap);
+      
+      await _db.update(_db.whiskies).replace(
+        detailedWhisky.copyWith(id: id).toCompanion(),
+      );
+    } catch (_) {}
   }
 
   @override

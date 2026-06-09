@@ -18,6 +18,7 @@ class Whisky {
   final String? fetchedAt;
   final List<String> tastingNotes;
   final List<String> companionSuggestions;
+  final double? globalScore;
   
   // User specific attributes
   final int personalScore; // absolute score (0-100)
@@ -41,6 +42,7 @@ class Whisky {
     this.fetchedAt,
     required this.tastingNotes,
     required this.companionSuggestions,
+    this.globalScore,
     required this.personalScore,
     required this.personalNotes,
     required this.isFavorite,
@@ -63,6 +65,7 @@ class Whisky {
     String? fetchedAt,
     List<String>? tastingNotes,
     List<String>? companionSuggestions,
+    double? globalScore,
     int? personalScore,
     String? personalNotes,
     bool? isFavorite,
@@ -84,6 +87,7 @@ class Whisky {
       fetchedAt: fetchedAt ?? this.fetchedAt,
       tastingNotes: tastingNotes ?? this.tastingNotes,
       companionSuggestions: companionSuggestions ?? this.companionSuggestions,
+      globalScore: globalScore ?? this.globalScore,
       personalScore: personalScore ?? this.personalScore,
       personalNotes: personalNotes ?? this.personalNotes,
       isFavorite: isFavorite ?? this.isFavorite,
@@ -118,6 +122,7 @@ class Whisky {
       companionSuggestions: whisky.companionSuggestions.isEmpty
           ? []
           : whisky.companionSuggestions.split(',').map((e) => e.trim()).toList(),
+      globalScore: whisky.globalScore,
       personalScore: score ?? 0,
       personalNotes: notes ?? '',
       isFavorite: favorite ?? false,
@@ -143,6 +148,7 @@ class Whisky {
       fetchedAt: map['fetched_at'] as String? ?? DateTime.now().toIso8601String(),
       tastingNotes: (map['tasting_notes'] as List<dynamic>?)?.map((e) => e.toString()).toList() ?? [],
       companionSuggestions: (map['companion_suggestions'] as List<dynamic>?)?.map((e) => e.toString()).toList() ?? [],
+      globalScore: (map['global_rating'] as num?)?.toDouble(),
       personalScore: 0,
       personalNotes: '',
       isFavorite: false,
@@ -168,6 +174,7 @@ class Whisky {
       fetchedAt: Value(fetchedAt),
       tastingNotes: Value(tastingNotes.join(',')),
       companionSuggestions: Value(companionSuggestions.join(',')),
+      globalScore: Value(globalScore),
     );
   }
 }

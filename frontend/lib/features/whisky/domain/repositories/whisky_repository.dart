@@ -13,6 +13,7 @@ abstract class WhiskyRepository {
   
   // Caching / Adding to library
   Future<int> addWhiskyToLibrary(Whisky whisky);
+  Future<void> fetchAndUpdateDetails(int id, String externalId);
   
   // User preferences & logs
   Future<void> toggleFavorite(int id);

@@ -185,6 +185,17 @@ class $WhiskiesTable extends Whiskies
         requiredDuringInsert: false,
         defaultValue: const Constant(''),
       );
+  static const VerificationMeta _globalScoreMeta = const VerificationMeta(
+    'globalScore',
+  );
+  @override
+  late final GeneratedColumn<double> globalScore = GeneratedColumn<double>(
+    'global_score',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -203,6 +214,7 @@ class $WhiskiesTable extends Whiskies
     fetchedAt,
     tastingNotes,
     companionSuggestions,
+    globalScore,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -320,6 +332,15 @@ class $WhiskiesTable extends Whiskies
         ),
       );
     }
+    if (data.containsKey('global_score')) {
+      context.handle(
+        _globalScoreMeta,
+        globalScore.isAcceptableOrUnknown(
+          data['global_score']!,
+          _globalScoreMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -393,6 +414,10 @@ class $WhiskiesTable extends Whiskies
         DriftSqlType.string,
         data['${effectivePrefix}companion_suggestions'],
       )!,
+      globalScore: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}global_score'],
+      ),
     );
   }
 
@@ -419,6 +444,7 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
   final String? fetchedAt;
   final String tastingNotes;
   final String companionSuggestions;
+  final double? globalScore;
   const WhiskyEntity({
     required this.id,
     this.externalId,
@@ -436,6 +462,7 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
     this.fetchedAt,
     required this.tastingNotes,
     required this.companionSuggestions,
+    this.globalScore,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -480,6 +507,9 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
     }
     map['tasting_notes'] = Variable<String>(tastingNotes);
     map['companion_suggestions'] = Variable<String>(companionSuggestions);
+    if (!nullToAbsent || globalScore != null) {
+      map['global_score'] = Variable<double>(globalScore);
+    }
     return map;
   }
 
@@ -521,6 +551,9 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
           : Value(fetchedAt),
       tastingNotes: Value(tastingNotes),
       companionSuggestions: Value(companionSuggestions),
+      globalScore: globalScore == null && nullToAbsent
+          ? const Value.absent()
+          : Value(globalScore),
     );
   }
 
@@ -548,6 +581,7 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
       companionSuggestions: serializer.fromJson<String>(
         json['companionSuggestions'],
       ),
+      globalScore: serializer.fromJson<double?>(json['globalScore']),
     );
   }
   @override
@@ -570,6 +604,7 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
       'fetchedAt': serializer.toJson<String?>(fetchedAt),
       'tastingNotes': serializer.toJson<String>(tastingNotes),
       'companionSuggestions': serializer.toJson<String>(companionSuggestions),
+      'globalScore': serializer.toJson<double?>(globalScore),
     };
   }
 
@@ -590,6 +625,7 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
     Value<String?> fetchedAt = const Value.absent(),
     String? tastingNotes,
     String? companionSuggestions,
+    Value<double?> globalScore = const Value.absent(),
   }) => WhiskyEntity(
     id: id ?? this.id,
     externalId: externalId.present ? externalId.value : this.externalId,
@@ -607,6 +643,7 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
     fetchedAt: fetchedAt.present ? fetchedAt.value : this.fetchedAt,
     tastingNotes: tastingNotes ?? this.tastingNotes,
     companionSuggestions: companionSuggestions ?? this.companionSuggestions,
+    globalScore: globalScore.present ? globalScore.value : this.globalScore,
   );
   WhiskyEntity copyWithCompanion(WhiskiesCompanion data) {
     return WhiskyEntity(
@@ -636,6 +673,9 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
       companionSuggestions: data.companionSuggestions.present
           ? data.companionSuggestions.value
           : this.companionSuggestions,
+      globalScore: data.globalScore.present
+          ? data.globalScore.value
+          : this.globalScore,
     );
   }
 
@@ -657,7 +697,8 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
           ..write('sourceUrl: $sourceUrl, ')
           ..write('fetchedAt: $fetchedAt, ')
           ..write('tastingNotes: $tastingNotes, ')
-          ..write('companionSuggestions: $companionSuggestions')
+          ..write('companionSuggestions: $companionSuggestions, ')
+          ..write('globalScore: $globalScore')
           ..write(')'))
         .toString();
   }
@@ -680,6 +721,7 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
     fetchedAt,
     tastingNotes,
     companionSuggestions,
+    globalScore,
   );
   @override
   bool operator ==(Object other) =>
@@ -700,7 +742,8 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
           other.sourceUrl == this.sourceUrl &&
           other.fetchedAt == this.fetchedAt &&
           other.tastingNotes == this.tastingNotes &&
-          other.companionSuggestions == this.companionSuggestions);
+          other.companionSuggestions == this.companionSuggestions &&
+          other.globalScore == this.globalScore);
 }
 
 class WhiskiesCompanion extends UpdateCompanion<WhiskyEntity> {
@@ -720,6 +763,7 @@ class WhiskiesCompanion extends UpdateCompanion<WhiskyEntity> {
   final Value<String?> fetchedAt;
   final Value<String> tastingNotes;
   final Value<String> companionSuggestions;
+  final Value<double?> globalScore;
   const WhiskiesCompanion({
     this.id = const Value.absent(),
     this.externalId = const Value.absent(),
@@ -737,6 +781,7 @@ class WhiskiesCompanion extends UpdateCompanion<WhiskyEntity> {
     this.fetchedAt = const Value.absent(),
     this.tastingNotes = const Value.absent(),
     this.companionSuggestions = const Value.absent(),
+    this.globalScore = const Value.absent(),
   });
   WhiskiesCompanion.insert({
     this.id = const Value.absent(),
@@ -755,6 +800,7 @@ class WhiskiesCompanion extends UpdateCompanion<WhiskyEntity> {
     this.fetchedAt = const Value.absent(),
     this.tastingNotes = const Value.absent(),
     this.companionSuggestions = const Value.absent(),
+    this.globalScore = const Value.absent(),
   }) : name = Value(name);
   static Insertable<WhiskyEntity> custom({
     Expression<int>? id,
@@ -773,6 +819,7 @@ class WhiskiesCompanion extends UpdateCompanion<WhiskyEntity> {
     Expression<String>? fetchedAt,
     Expression<String>? tastingNotes,
     Expression<String>? companionSuggestions,
+    Expression<double>? globalScore,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -792,6 +839,7 @@ class WhiskiesCompanion extends UpdateCompanion<WhiskyEntity> {
       if (tastingNotes != null) 'tasting_notes': tastingNotes,
       if (companionSuggestions != null)
         'companion_suggestions': companionSuggestions,
+      if (globalScore != null) 'global_score': globalScore,
     });
   }
 
@@ -812,6 +860,7 @@ class WhiskiesCompanion extends UpdateCompanion<WhiskyEntity> {
     Value<String?>? fetchedAt,
     Value<String>? tastingNotes,
     Value<String>? companionSuggestions,
+    Value<double?>? globalScore,
   }) {
     return WhiskiesCompanion(
       id: id ?? this.id,
@@ -830,6 +879,7 @@ class WhiskiesCompanion extends UpdateCompanion<WhiskyEntity> {
       fetchedAt: fetchedAt ?? this.fetchedAt,
       tastingNotes: tastingNotes ?? this.tastingNotes,
       companionSuggestions: companionSuggestions ?? this.companionSuggestions,
+      globalScore: globalScore ?? this.globalScore,
     );
   }
 
@@ -886,6 +936,9 @@ class WhiskiesCompanion extends UpdateCompanion<WhiskyEntity> {
         companionSuggestions.value,
       );
     }
+    if (globalScore.present) {
+      map['global_score'] = Variable<double>(globalScore.value);
+    }
     return map;
   }
 
@@ -907,7 +960,8 @@ class WhiskiesCompanion extends UpdateCompanion<WhiskyEntity> {
           ..write('sourceUrl: $sourceUrl, ')
           ..write('fetchedAt: $fetchedAt, ')
           ..write('tastingNotes: $tastingNotes, ')
-          ..write('companionSuggestions: $companionSuggestions')
+          ..write('companionSuggestions: $companionSuggestions, ')
+          ..write('globalScore: $globalScore')
           ..write(')'))
         .toString();
   }
@@ -2823,6 +2877,7 @@ typedef $$WhiskiesTableCreateCompanionBuilder =
       Value<String?> fetchedAt,
       Value<String> tastingNotes,
       Value<String> companionSuggestions,
+      Value<double?> globalScore,
     });
 typedef $$WhiskiesTableUpdateCompanionBuilder =
     WhiskiesCompanion Function({
@@ -2842,6 +2897,7 @@ typedef $$WhiskiesTableUpdateCompanionBuilder =
       Value<String?> fetchedAt,
       Value<String> tastingNotes,
       Value<String> companionSuggestions,
+      Value<double?> globalScore,
     });
 
 class $$WhiskiesTableFilterComposer
@@ -2930,6 +2986,11 @@ class $$WhiskiesTableFilterComposer
 
   ColumnFilters<String> get companionSuggestions => $composableBuilder(
     column: $table.companionSuggestions,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get globalScore => $composableBuilder(
+    column: $table.globalScore,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -3022,6 +3083,11 @@ class $$WhiskiesTableOrderingComposer
     column: $table.companionSuggestions,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<double> get globalScore => $composableBuilder(
+    column: $table.globalScore,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$WhiskiesTableAnnotationComposer
@@ -3090,6 +3156,11 @@ class $$WhiskiesTableAnnotationComposer
     column: $table.companionSuggestions,
     builder: (column) => column,
   );
+
+  GeneratedColumn<double> get globalScore => $composableBuilder(
+    column: $table.globalScore,
+    builder: (column) => column,
+  );
 }
 
 class $$WhiskiesTableTableManager
@@ -3139,6 +3210,7 @@ class $$WhiskiesTableTableManager
                 Value<String?> fetchedAt = const Value.absent(),
                 Value<String> tastingNotes = const Value.absent(),
                 Value<String> companionSuggestions = const Value.absent(),
+                Value<double?> globalScore = const Value.absent(),
               }) => WhiskiesCompanion(
                 id: id,
                 externalId: externalId,
@@ -3156,6 +3228,7 @@ class $$WhiskiesTableTableManager
                 fetchedAt: fetchedAt,
                 tastingNotes: tastingNotes,
                 companionSuggestions: companionSuggestions,
+                globalScore: globalScore,
               ),
           createCompanionCallback:
               ({
@@ -3175,6 +3248,7 @@ class $$WhiskiesTableTableManager
                 Value<String?> fetchedAt = const Value.absent(),
                 Value<String> tastingNotes = const Value.absent(),
                 Value<String> companionSuggestions = const Value.absent(),
+                Value<double?> globalScore = const Value.absent(),
               }) => WhiskiesCompanion.insert(
                 id: id,
                 externalId: externalId,
@@ -3192,6 +3266,7 @@ class $$WhiskiesTableTableManager
                 fetchedAt: fetchedAt,
                 tastingNotes: tastingNotes,
                 companionSuggestions: companionSuggestions,
+                globalScore: globalScore,
               ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))

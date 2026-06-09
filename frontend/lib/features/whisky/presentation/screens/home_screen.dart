@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:malt_radar/core/theme/app_theme.dart';
@@ -14,50 +15,162 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  final _searchController = TextEditingController();
-  List<Whisky> _onlineResults = [];
-  bool _isSearchingOnline = false;
-  bool _hasSearchedOnline = false;
+  bool _isAdding = false;
+  Timer? _debounce;
+  String _lastQuery = '';
+  Iterable<Whisky> _lastOptions = [];
 
   @override
   void dispose() {
-    _searchController.dispose();
+    _debounce?.cancel();
     super.dispose();
   }
 
-  void _searchOnline(String query) async {
-    if (query.isEmpty) return;
-    setState(() {
-      _isSearchingOnline = true;
-      _hasSearchedOnline = true;
+  Future<Iterable<Whisky>> _searchOnlineAutocomplete(String query) async {
+    final trimmedQuery = query.trim();
+    if (trimmedQuery.length < 2) return const Iterable<Whisky>.empty();
+    
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    
+    final completer = Completer<Iterable<Whisky>>();
+    
+    _debounce = Timer(const Duration(milliseconds: 500), () async {
+      if (trimmedQuery == _lastQuery) {
+        completer.complete(_lastOptions);
+        return;
+      }
+      
+      final repository = ref.read(whiskyRepositoryProvider);
+      try {
+        final results = await repository.searchExternalWhiskies(trimmedQuery);
+        _lastQuery = trimmedQuery;
+        _lastOptions = results;
+        completer.complete(results);
+      } catch (e) {
+        completer.complete(const Iterable<Whisky>.empty());
+      }
     });
-
-    final repository = ref.read(whiskyRepositoryProvider);
-    final results = await repository.searchExternalWhiskies(query);
-
-    setState(() {
-      _onlineResults = results;
-      _isSearchingOnline = false;
-    });
+    
+    return completer.future;
   }
 
-  void _clearOnlineSearch() {
-    setState(() {
-      _onlineResults = [];
-      _hasSearchedOnline = false;
-    });
+  void _showWhiskyPreview(BuildContext context, Whisky whisky) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: AppTheme.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return Padding(
+          padding: EdgeInsets.only(
+            left: 24, 
+            right: 24, 
+            top: 24, 
+            bottom: MediaQuery.of(context).padding.bottom + 24
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text(
+                      whisky.name,
+                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                        color: AppTheme.textPrimary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.close, color: AppTheme.textSecondary),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              if (whisky.category != null || whisky.region != null)
+                Text(
+                  '${whisky.category ?? ''} ${whisky.region != null ? "• ${whisky.region}" : ""}',
+                  style: const TextStyle(color: AppTheme.secondary),
+                ),
+              const SizedBox(height: 16),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  if (whisky.country != null) _buildPreviewTag('Köken', whisky.country!),
+                  if (whisky.age != null) _buildPreviewTag('Yaş', '${whisky.age} Yıl'),
+                  if (whisky.abv != null) _buildPreviewTag('Alkol', '%${whisky.abv}'),
+                  if (whisky.caskType != null) _buildPreviewTag('Fıçı', whisky.caskType!),
+                  if (whisky.defaultPrice != null && whisky.defaultPrice! > 0) 
+                    _buildPreviewTag('Fiyat', '${whisky.defaultPrice} ${whisky.currency}'),
+                ],
+              ),
+              if (whisky.tastingNotes.isNotEmpty) ...[
+                const SizedBox(height: 16),
+                const Text('Tadım Notları', style: TextStyle(fontWeight: FontWeight.bold, color: AppTheme.primary)),
+                const SizedBox(height: 8),
+                Wrap(
+                  spacing: 6,
+                  runSpacing: 6,
+                  children: whisky.tastingNotes.take(4).map((n) => Chip(
+                    label: Text(n, style: const TextStyle(fontSize: 12)),
+                    visualDensity: VisualDensity.compact,
+                  )).toList(),
+                ),
+              ],
+              const SizedBox(height: 32),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    _addExternalWhisky(whisky);
+                  },
+                  icon: const Icon(Icons.add),
+                  label: const Text('KÜTÜPHANEME EKLE'),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildPreviewTag(String label, String value) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: AppTheme.surfaceElevated,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: AppTheme.textMuted.withValues(alpha: 0.15)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text('$label: ', style: const TextStyle(color: AppTheme.textSecondary, fontSize: 11)),
+          Text(value, style: const TextStyle(color: AppTheme.primary, fontWeight: FontWeight.bold, fontSize: 11)),
+        ],
+      ),
+    );
   }
 
   void _addExternalWhisky(Whisky whisky) async {
     setState(() {
-      _isSearchingOnline = true;
+      _isAdding = true;
     });
     
     final repository = ref.read(whiskyRepositoryProvider);
     final localId = await repository.addWhiskyToLibrary(whisky);
 
     setState(() {
-      _isSearchingOnline = false;
+      _isAdding = false;
     });
 
     if (mounted) {
@@ -149,64 +262,102 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
             ),
 
-            // Search Bar
+            // Search Bar (Autocomplete)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-              child: TextField(
-                controller: _searchController,
-                onChanged: (value) {
-                  ref.read(searchQueryProvider.notifier).state = value;
-                  _clearOnlineSearch();
+              child: Autocomplete<Whisky>(
+                optionsBuilder: (TextEditingValue textEditingValue) async {
+                  return _searchOnlineAutocomplete(textEditingValue.text);
                 },
-                decoration: InputDecoration(
-                  hintText: 'Kütüphanenizde arayın...',
-                  prefixIcon: const Icon(Icons.search, color: AppTheme.textSecondary),
-                  suffixIcon: _searchController.text.isNotEmpty
-                      ? IconButton(
-                          icon: const Icon(Icons.clear, color: AppTheme.textSecondary),
-                          onPressed: () {
-                            _searchController.clear();
-                            ref.read(searchQueryProvider.notifier).state = '';
-                            _clearOnlineSearch();
+                displayStringForOption: (option) => option.name,
+                onSelected: (selection) {
+                  _showWhiskyPreview(context, selection);
+                },
+                fieldViewBuilder: (context, controller, focusNode, onEditingComplete) {
+                  return TextField(
+                    controller: controller,
+                    focusNode: focusNode,
+                    onChanged: (value) {
+                      ref.read(searchQueryProvider.notifier).state = value;
+                    },
+                    decoration: InputDecoration(
+                      hintText: 'Viski ara (Kütüphane & İnternet)...',
+                      prefixIcon: const Icon(Icons.search, color: AppTheme.textSecondary),
+                      suffixIcon: controller.text.isNotEmpty
+                          ? IconButton(
+                              icon: const Icon(Icons.clear, color: AppTheme.textSecondary),
+                              onPressed: () {
+                                controller.clear();
+                                ref.read(searchQueryProvider.notifier).state = '';
+                              },
+                            )
+                          : null,
+                    ),
+                  );
+                },
+                optionsViewBuilder: (context, onSelected, options) {
+                  return Align(
+                    alignment: Alignment.topLeft,
+                    child: Material(
+                      elevation: 8.0,
+                      borderRadius: BorderRadius.circular(12),
+                      color: AppTheme.surfaceElevated,
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          maxHeight: 300, 
+                          maxWidth: MediaQuery.of(context).size.width - 48
+                        ),
+                        child: ListView.builder(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          shrinkWrap: true,
+                          itemCount: options.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            final option = options.elementAt(index);
+                            return ListTile(
+                              leading: const Icon(Icons.public, color: AppTheme.primary),
+                              title: Text(option.name, style: const TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.bold)),
+                              subtitle: Text('${option.category ?? "Single Malt"} • ${option.country ?? "Scotland"}', style: const TextStyle(color: AppTheme.textSecondary, fontSize: 12)),
+                              onTap: () => onSelected(option),
+                            );
                           },
-                        )
-                      : null,
-                ),
-              ),
-            ),
-
-            // Online Search Indicator
-            if (_isSearchingOnline)
-              const LinearProgressIndicator(color: AppTheme.primary, backgroundColor: AppTheme.background),
-
-            // Whiskies List / Online results
-            Expanded(
-              child: _hasSearchedOnline
-                  ? _buildOnlineResultsSection(referenceScore)
-                  : whiskiesAsync.when(
-                      data: (whiskies) {
-                        if (whiskies.isEmpty) {
-                          return _buildEmptyState(context, isFavoritesOnly);
-                        }
-                        return ListView.builder(
-                          padding: const EdgeInsets.fromLTRB(24, 12, 24, 24),
-                          itemCount: whiskies.length,
-                          itemBuilder: (context, index) {
-                            final whisky = whiskies[index];
-                            return _buildWhiskyCard(context, ref, whisky, referenceScore);
-                          },
-                        );
-                      },
-                      loading: () => const Center(
-                        child: CircularProgressIndicator(color: AppTheme.primary),
-                      ),
-                      error: (error, stackTrace) => Center(
-                        child: Text(
-                          'Veritabanı hatası: $error',
-                          style: const TextStyle(color: AppTheme.error),
                         ),
                       ),
                     ),
+                  );
+                },
+              ),
+            ),
+
+            if (_isAdding)
+              const LinearProgressIndicator(color: AppTheme.primary, backgroundColor: AppTheme.background),
+
+            // Whiskies List
+            Expanded(
+              child: whiskiesAsync.when(
+                data: (whiskies) {
+                  if (whiskies.isEmpty) {
+                    final query = ref.watch(searchQueryProvider);
+                    return _buildEmptyState(context, isFavoritesOnly, query);
+                  }
+                  return ListView.builder(
+                    padding: const EdgeInsets.fromLTRB(24, 12, 24, 24),
+                    itemCount: whiskies.length,
+                    itemBuilder: (context, index) {
+                      final whisky = whiskies[index];
+                      return _buildWhiskyCard(context, ref, whisky, referenceScore);
+                    },
+                  );
+                },
+                loading: () => const Center(
+                  child: CircularProgressIndicator(color: AppTheme.primary),
+                ),
+                error: (error, stackTrace) => Center(
+                  child: Text(
+                    'Veritabanı hatası: $error',
+                    style: const TextStyle(color: AppTheme.error),
+                  ),
+                ),
+              ),
             ),
           ],
         ),
@@ -214,9 +365,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
-  Widget _buildEmptyState(BuildContext context, bool isFavoritesOnly) {
-    final query = _searchController.text.trim();
-    
+  Widget _buildEmptyState(BuildContext context, bool isFavoritesOnly, String query) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24),
@@ -235,87 +384,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   : 'Kütüphanenizde eşleşen viski bulunamadı.',
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppTheme.textSecondary,
+                    color: AppTheme.textPrimary,
+                    fontWeight: FontWeight.bold,
                     fontSize: 16,
                   ),
             ),
-            if (!isFavoritesOnly && query.length >= 2) ...[
-              const SizedBox(height: 24),
-              ElevatedButton.icon(
-                onPressed: () => _searchOnline(query),
-                icon: const Icon(Icons.cloud_download),
-                label: const Text('İNTERNETTE ARA'),
+            if (!isFavoritesOnly && query.isNotEmpty) ...[
+              const SizedBox(height: 12),
+              const Text(
+                'Lütfen aramaya devam edin.\nİnternet arama sonuçları üstteki açılır menüde (dropdown) belirecektir.',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: AppTheme.textSecondary, fontSize: 13),
               ),
             ],
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildOnlineResultsSection(int referenceScore) {
-    if (_onlineResults.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.cloud_off, size: 64, color: AppTheme.textMuted),
-            const SizedBox(height: 16),
-            const Text(
-              'İnternette de eşleşen sonuç bulunamadı.',
-              style: TextStyle(color: AppTheme.textSecondary),
-            ),
-            const SizedBox(height: 16),
-            TextButton(
-              onPressed: _clearOnlineSearch,
-              child: const Text('Kütüphaneme Geri Dön', style: TextStyle(color: AppTheme.primary)),
-            )
-          ],
-        ),
-      );
-    }
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                'İnternet Arama Sonuçları',
-                style: TextStyle(fontWeight: FontWeight.bold, color: AppTheme.secondary, fontSize: 16),
-              ),
-              TextButton(
-                onPressed: _clearOnlineSearch,
-                child: const Text('Kapat', style: TextStyle(color: AppTheme.textSecondary)),
-              )
-            ],
-          ),
-        ),
-        Expanded(
-          child: ListView.builder(
-            padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
-            itemCount: _onlineResults.length,
-            itemBuilder: (context, index) {
-              final whisky = _onlineResults[index];
-              return Card(
-                child: ListTile(
-                  leading: const Icon(Icons.public, color: AppTheme.primary),
-                  title: Text(whisky.name),
-                  subtitle: Text('${whisky.country ?? "Scotland"} • ${whisky.defaultPrice} ${whisky.currency}'),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.add_circle_outline, color: AppTheme.primary, size: 28),
-                    onPressed: () => _addExternalWhisky(whisky),
-                    tooltip: 'Kütüphaneme Ekle',
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-      ],
     );
   }
 
