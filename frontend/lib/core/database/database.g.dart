@@ -77,6 +77,17 @@ class $WhiskiesTable extends Whiskies
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _distilleryMeta = const VerificationMeta(
+    'distillery',
+  );
+  @override
+  late final GeneratedColumn<String> distillery = GeneratedColumn<String>(
+    'distillery',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _ageMeta = const VerificationMeta('age');
   @override
   late final GeneratedColumn<int> age = GeneratedColumn<int>(
@@ -204,6 +215,7 @@ class $WhiskiesTable extends Whiskies
     country,
     region,
     category,
+    distillery,
     age,
     abv,
     caskType,
@@ -261,6 +273,12 @@ class $WhiskiesTable extends Whiskies
       context.handle(
         _categoryMeta,
         category.isAcceptableOrUnknown(data['category']!, _categoryMeta),
+      );
+    }
+    if (data.containsKey('distillery')) {
+      context.handle(
+        _distilleryMeta,
+        distillery.isAcceptableOrUnknown(data['distillery']!, _distilleryMeta),
       );
     }
     if (data.containsKey('age')) {
@@ -374,6 +392,10 @@ class $WhiskiesTable extends Whiskies
         DriftSqlType.string,
         data['${effectivePrefix}category'],
       ),
+      distillery: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}distillery'],
+      ),
       age: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}age'],
@@ -434,6 +456,7 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
   final String? country;
   final String? region;
   final String? category;
+  final String? distillery;
   final int? age;
   final double? abv;
   final String? caskType;
@@ -452,6 +475,7 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
     this.country,
     this.region,
     this.category,
+    this.distillery,
     this.age,
     this.abv,
     this.caskType,
@@ -480,6 +504,9 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
     }
     if (!nullToAbsent || category != null) {
       map['category'] = Variable<String>(category);
+    }
+    if (!nullToAbsent || distillery != null) {
+      map['distillery'] = Variable<String>(distillery);
     }
     if (!nullToAbsent || age != null) {
       map['age'] = Variable<int>(age);
@@ -529,6 +556,9 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
       category: category == null && nullToAbsent
           ? const Value.absent()
           : Value(category),
+      distillery: distillery == null && nullToAbsent
+          ? const Value.absent()
+          : Value(distillery),
       age: age == null && nullToAbsent ? const Value.absent() : Value(age),
       abv: abv == null && nullToAbsent ? const Value.absent() : Value(abv),
       caskType: caskType == null && nullToAbsent
@@ -569,6 +599,7 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
       country: serializer.fromJson<String?>(json['country']),
       region: serializer.fromJson<String?>(json['region']),
       category: serializer.fromJson<String?>(json['category']),
+      distillery: serializer.fromJson<String?>(json['distillery']),
       age: serializer.fromJson<int?>(json['age']),
       abv: serializer.fromJson<double?>(json['abv']),
       caskType: serializer.fromJson<String?>(json['caskType']),
@@ -594,6 +625,7 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
       'country': serializer.toJson<String?>(country),
       'region': serializer.toJson<String?>(region),
       'category': serializer.toJson<String?>(category),
+      'distillery': serializer.toJson<String?>(distillery),
       'age': serializer.toJson<int?>(age),
       'abv': serializer.toJson<double?>(abv),
       'caskType': serializer.toJson<String?>(caskType),
@@ -615,6 +647,7 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
     Value<String?> country = const Value.absent(),
     Value<String?> region = const Value.absent(),
     Value<String?> category = const Value.absent(),
+    Value<String?> distillery = const Value.absent(),
     Value<int?> age = const Value.absent(),
     Value<double?> abv = const Value.absent(),
     Value<String?> caskType = const Value.absent(),
@@ -633,6 +666,7 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
     country: country.present ? country.value : this.country,
     region: region.present ? region.value : this.region,
     category: category.present ? category.value : this.category,
+    distillery: distillery.present ? distillery.value : this.distillery,
     age: age.present ? age.value : this.age,
     abv: abv.present ? abv.value : this.abv,
     caskType: caskType.present ? caskType.value : this.caskType,
@@ -655,6 +689,9 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
       country: data.country.present ? data.country.value : this.country,
       region: data.region.present ? data.region.value : this.region,
       category: data.category.present ? data.category.value : this.category,
+      distillery: data.distillery.present
+          ? data.distillery.value
+          : this.distillery,
       age: data.age.present ? data.age.value : this.age,
       abv: data.abv.present ? data.abv.value : this.abv,
       caskType: data.caskType.present ? data.caskType.value : this.caskType,
@@ -688,6 +725,7 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
           ..write('country: $country, ')
           ..write('region: $region, ')
           ..write('category: $category, ')
+          ..write('distillery: $distillery, ')
           ..write('age: $age, ')
           ..write('abv: $abv, ')
           ..write('caskType: $caskType, ')
@@ -711,6 +749,7 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
     country,
     region,
     category,
+    distillery,
     age,
     abv,
     caskType,
@@ -733,6 +772,7 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
           other.country == this.country &&
           other.region == this.region &&
           other.category == this.category &&
+          other.distillery == this.distillery &&
           other.age == this.age &&
           other.abv == this.abv &&
           other.caskType == this.caskType &&
@@ -753,6 +793,7 @@ class WhiskiesCompanion extends UpdateCompanion<WhiskyEntity> {
   final Value<String?> country;
   final Value<String?> region;
   final Value<String?> category;
+  final Value<String?> distillery;
   final Value<int?> age;
   final Value<double?> abv;
   final Value<String?> caskType;
@@ -771,6 +812,7 @@ class WhiskiesCompanion extends UpdateCompanion<WhiskyEntity> {
     this.country = const Value.absent(),
     this.region = const Value.absent(),
     this.category = const Value.absent(),
+    this.distillery = const Value.absent(),
     this.age = const Value.absent(),
     this.abv = const Value.absent(),
     this.caskType = const Value.absent(),
@@ -790,6 +832,7 @@ class WhiskiesCompanion extends UpdateCompanion<WhiskyEntity> {
     this.country = const Value.absent(),
     this.region = const Value.absent(),
     this.category = const Value.absent(),
+    this.distillery = const Value.absent(),
     this.age = const Value.absent(),
     this.abv = const Value.absent(),
     this.caskType = const Value.absent(),
@@ -809,6 +852,7 @@ class WhiskiesCompanion extends UpdateCompanion<WhiskyEntity> {
     Expression<String>? country,
     Expression<String>? region,
     Expression<String>? category,
+    Expression<String>? distillery,
     Expression<int>? age,
     Expression<double>? abv,
     Expression<String>? caskType,
@@ -828,6 +872,7 @@ class WhiskiesCompanion extends UpdateCompanion<WhiskyEntity> {
       if (country != null) 'country': country,
       if (region != null) 'region': region,
       if (category != null) 'category': category,
+      if (distillery != null) 'distillery': distillery,
       if (age != null) 'age': age,
       if (abv != null) 'abv': abv,
       if (caskType != null) 'cask_type': caskType,
@@ -850,6 +895,7 @@ class WhiskiesCompanion extends UpdateCompanion<WhiskyEntity> {
     Value<String?>? country,
     Value<String?>? region,
     Value<String?>? category,
+    Value<String?>? distillery,
     Value<int?>? age,
     Value<double?>? abv,
     Value<String?>? caskType,
@@ -869,6 +915,7 @@ class WhiskiesCompanion extends UpdateCompanion<WhiskyEntity> {
       country: country ?? this.country,
       region: region ?? this.region,
       category: category ?? this.category,
+      distillery: distillery ?? this.distillery,
       age: age ?? this.age,
       abv: abv ?? this.abv,
       caskType: caskType ?? this.caskType,
@@ -903,6 +950,9 @@ class WhiskiesCompanion extends UpdateCompanion<WhiskyEntity> {
     }
     if (category.present) {
       map['category'] = Variable<String>(category.value);
+    }
+    if (distillery.present) {
+      map['distillery'] = Variable<String>(distillery.value);
     }
     if (age.present) {
       map['age'] = Variable<int>(age.value);
@@ -951,6 +1001,7 @@ class WhiskiesCompanion extends UpdateCompanion<WhiskyEntity> {
           ..write('country: $country, ')
           ..write('region: $region, ')
           ..write('category: $category, ')
+          ..write('distillery: $distillery, ')
           ..write('age: $age, ')
           ..write('abv: $abv, ')
           ..write('caskType: $caskType, ')
@@ -2867,6 +2918,7 @@ typedef $$WhiskiesTableCreateCompanionBuilder =
       Value<String?> country,
       Value<String?> region,
       Value<String?> category,
+      Value<String?> distillery,
       Value<int?> age,
       Value<double?> abv,
       Value<String?> caskType,
@@ -2887,6 +2939,7 @@ typedef $$WhiskiesTableUpdateCompanionBuilder =
       Value<String?> country,
       Value<String?> region,
       Value<String?> category,
+      Value<String?> distillery,
       Value<int?> age,
       Value<double?> abv,
       Value<String?> caskType,
@@ -2936,6 +2989,11 @@ class $$WhiskiesTableFilterComposer
 
   ColumnFilters<String> get category => $composableBuilder(
     column: $table.category,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get distillery => $composableBuilder(
+    column: $table.distillery,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -3034,6 +3092,11 @@ class $$WhiskiesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get distillery => $composableBuilder(
+    column: $table.distillery,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<int> get age => $composableBuilder(
     column: $table.age,
     builder: (column) => ColumnOrderings(column),
@@ -3119,6 +3182,11 @@ class $$WhiskiesTableAnnotationComposer
   GeneratedColumn<String> get category =>
       $composableBuilder(column: $table.category, builder: (column) => column);
 
+  GeneratedColumn<String> get distillery => $composableBuilder(
+    column: $table.distillery,
+    builder: (column) => column,
+  );
+
   GeneratedColumn<int> get age =>
       $composableBuilder(column: $table.age, builder: (column) => column);
 
@@ -3200,6 +3268,7 @@ class $$WhiskiesTableTableManager
                 Value<String?> country = const Value.absent(),
                 Value<String?> region = const Value.absent(),
                 Value<String?> category = const Value.absent(),
+                Value<String?> distillery = const Value.absent(),
                 Value<int?> age = const Value.absent(),
                 Value<double?> abv = const Value.absent(),
                 Value<String?> caskType = const Value.absent(),
@@ -3218,6 +3287,7 @@ class $$WhiskiesTableTableManager
                 country: country,
                 region: region,
                 category: category,
+                distillery: distillery,
                 age: age,
                 abv: abv,
                 caskType: caskType,
@@ -3238,6 +3308,7 @@ class $$WhiskiesTableTableManager
                 Value<String?> country = const Value.absent(),
                 Value<String?> region = const Value.absent(),
                 Value<String?> category = const Value.absent(),
+                Value<String?> distillery = const Value.absent(),
                 Value<int?> age = const Value.absent(),
                 Value<double?> abv = const Value.absent(),
                 Value<String?> caskType = const Value.absent(),
@@ -3256,6 +3327,7 @@ class $$WhiskiesTableTableManager
                 country: country,
                 region: region,
                 category: category,
+                distillery: distillery,
                 age: age,
                 abv: abv,
                 caskType: caskType,
