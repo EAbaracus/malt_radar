@@ -99,20 +99,36 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   '${whisky.category ?? ''} ${whisky.region != null ? "• ${whisky.region}" : ""}',
                   style: const TextStyle(color: AppTheme.accent),
                 ),
+              if (whisky.globalScore != null) ...[
+                const SizedBox(height: 12),
+                Row(
+                  children: [
+                    const Icon(Icons.star, color: AppTheme.primary, size: 20),
+                    const SizedBox(width: 6),
+                    Text(
+                      '${whisky.globalScore!.toStringAsFixed(0)} / 100',
+                      style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(tr('global_average_score'), style: const TextStyle(color: AppTheme.textSecondary, fontSize: 12)),
+                  ],
+                ),
+              ],
               const SizedBox(height: 20),
               Wrap(
                 spacing: 10,
                 runSpacing: 10,
                 children: [
-                  if (whisky.country != null) _buildPreviewTag('Köken', whisky.country!),
-                  if (whisky.age != null) _buildPreviewTag('Yaş', '${whisky.age} Yıl'),
-                  if (whisky.abv != null) _buildPreviewTag('Alkol', '%${whisky.abv}'),
-                  if (whisky.caskType != null) _buildPreviewTag('Fıçı', whisky.caskType!),
+                  if (whisky.distillery != null) _buildPreviewTag(tr('preview_distillery'), whisky.distillery!),
+                  if (whisky.country != null) _buildPreviewTag(tr('preview_origin'), whisky.country!),
+                  if (whisky.age != null) _buildPreviewTag(tr('preview_age'), '${whisky.age}'),
+                  if (whisky.abv != null) _buildPreviewTag(tr('preview_abv'), '%${whisky.abv}'),
+                  if (whisky.caskType != null && whisky.caskType != "Unknown") _buildPreviewTag(tr('preview_cask'), whisky.caskType!),
                 ],
               ),
               if (whisky.tastingNotes.isNotEmpty) ...[
                 const SizedBox(height: 24),
-                Text('Tadım Notları', style: Theme.of(context).textTheme.titleMedium),
+                Text(tr('tasting_notes'), style: Theme.of(context).textTheme.titleMedium),
                 const SizedBox(height: 12),
                 Wrap(
                   spacing: 8,
@@ -353,18 +369,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               ),
                               itemBuilder: (BuildContext context, int index) {
                                 final option = options.elementAt(index);
-                                return ListTile(
-                                  leading: Container(
-                                    padding: const EdgeInsets.all(8),
-                                    decoration: BoxDecoration(
-                                      color: AppTheme.primary.withValues(alpha: 0.1),
-                                      shape: BoxShape.circle,
+                                return Material(
+                                  color: Colors.transparent,
+                                  child: ListTile(
+                                    leading: Container(
+                                      padding: const EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                        color: AppTheme.primary.withValues(alpha: 0.1),
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: const Icon(Icons.public, color: AppTheme.primary, size: 20),
                                     ),
-                                    child: const Icon(Icons.public, color: AppTheme.primary, size: 20),
+                                    title: Text(option.name, style: const TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.bold)),
+                                    subtitle: Text('${option.category ?? "Single Malt"} • ${option.country ?? "Scotland"}', style: const TextStyle(color: AppTheme.textSecondary, fontSize: 12)),
+                                    onTap: () => onSelected(option),
                                   ),
-                                  title: Text(option.name, style: const TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.bold)),
-                                  subtitle: Text('${option.category ?? "Single Malt"} • ${option.country ?? "Scotland"}', style: const TextStyle(color: AppTheme.textSecondary, fontSize: 12)),
-                                  onTap: () => onSelected(option),
                                 );
                               },
                             ),

@@ -434,6 +434,21 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                                   ),
                                 ),
                               ],
+                              if (whisky.globalScore != null) ...[
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(tr('global_average_score'), style: const TextStyle(color: AppTheme.textSecondary, fontSize: 14)),
+                                    Text(
+                                      '${whisky.globalScore!.toStringAsFixed(0)} / 100',
+                                      style: const TextStyle(fontSize: 22, color: Colors.white, fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 16),
+                                Divider(color: Colors.white.withValues(alpha: 0.1)),
+                                const SizedBox(height: 16),
+                              ],
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [

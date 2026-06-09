@@ -11,6 +11,7 @@ class Whiskies extends Table {
   TextColumn get country => text().nullable()();
   TextColumn get region => text().nullable()();
   TextColumn get category => text().nullable()();
+  TextColumn get distillery => text().nullable()();
   IntColumn get age => integer().nullable()();
   RealColumn get abv => real().nullable()();
   TextColumn get caskType => text().nullable()();
@@ -94,7 +95,7 @@ class AppDatabase extends _$AppDatabase {
   ));
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration {
@@ -105,6 +106,9 @@ class AppDatabase extends _$AppDatabase {
       onUpgrade: (Migrator m, int from, int to) async {
         if (from < 2) {
           await m.addColumn(whiskies, whiskies.globalScore);
+        }
+        if (from < 3) {
+          await m.addColumn(whiskies, whiskies.distillery);
         }
       },
     );
