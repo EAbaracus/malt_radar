@@ -85,7 +85,6 @@ const Map<String, Map<String, String>> appTranslations = {
     'notes_hint': 'Koku, damak, bitiş...',
 
     // Settings Screen
-    'settings': 'Ayarlar',
     'cache_cleared': 'Önbellek başarıyla temizlendi.',
     'add_whisky_first': 'Lütfen önce kütüphanenize bir viski ekleyin.',
     'select_new_reference': 'Yeni Referans Viskiyi Seçin',
