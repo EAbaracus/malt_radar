@@ -70,7 +70,13 @@ class CsvWhiskyProvider(WhiskyProvider):
                         # Ratings parsing
                         rating_str = row.get('meta_critic') or row.get('user_score_100')
                         try:
-                            global_rating = float(rating_str) if rating_str and rating_str.strip() else None
+                            if rating_str and rating_str.strip():
+                                global_rating = float(rating_str)
+                                # Eğer puan 10 üzerinden ise (örn: 8.5), 100 üzerinden formata çevir (85)
+                                if global_rating > 0 and global_rating <= 10.0:
+                                    global_rating = global_rating * 10
+                            else:
+                                global_rating = None
                         except:
                             global_rating = None
                             

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:malt_radar/core/theme/app_theme.dart';
 import '../controllers/whisky_providers.dart';
 import '../../domain/models/whisky.dart';
+import '../../../../core/localization/localization_provider.dart';
 import 'detail_screen.dart';
 import 'settings_screen.dart';
 import '../widgets/glass_container.dart';
@@ -56,6 +57,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   void _showWhiskyPreview(BuildContext context, Whisky whisky) {
+    final tr = ref.read(trProvider);
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
