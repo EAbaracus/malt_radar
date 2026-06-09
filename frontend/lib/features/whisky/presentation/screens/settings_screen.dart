@@ -4,6 +4,8 @@ import 'package:malt_radar/core/theme/app_theme.dart';
 import '../controllers/whisky_providers.dart';
 import '../../domain/models/whisky.dart';
 
+import '../../../../core/localization/localization_provider.dart';
+
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
 
@@ -27,9 +29,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     });
 
     if (mounted) {
+      final tr = ref.read(trProvider);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Arama önbelleği temizlendi. Puan ve favorileriniz korundu.'),
+        SnackBar(
+          content: Text(tr('cache_cleared')),
           backgroundColor: AppTheme.primary,
         ),
       );
@@ -37,18 +40,17 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   }
 
   void _changeReferenceWhisky() async {
-    // Show a dialog/bottom sheet to select a new reference from local database
     final repository = ref.read(whiskyRepositoryProvider);
     final db = ref.read(appDatabaseProvider);
+    final tr = ref.read(trProvider);
     
-    // Fetch all local whiskies
     final list = await db.select(db.whiskies).get();
     final localWhiskies = list.map((e) => Whisky.fromEntities(whisky: e)).toList();
 
     if (localWhiskies.isEmpty) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Önce kütüphanenize bir viski ekleyin.')),
+          SnackBar(content: Text(tr('add_whisky_first'))),
         );
       }
       return;
@@ -59,7 +61,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         context: context,
         backgroundColor: AppTheme.surface,
         builder: (context) {
-          int tempScore = 90;
+          int tempScore = 100;
           return StatefulBuilder(
             builder: (context, setModalState) {
               return Padding(
@@ -68,9 +70,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text(
-                      'Yeni Referans Viski Seçin',
-                      style: TextStyle(fontWeight: FontWeight.bold, color: AppTheme.primary, fontSize: 18),
+                    Text(
+                      tr('select_new_reference'),
+                      style: const TextStyle(fontWeight: FontWeight.bold, color: AppTheme.primary, fontSize: 18),
                     ),
                     const SizedBox(height: 16),
                     Expanded(
@@ -82,7 +84,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                             title: Text(w.name),
                             trailing: const Icon(Icons.check_circle_outline, color: AppTheme.primary),
                             onTap: () {
-                              // Show score configuration
                               showDialog(
                                 context: context,
                                 builder: (context) {
@@ -90,13 +91,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                                     builder: (context, setDialogState) {
                                       return AlertDialog(
                                         backgroundColor: AppTheme.surface,
-                                        title: const Text('Referans Puanı Ayarla'),
+                                        title: Text(tr('set_reference_score')),
                                         content: Column(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             Text(w.name, style: const TextStyle(fontWeight: FontWeight.bold, color: AppTheme.primary)),
                                             const SizedBox(height: 16),
-                                            Text('Mutlak Puan: $tempScore / 100'),
+                                            Text(tr('reference_absolute_score', [tempScore])),
                                             Slider(
                                               value: tempScore.toDouble(),
                                               min: 50,
@@ -113,24 +114,23 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                                         actions: [
                                           TextButton(
                                             onPressed: () => Navigator.pop(context),
-                                            child: const Text('İPTAL'),
+                                            child: Text(tr('cancel')),
                                           ),
                                           ElevatedButton(
                                             onPressed: () async {
                                               await repository.setReferenceWhisky(w.id, tempScore);
-                                              // Ensure score matches in scores table
                                               await repository.updatePersonalScore(w.id, tempScore);
                                               
                                               if (context.mounted) {
-                                                Navigator.pop(context); // Close dialog
-                                                Navigator.pop(context); // Close bottom sheet
+                                                Navigator.pop(context);
+                                                Navigator.pop(context);
                                                 
                                                 ScaffoldMessenger.of(context).showSnackBar(
-                                                  SnackBar(content: Text('Referans viski ${w.name} olarak güncellendi.')),
+                                                  SnackBar(content: Text(tr('reference_updated', [w.name]))),
                                                 );
                                               }
                                             },
-                                            child: const Text('KAYDET'),
+                                            child: Text(tr('save')),
                                           ),
                                         ],
                                       );
@@ -157,6 +157,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   Widget build(BuildContext context) {
     final settingsAsync = ref.watch(referenceSettingsStreamProvider);
     final refWhiskyAsync = ref.watch(referenceWhiskyModelProvider);
+    final tr = ref.watch(trProvider);
+    final langCode = ref.watch(localizationProvider);
 
     final settings = settingsAsync.value ?? {};
     final referenceScore = settings['reference_whisky_absolute_score'] as int? ?? 100;
@@ -164,7 +166,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Ayarlar'),
+        title: Text(tr('settings')),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -172,8 +174,38 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Language Selection Card
+              _buildSectionHeader(tr('language')),
+              const SizedBox(height: 12),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Icon(Icons.language, color: AppTheme.primary),
+                      DropdownButton<String>(
+                        value: langCode,
+                        dropdownColor: AppTheme.surfaceElevated,
+                        underline: const SizedBox(),
+                        items: [
+                          DropdownMenuItem(value: 'tr', child: Text(tr('turkish'))),
+                          DropdownMenuItem(value: 'en', child: Text(tr('english'))),
+                        ],
+                        onChanged: (String? newValue) {
+                          if (newValue != null) {
+                            ref.read(localizationProvider.notifier).setLanguage(newValue);
+                          }
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 32),
+
               // Reference Configuration Card
-              _buildSectionHeader('100 Puan Referansı'),
+              _buildSectionHeader(tr('settings_100_pt_ref')),
               const SizedBox(height: 12),
               Card(
                 child: Padding(
@@ -182,9 +214,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       if (refWhisky == null)
-                        const Text(
-                          'Referans viski seçilmemiş.',
-                          style: TextStyle(color: AppTheme.textSecondary),
+                        Text(
+                          tr('no_reference_selected'),
+                          style: const TextStyle(color: AppTheme.textSecondary),
                         )
                       else ...[
                         Text(
@@ -193,7 +225,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          'Referans Mutlak Değeri: $referenceScore / 100 (Bu viski 100 puan kabul edilir)',
+                          tr('reference_absolute_value', [referenceScore]),
                           style: const TextStyle(color: AppTheme.textSecondary, fontSize: 13),
                         ),
                       ],
@@ -203,7 +235,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                         child: OutlinedButton.icon(
                           onPressed: _changeReferenceWhisky,
                           icon: const Icon(Icons.swap_horiz, color: AppTheme.primary),
-                          label: const Text('REFERANS VİSKİYİ DEĞİŞTİR', style: TextStyle(color: AppTheme.primary)),
+                          label: Text(tr('change_reference_whisky'), style: const TextStyle(color: AppTheme.primary)),
                           style: OutlinedButton.styleFrom(side: const BorderSide(color: AppTheme.primary)),
                         ),
                       ),
@@ -214,19 +246,19 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               const SizedBox(height: 32),
 
               // Data Providers Section
-              _buildSectionHeader('Veri Kaynakları (Backend API)'),
+              _buildSectionHeader(tr('data_sources')),
               const SizedBox(height: 12),
-              const Card(
+              Card(
                 color: AppTheme.surface,
                 child: Padding(
-                  padding: EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(16),
                   child: Column(
                     children: [
-                      _SourceTile(name: 'WhiskyHunter API', status: 'Aktif (Mock)'),
-                      Divider(),
-                      _SourceTile(name: 'WhiskyEdition API', status: 'Aktif (Mock)'),
-                      Divider(),
-                      _SourceTile(name: 'Manuel Girdi Modülü', status: 'Aktif'),
+                      _SourceTile(name: 'WhiskyHunter API', status: tr('active_mock')),
+                      const Divider(),
+                      _SourceTile(name: 'WhiskyEdition API', status: tr('active_mock')),
+                      const Divider(),
+                      _SourceTile(name: tr('manual_entry_module'), status: tr('active')),
                     ],
                   ),
                 ),
@@ -234,7 +266,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               const SizedBox(height: 32),
 
               // Cache settings
-              _buildSectionHeader('Önbellek ve Veri Yönetimi'),
+              _buildSectionHeader(tr('cache_management')),
               const SizedBox(height: 12),
               Card(
                 child: Padding(
@@ -242,9 +274,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'İnternetten aradığınız ve kütüphaneye kaydetmediğiniz viskilerin önbelleğini temizleyin. Puanladığınız ve favorilere eklediğiniz veriler korunur.',
-                        style: TextStyle(color: AppTheme.textSecondary, fontSize: 13),
+                      Text(
+                        tr('cache_desc'),
+                        style: const TextStyle(color: AppTheme.textSecondary, fontSize: 13),
                       ),
                       const SizedBox(height: 16),
                       SizedBox(
@@ -252,7 +284,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                         child: ElevatedButton.icon(
                           onPressed: _isLoading ? null : _clearCache,
                           icon: const Icon(Icons.delete_sweep),
-                          label: const Text('ÖNBELLEĞİ TEMİZLE'),
+                          label: Text(tr('clear_cache')),
                           style: ElevatedButton.styleFrom(backgroundColor: AppTheme.error, foregroundColor: Colors.white),
                         ),
                       ),
