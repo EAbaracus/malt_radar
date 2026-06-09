@@ -41,6 +41,7 @@ dependencies:
   path: ^1.9.1
   http: ^1.6.0
   drift_flutter: ^0.3.0
+  google_fonts: ^6.2.1
 
 dev_dependencies:
   flutter_test:

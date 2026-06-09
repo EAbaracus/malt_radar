@@ -5,6 +5,7 @@ import 'package:malt_radar/core/theme/app_theme.dart';
 import 'package:malt_radar/features/whisky/domain/models/whisky.dart';
 import '../controllers/whisky_providers.dart';
 import 'home_screen.dart';
+import '../../../../core/localization/localization_provider.dart';
 
 class SetupScreen extends ConsumerStatefulWidget {
   const SetupScreen({super.key});
@@ -98,6 +99,7 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final tr = ref.watch(trProvider);
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -130,7 +132,7 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'İlk Kurulum ve Referans Seçimi',
+                      tr('setup_subtitle'),
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                             color: AppTheme.textSecondary,
                           ),
@@ -142,10 +144,10 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
 
               if (_selectedWhisky == null) ...[
                 // Instruction
-                const Text(
-                  '100 puan kabul edeceğiniz referans viskinizi seçin. Diğer tüm viskiler bu viskiye kıyasla puanlanacaktır.',
+                Text(
+                  tr('setup_reference_desc'),
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: AppTheme.textSecondary, fontSize: 14),
+                  style: const TextStyle(color: AppTheme.textSecondary, fontSize: 14),
                 ),
                 const SizedBox(height: 24),
 
@@ -153,9 +155,9 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
                 TextField(
                   controller: _searchController,
                   onChanged: _searchWhiskies,
-                  decoration: const InputDecoration(
-                    hintText: 'Referans viski arayın...',
-                    prefixIcon: Icon(Icons.search, color: AppTheme.textSecondary),
+                  decoration: InputDecoration(
+                    hintText: tr('setup_search_hint'),
+                    prefixIcon: const Icon(Icons.search, color: AppTheme.textSecondary),
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -168,8 +170,8 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
                           ? Center(
                               child: Text(
                                 _searchController.text.isEmpty
-                                    ? 'Aramaya başlamak için yazın...'
-                                    : 'Sonuç bulunamadı.',
+                                    ? tr('setup_type_to_search')
+                                    : tr('setup_no_results'),
                                 style: const TextStyle(color: AppTheme.textMuted),
                               ),
                             )
@@ -181,8 +183,8 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
                                   leading: const Icon(Icons.local_offer, color: AppTheme.secondary),
                                   title: Text(whisky.name),
                                   subtitle: Text(_searchedOnline
-                                      ? '${whisky.country ?? "Bilinmiyor"} (İnternet)'
-                                      : '${whisky.country ?? "Bilinmiyor"} (Yerel)'),
+                                      ? '${whisky.country ?? tr('unknown')} (${tr('setup_internet')})'
+                                      : '${whisky.country ?? tr('unknown')} (${tr('setup_local')})'),
                                   trailing: const Icon(Icons.chevron_right, color: AppTheme.primary),
                                   onTap: () {
                                     setState(() {
@@ -201,9 +203,9 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          'Seçilen Referans Viski:',
-                          style: TextStyle(color: AppTheme.textSecondary, fontSize: 12),
+                        Text(
+                          tr('setup_selected_ref'),
+                          style: const TextStyle(color: AppTheme.textSecondary, fontSize: 12),
                         ),
                         const SizedBox(height: 8),
                         Text(
@@ -216,7 +218,7 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
                         if (_selectedWhisky!.country != null) ...[
                           const SizedBox(height: 4),
                           Text(
-                            'Köken: ${_selectedWhisky!.country}',
+                            '${tr('preview_origin')}: ${_selectedWhisky!.country}',
                             style: const TextStyle(color: AppTheme.textSecondary, fontSize: 14),
                           ),
                         ],
@@ -228,20 +230,20 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
 
                 // Absolute Score Selection
                 Text(
-                  'Bu viskinin gerçek/mutlak puanı nedir?',
+                  tr('setup_absolute_score_q'),
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 8),
-                const Text(
-                  'Bu puan referans alınarak 100 kabul edilecektir. Örneğin 90 puan verirseniz, gelecekte 81 puan vereceğiniz bir viski referansınıza göre %90 kalitede (yani 90 puan) görünecektir.',
-                  style: TextStyle(color: AppTheme.textMuted, fontSize: 12),
+                Text(
+                  tr('setup_absolute_score_desc'),
+                  style: const TextStyle(color: AppTheme.textMuted, fontSize: 12),
                 ),
                 const SizedBox(height: 24),
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Mutlak Puan:', style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(tr('setup_absolute_score'), style: const TextStyle(fontWeight: FontWeight.bold)),
                     Text(
                       '$_absoluteScore / 100',
                       style: const TextStyle(color: AppTheme.primary, fontWeight: FontWeight.bold, fontSize: 20),
@@ -276,7 +278,7 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
                           padding: const EdgeInsets.symmetric(vertical: 14),
                           side: const BorderSide(color: AppTheme.textSecondary),
                         ),
-                        child: const Text('DEĞİŞTİR', style: TextStyle(color: AppTheme.textSecondary)),
+                        child: Text(tr('setup_change'), style: const TextStyle(color: AppTheme.textSecondary)),
                       ),
                     ),
                     const SizedBox(width: 16),
@@ -289,7 +291,7 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
                                 height: 20,
                                 child: CircularProgressIndicator(color: AppTheme.background, strokeWidth: 2),
                               )
-                            : const Text('KURULUMU BİTİR'),
+                            : Text(tr('setup_finish')),
                       ),
                     ),
                   ],
