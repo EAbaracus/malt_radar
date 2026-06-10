@@ -7,7 +7,8 @@ while ($true) {
     
     if ($status) {
         $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-        git add .
+        # Do not use git add . here. Generated output/, DB files and backups must never be auto-added.
+git add -u
         git commit -m "Auto-save commit: $timestamp"
         git push origin main
     }
