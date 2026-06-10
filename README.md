@@ -1,56 +1,62 @@
 # Malt Radar
 
-Malt Radar is a personal whisky database and tasting notes application built with Flutter and Python (FastAPI). It allows users to search for whiskies, rate them according to their own 100-point reference system, and store their whiskies in a local library (along with prices and tasting notes).
+Malt Radar is a professional, offline-first personal whisky database and tasting library application. It features a robust **Flutter** mobile/web client powered by a highly optimized **Python (FastAPI)** backend and a local SQLite-backed data layer used outside the tracked repository.
 
-## Features
+## Architecture & Tech Stack
 
-- **Offline-First Architecture:** Ability to work offline thanks to the local SQLite (Drift) database.
-- **Backend Integration and Live Web Scraping:** Instead of settling for a limited CSV dataset, the application performs "live web scraping" directly from massive sources like Distiller.com. It instantly reflects the newest and most accurate whiskies, along with up-to-date age and cask details, in the search results. (It also provides fallback data via CSV and Mock API providers.)
-- **Personal Scoring System:** The ability to rate other whiskies based on a 100-point reference whisky of your choice.
-- **Modern Interface:** Riverpod State Management and a modern dark theme design.
-- **Web Support:** Fast web compilation support with Drift's native Wasm files.
+- **Frontend:** Flutter (Dart) with Riverpod for state management, delivering a seamless offline-first experience via a local Drift SQLite integration.
+- **Backend:** Python (FastAPI), providing scalable API aggregation and robust local database orchestration.
+- **Database:** Local SQLite (Production DB) structured for maximum data integrity.
 
-## Project Structure
+## Strict Data Security & Ingestion Workflow
 
-The project consists of two main folders:
-1. `backend/`: The backend service written with Python and FastAPI. It aggregates data sources and responds to search requests.
-2. `frontend/`: The mobile/web application written with Dart and Flutter.
+To protect the Golden Dataset (the master tables containing curated whiskies and distilleries), Malt Radar employs a strict, production-grade ingestion pipeline:
+
+1. **Master Tables Are Protected:** Direct automated insertions (`INSERT`/`UPDATE`/`DELETE`) to the master `whiskies` or `distilleries` tables are strictly prohibited.
+2. **Staging Isolation:** All new incoming data (API fetches, historical PDF menu parsing, external knowledge) is securely routed to isolated `staging_*` tables first.
+3. **Mandatory Manual Review:** Candidate data is never automatically promoted. Everything flows into a `staging_manual_review_queue` where it awaits explicit human approval before being merged into the master library.
+
+## Project Roadmap / Status
+
+- ✅ **Phase 3 (Schema Migration):** Migrated to a normalized Entity Architecture. Staging and knowledge tables securely deployed to the production database environment via zero-downtime, non-destructive SQL migrations.
+- ✅ **Phase 4 (Candidate Dry-Run):** Successfully mapped and simulated the ingestion of offline candidates (Whisky Edition API, The Malt List PDF, WhiskeyFYI) into preview staging matrices without touching production records.
+- ⚠️ **Phase 5 (Staging Import & Execution):** Initial execution attempt was safely rolled back after schema mismatch detection. Master tables remained unchanged. The next step is Phase 5A — staging schema reconciliation.
+- ⏳ **Phase 5A (Staging Schema Reconciliation):** Align staging table schemas with Phase 4 preview CSV columns before retrying staging import.
 
 ---
 
-## Installation and Running
+## Installation & Running Locally
 
-You will need two terminal tabs to run the project locally.
-
-### 1. Starting the Backend (Python API) Server
-
-Python must be installed to run the backend.
-
+### 1. Backend (FastAPI) Setup
 ```bash
-# Navigate to the backend folder from the project directory
-cd "malt radar/backend"
+# Navigate to the backend directory
+cd backend
 
-# Install the required dependencies (Required for the first time)
+# Create and activate a virtual environment
+python -m venv venv
+# On Windows: venv\Scripts\activate
+# On Mac/Linux: source venv/bin/activate
+
+# Install dependencies
 pip install -r requirements.txt
 
-# Start the development server
-python run.py
+# Run the FastAPI server
+uvicorn run:app --host 0.0.0.0 --port 8080 --reload
+# (Or alternatively use: python run.py)
 ```
-*(The server runs on http://localhost:8080 by default)*
 
-### 2. Starting the Frontend (Flutter Application) Server
-
-Open a separate terminal tab. Flutter must be installed and configured.
-
+### 2. Frontend (Flutter) Setup
 ```bash
-# Navigate to the frontend folder from the project directory
-cd "malt radar/frontend"
+# In a new terminal tab, navigate to the frontend directory
+cd frontend
 
-# (Optional) Download packages
+# Fetch packages
 flutter pub get
 
-# Launch the application on the Chrome browser
+# Run the application (e.g., on Chrome)
 flutter run -d chrome --web-port 8888
 ```
 
-Once the application compiles successfully, you can start using it in your browser at http://localhost:8888.
+---
+
+*Note: For a clean repository history, all massive data ingestion reports, temporary staging outputs (`output/`), database backups, and compiled `build/` files are explicitly excluded via `.gitignore`.*
