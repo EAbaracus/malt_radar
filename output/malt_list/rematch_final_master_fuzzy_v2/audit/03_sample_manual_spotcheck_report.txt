@@ -1,0 +1,14 @@
+SAMPLE MANUAL SPOTCHECK REPORT
+==============================
+Candidate: ArdbegMatched  : ardbeg galileo (ID: W000251)Scores   : TS=100.0, WR=90.0Risk     : HIGH -> manual_reviewReason   : High ambiguity or missing master age
+Candidate: Ardbeg UigeadailMatched  : ardbeg uigeadail (ID: W001095)Scores   : TS=100.0, WR=90.0Risk     : LOW -> accept_previewReason   : Safe match with good gap and no conflicts
+Candidate: GlenfarclasMatched  : glenfarclas 40yo (ID: W000029)Scores   : TS=100.0, WR=90.0Risk     : HIGH -> manual_reviewReason   : High ambiguity or missing master age
+Candidate: GlenfarclasMatched  : glenfarclas 40yo (ID: W000029)Scores   : TS=100.0, WR=90.0Risk     : HIGH -> manual_reviewReason   : High ambiguity or missing master age
+Candidate: Glenfarclas 105Matched  : glenfarclas 105 (ID: W000199)Scores   : TS=100.0, WR=90.0Risk     : LOW -> accept_previewReason   : Safe match with good gap and no conflicts
+Candidate: GlenfiddichMatched  : glenfiddich 15yo solera (ID: W000013)Scores   : TS=100.0, WR=90.0Risk     : HIGH -> manual_reviewReason   : High ambiguity or missing master age
+Candidate: Glenfiddich rich oakMatched  : glenfiddich 14yo rich oak (ID: W000563)Scores   : TS=100.0, WR=85.5Risk     : LOW -> accept_previewReason   : Safe match with good gap and no conflicts
+Candidate: Highland ParkMatched  : highland park 25yo (ID: W000032)Scores   : TS=100.0, WR=90.0Risk     : HIGH -> manual_reviewReason   : High ambiguity or missing master age
+Candidate: Highland ParkMatched  : highland park 25yo (ID: W000032)Scores   : TS=100.0, WR=90.0Risk     : HIGH -> manual_reviewReason   : High ambiguity or missing master age
+Candidate: Macallan AmberMatched  : macallan amber (ID: W000634)Scores   : TS=100.0, WR=90.0Risk     : LOW -> accept_previewReason   : Safe match with good gap and no conflicts
+Candidate: Macallan GoldMatched  : macallan gold (ID: W000863)Scores   : TS=100.0, WR=90.0Risk     : HIGH -> manual_reviewReason   : High ambiguity or missing master age
+Candidate: MacallanMatched  : macallan 12yo double cask (ID: W000007)Scores   : TS=100.0, WR=90.0Risk     : HIGH -> manual_reviewReason   : High ambiguity or missing master age

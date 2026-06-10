@@ -1,0 +1,81 @@
+malt_list_candidate_name,matched_master_whisky_id,matched_master_name,distillery_id,score_token_set,score_token_sort,score_wratio,candidate_age,master_age,age_match_status,candidate_vintage,master_vintage,vintage_match_status,candidate_release,master_release,release_match_status,candidate_distinctive_tokens,missing_distinctive_tokens,candidate_distillery_or_brand,master_distillery_or_brand,top2_score_gap,risk_level,decision,reason
+Ardbeg,W000251,ardbeg galileo,,100.0,100.0,90.0,,,N/A,,,N/A,,,N/A,,,Ardbeg,ardbeg,0.0,HIGH,manual_review,High ambiguity or missing master age
+Ardbeg Uigeadail,W001095,ardbeg uigeadail,,100.0,100.0,90.0,,,N/A,,,N/A,,,N/A,,,Ardbeg,ardbeg,26.66666666666667,LOW,accept_preview,Safe match with good gap and no conflicts
+Arran,W000078,arran malt 21st anniversary edition,,100.0,100.0,60.0,,,N/A,,,N/A,,,N/A,,,Arran,arran,0.0,HIGH,manual_review,High ambiguity or missing master age
+Auchentoshan,W000018,auchentoshan 12yo,D0015,100.0,100.0,90.0,,12,N/A,,,N/A,,,N/A,,,Auchentoshan,auchentoshan,0.0,HIGH,manual_review,High ambiguity or missing master age
+Auchentoshan,W000018,auchentoshan 12yo,D0015,100.0,100.0,90.0,,12,N/A,,,N/A,,,N/A,,,Auchentoshan,auchentoshan,0.0,HIGH,manual_review,High ambiguity or missing master age
+Auchentoshan,W000018,auchentoshan 12yo,D0015,100.0,100.0,90.0,,12,N/A,,,N/A,,,N/A,,,Auchentoshan,auchentoshan,0.0,HIGH,manual_review,High ambiguity or missing master age
+Auchroisk,W000646,auchroisk 10yo (f&f),,100.0,100.0,90.0,,10,N/A,,,N/A,,,N/A,,,Auchroisk,auchroisk,53.84615384615385,LOW,accept_preview,Safe match with good gap and no conflicts
+Aultmore,W000427,aultmore 25yo,,100.0,100.0,90.0,,25,N/A,,,N/A,,,N/A,,,Aultmore,aultmore,0.0,HIGH,manual_review,High ambiguity or missing master age
+Ardmore,W000020,ardmore legacy,D0016,100.0,100.0,90.0,,,N/A,,,N/A,,,N/A,,,Ardmore,ardmore,0.0,HIGH,manual_review,High ambiguity or missing master age
+Balblair,W000146,balblair 1990 (all releases),,100.0,100.0,90.0,,,N/A,,1990,N/A,,,N/A,,,Balblair,balblair,0.0,HIGH,manual_review,High ambiguity or missing master age
+Balvenie D’Wood,W000187,balvenie 21yo port wood,D0007,92.85714285714286,92.85714285714286,85.5,,21,N/A,,,N/A,,,N/A,,,Balvenie,balvenie,23.291925465838517,LOW,accept_preview,Safe match with good gap and no conflicts
+Balvenie,W000010,balvenie 14y caribbean cask,D0007,100.0,100.0,90.0,,,N/A,,,N/A,,,N/A,,,Balvenie,balvenie,0.0,HIGH,manual_review,High ambiguity or missing master age
+Ben Nevis,W000132,ben nevis 10yo (post-2017),,100.0,100.0,90.0,,10,N/A,,2017,N/A,,,N/A,,,Ben,ben,0.0,HIGH,manual_review,High ambiguity or missing master age
+Benrinnes,W000373,benrinnes 15yo f&f,,100.0,100.0,90.0,,15,N/A,,,N/A,,,N/A,,,Benrinnes,benrinnes,65.71428571428571,LOW,accept_preview,Safe match with good gap and no conflicts
+Benromach,W000074,benromach 10yo cask strength (100 proof),,100.0,100.0,60.0,,10,N/A,,,N/A,,,N/A,,,Benromach,benromach,0.0,HIGH,manual_review,High ambiguity or missing master age
+Benromach Organic,W000567,benromach organic,,100.0,100.0,90.0,,,N/A,,,N/A,,,N/A,,,Benromach,benromach,30.769230769230774,LOW,accept_preview,Safe match with good gap and no conflicts
+Bladnoch,W000082,bladnoch 12yo sherry cask (sheep label),,100.0,100.0,60.0,,12,N/A,,,N/A,,,N/A,,,Bladnoch,bladnoch,0.0,HIGH,manual_review,High ambiguity or missing master age
+Bladnoch,W000082,bladnoch 12yo sherry cask (sheep label),,100.0,100.0,60.0,,12,N/A,,,N/A,,,N/A,,,Bladnoch,bladnoch,0.0,HIGH,manual_review,High ambiguity or missing master age
+Bowmore,W000015,bowmore 12y,D0012,100.0,100.0,90.0,,,N/A,,,N/A,,,N/A,,,Bowmore,bowmore,0.0,HIGH,manual_review,High ambiguity or missing master age
+Bowmore,W000015,bowmore 12y,D0012,100.0,100.0,90.0,,,N/A,,,N/A,,,N/A,,,Bowmore,bowmore,0.0,HIGH,manual_review,High ambiguity or missing master age
+Brora,W001092,brora 35yo,,100.0,100.0,90.0,,35,N/A,,,N/A,,,N/A,,,Brora,brora,0.0,HIGH,manual_review,High ambiguity or missing master age
+Bruichladdich,W000964,bruichladdich port charlotte pc12 oileanach furachail,D0075,100.0,100.0,60.0,,,N/A,,,N/A,,,N/A,,,Bruichladdich,bruichladdich,0.0,HIGH,manual_review,High ambiguity or missing master age
+Bruichladdich Rocks,W000346,bruichladdich rocks,,100.0,100.0,90.0,,,N/A,,,N/A,,,N/A,,,Bruichladdich,bruichladdich,18.75,LOW,accept_preview,Safe match with good gap and no conflicts
+Bruichladdich Octomore 06.1,W001172,bruichladdich octomore 6.1,,98.1132075471698,98.1132075471698,88.30188679245283,,,N/A,,,N/A,,,N/A,,,Bruichladdich,bruichladdich,1.8169112508735168,HIGH,manual_review,High ambiguity or missing master age
+Caol Ila,W000445,caol ila 18yo unpeated 2017,,100.0,100.0,90.0,,18,N/A,,2017,N/A,,,N/A,,,Caol,caol,0.0,HIGH,manual_review,High ambiguity or missing master age
+Cardhu,W000868,cardhu amber rock,,100.0,100.0,90.0,,,N/A,,,N/A,,,N/A,,,Cardhu,cardhu,0.0,HIGH,manual_review,High ambiguity or missing master age
+Cardhu,W000868,cardhu amber rock,,100.0,100.0,90.0,,,N/A,,,N/A,,,N/A,,,Cardhu,cardhu,0.0,HIGH,manual_review,High ambiguity or missing master age
+Clynliesh,W000476,game of thrones house tyrell clynelish reserve,,100.0,100.0,60.0,,,N/A,,,N/A,,,N/A,,,Clynliesh,game,0.0,HIGH,manual_review,High ambiguity or missing master age
+Cragganmore,W000409,cragganmore 12yo (special release 2019),,100.0,100.0,90.0,,12,N/A,,2019,N/A,,,N/A,,,Cragganmore,cragganmore,0.0,HIGH,manual_review,High ambiguity or missing master age
+Cragganmore,W000409,cragganmore 12yo (special release 2019),,100.0,100.0,90.0,,12,N/A,,2019,N/A,,,N/A,,,Cragganmore,cragganmore,0.0,HIGH,manual_review,High ambiguity or missing master age
+Dalmore,W000274,dalmore port wood reserve,,100.0,100.0,90.0,,,N/A,,,N/A,,,N/A,,,Dalmore,dalmore,0.0,HIGH,manual_review,High ambiguity or missing master age
+Dalmore,W000274,dalmore port wood reserve,,100.0,100.0,90.0,,,N/A,,,N/A,,,N/A,,,Dalmore,dalmore,0.0,HIGH,manual_review,High ambiguity or missing master age
+Dalmore Cigar Malt,W000337,dalmore cigar malt,,100.0,100.0,90.0,,,N/A,,,N/A,,,N/A,,,Dalmore,dalmore,0.0,HIGH,manual_review,High ambiguity or missing master age
+Dalwhinnie,W000297,dalwhinnie distillers edition,,100.0,100.0,90.0,,,N/A,,,N/A,,,N/A,,,Dalwhinnie,dalwhinnie,0.0,HIGH,manual_review,High ambiguity or missing master age
+Finlaggan,W001221,finlaggan old reserve,,100.0,100.0,90.0,,,N/A,,,N/A,,,N/A,,,Finlaggan,finlaggan,68.18181818181819,LOW,accept_preview,Safe match with good gap and no conflicts
+Glenburgie,W000655,glenburgie 10yo (gordon & macphail),,100.0,100.0,90.0,,10,N/A,,,N/A,,,N/A,,,Glenburgie,glenburgie,69.23076923076923,LOW,accept_preview,Safe match with good gap and no conflicts
+Glenburgie,W000655,glenburgie 10yo (gordon & macphail),,100.0,100.0,90.0,,10,N/A,,,N/A,,,N/A,,,Glenburgie,glenburgie,69.23076923076923,LOW,accept_preview,Safe match with good gap and no conflicts
+Glenburgie,W000655,glenburgie 10yo (gordon & macphail),,100.0,100.0,90.0,,10,N/A,,,N/A,,,N/A,,,Glenburgie,glenburgie,69.23076923076923,LOW,accept_preview,Safe match with good gap and no conflicts
+Glencadam,W000242,glencadam 14yo oloroso sherry cask finish,,100.0,100.0,60.0,,14,N/A,,,N/A,,,N/A,,,Glencadam,glencadam,0.0,HIGH,manual_review,High ambiguity or missing master age
+Glen Deveron,W000669,glen deveron 10yo (macduff),,100.0,100.0,90.0,,10,N/A,,,N/A,,,N/A,,,Glen,glen,50.0,LOW,accept_preview,Safe match with good gap and no conflicts
+Glendullan,W000565,singleton of glendullan 15yo,,100.0,100.0,90.0,,15,N/A,,,N/A,,,N/A,,,Glendullan,singleton,0.0,HIGH,manual_review,High ambiguity or missing master age
+Glen Elgin,W000588,glen elgin 12yo,,100.0,100.0,90.0,,12,N/A,,,N/A,,,N/A,,,Glen,glen,42.857142857142854,LOW,accept_preview,Safe match with good gap and no conflicts
+Glenfarclas,W000029,glenfarclas 40yo,,100.0,100.0,90.0,,40,N/A,,,N/A,,,N/A,,,Glenfarclas,glenfarclas,0.0,HIGH,manual_review,High ambiguity or missing master age
+Glenfarclas,W000029,glenfarclas 40yo,,100.0,100.0,90.0,,40,N/A,,,N/A,,,N/A,,,Glenfarclas,glenfarclas,0.0,HIGH,manual_review,High ambiguity or missing master age
+Glenfarclas 105,W000199,glenfarclas 105,,100.0,100.0,90.0,,,N/A,,,N/A,,,N/A,,,Glenfarclas,glenfarclas,9.677419354838705,LOW,accept_preview,Safe match with good gap and no conflicts
+Glenfiddich,W000013,glenfiddich 15yo solera,D0010,100.0,100.0,90.0,,15,N/A,,,N/A,,,N/A,,,Glenfiddich,glenfiddich,0.0,HIGH,manual_review,High ambiguity or missing master age
+Glenfiddich rich oak,W000563,glenfiddich 14yo rich oak,D0010,100.0,100.0,85.5,,14,N/A,,,N/A,,,N/A,,,Glenfiddich,glenfiddich,55.55555555555556,LOW,accept_preview,Safe match with good gap and no conflicts
+Glenturret,W000877,glenturret 10yo,,100.0,100.0,90.0,,10,N/A,,,N/A,,,N/A,,,Glenturret,glenturret,69.23076923076923,LOW,accept_preview,Safe match with good gap and no conflicts
+Highland Park,W000032,highland park 25yo,,100.0,100.0,90.0,,25,N/A,,,N/A,,,N/A,,,Highland,highland,0.0,HIGH,manual_review,High ambiguity or missing master age
+Highland Park,W000032,highland park 25yo,,100.0,100.0,90.0,,25,N/A,,,N/A,,,N/A,,,Highland,highland,0.0,HIGH,manual_review,High ambiguity or missing master age
+Inchgower,W000789,inchgower 14yo (f&f),,100.0,100.0,90.0,,14,N/A,,,N/A,,,N/A,,,Inchgower,inchgower,77.14285714285714,LOW,accept_preview,Safe match with good gap and no conflicts
+Jura,W000222,jura brooklyn,,100.0,100.0,90.0,,,N/A,,,N/A,,,N/A,,,Jura,jura,0.0,HIGH,manual_review,High ambiguity or missing master age
+Jura Superstition,W001074,jura superstition,,100.0,100.0,90.0,,,N/A,,,N/A,,,N/A,,,Jura,jura,46.666666666666664,LOW,accept_preview,Safe match with good gap and no conflicts
+Jonnie Walker,W001254,johnnie walker 15yo green label,,100.0,100.0,90.0,,15,N/A,,,N/A,,,N/A,,,Jonnie,johnnie,0.0,HIGH,manual_review,High ambiguity or missing master age
+Knockando,W000891,knockando 12yo (all vintages),,100.0,100.0,90.0,,12,N/A,,,N/A,,,N/A,,,Knockando,knockando,60.0,LOW,accept_preview,Safe match with good gap and no conflicts
+Kilochman,W000087,kilchoman port cask matured,,100.0,100.0,90.0,,,N/A,,,N/A,,,N/A,,,Kilochman,kilchoman,0.0,HIGH,manual_review,High ambiguity or missing master age
+Macallan Amber,W000634,macallan amber,D0006,100.0,100.0,90.0,,,N/A,,,N/A,,,N/A,,,Macallan,macallan,27.27272727272728,LOW,accept_preview,Safe match with good gap and no conflicts
+Macallan Gold,W000863,macallan gold,D0006,100.0,100.0,90.0,,,N/A,,,N/A,,,N/A,,,Macallan,macallan,0.0,HIGH,manual_review,High ambiguity or missing master age
+Macallan,W000007,macallan 12yo double cask,D0006,100.0,100.0,90.0,,12,N/A,,,N/A,,,N/A,,,Macallan,macallan,0.0,HIGH,manual_review,High ambiguity or missing master age
+MacPhail,W000034,tamdhu 30yo (macphail collection 2009),,100.0,100.0,60.0,,30,N/A,,2009,N/A,,,N/A,,,MacPhail,tamdhu,0.0,HIGH,manual_review,High ambiguity or missing master age
+Macduff,W000669,glen deveron 10yo (macduff),,100.0,100.0,90.0,,10,N/A,,,N/A,,,N/A,,,Macduff,glen,58.33333333333334,LOW,accept_preview,Safe match with good gap and no conflicts
+Mannochmore,W000826,mannochmore 12yo (f&f),,100.0,100.0,90.0,,12,N/A,,,N/A,,,N/A,,,Mannochmore,mannochmore,55.55555555555556,LOW,accept_preview,Safe match with good gap and no conflicts
+Miltonduff,W000663,miltonduff 10yo (f&f),,100.0,100.0,90.0,,10,N/A,,,N/A,,,N/A,,,Miltonduff,miltonduff,44.0,LOW,accept_preview,Safe match with good gap and no conflicts
+Mortlach,W000216,mortlach 16yo (f&f),,100.0,100.0,90.0,,16,N/A,,,N/A,,,N/A,,,Mortlach,mortlach,0.0,HIGH,manual_review,High ambiguity or missing master age
+Mortlach,W000216,mortlach 16yo (f&f),,100.0,100.0,90.0,,16,N/A,,,N/A,,,N/A,,,Mortlach,mortlach,0.0,HIGH,manual_review,High ambiguity or missing master age
+Mortlach,W000216,mortlach 16yo (f&f),,100.0,100.0,90.0,,16,N/A,,,N/A,,,N/A,,,Mortlach,mortlach,0.0,HIGH,manual_review,High ambiguity or missing master age
+Mortlach,W000216,mortlach 16yo (f&f),,100.0,100.0,90.0,,16,N/A,,,N/A,,,N/A,,,Mortlach,mortlach,0.0,HIGH,manual_review,High ambiguity or missing master age
+Oban,W000229,oban distillers edition (all vintages),,100.0,100.0,60.0,,,N/A,,,N/A,,,N/A,,,Oban,oban,0.0,HIGH,manual_review,High ambiguity or missing master age
+Oban distillers ed.,W000229,oban distillers edition (all vintages),,90.9090909090909,90.9090909090909,90.0,,,N/A,,,N/A,,,N/A,,,Oban,oban,19.480519480519476,LOW,accept_preview,Safe match with good gap and no conflicts
+Old Pulteney,W000431,old pulteney 25yo,,100.0,100.0,90.0,,25,N/A,,,N/A,,,N/A,,,Old,old,0.0,HIGH,manual_review,High ambiguity or missing master age
+Old Pulteney,W000431,old pulteney 25yo,,100.0,100.0,90.0,,25,N/A,,,N/A,,,N/A,,,Old,old,0.0,HIGH,manual_review,High ambiguity or missing master age
+Royal Brackla,W000170,royal brackla 21yo,,100.0,100.0,90.0,,21,N/A,,,N/A,,,N/A,,,Royal,royal,0.0,HIGH,manual_review,High ambiguity or missing master age
+Royal Brackla,W000170,royal brackla 21yo,,100.0,100.0,90.0,,21,N/A,,,N/A,,,N/A,,,Royal,royal,0.0,HIGH,manual_review,High ambiguity or missing master age
+Royal Lochnagar,W000374,game of thrones house baratheon royal lochnagar 12 ans,,100.0,100.0,90.0,,12,N/A,,,N/A,,,N/A,,,Royal,game,0.0,HIGH,manual_review,High ambiguity or missing master age
+Scapa,W000617,scapa 16yo,,100.0,100.0,90.0,,16,N/A,,,N/A,,,N/A,,,Scapa,scapa,0.0,HIGH,manual_review,High ambiguity or missing master age
+Sheep Dip,W000064,sheep dip old hebridean 1990 blended malt,,100.0,100.0,60.0,,,N/A,,1990,N/A,,,N/A,,,Sheep,sheep,0.0,HIGH,manual_review,High ambiguity or missing master age
+Singleton,W000321,singleton of glen ord 18yo,,100.0,100.0,90.0,,18,N/A,,,N/A,,,N/A,,,Singleton,singleton,0.0,HIGH,manual_review,High ambiguity or missing master age
+Singleton,W000321,singleton of glen ord 18yo,,100.0,100.0,90.0,,18,N/A,,,N/A,,,N/A,,,Singleton,singleton,0.0,HIGH,manual_review,High ambiguity or missing master age
+Springbank,W000076,springbank 21yo,,100.0,100.0,90.0,,21,N/A,,,N/A,,,N/A,,,Springbank,springbank,0.0,HIGH,manual_review,High ambiguity or missing master age
+Springbank,W000076,springbank 21yo,,100.0,100.0,90.0,,21,N/A,,,N/A,,,N/A,,,Springbank,springbank,0.0,HIGH,manual_review,High ambiguity or missing master age

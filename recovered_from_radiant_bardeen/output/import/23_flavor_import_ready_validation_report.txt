@@ -1,0 +1,9 @@
+=== CLEANED FLAVOR IMPORT VALIDATION ===
+
+- Hedef Dosya: output/import/22_flavor_import_ready_cleaned.csv
+- Satır Sayısı: 122
+- FK Errors: 0
+- Duplicate PK: 0
+- Name-based fallback: Yok
+- Tüm veriler flavor vector/tag içeriyor mu?: Evet
+- Distillery-only ürün bağlantısı var mı?: Hayır

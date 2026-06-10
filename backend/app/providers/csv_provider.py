@@ -19,6 +19,26 @@ class CsvWhiskyProvider(WhiskyProvider):
         return "Merged CSV Database"
 
     def _load_data(self):
+        import json
+        
+        flavor_map_by_id = {}
+        flavor_map_by_name = {}
+        flavor_path = "output/flavor/30_HIGH_CONFIDENCE_flavor_profiles_WDB_MAPPED.csv"
+        if os.path.exists(flavor_path):
+            try:
+                with open(flavor_path, 'r', encoding='utf-8-sig', errors='ignore') as f:
+                    f_reader = csv.DictReader(f)
+                    for f_row in f_reader:
+                        w_id = f_row.get('whisky_id')
+                        w_name = f_row.get('whisky_name')
+                        
+                        if w_id:
+                            flavor_map_by_id[str(w_id)] = f_row
+                        if w_name:
+                            flavor_map_by_name[w_name] = f_row
+            except Exception as e:
+                print(f"Error loading flavor profiles: {e}")
+
         for path in self.csv_paths:
             if not os.path.exists(path):
                 print(f"Warning: CSV file not found at {path}. Waiting for user to add it.")
@@ -28,7 +48,7 @@ class CsvWhiskyProvider(WhiskyProvider):
                 with open(path, 'r', encoding='utf-8-sig', errors='ignore') as f:
                     reader = csv.DictReader(f)
                     
-                    for row in reader:
+                    for idx, row in enumerate(reader):
                         # Required fields fallback mapping just in case
                         name = row.get('whisky_name') or row.get('canonical_name') or row.get('Name') or row.get('Adı')
                         if not name:
@@ -138,8 +158,44 @@ class CsvWhiskyProvider(WhiskyProvider):
                             cask_type=cask_type,
                             global_rating=global_rating,
                             source_name="Local CSV",
-                            source_url="https://local"
+                            source_url="https://local",
+                            flavor_profile=None,
+                            flavor_vector=None,
+                            flavor_tags=None,
+                            flavor_source=None,
+                            flavor_match_score=None
                         )
+                        
+                        def normalize_str(s):
+                            if not s: return ""
+                            return ''.join(e for e in s.lower() if e.isalnum())
+                            
+                        # MAPPED CSV contains WDB-xxxxx in 'whisky_id' column, which corresponds to item.external_id
+                        rec_id = item.external_id
+                        
+                        is_distillery = row.get('record_type', '').lower() == 'distillery' or row.get('record_type', '').lower() == 'distillery_only'
+                        
+                        if rec_id in flavor_map_by_id and not is_distillery:
+                            f_data = flavor_map_by_id[rec_id]
+                            try:
+                                if f_data.get('flavor_profile'):
+                                    item.flavor_profile = json.loads(f_data['flavor_profile'])
+                                if f_data.get('flavor_vector'):
+                                    item.flavor_vector = json.loads(f_data['flavor_vector'])
+                                if f_data.get('flavor_tags'):
+                                    item.flavor_tags = json.loads(f_data['flavor_tags'])
+                                item.flavor_source = f_data.get('flavor_source')
+                                if f_data.get('flavor_match_score'):
+                                    item.flavor_match_score = float(f_data['flavor_match_score'])
+                            except Exception as e:
+                                print(f"Error parsing flavor JSON for id {rec_id}: {e}")
+                        else:
+                            # Normalized name check for risk log (fallback warning only)
+                            norm_db = normalize_str(name)
+                            norm_flavor_map = {normalize_str(k): v for k, v in flavor_map_by_name.items()}
+                            if norm_db in norm_flavor_map and not is_distillery:
+                                print(f"RISK/DEBUG: Name match found for {name} but record_id {rec_id} did not match mapped database. Skipping auto-attach.")
+                        
                         self.whiskies.append(item)
                 print(f"Successfully loaded {len(self.whiskies)} whiskies from CSV.")
             except Exception as e:

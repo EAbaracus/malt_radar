@@ -1,0 +1,84 @@
+RADIANT BARDEEN COPY VALIDATION REPORT
+======================================
+
+--- COPY & CHECKSUM VERIFICATION ---
+Copied: output\final\60_FINAL_import_ready_whiskies_distillery_patched.csv | Size: 232408 | Hash Match: True
+Missing Source: output\final\54_FINAL_import_ready_whiskies.csv
+Copied: output\final\67_FINAL_import_ready_distilleries_whiskycom_enriched.csv | Size: 64408 | Hash Match: True
+Copied: output\final\65_FINAL_IMPORT_FILE_MANIFEST.csv | Size: 697 | Hash Match: True
+Copied: output\final\62_distillery_patch_diff.csv | Size: 3763 | Hash Match: True
+Copied: output\final\63_remaining_orphan_whiskies_after_patch.csv | Size: 122339 | Hash Match: True
+Copied: output\orphan\bulk\08_orphan_bulk_high_confidence_patch.csv | Size: 7345 | Hash Match: True
+Copied: scripts\70_import_dry_run_validator.py | Size: 4061 | Hash Match: True
+Copied: scripts\71_import_to_staging.py | Size: 6754 | Hash Match: True
+Copied: scripts\72_production_import_seeder.py | Size: 9623 | Hash Match: True
+Copied: output\import\staging_test.db | Size: 253952 | Hash Match: True
+Copied: output\import\production.db | Size: 286720 | Hash Match: True
+Copied Dynamic Report: output\import\02_import_dry_run_validation_report.txt
+Copied Dynamic Report: output\import\03_import_fk_errors.csv
+Copied Dynamic Report: output\import\04_import_duplicate_errors.csv
+Copied Dynamic Report: output\import\05_import_nullable_summary.csv
+Copied Dynamic Report: output\import\06_staging_import_report.txt
+Copied Dynamic Report: output\import\07_staging_import_counts.csv
+Copied Dynamic Report: output\import\08_staging_import_errors.csv
+Copied Dynamic Report: output\import\09_post_import_smoke_test_report.txt
+Copied Dynamic Report: output\import\10_production_import_dry_run_report.txt
+Copied Dynamic Report: output\import\11_production_import_plan.csv
+Copied Dynamic Report: output\import\12_production_import_risk_report.txt
+Copied Dynamic Report: output\import\13_production_backup_manifest.txt
+Copied Dynamic Report: output\import\17_production_import_dry_run_flavor_fix_report.txt
+Copied Dynamic Report: output\import\18_production_import_plan_with_flavor.csv
+Copied Dynamic Report: output\import\19_flavor_profile_import_validation.csv
+Copied Dynamic Report: output\import\20_flavor_119_vs_122_diff_report.txt
+Copied Dynamic Report: output\import\21_flavor_extra_3_records.csv
+Copied Dynamic Report: output\import\22_flavor_import_ready_cleaned.csv
+Copied Dynamic Report: output\import\23_flavor_import_ready_validation_report.txt
+Copied Dynamic Report: output\import\24_production_import_dry_run_final_report.txt
+Copied Dynamic Report: output\import\25_final_execute_readiness_report.txt
+Copied Dynamic Report: output\import\27_production_pre_execute_gate_report.txt
+Copied Dynamic Report: output\import\28_execute_command_checklist.txt
+Copied Dynamic Report: output\import\29_import_manifest_updated_with_whiskycom_distillery.csv
+Copied Dynamic Report: output\import\29_production_execute_report.txt
+Copied Dynamic Report: output\import\30_distillery_67_vs_55_schema_diff.txt
+Copied Dynamic Report: output\import\30_production_post_import_counts.csv
+Copied Dynamic Report: output\import\31_distillery_67_fk_readiness_check.txt
+Copied Dynamic Report: output\import\31_production_post_import_fk_check.txt
+Copied Dynamic Report: output\import\32_production_import_dry_run_with_67_distillery.txt
+Copied Dynamic Report: output\import\32_production_post_import_sample_queries.txt
+Copied Dynamic Report: output\import\33_pre_execute_gate_with_67_distillery.txt
+
+--- ROW COUNT VERIFICATIONS ---
+60_FINAL_import_ready_whiskies_distillery_patched.csv row count = 1829 (Expected: 1829) -> OK
+67_FINAL_import_ready_distilleries_whiskycom_enriched.csv row count = 990 (Expected: 990) -> OK
+62_distillery_patch_diff.csv row count = 56 (Expected: 56) -> OK
+63_remaining_orphan_whiskies_after_patch.csv row count = 1151 (Expected: 1151) -> OK
+08_orphan_bulk_high_confidence_patch.csv row count = 56 (Expected: 56) -> OK
+
+--- MANIFEST CHECK ---
+65_FINAL_IMPORT_FILE_MANIFEST.csv contains paths:
+  - output/final/67_FINAL_import_ready_distilleries_whiskycom_enriched.csv
+  - output/final/60_FINAL_import_ready_whiskies_distillery_patched.csv
+  - output/37_import_ready_tasting_notes.csv
+  - output/30_HIGH_CONFIDENCE_flavor_profiles_WDB_MAPPED.csv
+  - output/36_import_ready_price_history.csv
+Needs update for new workspace?: Yes
+
+--- SCRIPT PATH ANALYSIS ---
+72_production_import_seeder.py reads paths:
+  - sqlite:///output/import/production.db (Exists in recovered: False)
+  - output/55_FINAL_import_ready_distilleries.csv (Exists in recovered: False)
+  - output/final/60_FINAL_import_ready_whiskies_distillery_patched.csv (Exists in recovered: True)
+  - output/import/22_flavor_import_ready_cleaned.csv (Exists in recovered: True)
+  - output/37_import_ready_tasting_notes.csv (Exists in recovered: False)
+  - output/36_import_ready_price_history.csv (Exists in recovered: False)
+  - output/import/24_production_import_dry_run_final_report.txt (Exists in recovered: True)
+  - output/import/11_production_import_plan.csv (Exists in recovered: True)
+  - output/import/25_final_execute_readiness_report.txt (Exists in recovered: True)
+  - output/import/13_production_backup_manifest.txt (Exists in recovered: True)
+  - output/import/29_production_execute_report.txt (Exists in recovered: True)
+
+--- DATABASE ANALYSIS ---
+staging_test.db tables: distilleries, whiskies, tasting_notes, sqlite_sequence, flavor_profiles, price_history
+  Contains all expected tables.
+production.db found. Size: 286720 bytes.
+production.db is treated as UNKNOWN status (could be real or mock). Will not execute or touch without explicit instruction.

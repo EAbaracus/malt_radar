@@ -1,0 +1,20 @@
+MALT LIST V2 FINAL DECISION GATE
+================================
+
+A) 80 high-confidence içinden kaç tanesi güvenli historical price preview olarak kalabilir?
+   - 23 adet kayıt LOW risk olarak işaretlenmiştir ve güvenle historical_price preview olarak kalabilir.
+
+B) Kaç tanesi manual review’a düşmeli?
+   - 57 adet kayıt (Medium + High risk) manual review sürecine girmelidir. Top2 ambiguity veya age/vintage belirsizliği barındırıyorlar.
+
+C) Kaç tanesi reject edilmeli?
+   - 0 adet kayıt hard conflict sebebiyle reddedilmiştir.
+
+D) Tasting note patch için mevcut data yeterli mi?
+   - Hayır. Mevcut tasting_note_candidates dosyasındaki veriler ürünler ile doğru ilişkilenmemiştir (raw_name kolonunda metin paragrafları bulunmaktadır).
+
+E) Production’a herhangi bir şey yazılabilir mi? Beklenen: hayır
+   - HAYIR. Tüm bu raporlar sadece analiz ve denetim amaçlıdır. Production DB'ye veya master CSV'lere hiçbir veri yazılmamıştır.
+
+F) Sonraki adım için kullanıcı onayı gerekiyor mu? Beklenen: evet
+   - EVET. Risk bucket analizi sonucu, preview verilerinin patch haline dönüştürülmesi veya tasting note parser'ının yeniden yazılması gibi kararlar için kullanıcı onayı beklenmektedir.

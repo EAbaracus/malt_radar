@@ -1,0 +1,27 @@
+=== PRODUCTION IMPORT DRY-RUN (FLAVOR FIX) REPORT ===
+
+A. Flavor Profile Validation
+1. 72_production_import_seeder.py icinde flavor_profiles adimi gercekten var mi? Evet (Eklendi/Duzeltildi)
+2. Dosya yolu dogru mu? Evet (output/flavor/30_HIGH_CONFIDENCE_flavor_profiles_WDB_MAPPED.csv)
+3. Dosya okunabiliyor mu? Evet
+4. Satir sayisi kac? 122
+5. Beklenen count 119 mu? Hayir
+6. Her whisky_id WDB ile eslesiyor mu? Evet
+7. Name-based fallback yok mu? Evet (Sadece whisky_id kullaniliyor)
+8. Duplicate whisky_id var mi? Hayir
+9. Flavor kolonlari dogru parse ediliyor mu? Evet
+10. Import planinda dogru sirada mi? Evet (Distilleries ve Whiskies sonrasi)
+
+B. Database Schema & Migration Status
+- Hedef tablolar mevcut degilse script tablo YARATACAKTIR (SQLAlchemy metadata.create_all / SQLite schema ile).
+- Ancak gercek production ortaminda (FastAPI/Django) tablo yaratimi Alembic/Django Migrations uzerinden olmalidir.
+- Bu seeder (72_production_import_seeder.py) sadece INSERT/Seed katmani olarak tasarlanmistir.
+
+C. Current Import Counts (Fixed)
+- distilleries: 990
+- whiskies: 1829
+- tasting_notes: 25
+- flavor_profiles: 122
+- null distillery_id: 1151
+- FK errors: 0
+- duplicate PK errors: 0

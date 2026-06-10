@@ -1,0 +1,10 @@
+STAGING DB INVENTORY
+====================
+
+DB Path: C:\Users\eltun\Documents\malt radar\frontend\.dart_tool\chrome-device\Default\heavy_ad_intervention_opt_out.db
+  Tables found: previews_v1, enabled_previews_v1
+  distilleries count: None
+  whiskies count: None
+  null distillery_id count: None
+  flavor_profiles count: None
+  tasting_notes count: None

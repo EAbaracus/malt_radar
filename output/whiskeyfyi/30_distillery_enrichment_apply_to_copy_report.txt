@@ -1,0 +1,6 @@
+DISTILLERY ENRICHMENT APPLY TO COPY REPORT
+==========================================
+Kaynak dosya okundu: C:\Users\eltun\Documents\malt radar\recovered_from_radiant_bardeen\output\final\67_FINAL_import_ready_distilleries_whiskycom_enriched.csv
+Hedef kopya olusturuldu: C:\Users\eltun\Documents\malt radar\recovered_from_radiant_bardeen\output\final\68_FINAL_import_ready_distilleries_whiskycom_whiskeyfyi_enriched.csv
+Toplam uygulanan kayit: 19
+Ayri alanlar (whiskeyfyi_url, vb.) kullanilarak yama yapildi.

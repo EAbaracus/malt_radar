@@ -1,0 +1,8 @@
+check,result,details
+File Exists & Readable,Pass,output/flavor/30_HIGH_CONFIDENCE_flavor_profiles_WDB_MAPPED.csv
+Row Count,Fail,Count: 122
+Has whisky_id column,Pass,
+FK mapped to valid WDB ID,Pass,Errors: 0
+No name-based fallback used,Pass,Uses whisky_id
+No duplicate whisky_id,Pass,Duplicates: 0
+Flavor columns parsed properly,Pass,Cols found: 13

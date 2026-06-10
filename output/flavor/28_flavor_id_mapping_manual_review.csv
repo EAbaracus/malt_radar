@@ -1,0 +1,20 @@
+old_whisky_id,whisky_name,bottle_name,best_score,db_record_id,db_name,second_score,conflict
+W001799,four roses (yellow label),Four Roses Single Barrel Private Selection OBSF,100,WDB-01799,Four Roses (Yellow Label),0,Duplicate WDB ID match
+W001799,four roses (yellow label),Four Roses Single Barrel Private Selection OBSK,100,WDB-01799,Four Roses (Yellow Label),0,Duplicate WDB ID match
+W001799,four roses (yellow label),Four Roses Single Barrel Private Selection OBSO,100,WDB-01799,Four Roses (Yellow Label),0,Duplicate WDB ID match
+W001799,four roses (yellow label),Four Roses Single Barrel Private Selection OBSQ,100,WDB-01799,Four Roses (Yellow Label),0,Duplicate WDB ID match
+W001799,four roses (yellow label),Four Roses Single Barrel Private Selection OBSV,100,WDB-01799,Four Roses (Yellow Label),0,Duplicate WDB ID match
+W001799,four roses (yellow label),Four Roses Single Barrel Private Selection OESF,100,WDB-01799,Four Roses (Yellow Label),0,Duplicate WDB ID match
+W001799,four roses (yellow label),Four Roses Single Barrel Private Selection OESK,100,WDB-01799,Four Roses (Yellow Label),0,Duplicate WDB ID match
+W001799,four roses (yellow label),Four Roses Single Barrel Private Selection OESO,100,WDB-01799,Four Roses (Yellow Label),0,Duplicate WDB ID match
+W001799,four roses (yellow label),Four Roses Single Barrel Private Selection OESQ,100,WDB-01799,Four Roses (Yellow Label),0,Duplicate WDB ID match
+W001799,four roses (yellow label),Four Roses Single Barrel Private Selection OESV,100,WDB-01799,Four Roses (Yellow Label),0,Duplicate WDB ID match
+W001799,four roses (yellow label),Four Roses Yellow Label,100,WDB-01799,Four Roses (Yellow Label),0,Duplicate WDB ID match
+W001606,george t stagg,George T Stagg,100,WDB-01606,George T Stagg,0,Duplicate WDB ID match
+W001606,george t stagg,George T Stagg 2012,100,WDB-01606,George T Stagg,0,Duplicate WDB ID match
+W001606,george t stagg,George T Stagg 2013,100,WDB-01606,George T Stagg,0,Duplicate WDB ID match
+W001606,george t stagg,George T Stagg 2014,100,WDB-01606,George T Stagg,0,Duplicate WDB ID match
+W000959,talisker distiller's edition (all editions),Talisker Distiller's Edition,100,WDB-00959,Talisker Distiller's Edition (all editions),0,Duplicate WDB ID match
+W000959,talisker distiller's edition (all editions),Talisker Distiller's Edition 2000,100,WDB-00959,Talisker Distiller's Edition (all editions),0,Duplicate WDB ID match
+W000959,talisker distiller's edition (all editions),Talisker Distiller's Edition 2012,100,WDB-00959,Talisker Distiller's Edition (all editions),0,Duplicate WDB ID match
+W000959,talisker distiller's edition (all editions),Talisker Distiller's Edition 2013,100,WDB-00959,Talisker Distiller's Edition (all editions),0,Duplicate WDB ID match

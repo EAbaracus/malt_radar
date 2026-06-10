@@ -1,0 +1,9 @@
+=== PRODUCTION EXECUTION REPORT ===
+
+Status: SUCCESS
+Rollback: Tetiklenmedi
+Distilleries Inserted: 990
+Whiskies Inserted: 1829
+Flavor Profiles Inserted: 122
+Tasting Notes Inserted: 25
+Backup Used for Rollback if needed: output/import/production_backup_20260611.db

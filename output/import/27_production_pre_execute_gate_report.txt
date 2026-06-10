@@ -1,0 +1,22 @@
+=== PRODUCTION PRE-EXECUTE GATE REPORT ===
+
+1. Production tablolari migration ile olusturulacak mi? : Evet
+2. Seeder production'da tablo yaratmayi deneyecek mi? : Hayir
+3. Seeder default modu dry-run mi? : Evet
+4. --execute olmadan write yapiyor mu? : Hayir
+5. Insert-only strateji aktif mi? : Evet
+6. Existing PK varsa duruyor mu? : Evet
+7. Backup alinmadan execute duruyor mu? : Evet (Manuel teyit ve manifest korumasi)
+8. Transaction rollback var mi? : Evet
+
+9. Import Count Final Degerleri:
+   - distilleries: 990
+   - whiskies: 1829
+   - flavor_profiles: 122
+   - tasting_notes: 25
+   - null distillery_id: 1151
+
+10. FK errors: 0
+11. duplicate PK errors: 0
+12. AI-generated tasting note import disi mi? : Evet
+13. price/rating overwrite yok mu? : Evet

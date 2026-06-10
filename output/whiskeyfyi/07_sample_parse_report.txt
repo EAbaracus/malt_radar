@@ -1,0 +1,8 @@
+Endpoint /whiskeys/: Status 404
+  - Failed to fetch sample.
+Endpoint /distilleries/: Status 200
+  - Saved sample to 04_sample_distilleries_raw.json
+Endpoint /regions/: Status 200
+  - Saved sample to 05_sample_regions_raw.json
+Endpoint /glossary/: Status 200
+  - Saved sample to 06_sample_glossary_raw.json

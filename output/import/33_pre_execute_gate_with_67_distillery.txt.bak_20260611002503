@@ -1,0 +1,15 @@
+PRE-EXECUTE GATE: 67_FINAL Distillery
+=======================================
+STATUS: BLOCKED (Awaiting Migration)
+
+Reason:
+Yeni eklenen 'whisky_com_url' ve source_metadata kolonları mevcut veritabanı şemasında bulunmuyor. 
+Kural 9 gereği, seeder bu kolonları ignore etmemeli; önce migration planı üretilmelidir.
+
+Action Items:
+1. Create a migration plan (e.g. alembic/django migration snippet) to add:
+   - whisky_com_url (String/Text)
+   - source_metadata_whisky_com_rating (String)
+   - source_metadata_whisky_com_bottle_count (String)
+2. Apply the migration.
+3. Once schema is updated, execute the import.

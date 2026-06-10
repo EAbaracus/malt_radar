@@ -1,0 +1,3 @@
+endpoint,method,description
+/api/whisky-reviews,GET,List of whisky reviews
+/api/whisky-reviews/{slug},GET,Detailed information about a single whisky review

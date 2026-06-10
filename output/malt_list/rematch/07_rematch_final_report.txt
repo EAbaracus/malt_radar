@@ -1,0 +1,12 @@
+Final Rematch Report (malt_list_rematch_against_final_master)
+============================================================
+- final master dosyası bulundu mu?: Hayır (60_FINAL_import_ready_whiskies_distillery_patched.csv bulunamadı)
+- hangi path kullanıldı?: Yok (İşlem durduruldu)
+- kaç product candidate yeniden eşleşti?: 0
+- kaç high confidence match çıktı?: 0
+- kaç manual review çıktı?: 0
+- kaç rejected çıktı?: 0
+- kaç tasting note patch candidate üretildi?: 0
+- fallback kullanıldı mı? Beklenen: hayır.: Hayır
+
+Durum: Kurallarınız gereği 60_FINAL dosyası ve 65_FINAL_IMPORT_FILE_MANIFEST.csv bulunamadığı için fallback veritabanı (whisky_database_merged_max.csv) KULLANILMAMIŞ, işlem durdurulmuş ve master patch uygulanmamıştır.

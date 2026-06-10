@@ -1,0 +1,7 @@
+FULL FETCH REPORT
+=================
+Whiskeys endpoint was 404, wrote empty CSV.
+Distilleries fetched: 50
+Regions fetched: 23
+Glossary terms fetched: 50
+Guides fetched: 50

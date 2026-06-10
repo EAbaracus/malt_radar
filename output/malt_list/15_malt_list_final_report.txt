@@ -1,0 +1,9 @@
+Final Extraction Report
+========================
+Total Products: 131
+High Confidence Matches: 0
+Manual Review Needed: 32
+Rejected Matches: 99
+New Candidates: 99
+Tasting Notes Parsed: 52
+Status: RUN COMPLETED IN ISOLATION. AWAITING USER APPROVAL FOR PATCH.

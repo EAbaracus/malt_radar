@@ -1,0 +1,6 @@
+A) Mevcut master’a otomatik patch uygulanabilir mi? Hayır.
+B) Tasting notes doğrudan import edilebilir mi? Hayır.
+C) 5 manual review kaydı kullanıcı onayı gerektiriyor mu? Evet.
+D) New product candidates staging’e alınabilir mi? Evet, ama production değil.
+E) Product import için AŞAMA 3 entity model gerekli mi? Evet.
+F) Production DB’ye dokunuldu mu? Hayır.

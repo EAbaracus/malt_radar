@@ -1,0 +1,14 @@
+CANDIDATE MAPPING DRY RUN REPORT
+================================
+
+Whisky Edition new product candidates row count: 518 rows. Mapping check OK.
+Whisky Edition tasting note candidates row count: 522 rows. Mapping check OK.
+Malt List LOW historical price candidates row count: 23 rows. Mapping check OK.
+Malt List manual review price candidates row count: 57 rows. Mapping check OK.
+WhiskeyFYI regions row count: 23 rows. Mapping check OK.
+WhiskeyFYI glossary row count: 50 rows. Mapping check OK.
+WhiskeyFYI guides row count: 50 rows. Mapping check OK.
+
+mapping yapılabiliyor mu?: Evet
+zorunlu kolon eksikleri var mı?: Hayır
+import yapıldı mı? Beklenen: hayır -> Gerçekleşen: Hayır

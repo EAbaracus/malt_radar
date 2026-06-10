@@ -1,0 +1,11 @@
+Schema Diff: 67_FINAL vs 55_FINAL
+==================================
+Added columns in 67_FINAL:
+source_metadata_whisky_com_bottle_count, source_metadata_whisky_com_rating, whisky_com_url
+
+Removed columns in 67_FINAL:
+None
+
+Schema Compatibility with Production:
+The production schema currently defined in '26_production_schema_migration_plan.md' does NOT contain source_metadata_whisky_com_bottle_count, source_metadata_whisky_com_rating, whisky_com_url.
+A database migration is REQUIRED before execution.

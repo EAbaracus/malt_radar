@@ -1,0 +1,8 @@
+PHASE 3 CANDIDATE IMPORT NEXT STEP GATE
+=======================================
+
+- AŞAMA 3 schema production’a başarıyla uygulandı mı?: Evet
+- Candidate import için ayrıca dry-run gerekiyor mu? Beklenen: evet -> Gerçekleşen: Evet
+- Candidate import otomatik yapılabilir mi? Beklenen: hayır -> Gerçekleşen: Hayır
+- Sıradaki tek adım ne? Beklenen: staging candidate import dry-run planı -> Gerçekleşen: staging candidate import dry-run planı
+- Kullanıcı onayı gerekiyor mu? Beklenen: evet -> Gerçekleşen: Evet

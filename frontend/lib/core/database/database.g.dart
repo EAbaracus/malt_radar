@@ -207,6 +207,61 @@ class $WhiskiesTable extends Whiskies
     type: DriftSqlType.double,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _flavorProfileMeta = const VerificationMeta(
+    'flavorProfile',
+  );
+  @override
+  late final GeneratedColumn<String> flavorProfile = GeneratedColumn<String>(
+    'flavor_profile',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _flavorVectorMeta = const VerificationMeta(
+    'flavorVector',
+  );
+  @override
+  late final GeneratedColumn<String> flavorVector = GeneratedColumn<String>(
+    'flavor_vector',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _flavorTagsMeta = const VerificationMeta(
+    'flavorTags',
+  );
+  @override
+  late final GeneratedColumn<String> flavorTags = GeneratedColumn<String>(
+    'flavor_tags',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _flavorSourceMeta = const VerificationMeta(
+    'flavorSource',
+  );
+  @override
+  late final GeneratedColumn<String> flavorSource = GeneratedColumn<String>(
+    'flavor_source',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _flavorMatchScoreMeta = const VerificationMeta(
+    'flavorMatchScore',
+  );
+  @override
+  late final GeneratedColumn<double> flavorMatchScore = GeneratedColumn<double>(
+    'flavor_match_score',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -227,6 +282,11 @@ class $WhiskiesTable extends Whiskies
     tastingNotes,
     companionSuggestions,
     globalScore,
+    flavorProfile,
+    flavorVector,
+    flavorTags,
+    flavorSource,
+    flavorMatchScore,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -359,6 +419,48 @@ class $WhiskiesTable extends Whiskies
         ),
       );
     }
+    if (data.containsKey('flavor_profile')) {
+      context.handle(
+        _flavorProfileMeta,
+        flavorProfile.isAcceptableOrUnknown(
+          data['flavor_profile']!,
+          _flavorProfileMeta,
+        ),
+      );
+    }
+    if (data.containsKey('flavor_vector')) {
+      context.handle(
+        _flavorVectorMeta,
+        flavorVector.isAcceptableOrUnknown(
+          data['flavor_vector']!,
+          _flavorVectorMeta,
+        ),
+      );
+    }
+    if (data.containsKey('flavor_tags')) {
+      context.handle(
+        _flavorTagsMeta,
+        flavorTags.isAcceptableOrUnknown(data['flavor_tags']!, _flavorTagsMeta),
+      );
+    }
+    if (data.containsKey('flavor_source')) {
+      context.handle(
+        _flavorSourceMeta,
+        flavorSource.isAcceptableOrUnknown(
+          data['flavor_source']!,
+          _flavorSourceMeta,
+        ),
+      );
+    }
+    if (data.containsKey('flavor_match_score')) {
+      context.handle(
+        _flavorMatchScoreMeta,
+        flavorMatchScore.isAcceptableOrUnknown(
+          data['flavor_match_score']!,
+          _flavorMatchScoreMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -440,6 +542,26 @@ class $WhiskiesTable extends Whiskies
         DriftSqlType.double,
         data['${effectivePrefix}global_score'],
       ),
+      flavorProfile: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}flavor_profile'],
+      ),
+      flavorVector: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}flavor_vector'],
+      ),
+      flavorTags: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}flavor_tags'],
+      ),
+      flavorSource: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}flavor_source'],
+      ),
+      flavorMatchScore: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}flavor_match_score'],
+      ),
     );
   }
 
@@ -468,6 +590,11 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
   final String tastingNotes;
   final String companionSuggestions;
   final double? globalScore;
+  final String? flavorProfile;
+  final String? flavorVector;
+  final String? flavorTags;
+  final String? flavorSource;
+  final double? flavorMatchScore;
   const WhiskyEntity({
     required this.id,
     this.externalId,
@@ -487,6 +614,11 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
     required this.tastingNotes,
     required this.companionSuggestions,
     this.globalScore,
+    this.flavorProfile,
+    this.flavorVector,
+    this.flavorTags,
+    this.flavorSource,
+    this.flavorMatchScore,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -537,6 +669,21 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
     if (!nullToAbsent || globalScore != null) {
       map['global_score'] = Variable<double>(globalScore);
     }
+    if (!nullToAbsent || flavorProfile != null) {
+      map['flavor_profile'] = Variable<String>(flavorProfile);
+    }
+    if (!nullToAbsent || flavorVector != null) {
+      map['flavor_vector'] = Variable<String>(flavorVector);
+    }
+    if (!nullToAbsent || flavorTags != null) {
+      map['flavor_tags'] = Variable<String>(flavorTags);
+    }
+    if (!nullToAbsent || flavorSource != null) {
+      map['flavor_source'] = Variable<String>(flavorSource);
+    }
+    if (!nullToAbsent || flavorMatchScore != null) {
+      map['flavor_match_score'] = Variable<double>(flavorMatchScore);
+    }
     return map;
   }
 
@@ -584,6 +731,21 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
       globalScore: globalScore == null && nullToAbsent
           ? const Value.absent()
           : Value(globalScore),
+      flavorProfile: flavorProfile == null && nullToAbsent
+          ? const Value.absent()
+          : Value(flavorProfile),
+      flavorVector: flavorVector == null && nullToAbsent
+          ? const Value.absent()
+          : Value(flavorVector),
+      flavorTags: flavorTags == null && nullToAbsent
+          ? const Value.absent()
+          : Value(flavorTags),
+      flavorSource: flavorSource == null && nullToAbsent
+          ? const Value.absent()
+          : Value(flavorSource),
+      flavorMatchScore: flavorMatchScore == null && nullToAbsent
+          ? const Value.absent()
+          : Value(flavorMatchScore),
     );
   }
 
@@ -613,6 +775,11 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
         json['companionSuggestions'],
       ),
       globalScore: serializer.fromJson<double?>(json['globalScore']),
+      flavorProfile: serializer.fromJson<String?>(json['flavorProfile']),
+      flavorVector: serializer.fromJson<String?>(json['flavorVector']),
+      flavorTags: serializer.fromJson<String?>(json['flavorTags']),
+      flavorSource: serializer.fromJson<String?>(json['flavorSource']),
+      flavorMatchScore: serializer.fromJson<double?>(json['flavorMatchScore']),
     );
   }
   @override
@@ -637,6 +804,11 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
       'tastingNotes': serializer.toJson<String>(tastingNotes),
       'companionSuggestions': serializer.toJson<String>(companionSuggestions),
       'globalScore': serializer.toJson<double?>(globalScore),
+      'flavorProfile': serializer.toJson<String?>(flavorProfile),
+      'flavorVector': serializer.toJson<String?>(flavorVector),
+      'flavorTags': serializer.toJson<String?>(flavorTags),
+      'flavorSource': serializer.toJson<String?>(flavorSource),
+      'flavorMatchScore': serializer.toJson<double?>(flavorMatchScore),
     };
   }
 
@@ -659,6 +831,11 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
     String? tastingNotes,
     String? companionSuggestions,
     Value<double?> globalScore = const Value.absent(),
+    Value<String?> flavorProfile = const Value.absent(),
+    Value<String?> flavorVector = const Value.absent(),
+    Value<String?> flavorTags = const Value.absent(),
+    Value<String?> flavorSource = const Value.absent(),
+    Value<double?> flavorMatchScore = const Value.absent(),
   }) => WhiskyEntity(
     id: id ?? this.id,
     externalId: externalId.present ? externalId.value : this.externalId,
@@ -678,6 +855,15 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
     tastingNotes: tastingNotes ?? this.tastingNotes,
     companionSuggestions: companionSuggestions ?? this.companionSuggestions,
     globalScore: globalScore.present ? globalScore.value : this.globalScore,
+    flavorProfile: flavorProfile.present
+        ? flavorProfile.value
+        : this.flavorProfile,
+    flavorVector: flavorVector.present ? flavorVector.value : this.flavorVector,
+    flavorTags: flavorTags.present ? flavorTags.value : this.flavorTags,
+    flavorSource: flavorSource.present ? flavorSource.value : this.flavorSource,
+    flavorMatchScore: flavorMatchScore.present
+        ? flavorMatchScore.value
+        : this.flavorMatchScore,
   );
   WhiskyEntity copyWithCompanion(WhiskiesCompanion data) {
     return WhiskyEntity(
@@ -713,6 +899,21 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
       globalScore: data.globalScore.present
           ? data.globalScore.value
           : this.globalScore,
+      flavorProfile: data.flavorProfile.present
+          ? data.flavorProfile.value
+          : this.flavorProfile,
+      flavorVector: data.flavorVector.present
+          ? data.flavorVector.value
+          : this.flavorVector,
+      flavorTags: data.flavorTags.present
+          ? data.flavorTags.value
+          : this.flavorTags,
+      flavorSource: data.flavorSource.present
+          ? data.flavorSource.value
+          : this.flavorSource,
+      flavorMatchScore: data.flavorMatchScore.present
+          ? data.flavorMatchScore.value
+          : this.flavorMatchScore,
     );
   }
 
@@ -736,13 +937,18 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
           ..write('fetchedAt: $fetchedAt, ')
           ..write('tastingNotes: $tastingNotes, ')
           ..write('companionSuggestions: $companionSuggestions, ')
-          ..write('globalScore: $globalScore')
+          ..write('globalScore: $globalScore, ')
+          ..write('flavorProfile: $flavorProfile, ')
+          ..write('flavorVector: $flavorVector, ')
+          ..write('flavorTags: $flavorTags, ')
+          ..write('flavorSource: $flavorSource, ')
+          ..write('flavorMatchScore: $flavorMatchScore')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(
+  int get hashCode => Object.hashAll([
     id,
     externalId,
     name,
@@ -761,7 +967,12 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
     tastingNotes,
     companionSuggestions,
     globalScore,
-  );
+    flavorProfile,
+    flavorVector,
+    flavorTags,
+    flavorSource,
+    flavorMatchScore,
+  ]);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -783,7 +994,12 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
           other.fetchedAt == this.fetchedAt &&
           other.tastingNotes == this.tastingNotes &&
           other.companionSuggestions == this.companionSuggestions &&
-          other.globalScore == this.globalScore);
+          other.globalScore == this.globalScore &&
+          other.flavorProfile == this.flavorProfile &&
+          other.flavorVector == this.flavorVector &&
+          other.flavorTags == this.flavorTags &&
+          other.flavorSource == this.flavorSource &&
+          other.flavorMatchScore == this.flavorMatchScore);
 }
 
 class WhiskiesCompanion extends UpdateCompanion<WhiskyEntity> {
@@ -805,6 +1021,11 @@ class WhiskiesCompanion extends UpdateCompanion<WhiskyEntity> {
   final Value<String> tastingNotes;
   final Value<String> companionSuggestions;
   final Value<double?> globalScore;
+  final Value<String?> flavorProfile;
+  final Value<String?> flavorVector;
+  final Value<String?> flavorTags;
+  final Value<String?> flavorSource;
+  final Value<double?> flavorMatchScore;
   const WhiskiesCompanion({
     this.id = const Value.absent(),
     this.externalId = const Value.absent(),
@@ -824,6 +1045,11 @@ class WhiskiesCompanion extends UpdateCompanion<WhiskyEntity> {
     this.tastingNotes = const Value.absent(),
     this.companionSuggestions = const Value.absent(),
     this.globalScore = const Value.absent(),
+    this.flavorProfile = const Value.absent(),
+    this.flavorVector = const Value.absent(),
+    this.flavorTags = const Value.absent(),
+    this.flavorSource = const Value.absent(),
+    this.flavorMatchScore = const Value.absent(),
   });
   WhiskiesCompanion.insert({
     this.id = const Value.absent(),
@@ -844,6 +1070,11 @@ class WhiskiesCompanion extends UpdateCompanion<WhiskyEntity> {
     this.tastingNotes = const Value.absent(),
     this.companionSuggestions = const Value.absent(),
     this.globalScore = const Value.absent(),
+    this.flavorProfile = const Value.absent(),
+    this.flavorVector = const Value.absent(),
+    this.flavorTags = const Value.absent(),
+    this.flavorSource = const Value.absent(),
+    this.flavorMatchScore = const Value.absent(),
   }) : name = Value(name);
   static Insertable<WhiskyEntity> custom({
     Expression<int>? id,
@@ -864,6 +1095,11 @@ class WhiskiesCompanion extends UpdateCompanion<WhiskyEntity> {
     Expression<String>? tastingNotes,
     Expression<String>? companionSuggestions,
     Expression<double>? globalScore,
+    Expression<String>? flavorProfile,
+    Expression<String>? flavorVector,
+    Expression<String>? flavorTags,
+    Expression<String>? flavorSource,
+    Expression<double>? flavorMatchScore,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -885,6 +1121,11 @@ class WhiskiesCompanion extends UpdateCompanion<WhiskyEntity> {
       if (companionSuggestions != null)
         'companion_suggestions': companionSuggestions,
       if (globalScore != null) 'global_score': globalScore,
+      if (flavorProfile != null) 'flavor_profile': flavorProfile,
+      if (flavorVector != null) 'flavor_vector': flavorVector,
+      if (flavorTags != null) 'flavor_tags': flavorTags,
+      if (flavorSource != null) 'flavor_source': flavorSource,
+      if (flavorMatchScore != null) 'flavor_match_score': flavorMatchScore,
     });
   }
 
@@ -907,6 +1148,11 @@ class WhiskiesCompanion extends UpdateCompanion<WhiskyEntity> {
     Value<String>? tastingNotes,
     Value<String>? companionSuggestions,
     Value<double?>? globalScore,
+    Value<String?>? flavorProfile,
+    Value<String?>? flavorVector,
+    Value<String?>? flavorTags,
+    Value<String?>? flavorSource,
+    Value<double?>? flavorMatchScore,
   }) {
     return WhiskiesCompanion(
       id: id ?? this.id,
@@ -927,6 +1173,11 @@ class WhiskiesCompanion extends UpdateCompanion<WhiskyEntity> {
       tastingNotes: tastingNotes ?? this.tastingNotes,
       companionSuggestions: companionSuggestions ?? this.companionSuggestions,
       globalScore: globalScore ?? this.globalScore,
+      flavorProfile: flavorProfile ?? this.flavorProfile,
+      flavorVector: flavorVector ?? this.flavorVector,
+      flavorTags: flavorTags ?? this.flavorTags,
+      flavorSource: flavorSource ?? this.flavorSource,
+      flavorMatchScore: flavorMatchScore ?? this.flavorMatchScore,
     );
   }
 
@@ -989,6 +1240,21 @@ class WhiskiesCompanion extends UpdateCompanion<WhiskyEntity> {
     if (globalScore.present) {
       map['global_score'] = Variable<double>(globalScore.value);
     }
+    if (flavorProfile.present) {
+      map['flavor_profile'] = Variable<String>(flavorProfile.value);
+    }
+    if (flavorVector.present) {
+      map['flavor_vector'] = Variable<String>(flavorVector.value);
+    }
+    if (flavorTags.present) {
+      map['flavor_tags'] = Variable<String>(flavorTags.value);
+    }
+    if (flavorSource.present) {
+      map['flavor_source'] = Variable<String>(flavorSource.value);
+    }
+    if (flavorMatchScore.present) {
+      map['flavor_match_score'] = Variable<double>(flavorMatchScore.value);
+    }
     return map;
   }
 
@@ -1012,7 +1278,12 @@ class WhiskiesCompanion extends UpdateCompanion<WhiskyEntity> {
           ..write('fetchedAt: $fetchedAt, ')
           ..write('tastingNotes: $tastingNotes, ')
           ..write('companionSuggestions: $companionSuggestions, ')
-          ..write('globalScore: $globalScore')
+          ..write('globalScore: $globalScore, ')
+          ..write('flavorProfile: $flavorProfile, ')
+          ..write('flavorVector: $flavorVector, ')
+          ..write('flavorTags: $flavorTags, ')
+          ..write('flavorSource: $flavorSource, ')
+          ..write('flavorMatchScore: $flavorMatchScore')
           ..write(')'))
         .toString();
   }
@@ -2930,6 +3201,11 @@ typedef $$WhiskiesTableCreateCompanionBuilder =
       Value<String> tastingNotes,
       Value<String> companionSuggestions,
       Value<double?> globalScore,
+      Value<String?> flavorProfile,
+      Value<String?> flavorVector,
+      Value<String?> flavorTags,
+      Value<String?> flavorSource,
+      Value<double?> flavorMatchScore,
     });
 typedef $$WhiskiesTableUpdateCompanionBuilder =
     WhiskiesCompanion Function({
@@ -2951,6 +3227,11 @@ typedef $$WhiskiesTableUpdateCompanionBuilder =
       Value<String> tastingNotes,
       Value<String> companionSuggestions,
       Value<double?> globalScore,
+      Value<String?> flavorProfile,
+      Value<String?> flavorVector,
+      Value<String?> flavorTags,
+      Value<String?> flavorSource,
+      Value<double?> flavorMatchScore,
     });
 
 class $$WhiskiesTableFilterComposer
@@ -3049,6 +3330,31 @@ class $$WhiskiesTableFilterComposer
 
   ColumnFilters<double> get globalScore => $composableBuilder(
     column: $table.globalScore,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get flavorProfile => $composableBuilder(
+    column: $table.flavorProfile,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get flavorVector => $composableBuilder(
+    column: $table.flavorVector,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get flavorTags => $composableBuilder(
+    column: $table.flavorTags,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get flavorSource => $composableBuilder(
+    column: $table.flavorSource,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get flavorMatchScore => $composableBuilder(
+    column: $table.flavorMatchScore,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -3151,6 +3457,31 @@ class $$WhiskiesTableOrderingComposer
     column: $table.globalScore,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get flavorProfile => $composableBuilder(
+    column: $table.flavorProfile,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get flavorVector => $composableBuilder(
+    column: $table.flavorVector,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get flavorTags => $composableBuilder(
+    column: $table.flavorTags,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get flavorSource => $composableBuilder(
+    column: $table.flavorSource,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get flavorMatchScore => $composableBuilder(
+    column: $table.flavorMatchScore,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$WhiskiesTableAnnotationComposer
@@ -3229,6 +3560,31 @@ class $$WhiskiesTableAnnotationComposer
     column: $table.globalScore,
     builder: (column) => column,
   );
+
+  GeneratedColumn<String> get flavorProfile => $composableBuilder(
+    column: $table.flavorProfile,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get flavorVector => $composableBuilder(
+    column: $table.flavorVector,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get flavorTags => $composableBuilder(
+    column: $table.flavorTags,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get flavorSource => $composableBuilder(
+    column: $table.flavorSource,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get flavorMatchScore => $composableBuilder(
+    column: $table.flavorMatchScore,
+    builder: (column) => column,
+  );
 }
 
 class $$WhiskiesTableTableManager
@@ -3280,6 +3636,11 @@ class $$WhiskiesTableTableManager
                 Value<String> tastingNotes = const Value.absent(),
                 Value<String> companionSuggestions = const Value.absent(),
                 Value<double?> globalScore = const Value.absent(),
+                Value<String?> flavorProfile = const Value.absent(),
+                Value<String?> flavorVector = const Value.absent(),
+                Value<String?> flavorTags = const Value.absent(),
+                Value<String?> flavorSource = const Value.absent(),
+                Value<double?> flavorMatchScore = const Value.absent(),
               }) => WhiskiesCompanion(
                 id: id,
                 externalId: externalId,
@@ -3299,6 +3660,11 @@ class $$WhiskiesTableTableManager
                 tastingNotes: tastingNotes,
                 companionSuggestions: companionSuggestions,
                 globalScore: globalScore,
+                flavorProfile: flavorProfile,
+                flavorVector: flavorVector,
+                flavorTags: flavorTags,
+                flavorSource: flavorSource,
+                flavorMatchScore: flavorMatchScore,
               ),
           createCompanionCallback:
               ({
@@ -3320,6 +3686,11 @@ class $$WhiskiesTableTableManager
                 Value<String> tastingNotes = const Value.absent(),
                 Value<String> companionSuggestions = const Value.absent(),
                 Value<double?> globalScore = const Value.absent(),
+                Value<String?> flavorProfile = const Value.absent(),
+                Value<String?> flavorVector = const Value.absent(),
+                Value<String?> flavorTags = const Value.absent(),
+                Value<String?> flavorSource = const Value.absent(),
+                Value<double?> flavorMatchScore = const Value.absent(),
               }) => WhiskiesCompanion.insert(
                 id: id,
                 externalId: externalId,
@@ -3339,6 +3710,11 @@ class $$WhiskiesTableTableManager
                 tastingNotes: tastingNotes,
                 companionSuggestions: companionSuggestions,
                 globalScore: globalScore,
+                flavorProfile: flavorProfile,
+                flavorVector: flavorVector,
+                flavorTags: flavorTags,
+                flavorSource: flavorSource,
+                flavorMatchScore: flavorMatchScore,
               ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))

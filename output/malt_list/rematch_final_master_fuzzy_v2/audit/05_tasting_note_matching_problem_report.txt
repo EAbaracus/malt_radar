@@ -1,0 +1,21 @@
+TASTING NOTE MATCHING PROBLEM REPORT
+====================================
+Neden Tasting Note Patch Preview 0 Çıktı?
+
+1. 06_malt_list_tasting_note_candidates.csv içinde ürün adı hangi kolonda olmalıydı?
+   - Dosyada 'product_name' gibi bir kolon olmalıydı, ancak sadece 'raw_name', 'nose', 'palate', 'finish' gibi kolonlar mevcut.
+
+2. raw_name neden tadım cümlesi içeriyor?
+   - PDF'ten çıkarım yapılırken satırlar ürün bağlamından kopuk olarak salt metin blokları halinde parse edilmiş. Ürün başlıkları ile altındaki tadım notları ilişkilendirilememiş.
+
+3. Product candidate ile tasting note candidate arasında page/line/block id gibi bağ var mı?
+   - Mevcut CSV yapısında page_number bulunsa da line veya block id bağı bulunmamaktadır. Hangi satırın hangi ürüne ait olduğu yapısal olarak çözülemiyor.
+
+4. PDF reparse olmadan tasting notes ürünlere bağlanabilir mi?
+   - Kesin olarak çok zor. Sadece page_number ve listeleme sırasına göre heuristik bir yaklaşım yapılabilir ama hata oranı (False Positive) çok yüksek olur.
+
+5. Bağlanamazsa yeni extraction düzeltmesi gerekiyor mu?
+   - Evet, tasting notes ile ürün adlarını hiyerarşik bağlayacak yeni bir PDF parser stratejisine ihtiyaç var (PyMuPDF blocks/lines kullanarak Y-koordinatı takibi).
+
+6. Yeni join stratejisi önerisi:
+   - Eğer yeni parse yapılmazsa, aynı sayfa numarasındaki ürünler ile tasting notelar listelenip manual eşleştirme UI'ı hazırlanabilir veya NLP ile en yakın ürüne atanabilir (ancak güvenilmezdir).

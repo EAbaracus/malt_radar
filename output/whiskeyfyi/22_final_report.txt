@@ -1,0 +1,25 @@
+WHISKEYFYI FINAL FETCH & MATCH REPORT
+=====================================
+Whiskey Expressions fetched: 0
+Distilleries reference items: 50
+Regions: 23
+Glossary terms: 50
+Guides: 910
+
+MATCHING RESULTS
+----------------
+High Confidence Matches: 19
+Manual Review Matches: 0
+No Match: 31
+
+KNOWLEDGE BASE CANDIDATES
+-------------------------
+Taxonomy items (Country/Region): 23
+Glossary items: 50
+Region descriptions: 23
+Distilleries with enrichment (url/desc): 19
+
+EXCLUSIONS
+----------
+- Product Tasting notes are excluded from master (kept as reference only if they existed).
+- No new entries are added to the distillery master.

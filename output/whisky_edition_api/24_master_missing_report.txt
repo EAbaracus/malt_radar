@@ -1,0 +1,6 @@
+Master missing report
+Searched master path: C:\Users\eltun\Documents\malt radar\output\final\60_FINAL_import_ready_whiskies_distillery_patched.csv
+Searched manifest path: C:\Users\eltun\Documents\malt radar\output\final\65_FINAL_IMPORT_FILE_MANIFEST.csv
+Manifest found: No
+Skipped stages: Stage 5 and Stage 6
+Required to rerun: Ensure final master CSV is at output/final/60_FINAL_import_ready_whiskies_distillery_patched.csv or specified in manifest.
