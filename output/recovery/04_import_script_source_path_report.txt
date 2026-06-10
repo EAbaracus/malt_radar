@@ -1,8 +1,0 @@
-IMPORT SCRIPT SOURCE PATH REPORT
-================================
-
-Script: 70_import_dry_run_validator.py (Exists: False)
-
-Script: 71_import_to_staging.py (Exists: False)
-
-Script: 72_production_import_seeder.py (Exists: False)

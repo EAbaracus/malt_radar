@@ -1,8 +1,0 @@
-PHASE 3 SQL SAFETY CHECK
-========================
-
-- destructive SQL var mı?: Hayır
-- DROP var mı?: Hayır
-- DELETE var mı?: Hayır
-- mevcut tabloyu bozacak ALTER var mı?: Hayır
-- sadece CREATE TABLE / CREATE INDEX mi?: Evet

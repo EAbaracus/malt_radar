@@ -1,0 +1,41 @@
+# Environments
+.env
+.venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Flutter / Dart
+build/
+.dart_tool/
+.pub-cache/
+.pub/
+*.log
+
+# Node
+node_modules/
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Databases & Backups
+*.db
+*.sqlite
+*.sqlite3
+*.bak
+*.bak_*
+*.tmp
+
+# Custom Local Archives (Untracked but kept locally)
+output/
+recovered_from_*/

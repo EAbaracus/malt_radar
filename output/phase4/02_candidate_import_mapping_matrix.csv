@@ -1,5 +1,0 @@
-source_name,source_file,source_row_count,target_table,mapped_row_count,skipped_row_count,required_columns_present,requires_manual_review,production_ready,import_recommendation
-Whisky Edition New Products,26_new_product_candidates_triage.csv,518,staging_new_products,518,0,YES,YES,NO (Requires review),Import to staging
-Whisky Edition Tasting Notes,24_tasting_notes_candidate_quality_audit.csv,522,staging_tasting_notes,522,0,YES,NO (Depends on product),NO (Wait for product),Import to staging
-Malt List LOW Risk Prices,06_reconciled_LOW_RISK_historical_menu_price_candidates.csv,23,staging_historical_menu_prices,23,0,YES,NO (LOW risk),YES (As reference only),Import to staging
-Manual Review Queue (Mixed),Multiple,62,staging_manual_review_queue,62,0,YES,YES,NO,Import to staging

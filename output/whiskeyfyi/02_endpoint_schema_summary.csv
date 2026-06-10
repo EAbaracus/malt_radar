@@ -1,5 +1,0 @@
-endpoint,fields
-/whiskeys/,""
-/distilleries/,"id,name,slug,country_name,region_name,founded_year,status,owner,water_source,website,description,meta_description,is_featured"
-/regions/,"id,name,slug,country_name,description,meta_description,is_featured"
-/glossary/,"id,term,slug,definition,category_name,meta_description"

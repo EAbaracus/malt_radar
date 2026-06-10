@@ -1,9 +1,0 @@
-DISTILLERY PATCH APPLY OR REJECT REPORT
-=======================================
-Toplam high-confidence: 19
-Dogrudan uygulanabilir kayit: 19
-Overwrite riski olan kayit: 0
-Sadece external link eklenebilir kayit: 0
-Description alani eklenebilir kayit: 19
-Region/Country overwrite riski var mi? Hayir (0 kayitta)
-Uygulanmasi reddedilen kayitlar: 0 (Bkz. 23 nolu csv 'reason' kolonu)

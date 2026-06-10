@@ -1,6 +1,0 @@
-api_product_name,closest_master_match,match_score,name_difference,age_conflict,vintage_conflict,distillery_brand_conflict,has_tasting_note,recommendation
-Jameson Caskmates Stout Edition (2020),jameson caskmates stout edition,N/A,Minor,False,False,False,Yes,accept
-Balcones Texas Single Malt,balcones texas single malt whisky,N/A,Minor,False,False,False,Yes,accept
-Bulleit 95 Rye,bulleit rye,N/A,Significant,False,False,False,Yes,reject
-Jack Daniel's Single Barrel Select,jack daniel's single barrel rye,N/A,Significant,False,False,False,Yes,reject
-Wild Turkey 101,wild turkey 101 rye,N/A,Minor,False,False,False,Yes,accept

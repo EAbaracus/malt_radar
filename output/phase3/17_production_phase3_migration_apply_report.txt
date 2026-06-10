@@ -1,9 +1,0 @@
-PRODUCTION PHASE 3 MIGRATION APPLY REPORT
-=========================================
-
-- migration uygulandı mı?: Evet
-- transaction başarılı mı?: Evet
-- rollback gerekti mi?: Hayır
-- hata var mı?: Hayır
-- production DB doğru hedef mi?: Evet (C:\Users\eltun\Documents\malt radar\output\import\production.db)
-- kaç yeni tablo oluştu?: 19
