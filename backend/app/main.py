@@ -1,12 +1,12 @@
 import os
 import re
-from fastapi import FastAPI, HTTPException, Request, Response
+from fastapi import FastAPI, HTTPException, Request, Response, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Optional
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
-from fastapi import Query
+import collections
 
 from app.models.schemas import WhiskySearchItem, WhiskyPriceItem, NormalizeRequest
 from app.providers.base import WhiskyProvider
@@ -26,28 +26,66 @@ app = FastAPI(
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
-# Add CORS middleware to support calls from mobile emulators or web
+# Fix CORS: don't use * with allow_credentials=True
+allowed_origins_env = os.getenv("MALT_RADAR_ALLOWED_ORIGINS", "")
+if allowed_origins_env:
+    allowed_origins = [o.strip() for o in allowed_origins_env.split(",")]
+else:
+    allowed_origins = [
+        "http://localhost:3000",
+        "http://localhost:5173",
+        "http://localhost:8080",
+        "http://localhost:8888",
+    ]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 # Initialize providers
-providers: List[WhiskyProvider] = [
+provider_instances = [
     CsvWhiskyProvider(csv_paths=["data/whisky_database_merged_max.csv"]),
-    # Yedek olarak mock sağlayıcıları da tutuyoruz (CSV yoksa boş dönmemesi için)
     WhiskyHunterProvider(),
     WhiskyEditionProvider(),
     DistillerProvider()
 ]
 
-# Simple in-memory cache for search queries to implement the "Cache ekle" rule
-search_cache = {}
+# Robust provider mapping
+provider_map = {
+    "csv": provider_instances[0],
+    "wh": provider_instances[1],
+    "we": provider_instances[2],
+    "ds": provider_instances[3]
+}
 
-# Simple API Key check from env variables
+# Bounded LRU cache (max 256 items)
+class LRUCache:
+    def __init__(self, capacity: int):
+        self.cache = collections.OrderedDict()
+        self.capacity = capacity
+    
+    def get(self, key):
+        if key not in self.cache:
+            return None
+        self.cache.move_to_end(key)
+        return self.cache[key]
+        
+    def put(self, key, value):
+        self.cache[key] = value
+        self.cache.move_to_end(key)
+        if len(self.cache) > self.capacity:
+            self.cache.popitem(last=False)
+            
+    def __len__(self):
+        return len(self.cache)
+
+search_cache = LRUCache(256)
+
+# TODO/SECURITY: Consider adding an API_KEY dependency to specific routes
 API_KEY = os.getenv("MALT_RADAR_API_KEY", "mock-secret-key-123")
 
 @app.get("/api/health")
@@ -68,51 +106,43 @@ async def search_whiskies(request: Request, q: str = ""):
     query = q.strip().lower()
     
     # Check cache first
-    if query in search_cache:
-        return search_cache[query]
+    cached_result = search_cache.get(query)
+    if cached_result is not None:
+        return cached_result
 
     combined_results = []
     # Search all configured providers, prioritizing local CSV
-    for provider in providers:
+    for provider in provider_instances:
         try:
             results = provider.search(query)
             if results:
                 combined_results.extend(results)
-                # If we found results in the local CSV, stop to prioritize local data and save time
                 if isinstance(provider, CsvWhiskyProvider):
                     break
         except Exception as e:
-            # In a real app, log error but continue trying other providers
             print(f"Error from provider {provider.get_name()}: {e}")
 
     # Remove duplicates based on lowercased name
     unique_results = []
     seen_names = set()
     for item in combined_results:
-        # Simple normalization: Lagavulin 16 and Lagavulin 16 y.o. mapped
         normalized_name = re.sub(r'\s+y\.?o\.?|\s+years?\s+old', '', item.name.lower()).strip()
         if normalized_name not in seen_names:
             seen_names.add(normalized_name)
             unique_results.append(item)
 
-    # Save to simple cache
-    search_cache[query] = unique_results
+    # Save to cache
+    search_cache.put(query, unique_results)
     return unique_results
+
+def get_provider(external_id: str):
+    prefix = external_id.split("-")[0] if "-" in external_id else ""
+    return provider_map.get(prefix)
 
 @app.get("/api/whiskies/{external_id}", response_model=WhiskySearchItem)
 @limiter.limit("60/minute")
 async def get_whisky_details(request: Request, external_id: str):
-    # Determine provider by prefix
-    target_provider = None
-    if external_id.startswith("csv-"):
-        target_provider = providers[0]  # CsvWhiskyProvider
-    elif external_id.startswith("wh-"):
-        target_provider = providers[1]  # WhiskyHunter
-    elif external_id.startswith("we-"):
-        target_provider = providers[2]  # WhiskyEdition
-    elif external_id.startswith("ds-"):
-        target_provider = providers[3]  # Distiller Live
-    
+    target_provider = get_provider(external_id)
     if not target_provider:
         raise HTTPException(status_code=400, detail="Invalid external ID format")
 
@@ -125,16 +155,7 @@ async def get_whisky_details(request: Request, external_id: str):
 @app.get("/api/whiskies/{external_id}/prices", response_model=List[WhiskyPriceItem])
 @limiter.limit("60/minute")
 async def get_whisky_prices(request: Request, external_id: str):
-    target_provider = None
-    if external_id.startswith("csv-"):
-        target_provider = providers[0]
-    elif external_id.startswith("wh-"):
-        target_provider = providers[1]
-    elif external_id.startswith("we-"):
-        target_provider = providers[2]
-    elif external_id.startswith("ds-"):
-        target_provider = providers[3]
-
+    target_provider = get_provider(external_id)
     if not target_provider:
         raise HTTPException(status_code=400, detail="Invalid external ID format")
 
@@ -148,10 +169,25 @@ async def normalize_whisky_name(request: Request, req: NormalizeRequest):
     if not name:
         raise HTTPException(status_code=400, detail="Name cannot be empty")
         
-    # Apply casing rules and cleanup expressions like "y.o." or "Years old"
-    normalized = name.title()
+    normalized = name
+    
+    # Clean expressions like "y.o." or "Years old"
     normalized = re.sub(r'(?i)\s+y\.?o\.?$', ' Year Old', normalized)
     normalized = re.sub(r'(?i)\s+years?\s+old$', ' Year Old', normalized)
+    
+    # Avoid blanket .title() to preserve special words
+    preserve_list = ['IPA', 'NAS', 'PX', 'CS', 'XO', 'VSOP', 'OFC']
+    words = normalized.split()
+    new_words = []
+    for w in words:
+        if w.upper() in preserve_list:
+            new_words.append(w.upper())
+        else:
+            # Simple capitalize, keeping internal casing intact if possible
+            if len(w) > 0:
+                new_words.append(w[0].upper() + w[1:])
+    
+    normalized = " ".join(new_words)
     
     # Clean multiple spaces
     normalized = re.sub(r'\s+', ' ', normalized).strip()
