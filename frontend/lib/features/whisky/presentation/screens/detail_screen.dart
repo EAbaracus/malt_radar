@@ -1,9 +1,13 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:malt_radar/core/theme/app_theme.dart';
 import '../controllers/whisky_providers.dart';
 import '../../../../core/localization/localization_provider.dart';
 import '../widgets/glass_container.dart';
+import '../../flavor/presentation/widgets/flavor_radar_chart.dart';
+import '../../flavor/presentation/widgets/similar_flavor_whiskies.dart';
+import 'package:go_router/go_router.dart';
 
 class DetailScreen extends ConsumerStatefulWidget {
   final int whiskyId;
@@ -335,6 +339,56 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                           ),
                           const SizedBox(height: 36),
                         ],
+                        
+                        // Malt Radar (Flavor Profile)
+                        _buildSectionHeader(context, 'Malt Radar', Icons.radar),
+                        const SizedBox(height: 16),
+                        if (whisky.flavorProfile != null) ...[
+                          GlassContainer(
+                            padding: const EdgeInsets.all(16),
+                            child: Column(
+                              children: [
+                                FlavorRadarChart(flavorProfileJson: whisky.flavorProfile!),
+                                if (whisky.flavorTags != null) ...[
+                                  const SizedBox(height: 16),
+                                  Wrap(
+                                    spacing: 8,
+                                    runSpacing: 8,
+                                    children: (jsonDecode(whisky.flavorTags!) as List<dynamic>).take(5).map((tag) {
+                                      return Container(
+                                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                                        decoration: BoxDecoration(
+                                          color: AppTheme.accent.withOpacity(0.1),
+                                          borderRadius: BorderRadius.circular(12),
+                                          border: Border.all(color: AppTheme.accent.withOpacity(0.3)),
+                                        ),
+                                        child: Text(tag.toString(), style: const TextStyle(color: AppTheme.accent, fontSize: 12)),
+                                      );
+                                    }).toList(),
+                                  ),
+                                ]
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 24),
+                          SimilarFlavorWhiskies(
+                            whiskyId: whisky.id,
+                            onWhiskyTap: (w) {
+                              context.push('/whisky/${w.id}');
+                            },
+                          ),
+                        ] else ...[
+                          GlassContainer(
+                            padding: const EdgeInsets.all(16),
+                            child: Center(
+                              child: Text(
+                                'Bu viski için lezzet profili henüz bulunmuyor.',
+                                style: TextStyle(color: AppTheme.textSecondary),
+                              ),
+                            ),
+                          ),
+                        ],
+                        const SizedBox(height: 36),
 
                         // Prices
                         _buildSectionHeader(context, tr('price_info'), Icons.sell),

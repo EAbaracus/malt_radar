@@ -1,0 +1,21 @@
+STAGING SCHEMA INSPECTION
+=========================
+
+brands: SUCCESS
+bottlers: SUCCESS
+companies: SUCCESS
+external_entities: SUCCESS
+entity_aliases: SUCCESS
+entity_external_links: SUCCESS
+whisky_product_entities: SUCCESS
+distillery_company_links: SUCCESS
+bottler_product_links: SUCCESS
+staging_new_products: SUCCESS
+staging_tasting_notes: SUCCESS
+staging_historical_menu_prices: SUCCESS
+staging_external_reviews: SUCCESS
+staging_manual_review_queue: SUCCESS
+knowledge_regions: SUCCESS
+knowledge_glossary_terms: SUCCESS
+knowledge_guides: SUCCESS
+external_reference_links: SUCCESS

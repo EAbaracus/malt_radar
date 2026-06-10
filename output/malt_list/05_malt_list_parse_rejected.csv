@@ -1,0 +1,34 @@
+raw_name,age_raw,age,vintage,no_age_statement,abv,historical_menu_price,is_cask_strength,general_note,page_number,source_file,source_type,source_confidence,raw_line,best_match,match_score,db_age,db_abv,record_id,review_reason
+Ardbeg Uigeadail,,,,False,51.2,8,False,,2,The_Malt_List.pdf,historical_bar_menu,medium,Ardbeg Uigeadail,Ardbeg Uigeadail,100,nan,nan,WDB-01095,ABV mismatch or missing
+Auchentoshan,3wood,,,False,43,8,False,,2,The_Malt_List.pdf,historical_bar_menu,medium,Auchentoshan,Auchentoshan 12Y,86,12.0,nan,WDB-00018,ABV mismatch or missing
+Ardmore,1997,,1997.0,False,40,9,False,,2,The_Malt_List.pdf,historical_bar_menu,medium,Ardmore,Ardmore Legacy,67,,,,No close match found
+Balblair,1997,,1997.0,False,46,9,False,,2,The_Malt_List.pdf,historical_bar_menu,medium,Balblair,Balblair 1989,76,,,,No close match found
+Banff,1976,,1976.0,False,43,11,False,,3,The_Malt_List.pdf,historical_bar_menu,medium,Banff,Branger,50,,,,No close match found
+Benromach Organic,,,,False,43,6,False,The world’s first completely organic single malt whisky from the Benromach Distillery in Speyside. Sweet with a little bit of peppery spice.’ MK,3,The_Malt_List.pdf,historical_bar_menu,medium,Benromach Organic,Benromach Organic,100,nan,nan,WDB-00567,ABV mismatch or missing
+Bladnoch,1993,,1993.0,False,46,9,False,Blair Atholl (Pitlochry) 12yo 43% 7. Blair Atholl 1997 43% 9. Blairmhor 8yo 40% 7. Bowmore 12yo 40% ‘Not the most intense Islay malt in terms of peatiness. One of the last to produce its own floor malted barley turned by hand. The 12yo gives you gentle peat smoke with a long and mellow finish.’ MK,3,The_Malt_List.pdf,historical_bar_menu,medium,Bladnoch,Bolanachi,71,,,,No close match found
+Bowmore Surf,,,,False,40,6,False,Braes of Glenlivet (CS) 10yo 61.7% 12.,3,The_Malt_List.pdf,historical_bar_menu,medium,Bowmore Surf,Bowmore Gold Reef,69,,,,No close match found
+Brora,1982,,1982.0,False,43,10,False,,4,The_Malt_List.pdf,historical_bar_menu,medium,Brora,Broger,73,,,,No close match found
+Bruichladdich Rocks,,,,False,46,6,False,,4,The_Malt_List.pdf,historical_bar_menu,medium,Bruichladdich Rocks,Bruichladdich Rocks,100,nan,nan,WDB-00346,ABV mismatch or missing
+Bruichladdich Octomore 06.1,,,,False,no statement 57,11,False,Bruichladdich Scottish Barely no statement 50% 9. Bunnahabhain 12yo 40% 7. Bushmills (Irish) 10yo 40% Cambus (grain) 31yo 53.2% 8. Caol Ila 10yo/1999 43% 9. Caol Ila 12yo 43% 7. ‘Lighter than some other Islay malts. Spicy with vanilla hints.’ MK,4,The_Malt_List.pdf,historical_bar_menu,medium,Bruichladdich Octomore 06.1,Bruichladdich Octomore 10.2,93,nan,nan,WDB-01129,ABV mismatch or missing
+Caol Ila,1998,,1998.0,False,43,8,False,,4,The_Malt_List.pdf,historical_bar_menu,medium,Caol Ila,Caol Ila 35yo,76,,,,No close match found
+Cameron Brig (grain),,,,False,40,6,False,,4,The_Malt_List.pdf,historical_bar_menu,medium,Cameron Brig (grain),Ivy Mountain,53,,,,No close match found
+Caperdonich,1994,,1994.0,False,46,8,False,,4,The_Malt_List.pdf,historical_bar_menu,medium,Caperdonich,Lobangernich,61,,,,No close match found
+Coleburn,1981,,1981.0,False,43,11,False,,4,The_Malt_List.pdf,historical_bar_menu,medium,Coleburn,Limeburners,63,,,,No close match found
+Convalmore,1981,,1981.0,False,40,10,False,,4,The_Malt_List.pdf,historical_bar_menu,medium,Convalmore,Dalmore 18yo,64,,,,No close match found
+Cragganmore,1981,,1981.0,False,40,7,False,"Cragganmore Distillers Ed. 1987 40% 7. Craigellachie 20yo/1981 43% 7. CU Dhub 40% 7. Dailuaine 16yo 40% 8. Dalmore 12yo 40% ‘One of my personal favourites. The 10yo has a lovely mix of sherry notes with chocolate and orange flavours. I have had the pleasure of meeting the man who makes the vattings and blendings for the Dalmore, Mr Richard Patterson. One of the most charismatic men in the industry.’ MK",5,The_Malt_List.pdf,historical_bar_menu,medium,Cragganmore,Cragganmore 25yo,81,25.0,nan,WDB-00423,Fuzzy match threshold
+Dallas Dhu last cask,1983,,1983.0,False,48,50,False,A bottle filled from the last cask ever filled at the Dallas Dhu distillery in Forres. Closed in 1983 and reopened in 1988 but only as a historic building. A very special malt from a dearly departed distillery.’ MK,5,The_Malt_List.pdf,historical_bar_menu,medium,Dallas Dhu last cask,Kavalan Solist Rum Cask,65,,,,No close match found
+Glenallachie,1989,,1989.0,False,62.5,8,True,,6,The_Malt_List.pdf,historical_bar_menu,medium,Glenallachie,Glen Kella,64,,,,No close match found
+Glencadam,1974,,1974.0,False,40,11,False,,6,The_Malt_List.pdf,historical_bar_menu,medium,Glencadam,Glencadam 25yo,78,,,,No close match found
+Glencraig,1975,,1975.0,False,40,15,False,,6,The_Malt_List.pdf,historical_bar_menu,medium,Glencraig,Glendalough,60,,,,No close match found
+Glen Elgin,1995,,1995.0,False,46,9,False,,6,The_Malt_List.pdf,historical_bar_menu,medium,Glen Elgin,Glen Elgin 12yo,80,,,,No close match found
+Glenesk,1982,,1982.0,False,40,15,False,Glenfarclas belongs to a private family owned company somewhat a rarity in the Speyside region these days. A complex malt that is crisp and dry with sweet sherry notes.’ MK,6,The_Malt_List.pdf,historical_bar_menu,medium,Glenesk,Gölles,67,,,,No close match found
+Glen Mhor,1980,,1980.0,False,43,12,False,,8,The_Malt_List.pdf,historical_bar_menu,medium,Glen Mhor,Glen Moray 16yo,67,,,,No close match found
+Imperial,1979,,1979.0,False,40,15,False,,9,The_Malt_List.pdf,historical_bar_menu,medium,Imperial,Amrut Herald,50,,,,No close match found
+Inchgower,1993,,1993.0,False,43,7,False,,9,The_Malt_List.pdf,historical_bar_menu,medium,Inchgower,Inchgower 14yo (F&F),67,,,,No close match found
+Inverleven,1991,,1991.0,False,40,8,False,,9,The_Malt_List.pdf,historical_bar_menu,medium,Inverleven,Glenlivet Cipher,54,,,,No close match found
+Macallan Amber,,,,False,40,6,False,,11,The_Malt_List.pdf,historical_bar_menu,medium,Macallan Amber,Macallan Amber,100,nan,nan,WDB-00634,ABV mismatch or missing
+Macallan 1861 replica,,,,False,42.7,20,False,An edition that tried to recapture 19th century bottles that were opened at Macallan.’MK,11,The_Malt_List.pdf,historical_bar_menu,medium,Macallan 1861 replica,Macallan Reflexion,67,,,,No close match found
+Millburn,1976,,1976.0,False,46,20,False,,11,The_Malt_List.pdf,historical_bar_menu,medium,Millburn,Willowbank,56,,,,No close match found
+Oban distillers ed.,1995,,1995.0,False,43,7,False,,11,The_Malt_List.pdf,historical_bar_menu,medium,Oban distillers ed.,Piedmont Distillers,81,nan,nan,WDB-02606,Fuzzy match threshold
+Pittyvaich,1993,,1993.0,False,43,10,False,,12,The_Malt_List.pdf,historical_bar_menu,medium,Pittyvaich,Dietrich,56,,,,No close match found
+Pittyvaich,1985,,1985.0,False,57.3,10,True,,12,The_Malt_List.pdf,historical_bar_menu,medium,Pittyvaich,Dietrich,56,,,,No close match found

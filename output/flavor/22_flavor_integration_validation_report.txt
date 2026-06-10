@@ -1,0 +1,14 @@
+=== FLAVOR INTEGRATION VALIDATION REPORT ===
+
+Flavor CSV Total Records: 138
+Successfully Linked Profiles: 0
+Not Linked Profiles: 138
+Duplicate whisky_id: 0
+Empty State Products (No Flavor): 2986
+Similarity Engine Eligible Products: 0
+
+--- Risks & Warnings ---
+ID Match but Name Mismatch (Avoided): 0
+Name Fallback (Requires Manual Review): 122
+Invalid JSON count: 0
+Tasting Notes polluted with flavor tags?: False

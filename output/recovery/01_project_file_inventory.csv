@@ -1,0 +1,3 @@
+category,pattern_matched,filename,full_path,size_bytes
+flavor,*flavor*WDB*.csv,30_HIGH_CONFIDENCE_flavor_profiles_WDB_MAPPED.csv,C:\Users\eltun\Documents\malt radar\output\flavor\30_HIGH_CONFIDENCE_flavor_profiles_WDB_MAPPED.csv,60924
+tasting,*tasting_notes*.csv,12_malt_list_tasting_notes_patch_preview.csv,C:\Users\eltun\Documents\malt radar\output\malt_list\12_malt_list_tasting_notes_patch_preview.csv,2

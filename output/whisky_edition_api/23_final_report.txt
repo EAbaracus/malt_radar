@@ -1,0 +1,10 @@
+API extraction completed
+Master matching completed successfully
+Total API reviews: 523
+Tasting note candidates: 522
+High-confidence master matches: 0
+Manual review matches: 5
+Rejected matches: 518
+New product candidates: 518
+Note: rating/price fields are excluded from core import. Patch requires manual approval.
+Production patch suggestion: Review high-confidence candidates and apply carefully.

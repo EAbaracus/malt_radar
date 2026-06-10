@@ -1,0 +1,40 @@
+PRICE CANDIDATE COUNT RECONCILIATION REPORT
+=============================================
+
+1. 80 high-confidence kayıttan finalde nasıl 126 price candidate çıktı?
+   - Önceki scriptte df_audit (80 satır) ve df_price (80 satır) dataframeleri birleştirilirken (pd.merge) 'malt_list_candidate_name' ve 'matched_master_whisky_id' kolonları anahtar (merge key) olarak kullanılmıştır.
+   - Ancak, The_Malt_List.pdf içinde aynı isme sahip farklı satırlar (örn: farklı fiyatlı farklı porsiyonlar veya sadece isim benzerlikleri) aynı whisky_id'ye eşleştiği için bu anahtar kombinasyonu benzersiz (unique) değildi.
+   - Bu durum, inner join sırasında Kartezyen Çarpım (Many-to-Many join explosion) yaratarak 80 satırın 126 satıra patlamasına neden oldu.
+
+2. Her whisky_id için birden fazla fiyat satırı mı oluştu?
+   - Evet. Aynı isim ('Auchentoshan', 'Cardhu' vb.) PDF menüsünde birden fazla kez geçtiği için join esnasında bu isimlere ait fiyatlar çaprazlanarak çoğalmıştır.
+
+3. Aynı whisky için birden fazla menu line / pour / price mı var?
+   - PDF menüsünde farklı varyasyonlar (veya farklı sayfalar) nedeniyle aynı isimler birden fazla kez listelenmektedir. Orijinal df_high tablosunda bunlar ayrı ayrı 80 satırdı.
+
+4. Duplicate join oluştu mu?
+   - Kesinlikle. Eşsiz bir satır tanımlayıcısı (row_index veya uuid) kullanılmadan sadece metin üzerinden yapılan join, duplicate join'e (many-to-many) neden olmuştur.
+
+5. LOW risk 23'ten 29'a neden çıktı?
+   - 'malt_list_candidate_name' + 'whisky_id' eşleşmesi tekrar eden LOW risk satırları, cross-join sonucunda 23'ten 29'a katlandı.
+
+6. HIGH risk 57'den 97'ye neden çıktı?
+   - Aynı many-to-many hatası sebebiyle HIGH riskli satırlar çapraz eşleşerek 57'den 97'ye katlandı. Toplam 126'ya ulaştı (29 + 97).
+
+7. Hangi dosya hangi anahtarla merge edildi?
+   - '01_high_confidence_80_quality_audit.csv' ile '04_historical_price_candidate_audit.csv' birleştirildi.
+
+8. Merge key neydi?
+   - on=['malt_list_candidate_name', 'matched_master_whisky_id']
+
+9. Join tipi neydi? inner / left / many-to-many?
+   - how='inner' kullanıldı ancak merge key'ler benzersiz olmadığı için veritabanı tabiriyle 'Many-to-Many' davranışı gösterdi.
+
+10. Many-to-many join patlaması var mı?
+    - Evet, tam olarak bu gerçekleşti.
+
+Nihai Karar ve Düzeltme:
+- Hata düzeltilmiştir. Yeni eşleştirme orijinal 80 satırlık df_high verisi üzerinden row_index kullanılarak 1:1 eşleştirilmiş ve many-to-many patlaması engellenmiştir.
+- LOW risk count yeniden 23'tür. (06_reconciled_LOW_RISK_historical_menu_price_candidates.csv)
+- Manual review count yeniden 57'dir. (07_reconciled_manual_review_price_candidates.csv)
+- Tüm artış sebepleri many-to-many kartezyen çarpımdır ve bu durum temizlenmiştir.

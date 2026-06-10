@@ -1,0 +1,39 @@
+=== POST-IMPORT SAMPLE QUERIES ===
+
+- Toplam distillery count: 990
+- Toplam whisky count: 1829
+- Null distillery_id count: 1151
+- Flavor profile count: 122
+- Tasting note count: 25
+
+- Rollback gerekirse kullanilacak backup: output/import/production_backup_20260611.db
+
+Macallan / Glenlivet / Balvenie Patch Ornekleri:
+  glenlivet 15yo french oak -> D0003
+  macallan 12yo double cask -> D0006
+  macallan 10yo full proof 57% 1980 (ob, giovinetti & figli) -> D0006
+  macallan cask strength -> D0006
+  glenlivet alpha -> D0003
+
+Flavor profile olan 5 urun:
+  amrut fusion
+  amrut kadhambam
+  amrut portonova
+  amrut indian single malt
+  ancnoc rutter
+
+Tasting note olan 5 urun:
+  aberlour a'bunadh
+  laphroaig the cask legacy
+  glenlivet 15yo french oak
+  talisker 10y
+  redbreast 12y
+
+Orphan olan 5 urun (distillery_id IS NULL):
+  ledaig 42yo dusgadh
+  glenfarclas 40yo
+  highland park 25yo
+  highland park 40yo
+  tamdhu 30yo (macphail collection 2009)
+
+API/detail response null alanlari crash yaratiyor mu?: Hayir, SQL 'NULL' destegi ile dogru eklenmistir.

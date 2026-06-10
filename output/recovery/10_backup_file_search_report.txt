@@ -1,0 +1,333 @@
+BACKUP / EXTERNAL FILE SEARCH REPORT
+====================================
+
+Total candidate files found: 139
+
+--- IMPORTANT CSV CANDIDATES ---
+Path: C:\Users\eltun\Documents\antigravity\radiant-bardeen\output\33_tasting_notes_candidate.csv
+  Rows: 25 | Size: 4868 bytes
+  Columns: whisky_id|normalized_name|distillery_id|source_url|source_name|data_confidence|notes_for_review|nose_notes|palate_notes|finish_notes|aroma_tags...
+
+Path: C:\Users\eltun\Documents\antigravity\radiant-bardeen\output\34_import_ready_distilleries.csv
+  Rows: 990 | Size: 54700 bytes
+  Columns: distillery_id|name|country|region|owner|parent_company|founded_year|founder|status|location|coordinates|official_website|wikidata_id|wikipedia_url|data_confidence|notes_for_review...
+
+Path: C:\Users\eltun\Documents\antigravity\radiant-bardeen\output\35_import_ready_whiskies.csv
+  Rows: 2986 | Size: 320708 bytes
+  Columns: whisky_id|name|original_name|distillery_id|country|region|type|age|age_statement|nas|abv|bottle_size|cask_type|finish_type|cask_strength|meta_critic_score|user_score|data_confidence|completed_fields|n...
+
+Path: C:\Users\eltun\Documents\antigravity\radiant-bardeen\output\37_import_ready_tasting_notes.csv
+  Rows: 25 | Size: 4868 bytes
+  Columns: whisky_id|normalized_name|distillery_id|source_url|source_name|data_confidence|notes_for_review|nose_notes|palate_notes|finish_notes|aroma_tags...
+
+Path: C:\Users\eltun\Documents\antigravity\radiant-bardeen\output\39_corrected_import_ready_whiskies.csv
+  Rows: 1829 | Size: 203424 bytes
+  Columns: whisky_id|name|original_name|distillery_id|country|region|type|age|age_statement|nas|abv|bottle_size|cask_type|finish_type|cask_strength|meta_critic_score|user_score|data_confidence|completed_fields|n...
+
+Path: C:\Users\eltun\Documents\antigravity\radiant-bardeen\output\40_corrected_import_ready_distilleries.csv
+  Rows: 990 | Size: 54700 bytes
+  Columns: distillery_id|name|country|region|owner|parent_company|founded_year|founder|status|location|coordinates|official_website|wikidata_id|wikipedia_url|data_confidence|notes_for_review...
+
+[POTENTIAL FINAL MASTER] Path: C:\Users\eltun\Documents\antigravity\radiant-bardeen\output\54_FINAL_import_ready_whiskies.csv
+  Rows: 1829 | Size: 232128 bytes
+  Columns: whisky_id|name|original_name|distillery_id|country|region|type|age|age_statement|nas|abv|bottle_size|cask_type|finish_type|cask_strength|meta_critic_score|user_score|data_confidence|completed_fields|n...
+
+[POTENTIAL FINAL MASTER] Path: C:\Users\eltun\Documents\antigravity\radiant-bardeen\output\55_FINAL_import_ready_distilleries.csv
+  Rows: 990 | Size: 54700 bytes
+  Columns: distillery_id|name|country|region|owner|parent_company|founded_year|founder|status|location|coordinates|official_website|wikidata_id|wikipedia_url|data_confidence|notes_for_review...
+
+[POTENTIAL FINAL MASTER] Path: C:\Users\eltun\Documents\antigravity\radiant-bardeen\output\56_FINAL_import_ready_tasting_notes.csv
+  Rows: 25 | Size: 4868 bytes
+  Columns: whisky_id|normalized_name|distillery_id|source_url|source_name|data_confidence|notes_for_review|nose_notes|palate_notes|finish_notes|aroma_tags...
+
+[POTENTIAL FINAL MASTER] Path: C:\Users\eltun\Documents\antigravity\radiant-bardeen\output\final\60_FINAL_import_ready_whiskies_distillery_patched.csv
+  Rows: 1829 | Size: 232408 bytes
+  Columns: whisky_id|name|original_name|distillery_id|country|region|type|age|age_statement|nas|abv|bottle_size|cask_type|finish_type|cask_strength|meta_critic_score|user_score|data_confidence|completed_fields|n...
+
+Path: C:\Users\eltun\Documents\antigravity\radiant-bardeen\output\final\62_distillery_patch_diff.csv
+  Rows: 56 | Size: 3763 bytes
+  Columns: whisky_id|whisky_name|old_distillery_id|new_distillery_id|reason...
+
+Path: C:\Users\eltun\Documents\antigravity\radiant-bardeen\output\final\63_remaining_orphan_whiskies_after_patch.csv
+  Rows: 1151 | Size: 122339 bytes
+  Columns: whisky_id|name|original_name|distillery_id|country|region|type|age|age_statement|nas|abv|bottle_size|cask_type|finish_type|cask_strength|meta_critic_score|user_score|data_confidence|completed_fields|n...
+
+[POTENTIAL FINAL MASTER] Path: C:\Users\eltun\Documents\antigravity\radiant-bardeen\output\final\65_FINAL_IMPORT_FILE_MANIFEST.csv
+  Rows: 5 | Size: 697 bytes
+  Columns: dataset_name|entity|file_path|row_count|purpose|status|action...
+
+[POTENTIAL FINAL MASTER] Path: C:\Users\eltun\Documents\antigravity\radiant-bardeen\output\final\67_FINAL_import_ready_distilleries_whiskycom_enriched.csv
+  Rows: 990 | Size: 64408 bytes
+  Columns: distillery_id|name|country|region|owner|parent_company|founded_year|founder|status|location|coordinates|official_website|wikidata_id|wikipedia_url|data_confidence|notes_for_review|whisky_com_url|sourc...
+
+Path: C:\Users\eltun\Documents\antigravity\radiant-bardeen\output\final\69_whiskycom_distillery_enrichment_diff.csv
+  Rows: 88 | Size: 8461 bytes
+  Columns: distillery_id|field|old_value|new_value...
+
+Path: C:\Users\eltun\Documents\antigravity\radiant-bardeen\output\flavor\30_HIGH_CONFIDENCE_flavor_profiles_WDB_MAPPED.csv
+  Rows: 122 | Size: 63909 bytes
+  Columns: whisky_id|whisky_name|production_bottle_name|match_score|match_method|flavor_vector|flavor_profile|flavor_tags|flavor_source|flavor_data_confidence|production_price|production_rating|production_region...
+
+Path: C:\Users\eltun\Documents\antigravity\radiant-bardeen\output\import\22_flavor_import_ready_cleaned.csv
+  Rows: 122 | Size: 63909 bytes
+  Columns: whisky_id|whisky_name|production_bottle_name|match_score|match_method|flavor_vector|flavor_profile|flavor_tags|flavor_source|flavor_data_confidence|production_price|production_rating|production_region...
+
+Path: C:\Users\eltun\Documents\antigravity\radiant-bardeen\output\orphan\bulk\08_orphan_bulk_high_confidence_patch.csv
+  Rows: 56 | Size: 7345 bytes
+  Columns: whisky_id|whisky_name|current_distillery_id|proposed_distillery_id|proposed_brand_id|proposed_bottler_id|proposed_company_id|proposed_entity_type|match_source|match_score|match_reason|confidence|requi...
+
+Path: C:\Users\eltun\Documents\antigravity\radiant-bardeen\output\whisky_com_distilleries\17_high_confidence_patch_safe_only.csv
+  Rows: 82 | Size: 8824 bytes
+  Columns: master_distillery_id|master_name|patch_whisky_com_url|patch_country|patch_region|source_metadata_rating|source_metadata_bottle_count...
+
+Path: C:\Users\eltun\Documents\malt radar\output\flavor\30_HIGH_CONFIDENCE_flavor_profiles_WDB_MAPPED.csv
+  Rows: 119 | Size: 60924 bytes
+  Columns: whisky_id|old_whisky_id|whisky_name|production_bottle_name|mapped_name|mapping_score|mapping_method|flavor_profile|flavor_vector|flavor_tags|flavor_source|flavor_match_score|flavor_data_confidence|not...
+
+Path: C:\Users\eltun\Documents\malt radar\output\malt_list\12_malt_list_tasting_notes_patch_preview.csv
+  Rows: None | Size: 2 bytes
+  Columns: Error reading: No columns to parse from file...
+
+Path: C:\Users\eltun\Documents\whisky taste\output\tasting\01_accepted_source_tasting_notes.csv
+  Rows: 10 | Size: 4273 bytes
+  Columns: whisky|nose|palate|finish|source|data_confidence|extraction_method|source_url...
+
+Path: C:\Users\eltun\Documents\whisky taste\output\tasting\07_rejected_tasting_notes.csv
+  Rows: 32 | Size: 2849 bytes
+  Columns: whisky_name|reason...
+
+--- SCRIPTS ---
+Path: C:\Users\eltun\Documents\antigravity\radiant-bardeen\scripts\70_import_dry_run_validator.py
+
+Path: C:\Users\eltun\Documents\antigravity\radiant-bardeen\scripts\71_import_to_staging.py
+
+Path: C:\Users\eltun\Documents\antigravity\radiant-bardeen\scripts\72_production_import_seeder.py
+
+--- DATABASES ---
+Path: C:\Users\eltun\Documents\antigravity\radiant-bardeen\output\import\production.db
+
+Path: C:\Users\eltun\Documents\antigravity\radiant-bardeen\output\import\production_backup_20260611.db
+
+Path: C:\Users\eltun\Documents\antigravity\radiant-bardeen\output\import\staging_test.db
+
+Path: C:\Users\eltun\Documents\IK Multimedia\AmpliTube 5\Presets.db
+
+Path: C:\Users\eltun\Documents\IK Multimedia\TONEX\Library.db
+
+Path: C:\Users\eltun\Documents\malt radar\frontend\.dart_tool\chrome-device\Default\heavy_ad_intervention_opt_out.db
+
+Path: C:\Users\eltun\Documents\Native Instruments\Service Center\pal.db
+
+Path: C:\Users\eltun\Documents\Paradox Interactive\Crusader Kings III\launcher-v2.sqlite
+
+Path: C:\Users\eltun\Downloads\sac\TEMP\SteamAppList.db
+
+Path: C:\Users\eltun\OneDrive\Belgeler\Crusader Kings III\launcher-v2.sqlite
+
+Path: C:\Users\eltun\OneDrive\Logitech\browser - logitech\cert8.db
+
+Path: C:\Users\eltun\OneDrive\Logitech\browser - logitech\key3.db
+
+Path: C:\Users\eltun\OneDrive\Logitech\browser - logitech\secmod.db
+
+--- ARCHIVES (Might contain backups) ---
+Path: C:\Users\eltun\Documents\3270754484.zip (1904596 bytes)
+
+Path: C:\Users\eltun\Documents\IK Multimedia\AmpliTube 5\Presets\AmpliTube 5\Ace_Signature_Preset_Pack_1.zip (67136 bytes)
+
+Path: C:\Users\eltun\Documents\IK Multimedia\AmpliTube 5\Presets\AmpliTube 5\Alex_Skolnick_Signature_Presets.zip (61330 bytes)
+
+Path: C:\Users\eltun\Documents\IK Multimedia\AmpliTube 5\Presets\AmpliTube 5\AmpliTube_5_10_1.zip (3135011473 bytes)
+
+Path: C:\Users\eltun\Documents\IK Multimedia\AmpliTube 5\Presets\AmpliTube 5\Gus_G_Signature_Presets.zip (57278 bytes)
+
+Path: C:\Users\eltun\Documents\IK Multimedia\AmpliTube 5\Presets\AmpliTube 5\Joe_Satriani_Signature_Presets_2021.zip (63283 bytes)
+
+Path: C:\Users\eltun\Documents\IK Multimedia\AmpliTube 5\Presets\AmpliTube 5\Joe_Satriani_Signature_Presets_2021_B.zip (61701 bytes)
+
+Path: C:\Users\eltun\Documents\IK Multimedia\AmpliTube 5\Presets\AmpliTube 5\JS_Soldano_Presets.zip (22396 bytes)
+
+Path: C:\Users\eltun\Documents\IK Multimedia\AmpliTube 5\Presets\AmpliTube 5\Marty_Friedman_Signature_Presets.zip (64785 bytes)
+
+Path: C:\Users\eltun\Documents\IK Multimedia\AmpliTube 5\Presets\AmpliTube 5\Red_Special_Forum_Collection.zip (55839 bytes)
+
+Path: C:\Users\eltun\Documents\IK Multimedia\AmpliTube 5\Presets\AmpliTube 5\Slash_Presets.zip (55082 bytes)
+
+Path: C:\Users\eltun\Documents\IK Multimedia\AmpliTube 5\Presets\AmpliTube 5\Vinman_Signature_Presets.zip (59584 bytes)
+
+Path: C:\Users\eltun\Documents\IK Multimedia\IK Product Manager\AmpliTube 5\AmpliTube_5_10_2.zip (3136490831 bytes)
+
+Path: C:\Users\eltun\Documents\IK Multimedia\IK Product Manager\AmpliTube 5\AmpliTube_5_10_4.zip (3141479255 bytes)
+
+Path: C:\Users\eltun\Documents\IK Multimedia\IK Product Manager\AmpliTube 5\AmpliTube_5_10_5.zip (3197056031 bytes)
+
+Path: C:\Users\eltun\Documents\IK Multimedia\IK Product Manager\AmpliTube 5\AmpliTube_5_10_9.zip (3436326619 bytes)
+
+Path: C:\Users\eltun\Documents\IK Multimedia\IK Product Manager\Custom Shop\custom_shop_2.0.0.zip (76832189 bytes)
+
+Path: C:\Users\eltun\Documents\IK Multimedia\IK Product Manager\IK Product Manager\ik_product_manager_1.1.11.zip (69703820 bytes)
+
+Path: C:\Users\eltun\Documents\IK Multimedia\IK Product Manager\IK Product Manager\ik_product_manager_1.1.12.zip (69688028 bytes)
+
+Path: C:\Users\eltun\Documents\IK Multimedia\IK Product Manager\IK Product Manager\ik_product_manager_1.1.7.zip (69711252 bytes)
+
+Path: C:\Users\eltun\Documents\IK Multimedia\IK Product Manager\IK Product Manager\ik_product_manager_1.1.8.zip (69712156 bytes)
+
+Path: C:\Users\eltun\Documents\IK Multimedia\IK Product Manager\TONEX\Install_TONEX_(1.10.5).zip (3080102551 bytes)
+
+Path: C:\Users\eltun\Documents\IK Multimedia\IK Product Manager\TONEX\Install_TONEX_(1.10.6).zip (3080701201 bytes)
+
+Path: C:\Users\eltun\Documents\IK Multimedia\IK Product Manager\TONEX\Install_TONEX_(1.11.1).zip (3097986078 bytes)
+
+Path: C:\Users\eltun\Documents\IK Multimedia\IK Product Manager\TONEX\Install_TONEX_(1.8.1).zip (2060248441 bytes)
+
+Path: C:\Users\eltun\Documents\IK Multimedia\IK Product Manager\TONEX\Install_TONEX_(1.8.2).zip (2063150718 bytes)
+
+Path: C:\Users\eltun\Documents\IK Multimedia\IK Product Manager\TONEX\Install_TONEX_(1.9.0).zip (2070756756 bytes)
+
+Path: C:\Users\eltun\Documents\IK Multimedia\IK Product Manager\TONEX\Install_TONEX_(1.9.1).zip (2076240187 bytes)
+
+Path: C:\Users\eltun\Documents\IK Multimedia\IK Product Manager\TONEX\Install_TONEX_(1.9.2).zip (2076142781 bytes)
+
+Path: C:\Users\eltun\Documents\IK Multimedia\IK Product Manager\TONEX\Install_TONEX_(1.9.3).zip (2146961117 bytes)
+
+Path: C:\Users\eltun\Documents\Paradox Interactive\Crusader Kings III\mod\pdx_11367\4b22ef00-ec79-11ea-843e-7b7130948d68.zip (15126245 bytes)
+
+Path: C:\Users\eltun\Documents\Paradox Interactive\Crusader Kings III\mod\pdx_12560\d31921b0-f816-11ea-9e79-31aa282d4071.zip (1039933012 bytes)
+
+Path: C:\Users\eltun\Documents\Sports Interactive\Football Manager 26\set pieces\fm26schedules_366078.rar (1653 bytes)
+
+Path: C:\Users\eltun\Downloads\1286949151_File_9746_metallica_.zip (4038 bytes)
+
+Path: C:\Users\eltun\Downloads\4b22ef00-ec79-11ea-843e-7b7130948d68.zip (15126245 bytes)
+
+Path: C:\Users\eltun\Downloads\ableton_live_lite_12.1_64.zip (2919411914 bytes)
+
+Path: C:\Users\eltun\Downloads\apache-maven-3.9.9-bin.zip (9202456 bytes)
+
+Path: C:\Users\eltun\Downloads\Assembly-CSharp_0.2.407.7z (482312 bytes)
+
+Path: C:\Users\eltun\Downloads\auto-creamapi-2.2.0.7z (1901883 bytes)
+
+Path: C:\Users\eltun\Downloads\B.V1.0.3.B16683121-GDZ.rar (376977630 bytes)
+
+Path: C:\Users\eltun\Downloads\Bordalas Tactic Suite.zip (3276 bytes)
+
+Path: C:\Users\eltun\Downloads\CK B21475774~AG.7z (370322366 bytes)
+
+Path: C:\Users\eltun\Downloads\Cyberpunk_2077_Update_from_v2.30_to_v2.31-ElAmigos.rar (1020116710 bytes)
+
+Path: C:\Users\eltun\Downloads\drive-download-20241122T100853Z-001.zip (9460598 bytes)
+
+Path: C:\Users\eltun\Downloads\drive-download-20251221T120433Z-3-001.zip (4625648 bytes)
+
+Path: C:\Users\eltun\Downloads\drive-download-20251221T120934Z-3-001.zip (3847615 bytes)
+
+Path: C:\Users\eltun\Downloads\drive-download-20251221T121352Z-3-001.zip (20923126 bytes)
+
+Path: C:\Users\eltun\Downloads\drive-download-20251221T121730Z-3-001.zip (4603298 bytes)
+
+Path: C:\Users\eltun\Downloads\drive-download-20251221T122953Z-3-001.zip (5011421 bytes)
+
+Path: C:\Users\eltun\Downloads\drive-download-20251221T123133Z-3-001.zip (9497819 bytes)
+
+Path: C:\Users\eltun\Downloads\drive-download-20251221T123404Z-3-001.zip (3600679 bytes)
+
+Path: C:\Users\eltun\Downloads\drive-download-20260422T201715Z-3-001.zip (5021351 bytes)
+
+Path: C:\Users\eltun\Downloads\drive-download-20260423T085448Z-3-001.zip (13617420 bytes)
+
+Path: C:\Users\eltun\Downloads\drive-download-20260426T072643Z-3-001.zip (70375 bytes)
+
+Path: C:\Users\eltun\Downloads\drive-download-20260602T172945Z-3-001.zip (646209 bytes)
+
+Path: C:\Users\eltun\Downloads\drive-download-20260603T202419Z-3-001.zip (134475 bytes)
+
+Path: C:\Users\eltun\Downloads\drive-download-20260606T193327Z-3-001.zip (428023 bytes)
+
+Path: C:\Users\eltun\Downloads\files.zip (3807 bytes)
+
+Path: C:\Users\eltun\Downloads\flutter_windows_3.27.1-stable.zip (1045850748 bytes)
+
+Path: C:\Users\eltun\Downloads\Fly Corp 1.1.6.7z (81063174 bytes)
+
+Path: C:\Users\eltun\Downloads\fm26-essential-views.zip (5081 bytes)
+
+Path: C:\Users\eltun\Downloads\fm26-real-names-fix-v261023.zip (95022 bytes)
+
+Path: C:\Users\eltun\Downloads\FM26KnapSPs.zip (38984 bytes)
+
+Path: C:\Users\eltun\Downloads\footbe-logos-2024-v4.0.zip (41972455 bytes)
+
+Path: C:\Users\eltun\Downloads\freedom-training-schedules-fm26.zip (10122 bytes)
+
+Path: C:\Users\eltun\Downloads\idrinkscotch_data_bundle.zip (39356 bytes)
+
+Path: C:\Users\eltun\Downloads\JonasMorais FM26 Training Schedules v1.4.zip (2489 bytes)
+
+Path: C:\Users\eltun\Downloads\Logos TCM26.rar (4352104866 bytes)
+
+Path: C:\Users\eltun\Downloads\Makine_Ogrenmesi_Kodlar.zip (809812 bytes)
+
+Path: C:\Users\eltun\Downloads\mike's best training schedules fm26.zip (4798 bytes)
+
+Path: C:\Users\eltun\Downloads\News.Tower.Build.21396289.Portable.rar (411994190 bytes)
+
+Path: C:\Users\eltun\Downloads\News.Tower.Build.21396289.Windows-CSF.rar (396674462 bytes)
+
+Path: C:\Users\eltun\Downloads\News.Tower.v1.0.496.RexaGames.com.zip (486982464 bytes)
+
+Path: C:\Users\eltun\Downloads\ookla-speedtest-1.2.0-win64.zip (974003 bytes)
+
+Path: C:\Users\eltun\Downloads\Photos-3-001.zip (5531398 bytes)
+
+Path: C:\Users\eltun\Downloads\Profesyonel_Soru_Bankalari_Word_Paketi.zip (297318 bytes)
+
+Path: C:\Users\eltun\Downloads\release-0.7.3.zip (360145 bytes)
+
+Path: C:\Users\eltun\Downloads\RS_ASIO_GUI_v0.2.zip (10745 bytes)
+
+Path: C:\Users\eltun\Downloads\scotch_review2020.csv.zip (395913 bytes)
+
+Path: C:\Users\eltun\Downloads\Signature-trial.zip (1018270 bytes)
+
+Path: C:\Users\eltun\Downloads\Steam.Auto.Cracker.GUI.v2.2.1.zip (17332829 bytes)
+
+Path: C:\Users\eltun\Downloads\SteamAutoCrack.zip (31928649 bytes)
+
+Path: C:\Users\eltun\Downloads\Syne.zip (498177 bytes)
+
+Path: C:\Users\eltun\Downloads\takeout-20260425T111329Z-001.zip (48548 bytes)
+
+Path: C:\Users\eltun\Downloads\takeout-20260425T111329Z-3-001.zip (21306 bytes)
+
+Path: C:\Users\eltun\Downloads\Teletip-ACP44432573.zip (7898150 bytes)
+
+Path: C:\Users\eltun\Downloads\Teletip-ACP44432909.zip (10538745 bytes)
+
+Path: C:\Users\eltun\Downloads\tportable-x64.5.1.7.zip (56328353 bytes)
+
+Path: C:\Users\eltun\Downloads\Victoria537.zip (1577599 bytes)
+
+Path: C:\Users\eltun\Downloads\War1ta5le-Update1.0.45961-elamigos.rar (122613261 bytes)
+
+Path: C:\Users\eltun\Downloads\Zovo.ink_Archive_win64_448087.zip (785066480 bytes)
+
+Path: C:\Users\eltun\Downloads\AOMEI.Partition.Assistant.v10.3.Bootable.iSO-rG\rg-apa03.rar (15000000 bytes)
+
+Path: C:\Users\eltun\Downloads\EaseUS.Partition.Master.v18.WinPE.iSO-rG\rg-eum18.rar (15000000 bytes)
+
+Path: C:\Users\eltun\Downloads\Esca1pefDuc1kov-1.3.13-elamigos\Esca1pefDuc1kov-1.3.13-elamigos.rar (743000420 bytes)
+
+Path: C:\Users\eltun\Downloads\sac\TEMP\Goldberg.7z (11171806 bytes)
+
+Path: C:\Users\eltun\OneDrive\ArrowBackup\Arrow36backup1597347489408.zip (4248859 bytes)
+
+Path: C:\Users\eltun\OneDrive\Belgeler\Crusader Kings III\mod\pdx_11367_75\4b22ef00-ec79-11ea-843e-7b7130948d68.zip (12300064 bytes)
+
+Path: C:\Users\eltun\OneDrive\Belgeler\Paradox Interactive\Crusader Kings III\mod\pdx_11367_75\4b22ef00-ec79-11ea-843e-7b7130948d68.zip (12300064 bytes)
+
+Path: C:\Users\eltun\OneDrive\Desktop\vize evrak.zip (2230713 bytes)
+
+Path: C:\Users\eltun\OneDrive\Desktop\2024 Bahar\archive.zip (479750 bytes)
+

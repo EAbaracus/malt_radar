@@ -1,0 +1,57 @@
+whisky_id,whisky_name,current_distillery_id,proposed_distillery_id,proposed_brand_id,proposed_bottler_id,proposed_company_id,proposed_entity_type,match_source,match_score,match_reason,confidence,requires_manual_review
+W000026,"macallan 10yo full proof 57% 1980 (ob, giovinetti & figli)",,D0006,,,,distillery,Prefix: 'macallan',100.0,Matched to The Macallan,high_confidence,False
+W000035,balvenie tun 1401 (all batches),,D0007,,,,distillery,Prefix: 'balvenie',100.0,Matched to The Balvenie,high_confidence,False
+W000059,macallan cask strength,,D0006,,,,distillery,Prefix: 'macallan',100.0,Matched to The Macallan,high_confidence,False
+W000092,glenlivet alpha,,D0003,,,,distillery,Prefix: 'glenlivet',100.0,Matched to The Glenlivet,high_confidence,False
+W000100,macallan 10yo sherry oak cask strength,,D0006,,,,distillery,Prefix: 'macallan',100.0,Matched to The Macallan,high_confidence,False
+W000105,macallan 18yo sherry oak,,D0006,,,,distillery,Prefix: 'macallan',100.0,Matched to The Macallan,high_confidence,False
+W000108,balvenie tun 1509 (all batches),,D0007,,,,distillery,Prefix: 'balvenie',100.0,Matched to The Balvenie,high_confidence,False
+W000114,glenlivet xxv 25yo,,D0003,,,,distillery,Prefix: 'glenlivet',100.0,Matched to The Glenlivet,high_confidence,False
+W000129,macallan 25yo sherry oak,,D0006,,,,distillery,Prefix: 'macallan',100.0,Matched to The Macallan,high_confidence,False
+W000130,macallan reflexion,,D0006,,,,distillery,Prefix: 'macallan',100.0,Matched to The Macallan,high_confidence,False
+W000151,glenlivet nadurra 16yo,,D0003,,,,distillery,Prefix: 'glenlivet',100.0,Matched to The Glenlivet,high_confidence,False
+W000168,glenlivet nadurra cask strength (nas),,D0003,,,,distillery,Prefix: 'glenlivet',100.0,Matched to The Glenlivet,high_confidence,False
+W000187,balvenie 21yo port wood,,D0007,,,,distillery,Prefix: 'balvenie',100.0,Matched to The Balvenie,high_confidence,False
+W000201,macallan classic cut (all editions),,D0006,,,,distillery,Prefix: 'macallan',100.0,Matched to The Macallan,high_confidence,False
+W000207,macallan ruby,,D0006,,,,distillery,Prefix: 'macallan',100.0,Matched to The Macallan,high_confidence,False
+W000224,macallan rare cask (all batches),,D0006,,,,distillery,Prefix: 'macallan',100.0,Matched to The Macallan,high_confidence,False
+W000225,macallan sienna,,D0006,,,,distillery,Prefix: 'macallan',100.0,Matched to The Macallan,high_confidence,False
+W000258,balvenie 17yo doublewood,,D0007,,,,distillery,Prefix: 'balvenie',100.0,Matched to The Balvenie,high_confidence,False
+W000271,macallan 25yo fine oak,,D0006,,,,distillery,Prefix: 'macallan',100.0,Matched to The Macallan,high_confidence,False
+W000279,balvenie 16yo triple cask,,D0007,,,,distillery,Prefix: 'balvenie',100.0,Matched to The Balvenie,high_confidence,False
+W000289,macallan 12yo sherry oak,,D0006,,,,distillery,Prefix: 'macallan',100.0,Matched to The Macallan,high_confidence,False
+W000302,macallan 30yo fine oak,,D0006,,,,distillery,Prefix: 'macallan',100.0,Matched to The Macallan,high_confidence,False
+W000306,macallan whisky maker's edition,,D0006,,,,distillery,Prefix: 'macallan',100.0,Matched to The Macallan,high_confidence,False
+W000312,glenlivet nadurra oloroso,,D0003,,,,distillery,Prefix: 'glenlivet',100.0,Matched to The Glenlivet,high_confidence,False
+W000338,macallan 10yo sherry oak,,D0006,,,,distillery,Prefix: 'macallan',100.0,Matched to The Macallan,high_confidence,False
+W000340,balvenie 12yo doublewood,,D0007,,,,distillery,Prefix: 'balvenie',100.0,Matched to The Balvenie,high_confidence,False
+W000362,balvenie 12yo triple cask,,D0007,,,,distillery,Prefix: 'balvenie',100.0,Matched to The Balvenie,high_confidence,False
+W000386,macallan select oak,,D0006,,,,distillery,Prefix: 'macallan',100.0,Matched to The Macallan,high_confidence,False
+W000422,macallan edition no. 6,,D0006,,,,distillery,Prefix: 'macallan',100.0,Matched to The Macallan,high_confidence,False
+W000435,glenlivet nadurra first fill (white oak),,D0003,,,,distillery,Prefix: 'glenlivet',100.0,Matched to The Glenlivet,high_confidence,False
+W000443,macallan edition no. 2,,D0006,,,,distillery,Prefix: 'macallan',100.0,Matched to The Macallan,high_confidence,False
+W000451,macallan edition no. 4,,D0006,,,,distillery,Prefix: 'macallan',100.0,Matched to The Macallan,high_confidence,False
+W000462,glenlivet 21yo archive (all batches),,D0003,,,,distillery,Prefix: 'glenlivet',100.0,Matched to The Glenlivet,high_confidence,False
+W000477,macallan edition no. 1,,D0006,,,,distillery,Prefix: 'macallan',100.0,Matched to The Macallan,high_confidence,False
+W000492,macallan edition no. 3,,D0006,,,,distillery,Prefix: 'macallan',100.0,Matched to The Macallan,high_confidence,False
+W000501,balvenie 12yo single barrel,,D0007,,,,distillery,Prefix: 'balvenie',100.0,Matched to The Balvenie,high_confidence,False
+W000512,macallan 18yo fine oak,,D0006,,,,distillery,Prefix: 'macallan',100.0,Matched to The Macallan,high_confidence,False
+W000513,balvenie 25yo single barrel,,D0007,,,,distillery,Prefix: 'balvenie',100.0,Matched to The Balvenie,high_confidence,False
+W000520,macallan edition no. 5,,D0006,,,,distillery,Prefix: 'macallan',100.0,Matched to The Macallan,high_confidence,False
+W000545,glenlivet cipher,,D0003,,,,distillery,Prefix: 'glenlivet',100.0,Matched to The Glenlivet,high_confidence,False
+W000546,glenlivet 18yo,,D0003,,,,distillery,Prefix: 'glenlivet',100.0,Matched to The Glenlivet,high_confidence,False
+W000554,balvenie 14yo carribean cask,,D0007,,,,distillery,Prefix: 'balvenie',100.0,Matched to The Balvenie,high_confidence,False
+W000579,macallan 21yo fine oak,,D0006,,,,distillery,Prefix: 'macallan',100.0,Matched to The Macallan,high_confidence,False
+W000582,macallan 15yo fine oak,,D0006,,,,distillery,Prefix: 'macallan',100.0,Matched to The Macallan,high_confidence,False
+W000600,glenlivet captain's reserve,,D0003,,,,distillery,Prefix: 'glenlivet',100.0,Matched to The Glenlivet,high_confidence,False
+W000629,macallan 10yo fine oak,,D0006,,,,distillery,Prefix: 'macallan',100.0,Matched to The Macallan,high_confidence,False
+W000634,macallan amber,,D0006,,,,distillery,Prefix: 'macallan',100.0,Matched to The Macallan,high_confidence,False
+W000660,glenlivet 12yo,,D0003,,,,distillery,Prefix: 'glenlivet',100.0,Matched to The Glenlivet,high_confidence,False
+W000671,glenlivet founder's reserve,,D0003,,,,distillery,Prefix: 'glenlivet',100.0,Matched to The Glenlivet,high_confidence,False
+W000716,macallan 17yo fine oak,,D0006,,,,distillery,Prefix: 'macallan',100.0,Matched to The Macallan,high_confidence,False
+W000719,balvenie 15yo single barrel (cask),,D0007,,,,distillery,Prefix: 'balvenie',100.0,Matched to The Balvenie,high_confidence,False
+W000794,macallan 12yo fine oak,,D0006,,,,distillery,Prefix: 'macallan',100.0,Matched to The Macallan,high_confidence,False
+W000863,macallan gold,,D0006,,,,distillery,Prefix: 'macallan',100.0,Matched to The Macallan,high_confidence,False
+W000898,macallan gold double cask,,D0006,,,,distillery,Prefix: 'macallan',100.0,Matched to The Macallan,high_confidence,False
+W000977,glenlivet nadurra peated cask finish,,D0003,,,,distillery,Prefix: 'glenlivet',100.0,Matched to The Glenlivet,high_confidence,False
+W001022,balvenie 14yo peat week,,D0007,,,,distillery,Prefix: 'balvenie',100.0,Matched to The Balvenie,high_confidence,False

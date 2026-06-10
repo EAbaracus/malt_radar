@@ -1,0 +1,3 @@
+Total list items parsed: 523
+Total details processed: 523
+Total tasting notes extracted: 522

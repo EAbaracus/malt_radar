@@ -1,0 +1,8 @@
+=== DRY-RUN IMPORT VALIDATION REPORT ===
+
+Distilleries rows: 990
+Whiskies rows: 1829 (Beklenen: 1829)
+Orphan Whiskies: 1151 (Beklenen: 1151)
+Flavor Profiles: 0
+FK Errors: 0 (Beklenen: 0)
+Duplicate PK Errors: 0 (Beklenen: 0)

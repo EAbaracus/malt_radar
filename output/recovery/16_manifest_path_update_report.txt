@@ -1,0 +1,7 @@
+MANIFEST PATH UPDATE REPORT
+===========================
+Verified Manifest Path: output\final\67_FINAL_import_ready_distilleries_whiskycom_enriched.csv | Exists: True
+Verified Manifest Path: output\final\60_FINAL_import_ready_whiskies_distillery_patched.csv | Exists: True
+Verified Manifest Path: output\37_import_ready_tasting_notes.csv | Exists: True
+Verified Manifest Path: output\30_HIGH_CONFIDENCE_flavor_profiles_WDB_MAPPED.csv | Exists: False
+Verified Manifest Path: output\36_import_ready_price_history.csv | Exists: True

@@ -1,0 +1,214 @@
+{
+  "count": 23,
+  "next": null,
+  "previous": null,
+  "results": [
+    {
+      "id": 20,
+      "name": "Bangalore",
+      "slug": "bangalore",
+      "country_name": "India",
+      "description": "Bangalore (Bengaluru) at 920 meters elevation in southern India is home to Amrut, India's first single malt distillery to gain international recognition. The city's tropical climate with its high angel's share produces intensely concentrated whiskies that mature rapidly compared to cooler climates.",
+      "meta_description": "Bangalore \u2014 India's single malt capital at 920m elevation. Home of Amrut and rapid tropical maturation.",
+      "is_featured": true
+    },
+    {
+      "id": 19,
+      "name": "Indiana",
+      "slug": "indiana",
+      "country_name": "United States",
+      "description": "Indiana is home to MGP Ingredients in Lawrenceburg, one of the most prolific whiskey producers in America. MGP produces bourbon, rye, and other whiskeys that are sourced by dozens of brands nationwide. The state's distilling heritage dates to the early 19th century along the Ohio River valley.",
+      "meta_description": "Indiana \u2014 home of MGP, one of America's most prolific whiskey producers. Sourcing bourbon and rye for dozens of brands.",
+      "is_featured": true
+    },
+    {
+      "id": 7,
+      "name": "Kentucky",
+      "slug": "kentucky",
+      "country_name": "United States",
+      "description": "Kentucky produces approximately 95% of the world's bourbon supply and is home to iconic distilleries along the Kentucky Bourbon Trail. The state's limestone-filtered water, extreme seasonal temperature swings, and deep distilling heritage make it the undisputed heartland of American whiskey.",
+      "meta_description": "Kentucky \u2014 producing 95% of the world's bourbon. Limestone water, temperature extremes, and the Bourbon Trail.",
+      "is_featured": true
+    },
+    {
+      "id": 4,
+      "name": "Lowland",
+      "slug": "lowland",
+      "country_name": "Scotland",
+      "description": "The Lowland region encompasses the southern portion of Scotland below an imaginary line between the Clyde and Tay estuaries. Lowland malts are traditionally lighter, gentler, and more floral than their Highland and Islay counterparts, often triple-distilled for extra smoothness.",
+      "meta_description": "Lowland \u2014 Scotland's gentle whisky region. Light, floral, and often triple-distilled single malts.",
+      "is_featured": true
+    },
+    {
+      "id": 5,
+      "name": "Campbeltown",
+      "slug": "campbeltown",
+      "country_name": "Scotland",
+      "description": "Once home to over 30 distilleries, Campbeltown on the Kintyre peninsula now has just three active producers. Despite its small size, it retains its own regional designation due to its distinctive style: briny, oily, and slightly smoky with a robust maritime character.",
+      "meta_description": "Campbeltown \u2014 historic whisky capital with 3 remaining distilleries. Briny, oily, and distinctively maritime.",
+      "is_featured": true
+    },
+    {
+      "id": 18,
+      "name": "Colorado",
+      "slug": "colorado",
+      "country_name": "United States",
+      "description": "Colorado's high altitude and dramatic temperature swings between day and night create unique whiskey maturation conditions. Stranahan's in Denver pioneered the state's single malt movement, and a growing craft scene benefits from Rocky Mountain snowmelt water and an adventurous local consumer base.",
+      "meta_description": "Colorado \u2014 high-altitude whiskey with dramatic temperature swings. Stranahan's and a growing craft distilling scene.",
+      "is_featured": true
+    },
+    {
+      "id": 2,
+      "name": "Highland",
+      "slug": "highland",
+      "country_name": "Scotland",
+      "description": "The Highland region is the largest Scotch whisky region by geography, stretching from the central belt to the northern coast. Highland malts are diverse, ranging from light and floral in the south to rich and full-bodied in the north, with coastal distilleries showing maritime influence.",
+      "meta_description": "Highland \u2014 Scotland's largest whisky region with diverse styles. From light and floral to rich and maritime.",
+      "is_featured": true
+    },
+    {
+      "id": 1,
+      "name": "Speyside",
+      "slug": "speyside",
+      "country_name": "Scotland",
+      "description": "Speyside is the most densely concentrated whisky-producing region in Scotland, home to over half of the country's distilleries along the River Spey and its tributaries. Speyside malts are renowned for their elegance, with flavors ranging from light and grassy to rich and sherried.",
+      "meta_description": "Speyside \u2014 Scotland's most prolific whisky region with 50+ distilleries. Elegant malts from light and grassy to rich and sherried.",
+      "is_featured": true
+    },
+    {
+      "id": 9,
+      "name": "New York",
+      "slug": "new-york",
+      "country_name": "United States",
+      "description": "New York has emerged as a leading craft distilling state with over 100 licensed distilleries. The Hudson Valley and Finger Lakes regions are particularly active, producing rye whiskey, bourbon, and single malt expressions that reflect the state's agricultural diversity and cold climate.",
+      "meta_description": "New York \u2014 over 100 craft distilleries producing rye, bourbon, and single malt. Hudson Valley and Finger Lakes.",
+      "is_featured": true
+    },
+    {
+      "id": 8,
+      "name": "Tennessee",
+      "slug": "tennessee",
+      "country_name": "United States",
+      "description": "Tennessee is home to its own legally distinct style of whiskey, defined by the Lincoln County Process of charcoal mellowing before aging. The state's distilling tradition dates to the late 18th century, with Jack Daniel's and George Dickel as the most recognized producers.",
+      "meta_description": "Tennessee \u2014 home of charcoal-mellowed Tennessee whiskey. Jack Daniel's, George Dickel, and a growing craft scene.",
+      "is_featured": true
+    },
+    {
+      "id": 10,
+      "name": "Texas",
+      "slug": "texas",
+      "country_name": "United States",
+      "description": "Texas has become a notable whiskey-producing state, with extreme summer heat accelerating barrel aging and producing bold, mature-tasting spirits in a fraction of the time required in cooler states. Distilleries like Balcones and Garrison Brothers have garnered international recognition.",
+      "meta_description": "Texas \u2014 extreme heat accelerating whiskey maturation. Bold, fast-aged spirits from Balcones and Garrison Brothers.",
+      "is_featured": true
+    },
+    {
+      "id": 13,
+      "name": "Hokkaido",
+      "slug": "hokkaido",
+      "country_name": "Japan",
+      "description": "Hokkaido, Japan's northernmost main island, has a cold climate comparable to Scotland. Nikka's Yoichi distillery was founded here in 1934 by Masataka Taketsuru specifically because the climate reminded him of Scottish Highlands. The harsh winters produce bold, peated, and maritime-influenced whiskies.",
+      "meta_description": "Hokkaido \u2014 Nikka Yoichi's home with Scottish-like climate. Bold, peated whiskies from Japan's northern island.",
+      "is_featured": true
+    },
+    {
+      "id": 12,
+      "name": "Honshu",
+      "slug": "honshu",
+      "country_name": "Japan",
+      "description": "Honshu, Japan's largest island, is home to the country's most famous whisky distilleries including Yamazaki, Hakushu, and Chichibu. The island's diverse climate zones \u2014 from the forested Hakushu highlands to the humid Osaka lowlands \u2014 enable a wide range of maturation profiles.",
+      "meta_description": "Honshu \u2014 Japan's whisky heartland with Yamazaki, Hakushu, and Chichibu. Diverse climates shaping distinct styles.",
+      "is_featured": true
+    },
+    {
+      "id": 6,
+      "name": "Islands",
+      "slug": "islands",
+      "country_name": "Scotland",
+      "description": "The Islands designation covers Scottish island distilleries outside of Islay, including Skye, Mull, Jura, Arran, and Orkney. While not an official Scotch Whisky Association region, these distilleries share maritime influences and produce whiskies ranging from lightly coastal to richly peated.",
+      "meta_description": "Islands \u2014 Scottish island whiskies from Skye, Orkney, Mull, and more. Maritime character with varied peat levels.",
+      "is_featured": true
+    },
+    {
+      "id": 14,
+      "name": "Munster",
+      "slug": "munster",
+      "country_name": "Ireland",
+      "description": "Munster in southern Ireland is the heartland of Irish whiskey production, home to the Midleton Distillery in Cork that produces Jameson, Redbreast, and Midleton Very Rare. County Kerry's Dingle Distillery and West Cork Distillers add craft dimension to the region's deep distilling heritage.",
+      "meta_description": "Munster \u2014 southern Ireland's whiskey heartland. Home of Midleton, Dingle, and centuries of distilling tradition.",
+      "is_featured": true
+    },
+    {
+      "id": 11,
+      "name": "Oregon",
+      "slug": "oregon",
+      "country_name": "United States",
+      "description": "Oregon is a pioneer in the American single malt movement, with distilleries like Westland leading the push for a defined category. The Pacific Northwest climate provides cool, steady maturation conditions, and local barley varieties contribute distinct terroir-driven character.",
+      "meta_description": "Oregon \u2014 American single malt pioneer with terroir-driven whiskey. Cool climate and Pacific Northwest barley.",
+      "is_featured": true
+    },
+    {
+      "id": 17,
+      "name": "Connacht",
+      "slug": "connacht",
+      "country_name": "Ireland",
+      "description": "Connacht on Ireland's rugged west coast is the newest frontier for Irish whiskey, with distilleries drawing on the region's pure Atlantic air and water. The Connacht Whiskey Company and Lough Gill Distillery are among the producers establishing a new tradition in the west of Ireland.",
+      "meta_description": "Connacht \u2014 western Ireland's emerging whiskey frontier. Atlantic influence and new craft distilleries.",
+      "is_featured": true
+    },
+    {
+      "id": 21,
+      "name": "Goa",
+      "slug": "goa",
+      "country_name": "India",
+      "description": "Goa on India's western coast provides a unique coastal tropical environment for whisky maturation. Paul John distillery takes advantage of the warm, humid climate and sea air, producing single malts with a distinctive character that has won numerous international awards.",
+      "meta_description": "Goa \u2014 coastal Indian whisky from Paul John distillery. Tropical seaside maturation with international acclaim.",
+      "is_featured": true
+    },
+    {
+      "id": 3,
+      "name": "Islay",
+      "slug": "islay",
+      "country_name": "Scotland",
+      "description": "Islay is a small Hebridean island famous for producing the most heavily peated and phenolic Scotch whiskies in the world. Its nine active distilleries produce malts with intense smoke, maritime salt, and medicinal character derived from local peat and Atlantic exposure.",
+      "meta_description": "Islay \u2014 Scotland's peat island with 9 distilleries. Intensely smoky, maritime, and medicinal single malts.",
+      "is_featured": true
+    },
+    {
+      "id": 15,
+      "name": "Leinster",
+      "slug": "leinster",
+      "country_name": "Ireland",
+      "description": "Leinster encompasses Dublin and Ireland's east coast, historically the center of Irish whiskey production with legendary names like John Jameson, John Power, and George Roe. The region has seen a dramatic revival with Teeling, Roe & Co, and several new distilleries returning whiskey-making to the capital.",
+      "meta_description": "Leinster \u2014 Dublin and eastern Ireland's whiskey revival. Teeling, Tullamore, and the capital's distilling renaissance.",
+      "is_featured": true
+    },
+    {
+      "id": 22,
+      "name": "Tasmania",
+      "slug": "tasmania",
+      "country_name": "Australia",
+      "description": "Tasmania is the epicenter of Australian whisky, with over 30 distilleries on the island. The cool maritime climate, clean air, and pure water mirror ideal Scottish conditions. Sullivan's Cove became the first non-Scottish, non-Japanese distillery to win World's Best Single Malt at the World Whiskies Awards in 2014.",
+      "meta_description": "Tasmania \u2014 Australia's whisky heartland with 30+ distilleries. Sullivan's Cove won World's Best Single Malt in 2014.",
+      "is_featured": true
+    },
+    {
+      "id": 16,
+      "name": "Ulster",
+      "slug": "ulster",
+      "country_name": "Ireland",
+      "description": "Ulster in northern Ireland is home to Bushmills, which holds the world's oldest licensed distillery claim dating to 1608. The region's distilling tradition spans both Northern Ireland and County Donegal, with a growing number of craft producers joining Bushmills in the region.",
+      "meta_description": "Ulster \u2014 northern Ireland and home of Bushmills, the world's oldest licensed distillery since 1608.",
+      "is_featured": true
+    },
+    {
+      "id": 23,
+      "name": "Melbourne",
+      "slug": "melbourne",
+      "country_name": "Australia",
+      "description": "Melbourne has emerged as a hub for innovative Australian whisky, led by Starward which pioneered the use of Australian wine barrels for maturation. The city's temperate climate with warm summers accelerates aging, and a thriving cocktail culture provides a ready market for local craft spirits.",
+      "meta_description": "Melbourne \u2014 innovative Australian whisky hub. Starward's wine-barrel aging and a vibrant craft spirits scene.",
+      "is_featured": true
+    }
+  ]
+}

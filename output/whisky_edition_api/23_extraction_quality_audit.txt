@@ -1,0 +1,17 @@
+--- EXTRACTION QUALITY AUDIT ---
+Fetched review count: 523
+Parsed tasting note candidate count: 522
+Duplicate review count: 0
+Failed detail fetch count: 0
+Empty name/slug count: 0
+
+Fill Rates (out of tasting notes):
+source_url fill rate: 522/522
+nose fill rate: 522/522
+palate fill rate: 522/522
+finish fill rate: 522/522
+conclusion fill rate: 522/522
+
+Rate Limits:
+Rate limit / 429 seen: Yes
+Backoff successful: Yes

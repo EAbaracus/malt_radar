@@ -1,0 +1,30 @@
+whisky_id,master_name,malt_list_name,historical_menu_price,currency,pour_size_ml,price_context,source_name,source_file,source_confidence,match_score,risk_level,import_recommendation
+W001095,ardbeg uigeadail,Ardbeg Uigeadail,8,GBP,35,historical bar menu pour price,The Malt List / The Canny Man's,The_Malt_List.pdf,High (Audited),100.0,LOW,candidate_only_not_current_price
+W000646,auchroisk 10yo (f&f),Auchroisk,9,GBP,35,historical bar menu pour price,The Malt List / The Canny Man's,The_Malt_List.pdf,High (Audited),100.0,LOW,candidate_only_not_current_price
+W000187,balvenie 21yo port wood,Balvenie D’Wood,6,GBP,35,historical bar menu pour price,The Malt List / The Canny Man's,The_Malt_List.pdf,High (Audited),92.85714285714286,LOW,candidate_only_not_current_price
+W000373,benrinnes 15yo f&f,Benrinnes,8,GBP,35,historical bar menu pour price,The Malt List / The Canny Man's,The_Malt_List.pdf,High (Audited),100.0,LOW,candidate_only_not_current_price
+W000567,benromach organic,Benromach Organic,6,GBP,35,historical bar menu pour price,The Malt List / The Canny Man's,The_Malt_List.pdf,High (Audited),100.0,LOW,candidate_only_not_current_price
+W000346,bruichladdich rocks,Bruichladdich Rocks,6,GBP,35,historical bar menu pour price,The Malt List / The Canny Man's,The_Malt_List.pdf,High (Audited),100.0,LOW,candidate_only_not_current_price
+W001221,finlaggan old reserve,Finlaggan,8,GBP,35,historical bar menu pour price,The Malt List / The Canny Man's,The_Malt_List.pdf,High (Audited),100.0,LOW,candidate_only_not_current_price
+W000655,glenburgie 10yo (gordon & macphail),Glenburgie,10,GBP,35,historical bar menu pour price,The Malt List / The Canny Man's,The_Malt_List.pdf,High (Audited),100.0,LOW,candidate_only_not_current_price
+W000655,glenburgie 10yo (gordon & macphail),Glenburgie,8,GBP,35,historical bar menu pour price,The Malt List / The Canny Man's,The_Malt_List.pdf,High (Audited),100.0,LOW,candidate_only_not_current_price
+W000655,glenburgie 10yo (gordon & macphail),Glenburgie,12,GBP,35,historical bar menu pour price,The Malt List / The Canny Man's,The_Malt_List.pdf,High (Audited),100.0,LOW,candidate_only_not_current_price
+W000655,glenburgie 10yo (gordon & macphail),Glenburgie,10,GBP,35,historical bar menu pour price,The Malt List / The Canny Man's,The_Malt_List.pdf,High (Audited),100.0,LOW,candidate_only_not_current_price
+W000655,glenburgie 10yo (gordon & macphail),Glenburgie,8,GBP,35,historical bar menu pour price,The Malt List / The Canny Man's,The_Malt_List.pdf,High (Audited),100.0,LOW,candidate_only_not_current_price
+W000655,glenburgie 10yo (gordon & macphail),Glenburgie,12,GBP,35,historical bar menu pour price,The Malt List / The Canny Man's,The_Malt_List.pdf,High (Audited),100.0,LOW,candidate_only_not_current_price
+W000655,glenburgie 10yo (gordon & macphail),Glenburgie,10,GBP,35,historical bar menu pour price,The Malt List / The Canny Man's,The_Malt_List.pdf,High (Audited),100.0,LOW,candidate_only_not_current_price
+W000655,glenburgie 10yo (gordon & macphail),Glenburgie,8,GBP,35,historical bar menu pour price,The Malt List / The Canny Man's,The_Malt_List.pdf,High (Audited),100.0,LOW,candidate_only_not_current_price
+W000655,glenburgie 10yo (gordon & macphail),Glenburgie,12,GBP,35,historical bar menu pour price,The Malt List / The Canny Man's,The_Malt_List.pdf,High (Audited),100.0,LOW,candidate_only_not_current_price
+W000669,glen deveron 10yo (macduff),Glen Deveron,7,GBP,35,historical bar menu pour price,The Malt List / The Canny Man's,The_Malt_List.pdf,High (Audited),100.0,LOW,candidate_only_not_current_price
+W000588,glen elgin 12yo,Glen Elgin,9,GBP,35,historical bar menu pour price,The Malt List / The Canny Man's,The_Malt_List.pdf,High (Audited),100.0,LOW,candidate_only_not_current_price
+W000199,glenfarclas 105,Glenfarclas 105,7,GBP,35,historical bar menu pour price,The Malt List / The Canny Man's,The_Malt_List.pdf,High (Audited),100.0,LOW,candidate_only_not_current_price
+W000563,glenfiddich 14yo rich oak,Glenfiddich rich oak,7,GBP,35,historical bar menu pour price,The Malt List / The Canny Man's,The_Malt_List.pdf,High (Audited),100.0,LOW,candidate_only_not_current_price
+W000877,glenturret 10yo,Glenturret,9,GBP,35,historical bar menu pour price,The Malt List / The Canny Man's,The_Malt_List.pdf,High (Audited),100.0,LOW,candidate_only_not_current_price
+W000789,inchgower 14yo (f&f),Inchgower,7,GBP,35,historical bar menu pour price,The Malt List / The Canny Man's,The_Malt_List.pdf,High (Audited),100.0,LOW,candidate_only_not_current_price
+W001074,jura superstition,Jura Superstition,6,GBP,35,historical bar menu pour price,The Malt List / The Canny Man's,The_Malt_List.pdf,High (Audited),100.0,LOW,candidate_only_not_current_price
+W000891,knockando 12yo (all vintages),Knockando,6,GBP,35,historical bar menu pour price,The Malt List / The Canny Man's,The_Malt_List.pdf,High (Audited),100.0,LOW,candidate_only_not_current_price
+W000634,macallan amber,Macallan Amber,6,GBP,35,historical bar menu pour price,The Malt List / The Canny Man's,The_Malt_List.pdf,High (Audited),100.0,LOW,candidate_only_not_current_price
+W000669,glen deveron 10yo (macduff),Macduff,9,GBP,35,historical bar menu pour price,The Malt List / The Canny Man's,The_Malt_List.pdf,High (Audited),100.0,LOW,candidate_only_not_current_price
+W000826,mannochmore 12yo (f&f),Mannochmore,7,GBP,35,historical bar menu pour price,The Malt List / The Canny Man's,The_Malt_List.pdf,High (Audited),100.0,LOW,candidate_only_not_current_price
+W000663,miltonduff 10yo (f&f),Miltonduff,8,GBP,35,historical bar menu pour price,The Malt List / The Canny Man's,The_Malt_List.pdf,High (Audited),100.0,LOW,candidate_only_not_current_price
+W000229,oban distillers edition (all vintages),Oban distillers ed.,7,GBP,35,historical bar menu pour price,The Malt List / The Canny Man's,The_Malt_List.pdf,High (Audited),90.9090909090909,LOW,candidate_only_not_current_price

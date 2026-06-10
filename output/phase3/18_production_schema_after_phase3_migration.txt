@@ -1,0 +1,5 @@
+PRODUCTION SCHEMA AFTER PHASE 3 MIGRATION
+=========================================
+
+- migration sonrası schema snapshot: brands, sqlite_sequence, bottlers, companies, external_entities, entity_aliases, entity_external_links, whisky_product_entities, distillery_company_links, bottler_product_links, staging_new_products, staging_tasting_notes, staging_historical_menu_prices, staging_external_reviews, staging_manual_review_queue, knowledge_regions, knowledge_glossary_terms, knowledge_guides, external_reference_links
+- yeni tablolar listesi: brands, sqlite_sequence, bottlers, companies, external_entities, entity_aliases, entity_external_links, whisky_product_entities, distillery_company_links, bottler_product_links, staging_new_products, staging_tasting_notes, staging_historical_menu_prices, staging_external_reviews, staging_manual_review_queue, knowledge_regions, knowledge_glossary_terms, knowledge_guides, external_reference_links

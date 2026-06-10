@@ -1,0 +1,7 @@
+STAGING DB EXPORT POSSIBILITY REPORT
+====================================
+
+DB Path: C:\Users\eltun\Documents\malt radar\frontend\.dart_tool\chrome-device\Default\heavy_ad_intervention_opt_out.db
+  Does not match expected counts. Not recommended for full recovery.
+
+No database matched all the strict criteria (Dist=990, Wsk=1829, NullDist=1151, Flav=122, Tast=25).

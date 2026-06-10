@@ -1,0 +1,7 @@
+PRODUCTION PHASE 3 BACKUP REPORT
+================================
+
+- backup alındı mı?: Evet
+- backup path: C:\Users\eltun\Documents\malt radar\output\import\backup_production_20260611_005041.db
+- backup boyutu: 0.0 KB
+- timestamp: 20260611_005041

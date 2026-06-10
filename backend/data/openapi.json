@@ -1,0 +1,452 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "WHISKY:EDITION API",
+    "description": "Public API for whisky reviews, tasting notes, and metadata from WHISKY:EDITION.",
+    "version": "1.2.1"
+  },
+  "servers": [
+    {
+      "url": "https://thewhiskyedition.com"
+    }
+  ],
+  "paths": {
+    "/api/whisky-reviews": {
+      "get": {
+        "summary": "List of whisky reviews",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "description": "Page of the result list",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "required": false,
+            "description": "Number of reviews per page",
+            "schema": {
+              "type": "integer",
+              "default": 24
+            }
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Full-text search across titles, descriptions, and metadata",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "country",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "region",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "distillery",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "bottler",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "flavour",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "min_age",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "max_age",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "min_abv",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "max_abv",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "min_price",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "max_price",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of published whisky reviews",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/List"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/whisky-reviews/{slug}": {
+      "get": {
+        "summary": "Detailed information about a single whisky review",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "description": "slug",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Detail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Whisky review not found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "List": {
+        "type": "object",
+        "required": [
+          "ok",
+          "lang",
+          "count",
+          "total",
+          "page",
+          "per_page",
+          "items"
+        ],
+        "properties": {
+          "ok": {
+            "type": "boolean"
+          },
+          "lang": {
+            "type": "string",
+            "enum": [
+              "de",
+              "en"
+            ]
+          },
+          "count": {
+            "type": "integer"
+          },
+          "total": {
+            "type": "integer"
+          },
+          "page": {
+            "type": "integer"
+          },
+          "per_page": {
+            "type": "integer"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Summary"
+            }
+          }
+        }
+      },
+      "Summary": {
+        "type": "object",
+        "required": [
+          "id",
+          "slug",
+          "lang",
+          "name",
+          "description",
+          "image",
+          "authors",
+          "metadata",
+          "rating",
+          "url"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "lang": {
+            "type": "string",
+            "enum": [
+              "de",
+              "en"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "image": {
+            "type": "object",
+            "required": [
+              "url"
+            ],
+            "properties": {
+              "url": {
+                "type": "string",
+                "format": "uri"
+              },
+              "alt": {
+                "type": "string"
+              }
+            }
+          },
+          "authors": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "Marcel",
+                "Sascha"
+              ]
+            }
+          },
+          "published_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/MetaData"
+          },
+          "rating": {
+            "$ref": "#/components/schemas/Rating"
+          },
+          "url": {
+            "type": "string"
+          },
+          "pdf": {
+            "type": "string",
+            "description": "URL path to the PDF export of this review"
+          }
+        }
+      },
+      "Detail": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Summary"
+          },
+          {
+            "type": "object"
+          }
+        ],
+        "required": [
+          "tasting_notes",
+          "conclusion"
+        ],
+        "properties": {
+          "tasting_notes": {
+            "$ref": "#/components/schemas/Notes"
+          },
+          "conclusion": {
+            "$ref": "#/components/schemas/Conclusion"
+          },
+          "faq": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "question",
+                "answer"
+              ],
+              "properties": {
+                "question": {
+                  "type": "string"
+                },
+                "answer": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "MetaData": {
+        "type": "object",
+        "required": [
+          "type",
+          "country",
+          "distillery",
+          "abv"
+        ],
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "region": {
+            "type": "string"
+          },
+          "distillery": {
+            "type": "string"
+          },
+          "bottler": {
+            "type": "string"
+          },
+          "age": {
+            "type": "integer"
+          },
+          "abv": {
+            "type": "number"
+          },
+          "price_per_liter": {
+            "type": "number"
+          },
+          "flavour": {
+            "type": "string"
+          }
+        }
+      },
+      "Rating": {
+        "type": "object",
+        "required": [
+          "marcel",
+          "sascha",
+          "value_for_money"
+        ],
+        "properties": {
+          "marcel": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "sascha": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "value_for_money": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5
+          }
+        }
+      },
+      "Notes": {
+        "type": "object",
+        "required": [
+          "nose",
+          "palate",
+          "finish"
+        ],
+        "properties": {
+          "nose": {
+            "type": "string"
+          },
+          "palate": {
+            "type": "string"
+          },
+          "finish": {
+            "type": "string"
+          }
+        }
+      },
+      "Conclusion": {
+        "type": "object",
+        "required": [
+          "marcel",
+          "sascha"
+        ],
+        "properties": {
+          "marcel": {
+            "type": "string"
+          },
+          "sascha": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

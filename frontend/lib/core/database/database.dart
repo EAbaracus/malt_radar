@@ -23,6 +23,13 @@ class Whiskies extends Table {
   TextColumn get tastingNotes => text().withDefault(const Constant(''))();
   TextColumn get companionSuggestions => text().withDefault(const Constant(''))();
   RealColumn get globalScore => real().nullable()();
+  
+  // Flavor attributes
+  TextColumn get flavorProfile => text().nullable()();
+  TextColumn get flavorVector => text().nullable()();
+  TextColumn get flavorTags => text().nullable()();
+  TextColumn get flavorSource => text().nullable()();
+  RealColumn get flavorMatchScore => real().nullable()();
 }
 
 class UserSettings extends Table {
@@ -95,7 +102,7 @@ class AppDatabase extends _$AppDatabase {
   ));
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 4;
 
   @override
   MigrationStrategy get migration {
@@ -109,6 +116,13 @@ class AppDatabase extends _$AppDatabase {
         }
         if (from < 3) {
           await m.addColumn(whiskies, whiskies.distillery);
+        }
+        if (from < 4) {
+          await m.addColumn(whiskies, whiskies.flavorProfile);
+          await m.addColumn(whiskies, whiskies.flavorVector);
+          await m.addColumn(whiskies, whiskies.flavorTags);
+          await m.addColumn(whiskies, whiskies.flavorSource);
+          await m.addColumn(whiskies, whiskies.flavorMatchScore);
         }
       },
     );
