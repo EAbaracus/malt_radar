@@ -21,6 +21,13 @@ class Whisky {
   final List<String> companionSuggestions;
   final double? globalScore;
   
+  // Flavor attributes
+  final String? flavorProfile; // JSON
+  final String? flavorVector; // JSON
+  final String? flavorTags; // JSON
+  final String? flavorSource;
+  final double? flavorMatchScore;
+  
   // User specific attributes
   final int personalScore; // absolute score (0-100)
   final String personalNotes;
@@ -48,6 +55,11 @@ class Whisky {
     required this.personalScore,
     required this.personalNotes,
     required this.isFavorite,
+    this.flavorProfile,
+    this.flavorVector,
+    this.flavorTags,
+    this.flavorSource,
+    this.flavorMatchScore,
   });
 
   Whisky copyWith({
@@ -72,6 +84,11 @@ class Whisky {
     int? personalScore,
     String? personalNotes,
     bool? isFavorite,
+    String? flavorProfile,
+    String? flavorVector,
+    String? flavorTags,
+    String? flavorSource,
+    double? flavorMatchScore,
   }) {
     return Whisky(
       id: id ?? this.id,
@@ -95,6 +112,11 @@ class Whisky {
       personalScore: personalScore ?? this.personalScore,
       personalNotes: personalNotes ?? this.personalNotes,
       isFavorite: isFavorite ?? this.isFavorite,
+      flavorProfile: flavorProfile ?? this.flavorProfile,
+      flavorVector: flavorVector ?? this.flavorVector,
+      flavorTags: flavorTags ?? this.flavorTags,
+      flavorSource: flavorSource ?? this.flavorSource,
+      flavorMatchScore: flavorMatchScore ?? this.flavorMatchScore,
     );
   }
 
@@ -131,6 +153,11 @@ class Whisky {
       personalScore: score ?? 0,
       personalNotes: notes ?? '',
       isFavorite: favorite ?? false,
+      flavorProfile: whisky.flavorProfile,
+      flavorVector: whisky.flavorVector,
+      flavorTags: whisky.flavorTags,
+      flavorSource: whisky.flavorSource,
+      flavorMatchScore: whisky.flavorMatchScore,
     );
   }
 
@@ -158,6 +185,11 @@ class Whisky {
       personalScore: 0,
       personalNotes: '',
       isFavorite: false,
+      flavorProfile: map['flavor_profile'] != null ? map['flavor_profile'].toString() : null, // Handle JSON strings
+      flavorVector: map['flavor_vector'] != null ? map['flavor_vector'].toString() : null,
+      flavorTags: map['flavor_tags'] != null ? map['flavor_tags'].toString() : null,
+      flavorSource: map['flavor_source'] as String?,
+      flavorMatchScore: (map['flavor_match_score'] as num?)?.toDouble(),
     );
   }
 
@@ -182,6 +214,11 @@ class Whisky {
       tastingNotes: Value(tastingNotes.join(',')),
       companionSuggestions: Value(companionSuggestions.join(',')),
       globalScore: Value(globalScore),
+      flavorProfile: Value(flavorProfile),
+      flavorVector: Value(flavorVector),
+      flavorTags: Value(flavorTags),
+      flavorSource: Value(flavorSource),
+      flavorMatchScore: Value(flavorMatchScore),
     );
   }
 }
