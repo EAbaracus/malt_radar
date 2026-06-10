@@ -1,5 +1,0 @@
-=== POST-IMPORT FK CHECK ===
-
-Whiskies -> Distilleries FK Errors: 0
-Flavor Profiles -> Whiskies FK Errors: 0
-Tasting Notes -> Whiskies FK Errors: 0

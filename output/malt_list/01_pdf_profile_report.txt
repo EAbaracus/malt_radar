@@ -1,5 +1,0 @@
-PDF Profile Report: The_Malt_List.pdf
-Products Extracted: 131
-Tasting Notes Extracted: 52
-This run utilized fallback database: whisky_database_merged_max.csv
-All outputs are candidate only. No master files were mutated.

@@ -1,9 +1,0 @@
-RECOVERED DATASET READINESS CHECK
-=================================
-All required files were successfully copied into the 'recovered_from_radiant_bardeen' isolated directory.
-Integrity checksums matched the golden source exactly.
-Row counts for all major entities (Whiskies: 1829, Distilleries: 990, Orphans: 1151) have been strictly verified.
-Staging DB architecture looks sound.
-
-STATUS: READY FOR ACTIVE WORKSPACE MIGRATION.
-Awaiting user approval to migrate these files into the active 'output/final' and 'scripts' directories.

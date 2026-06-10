@@ -1,6 +1,0 @@
-dataset_name,entity,file_path,row_count,purpose,status,action
-final_distilleries,distilleries,output/final/67_FINAL_import_ready_distilleries_whiskycom_enriched.csv,990,final distillery import master with Whisky.com enrichment,active,IMPORT_FULL
-final_whiskies,whiskies,output/final/60_FINAL_import_ready_whiskies_distillery_patched.csv,1829,,active,IMPORT_FULL
-final_tasting_notes,tasting_notes,output/37_import_ready_tasting_notes.csv,25,,active,IMPORT_VERIFIED_ONLY
-final_flavor_profiles,flavor_profiles,output/30_HIGH_CONFIDENCE_flavor_profiles_WDB_MAPPED.csv,0,,active,IMPORT_FULL
-final_price_history,price_history,output/36_import_ready_price_history.csv,0,,active,IMPORT_IF_POPULATED

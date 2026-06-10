@@ -1,6 +1,0 @@
-order,table,rows_to_insert,strategy
-1,distilleries,990,insert-only
-2,whiskies,1829,insert-only
-3,tasting_notes,25,insert-only
-4,flavor_profiles,122,insert-only
-5,price_history,0,insert-only

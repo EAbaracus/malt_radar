@@ -1,4 +1,0 @@
-SEEDER PATH UPDATE REPORT
-=========================
-Updated f_dist to 67_FINAL_import_ready_distilleries_whiskycom_enriched.csv
-Seeder mode is strictly dry-run by default unless --execute is passed. (Confirmed)

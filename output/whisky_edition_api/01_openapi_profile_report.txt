@@ -1,4 +1,0 @@
-# OpenAPI Profile Report
-
-GET /api/whisky-reviews: List of whisky reviews
-GET /api/whisky-reviews/{slug}: Detailed information about a single whisky review
