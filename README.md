@@ -23,6 +23,14 @@ To protect the Golden Dataset (the master tables containing curated whiskies and
 - ⚠️ **Phase 5 (Staging Import & Execution):** Initial execution attempt was safely rolled back after schema mismatch detection. Master tables remained unchanged. The next step is Phase 5A — staging schema reconciliation.
 - ⏳ **Phase 5A (Staging Schema Reconciliation):** Align staging table schemas with Phase 4 preview CSV columns before retrying staging import.
 
+## Current Data Pipeline Status
+The robust ETL pipeline consists of the following key scripts:
+- **`pre_pipeline_merge.py`**: Pre-processes raw master data, merges Claude-repaired datasets safely without overriding confirmed fields, handles alias mapping, and produces final consolidated inputs.
+- **`ingest_whisky_database.py`**: The main ETL script. Safely imports consolidated data into the SQLite database enforcing schema validation, mapping foreign keys, and capturing failed rows.
+- **`inspect_whisky_db.py`**: Quality assurance script. Examines the generated database to generate high-level integrity metrics (FK violations, fill rates, missing dependencies).
+- **`freeze_checkpoint.py`**: Safely archives a successful output and creates time-stamped, unalterable database backups for production candidate states.
+- **`apply_review_fix_42_checkpoint.py`**: Automates safe transitions of experimental patches (like triage auto-fixes) into the main production inputs, running full verification pipelines before finalizing a checkpoint.
+
 ---
 
 ## Installation & Running Locally
