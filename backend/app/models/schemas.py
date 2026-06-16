@@ -37,3 +37,51 @@ class WhiskyPriceItem(BaseModel):
 
 class NormalizeRequest(BaseModel):
     name: str
+
+class ReviewQueueItem(BaseModel):
+    source_table: str
+    source_record_key: str
+    display_name: str
+    source_name: str
+    approval_status: str
+    dedupe_action: Optional[str]
+    import_recommendation: Optional[str]
+    review_priority: int
+    created_at: str
+    conflict_flag: str
+
+class ReviewQueueResponse(BaseModel):
+    items: List[ReviewQueueItem]
+    total: int
+    limit: int
+    offset: int
+
+class AllowedAction(BaseModel):
+    action_type: str
+    from_status: str
+    to_status: str
+    requires_note: bool
+    allowed: bool
+
+class ReviewDetailResponse(BaseModel):
+    source_table: str
+    source_record_key: str
+    item: Dict[str, str]
+    allowed_actions: List[AllowedAction]
+    related_conflicts: List[Dict[str, str]]
+    raw_payload: Optional[Dict[str, str]]
+
+class ReviewActionRequest(BaseModel):
+    source_table: str
+    source_record_key: str
+    action_type: str
+    target_status: str
+    reviewer: str
+    reviewer_note: Optional[str] = None
+    dry_run: bool = False
+
+class ReviewActionResponse(BaseModel):
+    success: bool
+    message: str
+    dry_run: bool
+    action_logged: bool
