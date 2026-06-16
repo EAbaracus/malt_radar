@@ -1,8 +1,11 @@
 import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:malt_radar/core/api/api_client.dart';
+import 'package:malt_radar/core/api/db_whisky_api_client.dart';
+import 'package:malt_radar/core/config/app_config.dart';
 import 'package:malt_radar/core/database/database.dart';
 import '../../data/repositories/whisky_repository_impl.dart';
+import '../../data/repositories/db_whisky_repository_impl.dart';
 import '../../domain/models/whisky.dart';
 import '../../domain/repositories/whisky_repository.dart';
 
@@ -18,10 +21,21 @@ final apiClientProvider = Provider<ApiClient>((ref) {
   return ApiClient();
 });
 
-// Provider for the repository
+// Provider for the new DB API client
+final dbWhiskyApiClientProvider = Provider<DbWhiskyApiClient>((ref) {
+  return DbWhiskyApiClient();
+});
+
+// Provider for the repository (Feature flag switch)
 final whiskyRepositoryProvider = Provider<WhiskyRepository>((ref) {
   final db = ref.watch(appDatabaseProvider);
   final client = ref.watch(apiClientProvider);
+  
+  if (AppConfig.useDbApi) {
+    final dbClient = ref.watch(dbWhiskyApiClientProvider);
+    return DbWhiskyRepositoryImpl(db, client, dbClient);
+  }
+  
   return WhiskyRepositoryImpl(db, client);
 });
 
