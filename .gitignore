@@ -39,3 +39,7 @@ Thumbs.db
 # Custom Local Archives (Untracked but kept locally)
 output/
 recovered_from_*/
+
+data/
+raw_sources/
+claude database/

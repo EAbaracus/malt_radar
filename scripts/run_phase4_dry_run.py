@@ -142,32 +142,79 @@ df_out_price.to_csv(os.path.join(OUT_DIR, "05_staging_historical_menu_prices_imp
 out_queue = []
 if not df_we_rev.empty:
     for idx, row in df_we_rev.iterrows():
-        out_queue.append({
-            'source_name': 'Whisky Edition',
-            'source_file': '25_manual_review_5_detailed_audit.csv',
-            'candidate_type': 'Whisky Product Match',
-            'candidate_name': row.get('name', ''),
-            'related_whisky_id': row.get('matched_master_whisky_id', ''),
-            'related_entity_name': row.get('matched_master_name', ''),
-            'issue_type': 'Ambiguous Match',
-            'reason': row.get('decision_reason', ''),
-            'suggested_action': 'MERGE_OR_CREATE',
-            'approval_status': 'pending_review'
-        })
+        # Fallback logic for candidate_name
+        candidate_name = row.get('api_product_name') or row.get('product_name') or row.get('whisky_name') or row.get('name') or row.get('title') or row.get('candidate_name')
+        if pd.isna(candidate_name) or str(candidate_name).strip() == '':
+            candidate_name = ''
+            
+        source_file = '25_manual_review_5_detailed_audit.csv'
+        source_record_key = f"{source_file}::row_{idx}"
+        
+        if not candidate_name:
+            out_queue.append({
+                'source_name': 'Whisky Edition',
+                'source_file': source_file,
+                'source_record_key': source_record_key,
+                'candidate_type': 'Whisky Product Match',
+                'candidate_name': 'blocked_missing_candidate_name',
+                'related_whisky_id': row.get('matched_master_whisky_id', ''),
+                'related_entity_name': row.get('matched_master_name', ''),
+                'issue_type': 'mapping_error',
+                'reason': 'Empty candidate_name detected',
+                'suggested_action': 'BLOCK',
+                'approval_status': 'error'
+            })
+        else:
+            out_queue.append({
+                'source_name': 'Whisky Edition',
+                'source_file': source_file,
+                'source_record_key': source_record_key,
+                'candidate_type': 'Whisky Product Match',
+                'candidate_name': candidate_name,
+                'related_whisky_id': row.get('matched_master_whisky_id', ''),
+                'related_entity_name': row.get('matched_master_name', ''),
+                'issue_type': 'Ambiguous Match',
+                'reason': row.get('decision_reason', ''),
+                'suggested_action': 'MERGE_OR_CREATE',
+                'approval_status': 'pending_review'
+            })
 if not df_ml_man.empty:
     for idx, row in df_ml_man.iterrows():
-        out_queue.append({
-            'source_name': 'The Malt List',
-            'source_file': '07_reconciled_manual_review_price_candidates.csv',
-            'candidate_type': 'Historical Price Match',
-            'candidate_name': row.get('malt_list_name', ''),
-            'related_whisky_id': row.get('whisky_id', ''),
-            'related_entity_name': row.get('master_name', ''),
-            'issue_type': 'Ambiguous Price Match',
-            'reason': f"Risk Level: {row.get('risk_level', '')}",
-            'suggested_action': 'MERGE_OR_DISCARD',
-            'approval_status': 'pending_review'
-        })
+        source_file = '07_reconciled_manual_review_price_candidates.csv'
+        source_record_key = f"{source_file}::row_{idx}"
+        
+        candidate_name = row.get('malt_list_name', '')
+        if pd.isna(candidate_name) or str(candidate_name).strip() == '':
+            candidate_name = ''
+            
+        if not candidate_name:
+            out_queue.append({
+                'source_name': 'The Malt List',
+                'source_file': source_file,
+                'source_record_key': source_record_key,
+                'candidate_type': 'Historical Price Match',
+                'candidate_name': 'blocked_missing_candidate_name',
+                'related_whisky_id': row.get('whisky_id', ''),
+                'related_entity_name': row.get('master_name', ''),
+                'issue_type': 'mapping_error',
+                'reason': 'Empty candidate_name detected',
+                'suggested_action': 'BLOCK',
+                'approval_status': 'error'
+            })
+        else:
+            out_queue.append({
+                'source_name': 'The Malt List',
+                'source_file': source_file,
+                'source_record_key': source_record_key,
+                'candidate_type': 'Historical Price Match',
+                'candidate_name': candidate_name,
+                'related_whisky_id': row.get('whisky_id', ''),
+                'related_entity_name': row.get('master_name', ''),
+                'issue_type': 'Ambiguous Price Match',
+                'reason': f"Risk Level: {row.get('risk_level', '')}",
+                'suggested_action': 'MERGE_OR_DISCARD',
+                'approval_status': 'pending_review'
+            })
 df_out_queue = pd.DataFrame(out_queue)
 df_out_queue.to_csv(os.path.join(OUT_DIR, "06_staging_manual_review_queue_preview.csv"), index=False)
 
