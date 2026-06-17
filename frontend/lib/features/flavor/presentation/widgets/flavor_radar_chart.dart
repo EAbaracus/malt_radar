@@ -66,7 +66,6 @@ class FlavorRadarChart extends StatelessWidget {
           radarShape: RadarShape.polygon,
           radarBackgroundColor: Colors.transparent,
           radarBorderData: const BorderSide(color: Colors.white24, width: 1.5),
-          titlePositionMultiplierPercentage: 0.15,
           tickCount: 3,
           ticksTextStyle: const TextStyle(color: Colors.transparent, fontSize: 10),
           tickBorderData: const BorderSide(color: Colors.white12),
