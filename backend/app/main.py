@@ -14,7 +14,7 @@ from app.providers.csv_provider import CsvWhiskyProvider
 from app.providers.mock_providers import WhiskyHunterProvider, WhiskyEditionProvider
 from app.providers.distiller_provider import DistillerProvider
 from app.routers import admin_review
-from app.routers import db_read
+from app.routers import db_api
 
 # Configure rate limiter (default: 60 requests per minute per IP)
 limiter = Limiter(key_func=get_remote_address)
@@ -32,7 +32,7 @@ app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 app.include_router(admin_review.router)
 
 # Include new Read-Only DB API router
-app.include_router(db_read.router)
+app.include_router(db_api.router)
 
 # Fix CORS: don't use * with allow_credentials=True
 allowed_origins_env = os.getenv("MALT_RADAR_ALLOWED_ORIGINS", "")

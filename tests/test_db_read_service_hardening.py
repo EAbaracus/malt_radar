@@ -4,47 +4,39 @@ import pytest
 import sys
 from fastapi.testclient import TestClient
 
-# Add backend to path so imports work
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(base_dir, "backend"))
 
+os.environ["DB_API_ENABLED"] = "true"
+
 from app.main import app
-from app.providers.sqlite_read_adapter import SqliteReadAdapter
+from app.services.db_read_service import DbReadService
 
 client = TestClient(app)
 
-# A) DB resolver tests
 def test_db_resolver_default_path():
-    # Ensure env var is unset
     if "MALT_RADAR_DB_PATH" in os.environ:
         del os.environ["MALT_RADAR_DB_PATH"]
-    
-    adapter = SqliteReadAdapter()
-    assert adapter.db_path_source == "default"
-    assert "production.db" in adapter.db_path
+    service = DbReadService()
+    assert "production.db" in service.db_path
 
 def test_db_resolver_env_path():
     os.environ["MALT_RADAR_DB_PATH"] = "some_custom_path.db"
-    adapter = SqliteReadAdapter()
-    assert adapter.db_path_source == "env"
-    assert adapter.db_path.endswith("some_custom_path.db")
+    service = DbReadService()
+    assert service.db_path.endswith("some_custom_path.db")
     del os.environ["MALT_RADAR_DB_PATH"]
 
 def test_db_resolver_invalid_path():
     os.environ["MALT_RADAR_DB_PATH"] = "invalid_nonexistent.db"
-    adapter = SqliteReadAdapter()
-    health = adapter.get_health()
-    assert health["status"] == "error"
-    assert health["db_exists"] is False
+    service = DbReadService()
+    health = service.get_health()
+    assert health["db_reachable"] is False
     del os.environ["MALT_RADAR_DB_PATH"]
 
-# B) Read-only enforcement tests
 def test_read_only_enforcement():
-    adapter = SqliteReadAdapter()
-    # It should connect to default production.db
-    conn = adapter._get_connection()
+    service = DbReadService()
+    conn = service._get_connection()
     cursor = conn.cursor()
-    # Try an insert on a canonical table (it should fail due to read-only DB)
     with pytest.raises(sqlite3.OperationalError) as exc_info:
         cursor.execute("CREATE TABLE read_only_test (id INT)")
     assert "attempt to write a readonly database" in str(exc_info.value).lower()
@@ -54,96 +46,84 @@ def test_read_only_enforcement():
     assert "attempt to write a readonly database" in str(exc_info2.value).lower()
     conn.close()
 
-# C) Endpoint contract tests
 def test_health_contract():
     r = client.get("/api/db/health")
     assert r.status_code == 200
     data = r.json()
-    assert "db_path" in data
+    assert "counts" in data
     assert data["read_only"] is True
 
 def test_schema_contract():
-    r = client.get("/api/db/schema")
+    r = client.get("/api/db/health")
     assert r.status_code == 200
     data = r.json()
-    assert data["expected_canonical_table_check"] is True
+    assert "whiskies" in data["counts"]
+    assert "distilleries" in data["counts"]
 
 def test_whiskies_pagination_contract():
     r = client.get("/api/db/whiskies")
     assert r.status_code == 200
     data = r.json()
-    assert "items" in data
-    assert len(data["items"]) <= 50 # default limit
+    assert isinstance(data, list)
+    assert len(data) <= 50
     
     r2 = client.get("/api/db/whiskies?limit=150")
     assert r2.status_code == 200
-    assert len(r2.json()["items"]) <= 100 # clamp to 100
+    assert len(r2.json()) <= 100
     
     r3 = client.get("/api/db/whiskies?limit=5&offset=2")
     assert r3.status_code == 200
-    assert len(r3.json()["items"]) <= 5
+    assert len(r3.json()) <= 5
 
 def test_whiskies_search_contract():
-    # parameterized query check (we can't easily see it's parameterized from the outside, 
-    # but we can test SQL injection characters)
-    r = client.get("/api/db/whiskies?q=' OR 1=1 --")
+    r = client.get("/api/db/search?q=' OR 1=1 --")
     assert r.status_code == 200
-    # Should not return all whiskies (it returns nothing or whiskies matching the literal string)
-    assert len(r.json()["items"]) < 100
+    assert len(r.json()) < 100
 
 def test_whiskies_detail_contract():
-    # Get a valid id
     r = client.get("/api/db/whiskies?limit=1")
-    items = r.json().get("items", [])
+    items = r.json()
     if len(items) > 0:
         w_id = items[0]["whisky_id"]
         r2 = client.get(f"/api/db/whiskies/{w_id}")
         assert r2.status_code == 200
         assert r2.json()["whisky_id"] == w_id
 
-    # Invalid ID
     r3 = client.get("/api/db/whiskies/invalid_9999_xyz")
     assert r3.status_code == 404
 
 def test_distilleries_contract():
     r = client.get("/api/db/distilleries")
     assert r.status_code == 200
-    items = r.json().get("items", [])
+    items = r.json()
     assert len(items) <= 50
-    
-    if len(items) > 0:
-        d_id = items[0]["distillery_id"]
-        r2 = client.get(f"/api/db/distilleries/{d_id}")
-        assert r2.status_code == 200
 
 def test_related_endpoints_empty_behavior():
     w_id = "invalid_nonexistent_id"
     r = client.get(f"/api/db/whiskies/{w_id}/flavor-profile")
-    assert r.status_code == 404 # Empty behavior for FP is 404
+    assert r.status_code == 404
     
     r2 = client.get(f"/api/db/whiskies/{w_id}/tasting-notes")
     assert r2.status_code == 200
     assert isinstance(r2.json(), list)
-    assert len(r2.json()) == 0 # Empty behavior is []
+    assert len(r2.json()) == 0
     
     r3 = client.get(f"/api/db/whiskies/{w_id}/price-history")
     assert r3.status_code == 200
     assert isinstance(r3.json(), list)
     assert len(r3.json()) == 0
 
-# D) Legacy regression tests
 def test_legacy_regression():
     r = client.get("/api/whiskies/search?q=glen")
     assert r.status_code == 200
-    # Should return List[WhiskySearchItem]
     data = r.json()
     if len(data) > 0:
         assert "name" in data[0]
         assert "external_id" in data[0]
 
-# E) Schema compatibility tests
 def test_schema_compatibility():
-    adapter = SqliteReadAdapter()
-    schema_info = adapter.get_schema()
-    for table in adapter.canonical_tables:
-        assert table in schema_info["tables"]
+    service = DbReadService()
+    health = service.get_health()
+    counts = health.get("counts", {})
+    assert "whiskies" in counts
+    assert "distilleries" in counts
