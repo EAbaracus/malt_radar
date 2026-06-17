@@ -68,6 +68,10 @@ class RepoAgent:
                 files.append({"status": status, "path": filepath})
         return files
 
+    def get_staged_files(self):
+        stdout, _, _ = self.run_command("git diff --cached --name-only")
+        return [line.strip() for line in stdout.splitlines() if line.strip()]
+
     def classify_file(self, filepath):
         filepath = filepath.replace("\\", "/") # Normalize paths for regex
 
@@ -113,11 +117,25 @@ class RepoAgent:
                 self.run_command(f"git add \"{filepath}\"")
                 staged.append(filepath)
             else:
+                if f["status"][0] != " ":
+                    self.run_command(f"git restore --staged -- \"{filepath}\"")
                 rejected.append({"path": filepath, "reason": classification})
         
         return staged, rejected
 
     def commit(self, message):
+        staged_files = self.get_staged_files()
+        unsafe_staged = [
+            {"path": path, "reason": self.classify_file(path)}
+            for path in staged_files
+            if self.classify_file(path) != "SAFE_STAGE"
+        ]
+        if unsafe_staged:
+            for item in unsafe_staged:
+                self.run_command(f"git restore --staged -- \"{item['path']}\"")
+            rejected = ", ".join(f"{item['path']} ({item['reason']})" for item in unsafe_staged)
+            return False, f"Unsafe staged files were removed from index: {rejected}"
+
         stdout, stderr, code = self.run_command(f'git commit -m "{message}"')
         if code != 0:
             return False, stderr
