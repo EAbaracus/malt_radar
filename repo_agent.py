@@ -43,6 +43,7 @@ class RepoAgent:
         r"^repo_agent\.py$",
         r"^project_manager_agent\.py$",
         r"^PROJECT_STATE\.md$",
+        r"^project_docs/.*\.md$",
         r"^output/filestructure/.*\.md$",
         r"^output/filestructure/.*\.txt$",
         r"^frontend/lib/.*",
