@@ -56,7 +56,7 @@ class RepoAgent:
 
     def run_command(self, cmd):
         result = subprocess.run(cmd, cwd=self.repo_dir, capture_output=True, text=True, shell=True, encoding='utf-8', errors='replace')
-        return result.stdout.strip(), result.stderr.strip(), result.returncode
+        return result.stdout, result.stderr.strip(), result.returncode
 
     def get_status(self):
         stdout, _, _ = self.run_command("git status --porcelain -u")
