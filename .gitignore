@@ -43,3 +43,16 @@ recovered_from_*/
 data/
 raw_sources/
 claude database/
+
+# Temporary Scratchpads & Debug Scripts
+investigate_*.py
+scratch_*.py
+test_row.py
+verify_db_api.py
+
+# Local Reports & Logs
+tracked_files*.txt
+00_api_feasibility_report.txt
+
+# Experimental / Deprecated
+etl/experiment_fix_42.py
