@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../providers/similar_flavor_provider.dart';
-import '../../whisky/domain/models/whisky.dart';
+import '../../../whisky/domain/models/whisky.dart';
 
 class SimilarFlavorWhiskies extends ConsumerWidget {
   final int whiskyId;
@@ -50,7 +50,7 @@ class SimilarFlavorWhiskies extends ConsumerWidget {
                       width: 120,
                       margin: const EdgeInsets.symmetric(horizontal: 4),
                       decoration: BoxDecoration(
-                        color: AppTheme.surfaceLight,
+                        color: AppTheme.surface,
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(color: Colors.white10),
                       ),
@@ -95,7 +95,7 @@ class SimilarFlavorWhiskies extends ConsumerWidget {
         );
       },
       loading: () => const Center(child: CircularProgressIndicator(strokeWidth: 2)),
-      error: (_, __) => const SizedBox(),
+      error: (e, st) => const SizedBox(),
     );
   }
 }
