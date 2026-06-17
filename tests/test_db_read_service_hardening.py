@@ -68,8 +68,7 @@ def test_whiskies_pagination_contract():
     assert len(data) <= 50
     
     r2 = client.get("/api/db/whiskies?limit=150")
-    assert r2.status_code == 200
-    assert len(r2.json()) <= 100
+    assert r2.status_code == 422
     
     r3 = client.get("/api/db/whiskies?limit=5&offset=2")
     assert r3.status_code == 200
