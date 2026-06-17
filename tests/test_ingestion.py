@@ -119,7 +119,7 @@ def test_flavor_tags_many_to_many_insert(setup_env):
 def test_missing_distillery_goes_to_review_needed(setup_env):
     conn, db_path = setup_env
     cursor = conn.cursor()
-    cursor.execute("SELECT count(*) FROM review_needed WHERE entity_name = 'Ghost Product' AND field_name = 'distillery_name'")
+    cursor.execute("SELECT count(*) FROM review_needed WHERE entity_name = 'Ghost Product' AND field_name = 'distillery_id'")
     assert cursor.fetchone()[0] == 1
     
     # Additional test for missing bottler going to review_needed
