@@ -13,23 +13,23 @@ ALLOWED_DIRS = ['backend/app', 'backend/tests', 'tests', 'etl']
 FORBIDDEN_DIRS = ['.git', 'node_modules', '.venv', 'venv', 'build', 'output/import', 'data/input', 'data/output']
 FORBIDDEN_FILES = ['.env', 'output/production.db']
 
-def run_command(cmd, cwd=None, capture_output=True):
-    """Komutu çalıştırır ve çıktıyı döndürür."""
+def run_command(cmd_list, cwd=None, capture_output=True):
+    """Komutu arg listesi ile güvenli çalıştırır."""
     try:
-        result = subprocess.run(cmd, shell=True, capture_output=capture_output, text=True, cwd=cwd)
+        result = subprocess.run(cmd_list, capture_output=capture_output, text=True, cwd=cwd)
         return result.returncode, result.stdout + result.stderr
     except Exception as e:
         return -1, str(e)
 
 def run_test_agent():
-    """python test_agent.py --once komutunu çalıştırır."""
+    """test_agent.py çalıştırır."""
     print(">>> test_agent.py çalıştırılıyor...")
-    return run_command("python test_agent.py --once")
+    return run_command([sys.executable, "test_agent.py", "--once"])
 
 def run_pytest():
-    """python -m pytest komutunu çalıştırır."""
+    """python -m pytest çalıştırır."""
     print(">>> python -m pytest çalıştırılıyor...")
-    return run_command("python -m pytest")
+    return run_command([sys.executable, "-m", "pytest"])
 
 def read_failure_report():
     """hata_analizi.md ve varsa önceki logları okur."""
@@ -50,22 +50,19 @@ def parse_failed_tests(output_text):
     live_failed_tests = []
     historical_failed_tests = []
     
-    # Canlı çıktıdan parse
-    lines = output_text.splitlines()
-    for line in lines:
-        if "FAILED " in line or "ERROR collecting " in line:
-            test_name = line.strip()
-            if test_name not in live_failed_tests:
-                live_failed_tests.append(test_name)
+    try:
+        failed_pattern = re.compile(r'^(?:FAILED|ERROR\s+collecting)\s+(.+)', re.MULTILINE)
+        live_failed_tests = list(set([m.strip() for m in failed_pattern.findall(output_text)]))
+    except Exception:
+        pass
                 
-    # Hata analizinden parse
     if os.path.exists("hata_analizi.md"):
-        with open("hata_analizi.md", "r", encoding="utf-8") as f:
-            for line in f:
-                if line.startswith("* ____________ ERROR collecting") or line.startswith("* FAILED"):
-                    test_name = line.replace("* ____________ ERROR collecting ", "").replace(" ____________", "").strip()
-                    if test_name not in historical_failed_tests:
-                        historical_failed_tests.append(test_name)
+        try:
+            with open("hata_analizi.md", "r", encoding="utf-8") as f:
+                content = f.read()
+                historical_failed_tests = list(set([m.strip() for m in failed_pattern.findall(content)]))
+        except Exception:
+            pass
                         
     return live_failed_tests, historical_failed_tests
 
@@ -170,18 +167,30 @@ def is_allowed_to_modify(filepath):
     """Dosyanın değiştirilmesine izin verilip verilmediğini kontrol eder."""
     if not filepath: return False
     
-    filepath_normalized = filepath.replace("\\", "/")
+    p = Path(filepath)
+    parts = p.parts
+    path_str = str(p).replace("\\", "/")
     
-    for forbidden in FORBIDDEN_DIRS:
-        if forbidden in filepath_normalized.split('/'):
+    forbidden_prefixes = ["output/import", "data/input", "data/output"]
+    for prefix in forbidden_prefixes:
+        if path_str.startswith(prefix) or path_str == prefix:
             return False
             
-    for forbidden_file in FORBIDDEN_FILES:
-        if filepath_normalized.endswith(forbidden_file):
+    if path_str == "output/production.db":
+        return False
+    if p.name == ".env" or p.name.startswith(".env."):
+        return False
+    if p.suffix == ".csv" and "backend/data" in path_str:
+        return False
+        
+    forbidden_dirs = ['.git', '.venv', 'venv', 'node_modules', 'build', '__pycache__', '.pytest_cache']
+    for d in forbidden_dirs:
+        if d in parts:
             return False
             
-    for allowed in ALLOWED_DIRS:
-        if filepath_normalized.startswith(allowed):
+    allowed_prefixes = ['backend/app', 'backend/tests', 'tests', 'etl']
+    for allowed in allowed_prefixes:
+        if path_str.startswith(allowed):
             return True
             
     return False
@@ -201,16 +210,8 @@ def apply_safe_fixes(classifications):
                 new_content = content
                 
                 if c['category'] == "Import/PYTHONPATH problemi":
-                    if "import sys" not in content and "sys.path.insert" not in content:
-                        patch = (
-                            "import os\n"
-                            "import sys\n"
-                            "sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))\n"
-                        )
-                        new_content = patch + content
-                        applied_fixes.append(f"{filepath} dosyasına import yaması uygulandı.")
-                        
-                if new_content != content:
+                    applied_fixes.append(f"Atlandı (manual review required): {filepath} sys.path patch iptal edildi.")
+                elif new_content != content:
                     with open(filepath, "w", encoding="utf-8") as f:
                         f.write(new_content)
                     files_modified.add(filepath)
@@ -272,8 +273,8 @@ Decision:
     return decision, report_path
 
 def main():
-    parser = argparse.ArgumentParser(description="Repair Agent")
-    parser.add_argument("--once", action="store_true", default=True, help="Bir kez çalıştır ve çık.")
+    parser = argparse.ArgumentParser(description="Repair Agent (Tek seferlik çalışır)")
+    parser.add_argument("--once", action="store_true", help="Uyumluluk için bırakıldı, script zaten tek seferlik çalışır.")
     args = parser.parse_args()
 
     print(">>> Repair Agent başlatılıyor...")

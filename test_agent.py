@@ -6,6 +6,8 @@ import hashlib
 import asyncio
 import argparse
 import subprocess
+import re
+import shlex
 from pathlib import Path
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
@@ -27,7 +29,7 @@ REPORT_FILE = "hata_analizi.md"
 WATCH_EXTENSIONS = {'.py', '.dart', '.yaml', '.yml', '.json'}
 IGNORE_DIRS = {'.git', '.venv', 'venv', 'node_modules', '.dart_tool', 'build', 'dist', '__pycache__', 'output'}
 IGNORE_FILES = {STATE_FILE, REPORT_FILE}
-DEFAULT_COMMAND = "python -m pytest"
+DEFAULT_TIMEOUT = 300
 DEFAULT_TIMEOUT = 300
 DEBOUNCE_SECONDS = 2
 
@@ -82,17 +84,19 @@ def analyze_failure(output_text):
     broken_tests = []
     root_causes = []
     
-    lines = output_text.splitlines()
-    for line in lines:
-        if "FAILED " in line or "ERROR " in line:
-            broken_tests.append(line.strip())
-        elif "Error:" in line or "Exception:" in line:
-            root_causes.append(line.strip())
+    try:
+        failed_pattern = re.compile(r'^(?:FAILED|ERROR\s+collecting)\s+(.+)', re.MULTILINE)
+        broken_tests = [m.strip() for m in failed_pattern.findall(output_text)]
+        
+        cause_pattern = re.compile(r'^.*(?:Exception|Error):\s+.*$', re.MULTILINE)
+        root_causes = [m.strip() for m in cause_pattern.findall(output_text)]
+    except Exception:
+        pass
             
     if not broken_tests:
-        broken_tests = ["Belirgin bir FAILED satırı bulunamadı, ancak exit code 0 değil."]
+        broken_tests = ["manual review required: Belirgin bir FAILED satırı parse edilemedi."]
     if not root_causes:
-        root_causes = ["Loglarda doğrudan belirgin bir Exception veya Error işareti bulunamadı."]
+        root_causes = ["manual review required: Loglarda belirgin bir Exception veya Error işareti bulunamadı."]
         
     return broken_tests, root_causes
 
@@ -158,8 +162,8 @@ def create_github_issue_if_needed(workspace_path, state, broken_tests):
     issue_title = f"Test Hatası: {fingerprint[:8]}"
     
     try:
-        issue_cmd = f'gh issue create --title "{issue_title}" --body-file "{report_path}"'
-        res = subprocess.run(issue_cmd, shell=True, capture_output=True, text=True, cwd=workspace_path)
+        issue_cmd = ["gh", "issue", "create", "--title", issue_title, "--body-file", report_path]
+        res = subprocess.run(issue_cmd, capture_output=True, text=True, cwd=workspace_path)
         if res.returncode == 0:
             print(f"GitHub Issue açıldı: {issue_title}")
         else:
@@ -168,7 +172,12 @@ def create_github_issue_if_needed(workspace_path, state, broken_tests):
         print(f"Uyarı: Issue oluşturulurken hata: {e}")
 
 async def run_tests(workspace_path, state):
-    command = os.environ.get("TEST_AGENT_COMMAND", DEFAULT_COMMAND)
+    command_str = os.environ.get("TEST_AGENT_COMMAND")
+    if command_str:
+        command_args = shlex.split(command_str)
+    else:
+        command_args = [sys.executable, "-m", "pytest"]
+    
     timeout = int(os.environ.get("TEST_AGENT_TIMEOUT", DEFAULT_TIMEOUT))
     
     env = os.environ.copy()
@@ -187,8 +196,8 @@ async def run_tests(workspace_path, state):
     env["PYTHONPATH"] = os.pathsep.join(pythonpath_parts)
     
     try:
-        process = await asyncio.create_subprocess_shell(
-            command,
+        process = await asyncio.create_subprocess_exec(
+            *command_args,
             stdout=asyncio.subprocess.PIPE,
             stderr=asyncio.subprocess.PIPE,
             cwd=workspace_path,
@@ -211,7 +220,7 @@ async def run_tests(workspace_path, state):
             print("Başarılı")
         else:
             broken_tests, root_causes = analyze_failure(output)
-            write_failure_report(workspace_path, command, return_code, broken_tests, root_causes, output)
+            write_failure_report(workspace_path, " ".join(command_args), return_code, broken_tests, root_causes, output)
             create_github_issue_if_needed(workspace_path, state, broken_tests)
             print("Hata raporu oluşturuldu.")
             
