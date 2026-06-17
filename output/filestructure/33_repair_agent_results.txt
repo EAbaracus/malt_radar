@@ -1,5 +1,5 @@
 === python test_agent.py --once ===
-BaÅŸarÄ±lÄ±
+Başarılı
 
 === python -m pytest ===
 ============================= test session starts =============================
@@ -8,8 +8,8 @@ rootdir: C:\Users\eltun\Documents\malt radar
 plugins: anyio-4.13.0
 collected 28 items
 
-tests\test_db_adapter_hardening.py .............                         [ 46%]
-tests\test_db_read_api_smoke.py .....                                    [ 64%]
+tests\test_db_read_api_smoke.py .....                                    [ 17%]
+tests\test_db_read_service_hardening.py .............                    [ 64%]
 tests\test_ingestion.py ..........                                       [100%]
 
 ============================== warnings summary ===============================
@@ -18,4 +18,4 @@ tests\test_ingestion.py ..........                                       [100%]
     from starlette.testclient import TestClient as TestClient  # noqa
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-======================== 28 passed, 1 warning in 5.93s ========================
+======================= 28 passed, 1 warning in 10.40s ========================

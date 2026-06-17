@@ -13,10 +13,30 @@ ALLOWED_DIRS = ['backend/app', 'backend/tests', 'tests', 'etl']
 FORBIDDEN_DIRS = ['.git', 'node_modules', '.venv', 'venv', 'build', 'output/import', 'data/input', 'data/output']
 FORBIDDEN_FILES = ['.env', 'output/production.db']
 
+def python_subprocess_env(cwd=None):
+    env = os.environ.copy()
+    project_root = Path(cwd or os.getcwd()).resolve()
+    backend_path = project_root / "backend"
+    existing_pythonpath = env.get("PYTHONPATH", "")
+    pythonpath_parts = [str(project_root), str(backend_path)]
+    if existing_pythonpath:
+        pythonpath_parts.append(existing_pythonpath)
+    env["PYTHONPATH"] = os.pathsep.join(pythonpath_parts)
+    return env
+
 def run_command(cmd, cwd=None, capture_output=True):
     """Komutu çalıştırır ve çıktıyı döndürür."""
     try:
-        result = subprocess.run(cmd, shell=True, capture_output=capture_output, text=True, cwd=cwd)
+        result = subprocess.run(
+            cmd,
+            shell=True,
+            capture_output=capture_output,
+            text=True,
+            cwd=cwd,
+            env=python_subprocess_env(cwd),
+            encoding="utf-8",
+            errors="replace",
+        )
         return result.returncode, result.stdout + result.stderr
     except Exception as e:
         return -1, str(e)
