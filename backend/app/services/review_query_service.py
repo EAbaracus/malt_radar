@@ -1,0 +1,136 @@
+import sqlite3
+from typing import List, Dict, Any
+
+class ReviewQueryService:
+    def __init__(self, db_path: str = "output/import/production.db"):
+        self.db_path = f"file:{db_path}?mode=ro"
+        
+    def _get_connection(self):
+        conn = sqlite3.connect(self.db_path, uri=True)
+        conn.row_factory = sqlite3.Row
+        return conn
+
+    def get_unified_queue(self, status: str = None, source_table: str = None, limit: int = 50, offset: int = 0) -> List[Dict[str, Any]]:
+        conn = self._get_connection()
+        cursor = conn.cursor()
+        
+        # Whitelist tables
+        tables = [
+            'staging_new_products', 'staging_tasting_notes', 'staging_historical_menu_prices', 
+            'staging_manual_review_queue', 'knowledge_regions', 'knowledge_glossary_terms', 'knowledge_guides'
+        ]
+        
+        selects = []
+        for t in tables:
+            try:
+                cursor.execute(f"PRAGMA table_info({t})")
+                cols = [row['name'] for row in cursor.fetchall()]
+            except:
+                continue
+            if not cols:
+                continue
+                
+            c_key = "candidate_name" if t == 'staging_manual_review_queue' else "source_record_key"
+            c_key = c_key if c_key in cols else "''"
+            
+            c_disp = "''"
+            for n in ['name', 'title', 'candidate_name', 'term', 'whisky_name']:
+                if n in cols:
+                    c_disp = n; break
+                    
+            c_src = "source_name" if "source_name" in cols else ("source" if "source" in cols else "'unknown'")
+            c_app = "approval_status" if "approval_status" in cols else "'pending_review'"
+            c_ded = "dedupe_action" if "dedupe_action" in cols else "''"
+            c_rec = "import_recommendation" if "import_recommendation" in cols else "''"
+            c_cre = "original_row_index" if "original_row_index" in cols else "'0'"
+            c_con = "'1'" if t == 'staging_manual_review_queue' else "'0'"
+            
+            q = f"SELECT '{t}' as source_table, CAST({c_key} AS TEXT) as source_record_key, CAST({c_disp} AS TEXT) as display_name, CAST({c_src} AS TEXT) as source_name, CAST({c_app} AS TEXT) as approval_status, CAST({c_ded} AS TEXT) as dedupe_action, CAST({c_rec} AS TEXT) as import_recommendation, CAST({c_cre} AS TEXT) as created_at, 0 as review_priority, CAST({c_con} AS TEXT) as conflict_flag FROM {t}"
+            selects.append(q)
+            
+        union_q = " UNION ALL ".join(selects)
+        
+        where_clauses = []
+        params = []
+        
+        if status:
+            where_clauses.append("approval_status = ?")
+            params.append(status)
+        if source_table and source_table in tables:
+            where_clauses.append("source_table = ?")
+            params.append(source_table)
+            
+        final_q = f"SELECT * FROM ({union_q})"
+        if where_clauses:
+            final_q += " WHERE " + " AND ".join(where_clauses)
+            
+        final_q += f" LIMIT {limit} OFFSET {offset}"
+        
+        try:
+            cursor.execute(final_q, params)
+            rows = [dict(r) for r in cursor.fetchall()]
+        except:
+            rows = []
+        finally:
+            conn.close()
+            
+        return rows
+
+    def get_item_details(self, source_table: str, source_record_key: str) -> Dict[str, Any]:
+        tables = [
+            'staging_new_products', 'staging_tasting_notes', 'staging_historical_menu_prices', 
+            'staging_manual_review_queue', 'knowledge_regions', 'knowledge_glossary_terms', 'knowledge_guides'
+        ]
+        if source_table not in tables:
+            return None
+            
+        conn = self._get_connection()
+        cursor = conn.cursor()
+        
+        # Check column
+        cursor.execute(f"PRAGMA table_info({source_table})")
+        cols = [r['name'] for r in cursor.fetchall()]
+        key_col = "queue_id" if source_table == 'staging_manual_review_queue' else "source_record_key"
+        if key_col not in cols:
+            conn.close()
+            return None
+            
+        cursor.execute(f"SELECT * FROM {source_table} WHERE {key_col} = ?", (source_record_key,))
+        row = cursor.fetchone()
+        conn.close()
+        
+        if row:
+            # Convert all to strings for simple dict
+            return {k: str(row[k]) if row[k] is not None else "" for k in row.keys()}
+        return None
+
+    def get_allowed_actions(self, current_status: str) -> List[Dict[str, Any]]:
+        conn = self._get_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT from_status, to_status, action_type, requires_note, allowed FROM review_status_transitions WHERE from_status = ? AND allowed = 1", (current_status,))
+        rows = [dict(r) for r in cursor.fetchall()]
+        conn.close()
+        return rows
+
+    def execute_action(self, source_table: str, source_record_key: str, target_status: str, action_type: str, reviewer: str, reviewer_note: str, previous_status: str):
+        # We must open a writeable connection for this
+        conn = sqlite3.connect("output/import/production.db")
+        try:
+            cur = conn.cursor()
+            # Update staging table
+            key_col = "queue_id" if source_table == 'staging_manual_review_queue' else "source_record_key"
+            cur.execute(f"UPDATE {source_table} SET approval_status = ? WHERE {key_col} = ?", (target_status, source_record_key))
+            
+            # Insert log
+            cur.execute("""
+                INSERT INTO review_actions 
+                (source_table, source_record_key, review_status, action_type, reviewer, reviewer_note, previous_status, new_status, created_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
+            """, (source_table, str(source_record_key), target_status, action_type, reviewer, reviewer_note, previous_status, target_status))
+            
+            conn.commit()
+        except Exception as e:
+            conn.rollback()
+            raise Exception(f"Database write failed: {e}")
+        finally:
+            conn.close()

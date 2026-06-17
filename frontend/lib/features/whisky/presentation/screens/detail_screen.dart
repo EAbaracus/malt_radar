@@ -5,8 +5,8 @@ import 'package:malt_radar/core/theme/app_theme.dart';
 import '../controllers/whisky_providers.dart';
 import '../../../../core/localization/localization_provider.dart';
 import '../widgets/glass_container.dart';
-import '../../flavor/presentation/widgets/flavor_radar_chart.dart';
-import '../../flavor/presentation/widgets/similar_flavor_whiskies.dart';
+import '../../../flavor/presentation/widgets/flavor_radar_chart.dart';
+import '../../../flavor/presentation/widgets/similar_flavor_whiskies.dart';
 import 'package:go_router/go_router.dart';
 
 class DetailScreen extends ConsumerStatefulWidget {
@@ -157,7 +157,6 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
   Widget build(BuildContext context) {
     final tr = ref.watch(trProvider);
     final whiskyAsync = ref.watch(whiskyDetailProvider(widget.whiskyId));
-    final allWhiskiesAsync = ref.watch(whiskiesStreamProvider);
     final settingsAsync = ref.watch(referenceSettingsStreamProvider);
     final refWhiskyAsync = ref.watch(referenceWhiskyModelProvider);
 
