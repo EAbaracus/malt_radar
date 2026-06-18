@@ -64,7 +64,22 @@ class ReviewQueryService:
         if where_clauses:
             final_q += " WHERE " + " AND ".join(where_clauses)
             
-        final_q += f" LIMIT {limit} OFFSET {offset}"
+        def _safe_int(value, default, min_value, max_value=None):
+            try:
+                parsed = int(value)
+            except (TypeError, ValueError):
+                parsed = default
+            parsed = max(min_value, parsed)
+            if max_value is not None:
+                parsed = min(max_value, parsed)
+            return parsed
+
+        safe_limit = _safe_int(limit, default=50, min_value=1, max_value=500)
+        safe_offset = _safe_int(offset, default=0, min_value=0)
+
+        # Parameterize limit and offset to prevent SQL injection
+        final_q += " LIMIT ? OFFSET ?"
+        params.extend([safe_limit, safe_offset])
         
         try:
             cursor.execute(final_q, params)
@@ -77,25 +92,31 @@ class ReviewQueryService:
         return rows
 
     def get_item_details(self, source_table: str, source_record_key: str) -> Dict[str, Any]:
-        tables = [
-            'staging_new_products', 'staging_tasting_notes', 'staging_historical_menu_prices', 
-            'staging_manual_review_queue', 'knowledge_regions', 'knowledge_glossary_terms', 'knowledge_guides'
-        ]
-        if source_table not in tables:
+        ALLOWED_TABLES = {
+            'staging_new_products': 'staging_new_products', 
+            'staging_tasting_notes': 'staging_tasting_notes', 
+            'staging_historical_menu_prices': 'staging_historical_menu_prices', 
+            'staging_manual_review_queue': 'staging_manual_review_queue', 
+            'knowledge_regions': 'knowledge_regions', 
+            'knowledge_glossary_terms': 'knowledge_glossary_terms', 
+            'knowledge_guides': 'knowledge_guides'
+        }
+        safe_table = ALLOWED_TABLES.get(source_table)
+        if not safe_table:
             return None
             
         conn = self._get_connection()
         cursor = conn.cursor()
         
-        # Check column
-        cursor.execute(f"PRAGMA table_info({source_table})")
+        # Check column using safe_table
+        cursor.execute(f"PRAGMA table_info({safe_table})")
         cols = [r['name'] for r in cursor.fetchall()]
-        key_col = "queue_id" if source_table == 'staging_manual_review_queue' else "source_record_key"
+        key_col = "queue_id" if safe_table == 'staging_manual_review_queue' else "source_record_key"
         if key_col not in cols:
             conn.close()
             return None
             
-        cursor.execute(f"SELECT * FROM {source_table} WHERE {key_col} = ?", (source_record_key,))
+        cursor.execute(f"SELECT * FROM {safe_table} WHERE {key_col} = ?", (source_record_key,))
         row = cursor.fetchone()
         conn.close()
         
@@ -113,13 +134,26 @@ class ReviewQueryService:
         return rows
 
     def execute_action(self, source_table: str, source_record_key: str, target_status: str, action_type: str, reviewer: str, reviewer_note: str, previous_status: str):
+        ALLOWED_TABLES = {
+            'staging_new_products': 'staging_new_products', 
+            'staging_tasting_notes': 'staging_tasting_notes', 
+            'staging_historical_menu_prices': 'staging_historical_menu_prices', 
+            'staging_manual_review_queue': 'staging_manual_review_queue', 
+            'knowledge_regions': 'knowledge_regions', 
+            'knowledge_glossary_terms': 'knowledge_glossary_terms', 
+            'knowledge_guides': 'knowledge_guides'
+        }
+        safe_table = ALLOWED_TABLES.get(source_table)
+        if not safe_table:
+            raise Exception("Invalid source table")
+
         # We must open a writeable connection for this
         conn = sqlite3.connect("output/import/production.db")
         try:
             cur = conn.cursor()
-            # Update staging table
-            key_col = "queue_id" if source_table == 'staging_manual_review_queue' else "source_record_key"
-            cur.execute(f"UPDATE {source_table} SET approval_status = ? WHERE {key_col} = ?", (target_status, source_record_key))
+            # Update staging table using safe_table
+            key_col = "queue_id" if safe_table == 'staging_manual_review_queue' else "source_record_key"
+            cur.execute(f"UPDATE {safe_table} SET approval_status = ? WHERE {key_col} = ?", (target_status, source_record_key))
             
             # Insert log
             cur.execute("""
