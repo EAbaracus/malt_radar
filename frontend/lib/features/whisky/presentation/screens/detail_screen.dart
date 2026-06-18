@@ -357,9 +357,9 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                                       return Container(
                                         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                                         decoration: BoxDecoration(
-                                          color: AppTheme.accent.withOpacity(0.1),
+                                          color: AppTheme.accent.withValues(alpha: 0.1),
                                           borderRadius: BorderRadius.circular(12),
-                                          border: Border.all(color: AppTheme.accent.withOpacity(0.3)),
+                                          border: Border.all(color: AppTheme.accent.withValues(alpha: 0.3)),
                                         ),
                                         child: Text(tag.toString(), style: const TextStyle(color: AppTheme.accent, fontSize: 12)),
                                       );
