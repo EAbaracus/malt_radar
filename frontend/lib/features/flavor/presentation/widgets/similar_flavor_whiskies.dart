@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/localization/localization_provider.dart';
 import '../providers/similar_flavor_provider.dart';
 import '../../../whisky/domain/models/whisky.dart';
 
@@ -17,19 +18,28 @@ class SimilarFlavorWhiskies extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final similarAsync = ref.watch(similarFlavorWhiskiesProvider(whiskyId));
+    final tr = ref.watch(trProvider);
 
     return similarAsync.when(
       data: (whiskies) {
-        if (whiskies.isEmpty) return const SizedBox();
+        if (whiskies.isEmpty) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Text(
+              tr('no_similar_flavors'),
+              style: const TextStyle(color: AppTheme.textMuted),
+            ),
+          );
+        }
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Text(
-                'Benzer Lezzetler',
-                style: TextStyle(
+                tr('similar_flavors'),
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: AppTheme.textPrimary,
