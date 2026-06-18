@@ -101,6 +101,8 @@ class AppDatabase extends _$AppDatabase {
     ),
   ));
 
+  AppDatabase.forTesting(super.e);
+
   @override
   int get schemaVersion => 4;
 
