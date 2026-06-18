@@ -198,106 +198,117 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
                 ),
               ] else ...[
                 // Configuration screen for selected reference
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(20),
+                Expanded(
+                  child: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(20),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  tr('setup_selected_ref'),
+                                  style: const TextStyle(color: AppTheme.textSecondary, fontSize: 12),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  _selectedWhisky!.name,
+                                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                        color: AppTheme.primary,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                ),
+                                if (_selectedWhisky!.country != null) ...[
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    '${tr('preview_origin')}: ${_selectedWhisky!.country}',
+                                    style: const TextStyle(color: AppTheme.textSecondary, fontSize: 14),
+                                  ),
+                                ],
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 32),
+
+                        // Absolute Score Selection
                         Text(
-                          tr('setup_selected_ref'),
-                          style: const TextStyle(color: AppTheme.textSecondary, fontSize: 12),
+                          tr('setup_absolute_score_q'),
+                          style: Theme.of(context).textTheme.titleMedium,
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          _selectedWhisky!.name,
-                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                                color: AppTheme.primary,
-                                fontWeight: FontWeight.bold,
-                              ),
+                          tr('setup_absolute_score_desc'),
+                          style: const TextStyle(color: AppTheme.textMuted, fontSize: 12),
                         ),
-                        if (_selectedWhisky!.country != null) ...[
-                          const SizedBox(height: 4),
-                          Text(
-                            '${tr('preview_origin')}: ${_selectedWhisky!.country}',
-                            style: const TextStyle(color: AppTheme.textSecondary, fontSize: 14),
-                          ),
-                        ],
+                        const SizedBox(height: 24),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(tr('setup_absolute_score'), style: const TextStyle(fontWeight: FontWeight.bold)),
+                            Text(
+                              '$_absoluteScore / 100',
+                              style: const TextStyle(color: AppTheme.primary, fontWeight: FontWeight.bold, fontSize: 20),
+                            ),
+                          ],
+                        ),
+                        Slider(
+                          value: _absoluteScore.toDouble(),
+                          min: 50,
+                          max: 100,
+                          divisions: 50,
+                          label: _absoluteScore.toString(),
+                          onChanged: (val) {
+                            setState(() {
+                              _absoluteScore = val.round();
+                            });
+                          },
+                        ),
+                        const SizedBox(height: 24),
                       ],
                     ),
                   ),
                 ),
-                const SizedBox(height: 32),
-
-                // Absolute Score Selection
-                Text(
-                  tr('setup_absolute_score_q'),
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  tr('setup_absolute_score_desc'),
-                  style: const TextStyle(color: AppTheme.textMuted, fontSize: 12),
-                ),
-                const SizedBox(height: 24),
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(tr('setup_absolute_score'), style: const TextStyle(fontWeight: FontWeight.bold)),
-                    Text(
-                      '$_absoluteScore / 100',
-                      style: const TextStyle(color: AppTheme.primary, fontWeight: FontWeight.bold, fontSize: 20),
-                    ),
-                  ],
-                ),
-                Slider(
-                  value: _absoluteScore.toDouble(),
-                  min: 50,
-                  max: 100,
-                  divisions: 50,
-                  label: _absoluteScore.toString(),
-                  onChanged: (val) {
-                    setState(() {
-                      _absoluteScore = val.round();
-                    });
-                  },
-                ),
-                const Spacer(),
 
                 // Buttons
-                Row(
-                  children: [
-                    Expanded(
-                      child: OutlinedButton(
-                        onPressed: () {
-                          setState(() {
-                            _selectedWhisky = null;
-                          });
-                        },
-                        style: OutlinedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 14),
-                          side: const BorderSide(color: AppTheme.textSecondary),
+                SafeArea(
+                  top: false,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: OutlinedButton(
+                          onPressed: () {
+                            setState(() {
+                              _selectedWhisky = null;
+                            });
+                          },
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            side: const BorderSide(color: AppTheme.textSecondary),
+                          ),
+                          child: Text(tr('setup_change'), style: const TextStyle(color: AppTheme.textSecondary)),
                         ),
-                        child: Text(tr('setup_change'), style: const TextStyle(color: AppTheme.textSecondary)),
                       ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: _completeSetup,
-                        child: _isLoading
-                            ? const SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: CircularProgressIndicator(color: AppTheme.background, strokeWidth: 2),
-                              )
-                            : Text(tr('setup_finish')),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: _completeSetup,
+                          child: _isLoading
+                              ? const SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: CircularProgressIndicator(color: AppTheme.background, strokeWidth: 2),
+                                )
+                              : Text(tr('setup_finish')),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-                const SizedBox(height: 24),
               ],
             ],
           ),
