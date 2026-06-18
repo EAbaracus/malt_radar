@@ -1,0 +1,3 @@
+name: "Malt Radar CodeQL Config"
+paths-ignore:
+  - "frontend/web/drift_worker.js"

@@ -179,9 +179,12 @@ async def normalize_whisky_name(request: Request, req: NormalizeRequest):
         
     normalized = name
     
-    # Clean expressions like "y.o." or "Years old"
-    normalized = re.sub(r'(?i)\s+y\.?o\.?$', ' Year Old', normalized)
-    normalized = re.sub(r'(?i)\s+years?\s+old$', ' Year Old', normalized)
+    # Clean expressions like "y.o." or "Years old" without regex to prevent ReDoS
+    lower_norm = normalized.lower()
+    for suffix in [" y.o.", " y.o", " yo.", " yo", " year old", " years old"]:
+        if lower_norm.endswith(suffix):
+            normalized = normalized[:-len(suffix)].strip() + " Year Old"
+            break
     
     # Avoid blanket .title() to preserve special words
     preserve_list = ['IPA', 'NAS', 'PX', 'CS', 'XO', 'VSOP', 'OFC']
