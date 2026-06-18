@@ -79,7 +79,8 @@ class ReviewQueryService:
         if where_clauses:
             final_q += " WHERE " + " AND ".join(where_clauses)
             
-        final_q += f" LIMIT {limit} OFFSET {offset}"
+        final_q += " LIMIT ? OFFSET ?"
+        params.extend([limit, offset])
         
         try:
             cursor.execute(final_q, params)
