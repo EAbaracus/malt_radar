@@ -55,7 +55,7 @@ class DbReadService:
         offset = max(0, offset)
         
         query = """
-            SELECT w.whisky_id, w.name, w.distillery_id, d.name as distillery_name
+            SELECT w.*, d.name as distillery_name
             FROM whiskies w
             LEFT JOIN distilleries d ON w.distillery_id = d.distillery_id
             WHERE 1=1
@@ -80,7 +80,7 @@ class DbReadService:
 
     def get_whisky(self, whisky_id: str) -> Optional[Dict[str, Any]]:
         query = """
-            SELECT w.whisky_id, w.name, w.distillery_id, d.name as distillery_name
+            SELECT w.*, d.name as distillery_name
             FROM whiskies w
             LEFT JOIN distilleries d ON w.distillery_id = d.distillery_id
             WHERE w.whisky_id = ?
@@ -113,7 +113,7 @@ class DbReadService:
             return []
             
         query = """
-            SELECT w.whisky_id, w.name, w.distillery_id, d.name as distillery_name
+            SELECT w.*, d.name as distillery_name
             FROM whiskies w
             LEFT JOIN distilleries d ON w.distillery_id = d.distillery_id
             WHERE w.name LIKE ? OR d.name LIKE ?
@@ -137,3 +137,22 @@ class DbReadService:
                 "countries": "not_available",
                 "categories": "not_available"
             }
+
+    def get_flavor_profile(self, whisky_id: str) -> Optional[Dict[str, Any]]:
+        with self._get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM flavor_profiles WHERE whisky_id = ?", (whisky_id,))
+            row = cursor.fetchone()
+            return dict(row) if row else None
+
+    def get_tasting_notes(self, whisky_id: str) -> List[Dict[str, Any]]:
+        with self._get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM tasting_notes WHERE whisky_id = ?", (whisky_id,))
+            return [dict(row) for row in cursor.fetchall()]
+
+    def get_price_history(self, whisky_id: str) -> List[Dict[str, Any]]:
+        with self._get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM price_history WHERE whisky_id = ?", (whisky_id,))
+            return [dict(row) for row in cursor.fetchall()]
