@@ -150,12 +150,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton.icon(
-                  onPressed: () {
-                    Navigator.pop(context);
-                    _addExternalWhisky(whisky);
-                  },
-                  icon: const Icon(Icons.add_circle_outline),
-                  label: const Text('KÜTÜPHANEME EKLE'),
+                  onPressed: () => _addWhiskyToLibrary(context, whisky),
+                  icon: const Icon(Icons.add, size: 20),
+                  label: Text(tr('add_to_library')),
                 ),
               ),
             ],
@@ -185,7 +182,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
-  void _addExternalWhisky(Whisky whisky) async {
+  void _addWhiskyToLibrary(BuildContext context, Whisky whisky) async {
+    final tr = ref.read(trProvider);
     setState(() {
       _isAdding = true;
     });
@@ -200,13 +198,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('${whisky.name} kütüphaneye eklendi.'),
+          content: Text(tr('added_to_library', [whisky.name])),
           backgroundColor: AppTheme.primary,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           duration: const Duration(seconds: 2),
         ),
       );
+      Navigator.pop(context);
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => DetailScreen(whiskyId: localId)),
@@ -216,6 +215,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final tr = ref.watch(trProvider);
     final whiskiesAsync = ref.watch(whiskiesStreamProvider);
     final isFavoritesOnly = ref.watch(favoritesOnlyProvider);
     final settingsAsync = ref.watch(referenceSettingsStreamProvider);
@@ -225,13 +225,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     return Scaffold(
       body: Container(
-        // Modern gradient background
         decoration: const BoxDecoration(
           gradient: RadialGradient(
             center: Alignment(-0.8, -0.6),
             radius: 1.5,
             colors: [
-              Color(0xFF1E1E2C), // A lighter hint at top left
+              Color(0xFF1E1E2C),
               AppTheme.background,
               Color(0xFF040406),
             ],
@@ -241,7 +240,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Header / App Title
               Padding(
                 padding: const EdgeInsets.fromLTRB(24, 24, 24, 8),
                 child: Row(
@@ -259,7 +257,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          'Kişisel Viski Kütüphanesi',
+                          tr('whisky_library'),
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                 color: AppTheme.textSecondary,
                               ),
@@ -277,7 +275,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           onPressed: () {
                             ref.read(favoritesOnlyProvider.notifier).state = !isFavoritesOnly;
                           },
-                          tooltip: 'Sadece Favoriler',
+                          tooltip: tr('favorites_only'),
                         ),
                         IconButton(
                           icon: const Icon(
@@ -291,7 +289,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               MaterialPageRoute(builder: (context) => const SettingsScreen()),
                             );
                           },
-                          tooltip: 'Ayarlar',
+                          tooltip: tr('settings'),
                         ),
                       ],
                     ),
@@ -299,7 +297,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ),
               ),
 
-              // Search Bar (Autocomplete)
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                 child: Autocomplete<Whisky>(
@@ -324,7 +321,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         },
                         style: const TextStyle(color: Colors.white),
                         decoration: InputDecoration(
-                          hintText: 'Viski ara (Kütüphane & İnternet)...',
+                          hintText: tr('search_whisky'),
                           prefixIcon: const Icon(Icons.search, color: AppTheme.primary),
                           suffixIcon: controller.text.isNotEmpty
                               ? IconButton(
@@ -403,7 +400,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   child: LinearProgressIndicator(color: AppTheme.primary, backgroundColor: Colors.transparent),
                 ),
 
-              // Whiskies List
               Expanded(
                 child: whiskiesAsync.when(
                   data: (whiskies) {
@@ -425,9 +421,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     child: CircularProgressIndicator(color: AppTheme.primary),
                   ),
                   error: (error, stackTrace) => Center(
-                    child: Text(
-                      'Veritabanı hatası: $error',
-                      style: const TextStyle(color: AppTheme.error),
+                      child: Text(
+                        tr('db_error', [error]),
+                        style: const TextStyle(color: Colors.redAccent),
                     ),
                   ),
                 ),
@@ -440,6 +436,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   Widget _buildEmptyState(BuildContext context, bool isFavoritesOnly, String query) {
+    final tr = ref.read(trProvider);
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24),
@@ -454,21 +451,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             const SizedBox(height: 24),
             Text(
               isFavoritesOnly
-                  ? 'Favori viskiniz bulunmuyor.'
-                  : 'Kütüphanenizde eşleşen viski bulunamadı.',
+                  ? tr('no_favorites')
+                  : tr('no_whisky_found'),
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     color: AppTheme.textPrimary,
                   ),
             ),
-            if (!isFavoritesOnly && query.isNotEmpty) ...[
-              const SizedBox(height: 12),
-              const Text(
-                'Lütfen aramaya devam edin.\nİnternet arama sonuçları üstteki menüde belirecektir.',
-                textAlign: TextAlign.center,
-                style: TextStyle(color: AppTheme.textSecondary, fontSize: 14),
+            if (query.length > 2 && !isFavoritesOnly)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                child: Text(
+                  tr('search_web_prompt_multiline'),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: AppTheme.textMuted, fontSize: 13),
+                ),
               ),
-            ],
           ],
         ),
       ),
@@ -476,7 +474,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   Widget _buildWhiskyCard(BuildContext context, WidgetRef ref, Whisky whisky, int referenceScore) {
-    // Relative score calculation
+    final tr = ref.read(trProvider);
     int? relativeScore;
     if (whisky.personalScore > 0 && referenceScore > 0) {
       relativeScore = ((whisky.personalScore / referenceScore) * 100).round();
@@ -500,7 +498,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           padding: const EdgeInsets.all(16),
           child: Row(
             children: [
-              // Gold/Amber Icon with glow
               Container(
                 width: 60,
                 height: 60,
@@ -527,7 +524,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
               const SizedBox(width: 16),
 
-              // Info
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -554,7 +550,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           ),
                     ),
                     const SizedBox(height: 8),
-                    // Tasting notes tags
                     if (whisky.tastingNotes.isNotEmpty)
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
@@ -583,11 +578,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ),
               ),
 
-              // Score
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  // Relative Score Badge
                   if (relativeScore != null)
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
@@ -613,16 +606,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ),
                     )
                   else
-                    const Text(
-                      'Puanlanmadı',
-                      style: TextStyle(
+                    Text(
+                      tr('not_scored'),
+                      style: const TextStyle(
                         color: AppTheme.textMuted,
                         fontStyle: FontStyle.italic,
                         fontSize: 12,
                       ),
                     ),
                   const SizedBox(height: 12),
-                  // Favorite icon
                   Icon(
                     whisky.isFavorite ? Icons.star : Icons.star_border,
                     color: whisky.isFavorite ? AppTheme.accent : AppTheme.textMuted.withValues(alpha: 0.3),

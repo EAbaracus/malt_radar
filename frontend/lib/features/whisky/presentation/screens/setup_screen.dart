@@ -87,7 +87,8 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
     // Give it the absolute score in scores table
     await repository.updatePersonalScore(localId, _absoluteScore);
     // Add a default personal note
-    await repository.updatePersonalNotes(localId, 'Bu viski benim 100 puanlık referans viskimdir.');
+    final tr = ref.read(trProvider);
+    await repository.updatePersonalNotes(localId, tr('reference_whisky_msg'));
 
     if (mounted) {
       Navigator.pushReplacement(

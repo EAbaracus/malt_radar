@@ -1,3 +1,4 @@
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'app_translations.dart';
@@ -8,7 +9,7 @@ import '../../features/whisky/presentation/controllers/whisky_providers.dart';
 class LocalizationNotifier extends StateNotifier<String> {
   final AppDatabase db;
 
-  LocalizationNotifier(this.db) : super('tr') {
+  LocalizationNotifier(this.db) : super(ui.PlatformDispatcher.instance.locale.languageCode == 'tr' ? 'tr' : 'en') {
     _loadLanguage();
   }
 
