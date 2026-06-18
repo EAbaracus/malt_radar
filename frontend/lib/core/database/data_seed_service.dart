@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
 import 'package:drift/drift.dart';
@@ -18,8 +19,60 @@ class DataSeedService {
         return; // Already seeded
       }
 
-      final csvString = testCsvString ?? await rootBundle.loadString(_csvPath);
-      // Fallback to '\n' or '\r\n' is usually handled well by CsvToListConverter
+      // Load flavor profiles
+      final Map<int, List<dynamic>> flavorMap = {};
+      int fWhiskyIdIdx = -1;
+      int fMatchScoreIdx = -1;
+      int fFlavorVectorIdx = -1;
+      int fFlavorProfileIdx = -1;
+      int fFlavorTagsIdx = -1;
+      int fFlavorSourceIdx = -1;
+
+      try {
+        final flavorByteData = await rootBundle.load('assets/data/flavor_profiles.csv');
+        final flavorBytes = flavorByteData.buffer.asUint8List(flavorByteData.offsetInBytes, flavorByteData.lengthInBytes);
+        final flavorCsvString = utf8.decode(flavorBytes, allowMalformed: true).replaceAll('\r\n', '\n');
+        final flavorTable = const CsvToListConverter(eol: '\n', fieldDelimiter: ',').convert(flavorCsvString);
+        
+        if (flavorTable.length > 1) {
+          final fHeaders = flavorTable[0].map((e) => e.toString().trim()).toList();
+          fWhiskyIdIdx = fHeaders.indexOf('whisky_id');
+          fMatchScoreIdx = fHeaders.indexOf('match_score');
+          fFlavorVectorIdx = fHeaders.indexOf('flavor_vector');
+          fFlavorProfileIdx = fHeaders.indexOf('flavor_profile');
+          fFlavorTagsIdx = fHeaders.indexOf('flavor_tags');
+          fFlavorSourceIdx = fHeaders.indexOf('flavor_source');
+
+          for (int i = 1; i < flavorTable.length; i++) {
+            final fRow = flavorTable[i];
+            if (fRow.isEmpty) continue;
+            
+            if (fWhiskyIdIdx >= 0 && fWhiskyIdIdx < fRow.length) {
+              final idStr = fRow[fWhiskyIdIdx]?.toString().trim() ?? '';
+              final match = RegExp(r'\d+').firstMatch(idStr);
+              if (match != null) {
+                final idNum = int.tryParse(match.group(0)!);
+                if (idNum != null) {
+                  flavorMap[idNum] = fRow;
+                }
+              }
+            }
+          }
+        }
+      } catch (e) {
+        debugPrint('Could not load flavor_profiles.csv: $e');
+      }
+
+      String csvString;
+      if (testCsvString != null) {
+        csvString = testCsvString;
+      } else {
+        final byteData = await rootBundle.load(_csvPath);
+        final bytes = byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes);
+        csvString = utf8.decode(bytes, allowMalformed: true);
+      }
+      
+      csvString = csvString.replaceAll('\r\n', '\n');
       final List<List<dynamic>> csvTable = const CsvToListConverter(eol: '\n', fieldDelimiter: ',').convert(csvString);
 
       if (csvTable.length <= 1) {
@@ -88,7 +141,51 @@ class DataSeedService {
         if (palate.isNotEmpty) notesList.add('Damak: $palate');
         if (finish.isNotEmpty) notesList.add('Bitiş: $finish');
         
-        final globalScore = getDouble(userScoreIdx) ?? getDouble(metaCriticIdx);
+        final userScoreStr = getStr(userScoreIdx);
+        final metaCriticStr = getStr(metaCriticIdx);
+
+        double? globalScore;
+        final userScore = double.tryParse(userScoreStr);
+        final metaCritic = double.tryParse(metaCriticStr);
+        
+        if (userScore != null && userScore > 0) {
+          globalScore = userScore;
+        } else if (metaCritic != null && metaCritic > 0) {
+          globalScore = metaCritic <= 10.0 ? metaCritic * 10.0 : metaCritic;
+        }
+
+        int? idNum;
+        if (recordId.isNotEmpty) {
+           final match = RegExp(r'\d+').firstMatch(recordId);
+           if (match != null) {
+             idNum = int.tryParse(match.group(0)!);
+           }
+        }
+
+        String? flavorProfile;
+        String? flavorVector;
+        String? flavorTags;
+        String? flavorSource;
+        double? flavorMatchScore;
+
+        if (idNum != null && flavorMap.containsKey(idNum)) {
+          final fRow = flavorMap[idNum]!;
+          
+          String getFStr(int idx) {
+            if (idx < 0 || idx >= fRow.length) return '';
+            return fRow[idx]?.toString().trim() ?? '';
+          }
+
+          flavorProfile = getFStr(fFlavorProfileIdx);
+          flavorVector = getFStr(fFlavorVectorIdx);
+          flavorTags = getFStr(fFlavorTagsIdx);
+          flavorSource = getFStr(fFlavorSourceIdx);
+          
+          final msStr = getFStr(fMatchScoreIdx);
+          if (msStr.isNotEmpty) {
+            flavorMatchScore = double.tryParse(msStr);
+          }
+        }
 
         companions.add(WhiskiesCompanion.insert(
           externalId: Value(recordId.isNotEmpty ? recordId : null),
@@ -102,6 +199,11 @@ class DataSeedService {
           caskType: Value(getStr(caskTypeIdx).isNotEmpty ? getStr(caskTypeIdx) : null),
           tastingNotes: Value(notesList.join(', ')),
           globalScore: Value(globalScore),
+          flavorProfile: Value(flavorProfile?.isNotEmpty == true ? flavorProfile : null),
+          flavorVector: Value(flavorVector?.isNotEmpty == true ? flavorVector : null),
+          flavorTags: Value(flavorTags?.isNotEmpty == true ? flavorTags : null),
+          flavorSource: Value(flavorSource?.isNotEmpty == true ? flavorSource : null),
+          flavorMatchScore: Value(flavorMatchScore),
         ));
       }
 
