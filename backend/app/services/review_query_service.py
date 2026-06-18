@@ -2,6 +2,16 @@ import sqlite3
 from typing import List, Dict, Any
 
 class ReviewQueryService:
+    ALLOWED_SOURCE_TABLES = {
+        'staging_new_products',
+        'staging_tasting_notes',
+        'staging_historical_menu_prices',
+        'staging_manual_review_queue',
+        'knowledge_regions',
+        'knowledge_glossary_terms',
+        'knowledge_guides'
+    }
+
     def __init__(self, db_path: str = "output/import/production.db"):
         self.db_path = f"file:{db_path}?mode=ro"
         
@@ -9,6 +19,11 @@ class ReviewQueryService:
         conn = sqlite3.connect(self.db_path, uri=True)
         conn.row_factory = sqlite3.Row
         return conn
+
+    def _normalize_source_table(self, source_table: str) -> str:
+        if source_table in self.ALLOWED_SOURCE_TABLES:
+            return source_table
+        return None
 
     def get_unified_queue(self, status: str = None, source_table: str = None, limit: int = 50, offset: int = 0) -> List[Dict[str, Any]]:
         conn = self._get_connection()
@@ -77,25 +92,22 @@ class ReviewQueryService:
         return rows
 
     def get_item_details(self, source_table: str, source_record_key: str) -> Dict[str, Any]:
-        tables = [
-            'staging_new_products', 'staging_tasting_notes', 'staging_historical_menu_prices', 
-            'staging_manual_review_queue', 'knowledge_regions', 'knowledge_glossary_terms', 'knowledge_guides'
-        ]
-        if source_table not in tables:
+        source_table_name = self._normalize_source_table(source_table)
+        if not source_table_name:
             return None
             
         conn = self._get_connection()
         cursor = conn.cursor()
         
         # Check column
-        cursor.execute(f"PRAGMA table_info({source_table})")
+        cursor.execute(f"PRAGMA table_info({source_table_name})")
         cols = [r['name'] for r in cursor.fetchall()]
-        key_col = "queue_id" if source_table == 'staging_manual_review_queue' else "source_record_key"
+        key_col = "queue_id" if source_table_name == 'staging_manual_review_queue' else "source_record_key"
         if key_col not in cols:
             conn.close()
             return None
             
-        cursor.execute(f"SELECT * FROM {source_table} WHERE {key_col} = ?", (source_record_key,))
+        cursor.execute(f"SELECT * FROM {source_table_name} WHERE {key_col} = ?", (source_record_key,))
         row = cursor.fetchone()
         conn.close()
         
@@ -113,20 +125,24 @@ class ReviewQueryService:
         return rows
 
     def execute_action(self, source_table: str, source_record_key: str, target_status: str, action_type: str, reviewer: str, reviewer_note: str, previous_status: str):
+        source_table_name = self._normalize_source_table(source_table)
+        if not source_table_name:
+            raise Exception("Invalid source table")
+
         # We must open a writeable connection for this
         conn = sqlite3.connect("output/import/production.db")
         try:
             cur = conn.cursor()
             # Update staging table
-            key_col = "queue_id" if source_table == 'staging_manual_review_queue' else "source_record_key"
-            cur.execute(f"UPDATE {source_table} SET approval_status = ? WHERE {key_col} = ?", (target_status, source_record_key))
+            key_col = "queue_id" if source_table_name == 'staging_manual_review_queue' else "source_record_key"
+            cur.execute(f"UPDATE {source_table_name} SET approval_status = ? WHERE {key_col} = ?", (target_status, source_record_key))
             
             # Insert log
             cur.execute("""
                 INSERT INTO review_actions 
                 (source_table, source_record_key, review_status, action_type, reviewer, reviewer_note, previous_status, new_status, created_at)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
-            """, (source_table, str(source_record_key), target_status, action_type, reviewer, reviewer_note, previous_status, target_status))
+            """, (source_table_name, str(source_record_key), target_status, action_type, reviewer, reviewer_note, previous_status, target_status))
             
             conn.commit()
         except Exception as e:
