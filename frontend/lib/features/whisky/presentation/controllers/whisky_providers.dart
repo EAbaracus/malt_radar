@@ -8,6 +8,7 @@ import '../../data/repositories/whisky_repository_impl.dart';
 import '../../data/repositories/db_whisky_repository_impl.dart';
 import '../../domain/models/whisky.dart';
 import '../../domain/repositories/whisky_repository.dart';
+import 'package:malt_radar/core/database/data_seed_service.dart';
 
 // Provider for the local Drift database
 final appDatabaseProvider = Provider<AppDatabase>((ref) {
@@ -24,6 +25,12 @@ final apiClientProvider = Provider<ApiClient>((ref) {
 // Provider for the new DB API client
 final dbWhiskyApiClientProvider = Provider<DbWhiskyApiClient>((ref) {
   return DbWhiskyApiClient();
+});
+
+// Provider for app initialization (seed data)
+final appInitializationProvider = FutureProvider<void>((ref) async {
+  final db = ref.watch(appDatabaseProvider);
+  await DataSeedService.seedDatabaseIfEmpty(db);
 });
 
 // Provider for the repository (Feature flag switch)
