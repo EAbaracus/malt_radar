@@ -56,3 +56,12 @@ tracked_files*.txt
 
 # Experimental / Deprecated
 etl/experiment_fix_42.py
+
+# Android Keystore Protection
+*.jks
+*.keystore
+key.properties
+android/key.properties
+android/app/key.properties
+frontend/android/key.properties
+frontend/android/app/key.properties
