@@ -50,13 +50,14 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
 
   void _saveNotesAndScore() async {
     final repository = ref.read(whiskyRepositoryProvider);
+    final tr = ref.read(trProvider);
     await repository.updatePersonalNotes(widget.whiskyId, _notesController.text);
     await repository.updatePersonalScore(widget.whiskyId, _score);
 
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text('Değerlendirme başarıyla kaydedildi.'),
+          content: Text(tr('evaluation_saved')),
           backgroundColor: AppTheme.primary,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -66,8 +67,10 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
   }
 
   void _showAddPriceDialog() {
+    final tr = ref.read(trProvider);
+    final formKey = GlobalKey<FormState>();
     final priceController = TextEditingController();
-    final sourceController = TextEditingController(text: 'Kişisel Takip');
+    final sourceController = TextEditingController();
     final sourceUrlController = TextEditingController(text: 'manuel');
     String selectedCurrency = 'TL';
     String selectedCountry = 'Türkiye';
@@ -78,57 +81,75 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
         return AlertDialog(
           backgroundColor: AppTheme.surfaceElevated,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          title: const Text('Fiyat Kaydı Ekle', style: TextStyle(color: AppTheme.primary)),
+          title: Text(tr('add_price_record'), style: const TextStyle(color: AppTheme.primary)),
           content: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextField(
-                  controller: priceController,
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                  decoration: const InputDecoration(labelText: 'Fiyat'),
-                ),
-                const SizedBox(height: 12),
-                DropdownButtonFormField<String>(
-                  initialValue: selectedCurrency,
-                  decoration: const InputDecoration(labelText: 'Para Birimi'),
-                  dropdownColor: AppTheme.surfaceElevated,
-                  items: ['TL', 'USD', 'EUR', 'GBP'].map((c) {
-                    return DropdownMenuItem(value: c, child: Text(c));
-                  }).toList(),
-                  onChanged: (val) {
-                    if (val != null) selectedCurrency = val;
-                  },
-                ),
-                const SizedBox(height: 12),
-                DropdownButtonFormField<String>(
-                  initialValue: selectedCountry,
-                  decoration: const InputDecoration(labelText: 'Ülke'),
-                  dropdownColor: AppTheme.surfaceElevated,
-                  items: ['Türkiye', 'İskoçya', 'İngiltere', 'ABD', 'Japonya'].map((c) {
-                    return DropdownMenuItem(value: c, child: Text(c));
-                  }).toList(),
-                  onChanged: (val) {
-                    if (val != null) selectedCountry = val;
-                  },
-                ),
-                const SizedBox(height: 12),
-                TextField(
-                  controller: sourceController,
-                  decoration: const InputDecoration(labelText: 'Kaynak Mağaza/Site'),
-                ),
-              ],
+            child: Form(
+              key: formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextFormField(
+                    controller: priceController,
+                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                    decoration: InputDecoration(labelText: tr('price')),
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return tr('price_required');
+                      }
+                      final pVal = double.tryParse(value);
+                      if (pVal == null || pVal <= 0) {
+                        return tr('invalid_price');
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 12),
+                  DropdownButtonFormField<String>(
+                    initialValue: selectedCurrency,
+                    decoration: InputDecoration(labelText: tr('currency')),
+                    dropdownColor: AppTheme.surfaceElevated,
+                    items: ['TL', 'USD', 'EUR', 'GBP'].map((c) {
+                      return DropdownMenuItem(value: c, child: Text(c));
+                    }).toList(),
+                    onChanged: (val) {
+                      if (val != null) selectedCurrency = val;
+                    },
+                  ),
+                  const SizedBox(height: 12),
+                  DropdownButtonFormField<String>(
+                    initialValue: selectedCountry,
+                    decoration: InputDecoration(labelText: tr('price_record_country')), // using country for this dropdown
+                    dropdownColor: AppTheme.surfaceElevated,
+                    items: ['Türkiye', 'İskoçya', 'İngiltere', 'ABD', 'Japonya'].map((c) {
+                      return DropdownMenuItem(value: c, child: Text(c));
+                    }).toList(),
+                    onChanged: (val) {
+                      if (val != null) selectedCountry = val;
+                    },
+                  ),
+                  const SizedBox(height: 12),
+                  TextFormField(
+                    controller: sourceController,
+                    decoration: InputDecoration(
+                      labelText: tr('store'),
+                      hintText: tr('store_optional'),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('İPTAL', style: TextStyle(color: AppTheme.textSecondary)),
+              child: Text(tr('cancel'), style: const TextStyle(color: AppTheme.textSecondary)),
             ),
             ElevatedButton(
               onPressed: () async {
-                final double? pVal = double.tryParse(priceController.text);
-                if (pVal == null || pVal <= 0) return;
+                if (!formKey.currentState!.validate()) return;
+                final double pVal = double.parse(priceController.text);
+                
+                final storeName = sourceController.text.trim().isNotEmpty ? sourceController.text.trim() : 'Kişisel Takip';
 
                 final repository = ref.read(whiskyRepositoryProvider);
                 await repository.addManualPrice(
@@ -136,7 +157,7 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                   price: pVal,
                   currency: selectedCurrency,
                   country: selectedCountry,
-                  sourceName: sourceController.text,
+                  sourceName: storeName,
                   sourceUrl: sourceUrlController.text,
                 );
 
@@ -145,7 +166,7 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                 }
                 _loadPrices();
               },
-              child: const Text('EKLE'),
+              child: Text(tr('save')),
             ),
           ],
         );
@@ -304,10 +325,10 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                           spacing: 10,
                           runSpacing: 10,
                           children: [
-                            if (whisky.country != null) _buildMetaTag(tr('preview_origin'), whisky.country!),
+                            if (whisky.country != null) _buildMetaTag(tr('origin'), whisky.country!),
                             if (whisky.region != null) _buildMetaTag(tr('region'), whisky.region!),
-                            if (whisky.category != null) _buildMetaTag(tr('category'), whisky.category!),
-                            if (whisky.age != null) _buildMetaTag(tr('preview_age'), '${whisky.age} Yıl'),
+                            if (whisky.category != null) _buildMetaTag(tr('category'), whisky.category!.replaceAll('SingleMalt-like', 'Single malt-like')),
+                            if (whisky.age != null) _buildMetaTag(tr('age'), '${whisky.age} ${tr('age_years')}'),
                             if (whisky.abv != null) _buildMetaTag(tr('preview_abv'), '%${whisky.abv}'),
                             if (whisky.caskType != null) _buildMetaTag(tr('preview_cask'), whisky.caskType!),
                           ],
@@ -381,7 +402,7 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                             padding: const EdgeInsets.all(16),
                             child: Center(
                               child: Text(
-                                'Bu viski için lezzet profili henüz bulunmuyor.',
+                                tr('no_flavor_profile'),
                                 style: TextStyle(color: AppTheme.textSecondary),
                               ),
                             ),
