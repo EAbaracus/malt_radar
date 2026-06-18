@@ -19,24 +19,53 @@ class MaltRadarApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final settingsAsync = ref.watch(referenceSettingsStreamProvider);
+    final initAsync = ref.watch(appInitializationProvider);
 
     return MaterialApp(
       title: 'Malt Radar',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.darkTheme,
-      home: settingsAsync.when(
-        data: (settings) {
-          final id = settings['reference_whisky_id'];
-          if (id != null) {
-            return const HomeScreen();
-          } else {
-            return const SetupScreen();
-          }
+      home: initAsync.when(
+        data: (_) {
+          final settingsAsync = ref.watch(referenceSettingsStreamProvider);
+          return settingsAsync.when(
+            data: (settings) {
+              final id = settings['reference_whisky_id'];
+              if (id != null) {
+                return const HomeScreen();
+              } else {
+                return const SetupScreen();
+              }
+            },
+            loading: () => const Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(color: AppTheme.primary),
+              ),
+            ),
+            error: (error, stack) => Scaffold(
+              body: Center(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text('Ayarlar yüklenemedi:\n$error\n\nStack:\n$stack', 
+                      style: const TextStyle(color: AppTheme.error, fontSize: 12),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
         },
         loading: () => const Scaffold(
           body: Center(
-            child: CircularProgressIndicator(color: AppTheme.primary),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircularProgressIndicator(color: AppTheme.primary),
+                SizedBox(height: 16),
+                Text('Veritabanı hazırlanıyor...', style: TextStyle(color: AppTheme.textSecondary)),
+              ],
+            ),
           ),
         ),
         error: (error, stack) => Scaffold(

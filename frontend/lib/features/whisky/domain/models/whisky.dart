@@ -185,9 +185,9 @@ class Whisky {
       personalScore: 0,
       personalNotes: '',
       isFavorite: false,
-      flavorProfile: map['flavor_profile'] != null ? map['flavor_profile'].toString() : null, // Handle JSON strings
-      flavorVector: map['flavor_vector'] != null ? map['flavor_vector'].toString() : null,
-      flavorTags: map['flavor_tags'] != null ? map['flavor_tags'].toString() : null,
+      flavorProfile: map['flavor_profile']?.toString(), // Handle JSON strings
+      flavorVector: map['flavor_vector']?.toString(),
+      flavorTags: map['flavor_tags']?.toString(),
       flavorSource: map['flavor_source'] as String?,
       flavorMatchScore: (map['flavor_match_score'] as num?)?.toDouble(),
     );
