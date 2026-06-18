@@ -40,7 +40,7 @@ class FlavorRadarChart extends StatelessWidget {
 
     List<RadarDataSet> dataSets = [
       RadarDataSet(
-        fillColor: AppTheme.accent.withOpacity(0.3),
+        fillColor: AppTheme.accent.withValues(alpha: 0.3),
         borderColor: AppTheme.accent,
         entryRadius: 3,
         dataEntries: categories.map((c) {
