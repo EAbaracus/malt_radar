@@ -8,6 +8,7 @@ import '../../../../core/localization/localization_provider.dart';
 import 'detail_screen.dart';
 import 'settings_screen.dart';
 import '../widgets/glass_container.dart';
+import 'package:malt_radar/features/lists/presentation/screens/lists_screen.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -266,6 +267,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ),
                     Row(
                       children: [
+                        IconButton(
+                          icon: const Icon(
+                            Icons.bookmark_outline,
+                            color: AppTheme.textSecondary,
+                            size: 28,
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const ListsScreen()),
+                            );
+                          },
+                          tooltip: tr('lists'),
+                        ),
                         IconButton(
                           icon: Icon(
                             isFavoritesOnly ? Icons.star : Icons.star_border,
