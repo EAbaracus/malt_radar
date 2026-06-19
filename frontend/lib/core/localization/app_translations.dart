@@ -151,6 +151,15 @@ const Map<String, Map<String, String>> appTranslations = {
     'favorites': 'Favoriler',
     'tried': 'Denediklerim',
     'collection': 'Koleksiyon',
+    'lists': 'Listeler',
+    'my_lists': 'Listelerim',
+    'create_list': 'Liste oluştur',
+    'edit_list': 'Listeyi düzenle',
+    'delete_list': 'Listeyi sil',
+    'list_name': 'Liste adı',
+    'list_description': 'Açıklama',
+    'empty_list': 'Bu liste boş.',
+    'system_list_cannot_be_deleted': 'Sistem listeleri silinemez.',
   },
   'en': {
     // General
@@ -301,5 +310,14 @@ const Map<String, Map<String, String>> appTranslations = {
     'favorites': 'Favorites',
     'tried': 'Tried',
     'collection': 'Collection',
+    'lists': 'Lists',
+    'my_lists': 'My lists',
+    'create_list': 'Create list',
+    'edit_list': 'Edit list',
+    'delete_list': 'Delete list',
+    'list_name': 'List name',
+    'list_description': 'Description',
+    'empty_list': 'This list is empty.',
+    'system_list_cannot_be_deleted': 'System lists cannot be deleted.',
   }
 };
