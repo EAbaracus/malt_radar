@@ -8,6 +8,8 @@ import '../widgets/glass_container.dart';
 import '../../../flavor/presentation/widgets/flavor_radar_chart.dart';
 import '../../../flavor/presentation/widgets/similar_flavor_whiskies.dart';
 import 'package:go_router/go_router.dart';
+import 'package:malt_radar/features/lists/presentation/widgets/add_to_list_sheet.dart';
+import 'package:malt_radar/features/lists/presentation/controllers/user_lists_providers.dart';
 
 class DetailScreen extends ConsumerStatefulWidget {
   final int whiskyId;
@@ -294,6 +296,16 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                   ),
                   actions: [
                     IconButton(
+                      icon: const Icon(
+                        Icons.playlist_add,
+                        color: Colors.white,
+                        size: 28,
+                      ),
+                      onPressed: () {
+                        AddToListSheet.show(context, whisky.id);
+                      },
+                    ),
+                    IconButton(
                       icon: Icon(
                         whisky.isFavorite ? Icons.star : Icons.star_border,
                         color: whisky.isFavorite ? AppTheme.accent : Colors.white,
@@ -306,8 +318,28 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                           ),
                         ],
                       ),
-                      onPressed: () {
-                        ref.read(whiskyRepositoryProvider).toggleFavorite(whisky.id);
+                      onPressed: () async {
+                        final repo = ref.read(whiskyRepositoryProvider);
+                        final listRepo = ref.read(userListsRepositoryProvider);
+                        
+                        await repo.toggleFavorite(whisky.id);
+                        
+                        // Sync with new Favorites list
+                        try {
+                          final lists = await listRepo.getLists();
+                          final favList = lists.firstWhere((l) => l.defaultType == 'favorites');
+                          final isInFavList = await listRepo.isWhiskyInList(favList.id, whisky.id);
+                          final isNowFavorite = !whisky.isFavorite; // since we toggled it
+                          
+                          if (isNowFavorite && !isInFavList) {
+                            await listRepo.addWhiskyToList(favList.id, whisky.id);
+                          } else if (!isNowFavorite && isInFavList) {
+                            await listRepo.removeWhiskyFromList(favList.id, whisky.id);
+                          }
+                          ref.invalidate(getListsForWhiskyProvider(whisky.id));
+                        } catch (_) {}
+                        
+                        ref.invalidate(whiskyDetailProvider(whisky.id));
                       },
                     ),
                   ],
