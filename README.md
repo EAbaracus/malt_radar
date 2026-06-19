@@ -1,70 +1,101 @@
 # Malt Radar
 
-Malt Radar is a professional, offline-first personal whisky database and tasting library application. It features a robust **Flutter** mobile/web client powered by a highly optimized **Python (FastAPI)** backend and a local SQLite-backed data layer used outside the tracked repository.
+Malt Radar is a Flutter-based whisky companion app with a whisky library, search, detail pages, scoring, flavor radar, similar flavor recommendations, personal notes, and price records.
 
-## Architecture & Tech Stack
+## Current Status
 
-- **Frontend:** Flutter (Dart) with Riverpod for state management, delivering a seamless offline-first experience via a local Drift SQLite integration.
-- **Backend:** Python (FastAPI), providing scalable API aggregation and robust local database orchestration.
-- **Database:** Local SQLite (Production DB) structured for maximum data integrity.
+* Android manual beta: READY
+* Distribution method: Signed APK manual sharing
+* Google Play: Deferred
+* iOS / TestFlight: Deferred
+* DB API: Behind feature flag and disabled by default
+* Offline-first local database flow active
+* Release candidate validated
 
-## Strict Data Security & Ingestion Workflow
+## Features
 
-To protect the Golden Dataset (the master tables containing curated whiskies and distilleries), Malt Radar employs a strict, production-grade ingestion pipeline:
+* Whisky library
+* Whisky search
+* Whisky detail screen
+* 100-point reference scoring
+* Flavor radar chart
+* Similar flavor recommendations
+* Personal notes
+* Price records
+* English / Turkish localization
+* First-launch locale policy:
+  * Turkish device language → Turkish UI
+  * Any non-Turkish device language → English UI
 
-1. **Master Tables Are Protected:** Direct automated insertions (`INSERT`/`UPDATE`/`DELETE`) to the master `whiskies` or `distilleries` tables are strictly prohibited.
-2. **Staging Isolation:** All new incoming data (API fetches, historical PDF menu parsing, external knowledge) is securely routed to isolated `staging_*` tables first.
-3. **Mandatory Manual Review:** Candidate data is never automatically promoted. Everything flows into a `staging_manual_review_queue` where it awaits explicit human approval before being merged into the master library.
+## Android Beta
 
-## Project Roadmap / Status
+APK path:
+`dist/manual-apk-beta/MaltRadar-beta-release-2026-06-18.apk`
 
-- ✅ **Phase 3 (Schema Migration):** Migrated to a normalized Entity Architecture. Staging and knowledge tables securely deployed to the production database environment via zero-downtime, non-destructive SQL migrations.
-- ✅ **Phase 4 (Candidate Dry-Run):** Successfully mapped and simulated the ingestion of offline candidates (Whisky Edition API, The Malt List PDF, WhiskeyFYI) into preview staging matrices without touching production records.
-- ⚠️ **Phase 5 (Staging Import & Execution):** Initial execution attempt was safely rolled back after schema mismatch detection. Master tables remained unchanged. The next step is Phase 5A — staging schema reconciliation.
-- ⏳ **Phase 5A (Staging Schema Reconciliation):** Align staging table schemas with Phase 4 preview CSV columns before retrying staging import.
+SHA256:
+`7CED0E3C401B6FAD2A55B7ED0FC19EBF1C4777C6DA60113B88DDF938FC6D9F20`
 
-## Current Data Pipeline Status
-The robust ETL pipeline consists of the following key scripts:
-- **`pre_pipeline_merge.py`**: Pre-processes raw master data, merges Claude-repaired datasets safely without overriding confirmed fields, handles alias mapping, and produces final consolidated inputs.
-- **`ingest_whisky_database.py`**: The main ETL script. Safely imports consolidated data into the SQLite database enforcing schema validation, mapping foreign keys, and capturing failed rows.
-- **`inspect_whisky_db.py`**: Quality assurance script. Examines the generated database to generate high-level integrity metrics (FK violations, fill rates, missing dependencies).
-- **`freeze_checkpoint.py`**: Safely archives a successful output and creates time-stamped, unalterable database backups for production candidate states.
-- **`apply_review_fix_42_checkpoint.py`**: Automates safe transitions of experimental patches (like triage auto-fixes) into the main production inputs, running full verification pipelines before finalizing a checkpoint.
+Tester notes:
+* Installing from unknown sources may be required.
+* Testers should report the device model, Android version, screenshots/videos, and reproduction steps for any issue.
 
----
+## Tech Stack
 
-## Installation & Running Locally
+* Flutter / Dart
+* Riverpod
+* Drift / SQLite
+* FastAPI backend
+* Python ETL and testing tools
+* Offline-first data seed flow
 
-### 1. Backend (FastAPI) Setup
-```bash
-# Navigate to the backend directory
-cd backend
+## Release Validation
 
-# Create and activate a virtual environment
-python -m venv venv
-# On Windows: venv\Scripts\activate
-# On Mac/Linux: source venv/bin/activate
+The following gates passed:
+* Signed release APK build
+* Android manual smoke test
+* Localization QA
+* Setup screen overflow fix
+* Flavor radar and similar flavor tests
+* DB seed tests
+* Security checks:
+  * `key.properties` is not tracked
+  * keystore / `.jks` files are not tracked
+  * `production.db` was not modified
+  * `AppConfig.useDbApi=false`
 
-# Install dependencies
-pip install -r requirements.txt
+## Known Non-blocking Issues
 
-# Run the FastAPI server
-uvicorn run:app --host 0.0.0.0 --port 8080 --reload
-# (Or alternatively use: python run.py)
-```
+* Some obsolete backend contract tests are classified as technical debt.
+* `use_build_context_synchronously` analyzer info warnings remain.
+* Tasting note / data content localization is deferred.
+* Google Play and iOS distribution are deferred due to developer account costs.
 
-### 2. Frontend (Flutter) Setup
-```bash
-# In a new terminal tab, navigate to the frontend directory
+## Roadmap
+
+Phase 10+:
+* Beta feedback triage
+* Centralized user tasting notes
+* Community-derived flavor profiles
+* QR / barcode search
+* Image / OCR search
+* Premium feature gating
+* Monetization / inline ads
+* Data content localization
+* Backend test cleanup
+
+## Development
+
+```powershell
 cd frontend
-
-# Fetch packages
 flutter pub get
-
-# Run the application (e.g., on Chrome)
-flutter run -d chrome --web-port 8888
+flutter analyze
+flutter test test/db_api_validation_test.dart test/real_csv_seed_test.dart test/db_seed_test.dart test/similar_flavor_test.dart
+flutter build apk --release
 ```
 
----
+## Security Notes
 
-*Note: For a clean repository history, all massive data ingestion reports, temporary staging outputs (`output/`), database backups, and compiled `build/` files are explicitly excluded via `.gitignore`.*
+* Do not commit `key.properties`.
+* Do not commit `.jks` or `.keystore` files.
+* Do not modify or promote `production.db` without explicit approval.
+* Keep DB API disabled by default unless intentionally testing backend API mode.
