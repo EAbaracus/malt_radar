@@ -5,6 +5,16 @@
 * Whiskies with flavor profile: 122
 * Whiskies missing flavor profile: 1709
 
+## Quality Metrics
+* Total analyzed: 1709
+* High confidence exact matches: 36
+* Auto candidates after quality gate: 20
+* Manual review due to unknown distillery: 1080
+* Manual review due to zero flavor vector: 1334
+* Manual review due to entity normalization issue: 59
+* Auto import: NO
+* Manual review required: YES
+
 ## Missing by category
 | Category | Count |
 | --- | --- |

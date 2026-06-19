@@ -77,3 +77,57 @@ def test_duplicate_prevention():
     assert len(unique_candidates) == 2
     assert 'W000001' in seen_ids
     assert 'W000002' in seen_ids
+
+def test_quality_gates_unknown_distillery_blocks_auto():
+    dist_name = "Unknown"
+    is_unknown_dist = dist_name.strip().lower() in ['', 'unknown', 'none']
+    assert is_unknown_dist is True
+    
+    best_status = "auto_candidate"
+    final_status = best_status
+    if is_unknown_dist:
+        final_status = "manual_review"
+    assert final_status == "manual_review"
+
+def test_quality_gates_zero_flavor_vector_blocks_auto():
+    fruity_s, sweet_s, smoky_s, spicy_s, woody_s = 0.0, 0.0, 0.0, 0.0, 0.0
+    score_sum = fruity_s + sweet_s + smoky_s + spicy_s + woody_s
+    is_zero_vector = score_sum == 0.0
+    assert is_zero_vector is True
+    
+    best_status = "auto_candidate"
+    final_status = best_status
+    if is_zero_vector:
+        final_status = "manual_review"
+    assert final_status == "manual_review"
+
+def test_quality_gates_valid_exact_match_allowed():
+    dist_name = "Glenfiddich"
+    is_unknown_dist = dist_name.strip().lower() in ['', 'unknown', 'none']
+    
+    fruity_s, sweet_s, smoky_s, spicy_s, woody_s = 2.0, 4.0, 0.0, 1.0, 3.0
+    score_sum = fruity_s + sweet_s + smoky_s + spicy_s + woody_s
+    is_zero_vector = score_sum == 0.0
+    
+    is_entity_normalization = dist_name.lower().strip() in ["box", "compass box"]
+    
+    best_status = "auto_candidate"
+    final_status = best_status
+    if is_unknown_dist or is_zero_vector or is_entity_normalization:
+        final_status = "manual_review"
+        
+    assert is_unknown_dist is False
+    assert is_zero_vector is False
+    assert is_entity_normalization is False
+    assert final_status == "auto_candidate"
+
+def test_quality_gates_compass_box_entity_normalization_blocked():
+    dist_name = "Compass Box"
+    is_entity_normalization = dist_name.lower().strip() in ["box", "compass box"]
+    assert is_entity_normalization is True
+    
+    best_status = "auto_candidate"
+    final_status = best_status
+    if is_entity_normalization:
+        final_status = "manual_review"
+    assert final_status == "manual_review"

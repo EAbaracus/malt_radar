@@ -8,6 +8,16 @@
 * **Distillery official pages**: High-fidelity official flavor description and cask maturation sheets.
 * **Mevcut local CSV/Claude/NotebookLM çıktıları**: Normalization matrices and tags extracted using LLM mapping.
 
+## Quality Gate Metrics
+* Total analyzed: 1709
+* High confidence exact matches: 36
+* Auto candidates after quality gate: 20
+* Manual review due to unknown distillery: 1080
+* Manual review due to zero flavor vector: 1334
+* Manual review due to entity normalization issue: 59
+* Auto import: NO
+* Manual review required: YES
+
 ## Matching rules
 1. **Exact Product Name Match**: Matches product name and distillery exactly (e.g. "Aberlour 12 Year Old").
 2. **Fuzzy Token Match**: Token containment with age/edition verification.
