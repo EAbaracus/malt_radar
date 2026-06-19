@@ -140,10 +140,17 @@ const Map<String, Map<String, String>> appTranslations = {
     'cache_clear': 'Önbelleği temizle',
     'cache_status': 'Önbellek durumu',
 
-    // Localization
     'language': 'Dil / Language',
     'turkish': 'Türkçe',
     'english': 'English',
+    'add_to_list': 'Listeye ekle',
+    'add_to_lists': 'Listelere ekle',
+    'lists_updated': 'Listeler güncellendi',
+    'no_lists_found': 'Liste bulunamadı',
+    'wishlist': 'İstek listesi',
+    'favorites': 'Favoriler',
+    'tried': 'Denediklerim',
+    'collection': 'Koleksiyon',
   },
   'en': {
     // General
@@ -286,5 +293,13 @@ const Map<String, Map<String, String>> appTranslations = {
     'language': 'Dil / Language',
     'turkish': 'Türkçe',
     'english': 'English',
+    'add_to_list': 'Add to list',
+    'add_to_lists': 'Add to lists',
+    'lists_updated': 'Lists updated',
+    'no_lists_found': 'No lists found',
+    'wishlist': 'Wishlist',
+    'favorites': 'Favorites',
+    'tried': 'Tried',
+    'collection': 'Collection',
   }
 };
