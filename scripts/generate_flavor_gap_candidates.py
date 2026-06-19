@@ -16,7 +16,6 @@ def extract_age(name):
     match = re.search(r'\b(\d+)\s*(?:yo|year|yr|year\s*old|years\s*old)\b', name, re.IGNORECASE)
     if match:
         return int(match.group(1))
-    # Also fallback to naked numbers like "12" if preceded/followed by standard edition words
     return None
 
 def extract_ordinal(name):
@@ -124,23 +123,19 @@ def main():
                 break
                 
             # Fuzzy / Token containment match
-            # E.g. "Ardbeg 10" contains "ardbeg" and both have same age
             elif w_dist_clean and w_dist_clean in c_name_clean and w_name_clean.split()[0] == c_name_clean.split()[0]:
-                # Check for age mismatch
                 if w_age is not None and c_age is not None and w_age != c_age:
                     best_candidate = c
                     best_match_method = "age_mismatch"
                     best_confidence = "low"
                     best_status = "rejected"
                     break
-                # Check for ordinal mismatch (e.g. 15th vs 11th release)
                 elif w_ord is not None and c_ord is not None and w_ord != c_ord:
                     best_candidate = c
                     best_match_method = "ordinal_mismatch"
                     best_confidence = "low"
                     best_status = "rejected"
                     break
-                # Mister Sam / Monkey Shoulder false positive protection
                 elif (is_mister_sam and "mister sam" not in c_name_clean) or (is_monkey_shoulder and "monkey shoulder" not in c_name_clean):
                     best_candidate = c
                     best_match_method = "false_positive_prevention"
@@ -152,7 +147,6 @@ def main():
                     best_match_method = "fuzzy_token"
                     best_confidence = "medium"
                     best_status = "manual_review"
-                    # continue looking in case of exact match
             
             # Distillery-only match
             elif w_dist_clean and w_dist_clean == c_name_clean:
@@ -162,12 +156,48 @@ def main():
                     best_confidence = "low"
                     best_status = "manual_review"
         
+        # Calculate sub-scores
+        fruity_s = float(best_candidate['fruity']) if best_candidate else 0.0
+        sweet_s = float(best_candidate['sweet']) if best_candidate else 0.0
+        smoky_s = float(best_candidate['smoky']) if best_candidate else 0.0
+        spicy_s = float(best_candidate['spicy']) if best_candidate else 0.0
+        woody_s = float(best_candidate['woody']) if best_candidate else 0.0
+        score_sum = fruity_s + sweet_s + smoky_s + spicy_s + woody_s
+        is_zero_vector = score_sum == 0.0
+        
+        dist_name = w['distillery_name'] or w['brand'] or 'Unknown'
+        is_unknown_dist = dist_name.strip().lower() in ['', 'unknown', 'none']
+        
+        # Check Compass Box / Box normalization issues
+        is_entity_normalization = (
+            "compass box" in w_name_clean or 
+            dist_name.lower().strip() in ["box", "compass box"] or
+            (w_dist_clean and "box" in w_dist_clean)
+        )
+        
+        # Determine quality flags
+        flags = []
+        if is_unknown_dist:
+            flags.append("unknown_distillery")
+        if is_zero_vector:
+            flags.append("zero_flavor_vector")
+        if is_entity_normalization:
+            flags.append("entity_normalization_review")
+            
+        quality_flags = "|".join(flags) if flags else "ok"
+        
+        # Final status override rules
+        final_status = best_status if best_candidate else "manual_review"
+        if final_status == "auto_candidate":
+            if is_unknown_dist or is_zero_vector or is_entity_normalization:
+                final_status = "manual_review"
+
         # Populate candidate fields
         if best_candidate:
             candidates_output.append({
                 'whisky_id': w_id,
                 'whisky_name': w_name,
-                'distillery_name': w['distillery_name'] or w['brand'] or 'Unknown',
+                'distillery_name': dist_name,
                 'category': w['category'] or 'Unknown',
                 'region': w['region'] or 'Unknown',
                 'country': w['country'] or 'Unknown',
@@ -175,22 +205,22 @@ def main():
                 'source_name': 'original_production_data',
                 'source_url': f"https://www.whisky.com/whisky-database/details/{w_id}.html",
                 'raw_tasting_notes': 'Raw notes matched from historical dataset',
-                'raw_flavor_tags': str(list(best_candidate.keys())[:5]), # placeholder
-                'fruity_score': float(best_candidate['fruity']),
-                'sweet_score': float(best_candidate['sweet']),
-                'smoky_score': float(best_candidate['smoky']),
-                'spicy_score': float(best_candidate['spicy']),
-                'woody_score': float(best_candidate['woody']),
+                'raw_flavor_tags': str(list(best_candidate.keys())[:5]),
+                'fruity_score': fruity_s,
+                'sweet_score': sweet_s,
+                'smoky_score': smoky_s,
+                'spicy_score': spicy_s,
+                'woody_score': woody_s,
                 'confidence': best_confidence,
                 'match_method': best_match_method,
-                'review_status': best_status
+                'review_status': final_status,
+                'quality_flags': quality_flags
             })
         else:
-            # Empty candidate entry to be enriched
             candidates_output.append({
                 'whisky_id': w_id,
                 'whisky_name': w_name,
-                'distillery_name': w['distillery_name'] or w['brand'] or 'Unknown',
+                'distillery_name': dist_name,
                 'category': w['category'] or 'Unknown',
                 'region': w['region'] or 'Unknown',
                 'country': w['country'] or 'Unknown',
@@ -206,7 +236,8 @@ def main():
                 'woody_score': 0.0,
                 'confidence': 'none',
                 'match_method': 'none',
-                'review_status': 'manual_review'
+                'review_status': 'manual_review',
+                'quality_flags': quality_flags
             })
 
     # Save candidates to CSV
@@ -215,13 +246,22 @@ def main():
     candidates_df.to_csv('output/review/flavor_gap_candidates.csv', index=False)
     print(f"Generated {len(candidates_df)} candidates in output/review/flavor_gap_candidates.csv")
     
+    # Calculate quality metrics for reports
+    total_analyzed = len(candidates_df)
+    high_confidence_exact_matches = len(candidates_df[(candidates_df['confidence'] == 'high') & (candidates_df['match_method'] == 'exact')])
+    auto_candidates_after_quality_gate = len(candidates_df[candidates_df['review_status'] == 'auto_candidate'])
+    
+    manual_review_unknown_dist = len(candidates_df[candidates_df['quality_flags'].str.contains('unknown_distillery', na=False)])
+    manual_review_zero_vector = len(candidates_df[candidates_df['quality_flags'].str.contains('zero_flavor_vector', na=False)])
+    manual_review_entity_norm = len(candidates_df[candidates_df['quality_flags'].str.contains('entity_normalization_review', na=False)])
+    
     # Generate Inventory Report
     total_whiskies = len(whiskies_df)
     with_flavors = len(flavors_df)
     missing_flavors = total_whiskies - with_flavors
     
     missing_by_cat = missing_whiskies['category'].value_counts()
-    missing_by_dist = missing_whiskies['distillery_name'].fillna(missing_whiskies['brand']).value_counts().head(20)
+    missing_by_dist = missing_whiskies['distillery_name'].value_counts().head(20)
     missing_by_reg = missing_whiskies['region'].value_counts()
     
     os.makedirs('output/reports', exist_ok=True)
@@ -232,6 +272,16 @@ def main():
 * Total whiskies: {total_whiskies}
 * Whiskies with flavor profile: {with_flavors}
 * Whiskies missing flavor profile: {missing_flavors}
+
+## Quality Metrics
+* Total analyzed: {total_analyzed}
+* High confidence exact matches: {high_confidence_exact_matches}
+* Auto candidates after quality gate: {auto_candidates_after_quality_gate}
+* Manual review due to unknown distillery: {manual_review_unknown_dist}
+* Manual review due to zero flavor vector: {manual_review_zero_vector}
+* Manual review due to entity normalization issue: {manual_review_entity_norm}
+* Auto import: NO
+* Manual review required: YES
 
 ## Missing by category
 {to_md_table(missing_by_cat, ['Category', 'Count'])}
@@ -256,7 +306,7 @@ def main():
         f.write(report177)
     print("Written 177_flavor_gap_inventory.md")
 
-    report178 = """# 178 — Flavor Gap Source Strategy
+    report178 = f"""# 178 — Flavor Gap Source Strategy
 
 ## Candidate sources
 * **Mevcut production_data.csv / flavor CSV**: Contains historical flavor records and tasting profiles for up to 500 whiskies, mapped heuristics.
@@ -265,6 +315,16 @@ def main():
 * **Whiskybase metadata**: Vast community database containing detailed release versions, age statement, and cask info (subject to robots.txt compliance).
 * **Distillery official pages**: High-fidelity official flavor description and cask maturation sheets.
 * **Mevcut local CSV/Claude/NotebookLM çıktıları**: Normalization matrices and tags extracted using LLM mapping.
+
+## Quality Gate Metrics
+* Total analyzed: {total_analyzed}
+* High confidence exact matches: {high_confidence_exact_matches}
+* Auto candidates after quality gate: {auto_candidates_after_quality_gate}
+* Manual review due to unknown distillery: {manual_review_unknown_dist}
+* Manual review due to zero flavor vector: {manual_review_zero_vector}
+* Manual review due to entity normalization issue: {manual_review_entity_norm}
+* Auto import: NO
+* Manual review required: YES
 
 ## Matching rules
 1. **Exact Product Name Match**: Matches product name and distillery exactly (e.g. "Aberlour 12 Year Old").
