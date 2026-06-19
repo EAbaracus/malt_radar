@@ -3152,6 +3152,924 @@ class ExternalSourcesCompanion extends UpdateCompanion<ExternalSource> {
   }
 }
 
+class $UserListsTable extends UserLists
+    with TableInfo<$UserListsTable, UserListEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $UserListsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 1,
+      maxTextLength: 100,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _descriptionMeta = const VerificationMeta(
+    'description',
+  );
+  @override
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+    'description',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _defaultTypeMeta = const VerificationMeta(
+    'defaultType',
+  );
+  @override
+  late final GeneratedColumn<String> defaultType = GeneratedColumn<String>(
+    'default_type',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _sortOrderMeta = const VerificationMeta(
+    'sortOrder',
+  );
+  @override
+  late final GeneratedColumn<int> sortOrder = GeneratedColumn<int>(
+    'sort_order',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<String> createdAt = GeneratedColumn<String>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<String> updatedAt = GeneratedColumn<String>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _isSystemDefaultMeta = const VerificationMeta(
+    'isSystemDefault',
+  );
+  @override
+  late final GeneratedColumn<bool> isSystemDefault = GeneratedColumn<bool>(
+    'is_system_default',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_system_default" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    name,
+    description,
+    defaultType,
+    sortOrder,
+    createdAt,
+    updatedAt,
+    isSystemDefault,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'user_lists';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<UserListEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+        _descriptionMeta,
+        description.isAcceptableOrUnknown(
+          data['description']!,
+          _descriptionMeta,
+        ),
+      );
+    }
+    if (data.containsKey('default_type')) {
+      context.handle(
+        _defaultTypeMeta,
+        defaultType.isAcceptableOrUnknown(
+          data['default_type']!,
+          _defaultTypeMeta,
+        ),
+      );
+    }
+    if (data.containsKey('sort_order')) {
+      context.handle(
+        _sortOrderMeta,
+        sortOrder.isAcceptableOrUnknown(data['sort_order']!, _sortOrderMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    if (data.containsKey('is_system_default')) {
+      context.handle(
+        _isSystemDefaultMeta,
+        isSystemDefault.isAcceptableOrUnknown(
+          data['is_system_default']!,
+          _isSystemDefaultMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  UserListEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return UserListEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      description: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}description'],
+      ),
+      defaultType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}default_type'],
+      ),
+      sortOrder: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}sort_order'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}updated_at'],
+      )!,
+      isSystemDefault: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_system_default'],
+      )!,
+    );
+  }
+
+  @override
+  $UserListsTable createAlias(String alias) {
+    return $UserListsTable(attachedDatabase, alias);
+  }
+}
+
+class UserListEntity extends DataClass implements Insertable<UserListEntity> {
+  final int id;
+  final String name;
+  final String? description;
+  final String? defaultType;
+  final int sortOrder;
+  final String createdAt;
+  final String updatedAt;
+  final bool isSystemDefault;
+  const UserListEntity({
+    required this.id,
+    required this.name,
+    this.description,
+    this.defaultType,
+    required this.sortOrder,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.isSystemDefault,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['name'] = Variable<String>(name);
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String>(description);
+    }
+    if (!nullToAbsent || defaultType != null) {
+      map['default_type'] = Variable<String>(defaultType);
+    }
+    map['sort_order'] = Variable<int>(sortOrder);
+    map['created_at'] = Variable<String>(createdAt);
+    map['updated_at'] = Variable<String>(updatedAt);
+    map['is_system_default'] = Variable<bool>(isSystemDefault);
+    return map;
+  }
+
+  UserListsCompanion toCompanion(bool nullToAbsent) {
+    return UserListsCompanion(
+      id: Value(id),
+      name: Value(name),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
+      defaultType: defaultType == null && nullToAbsent
+          ? const Value.absent()
+          : Value(defaultType),
+      sortOrder: Value(sortOrder),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+      isSystemDefault: Value(isSystemDefault),
+    );
+  }
+
+  factory UserListEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return UserListEntity(
+      id: serializer.fromJson<int>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+      description: serializer.fromJson<String?>(json['description']),
+      defaultType: serializer.fromJson<String?>(json['defaultType']),
+      sortOrder: serializer.fromJson<int>(json['sortOrder']),
+      createdAt: serializer.fromJson<String>(json['createdAt']),
+      updatedAt: serializer.fromJson<String>(json['updatedAt']),
+      isSystemDefault: serializer.fromJson<bool>(json['isSystemDefault']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'name': serializer.toJson<String>(name),
+      'description': serializer.toJson<String?>(description),
+      'defaultType': serializer.toJson<String?>(defaultType),
+      'sortOrder': serializer.toJson<int>(sortOrder),
+      'createdAt': serializer.toJson<String>(createdAt),
+      'updatedAt': serializer.toJson<String>(updatedAt),
+      'isSystemDefault': serializer.toJson<bool>(isSystemDefault),
+    };
+  }
+
+  UserListEntity copyWith({
+    int? id,
+    String? name,
+    Value<String?> description = const Value.absent(),
+    Value<String?> defaultType = const Value.absent(),
+    int? sortOrder,
+    String? createdAt,
+    String? updatedAt,
+    bool? isSystemDefault,
+  }) => UserListEntity(
+    id: id ?? this.id,
+    name: name ?? this.name,
+    description: description.present ? description.value : this.description,
+    defaultType: defaultType.present ? defaultType.value : this.defaultType,
+    sortOrder: sortOrder ?? this.sortOrder,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+    isSystemDefault: isSystemDefault ?? this.isSystemDefault,
+  );
+  UserListEntity copyWithCompanion(UserListsCompanion data) {
+    return UserListEntity(
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      description: data.description.present
+          ? data.description.value
+          : this.description,
+      defaultType: data.defaultType.present
+          ? data.defaultType.value
+          : this.defaultType,
+      sortOrder: data.sortOrder.present ? data.sortOrder.value : this.sortOrder,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      isSystemDefault: data.isSystemDefault.present
+          ? data.isSystemDefault.value
+          : this.isSystemDefault,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UserListEntity(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('description: $description, ')
+          ..write('defaultType: $defaultType, ')
+          ..write('sortOrder: $sortOrder, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('isSystemDefault: $isSystemDefault')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    name,
+    description,
+    defaultType,
+    sortOrder,
+    createdAt,
+    updatedAt,
+    isSystemDefault,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is UserListEntity &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.description == this.description &&
+          other.defaultType == this.defaultType &&
+          other.sortOrder == this.sortOrder &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt &&
+          other.isSystemDefault == this.isSystemDefault);
+}
+
+class UserListsCompanion extends UpdateCompanion<UserListEntity> {
+  final Value<int> id;
+  final Value<String> name;
+  final Value<String?> description;
+  final Value<String?> defaultType;
+  final Value<int> sortOrder;
+  final Value<String> createdAt;
+  final Value<String> updatedAt;
+  final Value<bool> isSystemDefault;
+  const UserListsCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.description = const Value.absent(),
+    this.defaultType = const Value.absent(),
+    this.sortOrder = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.isSystemDefault = const Value.absent(),
+  });
+  UserListsCompanion.insert({
+    this.id = const Value.absent(),
+    required String name,
+    this.description = const Value.absent(),
+    this.defaultType = const Value.absent(),
+    this.sortOrder = const Value.absent(),
+    required String createdAt,
+    required String updatedAt,
+    this.isSystemDefault = const Value.absent(),
+  }) : name = Value(name),
+       createdAt = Value(createdAt),
+       updatedAt = Value(updatedAt);
+  static Insertable<UserListEntity> custom({
+    Expression<int>? id,
+    Expression<String>? name,
+    Expression<String>? description,
+    Expression<String>? defaultType,
+    Expression<int>? sortOrder,
+    Expression<String>? createdAt,
+    Expression<String>? updatedAt,
+    Expression<bool>? isSystemDefault,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (description != null) 'description': description,
+      if (defaultType != null) 'default_type': defaultType,
+      if (sortOrder != null) 'sort_order': sortOrder,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (isSystemDefault != null) 'is_system_default': isSystemDefault,
+    });
+  }
+
+  UserListsCompanion copyWith({
+    Value<int>? id,
+    Value<String>? name,
+    Value<String?>? description,
+    Value<String?>? defaultType,
+    Value<int>? sortOrder,
+    Value<String>? createdAt,
+    Value<String>? updatedAt,
+    Value<bool>? isSystemDefault,
+  }) {
+    return UserListsCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      defaultType: defaultType ?? this.defaultType,
+      sortOrder: sortOrder ?? this.sortOrder,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      isSystemDefault: isSystemDefault ?? this.isSystemDefault,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    if (defaultType.present) {
+      map['default_type'] = Variable<String>(defaultType.value);
+    }
+    if (sortOrder.present) {
+      map['sort_order'] = Variable<int>(sortOrder.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<String>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<String>(updatedAt.value);
+    }
+    if (isSystemDefault.present) {
+      map['is_system_default'] = Variable<bool>(isSystemDefault.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UserListsCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('description: $description, ')
+          ..write('defaultType: $defaultType, ')
+          ..write('sortOrder: $sortOrder, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('isSystemDefault: $isSystemDefault')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $UserListItemsTable extends UserListItems
+    with TableInfo<$UserListItemsTable, UserListItemEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $UserListItemsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _listIdMeta = const VerificationMeta('listId');
+  @override
+  late final GeneratedColumn<int> listId = GeneratedColumn<int>(
+    'list_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _whiskyIdMeta = const VerificationMeta(
+    'whiskyId',
+  );
+  @override
+  late final GeneratedColumn<int> whiskyId = GeneratedColumn<int>(
+    'whisky_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _noteMeta = const VerificationMeta('note');
+  @override
+  late final GeneratedColumn<String> note = GeneratedColumn<String>(
+    'note',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _sortOrderMeta = const VerificationMeta(
+    'sortOrder',
+  );
+  @override
+  late final GeneratedColumn<int> sortOrder = GeneratedColumn<int>(
+    'sort_order',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<String> createdAt = GeneratedColumn<String>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    listId,
+    whiskyId,
+    note,
+    sortOrder,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'user_list_items';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<UserListItemEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('list_id')) {
+      context.handle(
+        _listIdMeta,
+        listId.isAcceptableOrUnknown(data['list_id']!, _listIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_listIdMeta);
+    }
+    if (data.containsKey('whisky_id')) {
+      context.handle(
+        _whiskyIdMeta,
+        whiskyId.isAcceptableOrUnknown(data['whisky_id']!, _whiskyIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_whiskyIdMeta);
+    }
+    if (data.containsKey('note')) {
+      context.handle(
+        _noteMeta,
+        note.isAcceptableOrUnknown(data['note']!, _noteMeta),
+      );
+    }
+    if (data.containsKey('sort_order')) {
+      context.handle(
+        _sortOrderMeta,
+        sortOrder.isAcceptableOrUnknown(data['sort_order']!, _sortOrderMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  List<Set<GeneratedColumn>> get uniqueKeys => [
+    {listId, whiskyId},
+  ];
+  @override
+  UserListItemEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return UserListItemEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      listId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}list_id'],
+      )!,
+      whiskyId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}whisky_id'],
+      )!,
+      note: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}note'],
+      ),
+      sortOrder: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}sort_order'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $UserListItemsTable createAlias(String alias) {
+    return $UserListItemsTable(attachedDatabase, alias);
+  }
+}
+
+class UserListItemEntity extends DataClass
+    implements Insertable<UserListItemEntity> {
+  final int id;
+  final int listId;
+  final int whiskyId;
+  final String? note;
+  final int sortOrder;
+  final String createdAt;
+  const UserListItemEntity({
+    required this.id,
+    required this.listId,
+    required this.whiskyId,
+    this.note,
+    required this.sortOrder,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['list_id'] = Variable<int>(listId);
+    map['whisky_id'] = Variable<int>(whiskyId);
+    if (!nullToAbsent || note != null) {
+      map['note'] = Variable<String>(note);
+    }
+    map['sort_order'] = Variable<int>(sortOrder);
+    map['created_at'] = Variable<String>(createdAt);
+    return map;
+  }
+
+  UserListItemsCompanion toCompanion(bool nullToAbsent) {
+    return UserListItemsCompanion(
+      id: Value(id),
+      listId: Value(listId),
+      whiskyId: Value(whiskyId),
+      note: note == null && nullToAbsent ? const Value.absent() : Value(note),
+      sortOrder: Value(sortOrder),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory UserListItemEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return UserListItemEntity(
+      id: serializer.fromJson<int>(json['id']),
+      listId: serializer.fromJson<int>(json['listId']),
+      whiskyId: serializer.fromJson<int>(json['whiskyId']),
+      note: serializer.fromJson<String?>(json['note']),
+      sortOrder: serializer.fromJson<int>(json['sortOrder']),
+      createdAt: serializer.fromJson<String>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'listId': serializer.toJson<int>(listId),
+      'whiskyId': serializer.toJson<int>(whiskyId),
+      'note': serializer.toJson<String?>(note),
+      'sortOrder': serializer.toJson<int>(sortOrder),
+      'createdAt': serializer.toJson<String>(createdAt),
+    };
+  }
+
+  UserListItemEntity copyWith({
+    int? id,
+    int? listId,
+    int? whiskyId,
+    Value<String?> note = const Value.absent(),
+    int? sortOrder,
+    String? createdAt,
+  }) => UserListItemEntity(
+    id: id ?? this.id,
+    listId: listId ?? this.listId,
+    whiskyId: whiskyId ?? this.whiskyId,
+    note: note.present ? note.value : this.note,
+    sortOrder: sortOrder ?? this.sortOrder,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  UserListItemEntity copyWithCompanion(UserListItemsCompanion data) {
+    return UserListItemEntity(
+      id: data.id.present ? data.id.value : this.id,
+      listId: data.listId.present ? data.listId.value : this.listId,
+      whiskyId: data.whiskyId.present ? data.whiskyId.value : this.whiskyId,
+      note: data.note.present ? data.note.value : this.note,
+      sortOrder: data.sortOrder.present ? data.sortOrder.value : this.sortOrder,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UserListItemEntity(')
+          ..write('id: $id, ')
+          ..write('listId: $listId, ')
+          ..write('whiskyId: $whiskyId, ')
+          ..write('note: $note, ')
+          ..write('sortOrder: $sortOrder, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, listId, whiskyId, note, sortOrder, createdAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is UserListItemEntity &&
+          other.id == this.id &&
+          other.listId == this.listId &&
+          other.whiskyId == this.whiskyId &&
+          other.note == this.note &&
+          other.sortOrder == this.sortOrder &&
+          other.createdAt == this.createdAt);
+}
+
+class UserListItemsCompanion extends UpdateCompanion<UserListItemEntity> {
+  final Value<int> id;
+  final Value<int> listId;
+  final Value<int> whiskyId;
+  final Value<String?> note;
+  final Value<int> sortOrder;
+  final Value<String> createdAt;
+  const UserListItemsCompanion({
+    this.id = const Value.absent(),
+    this.listId = const Value.absent(),
+    this.whiskyId = const Value.absent(),
+    this.note = const Value.absent(),
+    this.sortOrder = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  UserListItemsCompanion.insert({
+    this.id = const Value.absent(),
+    required int listId,
+    required int whiskyId,
+    this.note = const Value.absent(),
+    this.sortOrder = const Value.absent(),
+    required String createdAt,
+  }) : listId = Value(listId),
+       whiskyId = Value(whiskyId),
+       createdAt = Value(createdAt);
+  static Insertable<UserListItemEntity> custom({
+    Expression<int>? id,
+    Expression<int>? listId,
+    Expression<int>? whiskyId,
+    Expression<String>? note,
+    Expression<int>? sortOrder,
+    Expression<String>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (listId != null) 'list_id': listId,
+      if (whiskyId != null) 'whisky_id': whiskyId,
+      if (note != null) 'note': note,
+      if (sortOrder != null) 'sort_order': sortOrder,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  UserListItemsCompanion copyWith({
+    Value<int>? id,
+    Value<int>? listId,
+    Value<int>? whiskyId,
+    Value<String?>? note,
+    Value<int>? sortOrder,
+    Value<String>? createdAt,
+  }) {
+    return UserListItemsCompanion(
+      id: id ?? this.id,
+      listId: listId ?? this.listId,
+      whiskyId: whiskyId ?? this.whiskyId,
+      note: note ?? this.note,
+      sortOrder: sortOrder ?? this.sortOrder,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (listId.present) {
+      map['list_id'] = Variable<int>(listId.value);
+    }
+    if (whiskyId.present) {
+      map['whisky_id'] = Variable<int>(whiskyId.value);
+    }
+    if (note.present) {
+      map['note'] = Variable<String>(note.value);
+    }
+    if (sortOrder.present) {
+      map['sort_order'] = Variable<int>(sortOrder.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<String>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UserListItemsCompanion(')
+          ..write('id: $id, ')
+          ..write('listId: $listId, ')
+          ..write('whiskyId: $whiskyId, ')
+          ..write('note: $note, ')
+          ..write('sortOrder: $sortOrder, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -3166,6 +4084,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $ExternalSourcesTable externalSources = $ExternalSourcesTable(
     this,
   );
+  late final $UserListsTable userLists = $UserListsTable(this);
+  late final $UserListItemsTable userListItems = $UserListItemsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -3178,6 +4098,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     userNotes,
     whiskyPrices,
     externalSources,
+    userLists,
+    userListItems,
   ];
 }
 
@@ -4809,6 +5731,480 @@ typedef $$ExternalSourcesTableProcessedTableManager =
       ExternalSource,
       PrefetchHooks Function()
     >;
+typedef $$UserListsTableCreateCompanionBuilder =
+    UserListsCompanion Function({
+      Value<int> id,
+      required String name,
+      Value<String?> description,
+      Value<String?> defaultType,
+      Value<int> sortOrder,
+      required String createdAt,
+      required String updatedAt,
+      Value<bool> isSystemDefault,
+    });
+typedef $$UserListsTableUpdateCompanionBuilder =
+    UserListsCompanion Function({
+      Value<int> id,
+      Value<String> name,
+      Value<String?> description,
+      Value<String?> defaultType,
+      Value<int> sortOrder,
+      Value<String> createdAt,
+      Value<String> updatedAt,
+      Value<bool> isSystemDefault,
+    });
+
+class $$UserListsTableFilterComposer
+    extends Composer<_$AppDatabase, $UserListsTable> {
+  $$UserListsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get defaultType => $composableBuilder(
+    column: $table.defaultType,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get sortOrder => $composableBuilder(
+    column: $table.sortOrder,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isSystemDefault => $composableBuilder(
+    column: $table.isSystemDefault,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$UserListsTableOrderingComposer
+    extends Composer<_$AppDatabase, $UserListsTable> {
+  $$UserListsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get defaultType => $composableBuilder(
+    column: $table.defaultType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get sortOrder => $composableBuilder(
+    column: $table.sortOrder,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isSystemDefault => $composableBuilder(
+    column: $table.isSystemDefault,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$UserListsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $UserListsTable> {
+  $$UserListsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get defaultType => $composableBuilder(
+    column: $table.defaultType,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get sortOrder =>
+      $composableBuilder(column: $table.sortOrder, builder: (column) => column);
+
+  GeneratedColumn<String> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<String> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<bool> get isSystemDefault => $composableBuilder(
+    column: $table.isSystemDefault,
+    builder: (column) => column,
+  );
+}
+
+class $$UserListsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $UserListsTable,
+          UserListEntity,
+          $$UserListsTableFilterComposer,
+          $$UserListsTableOrderingComposer,
+          $$UserListsTableAnnotationComposer,
+          $$UserListsTableCreateCompanionBuilder,
+          $$UserListsTableUpdateCompanionBuilder,
+          (
+            UserListEntity,
+            BaseReferences<_$AppDatabase, $UserListsTable, UserListEntity>,
+          ),
+          UserListEntity,
+          PrefetchHooks Function()
+        > {
+  $$UserListsTableTableManager(_$AppDatabase db, $UserListsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$UserListsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$UserListsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$UserListsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String?> description = const Value.absent(),
+                Value<String?> defaultType = const Value.absent(),
+                Value<int> sortOrder = const Value.absent(),
+                Value<String> createdAt = const Value.absent(),
+                Value<String> updatedAt = const Value.absent(),
+                Value<bool> isSystemDefault = const Value.absent(),
+              }) => UserListsCompanion(
+                id: id,
+                name: name,
+                description: description,
+                defaultType: defaultType,
+                sortOrder: sortOrder,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                isSystemDefault: isSystemDefault,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String name,
+                Value<String?> description = const Value.absent(),
+                Value<String?> defaultType = const Value.absent(),
+                Value<int> sortOrder = const Value.absent(),
+                required String createdAt,
+                required String updatedAt,
+                Value<bool> isSystemDefault = const Value.absent(),
+              }) => UserListsCompanion.insert(
+                id: id,
+                name: name,
+                description: description,
+                defaultType: defaultType,
+                sortOrder: sortOrder,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                isSystemDefault: isSystemDefault,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$UserListsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $UserListsTable,
+      UserListEntity,
+      $$UserListsTableFilterComposer,
+      $$UserListsTableOrderingComposer,
+      $$UserListsTableAnnotationComposer,
+      $$UserListsTableCreateCompanionBuilder,
+      $$UserListsTableUpdateCompanionBuilder,
+      (
+        UserListEntity,
+        BaseReferences<_$AppDatabase, $UserListsTable, UserListEntity>,
+      ),
+      UserListEntity,
+      PrefetchHooks Function()
+    >;
+typedef $$UserListItemsTableCreateCompanionBuilder =
+    UserListItemsCompanion Function({
+      Value<int> id,
+      required int listId,
+      required int whiskyId,
+      Value<String?> note,
+      Value<int> sortOrder,
+      required String createdAt,
+    });
+typedef $$UserListItemsTableUpdateCompanionBuilder =
+    UserListItemsCompanion Function({
+      Value<int> id,
+      Value<int> listId,
+      Value<int> whiskyId,
+      Value<String?> note,
+      Value<int> sortOrder,
+      Value<String> createdAt,
+    });
+
+class $$UserListItemsTableFilterComposer
+    extends Composer<_$AppDatabase, $UserListItemsTable> {
+  $$UserListItemsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get listId => $composableBuilder(
+    column: $table.listId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get whiskyId => $composableBuilder(
+    column: $table.whiskyId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get sortOrder => $composableBuilder(
+    column: $table.sortOrder,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$UserListItemsTableOrderingComposer
+    extends Composer<_$AppDatabase, $UserListItemsTable> {
+  $$UserListItemsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get listId => $composableBuilder(
+    column: $table.listId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get whiskyId => $composableBuilder(
+    column: $table.whiskyId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get sortOrder => $composableBuilder(
+    column: $table.sortOrder,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$UserListItemsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $UserListItemsTable> {
+  $$UserListItemsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get listId =>
+      $composableBuilder(column: $table.listId, builder: (column) => column);
+
+  GeneratedColumn<int> get whiskyId =>
+      $composableBuilder(column: $table.whiskyId, builder: (column) => column);
+
+  GeneratedColumn<String> get note =>
+      $composableBuilder(column: $table.note, builder: (column) => column);
+
+  GeneratedColumn<int> get sortOrder =>
+      $composableBuilder(column: $table.sortOrder, builder: (column) => column);
+
+  GeneratedColumn<String> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+}
+
+class $$UserListItemsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $UserListItemsTable,
+          UserListItemEntity,
+          $$UserListItemsTableFilterComposer,
+          $$UserListItemsTableOrderingComposer,
+          $$UserListItemsTableAnnotationComposer,
+          $$UserListItemsTableCreateCompanionBuilder,
+          $$UserListItemsTableUpdateCompanionBuilder,
+          (
+            UserListItemEntity,
+            BaseReferences<
+              _$AppDatabase,
+              $UserListItemsTable,
+              UserListItemEntity
+            >,
+          ),
+          UserListItemEntity,
+          PrefetchHooks Function()
+        > {
+  $$UserListItemsTableTableManager(_$AppDatabase db, $UserListItemsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$UserListItemsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$UserListItemsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$UserListItemsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> listId = const Value.absent(),
+                Value<int> whiskyId = const Value.absent(),
+                Value<String?> note = const Value.absent(),
+                Value<int> sortOrder = const Value.absent(),
+                Value<String> createdAt = const Value.absent(),
+              }) => UserListItemsCompanion(
+                id: id,
+                listId: listId,
+                whiskyId: whiskyId,
+                note: note,
+                sortOrder: sortOrder,
+                createdAt: createdAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int listId,
+                required int whiskyId,
+                Value<String?> note = const Value.absent(),
+                Value<int> sortOrder = const Value.absent(),
+                required String createdAt,
+              }) => UserListItemsCompanion.insert(
+                id: id,
+                listId: listId,
+                whiskyId: whiskyId,
+                note: note,
+                sortOrder: sortOrder,
+                createdAt: createdAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$UserListItemsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $UserListItemsTable,
+      UserListItemEntity,
+      $$UserListItemsTableFilterComposer,
+      $$UserListItemsTableOrderingComposer,
+      $$UserListItemsTableAnnotationComposer,
+      $$UserListItemsTableCreateCompanionBuilder,
+      $$UserListItemsTableUpdateCompanionBuilder,
+      (
+        UserListItemEntity,
+        BaseReferences<_$AppDatabase, $UserListItemsTable, UserListItemEntity>,
+      ),
+      UserListItemEntity,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -4827,4 +6223,8 @@ class $AppDatabaseManager {
       $$WhiskyPricesTableTableManager(_db, _db.whiskyPrices);
   $$ExternalSourcesTableTableManager get externalSources =>
       $$ExternalSourcesTableTableManager(_db, _db.externalSources);
+  $$UserListsTableTableManager get userLists =>
+      $$UserListsTableTableManager(_db, _db.userLists);
+  $$UserListItemsTableTableManager get userListItems =>
+      $$UserListItemsTableTableManager(_db, _db.userListItems);
 }

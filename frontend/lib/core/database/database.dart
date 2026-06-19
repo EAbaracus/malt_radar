@@ -83,6 +83,31 @@ class ExternalSources extends Table {
   TextColumn get fetchedAt => text()();
 }
 
+@DataClassName('UserListEntity')
+class UserLists extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get name => text().withLength(min: 1, max: 100)();
+  TextColumn get description => text().nullable()();
+  TextColumn get defaultType => text().nullable()();
+  IntColumn get sortOrder => integer().withDefault(const Constant(0))();
+  TextColumn get createdAt => text()();
+  TextColumn get updatedAt => text()();
+  BoolColumn get isSystemDefault => boolean().withDefault(const Constant(false))();
+}
+
+@DataClassName('UserListItemEntity')
+class UserListItems extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get listId => integer()();
+  IntColumn get whiskyId => integer()();
+  TextColumn get note => text().nullable()();
+  IntColumn get sortOrder => integer().withDefault(const Constant(0))();
+  TextColumn get createdAt => text()();
+
+  @override
+  List<Set<Column>> get uniqueKeys => [{listId, whiskyId}];
+}
+
 @DriftDatabase(tables: [
   Whiskies,
   UserSettings,
@@ -90,7 +115,9 @@ class ExternalSources extends Table {
   Favorites,
   UserNotes,
   WhiskyPrices,
-  ExternalSources
+  ExternalSources,
+  UserLists,
+  UserListItems
 ])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(driftDatabase(
@@ -104,7 +131,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5;
 
   @override
   MigrationStrategy get migration {
@@ -125,6 +152,24 @@ class AppDatabase extends _$AppDatabase {
           await m.addColumn(whiskies, whiskies.flavorTags);
           await m.addColumn(whiskies, whiskies.flavorSource);
           await m.addColumn(whiskies, whiskies.flavorMatchScore);
+        }
+        if (from < 5) {
+          await m.createTable(userLists);
+          await m.createTable(userListItems);
+
+          await customStatement('''
+            INSERT INTO user_lists (name, default_type, sort_order, created_at, updated_at, is_system_default)
+            VALUES ('Favorites', 'favorites', 0, datetime('now'), datetime('now'), 1),
+                   ('Wishlist', 'wishlist', 1, datetime('now'), datetime('now'), 1),
+                   ('Tried', 'tried', 2, datetime('now'), datetime('now'), 1),
+                   ('Collection', 'collection', 3, datetime('now'), datetime('now'), 1);
+          ''');
+
+          await customStatement('''
+            INSERT INTO user_list_items (list_id, whisky_id, sort_order, created_at)
+            SELECT (SELECT id FROM user_lists WHERE default_type = 'favorites'), whisky_id, 0, added_at
+            FROM favorites;
+          ''');
         }
       },
     );
