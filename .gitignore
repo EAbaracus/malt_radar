@@ -67,3 +67,6 @@ android/key.properties
 android/app/key.properties
 frontend/android/key.properties
 frontend/android/app/key.properties
+
+# Local release artifacts
+dist/
