@@ -24,16 +24,16 @@ def test_api_key_protection_invalid_header():
     response = client.get("/api/whiskies/search?q=test", headers={"X-API-Key": "wrong-key"})
     assert response.status_code == 403
 
-@pytest.mark.asyncio
-async def test_verify_api_key_no_fallback(monkeypatch):
+def test_verify_api_key_no_fallback(monkeypatch):
     # Ensure there is no fallback to "mock-secret-key-123"
     import app.main
     monkeypatch.setattr(app.main, "API_KEY", None)
     
     # When API_KEY is None, it should raise 403
     from fastapi import HTTPException
+    import asyncio
     with pytest.raises(HTTPException) as exc:
-        await verify_api_key("some-key")
+        asyncio.run(verify_api_key("some-key"))
     assert exc.value.status_code == 403
     assert "not configured" in exc.value.detail
 
