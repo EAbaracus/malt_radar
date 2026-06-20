@@ -10,6 +10,7 @@ import '../../../flavor/presentation/widgets/similar_flavor_whiskies.dart';
 import 'package:go_router/go_router.dart';
 import 'package:malt_radar/features/lists/presentation/widgets/add_to_list_sheet.dart';
 import 'package:malt_radar/features/lists/presentation/controllers/user_lists_providers.dart';
+import 'package:malt_radar/core/localization/flavor_tag_translator.dart';
 
 class DetailScreen extends ConsumerStatefulWidget {
   final int whiskyId;
@@ -42,7 +43,10 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
     final repository = ref.read(whiskyRepositoryProvider);
     final whisky = await repository.getWhiskyById(widget.whiskyId);
     if (whisky != null) {
-      final list = await repository.getWhiskyPrices(widget.whiskyId, whisky.externalId);
+      final list = await repository.getWhiskyPrices(
+        widget.whiskyId,
+        whisky.externalId,
+      );
       setState(() {
         _prices = list;
         _isLoadingPrices = false;
@@ -53,7 +57,10 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
   void _saveNotesAndScore() async {
     final repository = ref.read(whiskyRepositoryProvider);
     final tr = ref.read(trProvider);
-    await repository.updatePersonalNotes(widget.whiskyId, _notesController.text);
+    await repository.updatePersonalNotes(
+      widget.whiskyId,
+      _notesController.text,
+    );
     await repository.updatePersonalScore(widget.whiskyId, _score);
 
     if (mounted) {
@@ -62,7 +69,9 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
           content: Text(tr('evaluation_saved')),
           backgroundColor: AppTheme.primary,
           behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
         ),
       );
     }
@@ -82,8 +91,13 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
       builder: (context) {
         return AlertDialog(
           backgroundColor: AppTheme.surfaceElevated,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          title: Text(tr('add_price_record'), style: const TextStyle(color: AppTheme.primary)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          title: Text(
+            tr('add_price_record'),
+            style: const TextStyle(color: AppTheme.primary),
+          ),
           content: SingleChildScrollView(
             child: Form(
               key: formKey,
@@ -92,7 +106,9 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                 children: [
                   TextFormField(
                     controller: priceController,
-                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                    keyboardType: const TextInputType.numberWithOptions(
+                      decimal: true,
+                    ),
                     decoration: InputDecoration(labelText: tr('price')),
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
@@ -120,11 +136,15 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                   const SizedBox(height: 12),
                   DropdownButtonFormField<String>(
                     initialValue: selectedCountry,
-                    decoration: InputDecoration(labelText: tr('price_record_country')), // using country for this dropdown
+                    decoration: InputDecoration(
+                      labelText: tr('price_record_country'),
+                    ), // using country for this dropdown
                     dropdownColor: AppTheme.surfaceElevated,
-                    items: ['Türkiye', 'İskoçya', 'İngiltere', 'ABD', 'Japonya'].map((c) {
-                      return DropdownMenuItem(value: c, child: Text(c));
-                    }).toList(),
+                    items: ['Türkiye', 'İskoçya', 'İngiltere', 'ABD', 'Japonya']
+                        .map((c) {
+                          return DropdownMenuItem(value: c, child: Text(c));
+                        })
+                        .toList(),
                     onChanged: (val) {
                       if (val != null) selectedCountry = val;
                     },
@@ -144,14 +164,19 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text(tr('cancel'), style: const TextStyle(color: AppTheme.textSecondary)),
+              child: Text(
+                tr('cancel'),
+                style: const TextStyle(color: AppTheme.textSecondary),
+              ),
             ),
             ElevatedButton(
               onPressed: () async {
                 if (!formKey.currentState!.validate()) return;
                 final double pVal = double.parse(priceController.text);
-                
-                final storeName = sourceController.text.trim().isNotEmpty ? sourceController.text.trim() : 'Kişisel Takip';
+
+                final storeName = sourceController.text.trim().isNotEmpty
+                    ? sourceController.text.trim()
+                    : 'Kişisel Takip';
 
                 final repository = ref.read(whiskyRepositoryProvider);
                 await repository.addManualPrice(
@@ -179,12 +204,14 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
   @override
   Widget build(BuildContext context) {
     final tr = ref.watch(trProvider);
+    final langCode = ref.watch(localizationProvider);
     final whiskyAsync = ref.watch(whiskyDetailProvider(widget.whiskyId));
     final settingsAsync = ref.watch(referenceSettingsStreamProvider);
     final refWhiskyAsync = ref.watch(referenceWhiskyModelProvider);
 
     final settings = settingsAsync.value ?? {};
-    final referenceScore = settings['reference_whisky_absolute_score'] as int? ?? 100;
+    final referenceScore =
+        settings['reference_whisky_absolute_score'] as int? ?? 100;
     final referenceId = settings['reference_whisky_id'] as int?;
     final refWhisky = refWhiskyAsync.value;
 
@@ -194,11 +221,7 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
           gradient: RadialGradient(
             center: Alignment(0, -0.8),
             radius: 1.5,
-            colors: [
-              Color(0xFF1E1E2C),
-              AppTheme.background,
-              Color(0xFF040406),
-            ],
+            colors: [Color(0xFF1E1E2C), AppTheme.background, Color(0xFF040406)],
           ),
         ),
         child: whiskyAsync.when(
@@ -211,17 +234,26 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
               _notesController.text = whisky.personalNotes;
               _score = whisky.personalScore;
               _initialized = true;
-              
+
               if (whisky.tastingNotes.isEmpty && whisky.externalId != null) {
-                Future.microtask(() => ref.read(whiskyRepositoryProvider).fetchAndUpdateDetails(whisky.id, whisky.externalId!));
+                Future.microtask(
+                  () => ref
+                      .read(whiskyRepositoryProvider)
+                      .fetchAndUpdateDetails(whisky.id, whisky.externalId!),
+                );
               }
             }
 
             final isReferenceWhisky = whisky.id == referenceId;
-            
+
             double? automatedRelativeScore;
-            if (refWhisky != null && refWhisky.globalScore != null && refWhisky.globalScore! > 0 && whisky.globalScore != null) {
-              automatedRelativeScore = (whisky.globalScore! / refWhisky.globalScore!) * referenceScore;
+            if (refWhisky != null &&
+                refWhisky.globalScore != null &&
+                refWhisky.globalScore! > 0 &&
+                whisky.globalScore != null) {
+              automatedRelativeScore =
+                  (whisky.globalScore! / refWhisky.globalScore!) *
+                  referenceScore;
             }
 
             return CustomScrollView(
@@ -234,14 +266,19 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                   pinned: true,
                   backgroundColor: Colors.transparent,
                   flexibleSpace: FlexibleSpaceBar(
-                    titlePadding: const EdgeInsets.only(left: 24, bottom: 16, right: 24),
+                    titlePadding: const EdgeInsets.only(
+                      left: 24,
+                      bottom: 16,
+                      right: 24,
+                    ),
                     title: Hero(
                       tag: 'whisky-name-${whisky.id}',
                       child: Material(
                         color: Colors.transparent,
                         child: Text(
                           whisky.name,
-                          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                          style: Theme.of(context).textTheme.headlineMedium
+                              ?.copyWith(
                                 color: Colors.white,
                                 fontSize: 24,
                                 shadows: [
@@ -308,7 +345,9 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                     IconButton(
                       icon: Icon(
                         whisky.isFavorite ? Icons.star : Icons.star_border,
-                        color: whisky.isFavorite ? AppTheme.accent : Colors.white,
+                        color: whisky.isFavorite
+                            ? AppTheme.accent
+                            : Colors.white,
                         size: 28,
                         shadows: [
                           Shadow(
@@ -321,30 +360,42 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                       onPressed: () async {
                         final repo = ref.read(whiskyRepositoryProvider);
                         final listRepo = ref.read(userListsRepositoryProvider);
-                        
+
                         await repo.toggleFavorite(whisky.id);
-                        
+
                         // Sync with new Favorites list
                         try {
                           final lists = await listRepo.getLists();
-                          final favList = lists.firstWhere((l) => l.defaultType == 'favorites');
-                          final isInFavList = await listRepo.isWhiskyInList(favList.id, whisky.id);
-                          final isNowFavorite = !whisky.isFavorite; // since we toggled it
-                          
+                          final favList = lists.firstWhere(
+                            (l) => l.defaultType == 'favorites',
+                          );
+                          final isInFavList = await listRepo.isWhiskyInList(
+                            favList.id,
+                            whisky.id,
+                          );
+                          final isNowFavorite =
+                              !whisky.isFavorite; // since we toggled it
+
                           if (isNowFavorite && !isInFavList) {
-                            await listRepo.addWhiskyToList(favList.id, whisky.id);
+                            await listRepo.addWhiskyToList(
+                              favList.id,
+                              whisky.id,
+                            );
                           } else if (!isNowFavorite && isInFavList) {
-                            await listRepo.removeWhiskyFromList(favList.id, whisky.id);
+                            await listRepo.removeWhiskyFromList(
+                              favList.id,
+                              whisky.id,
+                            );
                           }
                           ref.invalidate(getListsForWhiskyProvider(whisky.id));
                         } catch (_) {}
-                        
+
                         ref.invalidate(whiskyDetailProvider(whisky.id));
                       },
                     ),
                   ],
                 ),
-                
+
                 // Body content
                 SliverToBoxAdapter(
                   child: Padding(
@@ -357,19 +408,44 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                           spacing: 10,
                           runSpacing: 10,
                           children: [
-                            if (whisky.country != null) _buildMetaTag(tr('origin'), whisky.country!),
-                            if (whisky.region != null) _buildMetaTag(tr('region'), whisky.region!),
-                            if (whisky.category != null) _buildMetaTag(tr('category'), whisky.category!.replaceAll('SingleMalt-like', 'Single malt-like')),
-                            if (whisky.age != null) _buildMetaTag(tr('age'), '${whisky.age} ${tr('age_years')}'),
-                            if (whisky.abv != null) _buildMetaTag(tr('preview_abv'), '%${whisky.abv}'),
-                            if (whisky.caskType != null) _buildMetaTag(tr('preview_cask'), whisky.caskType!),
+                            if (whisky.country != null)
+                              _buildMetaTag(tr('origin'), whisky.country!),
+                            if (whisky.region != null)
+                              _buildMetaTag(tr('region'), whisky.region!),
+                            if (whisky.category != null)
+                              _buildMetaTag(
+                                tr('category'),
+                                whisky.category!.replaceAll(
+                                  'SingleMalt-like',
+                                  'Single malt-like',
+                                ),
+                              ),
+                            if (whisky.age != null)
+                              _buildMetaTag(
+                                tr('age'),
+                                '${whisky.age} ${tr('age_years')}',
+                              ),
+                            if (whisky.abv != null)
+                              _buildMetaTag(
+                                tr('preview_abv'),
+                                '%${whisky.abv}',
+                              ),
+                            if (whisky.caskType != null)
+                              _buildMetaTag(
+                                tr('preview_cask'),
+                                whisky.caskType!,
+                              ),
                           ],
                         ),
                         const SizedBox(height: 36),
 
                         // Tasting Notes
                         if (whisky.tastingNotes.isNotEmpty) ...[
-                          _buildSectionHeader(context, tr('tasting_notes'), Icons.bubble_chart),
+                          _buildSectionHeader(
+                            context,
+                            tr('tasting_notes'),
+                            Icons.bubble_chart,
+                          ),
                           const SizedBox(height: 16),
                           GlassContainer(
                             padding: const EdgeInsets.all(16),
@@ -378,20 +454,34 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                               runSpacing: 8,
                               children: whisky.tastingNotes.map((note) {
                                 return Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                                  decoration: BoxDecoration(
-                                    color: AppTheme.primary.withValues(alpha: 0.1),
-                                    borderRadius: BorderRadius.circular(12),
-                                    border: Border.all(color: AppTheme.primary.withValues(alpha: 0.2)),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 14,
+                                    vertical: 8,
                                   ),
-                                  child: Text(note, style: const TextStyle(color: AppTheme.textPrimary)),
+                                  decoration: BoxDecoration(
+                                    color: AppTheme.primary.withValues(
+                                      alpha: 0.1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(12),
+                                    border: Border.all(
+                                      color: AppTheme.primary.withValues(
+                                        alpha: 0.2,
+                                      ),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    localizeTastingNote(note, langCode),
+                                    style: const TextStyle(
+                                      color: AppTheme.textPrimary,
+                                    ),
+                                  ),
                                 );
                               }).toList(),
                             ),
                           ),
                           const SizedBox(height: 36),
                         ],
-                        
+
                         // Malt Radar (Flavor Profile)
                         _buildSectionHeader(context, 'Malt Radar', Icons.radar),
                         const SizedBox(height: 16),
@@ -400,25 +490,50 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                             padding: const EdgeInsets.all(16),
                             child: Column(
                               children: [
-                                FlavorRadarChart(flavorProfileJson: whisky.flavorProfile!),
+                                FlavorRadarChart(
+                                  flavorProfileJson: whisky.flavorProfile!,
+                                ),
                                 if (whisky.flavorTags != null) ...[
                                   const SizedBox(height: 16),
                                   Wrap(
                                     spacing: 8,
                                     runSpacing: 8,
-                                    children: (jsonDecode(whisky.flavorTags!) as List<dynamic>).take(5).map((tag) {
-                                      return Container(
-                                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                                        decoration: BoxDecoration(
-                                          color: AppTheme.accent.withValues(alpha: 0.1),
-                                          borderRadius: BorderRadius.circular(12),
-                                          border: Border.all(color: AppTheme.accent.withValues(alpha: 0.3)),
-                                        ),
-                                        child: Text(tag.toString(), style: const TextStyle(color: AppTheme.accent, fontSize: 12)),
-                                      );
-                                    }).toList(),
+                                    children:
+                                        (jsonDecode(whisky.flavorTags!)
+                                                as List<dynamic>)
+                                            .take(5)
+                                            .map((tag) {
+                                              return Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                      horizontal: 10,
+                                                      vertical: 6,
+                                                    ),
+                                                decoration: BoxDecoration(
+                                                  color: AppTheme.accent
+                                                      .withValues(alpha: 0.1),
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                  border: Border.all(
+                                                    color: AppTheme.accent
+                                                        .withValues(alpha: 0.3),
+                                                  ),
+                                                ),
+                                                child: Text(
+                                                  localizeTastingNote(
+                                                    tag.toString(),
+                                                    langCode,
+                                                  ),
+                                                  style: const TextStyle(
+                                                    color: AppTheme.accent,
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+                                              );
+                                            })
+                                            .toList(),
                                   ),
-                                ]
+                                ],
                               ],
                             ),
                           ),
@@ -443,54 +558,95 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                         const SizedBox(height: 36),
 
                         // Prices
-                        _buildSectionHeader(context, tr('price_info'), Icons.sell),
+                        _buildSectionHeader(
+                          context,
+                          tr('price_info'),
+                          Icons.sell,
+                        ),
                         const SizedBox(height: 16),
                         _isLoadingPrices
-                            ? const Center(child: CircularProgressIndicator(color: AppTheme.primary))
+                            ? const Center(
+                                child: CircularProgressIndicator(
+                                  color: AppTheme.primary,
+                                ),
+                              )
                             : GlassContainer(
                                 padding: const EdgeInsets.all(16),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     if (_prices.isEmpty)
-                                      Text(tr('no_price_record'), style: const TextStyle(color: AppTheme.textMuted))
+                                      Text(
+                                        tr('no_price_record'),
+                                        style: const TextStyle(
+                                          color: AppTheme.textMuted,
+                                        ),
+                                      )
                                     else
                                       ..._prices.map((priceItem) {
-                                        final isManual = priceItem['is_manual'] as bool? ?? false;
+                                        final isManual =
+                                            priceItem['is_manual'] as bool? ??
+                                            false;
                                         return Container(
-                                          margin: const EdgeInsets.only(bottom: 8),
+                                          margin: const EdgeInsets.only(
+                                            bottom: 8,
+                                          ),
                                           padding: const EdgeInsets.all(12),
                                           decoration: BoxDecoration(
-                                            color: Colors.white.withValues(alpha: 0.05),
-                                            borderRadius: BorderRadius.circular(12),
+                                            color: Colors.white.withValues(
+                                              alpha: 0.05,
+                                            ),
+                                            borderRadius: BorderRadius.circular(
+                                              12,
+                                            ),
                                           ),
                                           child: Row(
                                             children: [
                                               Icon(
-                                                isManual ? Icons.edit : Icons.sync,
-                                                color: isManual ? AppTheme.accent : AppTheme.primary,
+                                                isManual
+                                                    ? Icons.edit
+                                                    : Icons.sync,
+                                                color: isManual
+                                                    ? AppTheme.accent
+                                                    : AppTheme.primary,
                                                 size: 20,
                                               ),
                                               const SizedBox(width: 12),
                                               Expanded(
                                                 child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
                                                       '${priceItem['price']} ${priceItem['currency']}',
-                                                      style: const TextStyle(fontWeight: FontWeight.bold, color: AppTheme.textPrimary, fontSize: 16),
+                                                      style: const TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: AppTheme
+                                                            .textPrimary,
+                                                        fontSize: 16,
+                                                      ),
                                                     ),
                                                     const SizedBox(height: 2),
                                                     Text(
                                                       '${tr('price_source')}: ${priceItem['source_name']} (${priceItem['country']})',
-                                                      style: const TextStyle(fontSize: 12, color: AppTheme.textSecondary),
+                                                      style: const TextStyle(
+                                                        fontSize: 12,
+                                                        color: AppTheme
+                                                            .textSecondary,
+                                                      ),
                                                     ),
                                                   ],
                                                 ),
                                               ),
                                               Text(
-                                                priceItem['fetched_at'].toString().split('T')[0],
-                                                style: const TextStyle(color: AppTheme.textMuted, fontSize: 11),
+                                                priceItem['fetched_at']
+                                                    .toString()
+                                                    .split('T')[0],
+                                                style: const TextStyle(
+                                                  color: AppTheme.textMuted,
+                                                  fontSize: 11,
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -505,18 +661,28 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                                         label: Text(tr('add_price_record')),
                                         style: OutlinedButton.styleFrom(
                                           foregroundColor: AppTheme.primary,
-                                          side: const BorderSide(color: AppTheme.primary),
-                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                          side: const BorderSide(
+                                            color: AppTheme.primary,
+                                          ),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                              12,
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
                         const SizedBox(height: 36),
 
                         // Evaluation
-                        _buildSectionHeader(context, tr('personal_evaluation'), Icons.star),
+                        _buildSectionHeader(
+                          context,
+                          tr('personal_evaluation'),
+                          Icons.star,
+                        ),
                         const SizedBox(height: 16),
                         GlassContainer(
                           padding: const EdgeInsets.all(20),
@@ -529,39 +695,72 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                                   padding: const EdgeInsets.all(12),
                                   margin: const EdgeInsets.only(bottom: 24),
                                   decoration: BoxDecoration(
-                                    color: AppTheme.primary.withValues(alpha: 0.1),
+                                    color: AppTheme.primary.withValues(
+                                      alpha: 0.1,
+                                    ),
                                     borderRadius: BorderRadius.circular(12),
-                                    border: Border.all(color: AppTheme.primary.withValues(alpha: 0.3)),
+                                    border: Border.all(
+                                      color: AppTheme.primary.withValues(
+                                        alpha: 0.3,
+                                      ),
+                                    ),
                                   ),
                                   child: Text(
                                     tr('is_reference_whisky'),
                                     textAlign: TextAlign.center,
-                                    style: const TextStyle(color: AppTheme.primary, fontWeight: FontWeight.bold),
+                                    style: const TextStyle(
+                                      color: AppTheme.primary,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
                               ],
                               if (whisky.globalScore != null) ...[
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(tr('global_average_score'), style: const TextStyle(color: AppTheme.textSecondary, fontSize: 14)),
+                                    Text(
+                                      tr('global_average_score'),
+                                      style: const TextStyle(
+                                        color: AppTheme.textSecondary,
+                                        fontSize: 14,
+                                      ),
+                                    ),
                                     Text(
                                       '${whisky.globalScore!.toStringAsFixed(0)} / 100',
-                                      style: const TextStyle(fontSize: 22, color: Colors.white, fontWeight: FontWeight.bold),
+                                      style: const TextStyle(
+                                        fontSize: 22,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ],
                                 ),
                                 const SizedBox(height: 16),
-                                Divider(color: Colors.white.withValues(alpha: 0.1)),
+                                Divider(
+                                  color: Colors.white.withValues(alpha: 0.1),
+                                ),
                                 const SizedBox(height: 16),
                               ],
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(tr('personal_score'), style: const TextStyle(color: AppTheme.textSecondary, fontSize: 14)),
+                                  Text(
+                                    tr('personal_score'),
+                                    style: const TextStyle(
+                                      color: AppTheme.textSecondary,
+                                      fontSize: 14,
+                                    ),
+                                  ),
                                   Text(
                                     _score > 0 ? '$_score' : '-',
-                                    style: const TextStyle(fontSize: 32, color: AppTheme.primary, fontWeight: FontWeight.bold),
+                                    style: const TextStyle(
+                                      fontSize: 32,
+                                      color: AppTheme.primary,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -569,7 +768,9 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                               SliderTheme(
                                 data: SliderTheme.of(context).copyWith(
                                   trackHeight: 8,
-                                  thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 12),
+                                  thumbShape: const RoundSliderThumbShape(
+                                    enabledThumbRadius: 12,
+                                  ),
                                 ),
                                 child: Slider(
                                   value: _score.toDouble(),
@@ -593,16 +794,31 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                                   ),
                                   child: Row(
                                     children: [
-                                      const Icon(Icons.auto_awesome, color: AppTheme.accent, size: 20),
+                                      const Icon(
+                                        Icons.auto_awesome,
+                                        color: AppTheme.accent,
+                                        size: 20,
+                                      ),
                                       const SizedBox(width: 12),
                                       Expanded(
                                         child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
-                                            Text(tr('auto_relative_score'), style: const TextStyle(color: AppTheme.textSecondary, fontSize: 12)),
+                                            Text(
+                                              tr('auto_relative_score'),
+                                              style: const TextStyle(
+                                                color: AppTheme.textSecondary,
+                                                fontSize: 12,
+                                              ),
+                                            ),
                                             Text(
                                               '${automatedRelativeScore.toStringAsFixed(1)} / 100',
-                                              style: const TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.bold, fontSize: 16),
+                                              style: const TextStyle(
+                                                color: AppTheme.textPrimary,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16,
+                                              ),
                                             ),
                                           ],
                                         ),
@@ -612,7 +828,13 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                                 ),
                                 const SizedBox(height: 24),
                               ],
-                              Text(tr('personal_notes'), style: const TextStyle(color: AppTheme.textSecondary, fontSize: 14)),
+                              Text(
+                                tr('personal_notes'),
+                                style: const TextStyle(
+                                  color: AppTheme.textSecondary,
+                                  fontSize: 14,
+                                ),
+                              ),
                               const SizedBox(height: 8),
                               TextField(
                                 controller: _notesController,
@@ -642,14 +864,25 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
               ],
             );
           },
-          loading: () => const Center(child: CircularProgressIndicator(color: AppTheme.primary)),
-          error: (error, stackTrace) => Center(child: Text('${tr('error')}: $error', style: const TextStyle(color: AppTheme.error))),
+          loading: () => const Center(
+            child: CircularProgressIndicator(color: AppTheme.primary),
+          ),
+          error: (error, stackTrace) => Center(
+            child: Text(
+              '${tr('error')}: $error',
+              style: const TextStyle(color: AppTheme.error),
+            ),
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildSectionHeader(BuildContext context, String title, IconData icon) {
+  Widget _buildSectionHeader(
+    BuildContext context,
+    String title,
+    IconData icon,
+  ) {
     return Row(
       children: [
         Container(
@@ -663,7 +896,9 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
         const SizedBox(width: 12),
         Text(
           title,
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+          style: Theme.of(
+            context,
+          ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
         ),
       ],
     );
@@ -678,9 +913,19 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(label, style: const TextStyle(color: AppTheme.textSecondary, fontSize: 11)),
+          Text(
+            label,
+            style: const TextStyle(color: AppTheme.textSecondary, fontSize: 11),
+          ),
           const SizedBox(height: 4),
-          Text(value, style: const TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.bold, fontSize: 13)),
+          Text(
+            value,
+            style: const TextStyle(
+              color: AppTheme.textPrimary,
+              fontWeight: FontWeight.bold,
+              fontSize: 13,
+            ),
+          ),
         ],
       ),
     );
