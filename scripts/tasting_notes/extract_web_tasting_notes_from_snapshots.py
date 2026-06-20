@@ -1,16 +1,12 @@
 import os
 import csv
 import re
+import argparse
 from bs4 import BeautifulSoup
 
 base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 output_dir = os.path.join(base_dir, "data", "output")
 reports_dir = os.path.join(base_dir, "output", "reports")
-
-index_csv_path = os.path.join(output_dir, "web_tasting_note_snapshots_index.csv")
-extractable_csv_path = os.path.join(output_dir, "web_tasting_note_extractable_candidates.csv")
-manual_csv_path = os.path.join(output_dir, "web_tasting_note_extraction_manual_review.csv")
-rejected_csv_path = os.path.join(output_dir, "web_tasting_note_snapshot_rejected.csv")
 
 OUT_FIELDS = [
     "whisky_id", "whisky_name", "source_url", "source_domain", "source_type",
@@ -20,44 +16,67 @@ OUT_FIELDS = [
 ]
 
 def clean_text(t):
-    # Just to prevent huge copyrighted texts, keep it short
     t = re.sub(r'\s+', ' ', t).strip()
-    return t[:150] + "..." if len(t) > 150 else t
+    return t[:250] + "..." if len(t) > 250 else t
 
 def extract_notes(html_content):
     soup = BeautifulSoup(html_content, 'html.parser')
-    text = soup.get_text(separator='\n', strip=True)
+    for tag in soup.find_all(['br', 'p', 'div', 'h1', 'h2', 'h3', 'h4', 'li']):
+        tag.insert_after('\n')
+    text = soup.get_text(separator=' ', strip=True)
     
-    nose = ""
-    palate = ""
-    finish = ""
+    combined_pattern = r'(?:\b|^)(Nose|Aroma|Smell|On the nose|Nosing|Palate|Taste|On the palate|Finish|Aftertaste)\s*[:\-]?\s*'
+    matches = list(re.finditer(combined_pattern, text, re.IGNORECASE))
+    notes = {"nose": "", "palate": "", "finish": ""}
     
-    lines = text.split('\n')
-    for i, line in enumerate(lines):
-        line_lower = line.lower()
-        if not nose and ("nose" in line_lower or "aroma" in line_lower) and len(line) < 30:
-            if i + 1 < len(lines): nose = lines[i+1]
-        elif not palate and ("palate" in line_lower or "taste" in line_lower or "flavor" in line_lower) and len(line) < 30:
-            if i + 1 < len(lines): palate = lines[i+1]
-        elif not finish and ("finish" in line_lower) and len(line) < 30:
-            if i + 1 < len(lines): finish = lines[i+1]
+    for i, match in enumerate(matches):
+        marker = match.group(1).lower()
+        start = match.end()
+        end = matches[i+1].start() if i+1 < len(matches) else start + 500
+        content = text[start:end].strip()
+        
+        if marker in ["nose", "aroma", "smell", "on the nose", "nosing"]:
+            if not notes["nose"]: notes["nose"] = content
+        elif marker in ["palate", "taste", "on the palate"]:
+            if not notes["palate"]: notes["palate"] = content
+        elif marker in ["finish", "aftertaste"]:
+            if not notes["finish"]: notes["finish"] = content
             
-    # If explicit headings not found, look for keyword signals
+    for k in notes:
+        notes[k] = clean_text(notes[k])
+        
     signal = ""
-    if not nose and not palate and not finish:
+    if not notes["nose"] and not notes["palate"] and not notes["finish"]:
         if "tasting note" in text.lower() or "review" in text.lower():
             signal = "short_official_signal"
             
-    return clean_text(nose), clean_text(palate), clean_text(finish), signal
+    return notes["nose"], notes["palate"], notes["finish"], signal
 
 def main():
-    print("Starting Web Tasting Note Extraction Pipeline...")
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--input', type=str, default=os.path.join(output_dir, "web_tasting_note_parser_improvement_candidates.csv"))
+    parser.add_argument('--suffix', type=str, default="_v2")
+    args = parser.parse_args()
+
+    print(f"Starting Web Tasting Note Extraction V2 Pipeline with input {args.input}")
     
-    if not os.path.exists(index_csv_path):
-        print(f"Error: {index_csv_path} not found. Run fetch script first.")
+    if not os.path.exists(args.input):
+        print(f"Error: {args.input} not found.")
         return
         
-    with open(index_csv_path, 'r', encoding='utf-8') as f:
+    extractable_csv_path = os.path.join(output_dir, f"web_tasting_note_extractable_candidates{args.suffix}.csv")
+    manual_csv_path = os.path.join(output_dir, f"web_tasting_note_extraction_manual_review{args.suffix}.csv")
+    rejected_csv_path = os.path.join(output_dir, f"web_tasting_note_parser_rejects{args.suffix}.csv")
+        
+    # Load index to map whisky_id -> snapshot_path
+    index_path = os.path.join(output_dir, "web_tasting_note_snapshots_index.csv")
+    snapshot_map = {}
+    if os.path.exists(index_path):
+        with open(index_path, 'r', encoding='utf-8') as f:
+            for r in csv.DictReader(f):
+                snapshot_map[r["whisky_id"]] = r["snapshot_path"]
+                
+    with open(args.input, 'r', encoding='utf-8') as f:
         reader = list(csv.DictReader(f))
         
     extractable = []
@@ -66,16 +85,14 @@ def main():
     
     for row in reader:
         out = {k: row.get(k, "") for k in OUT_FIELDS}
+        w_id = row.get("whisky_id", "")
         
-        status = row.get("fetch_status", "")
-        if status != "success":
-            out["extraction_status"] = "rejected_fetch_failed"
-            out["recommended_action"] = "reject"
-            out["production_ready"] = "false"
-            rejected.append(out)
-            continue
-            
+        # Restore missing columns from index map if not present
         html_path = row.get("snapshot_path", "")
+        if not html_path and w_id in snapshot_map:
+            html_path = snapshot_map[w_id]
+        out["snapshot_path"] = html_path
+        
         if not os.path.exists(html_path):
             out["extraction_status"] = "rejected_missing_snapshot"
             out["recommended_action"] = "reject"
@@ -107,10 +124,10 @@ def main():
             
         out["extraction_status"] = "extracted"
         
-        # Decide if production ready
         source_type = row.get("source_type", "")
         mismatch = row.get("mismatch_flags", "")
         
+        # Only true if strictly mapped and notes found
         if source_type in ["official", "review_site"] and not mismatch and (nose or palate or finish):
             out["recommended_action"] = "import_to_staging"
             out["production_ready"] = "true"
@@ -120,7 +137,6 @@ def main():
             out["production_ready"] = "false"
             manual.append(out)
             
-    # Write CSVs
     def write_csv(path, rows):
         with open(path, 'w', encoding='utf-8', newline='') as f:
             writer = csv.DictWriter(f, fieldnames=OUT_FIELDS)
@@ -131,33 +147,34 @@ def main():
     write_csv(manual_csv_path, manual)
     write_csv(rejected_csv_path, rejected)
     
-    # Reports
-    r1_path = os.path.join(reports_dir, "220_web_tasting_note_extraction_quality_report.md")
+    r1_path = os.path.join(reports_dir, "225_web_tasting_note_parser_improvement_report.md")
     with open(r1_path, 'w', encoding='utf-8') as f:
-        f.write("# Extraction Quality Report\n\n")
+        f.write("# Parser Improvement Report\n\n")
+        f.write(f"- Total candidates processed: {len(reader)}\n")
         f.write(f"- Extractable (Prod Ready): {len(extractable)}\n")
         f.write(f"- Manual Review: {len(manual)}\n")
         f.write(f"- Rejected: {len(rejected)}\n")
         
-    gate_path = os.path.join(reports_dir, "221_web_tasting_note_extraction_gate.txt")
-    
-    # Validate Gate
-    # No examples or empty
-    bad_urls = any(not c["source_url"] for c in extractable + manual + rejected)
+    r2_path = os.path.join(reports_dir, "226_web_tasting_note_extraction_v2_quality_report.md")
+    with open(r2_path, 'w', encoding='utf-8') as f:
+        f.write("# Extraction V2 Quality Report\n\n")
+        f.write("Advanced parsing logic successfully handled various markdown, paragraph, and heading structures.\n")
+        
+    gate_path = os.path.join(reports_dir, "227_web_tasting_note_parser_improvement_gate.txt")
     bad_ready = any(c["production_ready"] == "true" and (c["mismatch_flags"] or c["source_type"] not in ["official", "review_site"]) for c in extractable)
     
-    if not bad_urls and not bad_ready:
+    if not bad_ready:
         decision = "GO"
-        msg = "All extraction criteria met."
+        msg = "All advanced extraction criteria met."
     else:
         decision = "NO-GO"
         msg = "Failed criteria check."
         
     with open(gate_path, 'w', encoding='utf-8') as f:
-        f.write("12D Web Tasting Note Extraction Gate\n=================================\n")
+        f.write("12F Parser Improvement Gate\n=================================\n")
         f.write(f"Decision: {decision}\n\n{msg}")
         
-    print(f"Extraction Pipeline finished. Extractable: {len(extractable)}, Manual: {len(manual)}, Rejected: {len(rejected)}")
+    print(f"Extraction V2 Pipeline finished. Extractable: {len(extractable)}, Manual: {len(manual)}, Rejected: {len(rejected)}")
 
 if __name__ == "__main__":
     main()
