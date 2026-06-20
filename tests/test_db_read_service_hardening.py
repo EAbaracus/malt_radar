@@ -112,8 +112,10 @@ def test_related_endpoints_empty_behavior():
     assert isinstance(r3.json(), list)
     assert len(r3.json()) == 0
 
-def test_legacy_regression():
-    r = client.get("/api/whiskies/search?q=glen")
+def test_legacy_regression(monkeypatch):
+    import app.main
+    monkeypatch.setattr(app.main, "API_KEY", "testkey")
+    r = client.get("/api/whiskies/search?q=glen", headers={"X-API-Key": "testkey"})
     assert r.status_code == 200
     data = r.json()
     if len(data) > 0:

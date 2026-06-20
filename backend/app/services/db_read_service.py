@@ -23,12 +23,14 @@ class DbReadService:
         # Read-only explicitly
         uri = f"file:{self.db_path}?mode=ro"
         conn = sqlite3.connect(uri, uri=True, check_same_thread=False)
+        conn.execute("PRAGMA foreign_keys = ON")
         conn.row_factory = sqlite3.Row
         return conn
 
     def get_health(self) -> Dict[str, Any]:
         exists = os.path.exists(self.db_path)
         tables = ["distilleries", "whiskies", "tasting_notes", "flavor_profiles", "price_history"]
+        VALID_TABLES = set(tables)
         counts = {}
         
         if exists:
@@ -36,6 +38,8 @@ class DbReadService:
                 with self._get_connection() as conn:
                     cursor = conn.cursor()
                     for t in tables:
+                        if t not in VALID_TABLES:
+                            continue
                         try:
                             cursor.execute(f"SELECT COUNT(*) as c FROM {t}")
                             counts[t] = cursor.fetchone()["c"]

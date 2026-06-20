@@ -25,6 +25,7 @@ class SqliteReadAdapter:
         # Read-only explicitly
         uri = f"file:{self.db_path}?mode=ro"
         conn = sqlite3.connect(uri, uri=True, check_same_thread=False)
+        conn.execute("PRAGMA foreign_keys = ON")
         conn.row_factory = sqlite3.Row
         return conn
 
@@ -34,6 +35,8 @@ class SqliteReadAdapter:
         table_counts = {}
         missing_tables = self.canonical_tables.copy()
         
+        ALLOWED_TABLES = set(self.canonical_tables)
+        
         if exists:
             try:
                 with self._get_connection() as conn:
@@ -42,6 +45,8 @@ class SqliteReadAdapter:
                     tables = [row["name"] for row in cursor.fetchall()]
                     
                     for t in tables:
+                        if t not in ALLOWED_TABLES:
+                            continue
                         if t in missing_tables:
                             missing_tables.remove(t)
                         cursor.execute(f"SELECT COUNT(*) as c FROM {t};")
@@ -65,11 +70,14 @@ class SqliteReadAdapter:
 
     def get_schema(self) -> Dict[str, Any]:
         schema = {}
+        ALLOWED_TABLES = set(self.canonical_tables)
         with self._get_connection() as conn:
             cursor = conn.cursor()
             cursor.execute("SELECT name, sql FROM sqlite_master WHERE type='table';")
             for row in cursor.fetchall():
                 tname = row["name"]
+                if tname not in ALLOWED_TABLES:
+                    continue
                 sql = row["sql"]
                 cursor.execute(f"PRAGMA table_info({tname});")
                 cols = [{"cid": c["cid"], "name": c["name"], "type": c["type"]} for c in cursor.fetchall()]

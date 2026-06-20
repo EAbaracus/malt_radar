@@ -1,6 +1,6 @@
 import os
 import re
-from fastapi import FastAPI, HTTPException, Request, Response, Depends
+from fastapi import FastAPI, HTTPException, Request, Response, Depends, Header
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Optional
 from slowapi import Limiter, _rate_limit_exceeded_handler
@@ -93,8 +93,14 @@ class LRUCache:
 
 search_cache = LRUCache(256)
 
-# TODO/SECURITY: Consider adding an API_KEY dependency to specific routes
-API_KEY = os.getenv("MALT_RADAR_API_KEY", "mock-secret-key-123")
+# Security: Require API key for public endpoints
+API_KEY = os.getenv("MALT_RADAR_API_KEY")
+
+async def verify_api_key(x_api_key: Optional[str] = Header(None)):
+    if not API_KEY:
+        raise HTTPException(status_code=403, detail="Server API Key not configured")
+    if x_api_key != API_KEY:
+        raise HTTPException(status_code=403, detail="Invalid or missing API Key")
 
 @app.get("/api/health")
 @limiter.limit("10/minute")
@@ -107,7 +113,7 @@ async def health_check(request: Request):
 
 @app.get("/api/whiskies/search", response_model=List[WhiskySearchItem])
 @limiter.limit("120/minute")
-async def search_whiskies(request: Request, q: str = ""):
+async def search_whiskies(request: Request, q: str = "", api_key: str = Depends(verify_api_key)):
     if not q or len(q.strip()) < 2:
         return []
 
@@ -149,7 +155,7 @@ def get_provider(external_id: str):
 
 @app.get("/api/whiskies/{external_id}", response_model=WhiskySearchItem)
 @limiter.limit("60/minute")
-async def get_whisky_details(request: Request, external_id: str):
+async def get_whisky_details(request: Request, external_id: str, api_key: str = Depends(verify_api_key)):
     target_provider = get_provider(external_id)
     if not target_provider:
         raise HTTPException(status_code=400, detail="Invalid external ID format")
@@ -162,7 +168,7 @@ async def get_whisky_details(request: Request, external_id: str):
 
 @app.get("/api/whiskies/{external_id}/prices", response_model=List[WhiskyPriceItem])
 @limiter.limit("60/minute")
-async def get_whisky_prices(request: Request, external_id: str):
+async def get_whisky_prices(request: Request, external_id: str, api_key: str = Depends(verify_api_key)):
     target_provider = get_provider(external_id)
     if not target_provider:
         raise HTTPException(status_code=400, detail="Invalid external ID format")
@@ -172,7 +178,7 @@ async def get_whisky_prices(request: Request, external_id: str):
 
 @app.post("/api/whiskies/normalize")
 @limiter.limit("15/minute")
-async def normalize_whisky_name(request: Request, req: NormalizeRequest):
+async def normalize_whisky_name(request: Request, req: NormalizeRequest, api_key: str = Depends(verify_api_key)):
     name = req.name.strip()
     if not name:
         raise HTTPException(status_code=400, detail="Name cannot be empty")
