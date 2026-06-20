@@ -1,4 +1,4 @@
-﻿name: malt_radar
+name: malt_radar
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -74,6 +74,7 @@ flutter:
   assets:
     - assets/data/flavor_profiles.csv
     - assets/data/whisky_database_merged_max.csv
+    - assets/data/scotchgit_flavor_preview_import.csv
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
