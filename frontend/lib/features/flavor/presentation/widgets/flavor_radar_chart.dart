@@ -1,7 +1,7 @@
-import 'dart:convert';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../domain/flavor_profile_normalizer.dart';
 
 class FlavorRadarChart extends StatelessWidget {
   final String flavorProfileJson;
@@ -10,23 +10,14 @@ class FlavorRadarChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Map<String, dynamic> profile = {};
+    Map<String, double> profile = {};
     try {
-      profile = json.decode(flavorProfileJson) as Map<String, dynamic>;
+      profile = normalizeFlavorProfileJson(flavorProfileJson);
     } catch (e) {
       return const SizedBox();
     }
 
-    // 7 Main Flavor Categories
-    final categories = [
-      'fruity',
-      'sweet',
-      'spicy',
-      'smoky_peaty',
-      'oak_cask',
-      'malty_cereal',
-      'floral_herbal'
-    ];
+    final categories = maltRadarFlavorAxes;
 
     final displayNames = [
       'Fruity',

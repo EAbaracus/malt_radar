@@ -9,14 +9,19 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:malt_radar/main.dart';
 import 'package:flutter/material.dart';
+import 'package:drift/native.dart';
+import 'package:malt_radar/core/database/database.dart';
 import 'package:malt_radar/features/whisky/presentation/controllers/whisky_providers.dart';
 
 void main() {
   testWidgets('Malt Radar App smoke test', (WidgetTester tester) async {
+    final db = AppDatabase.forTesting(NativeDatabase.memory());
+
     // Build our app and trigger a frame.
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          appDatabaseProvider.overrideWithValue(db),
           appInitializationProvider.overrideWith((ref) => Future.value()),
           referenceSettingsStreamProvider.overrideWith((ref) => Stream.value({'reference_whisky_id': 1})),
           whiskiesStreamProvider.overrideWith((ref) => Stream.value([])),
@@ -31,5 +36,8 @@ void main() {
 
     // Verify that the app boots and renders a MaterialApp.
     expect(find.byType(MaterialApp), findsOneWidget);
+
+    await tester.pumpWidget(const SizedBox.shrink());
+    await db.close();
   });
 }
