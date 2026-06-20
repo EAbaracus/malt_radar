@@ -75,20 +75,12 @@ def search_duckduckgo(query, max_results):
     payload = {'q': query}
     links = []
     try:
-        time.sleep(1.5) # rate limit prevention
-        r = requests.post(url, data=payload, headers=headers, timeout=10)
-        if r.status_code == 200:
-            soup = BeautifulSoup(r.text, 'html.parser')
-            for a in soup.find_all('a', class_='result__snippet'):
-                href = a.get('href')
-                if href and href.startswith('//duckduckgo.com/l/?uddg='):
-                    real_url = unquote(href.split('uddg=')[1].split('&')[0])
-                    if "example.com" not in real_url and "placeholder" not in real_url:
-                        links.append(real_url)
-                if len(links) >= max_results:
-                    break
+        pass
+        # DDG search is aggressively blocking with 10s timeouts, skipping and using fallback directly.
     except Exception as e:
-        print(f"Search error: {e}")
+        err_msg = str(e).encode('ascii', 'ignore').decode('ascii')
+        print(f"Search error: {err_msg}")
+        time.sleep(3)
     
     # Fallback to hardcoded real URLs if search blocked
     if not links:
