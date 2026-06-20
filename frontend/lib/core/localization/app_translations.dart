@@ -160,6 +160,11 @@ const Map<String, Map<String, String>> appTranslations = {
     'list_description': 'Açıklama',
     'empty_list': 'Bu liste boş.',
     'system_list_cannot_be_deleted': 'Sistem listeleri silinemez.',
+    'remove_reference_whisky': 'Referans Viskiyi Kaldır',
+    'remove_reference_whisky_confirm_title': 'Referansı Kaldır',
+    'remove_reference_whisky_confirm_message': 'Referans viskiyi kaldırmak istiyor musun?',
+    'reference_whisky_removed': 'Referans viski kaldırıldı',
+    'remove': 'Kaldır',
   },
   'en': {
     // General
@@ -319,5 +324,10 @@ const Map<String, Map<String, String>> appTranslations = {
     'list_description': 'Description',
     'empty_list': 'This list is empty.',
     'system_list_cannot_be_deleted': 'System lists cannot be deleted.',
+    'remove_reference_whisky': 'Remove Reference Whisky',
+    'remove_reference_whisky_confirm_title': 'Remove Reference',
+    'remove_reference_whisky_confirm_message': 'Remove reference whisky?',
+    'reference_whisky_removed': 'Reference whisky removed',
+    'remove': 'Remove',
   }
 };
