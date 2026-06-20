@@ -42,7 +42,7 @@ Thumbs.db
 output/
 recovered_from_*/
 
-data/
+/data/
 raw_sources/
 claude database/
 
