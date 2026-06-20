@@ -2,7 +2,7 @@ import pandas as pd
 import os
 import sys
 import argparse
-from sqlalchemy import create_engine, text, MetaData, Table, Column, String, Float, Integer, ForeignKey
+from sqlalchemy import create_engine, text, MetaData, Table, Column, String, Float, Integer, ForeignKey, event
 
 def run_seeder():
     parser = argparse.ArgumentParser(description="Production Seeder Script")
@@ -14,6 +14,13 @@ def run_seeder():
     # Fake Production Connection for demonstration
     db_path = 'sqlite:///output/import/production.db'
     engine = create_engine(db_path)
+    
+    @event.listens_for(engine, "connect")
+    def set_sqlite_pragma(dbapi_connection, connection_record):
+        cursor = dbapi_connection.cursor()
+        cursor.execute("PRAGMA foreign_keys=ON")
+        cursor.close()
+
     metadata = MetaData()
     
     # Source Files
@@ -23,16 +30,50 @@ def run_seeder():
     f_tasting = 'output/37_import_ready_tasting_notes.csv'
     f_price = 'output/36_import_ready_price_history.csv'
 
-    try: df_dist = pd.read_csv(f_dist, low_memory=False)
-    except: df_dist = pd.DataFrame()
-    try: df_whiskies = pd.read_csv(f_whiskies, low_memory=False)
-    except: df_whiskies = pd.DataFrame()
-    try: df_flavor = pd.read_csv(f_flavor, low_memory=False)
-    except: df_flavor = pd.DataFrame()
-    try: df_tasting = pd.read_csv(f_tasting, low_memory=False)
-    except: df_tasting = pd.DataFrame()
-    try: df_price = pd.read_csv(f_price, low_memory=False)
-    except: df_price = pd.DataFrame()
+    try:
+        df_dist = pd.read_csv(f_dist, low_memory=False)
+    except FileNotFoundError:
+        print(f"CRITICAL ERROR: File not found {f_dist}")
+        sys.exit(1)
+    except Exception as e:
+        print(f"CRITICAL ERROR reading {f_dist}: {e}")
+        sys.exit(1)
+        
+    try:
+        df_whiskies = pd.read_csv(f_whiskies, low_memory=False)
+    except FileNotFoundError:
+        print(f"CRITICAL ERROR: File not found {f_whiskies}")
+        sys.exit(1)
+    except Exception as e:
+        print(f"CRITICAL ERROR reading {f_whiskies}: {e}")
+        sys.exit(1)
+        
+    try:
+        df_flavor = pd.read_csv(f_flavor, low_memory=False)
+    except FileNotFoundError:
+        print(f"CRITICAL ERROR: File not found {f_flavor}")
+        sys.exit(1)
+    except Exception as e:
+        print(f"CRITICAL ERROR reading {f_flavor}: {e}")
+        sys.exit(1)
+        
+    try:
+        df_tasting = pd.read_csv(f_tasting, low_memory=False)
+    except FileNotFoundError:
+        print(f"CRITICAL ERROR: File not found {f_tasting}")
+        sys.exit(1)
+    except Exception as e:
+        print(f"CRITICAL ERROR reading {f_tasting}: {e}")
+        sys.exit(1)
+        
+    try:
+        df_price = pd.read_csv(f_price, low_memory=False)
+    except FileNotFoundError:
+        print(f"CRITICAL ERROR: File not found {f_price}")
+        sys.exit(1)
+    except Exception as e:
+        print(f"CRITICAL ERROR reading {f_price}: {e}")
+        sys.exit(1)
     
     if not df_tasting.empty and 'data_confidence' in df_tasting.columns:
         df_tasting = df_tasting[df_tasting['data_confidence'] != 'ai_generated_unverified']

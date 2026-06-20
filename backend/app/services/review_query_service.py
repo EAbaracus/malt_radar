@@ -1,12 +1,24 @@
 import sqlite3
+import os
+import logging
 from typing import List, Dict, Any
 
 class ReviewQueryService:
-    def __init__(self, db_path: str = "output/import/production.db"):
-        self.db_path = f"file:{db_path}?mode=ro"
+    def __init__(self, db_path: str = None):
+        if db_path is None:
+            db_path = os.getenv("MALT_RADAR_DB_PATH", "output/import/production.db")
+        if not os.path.isabs(db_path):
+            base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+            abs_db_path = os.path.abspath(os.path.join(base_dir, db_path))
+        else:
+            abs_db_path = db_path
+            
+        self._write_path = abs_db_path
+        self.db_path = f"file:{abs_db_path}?mode=ro"
         
     def _get_connection(self):
         conn = sqlite3.connect(self.db_path, uri=True)
+        conn.execute("PRAGMA foreign_keys = ON")
         conn.row_factory = sqlite3.Row
         return conn
 
@@ -25,7 +37,7 @@ class ReviewQueryService:
             try:
                 cursor.execute(f"PRAGMA table_info({t})")
                 cols = [row['name'] for row in cursor.fetchall()]
-            except:
+            except sqlite3.OperationalError:
                 continue
             if not cols:
                 continue
@@ -84,7 +96,8 @@ class ReviewQueryService:
         try:
             cursor.execute(final_q, params)
             rows = [dict(r) for r in cursor.fetchall()]
-        except:
+        except sqlite3.Error as e:
+            logging.warning(f"Database query error in get_unified_queue: {e}")
             rows = []
         finally:
             conn.close()
@@ -148,8 +161,9 @@ class ReviewQueryService:
             raise Exception("Invalid source table")
 
         # We must open a writeable connection for this
-        conn = sqlite3.connect("output/import/production.db")
+        conn = sqlite3.connect(self._write_path)
         try:
+            conn.execute("PRAGMA foreign_keys = ON")
             cur = conn.cursor()
             # Update staging table using safe_table
             key_col = "queue_id" if safe_table == 'staging_manual_review_queue' else "source_record_key"
