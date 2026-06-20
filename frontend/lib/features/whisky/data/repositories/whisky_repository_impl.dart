@@ -252,16 +252,18 @@ class WhiskyRepositoryImpl implements WhiskyRepository {
 
   @override
   Future<void> clearCache() async {
-    final favList = await _db.select(_db.favorites).get();
-    final scoreList = await _db.select(_db.userWhiskyScores).get();
+    // The local whisky database is persistent offline app data, not disposable cache.
+    // Do not delete whiskies, user lists, favorites, scores, notes, or settings here.
+    return;
+  }
 
-    final keepIds = {
-      ...favList.map((f) => f.whiskyId),
-      ...scoreList.map((s) => s.whiskyId),
-    };
-
-    // Delete cached whiskies not actively scored/favorited
-    await (_db.delete(_db.whiskies)..where((tbl) => tbl.id.isNotIn(keepIds.toList()))).go();
-    await (_db.delete(_db.whiskyPrices)..where((tbl) => tbl.whiskyId.isNotIn(keepIds.toList()))).go();
+  @override
+  Future<void> clearReferenceWhisky() async {
+    await (_db.delete(_db.userSettings)
+          ..where((tbl) => tbl.key.isIn([
+            'reference_whisky_id',
+            'reference_whisky_absolute_score',
+          ])))
+        .go();
   }
 }

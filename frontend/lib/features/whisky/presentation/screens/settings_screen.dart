@@ -39,6 +39,54 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     }
   }
 
+  void _clearReferenceWhisky() async {
+    final tr = ref.read(trProvider);
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: AppTheme.surface,
+        title: Text(tr('remove_reference_whisky_confirm_title')),
+        content: Text(tr('remove_reference_whisky_confirm_message')),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(tr('cancel')),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: Text(tr('remove'), style: const TextStyle(color: AppTheme.error)),
+          ),
+        ],
+      ),
+    );
+
+    if (confirm == true && mounted) {
+      setState(() {
+        _isLoading = true;
+      });
+
+      final repository = ref.read(whiskyRepositoryProvider);
+      await repository.clearReferenceWhisky();
+      
+      // Invalidate provider state
+      ref.invalidate(referenceSettingsStreamProvider);
+      ref.invalidate(referenceWhiskyModelProvider);
+
+      setState(() {
+        _isLoading = false;
+      });
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(tr('reference_whisky_removed')),
+            backgroundColor: AppTheme.primary,
+          ),
+        );
+      }
+    }
+  }
+
   void _changeReferenceWhisky() async {
     final repository = ref.read(whiskyRepositoryProvider);
     final db = ref.read(appDatabaseProvider);
@@ -239,6 +287,18 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                           style: OutlinedButton.styleFrom(side: const BorderSide(color: AppTheme.primary)),
                         ),
                       ),
+                      if (refWhisky != null) ...[
+                        const SizedBox(height: 8),
+                        SizedBox(
+                          width: double.infinity,
+                          child: OutlinedButton.icon(
+                            onPressed: _isLoading ? null : _clearReferenceWhisky,
+                            icon: const Icon(Icons.delete_outline, color: AppTheme.error),
+                            label: Text(tr('remove_reference_whisky'), style: const TextStyle(color: AppTheme.error)),
+                            style: OutlinedButton.styleFrom(side: const BorderSide(color: AppTheme.error)),
+                          ),
+                        ),
+                      ],
                     ],
                   ),
                 ),

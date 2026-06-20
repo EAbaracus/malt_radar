@@ -37,4 +37,7 @@ abstract class WhiskyRepository {
 
   // Cache Management
   Future<void> clearCache();
+  
+  // Clear Reference Whisky
+  Future<void> clearReferenceWhisky();
 }
