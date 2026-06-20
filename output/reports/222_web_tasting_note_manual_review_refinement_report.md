@@ -1,9 +1,9 @@
 # Manual Review Refinement Report
 
-Total manual review candidates processed: 20
+Total manual review candidates processed: 148
 
 ## Refined Class Breakdown
-- parser_improvement_candidate: 20
+- parser_improvement_candidate: 148
 - safe_official_summary_candidate: 0
 - retailer_summary_candidate: 0
 - wrong_match_reject: 0

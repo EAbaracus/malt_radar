@@ -1,7 +1,7 @@
 # Staging Tasting Notes Apply Dry-Run Report
 
-- Total candidates evaluated: 2
-- Successful apply candidates: 2
+- Total candidates evaluated: 19
+- Successful apply candidates: 19
 - Blocked: 0
 
 ## Block Reasons

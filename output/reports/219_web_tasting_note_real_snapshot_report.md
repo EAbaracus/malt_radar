@@ -1,5 +1,5 @@
 # Web Tasting Note Real Snapshot Report
 
-- Total inputs processed: 25
-- Fetch Success: 20
-- Fetch Failed/Invalid: 5
+- Total inputs processed: 200
+- Fetch Success: 167
+- Fetch Failed/Invalid: 33
