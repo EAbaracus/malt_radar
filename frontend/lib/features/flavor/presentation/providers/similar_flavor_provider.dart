@@ -1,6 +1,6 @@
-import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../domain/flavor_profile_normalizer.dart';
 import '../../../whisky/domain/models/whisky.dart';
 import '../../../whisky/presentation/controllers/whisky_providers.dart';
 
@@ -22,10 +22,7 @@ final similarFlavorWhiskiesProvider = FutureProvider.family<List<Whisky>, int>((
   // Parse target profile
   Map<String, double> targetProfile = {};
   try {
-    final Map<String, dynamic> parsed = jsonDecode(target.flavorProfile!);
-    parsed.forEach((k, v) {
-      targetProfile[k] = (v as num).toDouble();
-    });
+    targetProfile = normalizeFlavorProfileJson(target.flavorProfile!);
   } catch (e) {
     debugPrint('SimilarFlavor: Failed to parse target profile: $e');
     return [];
@@ -38,13 +35,13 @@ final similarFlavorWhiskiesProvider = FutureProvider.family<List<Whisky>, int>((
     if (other.flavorProfile == null || other.flavorProfile!.isEmpty) continue;
     
     try {
-      final Map<String, dynamic> parsed = jsonDecode(other.flavorProfile!);
+      final parsed = normalizeFlavorProfileJson(other.flavorProfile!);
       double sumSquares = 0.0;
       bool hasData = false;
       
       parsed.forEach((k, v) {
         if (targetProfile.containsKey(k)) {
-          final diff = targetProfile[k]! - (v as num).toDouble();
+          final diff = targetProfile[k]! - v;
           sumSquares += diff * diff;
           hasData = true;
         }
