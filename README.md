@@ -1,101 +1,263 @@
 # Malt Radar
 
-Malt Radar is a Flutter-based whisky companion app with a whisky library, search, detail pages, scoring, flavor radar, similar flavor recommendations, personal notes, and price records.
+Malt Radar is an offline-first whisky discovery and personal tasting companion app built with Flutter, local SQLite/Drift storage, and a guarded FastAPI backend layer.
 
-## Current Status
+The current beta focuses on stable local usage, whisky discovery, custom lists, flavor-based comparison, reference whisky setup, and safe Android beta distribution.
 
-* Android manual beta: READY
-* Distribution method: Signed APK manual sharing
-* Google Play: Deferred
-* iOS / TestFlight: Deferred
-* DB API: Behind feature flag and disabled by default
-* Offline-first local database flow active
-* Release candidate validated
+## Current Beta Status
 
-## Features
+**Status:** Beta candidate
+**Android package:** `com.example.malt_radar`
+**Current release tag:** `v0.1.0-beta`
+**Default data mode:** Local/offline database
+**DB API mode:** Disabled by default behind feature flags
 
-* Whisky library
-* Whisky search
-* Whisky detail screen
-* 100-point reference scoring
-* Flavor radar chart
-* Similar flavor recommendations
-* Personal notes
-* Price records
-* English / Turkish localization
-* First-launch locale policy:
-  * Turkish device language → Turkish UI
-  * Any non-Turkish device language → English UI
+The app is currently intended for manual APK beta testing before wider public distribution.
 
-## Android Beta
+## Key Features
 
-APK path:
-`dist/manual-apk-beta/MaltRadar-beta-release-2026-06-18.apk`
+### Whisky Database
 
-SHA256:
-`7CED0E3C401B6FAD2A55B7ED0FC19EBF1C4777C6DA60113B88DDF938FC6D9F20`
+* Local whisky database bundled with the app.
+* Search and browse whisky products.
+* Whisky detail pages with tasting information, flavor data, and metadata.
+* Offline-first behavior for stable beta testing.
 
-Tester notes:
-* Installing from unknown sources may be required.
-* Testers should report the device model, Android version, screenshots/videos, and reproduction steps for any issue.
+### Reference Whisky Flow
 
-## Tech Stack
+* Users can select a reference whisky during setup.
+* Reference whisky is used as a comparison anchor for later recommendations and scoring behavior.
+* Users can remove the selected reference whisky from Settings and select a new one.
+
+### Custom Lists
+
+Built-in local user lists:
+
+* Wishlist
+* Favorites
+* Tried
+* Collection
+
+Users can save whiskies into personal lists without requiring a backend account.
+
+### Flavor Radar
+
+Whiskies with flavor profile data can display a radar-style flavor chart.
+
+Flavor comparison currently supports core flavor dimensions such as:
+
+* Fruity
+* Sweet
+* Smoky
+* Spicy
+* Woody
+
+### Similar Whiskies
+
+The app supports flavor-based similar whisky recommendations.
+
+Similarity is based primarily on flavor profile distance, with supporting metadata such as region/category used as secondary signals.
+
+### Tasting Notes Localization
+
+Tasting note labels and common Turkish tasting note phrases are localized at the presentation layer.
+
+Example behavior:
+
+* Turkish locale: `Burun`, `Damak`, `Bitiş`
+* English locale: `Nose`, `Palate`, `Finish`
+
+Raw database content is not overwritten. Unknown phrases fall back safely to the original text.
+
+### Safe Cache Clearing
+
+Cache clearing no longer deletes the local whisky database.
+
+Protected local data includes:
+
+* Whisky database rows
+* User scores
+* Favorites
+* Custom lists
+* Reference whisky settings unless explicitly removed by the user
+
+## Architecture
+
+### Frontend
 
 * Flutter / Dart
+* Drift SQLite
 * Riverpod
-* Drift / SQLite
-* FastAPI backend
-* Python ETL and testing tools
-* Offline-first data seed flow
+* Local-first app state
+* Android release build support
+* Web support exists but Android beta is the primary current target
 
-## Release Validation
+### Backend
 
-The following gates passed:
-* Signed release APK build
-* Android manual smoke test
-* Localization QA
-* Setup screen overflow fix
-* Flavor radar and similar flavor tests
-* DB seed tests
-* Security checks:
-  * `key.properties` is not tracked
-  * keystore / `.jks` files are not tracked
-  * `production.db` was not modified
-  * `AppConfig.useDbApi=false`
+* FastAPI
+* Read-only database API layer
+* API key protection
+* SQLite read-path hardening
+* DB path resolution via controlled configuration
+* DB API feature flags
 
-## Known Non-blocking Issues
+### Data Pipeline
 
-* Some obsolete backend contract tests are classified as technical debt.
-* `use_build_context_synchronously` analyzer info warnings remain.
-* Tasting note / data content localization is deferred.
-* Google Play and iOS distribution are deferred due to developer account costs.
+The project includes Python scripts and tests for:
 
-## Roadmap
+* Whisky database ingestion
+* Distillery/product reconciliation
+* Flavor gap candidate generation
+* Dry-run import previews
+* Safety checks before database changes
 
-Phase 10+:
-* Beta feedback triage
-* Centralized user tasting notes
-* Community-derived flavor profiles
-* QR / barcode search
-* Image / OCR search
-* Premium feature gating
-* Monetization / inline ads
-* Data content localization
-* Backend test cleanup
+Production database writes are intentionally guarded and must not happen during normal beta builds.
 
-## Development
+## Important Safety Rules
 
-```powershell
-cd frontend
-flutter pub get
-flutter analyze
-flutter test test/db_api_validation_test.dart test/real_csv_seed_test.dart test/db_seed_test.dart test/similar_flavor_test.dart
-flutter build apk --release
+The following files must not be modified accidentally:
+
+* `output/import/production.db`
+* `frontend/lib/core/config/app_config.dart`
+
+Current beta default:
+
+```dart
+AppConfig.useDbApi = false
 ```
 
-## Security Notes
+Generated/local files should not be committed:
 
-* Do not commit `key.properties`.
-* Do not commit `.jks` or `.keystore` files.
-* Do not modify or promote `production.db` without explicit approval.
-* Keep DB API disabled by default unless intentionally testing backend API mode.
+* `dist/`
+* Flutter build outputs
+* APK files
+* local rclone tokens/config
+* temporary reports or generated artifacts unless explicitly intended
+
+## Local Development
+
+### Frontend Setup
+
+```powershell
+cd "C:\Users\eltun\Documents\malt radar\frontend"
+
+flutter pub get
+flutter analyze
+flutter test
+```
+
+### Common Beta Test Command
+
+```powershell
+cd "C:\Users\eltun\Documents\malt radar\frontend"
+
+flutter analyze
+
+flutter test test/user_lists_schema_test.dart test/user_lists_repository_test.dart test/db_api_validation_test.dart test/real_csv_seed_test.dart test/db_seed_test.dart test/similar_flavor_test.dart test/cache_clear_persistence_test.dart test/reference_whisky_clear_test.dart test/tasting_notes_i18n_test.dart
+
+flutter build apk --release --obfuscate --split-debug-info=build/symbols
+```
+
+### Backend Tests
+
+```powershell
+cd "C:\Users\eltun\Documents\malt radar"
+
+$env:PYTHONPATH = "backend"
+
+python -m pytest tests/ backend/tests/ -v
+
+Remove-Item Env:\PYTHONPATH
+```
+
+## Android Beta Build
+
+Generate an obfuscated release APK:
+
+```powershell
+cd "C:\Users\eltun\Documents\malt radar\frontend"
+
+flutter build apk --release --obfuscate --split-debug-info=build/symbols
+```
+
+APK output:
+
+```text
+frontend/build/app/outputs/flutter-apk/app-release.apk
+```
+
+## Google Drive Beta Distribution
+
+Beta APKs are distributed through a shared Google Drive folder:
+
+```text
+MaltRadar Beta
+```
+
+The upload script copies the latest APK, generates a SHA256 checksum, uploads it to Drive, and removes old versioned APKs.
+
+Upload script:
+
+```text
+scripts/upload_beta_apk_to_drive.ps1
+```
+
+Run after a successful release build:
+
+```powershell
+cd "C:\Users\eltun\Documents\malt radar"
+
+powershell -ExecutionPolicy Bypass -File scripts\upload_beta_apk_to_drive.ps1
+```
+
+Drive folder keeps:
+
+* `MaltRadar-beta-latest.apk`
+* `MaltRadar-beta-latest.apk.sha256.txt`
+* the newest timestamped release APK
+* install notes
+
+Beta users should download:
+
+```text
+MaltRadar-beta-latest.apk
+```
+
+## Manual Android QA Checklist
+
+Before sharing a new beta APK:
+
+1. App opens successfully.
+2. Whisky database loads.
+3. Setup flow completes.
+4. Reference whisky can be selected.
+5. Settings > cache clear does not delete the whisky database.
+6. Favorites and custom lists remain intact.
+7. Reference whisky can be removed.
+8. A new reference whisky can be selected.
+9. Tasting notes respect selected language.
+10. Flavor radar and similar whisky sections do not crash.
+11. Release APK installs cleanly on emulator/device.
+
+## Release Notes: v0.1.0-beta
+
+Current beta includes:
+
+* Android release hardening.
+* Backend DB API security recheck fixes.
+* Safe cache clear behavior.
+* Reference whisky removal.
+* Custom user lists.
+* Tasting notes localization for English/Turkish UI.
+* Google Drive APK upload workflow.
+* Obfuscated Android release builds.
+
+## Current Known Holds
+
+The following work should remain separate from the current beta release unless explicitly merged:
+
+* Similar flavor carousel UI refinement.
+* Flavor import implementation preview.
+* Additional tasting note dictionary expansion.
+* Public store release workflow.
+* Automated beta notification channel.
