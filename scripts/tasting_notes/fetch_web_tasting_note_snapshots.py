@@ -3,6 +3,11 @@ import csv
 import argparse
 import requests
 import time
+import sys
+
+# Add current dir to path to import url_safety
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+import url_safety
 
 base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 output_dir = os.path.join(base_dir, "data", "output")
@@ -62,7 +67,14 @@ def main():
             "mismatch_flags": row.get("mismatch_flags", "")
         }
         
-        if not s_url or "example.com" in s_url or "placeholder" in s_url:
+        if not s_url:
+            out["fetch_status"] = "invalid_url"
+            results.append(out)
+            fail_count += 1
+            continue
+            
+        host = url_safety.normalize_hostname(s_url)
+        if not host or url_safety.is_allowed_web_tasting_note_url(s_url, {"example.com"}):
             out["fetch_status"] = "invalid_url"
             results.append(out)
             fail_count += 1
