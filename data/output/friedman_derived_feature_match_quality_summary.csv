@@ -1,0 +1,14 @@
+metric,value
+rows_processed,6037
+production_whiskies,1831
+db_hash_before,e8f1839e312fe474a43f3f224d5c7d57e213f28db75545516d242788fdcf36a8
+db_hash_after,e8f1839e312fe474a43f3f224d5c7d57e213f28db75545516d242788fdcf36a8
+db_counts_before,"{""flavor_profiles"": 380, ""staging_tasting_notes"": 63, ""tasting_notes"": 25, ""whiskies"": 1831}"
+db_counts_after,"{""flavor_profiles"": 380, ""staging_tasting_notes"": 63, ""tasting_notes"": 25, ""whiskies"": 1831}"
+schema,"{""distillery_col"": ""brand"", ""id_col"": ""whisky_id"", ""name_col"": ""name""}"
+forbidden_leak,[]
+internal_audit_only_all_true,True
+gate,GO_MATCH_PREVIEW_ONLY
+KEEP_PRODUCT_FEATURE,1150
+REJECT_LOW_CONFIDENCE,4574
+REVIEW_PRODUCT_FEATURE,313
