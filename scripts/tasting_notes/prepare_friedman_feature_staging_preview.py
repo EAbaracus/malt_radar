@@ -1,6 +1,7 @@
 import pandas as pd
 import hashlib
 from datetime import datetime
+import os
 
 # Constants
 INPUT_MATCHED_FEATURES = 'data/output/friedman_derived_feature_product_match_preview.csv'
