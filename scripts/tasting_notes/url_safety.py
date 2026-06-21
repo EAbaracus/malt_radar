@@ -22,3 +22,12 @@ def is_allowed_web_tasting_note_url(url: str, allowed_domains: set[str]) -> bool
         if host == domain or host.endswith('.' + domain):
             return True
     return False
+
+def url_match_text(url: str) -> str:
+    try:
+        parsed = urllib.parse.urlparse(url)
+        host = (parsed.hostname or "").lower()
+        path = (parsed.path or "").lower()
+        return f"{host} {path}"
+    except Exception:
+        return ""

@@ -95,7 +95,7 @@ def search_duckduckgo(query, max_results):
     return links[:max_results]
 
 def get_match_status(w, domain, url_str):
-    url_lower = url_str.lower()
+    match_text = url_safety.url_match_text(url_str)
     name_lower = w.get('name', '').lower()
     
     match_score = 70
@@ -103,21 +103,21 @@ def get_match_status(w, domain, url_str):
     
     # Simple logic
     name_tokens = [t for t in name_lower.split() if len(t) > 3 and t not in ['the', 'single', 'malt', 'whisky']]
-    matched_tokens = sum(1 for t in name_tokens if t in url_lower)
+    matched_tokens = sum(1 for t in name_tokens if t in match_text)
     
     if name_tokens and matched_tokens == len(name_tokens):
         match_score += 20
     elif matched_tokens > 0:
         match_score += 10
         
-    if w.get('distillery_name') and w.get('distillery_name').lower() in url_lower:
+    if w.get('distillery_name') and w.get('distillery_name').lower() in match_text:
         match_score += 10
         
-    if w.get('age') and f"{int(w.get('age'))}" in url_lower:
+    if w.get('age') and f"{int(w.get('age'))}" in match_text:
         match_score += 5
         
     # Check mismatched ordinals/batches
-    if "batch" in name_lower and "batch" not in url_lower:
+    if "batch" in name_lower and "batch" not in match_text:
         mismatch_flags.append("batch_mismatch_possible")
         match_score -= 15
         
