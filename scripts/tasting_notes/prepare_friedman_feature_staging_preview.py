@@ -67,9 +67,17 @@ try:
     # Merge filtered match_df with detail_df on dedupe_hash
     merged_df = filtered_match_df.merge(detail_df, on='dedupe_hash', how='left')
 
-    # Print shape and columns of merged dataframe
-    print(f"merged_df shape: {merged_df.shape}")
-    print(f"merged_df columns: {list(merged_df.columns)}")
+    # Rename columns to remove suffixes
+    merged_df.rename(columns={
+        'source_score_x': 'source_score',
+        'rating_points_x': 'rating_points',
+        'review_year_x': 'review_year',
+        'internal_source_url_x': 'internal_source_url'
+    }, inplace=True)
+
+    # Print shape and columns of merged dataframe after renaming
+    print(f"merged_df shape after rename: {merged_df.shape}")
+    print(f"merged_df columns after rename: {list(merged_df.columns)}")
 
     # Aggregate data per matched_whisky_id
     aggregated_data = merged_df.groupby('matched_whisky_id').agg({
