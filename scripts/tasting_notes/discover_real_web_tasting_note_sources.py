@@ -5,8 +5,13 @@ import argparse
 import time
 import requests
 import re
+import sys
 from urllib.parse import urlparse, unquote
 from bs4 import BeautifulSoup
+
+# Add current dir to path to import url_safety
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+import url_safety
 
 base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 db_path = os.path.join(base_dir, "output", "import", "production.db")
@@ -46,26 +51,25 @@ def load_unprofiled():
     return whiskies
 
 def classify_domain(url):
-    domain = urlparse(url).netloc.lower()
-    if domain.startswith("www."):
-        domain = domain[4:]
+    domain = url_safety.normalize_hostname(url)
+    if not domain:
+        return "invalid_domain", "unknown", 40
         
-    official_keywords = ["distillery", "official", "ardbeg.com", "laphroaig.com", "macleans.com"]
-    retailer_keywords = ["masterofmalt.com", "thewhiskyexchange.com", "thewhiskybarrel.com", "whiskybase.com"]
-    review_keywords = ["whiskynotes.be", "whiskyreviewer.com", "breakingbourbon.com", "whiskyadvocate.com"]
-    community_keywords = ["reddit.com", "distiller.com"]
+    official_domains = {"ardbeg.com", "laphroaig.com", "macleans.com"}
+    retailer_domains = {"masterofmalt.com", "thewhiskyexchange.com", "thewhiskybarrel.com", "whiskybase.com"}
+    review_domains = {"whiskynotes.be", "whiskyreviewer.com", "breakingbourbon.com", "whiskyadvocate.com"}
+    community_domains = {"reddit.com", "distiller.com"}
     
-    if any(k in domain for k in official_keywords):
+    if url_safety.is_allowed_web_tasting_note_url(url, official_domains):
         return domain, "official", 90
-    if any(k in domain for k in retailer_keywords):
+    if url_safety.is_allowed_web_tasting_note_url(url, retailer_domains):
         return domain, "retailer_note", 70
-    if any(k in domain for k in review_keywords):
+    if url_safety.is_allowed_web_tasting_note_url(url, review_domains):
         return domain, "review_site", 85
-    if any(k in domain for k in community_keywords):
+    if url_safety.is_allowed_web_tasting_note_url(url, community_domains):
         return domain, "community_review", 50
     
     return domain, "unknown", 40
-
 def search_duckduckgo(query, max_results):
     url = "https://html.duckduckgo.com/html/"
     headers = {
@@ -213,7 +217,7 @@ def main():
     gate_path = os.path.join(reports_dir, "218_real_web_source_discovery_gate.txt")
     
     total = len(real_candidates) + len(manual_candidates)
-    has_example = any("example.com" in c["source_url"] for c in real_candidates + manual_candidates)
+    has_example = any(url_safety.is_allowed_web_tasting_note_url(c["source_url"], {"example.com"}) for c in real_candidates + manual_candidates)
     
     if total > 0 and not has_example:
         decision = "GO"
