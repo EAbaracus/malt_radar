@@ -1,0 +1,8 @@
+field,rule
+manual_note_id,Required. Must be unique prefix e.g. MAN-XXXX
+whisky_id,Required. Must exist in production.db whiskies table
+source_type,"Required. e.g. book, website, user_submission, magazine"
+source_url_or_ref,Required. Either source_url or source_reference must be non-empty
+notes,"Required. At least one of nose, palate, finish, or overall must be non-empty"
+permission_status,"Required. Must be user_submitted, public_short_excerpt, licensed, owner_provided, unknown_requires_review"
+approval_status,Required. Must be manual_pending_review
