@@ -1,0 +1,6 @@
+GATE: GO_MATCH_PREVIEW_ONLY
+input_rows_processed: 11149
+production_db_changed: False
+table_counts_changed: False
+full_text_leak: False
+source_visibility_leak: False
