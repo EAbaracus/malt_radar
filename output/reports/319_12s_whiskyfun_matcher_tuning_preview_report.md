@@ -1,0 +1,30 @@
+# 12S Matcher Tuning Preview
+
+Gate: GO_PRODUCT_CANDIDATES_FOUND
+Total rows: 11149
+KEEP_PRODUCT_FEATURE_CANDIDATE: 123
+REVIEW_CONFLICT_TUNED: 198
+REJECT_CONFLICT_STRONG: 6318
+Full text leak: 0
+Public source field leak: 0
+production.db used: No
+
+Original decisions:
+decision
+REJECT_CONFLICT                 6516
+REJECT_LOW_CONFIDENCE           2295
+REVIEW_PRODUCT_FEATURE          1497
+KEEP_DISTILLERY_FEATURE_ONLY     664
+KEEP_PRODUCT_FEATURE             177
+
+Tuned decisions:
+tuned_decision
+REJECT_CONFLICT_STRONG            6318
+REJECT_LOW_CONFIDENCE             2295
+REVIEW_PRODUCT_FEATURE_TUNED      1374
+KEEP_DISTILLERY_FEATURE_ONLY       664
+REVIEW_CONFLICT_TUNED              198
+KEEP_PRODUCT_FEATURE               177
+KEEP_PRODUCT_FEATURE_CANDIDATE     123
+
+Preview only. No DB writes. No input mutation.
