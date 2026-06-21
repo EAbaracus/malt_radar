@@ -13,77 +13,98 @@ SQL_INSERT_STAGING_DATA = 'output/import/sql_preview/insert_staging_friedman_fea
 REPORT_STAGING_PREVIEW = 'output/reports/325_12u_friedman_feature_staging_preview_report.md'
 GATE_FILE = 'output/reports/326_12u_friedman_feature_staging_preview_gate.txt'
 
-# Read input files
-match_df = pd.read_csv(INPUT_MATCHED_FEATURES)
-detail_df = pd.read_csv(INPUT_FEATURE_DETAILS)
+# Function to create output directories
+def ensure_output_directories():
+    os.makedirs(os.path.dirname(OUTPUT_AGGREGATE_PREVIEW), exist_ok=True)
+    os.makedirs(os.path.dirname(OUTPUT_REVIEW_LEVEL_AUDIT), exist_ok=True)
+    os.makedirs(os.path.dirname(SQL_CREATE_STAGING_TABLE), exist_ok=True)
+    os.makedirs(os.path.dirname(SQL_INSERT_STAGING_DATA), exist_ok=True)
+    os.makedirs(os.path.dirname(REPORT_STAGING_PREVIEW), exist_ok=True)
+    os.makedirs(os.path.dirname(GATE_FILE), exist_ok=True)
 
-# Filter rows where decision is KEEP_PRODUCT_FEATURE
-filtered_match_df = match_df[match_df['decision'] == 'KEEP_PRODUCT_FEATURE']
+# Function to hash a file
+def hash_file(filename):
+    hasher = hashlib.sha256()
+    with open(filename, 'rb') as f:
+        buf = f.read()
+        hasher.update(buf)
+    return hasher.hexdigest()
 
-# Merge filtered match_df with detail_df on dedupe_hash
-merged_df = filtered_match_df.merge(detail_df, on='dedupe_hash', how='left')
+# Ensure output directories exist
+ensure_output_directories()
 
-# Aggregate data per matched_whisky_id
-aggregated_data = merged_df.groupby('matched_whisky_id').agg({
-    'source_score': ['mean', 'min', 'max'],
-    'fruity_signal': 'mean',
-    'sweet_signal': 'mean',
-    'smoky_signal': 'mean',
-    'spicy_signal': 'mean',
-    'oaky_signal': 'mean',
-    'floral_signal': 'mean',
-    'malty_signal': 'mean',
-    'winey_signal': 'mean'
-}).reset_index()
+try:
+    # Read input files
+    match_df = pd.read_csv(INPUT_MATCHED_FEATURES)
+    detail_df = pd.read_csv(INPUT_FEATURE_DETAILS)
 
-# Calculate review_count and confidence_score
-aggregated_data['review_count'] = filtered_match_df.groupby('matched_whisky_id').size()
-aggregated_data['confidence_score'] = aggregated_data['review_count'].apply(lambda x: min(100, x * 10))
+    # Filter rows where decision is KEEP_PRODUCT_FEATURE
+    filtered_match_df = match_df[match_df['decision'] == 'KEEP_PRODUCT_FEATURE']
 
-# Create aggregate_feature_json
-def create_aggregate_feature_json(row):
-    return {
-        'fruity_signal': row['fruity_signal'],
-        'sweet_signal': row['sweet_signal'],
-        'smoky_signal': row['smoky_signal'],
-        'spicy_signal': row['spicy_signal'],
-        'oaky_signal': row['oaky_signal'],
-        'floral_signal': row['floral_signal'],
-        'malty_signal': row['malty_signal'],
-        'winey_signal': row['winey_signal']
-    }
+    # Merge filtered match_df with detail_df on dedupe_hash
+    merged_df = filtered_match_df.merge(detail_df, on='dedupe_hash', how='left')
 
-aggregated_data['aggregate_feature_json'] = aggregated_data.apply(create_aggregate_feature_json, axis=1)
+    # Aggregate data per matched_whisky_id
+    aggregated_data = merged_df.groupby('matched_whisky_id').agg({
+        'source_score': ['mean', 'min', 'max'],
+        'fruity_signal': 'mean',
+        'sweet_signal': 'mean',
+        'smoky_signal': 'mean',
+        'spicy_signal': 'mean',
+        'oaky_signal': 'mean',
+        'floral_signal': 'mean',
+        'malty_signal': 'mean',
+        'winey_signal': 'mean'
+    }).reset_index()
 
-# Select required columns for aggregate preview
-aggregate_preview_df = aggregated_data[['matched_whisky_id', 'source_score_mean', 'source_score_min', 'source_score_max',
-                                       'fruity_signal_mean', 'sweet_signal_mean', 'smoky_signal_mean', 'spicy_signal_mean',
-                                       'oaky_signal_mean', 'floral_signal_mean', 'malty_signal_mean', 'winey_signal_mean',
-                                       'review_count', 'confidence_score']].rename(columns={
-    'matched_whisky_id': 'whisky_id',
-    'source_score_mean': 'avg_source_score',
-    'source_score_min': 'min_review_year',
-    'source_score_max': 'max_review_year',
-    'fruity_signal_mean': 'fruity_score',
-    'sweet_signal_mean': 'sweet_score',
-    'smoky_signal_mean': 'smoky_score',
-    'spicy_signal_mean': 'spicy_score',
-    'oaky_signal_mean': 'oaky_score',
-    'floral_signal_mean': 'floral_score',
-    'malty_signal_mean': 'malty_score',
-    'winey_signal_mean': 'winey_score'
-})
+    # Calculate review_count and confidence_score
+    aggregated_data['review_count'] = filtered_match_df.groupby('matched_whisky_id').size()
+    aggregated_data['confidence_score'] = aggregated_data['review_count'].apply(lambda x: min(100, x * 10))
 
-# Select required columns for review level audit
-review_level_audit_df = filtered_match_df[['matched_whisky_id', 'source_score', 'rating_points', 'review_year',
-                                              'decision', 'internal_source_url']].rename(columns={
-    'matched_whisky_id': 'whisky_id',
-    'source_score': 'source_score_mean'
-})
+    # Create aggregate_feature_json
+    def create_aggregate_feature_json(row):
+        return {
+            'fruity_signal': row['fruity_signal'],
+            'sweet_signal': row['sweet_signal'],
+            'smoky_signal': row['smoky_signal'],
+            'spicy_signal': row['spicy_signal'],
+            'oaky_signal': row['oaky_signal'],
+            'floral_signal': row['floral_signal'],
+            'malty_signal': row['malty_signal'],
+            'winey_signal': row['winey_signal']
+        }
 
-# Create SQL for creating staging table
-with open(SQL_CREATE_STAGING_TABLE, 'w') as f:
-    f.write("""
+    aggregated_data['aggregate_feature_json'] = aggregated_data.apply(create_aggregate_feature_json, axis=1)
+
+    # Select required columns for aggregate preview
+    aggregate_preview_df = aggregated_data[['matched_whisky_id', 'source_score_mean', 'source_score_min', 'source_score_max',
+                                           'fruity_signal_mean', 'sweet_signal_mean', 'smoky_signal_mean', 'spicy_signal_mean',
+                                           'oaky_signal_mean', 'floral_signal_mean', 'malty_signal_mean', 'winey_signal_mean',
+                                           'review_count', 'confidence_score']].rename(columns={
+        'matched_whisky_id': 'whisky_id',
+        'source_score_mean': 'avg_source_score',
+        'source_score_min': 'min_review_year',
+        'source_score_max': 'max_review_year',
+        'fruity_signal_mean': 'fruity_score',
+        'sweet_signal_mean': 'sweet_score',
+        'smoky_signal_mean': 'smoky_score',
+        'spicy_signal_mean': 'spicy_score',
+        'oaky_signal_mean': 'oaky_score',
+        'floral_signal_mean': 'floral_score',
+        'malty_signal_mean': 'malty_score',
+        'winey_signal_mean': 'winey_score'
+    })
+
+    # Select required columns for review level audit
+    review_level_audit_df = filtered_match_df[['matched_whisky_id', 'source_score', 'rating_points', 'review_year',
+                                                  'decision', 'internal_source_url']].rename(columns={
+        'matched_whisky_id': 'whisky_id',
+        'source_score': 'source_score_mean'
+    })
+
+    # Create SQL for creating staging table
+    with open(SQL_CREATE_STAGING_TABLE, 'w') as f:
+        f.write("""
 CREATE TABLE IF NOT EXISTS staging_friedman_feature_profiles (
     staging_profile_id INTEGER PRIMARY KEY AUTOINCREMENT,
     whisky_id INTEGER,
@@ -112,16 +133,16 @@ CREATE TABLE IF NOT EXISTS staging_friedman_feature_profiles (
 );
 """)
 
-# Create SQL for inserting staging data
-with open(SQL_INSERT_STAGING_DATA, 'w') as f:
-    for index, row in aggregate_preview_df.iterrows():
-        f.write(f"""
+    # Create SQL for inserting staging data
+    with open(SQL_INSERT_STAGING_DATA, 'w') as f:
+        for index, row in aggregate_preview_df.iterrows():
+            f.write(f"""
 INSERT INTO staging_friedman_feature_profiles (whisky_id, review_count, avg_source_score, min_review_year,
-                                               max_review_year, fruity_score, sweet_score, smoky_score, spicy_signal,
-                                               oaky_signal, floral_signal, malty_signal, winey_signal,
-                                               aggregate_feature_json, confidence_score, source_system,
-                                               source_visibility, public_visibility, internal_audit_only,
-                                               approval_status, import_decision, created_at)
+                                                   max_review_year, fruity_score, sweet_score, smoky_score, spicy_signal,
+                                                   oaky_signal, floral_signal, malty_signal, winey_signal,
+                                                   aggregate_feature_json, confidence_score, source_system,
+                                                   source_visibility, public_visibility, internal_audit_only,
+                                                   approval_status, import_decision, created_at)
 VALUES ({row['whisky_id']}, {row['review_count']}, {row['avg_source_score']}, {row['min_review_year']},
         {row['max_review_year']}, {row['fruity_score']}, {row['sweet_score']}, {row['smoky_score']}, {row['spicy_signal']},
         {row['oaky_signal']}, {row['floral_signal']}, {row['malty_signal']}, {row['winey_signal']},
@@ -129,20 +150,27 @@ VALUES ({row['whisky_id']}, {row['review_count']}, {row['avg_source_score']}, {r
         'internal_only', 0, 1, 'staging_pending_review', 'staging_candidate', '{datetime.now()}');
 """)
 
-# Write aggregate preview and review level audit CSVs
-aggregate_preview_df.to_csv(OUTPUT_AGGREGATE_PREVIEW, index=False)
-review_level_audit_df.to_csv(OUTPUT_REVIEW_LEVEL_AUDIT, index=False)
+    # Write aggregate preview and review level audit CSVs
+    aggregate_preview_df.to_csv(OUTPUT_AGGREGATE_PREVIEW, index=False)
+    review_level_audit_df.to_csv(OUTPUT_REVIEW_LEVEL_AUDIT, index=False)
 
-# Create report
-with open(REPORT_STAGING_PREVIEW, 'w') as f:
-    f.write("Staging Preview Report\n")
-    f.write(f"Aggregate Preview File: {OUTPUT_AGGREGATE_PREVIEW}\n")
-    f.write(f"Review Level Audit File: {OUTPUT_REVIEW_LEVEL_AUDIT}\n")
+    # Create report
+    with open(REPORT_STAGING_PREVIEW, 'w') as f:
+        f.write("Staging Preview Report\n")
+        f.write(f"Aggregate Preview File: {OUTPUT_AGGREGATE_PREVIEW}\n")
+        f.write(f"Review Level Audit File: {OUTPUT_REVIEW_LEVEL_AUDIT}\n")
 
-# Create gate file
-with open(GATE_FILE, 'w') as f:
-    f.write("GO_STAGING_PREVIEW_ONLY\n")
+    # Create gate file
+    with open(GATE_FILE, 'w') as f:
+        f.write("GO_STAGING_PREVIEW_ONLY\n")
 
-# Gate checks
-if not (os.path.exists(OUTPUT_AGGREGATE_PREVIEW) and os.path.exists(OUTPUT_REVIEW_LEVEL_AUDIT)):
-    raise Exception("NO_GO_INPUT_MISSING")
+except Exception as e:
+    # Write NO_GO gate file and error report
+    with open(GATE_FILE, 'w') as f:
+        f.write("NO_GO\n")
+    
+    with open(REPORT_STAGING_PREVIEW, 'w') as f:
+        f.write(f"Error: {str(e)}\n")
+
+finally:
+    print("Script execution completed.")
