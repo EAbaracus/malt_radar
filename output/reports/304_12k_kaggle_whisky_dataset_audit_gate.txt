@@ -1,0 +1,7 @@
+GATE: BLOCKED_WITH_SETUP
+production.db changed = NO
+output/import/* changed = NO
+Kaggle API available = False
+unique_dataset_count = 0
+koki25ando_found = False
+recommended_next_phase = Setup Kaggle API credentials (kaggle.json)
