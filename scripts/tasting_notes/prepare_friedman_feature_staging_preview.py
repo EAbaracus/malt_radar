@@ -92,6 +92,23 @@ try:
         'winey_signal': 'mean'
     }).reset_index()
 
+    # Flatten columns
+    aggregated_data.columns = [
+        "_".join([str(x) for x in col if x]).strip("_")
+        if isinstance(col, tuple) else str(col)
+        for col in aggregated_data.columns
+    ]
+
+    # Rename columns
+    aggregated_data.rename(columns={
+        'matched_whisky_id_': 'matched_whisky_id',
+        'matched_whisky_name_first': 'whisky_name'
+    }, inplace=True)
+
+    # Print shape and columns of aggregated dataframe after flattening and renaming
+    print(f"aggregated_data shape after flatten and rename: {aggregated_data.shape}")
+    print(f"aggregated_data columns after flatten and rename: {list(aggregated_data.columns)}")
+
     # Calculate review_count and confidence_score
     aggregated_data['review_count'] = filtered_match_df.groupby('matched_whisky_id').size()
     aggregated_data['confidence_score'] = aggregated_data['review_count'].apply(lambda x: min(100, x * 10))
@@ -99,14 +116,14 @@ try:
     # Create aggregate_feature_json
     def create_aggregate_feature_json(row):
         return {
-            'fruity_signal': row['fruity_signal'],
-            'sweet_signal': row['sweet_signal'],
-            'smoky_signal': row['smoky_signal'],
-            'spicy_signal': row['spicy_signal'],
-            'oaky_signal': row['oaky_signal'],
-            'floral_signal': row['floral_signal'],
-            'malty_signal': row['malty_signal'],
-            'winey_signal': row['winey_signal']
+            'fruity_signal': row['fruity_signal_mean'],
+            'sweet_signal': row['sweet_signal_mean'],
+            'smoky_signal': row['smoky_signal_mean'],
+            'spicy_signal': row['spicy_signal_mean'],
+            'oaky_signal': row['oaky_signal_mean'],
+            'floral_signal': row['floral_signal_mean'],
+            'malty_signal': row['malty_signal_mean'],
+            'winey_signal': row['winey_signal_mean']
         }
 
     aggregated_data['aggregate_feature_json'] = aggregated_data.apply(create_aggregate_feature_json, axis=1)
