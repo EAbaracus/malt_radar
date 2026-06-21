@@ -34,15 +34,42 @@ def hash_file(filename):
 ensure_output_directories()
 
 try:
+    # Print current working directory
+    print(f"Current Working Directory: {os.getcwd()}")
+
+    # Check and print whether each input file exists
+    if os.path.exists(INPUT_MATCHED_FEATURES):
+        print(f"{INPUT_MATCHED_FEATURES} exists.")
+    else:
+        raise FileNotFoundError(f"{INPUT_MATCHED_FEATURES} does not exist.")
+
+    if os.path.exists(INPUT_FEATURE_DETAILS):
+        print(f"{INPUT_FEATURE_DETAILS} exists.")
+    else:
+        raise FileNotFoundError(f"{INPUT_FEATURE_DETAILS} does not exist.")
+
     # Read input files
     match_df = pd.read_csv(INPUT_MATCHED_FEATURES)
     detail_df = pd.read_csv(INPUT_FEATURE_DETAILS)
 
+    # Print shapes and columns of input dataframes
+    print(f"match_df shape: {match_df.shape}")
+    print(f"match_df columns: {list(match_df.columns)}")
+    print(f"detail_df shape: {detail_df.shape}")
+    print(f"detail_df columns: {list(detail_df.columns)}")
+
     # Filter rows where decision is KEEP_PRODUCT_FEATURE
     filtered_match_df = match_df[match_df['decision'] == 'KEEP_PRODUCT_FEATURE']
 
+    # Print shape of keep_df
+    print(f"keep_df shape: {filtered_match_df.shape}")
+
     # Merge filtered match_df with detail_df on dedupe_hash
     merged_df = filtered_match_df.merge(detail_df, on='dedupe_hash', how='left')
+
+    # Print shape and columns of merged dataframe
+    print(f"merged_df shape: {merged_df.shape}")
+    print(f"merged_df columns: {list(merged_df.columns)}")
 
     # Aggregate data per matched_whisky_id
     aggregated_data = merged_df.groupby('matched_whisky_id').agg({
@@ -102,6 +129,18 @@ try:
         'source_score': 'source_score_mean'
     })
 
+    # Print aggregate output path before writing
+    print(f"Writing aggregate preview to: {OUTPUT_AGGREGATE_PREVIEW}")
+
+    # Write aggregate preview CSV
+    aggregate_preview_df.to_csv(OUTPUT_AGGREGATE_PREVIEW, index=False)
+
+    # Print report output path before writing
+    print(f"Writing review level audit to: {OUTPUT_REVIEW_LEVEL_AUDIT}")
+
+    # Write review level audit CSV
+    review_level_audit_df.to_csv(OUTPUT_REVIEW_LEVEL_AUDIT, index=False)
+
     # Create SQL for creating staging table
     with open(SQL_CREATE_STAGING_TABLE, 'w') as f:
         f.write("""
@@ -150,10 +189,6 @@ VALUES ({row['whisky_id']}, {row['review_count']}, {row['avg_source_score']}, {r
         'internal_only', 0, 1, 'staging_pending_review', 'staging_candidate', '{datetime.now()}');
 """)
 
-    # Write aggregate preview and review level audit CSVs
-    aggregate_preview_df.to_csv(OUTPUT_AGGREGATE_PREVIEW, index=False)
-    review_level_audit_df.to_csv(OUTPUT_REVIEW_LEVEL_AUDIT, index=False)
-
     # Create report
     with open(REPORT_STAGING_PREVIEW, 'w') as f:
         f.write("Staging Preview Report\n")
@@ -165,9 +200,12 @@ VALUES ({row['whisky_id']}, {row['review_count']}, {row['avg_source_score']}, {r
         f.write("GO_STAGING_PREVIEW_ONLY\n")
 
 except Exception as e:
+    # Print the full exception
+    print(f"Exception occurred: {e}")
+
     # Write NO_GO gate file and error report
     with open(GATE_FILE, 'w') as f:
-        f.write("NO_GO\n")
+        f.write("NO_GO_SCRIPT_ERROR\n")
     
     with open(REPORT_STAGING_PREVIEW, 'w') as f:
         f.write(f"Error: {str(e)}\n")
