@@ -1,0 +1,11 @@
+GATE: GO
+All safety checks passed.
+- backup created
+- tasting_notes count 25 -> 85
+- inserted = 60
+- blocked = 0
+- flavor_profiles count 380 unchanged
+- FK missing = 0
+- duplicate = 0
+- transaction successful
+- raw full text not written
