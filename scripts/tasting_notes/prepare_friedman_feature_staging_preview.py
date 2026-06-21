@@ -14,14 +14,17 @@ REPORT_STAGING_PREVIEW = 'output/reports/325_12u_friedman_feature_staging_previe
 GATE_FILE = 'output/reports/326_12u_friedman_feature_staging_preview_gate.txt'
 
 # Read input files
-matched_features_df = pd.read_csv(INPUT_MATCHED_FEATURES)
-feature_details_df = pd.read_csv(INPUT_FEATURE_DETAILS)
+match_df = pd.read_csv(INPUT_MATCHED_FEATURES)
+detail_df = pd.read_csv(INPUT_FEATURE_DETAILS)
 
 # Filter rows where decision is KEEP_PRODUCT_FEATURE
-filtered_features_df = matched_features_df[matched_features_df['decision'] == 'KEEP_PRODUCT_FEATURE']
+filtered_match_df = match_df[match_df['decision'] == 'KEEP_PRODUCT_FEATURE']
+
+# Merge filtered match_df with detail_df on dedupe_hash
+merged_df = filtered_match_df.merge(detail_df, on='dedupe_hash', how='left')
 
 # Aggregate data per matched_whisky_id
-aggregated_data = filtered_features_df.groupby('matched_whisky_id').agg({
+aggregated_data = merged_df.groupby('matched_whisky_id').agg({
     'source_score': ['mean', 'min', 'max'],
     'fruity_signal': 'mean',
     'sweet_signal': 'mean',
@@ -34,7 +37,7 @@ aggregated_data = filtered_features_df.groupby('matched_whisky_id').agg({
 }).reset_index()
 
 # Calculate review_count and confidence_score
-aggregated_data['review_count'] = filtered_features_df.groupby('matched_whisky_id').size()
+aggregated_data['review_count'] = filtered_match_df.groupby('matched_whisky_id').size()
 aggregated_data['confidence_score'] = aggregated_data['review_count'].apply(lambda x: min(100, x * 10))
 
 # Create aggregate_feature_json
@@ -72,7 +75,7 @@ aggregate_preview_df = aggregated_data[['matched_whisky_id', 'source_score_mean'
 })
 
 # Select required columns for review level audit
-review_level_audit_df = filtered_features_df[['matched_whisky_id', 'source_score', 'rating_points', 'review_year',
+review_level_audit_df = filtered_match_df[['matched_whisky_id', 'source_score', 'rating_points', 'review_year',
                                               'decision', 'internal_source_url']].rename(columns={
     'matched_whisky_id': 'whisky_id',
     'source_score': 'source_score_mean'
