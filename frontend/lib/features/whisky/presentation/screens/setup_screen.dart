@@ -6,6 +6,7 @@ import 'package:malt_radar/features/whisky/domain/models/whisky.dart';
 import '../controllers/whisky_providers.dart';
 import 'home_screen.dart';
 import '../../../../core/localization/localization_provider.dart';
+import '../widgets/glass_container.dart';
 
 class SetupScreen extends ConsumerStatefulWidget {
   const SetupScreen({super.key});
@@ -153,12 +154,26 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
                 const SizedBox(height: 24),
 
                 // Search Bar
-                TextField(
-                  controller: _searchController,
-                  onChanged: _searchWhiskies,
-                  decoration: InputDecoration(
-                    hintText: tr('setup_search_hint'),
-                    prefixIcon: const Icon(Icons.search, color: AppTheme.textSecondary),
+                GlassContainer(
+                  padding: EdgeInsets.zero,
+                  blur: 15,
+                  opacity: 0.1,
+                  borderRadius: BorderRadius.circular(16),
+                  child: TextField(
+                    controller: _searchController,
+                    onChanged: _searchWhiskies,
+                    style: const TextStyle(color: Colors.white),
+                    decoration: InputDecoration(
+                      hintText: tr('setup_search_hint'),
+                      prefixIcon: const Icon(Icons.search, color: AppTheme.primary),
+                      filled: false,
+                      border: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: const BorderSide(color: AppTheme.primary, width: 1.5),
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 16),
