@@ -44,9 +44,32 @@ class ListDetailScreen extends ConsumerWidget {
             data: (items) {
               if (items.isEmpty) {
                 return Center(
-                  child: Text(
-                    tr('empty_list'),
-                    style: const TextStyle(color: AppTheme.textSecondary, fontSize: 16),
+                  child: Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.liquor_outlined,
+                          size: 80,
+                          color: AppTheme.textMuted.withValues(alpha: 0.5),
+                        ),
+                        const SizedBox(height: 24),
+                        Text(
+                          tr('empty_list'),
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                color: AppTheme.textPrimary,
+                              ),
+                        ),
+                        const SizedBox(height: 12),
+                        Text(
+                          'Add some whiskies to see them here.',
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(color: AppTheme.textSecondary, fontSize: 14),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               }
