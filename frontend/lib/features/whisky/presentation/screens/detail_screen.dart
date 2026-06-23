@@ -527,11 +527,18 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                           ),
                         ] else ...[
                           GlassContainer(
-                            padding: const EdgeInsets.all(16),
+                            padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 16),
                             child: Center(
-                              child: Text(
-                                tr('no_flavor_profile'),
-                                style: TextStyle(color: AppTheme.textSecondary),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(Icons.radar, size: 48, color: AppTheme.textMuted.withValues(alpha: 0.3)),
+                                  const SizedBox(height: 16),
+                                  Text(
+                                    tr('no_flavor_profile'),
+                                    style: const TextStyle(color: AppTheme.textSecondary, fontSize: 14),
+                                  ),
+                                ],
                               ),
                             ),
                           ),

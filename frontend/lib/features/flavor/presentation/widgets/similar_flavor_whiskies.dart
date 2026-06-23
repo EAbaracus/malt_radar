@@ -23,11 +23,24 @@ class SimilarFlavorWhiskies extends ConsumerWidget {
     return similarAsync.when(
       data: (whiskies) {
         if (whiskies.isEmpty) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Text(
-              tr('no_similar_flavors'),
-              style: const TextStyle(color: AppTheme.textMuted),
+          return Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.05),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Row(
+              children: [
+                Icon(Icons.search_off, color: AppTheme.textMuted.withValues(alpha: 0.5)),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    tr('no_similar_flavors'),
+                    style: const TextStyle(color: AppTheme.textSecondary, fontSize: 13),
+                  ),
+                ),
+              ],
             ),
           );
         }
