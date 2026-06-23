@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'core/theme/app_theme.dart';
 import 'features/whisky/presentation/controllers/whisky_providers.dart';
-import 'features/whisky/presentation/screens/home_screen.dart';
 import 'features/whisky/presentation/screens/setup_screen.dart';
+import 'core/presentation/screens/main_navigation_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,7 +32,7 @@ class MaltRadarApp extends ConsumerWidget {
             data: (settings) {
               final id = settings['reference_whisky_id'];
               if (id != null) {
-                return const HomeScreen();
+                return const MainNavigationScreen();
               } else {
                 return const SetupScreen();
               }
