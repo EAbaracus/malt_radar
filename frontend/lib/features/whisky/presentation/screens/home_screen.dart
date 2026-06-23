@@ -381,6 +381,27 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ),
               ),
 
+              // Filter Chips UI
+              SizedBox(
+                height: 40,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  children: const [
+                    TastingChip(label: 'Single Malt'),
+                    SizedBox(width: 8),
+                    TastingChip(label: 'Speyside'),
+                    SizedBox(width: 8),
+                    TastingChip(label: 'Peated'),
+                    SizedBox(width: 8),
+                    TastingChip(label: 'Highland'),
+                    SizedBox(width: 8),
+                    TastingChip(label: 'Sherry Cask'),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 8),
+
               if (_isAdding)
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 24),
