@@ -244,9 +244,32 @@ class _ListsScreenState extends ConsumerState<ListsScreen> {
             data: (lists) {
               if (lists.isEmpty) {
                 return Center(
-                  child: Text(
-                    tr('no_lists_found'),
-                    style: const TextStyle(color: AppTheme.textSecondary, fontSize: 16),
+                  child: Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.featured_play_list_outlined,
+                          size: 80,
+                          color: AppTheme.textMuted.withValues(alpha: 0.5),
+                        ),
+                        const SizedBox(height: 24),
+                        Text(
+                          tr('no_lists_found'),
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                color: AppTheme.textPrimary,
+                              ),
+                        ),
+                        const SizedBox(height: 12),
+                        Text(
+                          'Create a new list to organize your collection.',
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(color: AppTheme.textSecondary, fontSize: 14),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               }
