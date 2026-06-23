@@ -11,6 +11,8 @@ import 'package:go_router/go_router.dart';
 import 'package:malt_radar/features/lists/presentation/widgets/add_to_list_sheet.dart';
 import 'package:malt_radar/features/lists/presentation/controllers/user_lists_providers.dart';
 import 'package:malt_radar/core/localization/flavor_tag_translator.dart';
+import '../../../../core/presentation/widgets/section_header.dart';
+import '../../../../core/presentation/widgets/tasting_chip.dart';
 
 class DetailScreen extends ConsumerStatefulWidget {
   final int whiskyId;
@@ -441,10 +443,9 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
 
                         // Tasting Notes
                         if (whisky.tastingNotes.isNotEmpty) ...[
-                          _buildSectionHeader(
-                            context,
-                            tr('tasting_notes'),
-                            Icons.bubble_chart,
+                          SectionHeader(
+                            title: tr('tasting_notes'),
+                            icon: Icons.bubble_chart,
                           ),
                           const SizedBox(height: 16),
                           GlassContainer(
@@ -453,28 +454,8 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                               spacing: 8,
                               runSpacing: 8,
                               children: whisky.tastingNotes.map((note) {
-                                return Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 14,
-                                    vertical: 8,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: AppTheme.primary.withValues(
-                                      alpha: 0.1,
-                                    ),
-                                    borderRadius: BorderRadius.circular(12),
-                                    border: Border.all(
-                                      color: AppTheme.primary.withValues(
-                                        alpha: 0.2,
-                                      ),
-                                    ),
-                                  ),
-                                  child: Text(
-                                    localizeTastingNote(note, langCode),
-                                    style: const TextStyle(
-                                      color: AppTheme.textPrimary,
-                                    ),
-                                  ),
+                                return TastingChip(
+                                  label: localizeTastingNote(note, langCode),
                                 );
                               }).toList(),
                             ),
@@ -483,7 +464,7 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                         ],
 
                         // Malt Radar (Flavor Profile)
-                        _buildSectionHeader(context, 'Malt Radar', Icons.radar),
+                        const SectionHeader(title: 'Malt Radar', icon: Icons.radar),
                         const SizedBox(height: 16),
                         if (whisky.flavorProfile != null) ...[
                           GlassContainer(
@@ -558,10 +539,9 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                         const SizedBox(height: 36),
 
                         // Prices
-                        _buildSectionHeader(
-                          context,
-                          tr('price_info'),
-                          Icons.sell,
+                        SectionHeader(
+                          title: tr('price_info'),
+                          icon: Icons.sell,
                         ),
                         const SizedBox(height: 16),
                         _isLoadingPrices
@@ -678,10 +658,9 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                         const SizedBox(height: 36),
 
                         // Evaluation
-                        _buildSectionHeader(
-                          context,
-                          tr('personal_evaluation'),
-                          Icons.star,
+                        SectionHeader(
+                          title: tr('personal_evaluation'),
+                          icon: Icons.star,
                         ),
                         const SizedBox(height: 16),
                         GlassContainer(
@@ -878,31 +857,7 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
     );
   }
 
-  Widget _buildSectionHeader(
-    BuildContext context,
-    String title,
-    IconData icon,
-  ) {
-    return Row(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: AppTheme.primary.withValues(alpha: 0.1),
-            shape: BoxShape.circle,
-          ),
-          child: Icon(icon, color: AppTheme.primary, size: 20),
-        ),
-        const SizedBox(width: 12),
-        Text(
-          title,
-          style: Theme.of(
-            context,
-          ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-        ),
-      ],
-    );
-  }
+
 
   Widget _buildMetaTag(String label, String value) {
     return GlassContainer(

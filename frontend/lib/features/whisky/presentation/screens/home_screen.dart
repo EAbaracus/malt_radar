@@ -6,9 +6,9 @@ import '../controllers/whisky_providers.dart';
 import '../../domain/models/whisky.dart';
 import '../../../../core/localization/localization_provider.dart';
 import 'detail_screen.dart';
-import 'settings_screen.dart';
 import '../widgets/glass_container.dart';
-import 'package:malt_radar/features/lists/presentation/screens/lists_screen.dart';
+import '../../../../core/presentation/widgets/cask_card.dart';
+import '../../../../core/presentation/widgets/tasting_chip.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -268,20 +268,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     Row(
                       children: [
                         IconButton(
-                          icon: const Icon(
-                            Icons.bookmark_outline,
-                            color: AppTheme.textSecondary,
-                            size: 28,
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const ListsScreen()),
-                            );
-                          },
-                          tooltip: tr('lists'),
-                        ),
-                        IconButton(
                           icon: Icon(
                             isFavoritesOnly ? Icons.star : Icons.star_border,
                             color: AppTheme.primary,
@@ -291,20 +277,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             ref.read(favoritesOnlyProvider.notifier).state = !isFavoritesOnly;
                           },
                           tooltip: tr('favorites_only'),
-                        ),
-                        IconButton(
-                          icon: const Icon(
-                            Icons.settings_outlined,
-                            color: AppTheme.textSecondary,
-                            size: 28,
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const SettingsScreen()),
-                            );
-                          },
-                          tooltip: tr('settings'),
                         ),
                       ],
                     ),
@@ -495,151 +467,78 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       relativeScore = ((whisky.personalScore / referenceScore) * 100).round();
     }
 
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
-      child: GestureDetector(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => DetailScreen(whiskyId: whisky.id),
-            ),
-          );
-        },
-        child: GlassContainer(
-          blur: 10,
-          opacity: 0.08,
-          borderRadius: BorderRadius.circular(20),
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            children: [
-              Container(
-                width: 60,
-                height: 60,
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [AppTheme.accent, AppTheme.primary],
-                  ),
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppTheme.primary.withValues(alpha: 0.3),
-                      blurRadius: 15,
-                      offset: const Offset(0, 5),
-                    )
-                  ],
-                ),
-                child: const Icon(
-                  Icons.local_bar,
-                  color: AppTheme.background,
-                  size: 32,
-                ),
+    return CaskCard(
+      title: whisky.name,
+      subtitle: '${whisky.category ?? "Single Malt"} • ${whisky.country ?? "Scotland"}',
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailScreen(whiskyId: whisky.id),
+          ),
+        );
+      },
+      iconOrImage: Container(
+        width: 60,
+        height: 60,
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [AppTheme.accent, AppTheme.primary],
+          ),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: const Icon(
+          Icons.local_bar,
+          color: AppTheme.background,
+          size: 32,
+        ),
+      ),
+      tags: whisky.tastingNotes.take(3).map((note) => TastingChip(label: note)).toList(),
+      trailing: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          if (relativeScore != null)
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              decoration: BoxDecoration(
+                color: AppTheme.primary.withValues(alpha: 0.15),
+                border: Border.all(color: AppTheme.primary.withValues(alpha: 0.3)),
+                borderRadius: BorderRadius.circular(10),
               ),
-              const SizedBox(width: 16),
-
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Hero(
-                      tag: 'whisky-name-${whisky.id}',
-                      child: Material(
-                        color: Colors.transparent,
-                        child: Text(
-                          whisky.name,
-                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                                color: AppTheme.textPrimary,
-                                fontSize: 19,
-                              ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      whisky.category ?? 'Single Malt',
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: AppTheme.secondary,
-                            letterSpacing: 0.5,
-                          ),
-                    ),
-                    const SizedBox(height: 8),
-                    if (whisky.tastingNotes.isNotEmpty)
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: whisky.tastingNotes.take(3).map((note) {
-                            return Container(
-                              margin: const EdgeInsets.only(right: 6),
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                              decoration: BoxDecoration(
-                                color: Colors.white.withValues(alpha: 0.05),
-                                borderRadius: BorderRadius.circular(8),
-                                border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
-                              ),
-                              child: Text(
-                                note,
-                                style: const TextStyle(
-                                  color: AppTheme.textSecondary,
-                                  fontSize: 11,
-                                ),
-                              ),
-                            );
-                          }).toList(),
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  if (relativeScore != null)
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                      decoration: BoxDecoration(
-                        color: AppTheme.primary.withValues(alpha: 0.15),
-                        border: Border.all(color: AppTheme.primary.withValues(alpha: 0.3)),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(Icons.star, color: AppTheme.primary, size: 14),
-                          const SizedBox(width: 4),
-                          Text(
-                            '$relativeScore',
-                            style: const TextStyle(
-                              color: AppTheme.primary,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  else
-                    Text(
-                      tr('not_scored'),
-                      style: const TextStyle(
-                        color: AppTheme.textMuted,
-                        fontStyle: FontStyle.italic,
-                        fontSize: 12,
-                      ),
+                  const Icon(Icons.star, color: AppTheme.primary, size: 14),
+                  const SizedBox(width: 4),
+                  Text(
+                    '$relativeScore',
+                    style: const TextStyle(
+                      color: AppTheme.primary,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
                     ),
-                  const SizedBox(height: 12),
-                  Icon(
-                    whisky.isFavorite ? Icons.star : Icons.star_border,
-                    color: whisky.isFavorite ? AppTheme.accent : AppTheme.textMuted.withValues(alpha: 0.3),
-                    size: 24,
                   ),
                 ],
               ),
-            ],
+            )
+          else
+            Text(
+              tr('not_scored'),
+              style: const TextStyle(
+                color: AppTheme.textMuted,
+                fontStyle: FontStyle.italic,
+                fontSize: 12,
+              ),
+            ),
+          const SizedBox(height: 12),
+          Icon(
+            whisky.isFavorite ? Icons.star : Icons.star_border,
+            color: whisky.isFavorite ? AppTheme.accent : AppTheme.textMuted.withValues(alpha: 0.3),
+            size: 24,
           ),
-        ),
+        ],
       ),
     );
   }
