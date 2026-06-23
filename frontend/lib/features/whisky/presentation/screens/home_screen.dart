@@ -417,7 +417,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     }
                     return ListView.builder(
                       physics: const BouncingScrollPhysics(),
-                      padding: const EdgeInsets.fromLTRB(24, 4, 24, 24),
+                      padding: EdgeInsets.fromLTRB(
+                        24, 
+                        4, 
+                        24, 
+                        MediaQuery.viewInsetsOf(context).bottom + 
+                        MediaQuery.paddingOf(context).bottom + 
+                        (MediaQuery.viewInsetsOf(context).bottom > 0 ? 96.0 : 96.0)
+                      ),
                       itemCount: whiskies.length,
                       itemBuilder: (context, index) {
                         final whisky = whiskies[index];
