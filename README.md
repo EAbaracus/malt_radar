@@ -131,8 +131,8 @@ Current validation status:
 ### Frontend Setup
 
 ```powershell
-cd "C:\Users\eltun\Documents\malt radar\frontend"
-
+# From the repository root
+cd frontend
 flutter pub get
 flutter analyze
 flutter test
@@ -141,8 +141,8 @@ flutter test
 ### Common Beta Test Command
 
 ```powershell
-cd "C:\Users\eltun\Documents\malt radar\frontend"
-
+# From the repository root
+cd frontend
 flutter analyze
 
 flutter test test/user_lists_schema_test.dart test/user_lists_repository_test.dart test/db_api_validation_test.dart test/real_csv_seed_test.dart test/db_seed_test.dart test/similar_flavor_test.dart test/cache_clear_persistence_test.dart test/reference_whisky_clear_test.dart test/tasting_notes_i18n_test.dart
@@ -153,8 +153,7 @@ flutter build apk --release --obfuscate --split-debug-info=build/symbols
 ### Backend Tests
 
 ```powershell
-cd "C:\Users\eltun\Documents\malt radar"
-
+# From the repository root
 $env:PYTHONPATH = "backend"
 
 python -m pytest tests/ backend/tests/ -v
@@ -167,8 +166,8 @@ Remove-Item Env:\PYTHONPATH
 Generate an obfuscated release APK:
 
 ```powershell
-cd "C:\Users\eltun\Documents\malt radar\frontend"
-
+# From the repository root
+cd frontend
 flutter build apk --release --obfuscate --split-debug-info=build/symbols
 ```
 
@@ -185,7 +184,7 @@ Upload script: `scripts/upload_beta_apk_to_drive.ps1`
 Run after a successful release build:
 
 ```powershell
-cd "C:\Users\eltun\Documents\malt radar"
+# From the repository root
 powershell -ExecutionPolicy Bypass -File scripts\upload_beta_apk_to_drive.ps1
 ```
 
