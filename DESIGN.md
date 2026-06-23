@@ -117,7 +117,7 @@ The visual style is **Modern Minimalist with Glassmorphic accents**. It utilizes
 
 ## Colors
 
-The palette is strictly dark-mode to emphasize the "discovery" aspect of the product, mimicking low-light tasting rooms. 
+The palette is strictly dark-mode to emphasize the "discovery" aspect of the product, mimicking low-light tasting rooms.
 
 - **Obsidian (#0F0F0F):** The foundational base. It provides infinite depth and high contrast for gold accents.
 - **Surface (#1A1A1A):** Used for primary containers, elevating them slightly from the background.
@@ -149,7 +149,7 @@ Hierarchy is established through **Glassmorphism** and **Tonal Layering** rather
 - **The Base:** Background (#0F0F0F).
 - **The Surface:** Cards and containers use #1A1A1A.
 - **The Overlay:** Modal sheets and floating menus use a semi-transparent blur (Backdrop Filter: blur 20px) with a 10% white tint to create a "frosted obsidian" effect.
-- **Borders:** Instead of shadows, use 1px "Hairline" borders. 
+- **Borders:** Instead of shadows, use 1px "Hairline" borders.
     - Inner borders: #FFFFFF at 10% opacity.
     - Active/Selected borders: #D4AF37 at 40% opacity.
 - **Glow:** For primary elements like the "Tasting Note" button, a subtle amber outer glow (spread 10px, 15% opacity) can be used to simulate light passing through whisky.
