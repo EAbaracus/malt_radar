@@ -12,11 +12,19 @@ The current beta focuses on stable local usage, whisky discovery, custom lists, 
 **Default data mode:** Local/offline database
 **DB API mode:** Disabled by default behind feature flags
 
-The app is currently intended for manual APK beta testing before wider public distribution.
+*Stitch premium UI milestone completed!*
 
-## Key Features
+The app is currently intended for manual APK beta testing before wider public distribution. "Production-ready" label is withheld until external data pipelines and database encryption are complete.
 
-### Whisky Database
+## Key Features & Screens
+
+### Premium UI
+
+* Premium dark “Obsidian & Amber” UI theme.
+* Polished Home, Search, Detail, Radar, Lists, and Settings layouts.
+* Beautiful empty states for Wishlist, Collection, and other custom lists.
+
+### Whisky Database & Search
 
 * Local whisky database bundled with the app.
 * Search and browse whisky products.
@@ -29,7 +37,7 @@ The app is currently intended for manual APK beta testing before wider public di
 * Reference whisky is used as a comparison anchor for later recommendations and scoring behavior.
 * Users can remove the selected reference whisky from Settings and select a new one.
 
-### Custom Lists
+### Custom Lists (Wishlist / Collection)
 
 Built-in local user lists:
 
@@ -38,7 +46,7 @@ Built-in local user lists:
 * Tried
 * Collection
 
-Users can save whiskies into personal lists without requiring a backend account.
+Users can save whiskies into personal lists without requiring a backend account. Empty states are gracefully handled with premium UI illustrations.
 
 ### Flavor Radar
 
@@ -52,11 +60,10 @@ Flavor comparison currently supports core flavor dimensions such as:
 * Spicy
 * Woody
 
-### Similar Whiskies
+### Similar Whiskies Navigation
 
-The app supports flavor-based similar whisky recommendations.
-
-Similarity is based primarily on flavor profile distance, with supporting metadata such as region/category used as secondary signals.
+The app supports flavor-based similar whisky recommendations natively on the detail screen.
+Similarity is based primarily on flavor profile distance. Users can directly navigate through similar whiskies via premium horizontal carousel cards.
 
 ### Tasting Notes Localization
 
@@ -90,49 +97,34 @@ Protected local data includes:
 * Riverpod
 * Local-first app state
 * Android release build support
-* Web support exists but Android beta is the primary current target
 
-### Backend
+### Backend & Data Pipeline
 
-* FastAPI
-* Read-only database API layer
-* API key protection
+* FastAPI (Read-only database API layer)
 * SQLite read-path hardening
-* DB path resolution via controlled configuration
 * DB API feature flags
+* Python scripts for database ingestion, reconciliation, and flavor generation
 
-### Data Pipeline
-
-The project includes Python scripts and tests for:
-
-* Whisky database ingestion
-* Distillery/product reconciliation
-* Flavor gap candidate generation
-* Dry-run import previews
-* Safety checks before database changes
-
-Production database writes are intentionally guarded and must not happen during normal beta builds.
-
-## Important Safety Rules
+## Important Safety & Security Rules
 
 The following files must not be modified accidentally:
 
-* `output/import/production.db`
+* `output/import/production.db` (Included but controlled)
 * `frontend/lib/core/config/app_config.dart`
 
-Current beta default:
+Current security / beta notes:
 
-```dart
-AppConfig.useDbApi = false
-```
+* Backend/API feature flag is disabled by default (`AppConfig.useDbApi = false`).
+* Release HTTP hardening is applied.
+* SQLCipher (local database encryption) is not yet implemented (planned).
 
-Generated/local files should not be committed:
+## Validation & Quality
 
-* `dist/`
-* Flutter build outputs
-* APK files
-* local rclone tokens/config
-* temporary reports or generated artifacts unless explicitly intended
+Current validation status:
+
+* `flutter analyze` PASS
+* `db_api_validation_test` PASS
+* Release APK build PASS
 
 ## Local Development
 
@@ -180,84 +172,28 @@ cd "C:\Users\eltun\Documents\malt radar\frontend"
 flutter build apk --release --obfuscate --split-debug-info=build/symbols
 ```
 
-APK output:
-
-```text
-frontend/build/app/outputs/flutter-apk/app-release.apk
-```
+APK output is stored locally at: `frontend/build/app/outputs/flutter-apk/app-release.apk`
 
 ## Google Drive Beta Distribution
 
-Beta APKs are distributed through a shared Google Drive folder:
-
-```text
-MaltRadar Beta
-```
+Beta APKs are distributed through a shared Google Drive folder: `MaltRadar Beta`
 
 The upload script copies the latest APK, generates a SHA256 checksum, uploads it to Drive, and removes old versioned APKs.
 
-Upload script:
-
-```text
-scripts/upload_beta_apk_to_drive.ps1
-```
+Upload script: `scripts/upload_beta_apk_to_drive.ps1`
 
 Run after a successful release build:
 
 ```powershell
 cd "C:\Users\eltun\Documents\malt radar"
-
 powershell -ExecutionPolicy Bypass -File scripts\upload_beta_apk_to_drive.ps1
 ```
 
-Drive folder keeps:
+## Known Limitations & Holds
 
-* `MaltRadar-beta-latest.apk`
-* `MaltRadar-beta-latest.apk.sha256.txt`
-* the newest timestamped release APK
-* install notes
-
-Beta users should download:
-
-```text
-MaltRadar-beta-latest.apk
-```
-
-## Manual Android QA Checklist
-
-Before sharing a new beta APK:
-
-1. App opens successfully.
-2. Whisky database loads.
-3. Setup flow completes.
-4. Reference whisky can be selected.
-5. Settings > cache clear does not delete the whisky database.
-6. Favorites and custom lists remain intact.
-7. Reference whisky can be removed.
-8. A new reference whisky can be selected.
-9. Tasting notes respect selected language.
-10. Flavor radar and similar whisky sections do not crash.
-11. Release APK installs cleanly on emulator/device.
-
-## Release Notes: v0.1.0-beta
-
-Current beta includes:
-
-* Android release hardening.
-* Backend DB API security recheck fixes.
-* Safe cache clear behavior.
-* Reference whisky removal.
-* Custom user lists.
-* Tasting notes localization for English/Turkish UI.
-* Google Drive APK upload workflow.
-* Obfuscated Android release builds.
-
-## Current Known Holds
-
-The following work should remain separate from the current beta release unless explicitly merged:
-
-* Similar flavor carousel UI refinement.
-* Flavor import implementation preview.
-* Additional tasting note dictionary expansion.
-* Public store release workflow.
-* Automated beta notification channel.
+* This is a beta build, not production-ready.
+* Local database encryption (SQLCipher) is not yet implemented.
+* External tasting data pipeline is still staged/controlled.
+* LYX/import scripts are not part of this UI release.
+* Public store release workflow is pending.
+* Automated beta notification channel is pending.
