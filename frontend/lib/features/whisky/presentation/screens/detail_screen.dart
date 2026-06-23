@@ -7,7 +7,7 @@ import '../../../../core/localization/localization_provider.dart';
 import '../widgets/glass_container.dart';
 import '../../../flavor/presentation/widgets/flavor_radar_chart.dart';
 import '../../../flavor/presentation/widgets/similar_flavor_whiskies.dart';
-import 'package:go_router/go_router.dart';
+
 import 'package:malt_radar/features/lists/presentation/widgets/add_to_list_sheet.dart';
 import 'package:malt_radar/features/lists/presentation/controllers/user_lists_providers.dart';
 import 'package:malt_radar/core/localization/flavor_tag_translator.dart';
@@ -522,7 +522,12 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                           SimilarFlavorWhiskies(
                             whiskyId: whisky.id,
                             onWhiskyTap: (w) {
-                              context.push('/whisky/${w.id}');
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DetailScreen(whiskyId: w.id),
+                                ),
+                              );
                             },
                           ),
                         ] else ...[
