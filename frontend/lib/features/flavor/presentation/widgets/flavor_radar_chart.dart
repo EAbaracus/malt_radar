@@ -31,8 +31,8 @@ class FlavorRadarChart extends StatelessWidget {
 
     List<RadarDataSet> dataSets = [
       RadarDataSet(
-        fillColor: AppTheme.accent.withValues(alpha: 0.3),
-        borderColor: AppTheme.accent,
+        fillColor: AppTheme.secondary.withValues(alpha: 0.3),
+        borderColor: AppTheme.primary,
         entryRadius: 3,
         dataEntries: categories.map((c) {
           final val = (profile[c] as num?)?.toDouble() ?? 0.0;
@@ -56,11 +56,11 @@ class FlavorRadarChart extends StatelessWidget {
         RadarChartData(
           radarShape: RadarShape.polygon,
           radarBackgroundColor: Colors.transparent,
-          radarBorderData: const BorderSide(color: Colors.white24, width: 1.5),
+          radarBorderData: BorderSide(color: const Color(0xFFA0A0A0).withValues(alpha: 0.2), width: 1.5),
           tickCount: 3,
           ticksTextStyle: const TextStyle(color: Colors.transparent, fontSize: 10),
-          tickBorderData: const BorderSide(color: Colors.white12),
-          gridBorderData: const BorderSide(color: Colors.white12, width: 1.5),
+          tickBorderData: BorderSide(color: const Color(0xFFA0A0A0).withValues(alpha: 0.1)),
+          gridBorderData: BorderSide(color: const Color(0xFFA0A0A0).withValues(alpha: 0.2), width: 1.5),
           getTitle: (index, angle) {
             return RadarChartTitle(
               text: displayNames[index],
