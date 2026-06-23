@@ -32,17 +32,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Future<Iterable<Whisky>> _searchOnlineAutocomplete(String query) async {
     final trimmedQuery = query.trim();
     if (trimmedQuery.length < 2) return const Iterable<Whisky>.empty();
-    
+
     if (_debounce?.isActive ?? false) _debounce!.cancel();
-    
+
     final completer = Completer<Iterable<Whisky>>();
-    
+
     _debounce = Timer(const Duration(milliseconds: 500), () async {
       if (trimmedQuery == _lastQuery) {
         completer.complete(_lastOptions);
         return;
       }
-      
+
       final repository = ref.read(whiskyRepositoryProvider);
       try {
         final results = await repository.searchExternalWhiskies(trimmedQuery);
@@ -53,7 +53,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         completer.complete(const Iterable<Whisky>.empty());
       }
     });
-    
+
     return completer.future;
   }
 
@@ -67,9 +67,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         return GlassContainer(
           borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
           padding: EdgeInsets.only(
-            left: 24, 
-            right: 24, 
-            top: 28, 
+            left: 24,
+            right: 24,
+            top: 28,
             bottom: MediaQuery.of(context).padding.bottom + 24
           ),
           opacity: 0.8,
@@ -188,7 +188,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     setState(() {
       _isAdding = true;
     });
-    
+
     final repository = ref.read(whiskyRepositoryProvider);
     final localId = await repository.addWhiskyToLibrary(whisky);
 
@@ -342,7 +342,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           borderRadius: BorderRadius.circular(16),
                           child: ConstrainedBox(
                             constraints: BoxConstraints(
-                              maxHeight: 320, 
+                              maxHeight: 320,
                               maxWidth: MediaQuery.of(context).size.width - 48
                             ),
                             child: ListView.separated(
@@ -418,11 +418,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     return ListView.builder(
                       physics: const BouncingScrollPhysics(),
                       padding: EdgeInsets.fromLTRB(
-                        24, 
-                        4, 
-                        24, 
-                        MediaQuery.viewInsetsOf(context).bottom + 
-                        MediaQuery.paddingOf(context).bottom + 
+                        24,
+                        4,
+                        24,
+                        MediaQuery.viewInsetsOf(context).bottom +
+                        MediaQuery.paddingOf(context).bottom +
                         (MediaQuery.viewInsetsOf(context).bottom > 0 ? 96.0 : 96.0)
                       ),
                       itemCount: whiskies.length,

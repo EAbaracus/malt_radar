@@ -25,7 +25,7 @@ class DbWhiskyRepositoryImpl implements WhiskyRepository {
     if (query.isNotEmpty) {
       selectQuery.where(_db.whiskies.name.like('%$query%'));
     }
-    
+
     if (favoritesOnly) {
       selectQuery.where(_db.favorites.whiskyId.isNotNull());
     }
@@ -162,7 +162,7 @@ class DbWhiskyRepositoryImpl implements WhiskyRepository {
           tastingNotes: tastingNotes,
         );
         final detailedWhisky = Whisky.fromMap(legacyMap);
-        
+
         await _db.update(_db.whiskies).replace(
           detailedWhisky.copyWith(id: id).toCompanion(),
         );
@@ -212,7 +212,7 @@ class DbWhiskyRepositoryImpl implements WhiskyRepository {
   @override
   Future<List<Map<String, dynamic>>> getWhiskyPrices(int localId, String? externalId) async {
     final list = await (_db.select(_db.whiskyPrices)..where((tbl) => tbl.whiskyId.equals(localId))).get();
-    
+
     return list.map((item) => <String, dynamic>{
       'source_name': item.sourceName,
       'price': item.price,
@@ -261,7 +261,7 @@ class DbWhiskyRepositoryImpl implements WhiskyRepository {
   Future<Map<String, dynamic>> getReferenceWhisky() async {
     final idSetting = await (_db.select(_db.userSettings)..where((tbl) => tbl.key.equals('reference_whisky_id'))).getSingleOrNull();
     final scoreSetting = await (_db.select(_db.userSettings)..where((tbl) => tbl.key.equals('reference_whisky_absolute_score'))).getSingleOrNull();
-    
+
     return {
       'reference_whisky_id': idSetting != null ? int.tryParse(idSetting.value) : null,
       'reference_whisky_absolute_score': scoreSetting != null ? int.tryParse(scoreSetting.value) : null,
