@@ -28,21 +28,18 @@ def get_db_hash(db_path):
             sha256.update(chunk)
     return sha256.hexdigest()
 
-def find_epub(directory):
-    patterns = ["*Field*Guide*Whisky*.epub", "*.epub"]
-    for pattern in patterns:
-        files = glob.glob(os.path.join(directory, pattern))
-        if files:
-            return files[0]
-    return None
+def extract_metadata_from_epub(epub_path):
+    try:
+        book = epub.read_epub(epub_path)
+        title = book.get_metadata('DC', 'title')
+        title_str = title[0][0] if title else "Unknown Title"
+        author = book.get_metadata('DC', 'creator')
+        author_str = author[0][0] if author else "Unknown Author"
+        return title_str, author_str, book
+    except Exception as e:
+        return "Unknown Title", "Unknown Author", None
 
-def extract_text_from_epub(epub_path):
-    book = epub.read_epub(epub_path)
-    title = book.get_metadata('DC', 'title')
-    title_str = title[0][0] if title else "Unknown Title"
-    author = book.get_metadata('DC', 'creator')
-    author_str = author[0][0] if author else "Unknown Author"
-    
+def extract_text_from_epub(book):
     texts = []
     for item in book.get_items():
         if item.get_type() == ebooklib.ITEM_DOCUMENT:
@@ -51,8 +48,7 @@ def extract_text_from_epub(epub_path):
             text = soup.get_text(separator='\n', strip=True)
             if text:
                 texts.append(text)
-                
-    return title_str, author_str, "\n".join(texts)
+    return "\n".join(texts)
 
 def get_match_status(query, choices, cutoff=0.8):
     if not query or not choices:
@@ -76,14 +72,73 @@ def main():
     os.makedirs(report_dir, exist_ok=True)
     
     db_hash_before = get_db_hash(db_path)
+    db_hash_after = db_hash_before
+    db_modified = False
     
-    epub_file = find_epub(str(input_dir))
-    if not epub_file:
-        print("No EPUB file found.")
-        return
+    epub_files = glob.glob(os.path.join(input_dir, "*.epub"))
+    
+    best_epub_path = None
+    best_epub_title = "Unknown"
+    best_epub_author = "Unknown"
+    best_book_obj = None
+    input_match_status = "no_match"
+    all_candidates_log = []
+    
+    for f in epub_files:
+        filename = os.path.basename(f).lower()
+        title, author, book = extract_metadata_from_epub(f)
+        t_lower = title.lower()
+        a_lower = author.lower()
         
-    print(f"Processing EPUB: {epub_file}")
-    title, author, text = extract_text_from_epub(epub_file)
+        all_candidates_log.append(f"Checked: {filename} (Title: {title}, Author: {author})")
+        
+        # Exact match logic
+        is_field_guide = "field guide to whisky" in filename or "field guide to whisky" in t_lower
+        is_hans = "hans offringa" in filename or "hans offringa" in a_lower or "offringa" in a_lower or "offringa" in filename
+        has_field_guide_keyword = "field guide" in filename or "field guide" in t_lower
+
+        if is_field_guide and is_hans:
+            best_epub_path = f
+            best_epub_title = title
+            best_epub_author = author
+            best_book_obj = book
+            input_match_status = "exact"
+            break
+        elif is_field_guide or is_hans or has_field_guide_keyword:
+            if input_match_status != "exact":
+                best_epub_path = f
+                best_epub_title = title
+                best_epub_author = author
+                best_book_obj = book
+                input_match_status = "probable"
+                
+    def write_early_report(gate_status):
+        report_file = report_dir / "14a_field_guide_reference_audit_report.md"
+        with open(report_file, "w", encoding="utf-8") as f:
+            f.write("# A Field Guide to Whisky Reference Audit Report\n\n")
+            f.write(f"- **Target Source:** A Field Guide to Whisky\n")
+            f.write(f"- **Selected EPUB Path:** {best_epub_path if best_epub_path else 'None'}\n")
+            f.write(f"- **EPUB Title:** {best_epub_title}\n")
+            f.write(f"- **Author:** {best_epub_author}\n")
+            f.write(f"- **Input Match Status:** {input_match_status}\n\n")
+            f.write("## Candidate Files Checked\n")
+            for log in all_candidates_log:
+                f.write(f"- {log}\n")
+            f.write(f"\n- **Gate:** {gate_status}\n")
+
+        gate_file = report_dir / "14a_field_guide_reference_audit_gate.txt"
+        with open(gate_file, "w", encoding="utf-8") as f:
+            f.write(f"{gate_status}\n")
+
+        print(f"Audit completed. Gate is {gate_status}. Production DB modified: False")
+                
+    if input_match_status == "no_match" or not best_book_obj:
+        write_early_report("NO_GO")
+        return
+
+    # Valid EPUB found, proceed
+    print(f"Processing EPUB: {best_epub_path} (Status: {input_match_status})")
+    text = extract_text_from_epub(best_book_obj)
     total_chars = len(text)
     
     # Load DB items
@@ -216,8 +271,11 @@ def main():
     report_file = report_dir / "14a_field_guide_reference_audit_report.md"
     with open(report_file, "w", encoding="utf-8") as f:
         f.write("# A Field Guide to Whisky Reference Audit Report\n\n")
-        f.write(f"- **EPUB Title:** {title}\n")
-        f.write(f"- **Author:** {author}\n")
+        f.write(f"- **Target Source:** A Field Guide to Whisky\n")
+        f.write(f"- **Selected EPUB Path:** {best_epub_path}\n")
+        f.write(f"- **EPUB Title:** {best_epub_title}\n")
+        f.write(f"- **Author:** {best_epub_author}\n")
+        f.write(f"- **Input Match Status:** {input_match_status}\n")
         f.write(f"- **Total Text Chars:** {total_chars}\n")
         f.write(f"- **Recommendation Count:** {len(recommendation_candidates)}\n")
         f.write(f"- **Distillery Region Count:** {len(distillery_candidates)}\n")
