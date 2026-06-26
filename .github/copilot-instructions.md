@@ -6,3 +6,4 @@
 - Kaldırılmış `/api/db/search`, `/api/db/stats`, `/api/db/filters` endpointlerini geri getirme.
 - DB/data işlerinde her zaman staging-first policy uygula.
 - Değişiklikleri tamamlarken test önerilerini unutma.
+- Absolute path yerine her zaman relative path kullan (`C:\Users\eltun\Documents\malt radar` vb. kullanma).

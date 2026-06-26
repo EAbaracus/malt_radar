@@ -21,6 +21,7 @@ Malt Radar is a project consisting of a Flutter frontend and a backend utilizing
    - `/api/db/filters`
 5. Repo içine gereksiz prompt dump, MCP config veya deneysel dosya ekleme.
 6. Değişiklikler küçük ve kontrollü olsun.
+7. Asla absolute path (`C:\Users\eltun\Documents\malt radar` gibi) kullanma, her zaman relative path kullan.
 
 ## Protected Files
 - `output/import/production.db`
