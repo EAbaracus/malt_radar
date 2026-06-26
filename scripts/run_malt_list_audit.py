@@ -1,8 +1,9 @@
+from pathlib import Path
 import os
 import pandas as pd
 import re
 
-WORKSPACE = r"C:\Users\eltun\Documents\malt radar"
+WORKSPACE = Path(__file__).resolve().parent.parent
 IN_DIR = os.path.join(WORKSPACE, "output", "malt_list", "rematch_final_master_fuzzy_v2")
 OUT_DIR = os.path.join(IN_DIR, "audit")
 os.makedirs(OUT_DIR, exist_ok=True)

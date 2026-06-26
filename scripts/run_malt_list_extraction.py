@@ -3,10 +3,11 @@ import re
 import pandas as pd
 import fitz  # PyMuPDF
 from thefuzz import fuzz, process
+from pathlib import Path
 
-PDF_PATH = r"C:\Users\eltun\Documents\malt radar\backend\data\The_Malt_List.pdf"
-DB_PATH = r"C:\Users\eltun\Documents\malt radar\backend\data\whisky_database_merged_max.csv"
-OUTPUT_DIR = r"C:\Users\eltun\Documents\malt radar\output\malt_list"
+PDF_PATH = str(Path(__file__).resolve().parent.parent / "backend" / "data" / "The_Malt_List.pdf")
+DB_PATH = str(Path(__file__).resolve().parent.parent / "backend" / "data" / "whisky_database_merged_max.csv")
+OUTPUT_DIR = str(Path(__file__).resolve().parent.parent / "output" / "malt_list")
 
 # Create output dir if not exists
 os.makedirs(OUTPUT_DIR, exist_ok=True)

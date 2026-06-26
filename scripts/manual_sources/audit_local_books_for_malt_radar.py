@@ -7,7 +7,7 @@ from collections import Counter, defaultdict
 from datetime import datetime
 
 BOOK_DIR = Path(r"C:\Users\eltun\Downloads\kitaplar")
-ROOT = Path(r"C:\Users\eltun\Documents\malt radar")
+ROOT = Path(__file__).resolve().parent.parent.parent
 
 OUT_DIR = ROOT / "data/manual_sources/books"
 REPORT_DIR = ROOT / "output/reports"

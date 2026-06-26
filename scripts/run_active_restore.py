@@ -1,3 +1,4 @@
+from pathlib import Path
 import os
 import shutil
 import csv
@@ -5,7 +6,7 @@ import re
 import datetime
 import pandas as pd
 
-WORKSPACE = r"C:\Users\eltun\Documents\malt radar"
+WORKSPACE = Path(__file__).resolve().parent.parent
 RECOVERED_DIR = os.path.join(WORKSPACE, "recovered_from_radiant_bardeen")
 OUTPUT_DIR = os.path.join(WORKSPACE, "output")
 SCRIPTS_DIR = os.path.join(WORKSPACE, "scripts")

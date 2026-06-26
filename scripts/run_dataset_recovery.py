@@ -1,3 +1,4 @@
+from pathlib import Path
 import os
 import glob
 import re
@@ -5,7 +6,7 @@ import csv
 import sqlite3
 import fnmatch
 
-BASE_DIR = r"C:\Users\eltun\Documents\malt radar"
+BASE_DIR = Path(__file__).resolve().parent.parent
 RECOVERY_DIR = os.path.join(BASE_DIR, "output", "recovery")
 os.makedirs(RECOVERY_DIR, exist_ok=True)
 

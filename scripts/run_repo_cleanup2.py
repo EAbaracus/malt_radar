@@ -1,8 +1,9 @@
+from pathlib import Path
 import os
 import subprocess
 import re
 
-WORKSPACE = r"C:\Users\eltun\Documents\malt radar"
+WORKSPACE = Path(__file__).resolve().parent.parent
 OUT_DIR = os.path.join(WORKSPACE, "output", "repo_cleanup")
 os.makedirs(OUT_DIR, exist_ok=True)
 

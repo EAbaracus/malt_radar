@@ -1,8 +1,9 @@
+from pathlib import Path
 import os
 import pandas as pd
 import json
 
-WORKSPACE = r"C:\Users\eltun\Documents\malt radar"
+WORKSPACE = Path(__file__).resolve().parent.parent
 OUT_DIR = os.path.join(WORKSPACE, "output", "phase4")
 os.makedirs(OUT_DIR, exist_ok=True)
 
