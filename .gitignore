@@ -81,3 +81,11 @@ CHANGELOG_FIXES.md
 
 # Local external source checkouts
 external_repos/
+
+# AI Data Safety Gates
+output/import/*.db
+output/import/*.sqlite
+output/import/*.sqlite3
+output/import/*.db-wal
+output/import/*.db-shm
+output/import/production_before_*.db

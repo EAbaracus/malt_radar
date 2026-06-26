@@ -1,60 +1,47 @@
-# Malt Radar Agent Instructions
+# Malt Radar AI Operating Instructions
 
-## Language and Style
-- Respond in Turkish.
-- Be concise, command-focused, and implementation-oriented.
-- Avoid long explanations unless explicitly requested.
-- Always include exact PowerShell / Flutter / git commands when recommending actions.
+## Project Overview
+Malt Radar is a project consisting of a Flutter frontend and a backend utilizing an SQLite database. These instructions govern how AI tools interact with the repository to ensure safety, token efficiency, and repo integrity.
 
-## Token-Lite Rules
-- Do not scan the whole repository unless explicitly requested.
-- Do not read large files fully.
-- For CSV/JSON/log files, use count/head/sample/stat commands.
-- For SQLite DB, use targeted SQL counts and readonly checks.
-- Start with:
-  - git status --short
-  - git diff --stat
-  - git diff --name-status
-- Read only files directly relevant to the task.
-- Avoid repeating project history in every response.
-- Summarize command outputs; do not paste full logs unless necessary.
-- Prefer small scoped stages over broad refactors.
+## AI Operating Mode
+- **Antigravity**: Ana writer'dır (Main writer agent).
+- **Proxima**: Sadece reviewer/researcher/helper'dır.
+- **Copilot**: Sadece inline küçük edit/test/boilerplate yardımcısıdır.
+- **Perplexity**: Sadece güncel research/source check içindir.
+- **Claude**: Sadece review/security/edge-case için kullanılır.
+- **Qwen/Ollama**: Sadece lokal özet/taslak/log analizi içindir.
 
-## File Scope Rules
-- In one task, prefer reading max 8 source files.
-- In one task, prefer modifying max 1-5 files.
-- If more files are needed, report first and ask for next stage.
-- Do not edit unrelated frontend/backend/data files.
+## Hard Rules
+1. `production.db`'ye asla yazma.
+2. `output/import/production.db` dosyasını değiştirme.
+3. `AppConfig.useDbApi=false` kalmalı.
+4. Şu endpointleri geri getirme:
+   - `/api/db/search`
+   - `/api/db/stats`
+   - `/api/db/filters`
+5. Repo içine gereksiz prompt dump, MCP config veya deneysel dosya ekleme.
+6. Değişiklikler küçük ve kontrollü olsun.
 
-## Malt Radar DB Safety
-- Treat output/import/production.db as protected.
-- Do not write to production.db unless the user explicitly asks.
-- Before any DB write:
-  - create backup
-  - compute SHA256
-  - run dry-run
-  - produce report and GO/NO-GO gate
-- staging_tasting_notes must pass QA before production apply.
-- License-risk data must stay staging/quarantine unless approved.
+## Protected Files
+- `output/import/production.db`
+- `AppConfig` configuration values related to `useDbApi`
 
-## Git Safety
-- Do not commit unless explicitly requested.
-- Do not push unless explicitly requested.
-- Do not delete untracked files unless explicitly requested.
-- Always show git status before and after changes.
+## DB/Data Policy
+- `production.db` explicit approval olmadan mutate edilemez.
+- DB/data işleri **staging-first** yapılır.
 
-## Report Format
-Use this short format:
-- Ne yaptım
+## API Contract Policy
+- Kaldırılan `/api/db/search`, `/api/db/stats`, `/api/db/filters` endpoint'leri geri getirilmeyecek.
+
+## Test Gates
+- `just status`, `just db-check`, `just frontend-gate`, `just backend-gate`, `just repo-check` komutlarıyla değişiklikler test edilir.
+
+## Final Report Format
+Her aşamada veya görevde rapor şunları içermelidir:
+- Ne yaptın?
 - Değişen dosyalar
 - Çalıştırılan komutlar
-- Test sonucu
-- GO / WARN_GO / NO-GO
-- Sonraki önerilen komut
-
-## Preferred Workflow
-1. Recon
-2. Preview / dry-run
-3. QA report
-4. Controlled apply only if approved
-5. Commit only if approved
+- Test sonuçları
+- Riskler
+- Sonraki önerilen aşama
+- GO/NO-GO
