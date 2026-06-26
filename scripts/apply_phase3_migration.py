@@ -1,8 +1,9 @@
+from pathlib import Path
 import os
 import sqlite3
 import pandas as pd
 
-WORKSPACE = r"C:\Users\eltun\Documents\malt radar"
+WORKSPACE = Path(__file__).resolve().parent.parent
 OUT_DIR = os.path.join(WORKSPACE, "output", "phase3")
 os.makedirs(OUT_DIR, exist_ok=True)
 

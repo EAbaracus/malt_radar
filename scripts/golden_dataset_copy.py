@@ -6,10 +6,11 @@ import sqlite3
 import re
 import glob
 import pandas as pd
+from pathlib import Path
 
 SOURCE_BASE = r"C:\Users\eltun\Documents\antigravity\radiant-bardeen"
-DEST_BASE = r"C:\Users\eltun\Documents\malt radar\recovered_from_radiant_bardeen"
-RECOVERY_DIR = r"C:\Users\eltun\Documents\malt radar\output\recovery"
+DEST_BASE = str(Path(__file__).resolve().parent.parent / "recovered_from_radiant_bardeen")
+RECOVERY_DIR = str(Path(__file__).resolve().parent.parent / "output" / "recovery")
 
 os.makedirs(DEST_BASE, exist_ok=True)
 os.makedirs(RECOVERY_DIR, exist_ok=True)

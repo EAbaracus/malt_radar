@@ -62,7 +62,7 @@ def get_match_status(query, choices, cutoff=0.8):
     return "NO_MATCH"
 
 def main():
-    base_dir = Path("c:/Users/eltun/Documents/malt radar")
+    base_dir = Path(__file__).resolve().parent.parent.parent
     input_dir = base_dir / "data/manual_sources/books/input"
     db_path = base_dir / "output/import/production.db"
     review_dir = base_dir / "data/manual_sources/books/review_csv"

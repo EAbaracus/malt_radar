@@ -4,6 +4,7 @@ import re
 import csv
 import fnmatch
 import pandas as pd
+from pathlib import Path
 
 search_roots = [
     r"C:\Users\eltun\Documents",
@@ -104,7 +105,7 @@ for root_dir in actual_roots:
 
 print(f"Search completed. Found {len(found_files)} candidate files.")
 
-OUT_DIR = r"C:\Users\eltun\Documents\malt radar\output\recovery"
+OUT_DIR = str(Path(__file__).resolve().parent.parent / "output" / "recovery")
 os.makedirs(OUT_DIR, exist_ok=True)
 
 # Generate CSV inventory

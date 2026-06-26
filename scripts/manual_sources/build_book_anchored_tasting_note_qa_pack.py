@@ -4,7 +4,7 @@ from pathlib import Path
 from datetime import datetime
 from collections import Counter, defaultdict
 
-ROOT = Path(r"C:\Users\eltun\Documents\malt radar")
+ROOT = Path(__file__).resolve().parent.parent.parent
 INPUT_CSV = ROOT / "data/manual_sources/books/review_csv/book_anchored_tasting_note_rescue_review.csv"
 
 OUT_QA_PACK = ROOT / "data/manual_sources/books/review_csv/book_anchored_tasting_note_qa_pack.csv"

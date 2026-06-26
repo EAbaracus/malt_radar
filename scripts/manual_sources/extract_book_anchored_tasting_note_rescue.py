@@ -6,7 +6,7 @@ from pathlib import Path
 from datetime import datetime
 from collections import Counter
 
-ROOT = Path(r"C:\Users\eltun\Documents\malt radar")
+ROOT = Path(__file__).resolve().parent.parent.parent
 BOOK_DIR = Path(r"C:\Users\eltun\Downloads\kitaplar")
 SCAN_CSV = ROOT / "data/manual_sources/books/book_relevance_scan.csv"
 DB_PATH = ROOT / "output/import/production.db"
