@@ -57,7 +57,8 @@ def main():
     # Preload DB state
     whiskies = {str(w['whisky_id']): dict(w) for w in cur.execute("SELECT * FROM whiskies").fetchall()}
     existing_tns = {str(t['whisky_id']) for t in cur.execute("SELECT whisky_id FROM tasting_notes").fetchall()}
-    before_tn_count = len(existing_tns)
+    before_coverage_count = len(existing_tns)
+    before_row_count = cur.execute("SELECT COUNT(*) FROM tasting_notes").fetchone()[0]
 
     dry_run_results = []
     metrics = {
@@ -129,7 +130,10 @@ def main():
                 'reason': 'Success'
             })
 
-        after_tn_count = cur.execute("SELECT COUNT(*) FROM tasting_notes").fetchone()[0]
+        after_row_count = cur.execute("SELECT COUNT(*) FROM tasting_notes").fetchone()[0]
+        after_tns = {str(t['whisky_id']) for t in cur.execute("SELECT whisky_id FROM tasting_notes").fetchall()}
+        after_coverage_count = len(after_tns)
+
         integrity = cur.execute("PRAGMA integrity_check").fetchone()
         integrity_status = integrity[0] if integrity else "Failed"
 
@@ -146,7 +150,8 @@ def main():
         cur.execute("ROLLBACK;")
         print(f"Error during dry-run simulation: {e}")
         metrics['inserted'] = 0
-        after_tn_count = before_tn_count
+        after_row_count = before_row_count
+        after_coverage_count = before_coverage_count
         integrity_status = "Failed (Rollback)"
         
     conn.close()
@@ -176,12 +181,14 @@ def main():
     report.append(f"- Planned Candidates: {metrics['planned']}")
     report.append(f"- Inserted on Copy: {metrics['inserted']}")
     report.append(f"- Failed on Copy: {metrics['failed']}")
-    report.append(f"- Tasting Notes Before: {before_tn_count}")
-    report.append(f"- Tasting Notes After: {after_tn_count}")
+    report.append(f"- Tasting Notes Rows Before: {before_row_count}")
+    report.append(f"- Tasting Notes Rows After: {after_row_count}")
+    report.append(f"- Whiskies With Tasting Notes Before: {before_coverage_count}")
+    report.append(f"- Whiskies With Tasting Notes After: {after_coverage_count}")
     
     total_whiskies = len(whiskies)
-    before_cov = (before_tn_count / total_whiskies * 100) if total_whiskies else 0
-    after_cov = (after_tn_count / total_whiskies * 100) if total_whiskies else 0
+    before_cov = (before_coverage_count / total_whiskies * 100) if total_whiskies else 0
+    after_cov = (after_coverage_count / total_whiskies * 100) if total_whiskies else 0
     report.append(f"- Coverage Before: {before_cov:.2f}%")
     report.append(f"- Coverage After: {after_cov:.2f}%")
     report.append(f"- Expected Coverage Gain: +{after_cov - before_cov:.2f}%")
