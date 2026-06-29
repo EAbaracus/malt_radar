@@ -77,7 +77,8 @@ def main():
     # Preload DB state
     whiskies = {str(w['whisky_id']): dict(w) for w in cur.execute("SELECT * FROM whiskies").fetchall()}
     existing_tns = {str(t['whisky_id']) for t in cur.execute("SELECT whisky_id FROM tasting_notes").fetchall()}
-    before_tn_count = len(existing_tns)
+    before_coverage_count = len(existing_tns)
+    before_row_count = cur.execute("SELECT COUNT(*) FROM tasting_notes").fetchone()[0]
 
     metrics = {
         'planned': len(candidates),
@@ -132,7 +133,10 @@ def main():
                 metrics['inserted'] += 1
 
         if not is_dry_run:
-            after_tn_count = cur.execute("SELECT COUNT(*) FROM tasting_notes").fetchone()[0]
+            after_row_count = cur.execute("SELECT COUNT(*) FROM tasting_notes").fetchone()[0]
+            after_tns = {str(t['whisky_id']) for t in cur.execute("SELECT whisky_id FROM tasting_notes").fetchall()}
+            after_coverage_count = len(after_tns)
+
             integrity = cur.execute("PRAGMA integrity_check").fetchone()
             if integrity and integrity[0].lower() == 'ok':
                 integrity_status = "Passed"
@@ -142,22 +146,24 @@ def main():
 
             if metrics['inserted'] != metrics['planned']:
                 raise Exception(f"Expected {metrics['planned']} inserts, got {metrics['inserted']}.")
-            if after_tn_count != before_tn_count + metrics['inserted']:
-                raise Exception(f"Expected final count {before_tn_count + metrics['inserted']}, got {after_tn_count}.")
+            if after_row_count != before_row_count + metrics['inserted']:
+                raise Exception(f"Expected final row count {before_row_count + metrics['inserted']}, got {after_row_count}.")
             
             cur.execute("COMMIT;")
             print("Transaction committed successfully.")
         else:
             cur.execute("ROLLBACK;")
             print("Dry run completed. Transaction rolled back.")
-            after_tn_count = before_tn_count
+            after_row_count = before_row_count
+            after_coverage_count = before_coverage_count
             
     except Exception as e:
         execution_status = f"Failed: {str(e)}"
         print(f"Error during execution: {e}")
         cur.execute("ROLLBACK;")
         print("Transaction rolled back due to error.")
-        after_tn_count = before_tn_count
+        after_row_count = before_row_count
+        after_coverage_count = before_coverage_count
 
     conn.close()
 
@@ -193,11 +199,13 @@ def main():
     report.append(f"- Inserted Rows: {metrics['inserted']}")
     report.append(f"- Failed Rows: {metrics['failed']}")
     if not is_dry_run:
-        report.append(f"- Tasting Notes Before: {before_tn_count}")
-        report.append(f"- Tasting Notes After: {after_tn_count}")
+        report.append(f"- Tasting Notes Rows Before: {before_row_count}")
+        report.append(f"- Tasting Notes Rows After: {after_row_count}")
+        report.append(f"- Whiskies With Tasting Notes Before: {before_coverage_count}")
+        report.append(f"- Whiskies With Tasting Notes After: {after_coverage_count}")
         total_whiskies = len(whiskies)
-        before_cov = (before_tn_count / total_whiskies * 100) if total_whiskies else 0
-        after_cov = (after_tn_count / total_whiskies * 100) if total_whiskies else 0
+        before_cov = (before_coverage_count / total_whiskies * 100) if total_whiskies else 0
+        after_cov = (after_coverage_count / total_whiskies * 100) if total_whiskies else 0
         report.append(f"- Expected Coverage Gain: +{after_cov - before_cov:.2f}%")
         report.append(f"- Integrity Check Status: {integrity_status}")
 
