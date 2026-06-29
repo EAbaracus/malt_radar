@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+echo "Running pre-commit gates..."
+
+if command -v pwsh &> /dev/null; then
+    PWSH_CMD="pwsh"
+elif command -v powershell &> /dev/null; then
+    PWSH_CMD="powershell"
+else
+    echo "PowerShell not found. Bypassing gates."
+    exit 0
+fi
+
+$PWSH_CMD -ExecutionPolicy Bypass -File scripts/gates/run_all_gates.ps1
+EXIT_CODE=$?
+
+if [ $EXIT_CODE -ne 0 ]; then
+    echo "Commit BLOCKED by gates."
+    exit 1
+fi
+exit 0

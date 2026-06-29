@@ -1,0 +1,25 @@
+name: Repo Gates
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  gates:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Repo State Check
+        run: powershell -ExecutionPolicy Bypass -File scripts/gates/check_repo_state.ps1
+
+      - name: Run DB Mutation Guard
+        run: powershell -ExecutionPolicy Bypass -File scripts/gates/check_db_mutation.ps1
+
+      - name: Git diff check
+        run: git diff --check
