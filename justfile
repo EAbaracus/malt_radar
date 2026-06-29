@@ -24,3 +24,9 @@ gate:
     just frontend-gate
     just backend-gate
     just diff
+
+gates:
+    powershell -ExecutionPolicy Bypass -File scripts/gates/run_all_gates.ps1
+
+install-hooks:
+    powershell -ExecutionPolicy Bypass -File scripts/setup/install_git_hooks.ps1

@@ -46,3 +46,10 @@ Her aşamada veya görevde rapor şunları içermelidir:
 - Riskler
 - Sonraki önerilen aşama
 - GO/NO-GO
+
+## Task Lifecycle
+Bir görevin (task) yürütülmesi sırasında ajanların takip etmesi gereken yaşam döngüsü şudur:
+- **Before edit**: Değiştirilecek dosyaların durumunu, DB koruma kurallarını ve task gereksinimlerini oku.
+- **After edit**: Yapılan değişikliğin kurallara uygunluğunu test et (`just gates`).
+- **Before commit**: DB mutation guard ve tüm gate'leri çalıştır, hookların pass geçeceğinden emin ol.
+- **Before push**: Remote state'i kontrol et, public/private exposure risklerini gözden geçir.
