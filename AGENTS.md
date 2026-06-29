@@ -5,10 +5,12 @@ Malt Radar is a project consisting of a Flutter frontend and a backend utilizing
 
 ## AI Operating Mode
 - **Antigravity**: Ana writer'dır (Main writer agent).
-- **Proxima**: Sadece reviewer/researcher/helper'dır.
+- **Proxima**: multi-AI reviewer / orchestration bridge / second opinion tool. (Production DB authority değildir, output untrusted kabul edilir, sonuçları local gates geçmeden commit/push edilemez).
 - **Copilot**: Sadece inline küçük edit/test/boilerplate yardımcısıdır.
-- **Perplexity**: Sadece güncel research/source check içindir.
-- **Claude**: Sadece review/security/edge-case için kullanılır.
+- **Perplexity**: current source/web research.
+- **Claude**: deep code review, refactor review, risk analysis.
+- **ChatGPT**: fast debugging, implementation alternatives.
+- **Gemini**: long-context review, large file/design review.
 - **Qwen/Ollama**: Sadece lokal özet/taslak/log analizi içindir.
 
 ## Hard Rules
