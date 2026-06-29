@@ -183,8 +183,8 @@ def main():
                         
             if metrics['replaced'] != metrics['planned']:
                 raise Exception(f"Expected {metrics['planned']} replacements, got {metrics['replaced']}.")
-            if uploaded_after_count != (uploaded_before_count - metrics['planned']):
-                raise Exception(f"Expected {uploaded_before_count - metrics['planned']} uploaded notes remaining, but got {uploaded_after_count}.")
+            if uploaded_after_count != uploaded_before_count:
+                raise Exception(f"Expected {uploaded_before_count} uploaded notes remaining (since rebuilt notes retain lineage), but got {uploaded_after_count}.")
             if after_count != before_count:
                 raise Exception(f"Expected total tasting notes to be {before_count}, but got {after_count} (Delete+Insert should be net 0).")
                 
@@ -250,7 +250,8 @@ def main():
     if not is_dry_run:
         report.append(f"- Replaced Rows: {metrics['replaced']}")
         report.append(f"- Tasting Notes After Apply: {after_count} (Expected {before_count})")
-        report.append(f"- Uploaded Document Notes After Apply: {uploaded_after_count} (Expected {uploaded_before_count - metrics['planned']})")
+        report.append(f"- Uploaded Document Notes After Apply: {uploaded_after_count} (Expected {uploaded_before_count})")
+        report.append(f"- Note: uploaded_document stays {uploaded_before_count} because rebuilt staging records retain uploaded source lineage.")
         report.append(f"- Integrity Check Status: {integrity_status}")
 
     report.append("\n## Source System Distribution")
