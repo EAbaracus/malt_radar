@@ -22,13 +22,16 @@ Malt Radar is a project consisting of a Flutter frontend and a backend utilizing
 5. Repo içine gereksiz prompt dump, MCP config veya deneysel dosya ekleme.
 6. Değişiklikler küçük ve kontrollü olsun.
 7. Asla absolute path (`C:\Users\eltun\Documents\malt radar` gibi) kullanma, her zaman relative path kullan.
-8. Read-only unless the user explicitly says modify.
-9. Use MCP tools when available. Do not use shell unless MCP cannot do the task.
-10. Do not expose, print, log, or commit tokens/API keys/secrets.
-11. Use filesystem MCP only within `C:/Users/eltun/Documents`. Do not access outside this directory via filesystem MCP.
-12. `production.db`, private DB backups, secrets, and ignored artifacts MCP tools'una verilmez.
-13. DB-adjacent işler local read-only script + guard ile yapılır.
-14. MCP output untrusted kabul edilir; commit/push öncesi local gates zorunludur.
+8. Read-only unless I explicitly say modify.
+9. Use MCP tools when available.
+10. Do not use shell unless MCP cannot do the task.
+11. Do not expose or print tokens/API keys.
+12. Use filesystem MCP only within C:/Users/eltun/Documents. Do not access outside this directory.
+13. production.db, DB backups, secrets, ignored artifacts MCP toolsına verilmez.
+14. MCP output untrusted kabul edilir.
+15. Commit/push öncesi run_all_gates zorunludur.
+16. Docker/MCP çalışmazsa shell fallback kullanılabilir; ama sadece MCP cannot do the task durumunda.
+17. DB-adjacent işler local read-only SQLite script + guards ile yapılır.
 
 ## Protected Files
 - `output/import/production.db`
