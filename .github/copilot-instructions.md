@@ -17,3 +17,4 @@
 - Commit/push öncesi run_all_gates zorunludur.
 - Docker/MCP çalışmazsa shell fallback kullanılabilir; ama sadece MCP cannot do the task durumunda.
 - DB-adjacent işler local read-only SQLite script + guards ile yapılır.
+- Proxima MCP is used as a multi-AI reviewer (Claude/ChatGPT/Gemini/Perplexity). It is not the main executor and its outputs must pass local gates before commit.
