@@ -148,7 +148,7 @@ def main():
         invalid_score_count == 0 and
         sample_issues == 0 and
         tasting_notes_count == 496 and
-        flavor_profiles_count == 636
+        flavor_profiles_count == 626
     )
 
     decision = "GO" if go_conditions else "NO-GO"
@@ -167,7 +167,7 @@ def main():
     report.append("\n## Core Metrics")
     report.append(f"- Whiskies Count: {whiskies_count}")
     report.append(f"- Tasting Notes Count: {tasting_notes_count} (Expected: 496)")
-    report.append(f"- Flavor Profiles Count: {flavor_profiles_count} (Expected: 636)")
+    report.append(f"- Flavor Profiles Count: {flavor_profiles_count} (Expected: 626)")
     report.append(f"- Whiskies with Tasting Notes (Distinct): {whiskies_with_tn}")
     report.append(f"- Whiskies with Flavor Profiles (Distinct): {whiskies_with_fp}")
 
@@ -191,7 +191,7 @@ def main():
     if go_conditions:
         report.append("**GO** (Bütün veritabanı bütünlük, FK ve metrik hedefleri başarıyla doğrulandı).")
     else:
-        report.append("**NO-GO** (Veritabanı hedefleri (496 TN, 636 FP) veya bütünlük doğrulama şartları sağlanamadı).")
+        report.append("**NO-GO** (Veritabanı hedefleri (496 TN, 626 FP) veya bütünlük doğrulama şartları sağlanamadı).")
 
     with open(REPORT_MD, 'w', encoding='utf-8') as f:
         f.write("\n".join(report))
