@@ -85,21 +85,37 @@ def main():
     before_fp_rows = cur.execute("SELECT COUNT(*) FROM flavor_profiles").fetchone()[0]
     before_fp_coverage = len({str(f['whisky_id']) for f in cur.execute("SELECT whisky_id FROM flavor_profiles").fetchall()})
 
+    # Deduplicate flavor profile candidates by whisky_id
+    fp_candidates = {}
+    intra_batch_dedup_count = 0
+    for c in candidates:
+        action = c.get('qa_action')
+        if action in ['import_flavor_profile', 'import_both']:
+            wid = str(c.get('whisky_id'))
+            if wid not in fp_candidates:
+                fp_candidates[wid] = c
+            else:
+                intra_batch_dedup_count += 1
+                old_conf = float(fp_candidates[wid].get('extraction_confidence', '0.0'))
+                new_conf = float(c.get('extraction_confidence', '0.0'))
+
+                def count_signals(cand):
+                    axes = ['smoky', 'peaty', 'sherry', 'fruity', 'spicy', 'sweet', 'rich']
+                    return sum(1 for axis in axes if float(cand.get(f'radar_{axis}', '0.0')) > 0.0)
+
+                if new_conf > old_conf:
+                    fp_candidates[wid] = c
+                elif new_conf == old_conf:
+                    if count_signals(c) > count_signals(fp_candidates[wid]):
+                        fp_candidates[wid] = c
+
     metrics = {
-        'planned_tn': 0,
-        'planned_fp': 0,
+        'planned_tn': sum(1 for c in candidates if c.get('qa_action') in ['import_tasting_note', 'import_both']),
+        'planned_fp': len(fp_candidates),
         'inserted_tn': 0,
         'inserted_fp': 0,
         'failed': 0
     }
-    
-    # Count planned
-    for c in candidates:
-        action = c.get('qa_action')
-        if action in ['import_tasting_note', 'import_both']:
-            metrics['planned_tn'] += 1
-        if action in ['import_flavor_profile', 'import_both']:
-            metrics['planned_fp'] += 1
 
     execution_status = "Success"
     integrity_status = "Skipped"
@@ -151,27 +167,28 @@ def main():
 
             # Insert Flavor Profile
             if action in ['import_flavor_profile', 'import_both'] and not is_dry_run:
-                axes = ['smoky', 'peaty', 'sherry', 'fruity', 'spicy', 'sweet', 'rich']
-                fp_dict = {}
-                vector = []
-                for axis in axes:
-                    val = float(c.get(f'radar_{axis}', '0.0'))
-                    fp_dict[axis] = round(val * 10, 1)  # Scale to 0.0 - 10.0
-                    vector.append(round(val, 2))
-                
-                fp_json = json.dumps(fp_dict)
-                fv_json = json.dumps(vector)
+                if c == fp_candidates[wid]:
+                    axes = ['smoky', 'peaty', 'sherry', 'fruity', 'spicy', 'sweet', 'rich']
+                    fp_dict = {}
+                    vector = []
+                    for axis in axes:
+                        val = float(c.get(f'radar_{axis}', '0.0'))
+                        fp_dict[axis] = round(val * 10, 1)  # Scale to 0.0 - 10.0
+                        vector.append(round(val, 2))
 
-                cur.execute("""
-                    INSERT INTO flavor_profiles (
-                        whisky_id, flavor_profile, flavor_vector
-                    ) VALUES (?, ?, ?)
-                """, (
-                    wid,
-                    fp_json,
-                    fv_json
-                ))
-                metrics['inserted_fp'] += 1
+                    fp_json = json.dumps(fp_dict)
+                    fv_json = json.dumps(vector)
+
+                    cur.execute("""
+                        INSERT INTO flavor_profiles (
+                            whisky_id, flavor_profile, flavor_vector
+                        ) VALUES (?, ?, ?)
+                    """, (
+                        wid,
+                        fp_json,
+                        fv_json
+                    ))
+                    metrics['inserted_fp'] += 1
 
         if not is_dry_run:
             after_tn_rows = cur.execute("SELECT COUNT(*) FROM tasting_notes").fetchone()[0]
@@ -251,6 +268,7 @@ def main():
     report.append(f"- Inserted Tasting Notes: {metrics['inserted_tn']}")
     report.append(f"- Planned Flavor Profiles: {metrics['planned_fp']}")
     report.append(f"- Inserted Flavor Profiles: {metrics['inserted_fp']}")
+    report.append(f"- Intra-Batch Deduplicated Flavor Profiles: {intra_batch_dedup_count}")
     report.append(f"- Failed Rows: {metrics['failed']}")
     
     if not is_dry_run:
