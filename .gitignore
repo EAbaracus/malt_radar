@@ -89,5 +89,3 @@ output/import/*.sqlite3
 output/import/*.db-wal
 output/import/*.db-shm
 output/import/production_before_*.db
-
-scripts/retail_sources/
