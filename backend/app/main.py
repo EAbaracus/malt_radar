@@ -169,6 +169,9 @@ async def get_whisky_details(request: Request, external_id: str, api_key: str = 
 @app.get("/api/whiskies/{external_id}/prices", response_model=List[WhiskyPriceItem])
 @limiter.limit("60/minute")
 async def get_whisky_prices(request: Request, external_id: str, api_key: str = Depends(verify_api_key)):
+    if os.getenv("SHOW_PRICE_DATA", "false").lower() != "true":
+        return []
+        
     target_provider = get_provider(external_id)
     if not target_provider:
         raise HTTPException(status_code=400, detail="Invalid external ID format")
