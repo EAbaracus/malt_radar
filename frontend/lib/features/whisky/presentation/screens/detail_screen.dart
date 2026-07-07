@@ -7,7 +7,7 @@ import '../../../../core/localization/localization_provider.dart';
 import '../widgets/glass_container.dart';
 import '../../../flavor/presentation/widgets/flavor_radar_chart.dart';
 import '../../../flavor/presentation/widgets/similar_flavor_whiskies.dart';
-
+import '../../../../core/config/app_config.dart';
 import 'package:malt_radar/features/lists/presentation/widgets/add_to_list_sheet.dart';
 import 'package:malt_radar/features/lists/presentation/controllers/user_lists_providers.dart';
 import 'package:malt_radar/core/localization/flavor_tag_translator.dart';
@@ -550,124 +550,126 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                         ],
                         const SizedBox(height: 36),
 
-                        // Prices
-                        SectionHeader(
-                          title: tr('price_info'),
-                          icon: Icons.sell,
-                        ),
-                        const SizedBox(height: 16),
-                        _isLoadingPrices
-                            ? const Center(
-                                child: CircularProgressIndicator(
-                                  color: AppTheme.primary,
-                                ),
-                              )
-                            : GlassContainer(
-                                padding: const EdgeInsets.all(16),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    if (_prices.isEmpty)
-                                      Text(
-                                        tr('no_price_record'),
-                                        style: const TextStyle(
-                                          color: AppTheme.textMuted,
-                                        ),
-                                      )
-                                    else
-                                      ..._prices.map((priceItem) {
-                                        final isManual =
-                                            priceItem['is_manual'] as bool? ??
-                                            false;
-                                        return Container(
-                                          margin: const EdgeInsets.only(
-                                            bottom: 8,
+                        if (AppConfig.showPriceData) ...[
+                          // Prices
+                          SectionHeader(
+                            title: tr('price_info'),
+                            icon: Icons.sell,
+                          ),
+                          const SizedBox(height: 16),
+                          _isLoadingPrices
+                              ? const Center(
+                                  child: CircularProgressIndicator(
+                                    color: AppTheme.primary,
+                                  ),
+                                )
+                              : GlassContainer(
+                                  padding: const EdgeInsets.all(16),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      if (_prices.isEmpty)
+                                        Text(
+                                          tr('no_price_record'),
+                                          style: const TextStyle(
+                                            color: AppTheme.textMuted,
                                           ),
-                                          padding: const EdgeInsets.all(12),
-                                          decoration: BoxDecoration(
-                                            color: Colors.white.withValues(
-                                              alpha: 0.05,
+                                        )
+                                      else
+                                        ..._prices.map((priceItem) {
+                                          final isManual =
+                                              priceItem['is_manual'] as bool? ??
+                                              false;
+                                          return Container(
+                                            margin: const EdgeInsets.only(
+                                              bottom: 8,
                                             ),
-                                            borderRadius: BorderRadius.circular(
-                                              12,
+                                            padding: const EdgeInsets.all(12),
+                                            decoration: BoxDecoration(
+                                              color: Colors.white.withValues(
+                                                alpha: 0.05,
+                                              ),
+                                              borderRadius: BorderRadius.circular(
+                                                12,
+                                              ),
                                             ),
-                                          ),
-                                          child: Row(
-                                            children: [
-                                              Icon(
-                                                isManual
-                                                    ? Icons.edit
-                                                    : Icons.sync,
-                                                color: isManual
-                                                    ? AppTheme.accent
-                                                    : AppTheme.primary,
-                                                size: 20,
-                                              ),
-                                              const SizedBox(width: 12),
-                                              Expanded(
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      '${priceItem['price']} ${priceItem['currency']}',
-                                                      style: const TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: AppTheme
-                                                            .textPrimary,
-                                                        fontSize: 16,
-                                                      ),
-                                                    ),
-                                                    const SizedBox(height: 2),
-                                                    Text(
-                                                      '${tr('price_source')}: ${priceItem['source_name']} (${priceItem['country']})',
-                                                      style: const TextStyle(
-                                                        fontSize: 12,
-                                                        color: AppTheme
-                                                            .textSecondary,
-                                                      ),
-                                                    ),
-                                                  ],
+                                            child: Row(
+                                              children: [
+                                                Icon(
+                                                  isManual
+                                                      ? Icons.edit
+                                                      : Icons.sync,
+                                                  color: isManual
+                                                      ? AppTheme.accent
+                                                      : AppTheme.primary,
+                                                  size: 20,
                                                 ),
-                                              ),
-                                              Text(
-                                                priceItem['fetched_at']
-                                                    .toString()
-                                                    .split('T')[0],
-                                                style: const TextStyle(
-                                                  color: AppTheme.textMuted,
-                                                  fontSize: 11,
+                                                const SizedBox(width: 12),
+                                                Expanded(
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        '${priceItem['price']} ${priceItem['currency']}',
+                                                        style: const TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: AppTheme
+                                                              .textPrimary,
+                                                          fontSize: 16,
+                                                        ),
+                                                      ),
+                                                      const SizedBox(height: 2),
+                                                      Text(
+                                                        '${tr('price_source')}: ${priceItem['source_name']} (${priceItem['country']})',
+                                                        style: const TextStyle(
+                                                          fontSize: 12,
+                                                          color: AppTheme
+                                                              .textSecondary,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
+                                                Text(
+                                                  priceItem['fetched_at']
+                                                      .toString()
+                                                      .split('T')[0],
+                                                  style: const TextStyle(
+                                                    color: AppTheme.textMuted,
+                                                    fontSize: 11,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        }),
+                                      const SizedBox(height: 12),
+                                      SizedBox(
+                                        width: double.infinity,
+                                        child: OutlinedButton.icon(
+                                          onPressed: _showAddPriceDialog,
+                                          icon: const Icon(Icons.add),
+                                          label: Text(tr('add_price_record')),
+                                          style: OutlinedButton.styleFrom(
+                                            foregroundColor: AppTheme.primary,
+                                            side: const BorderSide(
+                                              color: AppTheme.primary,
+                                            ),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(
+                                                12,
                                               ),
-                                            ],
-                                          ),
-                                        );
-                                      }),
-                                    const SizedBox(height: 12),
-                                    SizedBox(
-                                      width: double.infinity,
-                                      child: OutlinedButton.icon(
-                                        onPressed: _showAddPriceDialog,
-                                        icon: const Icon(Icons.add),
-                                        label: Text(tr('add_price_record')),
-                                        style: OutlinedButton.styleFrom(
-                                          foregroundColor: AppTheme.primary,
-                                          side: const BorderSide(
-                                            color: AppTheme.primary,
-                                          ),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                              12,
                                             ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                        const SizedBox(height: 36),
+                          const SizedBox(height: 36),
+                        ],
 
                         // Evaluation
                         SectionHeader(
