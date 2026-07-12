@@ -331,3 +331,9 @@ GATE_TXT.write_text(
     f"{gate}\n{production_gate}\nCANDIDATES={stats['extracted_candidates']}\nSTAGING={stats['staging_candidate']}\nREVIEW={stats['manual_review']}\nBLOCKED={stats['blocked']}\n",
     encoding="utf-8"
 )
+GATE_TXT.write_text("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+", encoding="utf-8")

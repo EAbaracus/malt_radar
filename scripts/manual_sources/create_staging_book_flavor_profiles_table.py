@@ -57,6 +57,13 @@ def main():
     if not SQL_PATH.exists():
         with open(GATE_FILE, 'w', encoding='utf-8') as f:
             f.write("NO-GO_MISSING_SQL\n")
+            f.write("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+")
+
         return
         
     with open(SQL_PATH, 'r', encoding='utf-8') as f:

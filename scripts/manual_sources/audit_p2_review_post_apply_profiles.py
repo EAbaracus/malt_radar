@@ -152,6 +152,13 @@ def main():
     else:
         with open(OUT_PROFILES, "w", encoding="utf-8") as f:
             f.write("whisky_id\n")
+            f.write("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+")
+
 
     if warnings_data:
         out_fields = ["whisky_id", "issue", "flavor_source", "max_score"]

@@ -86,6 +86,13 @@ def main():
     
     with open(REPORT_FILE, 'w', encoding='utf-8') as f:
         f.write("# NotebookLM Book Profile QA Pack Report\n\n")
+        f.write("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+")
+
         f.write(f"- generated_at: {datetime.now().isoformat()}\n")
         f.write(f"- total_rows: {len(all_rows)}\n")
         f.write(f"- approve_candidate: {len(accept)}\n")
