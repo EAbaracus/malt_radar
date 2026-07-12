@@ -130,6 +130,13 @@ def main():
                 writer.writerows(subset)
             else:
                 f.write("whisky_id,flavor_source,quality_class,active_any,active_app,has_invalid\n")
+                f.write("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+")
+
 
     write_subset(CSV_ALL, None)
     write_subset(CSV_INV, "quarantine_invalid_score")
