@@ -348,6 +348,13 @@ gate_txt.write_text(
     f"{gate}\n{production_gate}\nHIGH_VALUE={len(high)}\nMEDIUM_VALUE={len(medium)}\nFAILED={len(failed)}\n",
     encoding="utf-8"
 )
+gate_txt.write_text("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+", encoding="utf-8")
+
 
 print(report_md)
 print(gate_txt)

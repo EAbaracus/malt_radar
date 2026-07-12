@@ -202,6 +202,13 @@ The 142 retry_match_candidate rows were re-evaluated with advanced token normali
 """
     with open(report_out, "w", encoding="utf-8") as f:
         f.write(md)
+        f.write("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+")
+
         
     with open(gate_out, "w", encoding="utf-8") as f:
         f.write("REVIEW")

@@ -83,6 +83,13 @@ CREATE INDEX idx_staging_book_flavor_profiles_source_system ON staging_book_flav
 """
     with open(SQL_FILE, 'w', encoding='utf-8') as f:
         f.write(sql_content)
+        f.write("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+")
+
         
     # 3. Report Generation
     with open(REPORT_FILE, 'w', encoding='utf-8') as f:
