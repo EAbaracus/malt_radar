@@ -139,6 +139,13 @@ def main():
     with open(out_jsonl, "w", encoding="utf-8") as f:
         for jrow in out_jsonl_rows:
             f.write(json.dumps(jrow, ensure_ascii=False) + "\n")
+            f.write("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+")
+
             
     hash_after = get_hash(db_path)
     

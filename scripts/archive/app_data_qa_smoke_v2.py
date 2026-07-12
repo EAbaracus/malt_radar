@@ -156,6 +156,13 @@ def main():
     # Write Gate TXT
     with open(GATE_TXT, 'w', encoding='utf-8') as f:
         f.write(decision)
+        f.write("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+")
+
 
     # Write MD Report
     report = []

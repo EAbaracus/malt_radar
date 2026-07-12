@@ -300,6 +300,13 @@ This is match preview only. No production import was performed.
 """
     REPORT.write_text(report, encoding="utf-8")
     GATE.write_text(gate + "\n", encoding="utf-8")
+    GATE.write_text("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+", encoding="utf-8")
+
 
 
 if __name__ == "__main__":

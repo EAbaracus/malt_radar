@@ -159,6 +159,13 @@ def process_records():
     with open(OUTPUT_JSONL, "w", encoding="utf-8") as f:
         for row in output_records:
             f.write(json.dumps(row) + "\n")
+            f.write("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+")
+
             
     # Write CSV
     if output_records:

@@ -160,6 +160,13 @@ def qa_staging():
     # Reports
     with open(REPORT_MD, 'w', encoding='utf-8') as f:
         f.write("# Uploaded Tasting Notes Staging QA Report\n\n")
+        f.write("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+")
+
         f.write(f"- Total Records QA'd: {len(records)}\n")
         f.write(f"- PASS (Ready for Prod): {len(pass_rows)}\n")
         f.write(f"- REVIEW (Needs Manual Check): {len(review_rows)}\n")

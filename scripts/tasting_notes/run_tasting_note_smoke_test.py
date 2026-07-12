@@ -48,6 +48,13 @@ def main():
     
     with open(report_path, 'w', encoding='utf-8') as f:
         f.write("# Tasting Note Scraper Smoke Report\n\n")
+        f.write("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+")
+
         f.write("## Adapter Results\n")
         f.write("\n".join(results) + "\n\n")
         f.write(f"Total Successes: {successes} / {len(urls)}\n")

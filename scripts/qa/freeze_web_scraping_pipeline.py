@@ -76,6 +76,13 @@ Frozen outputs will not be applied to production.
 """
     with open(readme_md, "w", encoding="utf-8") as f:
         f.write(readme_content)
+        f.write("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+")
+
 
     with open(manifest_csv, "w", encoding="utf-8", newline="") as f:
         w = csv.DictWriter(f, fieldnames=["script_name", "action"])

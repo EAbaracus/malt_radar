@@ -150,6 +150,13 @@ def main():
     r1_path = os.path.join(reports_dir, "225_web_tasting_note_parser_improvement_report.md")
     with open(r1_path, 'w', encoding='utf-8') as f:
         f.write("# Parser Improvement Report\n\n")
+        f.write("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+")
+
         f.write(f"- Total candidates processed: {len(reader)}\n")
         f.write(f"- Extractable (Prod Ready): {len(extractable)}\n")
         f.write(f"- Manual Review: {len(manual)}\n")

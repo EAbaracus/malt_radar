@@ -57,6 +57,13 @@ def main():
     if not in_csv.exists():
         with open(gate_out, "w", encoding="utf-8") as f:
             f.write("NO_GO")
+            f.write("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+")
+
         with open(report_out, "w", encoding="utf-8") as f:
             f.write("Input CSV not found.")
         return

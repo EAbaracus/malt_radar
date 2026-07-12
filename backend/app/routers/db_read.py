@@ -69,5 +69,7 @@ def get_tasting_notes(id: str, adapter: SqliteReadAdapter = Depends(get_adapter)
 
 @router.get("/whiskies/{id}/price-history")
 def get_price_history(id: str, adapter: SqliteReadAdapter = Depends(get_adapter)):
+    if os.getenv("SHOW_PRICE_DATA", "false").lower() != "true":
+        return []
     # Returns empty list if not found
     return adapter.get_price_history(id)

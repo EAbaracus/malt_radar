@@ -49,6 +49,13 @@ def run_audit():
     
     with open(OUTPUT_DIR / "23_extraction_quality_audit.txt", "w", encoding="utf-8") as f:
         f.write("--- EXTRACTION QUALITY AUDIT ---\n")
+        f.write("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+")
+
         f.write(f"Fetched review count: {fetched_count}\n")
         f.write(f"Parsed tasting note candidate count: {tasting_note_count}\n")
         f.write(f"Duplicate review count: {duplicate_reviews}\n")

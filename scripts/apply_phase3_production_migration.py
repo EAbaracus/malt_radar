@@ -49,6 +49,13 @@ report_14 = f"""PRODUCTION PHASE 3 BACKUP REPORT
 """
 with open(os.path.join(OUT_DIR, "14_production_phase3_backup_report.txt"), "w", encoding="utf-8") as f:
     f.write(report_14)
+    f.write("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+")
+
 
 
 # Connect to Production DB

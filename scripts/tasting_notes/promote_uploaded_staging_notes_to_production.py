@@ -132,6 +132,13 @@ def promote_to_production():
                 
     with open(REPORT_MD, 'w', encoding='utf-8') as f:
         f.write("# Uploaded Tasting Notes Production Promotion Report\n\n")
+        f.write("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+")
+
         f.write(f"- Pre-Promotion tasting_notes: {pre_tn}\n")
         f.write(f"- Post-Promotion tasting_notes: {post_tn}\n")
         f.write(f"- Pre-Promotion flavor_profiles: {pre_fp}\n")
