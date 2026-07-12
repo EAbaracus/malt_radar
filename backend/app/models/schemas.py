@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import List, Optional, Dict
+from typing import List, Optional, Dict, Union
 
 class WhiskySearchItem(BaseModel):
     external_id: str = Field(..., description="Unique identifier for the whisky from the external source")
@@ -25,6 +25,7 @@ class WhiskySearchItem(BaseModel):
     flavor_tags: Optional[List[str]] = Field(None, description="Top 5 flavor tags")
     flavor_source: Optional[str] = Field(None, description="Source of the flavor profile")
     flavor_match_score: Optional[float] = Field(None, description="Confidence score of the flavor match")
+    style_similarity: Optional[Dict[str, Union[str, float]]] = Field(None, description="Style similarity details")
 
 class WhiskyPriceItem(BaseModel):
     source_name: str

@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:malt_radar/core/api/api_client.dart';
 import 'package:malt_radar/core/database/database.dart';
+import 'package:malt_radar/features/flavor/domain/flavor_profile_normalizer.dart';
 import '../../domain/models/whisky.dart';
 import '../../domain/repositories/whisky_repository.dart';
 
@@ -11,7 +12,11 @@ class WhiskyRepositoryImpl implements WhiskyRepository {
   WhiskyRepositoryImpl(this._db, this._apiClient);
 
   @override
-  Stream<List<Whisky>> watchLocalWhiskies({String query = '', bool favoritesOnly = false}) {
+  Stream<List<Whisky>> watchLocalWhiskies({
+    String query = '', 
+    bool favoritesOnly = false,
+    List<String> filters = const [],
+  }) {
     final selectQuery = _db.select(_db.whiskies).join([
       leftOuterJoin(_db.userWhiskyScores, _db.userWhiskyScores.whiskyId.equalsExp(_db.whiskies.id)),
       leftOuterJoin(_db.userNotes, _db.userNotes.whiskyId.equalsExp(_db.whiskies.id)),
@@ -29,7 +34,7 @@ class WhiskyRepositoryImpl implements WhiskyRepository {
     selectQuery.orderBy([OrderingTerm.asc(_db.whiskies.name)]);
 
     return selectQuery.watch().map((rows) {
-      return rows.map((row) {
+      final list = rows.map((row) {
         final whisky = row.readTable(_db.whiskies);
         final score = row.readTableOrNull(_db.userWhiskyScores)?.score;
         final notes = row.readTableOrNull(_db.userNotes)?.note;
@@ -41,7 +46,69 @@ class WhiskyRepositoryImpl implements WhiskyRepository {
           favorite: favorite,
         );
       }).toList();
+
+      if (filters.isEmpty) return list;
+
+      return list.where((w) {
+        for (final filter in filters) {
+          if (!_matchesFilter(w, filter)) return false;
+        }
+        return true;
+      }).toList();
     });
+  }
+
+  bool _matchesFilter(Whisky w, String filter) {
+    final f = filter.toLowerCase();
+    
+    // Category / Type match
+    if (f == 'single malt') {
+      return (w.type?.toLowerCase() == 'malt' || w.category?.toLowerCase() == 'single malt' || w.category?.toLowerCase() == 'scotch' && w.type?.toLowerCase() == 'malt');
+    }
+    if (f == 'blended') {
+      return (w.type?.toLowerCase() == 'blend' || w.category?.toLowerCase() == 'blended' || w.category?.toLowerCase() == 'blend');
+    }
+    if (f == 'bourbon') {
+      return (w.category?.toLowerCase() == 'bourbon' || w.type?.toLowerCase() == 'bourbon');
+    }
+    if (f == 'rye') {
+      return (w.category?.toLowerCase() == 'rye' || w.type?.toLowerCase() == 'rye');
+    }
+
+    // Region match
+    if (w.region != null && w.region!.toLowerCase() == f) {
+      return true;
+    }
+
+    // Flavor character match
+    if (w.flavorProfile != null) {
+      try {
+        final profile = normalizeFlavorProfileJson(w.flavorProfile!);
+        const double threshold = 1.0;
+        
+        if (f == 'peated') {
+          return (profile['smoky_peaty'] ?? 0.0) > threshold || (profile['peaty'] ?? 0.0) > threshold;
+        }
+        if (f == 'smoky') {
+          return (profile['smoky_peaty'] ?? 0.0) > threshold || (profile['smoky'] ?? 0.0) > threshold;
+        }
+        if (f == 'sherry' || f == 'sherry cask') {
+          return (profile['sherry'] ?? 0.0) > threshold || (profile['oak_cask'] ?? 0.0) > threshold || (w.caskType?.toLowerCase().contains('sherry') ?? false);
+        }
+        if (f == 'sweet') {
+          return (profile['sweet'] ?? 0.0) > threshold;
+        }
+        if (f == 'fruity') {
+          return (profile['fruity'] ?? 0.0) > threshold;
+        }
+      } catch (_) {}
+    } else {
+      if ((f == 'sherry' || f == 'sherry cask') && (w.caskType?.toLowerCase().contains('sherry') ?? false)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   @override

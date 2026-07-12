@@ -89,6 +89,7 @@ class DataSeedService {
       final regionIdx = headers.indexOf('region');
       final typeIdx = headers.indexOf('type');
       final classIdx = headers.indexOf('class');
+      final styleSimilarityIdx = headers.indexOf('style_similarity');
       final ageIdx = headers.indexOf('age_years');
       final abvIdx = headers.indexOf('abv_percent');
       final caskTypeIdx = headers.indexOf('cask_type');
@@ -204,6 +205,8 @@ class DataSeedService {
           flavorTags: Value(flavorTags?.isNotEmpty == true ? flavorTags : null),
           flavorSource: Value(flavorSource?.isNotEmpty == true ? flavorSource : null),
           flavorMatchScore: Value(flavorMatchScore),
+          type: Value(getStr(typeIdx).isNotEmpty ? getStr(typeIdx) : null),
+          styleSimilarity: Value(styleSimilarityIdx >= 0 && getStr(styleSimilarityIdx).isNotEmpty ? getStr(styleSimilarityIdx) : null),
         ));
       }
 

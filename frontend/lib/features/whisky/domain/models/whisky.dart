@@ -27,6 +27,8 @@ class Whisky {
   final String? flavorTags; // JSON
   final String? flavorSource;
   final double? flavorMatchScore;
+  final String? type;
+  final String? styleSimilarity;
   
   // User specific attributes
   final int personalScore; // absolute score (0-100)
@@ -60,6 +62,8 @@ class Whisky {
     this.flavorTags,
     this.flavorSource,
     this.flavorMatchScore,
+    this.type,
+    this.styleSimilarity,
   });
 
   Whisky copyWith({
@@ -89,6 +93,8 @@ class Whisky {
     String? flavorTags,
     String? flavorSource,
     double? flavorMatchScore,
+    String? type,
+    String? styleSimilarity,
   }) {
     return Whisky(
       id: id ?? this.id,
@@ -117,6 +123,8 @@ class Whisky {
       flavorTags: flavorTags ?? this.flavorTags,
       flavorSource: flavorSource ?? this.flavorSource,
       flavorMatchScore: flavorMatchScore ?? this.flavorMatchScore,
+      type: type ?? this.type,
+      styleSimilarity: styleSimilarity ?? this.styleSimilarity,
     );
   }
 
@@ -158,6 +166,8 @@ class Whisky {
       flavorTags: whisky.flavorTags,
       flavorSource: whisky.flavorSource,
       flavorMatchScore: whisky.flavorMatchScore,
+      type: whisky.type,
+      styleSimilarity: whisky.styleSimilarity,
     );
   }
 
@@ -190,6 +200,8 @@ class Whisky {
       flavorTags: map['flavor_tags']?.toString(),
       flavorSource: map['flavor_source'] as String?,
       flavorMatchScore: (map['flavor_match_score'] as num?)?.toDouble(),
+      type: map['type'] as String?,
+      styleSimilarity: map['style_similarity']?.toString(),
     );
   }
 
@@ -219,6 +231,8 @@ class Whisky {
       flavorTags: Value(flavorTags),
       flavorSource: Value(flavorSource),
       flavorMatchScore: Value(flavorMatchScore),
+      type: Value(type),
+      styleSimilarity: Value(styleSimilarity),
     );
   }
 }

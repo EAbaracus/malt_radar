@@ -19,6 +19,8 @@ class DbWhiskyMapper {
     mapped['source'] = dbWhisky['source'];
     mapped['url'] = dbWhisky['url'];
     mapped['global_score'] = dbWhisky['global_rating'];
+    mapped['type'] = dbWhisky['type'];
+    mapped['style_similarity'] = dbWhisky['style_similarity'];
 
     if (tastingNotes != null) {
       mapped['tasting_notes'] = tastingNotes
