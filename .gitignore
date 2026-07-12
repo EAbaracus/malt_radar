@@ -89,3 +89,23 @@ output/import/*.sqlite3
 output/import/*.db-wal
 output/import/*.db-shm
 output/import/production_before_*.db
+
+
+# P30 Hardened Rules
+frontend/build/
+.gradle/
+android/.gradle/
+*.apk
+*.aab
+*.so
+artifacts/
+scratch/
+reports/
+*.zip
+*.7z
+*.rar
+*.env
+keystore*
+*.p12
+credentials*
+secrets*
