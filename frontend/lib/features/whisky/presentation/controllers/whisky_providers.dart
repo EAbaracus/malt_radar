@@ -52,13 +52,21 @@ final searchQueryProvider = StateProvider<String>((ref) => '');
 // State provider for filtering favorites only
 final favoritesOnlyProvider = StateProvider<bool>((ref) => false);
 
+// State provider for selected search filters/chips
+final selectedFiltersProvider = StateProvider<List<String>>((ref) => []);
+
 // Stream provider for the list of whiskies
 final whiskiesStreamProvider = StreamProvider<List<Whisky>>((ref) {
   final repository = ref.watch(whiskyRepositoryProvider);
   final query = ref.watch(searchQueryProvider);
   final favoritesOnly = ref.watch(favoritesOnlyProvider);
+  final selectedFilters = ref.watch(selectedFiltersProvider);
   
-  return repository.watchLocalWhiskies(query: query, favoritesOnly: favoritesOnly);
+  return repository.watchLocalWhiskies(
+    query: query, 
+    favoritesOnly: favoritesOnly,
+    filters: selectedFilters,
+  );
 });
 
 // Stream provider for a single whisky (for detail screen real-time updates)

@@ -262,6 +262,26 @@ class $WhiskiesTable extends Whiskies
     type: DriftSqlType.double,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _typeMeta = const VerificationMeta('type');
+  @override
+  late final GeneratedColumn<String> type = GeneratedColumn<String>(
+    'type',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _styleSimilarityMeta = const VerificationMeta(
+    'styleSimilarity',
+  );
+  @override
+  late final GeneratedColumn<String> styleSimilarity = GeneratedColumn<String>(
+    'style_similarity',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -287,6 +307,8 @@ class $WhiskiesTable extends Whiskies
     flavorTags,
     flavorSource,
     flavorMatchScore,
+    type,
+    styleSimilarity,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -461,6 +483,21 @@ class $WhiskiesTable extends Whiskies
         ),
       );
     }
+    if (data.containsKey('type')) {
+      context.handle(
+        _typeMeta,
+        type.isAcceptableOrUnknown(data['type']!, _typeMeta),
+      );
+    }
+    if (data.containsKey('style_similarity')) {
+      context.handle(
+        _styleSimilarityMeta,
+        styleSimilarity.isAcceptableOrUnknown(
+          data['style_similarity']!,
+          _styleSimilarityMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -562,6 +599,14 @@ class $WhiskiesTable extends Whiskies
         DriftSqlType.double,
         data['${effectivePrefix}flavor_match_score'],
       ),
+      type: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}type'],
+      ),
+      styleSimilarity: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}style_similarity'],
+      ),
     );
   }
 
@@ -595,6 +640,8 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
   final String? flavorTags;
   final String? flavorSource;
   final double? flavorMatchScore;
+  final String? type;
+  final String? styleSimilarity;
   const WhiskyEntity({
     required this.id,
     this.externalId,
@@ -619,6 +666,8 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
     this.flavorTags,
     this.flavorSource,
     this.flavorMatchScore,
+    this.type,
+    this.styleSimilarity,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -684,6 +733,12 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
     if (!nullToAbsent || flavorMatchScore != null) {
       map['flavor_match_score'] = Variable<double>(flavorMatchScore);
     }
+    if (!nullToAbsent || type != null) {
+      map['type'] = Variable<String>(type);
+    }
+    if (!nullToAbsent || styleSimilarity != null) {
+      map['style_similarity'] = Variable<String>(styleSimilarity);
+    }
     return map;
   }
 
@@ -746,6 +801,10 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
       flavorMatchScore: flavorMatchScore == null && nullToAbsent
           ? const Value.absent()
           : Value(flavorMatchScore),
+      type: type == null && nullToAbsent ? const Value.absent() : Value(type),
+      styleSimilarity: styleSimilarity == null && nullToAbsent
+          ? const Value.absent()
+          : Value(styleSimilarity),
     );
   }
 
@@ -780,6 +839,8 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
       flavorTags: serializer.fromJson<String?>(json['flavorTags']),
       flavorSource: serializer.fromJson<String?>(json['flavorSource']),
       flavorMatchScore: serializer.fromJson<double?>(json['flavorMatchScore']),
+      type: serializer.fromJson<String?>(json['type']),
+      styleSimilarity: serializer.fromJson<String?>(json['styleSimilarity']),
     );
   }
   @override
@@ -809,6 +870,8 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
       'flavorTags': serializer.toJson<String?>(flavorTags),
       'flavorSource': serializer.toJson<String?>(flavorSource),
       'flavorMatchScore': serializer.toJson<double?>(flavorMatchScore),
+      'type': serializer.toJson<String?>(type),
+      'styleSimilarity': serializer.toJson<String?>(styleSimilarity),
     };
   }
 
@@ -836,6 +899,8 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
     Value<String?> flavorTags = const Value.absent(),
     Value<String?> flavorSource = const Value.absent(),
     Value<double?> flavorMatchScore = const Value.absent(),
+    Value<String?> type = const Value.absent(),
+    Value<String?> styleSimilarity = const Value.absent(),
   }) => WhiskyEntity(
     id: id ?? this.id,
     externalId: externalId.present ? externalId.value : this.externalId,
@@ -864,6 +929,10 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
     flavorMatchScore: flavorMatchScore.present
         ? flavorMatchScore.value
         : this.flavorMatchScore,
+    type: type.present ? type.value : this.type,
+    styleSimilarity: styleSimilarity.present
+        ? styleSimilarity.value
+        : this.styleSimilarity,
   );
   WhiskyEntity copyWithCompanion(WhiskiesCompanion data) {
     return WhiskyEntity(
@@ -914,6 +983,10 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
       flavorMatchScore: data.flavorMatchScore.present
           ? data.flavorMatchScore.value
           : this.flavorMatchScore,
+      type: data.type.present ? data.type.value : this.type,
+      styleSimilarity: data.styleSimilarity.present
+          ? data.styleSimilarity.value
+          : this.styleSimilarity,
     );
   }
 
@@ -942,7 +1015,9 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
           ..write('flavorVector: $flavorVector, ')
           ..write('flavorTags: $flavorTags, ')
           ..write('flavorSource: $flavorSource, ')
-          ..write('flavorMatchScore: $flavorMatchScore')
+          ..write('flavorMatchScore: $flavorMatchScore, ')
+          ..write('type: $type, ')
+          ..write('styleSimilarity: $styleSimilarity')
           ..write(')'))
         .toString();
   }
@@ -972,6 +1047,8 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
     flavorTags,
     flavorSource,
     flavorMatchScore,
+    type,
+    styleSimilarity,
   ]);
   @override
   bool operator ==(Object other) =>
@@ -999,7 +1076,9 @@ class WhiskyEntity extends DataClass implements Insertable<WhiskyEntity> {
           other.flavorVector == this.flavorVector &&
           other.flavorTags == this.flavorTags &&
           other.flavorSource == this.flavorSource &&
-          other.flavorMatchScore == this.flavorMatchScore);
+          other.flavorMatchScore == this.flavorMatchScore &&
+          other.type == this.type &&
+          other.styleSimilarity == this.styleSimilarity);
 }
 
 class WhiskiesCompanion extends UpdateCompanion<WhiskyEntity> {
@@ -1026,6 +1105,8 @@ class WhiskiesCompanion extends UpdateCompanion<WhiskyEntity> {
   final Value<String?> flavorTags;
   final Value<String?> flavorSource;
   final Value<double?> flavorMatchScore;
+  final Value<String?> type;
+  final Value<String?> styleSimilarity;
   const WhiskiesCompanion({
     this.id = const Value.absent(),
     this.externalId = const Value.absent(),
@@ -1050,6 +1131,8 @@ class WhiskiesCompanion extends UpdateCompanion<WhiskyEntity> {
     this.flavorTags = const Value.absent(),
     this.flavorSource = const Value.absent(),
     this.flavorMatchScore = const Value.absent(),
+    this.type = const Value.absent(),
+    this.styleSimilarity = const Value.absent(),
   });
   WhiskiesCompanion.insert({
     this.id = const Value.absent(),
@@ -1075,6 +1158,8 @@ class WhiskiesCompanion extends UpdateCompanion<WhiskyEntity> {
     this.flavorTags = const Value.absent(),
     this.flavorSource = const Value.absent(),
     this.flavorMatchScore = const Value.absent(),
+    this.type = const Value.absent(),
+    this.styleSimilarity = const Value.absent(),
   }) : name = Value(name);
   static Insertable<WhiskyEntity> custom({
     Expression<int>? id,
@@ -1100,6 +1185,8 @@ class WhiskiesCompanion extends UpdateCompanion<WhiskyEntity> {
     Expression<String>? flavorTags,
     Expression<String>? flavorSource,
     Expression<double>? flavorMatchScore,
+    Expression<String>? type,
+    Expression<String>? styleSimilarity,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -1126,6 +1213,8 @@ class WhiskiesCompanion extends UpdateCompanion<WhiskyEntity> {
       if (flavorTags != null) 'flavor_tags': flavorTags,
       if (flavorSource != null) 'flavor_source': flavorSource,
       if (flavorMatchScore != null) 'flavor_match_score': flavorMatchScore,
+      if (type != null) 'type': type,
+      if (styleSimilarity != null) 'style_similarity': styleSimilarity,
     });
   }
 
@@ -1153,6 +1242,8 @@ class WhiskiesCompanion extends UpdateCompanion<WhiskyEntity> {
     Value<String?>? flavorTags,
     Value<String?>? flavorSource,
     Value<double?>? flavorMatchScore,
+    Value<String?>? type,
+    Value<String?>? styleSimilarity,
   }) {
     return WhiskiesCompanion(
       id: id ?? this.id,
@@ -1178,6 +1269,8 @@ class WhiskiesCompanion extends UpdateCompanion<WhiskyEntity> {
       flavorTags: flavorTags ?? this.flavorTags,
       flavorSource: flavorSource ?? this.flavorSource,
       flavorMatchScore: flavorMatchScore ?? this.flavorMatchScore,
+      type: type ?? this.type,
+      styleSimilarity: styleSimilarity ?? this.styleSimilarity,
     );
   }
 
@@ -1255,6 +1348,12 @@ class WhiskiesCompanion extends UpdateCompanion<WhiskyEntity> {
     if (flavorMatchScore.present) {
       map['flavor_match_score'] = Variable<double>(flavorMatchScore.value);
     }
+    if (type.present) {
+      map['type'] = Variable<String>(type.value);
+    }
+    if (styleSimilarity.present) {
+      map['style_similarity'] = Variable<String>(styleSimilarity.value);
+    }
     return map;
   }
 
@@ -1283,7 +1382,9 @@ class WhiskiesCompanion extends UpdateCompanion<WhiskyEntity> {
           ..write('flavorVector: $flavorVector, ')
           ..write('flavorTags: $flavorTags, ')
           ..write('flavorSource: $flavorSource, ')
-          ..write('flavorMatchScore: $flavorMatchScore')
+          ..write('flavorMatchScore: $flavorMatchScore, ')
+          ..write('type: $type, ')
+          ..write('styleSimilarity: $styleSimilarity')
           ..write(')'))
         .toString();
   }
@@ -4128,6 +4229,8 @@ typedef $$WhiskiesTableCreateCompanionBuilder =
       Value<String?> flavorTags,
       Value<String?> flavorSource,
       Value<double?> flavorMatchScore,
+      Value<String?> type,
+      Value<String?> styleSimilarity,
     });
 typedef $$WhiskiesTableUpdateCompanionBuilder =
     WhiskiesCompanion Function({
@@ -4154,6 +4257,8 @@ typedef $$WhiskiesTableUpdateCompanionBuilder =
       Value<String?> flavorTags,
       Value<String?> flavorSource,
       Value<double?> flavorMatchScore,
+      Value<String?> type,
+      Value<String?> styleSimilarity,
     });
 
 class $$WhiskiesTableFilterComposer
@@ -4277,6 +4382,16 @@ class $$WhiskiesTableFilterComposer
 
   ColumnFilters<double> get flavorMatchScore => $composableBuilder(
     column: $table.flavorMatchScore,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get type => $composableBuilder(
+    column: $table.type,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get styleSimilarity => $composableBuilder(
+    column: $table.styleSimilarity,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -4404,6 +4519,16 @@ class $$WhiskiesTableOrderingComposer
     column: $table.flavorMatchScore,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get type => $composableBuilder(
+    column: $table.type,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get styleSimilarity => $composableBuilder(
+    column: $table.styleSimilarity,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$WhiskiesTableAnnotationComposer
@@ -4507,6 +4632,14 @@ class $$WhiskiesTableAnnotationComposer
     column: $table.flavorMatchScore,
     builder: (column) => column,
   );
+
+  GeneratedColumn<String> get type =>
+      $composableBuilder(column: $table.type, builder: (column) => column);
+
+  GeneratedColumn<String> get styleSimilarity => $composableBuilder(
+    column: $table.styleSimilarity,
+    builder: (column) => column,
+  );
 }
 
 class $$WhiskiesTableTableManager
@@ -4563,6 +4696,8 @@ class $$WhiskiesTableTableManager
                 Value<String?> flavorTags = const Value.absent(),
                 Value<String?> flavorSource = const Value.absent(),
                 Value<double?> flavorMatchScore = const Value.absent(),
+                Value<String?> type = const Value.absent(),
+                Value<String?> styleSimilarity = const Value.absent(),
               }) => WhiskiesCompanion(
                 id: id,
                 externalId: externalId,
@@ -4587,6 +4722,8 @@ class $$WhiskiesTableTableManager
                 flavorTags: flavorTags,
                 flavorSource: flavorSource,
                 flavorMatchScore: flavorMatchScore,
+                type: type,
+                styleSimilarity: styleSimilarity,
               ),
           createCompanionCallback:
               ({
@@ -4613,6 +4750,8 @@ class $$WhiskiesTableTableManager
                 Value<String?> flavorTags = const Value.absent(),
                 Value<String?> flavorSource = const Value.absent(),
                 Value<double?> flavorMatchScore = const Value.absent(),
+                Value<String?> type = const Value.absent(),
+                Value<String?> styleSimilarity = const Value.absent(),
               }) => WhiskiesCompanion.insert(
                 id: id,
                 externalId: externalId,
@@ -4637,6 +4776,8 @@ class $$WhiskiesTableTableManager
                 flavorTags: flavorTags,
                 flavorSource: flavorSource,
                 flavorMatchScore: flavorMatchScore,
+                type: type,
+                styleSimilarity: styleSimilarity,
               ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))

@@ -2,7 +2,11 @@ import '../models/whisky.dart';
 
 abstract class WhiskyRepository {
   // Watch local cache
-  Stream<List<Whisky>> watchLocalWhiskies({String query = '', bool favoritesOnly = false});
+  Stream<List<Whisky>> watchLocalWhiskies({
+    String query = '',
+    bool favoritesOnly = false,
+    List<String> filters = const [],
+  });
   
   // Search external backend
   Future<List<Whisky>> searchExternalWhiskies(String query);

@@ -142,6 +142,14 @@ class CsvWhiskyProvider(WhiskyProvider):
                         if row.get('alternative_suggestions'):
                             companion_suggestions.extend([c.strip() for c in row.get('alternative_suggestions').split(',') if c.strip()])
 
+                        style_sim = None
+                        style_sim_str = row.get('style_similarity')
+                        if style_sim_str and style_sim_str.strip():
+                            try:
+                                style_sim = json.loads(style_sim_str)
+                            except Exception as e:
+                                print(f"Error parsing style_similarity for {name}: {e}")
+
                         item = WhiskySearchItem(
                             external_id=row.get('record_id') or f"csv-{uuid.uuid4().hex[:8]}",
                             name=name,
@@ -163,7 +171,8 @@ class CsvWhiskyProvider(WhiskyProvider):
                             flavor_vector=None,
                             flavor_tags=None,
                             flavor_source=None,
-                            flavor_match_score=None
+                            flavor_match_score=None,
+                            style_similarity=style_sim
                         )
                         
                         def normalize_str(s):

@@ -14,8 +14,8 @@ void main() {
     await database.close();
   });
 
-  test('Database opens with schema v5 and creates UserLists and UserListItems tables', () async {
-    expect(database.schemaVersion, 5);
+  test('Database opens with schema v6 and creates UserLists and UserListItems tables', () async {
+    expect(database.schemaVersion, 6);
 
     // Verify UserLists table exists by inserting a test list
     final listId = await database.into(database.userLists).insert(
