@@ -1,0 +1,178 @@
+name: Android Release CI/CD
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+
+permissions:
+  contents: write
+  actions: read
+
+defaults:
+  run:
+    working-directory: frontend
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: "3.44.1"
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run tests
+        run: flutter test --reporter expanded
+
+  build:
+    name: Build APK
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: "3.44.1"
+          cache: true
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build APK (release)
+        run: flutter build apk --release
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: malt-radar-release-apk
+          path: frontend/build/app/outputs/flutter-apk/app-release.apk
+          retention-days: 90
+          compression-level: 6
+
+  release:
+    name: GitHub Release + Drive Upload
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Download APK artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: malt-radar-release-apk
+          path: artifacts
+
+      - name: Get APK path
+        id: apk
+        run: |
+          APK="$(find artifacts -name '*.apk' -print -quit)"
+          echo "path=${APK}" >> "${GITHUB_OUTPUT}"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "${{ github.ref_name }}"
+          generate_release_notes: true
+          files: ${{ steps.apk.outputs.path }}
+          fail_on_unmatched_files: true
+
+      - name: Install Python deps
+        run: pip install PyJWT requests
+
+      - name: Upload to Google Drive
+        env:
+          APK_PATH: ${{ steps.apk.outputs.path }}
+          TAG_NAME: ${{ github.ref_name }}
+        run: |
+          # ------------------------------------------------------------------
+          # Google Drive upload — runs only when secrets are configured.
+          # Credentials are NEVER echoed to stdout/logs.
+          # ------------------------------------------------------------------
+          set -euo pipefail
+
+          if [ -z "${GOOGLE_DRIVE_CREDENTIALS:-}" ] || [ -z "${GOOGLE_DRIVE_FOLDER_ID:-}" ]; then
+            echo "::notice::GOOGLE_DRIVE_CREDENTIALS or GOOGLE_DRIVE_FOLDER_ID not set — skipping Drive upload"
+            exit 0
+          fi
+
+          APK_NAME="malt-radar-${TAG_NAME}.apk"
+          cp "${APK_PATH}" "${APK_NAME}"
+
+          # Upload via service-account JWT → REST multipart upload.
+          # (Goes through Python so credentials never appear in bash logs.)
+          # Write the inline Python helper to /tmp so YAML doesn't break
+          cat > /tmp/drive_upload.py << 'PYEOF'
+          import json, time, os, sys, requests, tempfile, jwt
+
+          creds_raw = os.environ["GOOGLE_DRIVE_CREDENTIALS"]
+          folder_id = os.environ["GOOGLE_DRIVE_FOLDER_ID"]
+          apk_name  = os.environ["APK_NAME"]
+
+          fd, creds_path = tempfile.mkstemp(suffix=".json", text=True)
+          with os.fdopen(fd, "w") as f:
+              f.write(creds_raw)
+
+          try:
+              creds = json.loads(creds_raw)
+              now = int(time.time())
+              payload = {
+                  "iss": creds["client_email"],
+                  "scope": "https://www.googleapis.com/auth/drive.file",
+                  "aud": creds["token_uri"],
+                  "exp": now + 3600,
+                  "iat": now,
+              }
+              assertion = jwt.encode(payload, creds["private_key"], algorithm="RS256")
+
+              r = requests.post(
+                  creds["token_uri"],
+                  data={
+                      "grant_type": "urn:ietf:params:oauth:grant-type:jwt-bearer",
+                      "assertion": assertion,
+                  },
+                  timeout=15,
+              )
+              r.raise_for_status()
+              access_token = r.json()["access_token"]
+
+              metadata = json.dumps({"name": apk_name, "parents": [folder_id]})
+              with open(apk_name, "rb") as apk_f:
+                  r = requests.post(
+                      "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",
+                      headers={"Authorization": "Bearer " + access_token},
+                      files={
+                          "metadata": (None, metadata, "application/json"),
+                          "file": (apk_name, apk_f, "application/vnd.android.package-archive"),
+                      },
+                      timeout=120,
+                  )
+              r.raise_for_status()
+              print("::notice::APK uploaded to Google Drive: id={}".format(r.json()["id"]))
+          finally:
+              os.unlink(creds_path)
+          PYEOF
+
+          python3 /tmp/drive_upload.py
+          shred -u "${APK_NAME}" /tmp/drive_upload.py 2>/dev/null || rm -f "${APK_NAME}" /tmp/drive_upload.py
