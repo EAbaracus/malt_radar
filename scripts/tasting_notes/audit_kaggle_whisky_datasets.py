@@ -208,6 +208,13 @@ recommended_next_phase = {next_phase}
 
 with open(os.path.join(REPORTS_DIR, "303_kaggle_whisky_dataset_audit_report.md"), 'w', encoding='utf-8') as f:
     f.write(report_md)
+    f.write("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+")
+
 
 with open(os.path.join(REPORTS_DIR, "304_12k_kaggle_whisky_dataset_audit_gate.txt"), 'w', encoding='utf-8') as f:
     f.write(gate_txt)

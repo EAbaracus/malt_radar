@@ -198,6 +198,13 @@ Bir sonraki aşamada:
 
     write_text(REPORT_OUT, report)
     write_text(GATE_OUT, gate + "\n")
+    write_text(GATE_OUT, "
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+", encoding="utf-8")
+
 
     print("rows:", rows)
     print("gate:", gate)

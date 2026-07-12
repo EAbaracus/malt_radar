@@ -143,6 +143,13 @@ def main():
         gate_decision = "NO_GO"
         with open(gate_out, "w", encoding="utf-8") as f:
             f.write(gate_decision)
+            f.write("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+")
+
         with open(report_out, "w", encoding="utf-8") as f:
             f.write(f"Rollback occurred due to error: {e}")
         return

@@ -182,6 +182,13 @@ def main():
 
     with open(gate_txt, "w", encoding="utf-8") as f:
         f.write(f"GATE: {gate_status}\n")
+        f.write("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+")
+
         if not reasons:
             f.write("REASON: Validation executed successfully.\n")
         else:

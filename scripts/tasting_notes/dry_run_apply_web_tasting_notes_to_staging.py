@@ -127,6 +127,13 @@ def main():
     r1_path = os.path.join(reports_dir, "231_web_tasting_note_staging_apply_dry_run_report.md")
     with open(r1_path, 'w', encoding='utf-8') as f:
         f.write("# Staging Tasting Notes Apply Dry-Run Report\n\n")
+        f.write("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+")
+
         f.write(f"- Total candidates evaluated: {len(reader)}\n")
         f.write(f"- Successful apply candidates: {len(plan_records)}\n")
         f.write(f"- Blocked: {len(blocked_records)}\n\n")

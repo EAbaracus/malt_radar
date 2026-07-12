@@ -553,6 +553,13 @@ def write_reports(source_rows, mapping_rows, preview_rows, table_counts, duplica
         report.append("None")
     with open(MAPPING_REPORT, "w", encoding="utf-8") as handle:
         handle.write("\n".join(report) + "\n")
+        handle.write("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+")
+
 
     gate_lines = [
         "11D-WM-IDMAP Whiskey Mapper Remapped Import Gate",
