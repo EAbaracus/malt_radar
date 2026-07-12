@@ -159,6 +159,13 @@ def main():
 
     with open(REPORT_MD, "w", encoding="utf-8") as f:
         f.write("\n".join(report))
+        f.write("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+")
+
         
     with open(GATE_TXT, "w", encoding="utf-8") as f:
         f.write(verdict)

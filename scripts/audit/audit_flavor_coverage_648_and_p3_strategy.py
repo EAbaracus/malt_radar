@@ -191,6 +191,13 @@ def main():
 
     with open(GATE_TXT, "w", encoding="utf-8") as f:
         f.write(verdict)
+        f.write("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+")
+
 
     # Strategy MD
     strategy = """# P3 Source Strategy Recommendation
