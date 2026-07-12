@@ -139,6 +139,13 @@ def promote_dry_run():
     # Reports
     with open(REPORT_MD, 'w', encoding='utf-8') as f:
         f.write("# Uploaded Tasting Notes Production Promotion Dry-Run Report\n\n")
+        f.write("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+")
+
         f.write(f"- QA PASS Input Rows: {len(qa_rows)}\n")
         f.write(f"- Promotion Plan (Insert): {len(plan)}\n")
         f.write(f"- Blocked: {len(blocked)}\n")

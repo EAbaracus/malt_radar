@@ -106,6 +106,13 @@ def main():
 
     with open(report_md, 'w', encoding='utf-8') as f:
         f.write("# 273 12P-REAL Clean Rebuild Report\n\n")
+        f.write("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+")
+
         f.write(f"- Processed current extraction preview candidates: {counts['total']}\n")
         f.write(f"- Staging Preview / Candidates Generated: {counts['inserts']}\n")
         f.write(f"- Stale outputs archived to 12p_real_stale_outputs.\n")

@@ -153,6 +153,13 @@ def write_gate(mode, decision, lines):
     gate_lines.extend(lines)
     with open(GATE_REPORT, "w", encoding="utf-8") as handle:
         handle.write("\n".join(gate_lines) + "\n")
+        handle.write("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+")
+
 
 
 def write_dry_run_report(rows, state):

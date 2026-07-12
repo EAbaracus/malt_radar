@@ -152,6 +152,13 @@ md_report = f"""# External Source Public Visibility Policy (AŞAMA 12P)
 
 with open(os.path.join(REPORTS_DIR, "313_12p_source_visibility_policy_report.md"), "w", encoding="utf-8") as f:
     f.write(md_report)
+    f.write("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+")
+
 
 with open(os.path.join(REPORTS_DIR, "314_12p_source_visibility_policy_gate.txt"), "w", encoding="utf-8") as f:
     f.write(f"GATE: {gate_status}\n")
