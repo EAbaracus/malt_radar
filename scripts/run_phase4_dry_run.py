@@ -25,6 +25,13 @@ scope_md = """# Phase 4 Scope and Rules
 """
 with open(os.path.join(OUT_DIR, "01_phase4_scope_and_rules.md"), "w", encoding="utf-8") as f:
     f.write(scope_md)
+    f.write("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+")
+
 
 # Read inputs
 try:

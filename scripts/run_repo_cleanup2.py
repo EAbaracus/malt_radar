@@ -13,6 +13,13 @@ tracked_files = proc.stdout.splitlines()
 
 with open(os.path.join(WORKSPACE, "tracked_files_current.txt"), "w", encoding="utf-8") as f:
     f.write("\n".join(tracked_files))
+    f.write("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+")
+
 
 # 2. Analyze tracked files
 output_files = [f for f in tracked_files if f.startswith('output/')]

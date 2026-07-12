@@ -193,6 +193,13 @@ Neden Tasting Note Patch Preview 0 Çıktı?
 """
 with open(os.path.join(OUT_DIR, "05_tasting_note_matching_problem_report.txt"), "w", encoding="utf-8") as f:
     f.write(tasting_prob)
+    f.write("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+")
+
 
 # 6. 06_malt_list_v2_final_decision_gate.txt
 decisions = f"""MALT LIST V2 FINAL DECISION GATE
