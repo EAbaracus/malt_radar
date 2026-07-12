@@ -28,24 +28,25 @@ BASELINE = os.path.join(M.OUT_DIR, "integrity_baseline.json")
 
 def _keyed_snapshot(db_path):
     """Logical (keyed) snapshot -> order-independent content hash per table.
-    Authoritative proof that no row was added/changed/deleted."""
-    con = sqlite3.connect(db_path)
+    Authoritative proof that no row was added/changed/deleted.
+    Opens READ-ONLY (mode=ro) so the live DB is never checkpointed/modified."""
+    con = sqlite3.connect(f"file:{db_path}?mode=ro", uri=True)
     con.text_factory = str
     cur = con.cursor()
     cur.execute("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name")
     tables = [r[0] for r in cur.fetchall()]
     snap = {}
     for t in tables:
-        cur.execute(f"PRAGMA table_info('{t}')")
-        cols = [c[1] for c in cur.fetchall()]
-        # build a stable key from first text col (prefer *_id / id)
-        key_col = next((c for c in cols if c in ("whisky_id", "distillery_id", "id")), cols[0])
-        cur.execute(f"SELECT * FROM '{t}' ORDER BY '{key_col}'")
+        cur.execute(f"SELECT * FROM '{t}'")
         rows = cur.fetchall()
-        h = hashlib.sha256()
-        for row in rows:
-            h.update(json.dumps(row, default=str, sort_keys=True).encode("utf-8"))
-        snap[t] = (len(rows), h.hexdigest()[:16])
+        # hash the MULTISET of rows: each row individually, then sort the
+        # per-row digests so physical order / WAL checkpoint reordering is
+        # irrelevant. This is a true content-equality proof.
+        row_hashes = sorted(hashlib.sha256(
+            json.dumps(row, default=str, sort_keys=True).encode("utf-8")).hexdigest()
+            for row in rows)
+        agg = hashlib.sha256(("".join(row_hashes)).encode("utf-8")).hexdigest()
+        snap[t] = (len(rows), agg[:16])
     con.close()
     return snap
 
@@ -61,9 +62,12 @@ def phase1_baseline():
 
 
 def phase4_verify():
-    pre = json.load(open(BASELINE, encoding="utf-8"))["snapshot"]
+    base = json.load(open(BASELINE, encoding="utf-8"))["snapshot"]
     cur = _keyed_snapshot(M.LIVE_DB)
-    diff = [t for t in pre if pre[t] != cur.get(t)]
+    # baseline stores (rows, hash) as a JSON list; compare by VALUE (hash + rowcount),
+    # not by tuple/list identity, to avoid false "changed" on list-vs-tuple.
+    diff = [t for t in base
+            if (base[t][0], base[t][1]) != (cur.get(t, (0, ""))[0], cur.get(t, (0, ""))[1])]
     if diff:
         print(f"[P4] RESULT: production.db LOGICALLY CHANGED in tables: {diff}")
         return False
