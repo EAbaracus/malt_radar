@@ -86,6 +86,13 @@ def main():
         print(f"Error: DB not found at {DB_PATH}")
         with open(GATE_TXT, 'w', encoding='utf-8') as f:
             f.write("NO-GO")
+            f.write("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+")
+
         return
 
     # 2. Get DB Hash
