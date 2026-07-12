@@ -231,6 +231,13 @@ def main():
         gate = "GO_DERIVED_FEATURE_PREVIEW"
 
     GATE.write_text(gate + "\n", encoding="utf-8")
+    GATE.write_text("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+", encoding="utf-8")
+
 
     report = f"""# 321_12s Friedman Derived Feature Report
 

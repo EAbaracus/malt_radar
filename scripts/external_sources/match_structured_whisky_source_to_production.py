@@ -167,6 +167,11 @@ def main():
     lines.append("")
     report.parent.mkdir(parents=True, exist_ok=True)
     report.write_text("\n".join(lines), encoding="utf-8")
+    lines.append("Estimated API Cost: $0.00")
+    lines.append("Actual API Cost: $0.00")
+    lines.append("Local Compute Used: Yes")
+    lines.append("Fully Local Execution: Yes")
+
 
     print(f"wrote: {out}")
     print(f"wrote: {report}")

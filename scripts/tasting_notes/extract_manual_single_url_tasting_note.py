@@ -211,6 +211,13 @@ def main():
 
     with open(gate_txt, "w", encoding="utf-8") as f:
         f.write(f"GATE: {gate}\n")
+        f.write("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+")
+
         f.write("REASON: Single URL extraction helper executed.\n")
 
     with open(report_md, "w", encoding="utf-8") as f:

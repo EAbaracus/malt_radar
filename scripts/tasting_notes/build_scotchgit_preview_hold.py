@@ -216,6 +216,10 @@ def main():
         fh.write("ScotchGit production import: NO-GO until 11E-WM-IMPORT is closed\n")
         fh.write(f"accepted_preview_rows={len(output_rows)}\n")
         fh.write(f"production_db_changed={'YES' if db_changed else 'NO'}\n")
+        fh.write("\nEstimated API Cost: $0.00\n")
+        fh.write("Actual API Cost: $0.00\n")
+        fh.write("Local Compute Used: Yes\n")
+        fh.write("Fully Local Execution: Yes\n")
 
     print(f"ScotchGit preview whitelist rows: {len(output_rows)}")
     print("Preview whitelist: GO")

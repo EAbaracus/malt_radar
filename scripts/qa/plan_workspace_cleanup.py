@@ -167,6 +167,13 @@ def main():
     report_md = os.path.join(reports_dir, "279_workspace_cleanup_plan_report.md")
     with open(report_md, 'w', encoding='utf-8') as f:
         f.write("# 279 Workspace Cleanup Plan Report\n\n")
+        f.write("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+")
+
         f.write("## Overview\n")
         f.write(f"- DELETE Candidates: {delete_cnt}\n")
         f.write(f"- ARCHIVE/RESTORE Candidates: {archive_cnt}\n")

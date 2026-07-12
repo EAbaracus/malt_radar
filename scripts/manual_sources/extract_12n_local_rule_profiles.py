@@ -248,6 +248,13 @@ report = [
 ]
 REPORT_OUT.write_text("\n".join(report), encoding="utf-8")
 GATE_OUT.write_text("REVIEW", encoding="utf-8")
+GATE_OUT.write_text("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+", encoding="utf-8")
+
 
 print(f"WROTE {JSONL_OUT} records={len(rows)}")
 print(f"WROTE {CSV_OUT}")

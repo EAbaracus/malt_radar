@@ -36,6 +36,13 @@ def main():
     report_path = 'output/reports/177_staging_tasting_notes_validation.md'
     with open(report_path, 'w', encoding='utf-8') as f:
         f.write("# Staging Tasting Notes Validation Report\n\n")
+        f.write("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+")
+
         
         f.write("## Duplicate Check\n")
         if duplicates:

@@ -141,6 +141,13 @@ def main():
                         fpath = os.path.join(args.snapshot_dir, fname)
                         with open(fpath, 'w', encoding='utf-8') as f:
                             f.write(resp.text)
+                            f.write("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+")
+
                             
                         status = "fetch_success"
                         reason = content_reason

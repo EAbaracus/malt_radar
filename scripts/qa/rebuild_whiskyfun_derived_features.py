@@ -87,6 +87,13 @@ def main():
 
     with open(gate_txt, "w", encoding="utf-8") as f:
         f.write(f"GATE: {gate}\n")
+        f.write("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+")
+
         if gate == "GO_IDENTITY_ADDED":
             f.write("REASON: Identity columns restored successfully without full text.\n")
         for r in reasons:

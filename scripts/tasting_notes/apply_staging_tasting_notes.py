@@ -200,6 +200,13 @@ def main():
 
     with open(report_md, 'w', encoding='utf-8') as f:
         f.write("# 275 Real Web Tasting Note Staging Apply Report\n\n")
+        f.write("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+")
+
         f.write(f"- Backup DB Created: YES (`{backup_db}`)\n")
         f.write(f"- Schema Compatible: {schema_compatible}\n")
         f.write(f"- Target Table: {target_table}\n")

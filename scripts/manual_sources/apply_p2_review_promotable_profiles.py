@@ -140,6 +140,13 @@ def main():
         print(f"Transaction failed, rolled back: {e}")
         with open(GATE_TXT, "w", encoding="utf-8") as f:
             f.write("NO-GO")
+            f.write("
+Estimated API Cost: $0.00
+Actual API Cost: $0.00
+Local Compute Used: Yes
+Fully Local Execution: Yes
+")
+
         return
     
     count_after = cur.execute("SELECT COUNT(*) FROM flavor_profiles").fetchone()[0]

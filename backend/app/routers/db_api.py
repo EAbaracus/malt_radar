@@ -110,6 +110,8 @@ def get_tasting_notes(id: str, service: DbReadService = Depends(get_service)):
 
 @router.get("/whiskies/{id}/price-history")
 def get_price_history(id: str, service: DbReadService = Depends(get_service)):
+    if os.getenv("SHOW_PRICE_DATA", "false").lower() != "true":
+        return []
     try:
         return service.get_price_history(id)
     except FileNotFoundError:
