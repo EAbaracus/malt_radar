@@ -108,6 +108,16 @@ def get_tasting_notes(id: str, service: DbReadService = Depends(get_service)):
     except sqlite3.Error:
         raise HTTPException(status_code=500, detail="Database query failed")
 
+@router.get("/whiskies/{id}/evidence")
+def get_evidence(id: str, service: DbReadService = Depends(get_service)):
+    """Return official_source_references for a whisky exactly as stored (read-only)."""
+    try:
+        return service.get_official_source_references(id)
+    except FileNotFoundError:
+        raise HTTPException(status_code=503, detail="Database file missing")
+    except sqlite3.Error:
+        raise HTTPException(status_code=500, detail="Database query failed")
+
 @router.get("/whiskies/{id}/price-history")
 def get_price_history(id: str, service: DbReadService = Depends(get_service)):
     if os.getenv("SHOW_PRICE_DATA", "false").lower() != "true":
