@@ -1,9 +1,19 @@
 import 'package:flutter/foundation.dart';
 
 class AppConfig {
-  /// Feature flag to switch between legacy API and the new DB API backend.
-  /// Default is false to preserve existing app behavior.
-  static const bool useDbApi = false;
+  /// Feature flag to switch between the local Drift/legacy-CSV repository and
+  /// the certified-staging backend (DbApi mode).
+  ///
+  /// When true, the entire app data path is:
+  ///   Flutter -> DbWhiskyRepositoryImpl -> FastAPI -> SQLite (staging)
+  /// and the backend is the single source of truth. When false, the local
+  /// Drift database (offline / legacy CSV / fallback) is used.
+  ///
+  /// Default is false. In debug builds it can be overridden with the
+  /// --dart-define=MALT_RADAR_USE_DB_API=true build flag at runtime, so the
+  /// mode is selected entirely through configuration (no source change).
+  static const bool useDbApi =
+      bool.fromEnvironment('MALT_RADAR_USE_DB_API', defaultValue: false);
 
   /// Feature flag for ScotchGit QA preview mode.
   /// If true, preview profiles (e.g. scotchgit) are considered in the UI.

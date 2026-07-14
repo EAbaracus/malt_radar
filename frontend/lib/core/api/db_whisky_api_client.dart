@@ -145,6 +145,36 @@ class DbWhiskyApiClient {
     throw Exception('API tasting-notes failed: ${response.statusCode}');
   }
 
+  /// Returns official_source_references for a whisky exactly as stored by the
+  /// backend (read-only; no transformation). Throws on transport/5xx errors.
+  Future<List<Map<String, dynamic>>> getEvidence(String whiskyId) async {
+    final uri = Uri.parse('${ApiClient.baseUrl}/api/db/whiskies/${Uri.encodeComponent(whiskyId)}/evidence');
+    final response = await _client.get(uri);
+    if (response.statusCode == 200) {
+      final List<dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
+      return data.map((e) => e as Map<String, dynamic>).toList();
+    } else if (response.statusCode == 404) {
+      return []; // No evidence rows for this whisky
+    }
+    throw Exception('API evidence failed: ${response.statusCode}');
+  }
+
+  /// Search the backend for whiskies by name/distillery. Returns the list of
+  /// matched whisky maps (certified rows first, duplicates already removed
+  /// server-side).
+  Future<List<Map<String, dynamic>>> search(String q) async {
+    if (q.trim().isEmpty) return [];
+    final uri = Uri.parse('${ApiClient.baseUrl}/api/db/search?q=${Uri.encodeComponent(q)}');
+    final response = await _client.get(uri);
+    if (response.statusCode == 200) {
+      final List<dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
+      return data.map((e) => e as Map<String, dynamic>).toList();
+    } else if (response.statusCode == 404) {
+      return [];
+    }
+    throw Exception('API search failed: ${response.statusCode}');
+  }
+
   Future<List<Map<String, dynamic>>> getPriceHistory(String whiskyId) async {
     final uri = Uri.parse('${ApiClient.baseUrl}/api/db/whiskies/${Uri.encodeComponent(whiskyId)}/price-history');
     final response = await _client.get(uri);

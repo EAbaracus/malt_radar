@@ -117,12 +117,101 @@ class DbWhiskyRepositoryImpl implements WhiskyRepository {
 
   @override
   Future<List<Whisky>> searchExternalWhiskies(String query) async {
+    return searchBackend(query);
+  }
+
+  @override
+  Future<List<Whisky>> searchBackend(String query) async {
     try {
-      final response = await _dbClient.getWhiskies(q: query, limit: 50);
-      return response.items.map((map) {
-        final legacyMap = DbWhiskyMapper.toLegacyMap(map);
-        return Whisky.fromMap(legacyMap);
-      }).toList();
+      final maps = await _dbClient.search(query);
+      return maps.map((map) => Whisky.fromMap(DbWhiskyMapper.toLegacyMap(map))).toList();
+    } catch (_) {
+      return [];
+    }
+  }
+
+  @override
+  Future<List<Whisky>> getAllWhiskies({int limit = 100, int offset = 0}) async {
+    try {
+      final response = await _dbClient.getWhiskies(limit: limit, offset: offset);
+      return response.items
+          .map((map) => Whisky.fromMap(DbWhiskyMapper.toLegacyMap(map)))
+          .toList();
+    } catch (_) {
+      return [];
+    }
+  }
+
+  @override
+  Future<Whisky?> getWhiskyByBackendId(String backendId) async {
+    try {
+      final map = await _dbClient.getWhiskyById(backendId);
+      if (map == null) return null;
+      final flavorProfile = await _dbClient.getFlavorProfile(backendId);
+      final tastingNotes = await _dbClient.getTastingNotes(backendId);
+      final legacyMap = DbWhiskyMapper.toLegacyMap(
+        map,
+        flavorProfile: flavorProfile,
+        tastingNotes: tastingNotes,
+      );
+      return Whisky.fromMap(legacyMap);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  @override
+  Future<List<Map<String, dynamic>>> getEvidence(String backendId) async {
+    try {
+      return await _dbClient.getEvidence(backendId);
+    } catch (_) {
+      return [];
+    }
+  }
+
+  @override
+  Future<List<Whisky>> getSimilarWhiskies(String backendId, {int limit = 5}) async {
+    try {
+      // Fetch the target whisky's normalized 7-axis profile first.
+      final target = await getWhiskyByBackendId(backendId);
+      if (target?.flavorProfile == null) return [];
+
+      Map<String, double> targetProfile;
+      try {
+        targetProfile = normalizeFlavorProfileJson(target!.flavorProfile!);
+      } catch (_) {
+        return [];
+      }
+      if (targetProfile.isEmpty) return [];
+
+      // Fetch the full backend catalogue (staging set is small: ~3.5k rows).
+      final all = await getAllWhiskies(limit: 5000, offset: 0);
+      if (all.isEmpty) return [];
+
+      final scored = <Map<String, dynamic>>[];
+      for (final other in all) {
+        if (other.externalId == backendId) continue;
+        if (other.flavorProfile == null) continue;
+        Map<String, double> otherProfile;
+        try {
+          otherProfile = normalizeFlavorProfileJson(other.flavorProfile!);
+        } catch (_) {
+          continue;
+        }
+        double sumSquares = 0.0;
+        bool hasData = false;
+        for (final entry in targetProfile.entries) {
+          final v = otherProfile[entry.key] ?? 0.0;
+          final diff = entry.value - v;
+          sumSquares += diff * diff;
+          hasData = true;
+        }
+        if (hasData) scored.add({'whisky': other, 'distance': sumSquares});
+      }
+
+      scored.sort((a, b) =>
+          (a['distance'] as double).compareTo(b['distance'] as double));
+      return scored.take(limit).map((e) => e['whisky'] as Whisky).toList();
     } catch (_) {
       return [];
     }

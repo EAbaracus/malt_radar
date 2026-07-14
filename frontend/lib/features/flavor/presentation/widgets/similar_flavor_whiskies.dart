@@ -4,20 +4,32 @@ import '../../../../core/theme/app_theme.dart';
 import '../../../../core/localization/localization_provider.dart';
 import '../providers/similar_flavor_provider.dart';
 import '../../../whisky/domain/models/whisky.dart';
+import '../../../whisky/presentation/controllers/whisky_providers.dart';
+import '../../../../core/config/app_config.dart';
 
 class SimilarFlavorWhiskies extends ConsumerWidget {
   final int whiskyId;
+  /// Backend whisky_id (DbApi mode). When non-null, similar whiskies are
+  /// computed against the backend (single source of truth) instead of the
+  /// local Drift DB.
+  final String? backendId;
   final Function(Whisky) onWhiskyTap;
 
   const SimilarFlavorWhiskies({
-    super.key, 
+    super.key,
     required this.whiskyId,
+    this.backendId,
     required this.onWhiskyTap,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final similarAsync = ref.watch(similarFlavorWhiskiesProvider(whiskyId));
+    final AsyncValue<List<Whisky>> similarAsync;
+    if (AppConfig.useDbApi && backendId != null) {
+      similarAsync = ref.watch(backendSimilarWhiskiesProvider(backendId!));
+    } else {
+      similarAsync = ref.watch(similarFlavorWhiskiesProvider(whiskyId));
+    }
     final tr = ref.watch(trProvider);
 
     return similarAsync.when(
