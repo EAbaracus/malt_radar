@@ -1,14 +1,34 @@
 import '../models/whisky.dart';
 
 abstract class WhiskyRepository {
-  // Watch local cache
+  // Watch local cache (local Drift DB mode)
   Stream<List<Whisky>> watchLocalWhiskies({
     String query = '',
     bool favoritesOnly = false,
     List<String> filters = const [],
   });
-  
-  // Search external backend
+
+  // --- Backend (DbApi) data path -----------------------------------------
+  // When AppConfig.useDbApi is true these methods form the single source of
+  // truth: Flutter -> DbWhiskyRepositoryImpl -> FastAPI -> SQLite. They are
+  // backed by the local Drift DB only in offline/legacy/fallback mode.
+
+  /// All whiskies from the backend (certified rows first).
+  Future<List<Whisky>> getAllWhiskies({int limit = 100, int offset = 0});
+
+  /// A single whisky by its backend whisky_id (e.g. 'GSD-CAND-0001' / 'W000441').
+  Future<Whisky?> getWhiskyByBackendId(String backendId);
+
+  /// official_source_references for a whisky, exactly as stored by the backend.
+  Future<List<Map<String, dynamic>>> getEvidence(String backendId);
+
+  /// Whiskies with a similar 7-axis flavor profile to the given backend whisky.
+  Future<List<Whisky>> getSimilarWhiskies(String backendId, {int limit = 5});
+
+  /// Search the backend by name/distillery (certified first, deduped).
+  Future<List<Whisky>> searchBackend(String query);
+
+  // Search external backend (legacy alias for searchBackend)
   Future<List<Whisky>> searchExternalWhiskies(String query);
   
   // Local Detail Lookups

@@ -13,10 +13,15 @@ import 'package:malt_radar/features/lists/presentation/controllers/user_lists_pr
 import 'package:malt_radar/core/localization/flavor_tag_translator.dart';
 import '../../../../core/presentation/widgets/section_header.dart';
 import '../../../../core/presentation/widgets/tasting_chip.dart';
-
+import '../../domain/models/whisky.dart';
+import '../../../flavor/presentation/providers/similar_flavor_provider.dart';
 class DetailScreen extends ConsumerStatefulWidget {
   final int whiskyId;
-  const DetailScreen({super.key, required this.whiskyId});
+  /// Backend whisky_id (e.g. 'GSD-CAND-0001' / 'W000441'). Used in DbApi mode,
+  /// where the backend is the single source of truth and local integer ids do
+  /// not apply. When non-null it takes precedence over [whiskyId].
+  final String? backendId;
+  const DetailScreen({super.key, required this.whiskyId, this.backendId});
 
   @override
   ConsumerState<DetailScreen> createState() => _DetailScreenState();
@@ -28,6 +33,8 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
   bool _initialized = false;
   List<Map<String, dynamic>> _prices = [];
   bool _isLoadingPrices = true;
+  List<Map<String, dynamic>> _evidence = [];
+  bool _isLoadingEvidence = true;
 
   @override
   void dispose() {
@@ -39,11 +46,16 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
   void initState() {
     super.initState();
     _loadPrices();
-  }
+    _loadEvidence();
+    }
 
   void _loadPrices() async {
     final repository = ref.read(whiskyRepositoryProvider);
-    final whisky = await repository.getWhiskyById(widget.whiskyId);
+    Whisky? whisky;
+    if (AppConfig.useDbApi && widget.backendId != null) {
+      return;
+    }
+    whisky = await repository.getWhiskyById(widget.whiskyId);
     if (whisky != null) {
       final list = await repository.getWhiskyPrices(
         widget.whiskyId,
@@ -53,6 +65,25 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
         _prices = list;
         _isLoadingPrices = false;
       });
+    }
+  }
+
+  void _loadEvidence() async {
+    final repository = ref.read(whiskyRepositoryProvider);
+    if (widget.backendId == null) {
+      setState(() => _isLoadingEvidence = false);
+      return;
+    }
+    try {
+      final list = await repository.getEvidence(widget.backendId!);
+      if (mounted) {
+        setState(() {
+          _evidence = list;
+          _isLoadingEvidence = false;
+        });
+      }
+    } catch (_) {
+      if (mounted) setState(() => _isLoadingEvidence = false);
     }
   }
 
@@ -203,11 +234,113 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
     );
   }
 
+
+  Widget _buildCertificationSection(BuildContext context, String Function(String) tr, Whisky whisky) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [Color(0xFF1A3A1A), Color(0xFF0D260D)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: const Color(0xFF2D5A2D), width: 1),
+        ),
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const Icon(Icons.verified, color: Color(0xFF4CAF50), size: 20),
+                const SizedBox(width: 8),
+                Text(
+                  tr('certified_whisky'),
+                  style: const TextStyle(
+                    color: Color(0xFF4CAF50),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Text(
+              tr('certified_description'),
+              style: const TextStyle(color: AppTheme.textSecondary, fontSize: 13),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEvidenceSection(BuildContext context, String Function(String) tr, WidgetRef ref, Whisky whisky) {
+    if (_isLoadingEvidence) {
+      return const Padding(
+        padding: EdgeInsets.symmetric(vertical: 24),
+        child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
+      );
+    }
+    if (_evidence.isEmpty) return const SizedBox.shrink();
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: GlassContainer(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SectionHeader(
+              icon: Icons.source,
+              title: tr('official_sources'),
+              //subtitle: '${_evidence.length} ${tr('verified_fields')}',
+            ),
+            const SizedBox(height: 12),
+            ..._evidence.map((e) => Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Icon(Icons.check_circle_outline, size: 16, color: AppTheme.textMuted),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${e['field_name'] ?? ''}: ${e['field_value'] ?? ''}',
+                          style: const TextStyle(color: AppTheme.textPrimary, fontSize: 13),
+                        ),
+                        Text(
+                          'Source: ${e['source_name'] ?? '\u2014'}',
+                          style: const TextStyle(color: AppTheme.textMuted, fontSize: 11),
+                        ),
+                      ],
+                    ),
+                  ),
+                  if (e['source_url'] != null && (e['source_url'] as String).isNotEmpty)
+                    GestureDetector(
+                      onTap: () => {},
+                      child: const Icon(Icons.open_in_new, size: 14, color: AppTheme.accent),
+                    ),
+                ],
+              ),
+            )),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final tr = ref.watch(trProvider);
     final langCode = ref.watch(localizationProvider);
-    final whiskyAsync = ref.watch(whiskyDetailProvider(widget.whiskyId));
+    final AsyncValue<Whisky?> whiskyAsync = AppConfig.useDbApi && widget.backendId != null
+        ? ref.watch(backendWhiskyDetailProvider(widget.backendId!))
+        : ref.watch(whiskyDetailProvider(widget.whiskyId));
     final settingsAsync = ref.watch(referenceSettingsStreamProvider);
     final refWhiskyAsync = ref.watch(referenceWhiskyModelProvider);
 
@@ -521,15 +654,22 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                           const SizedBox(height: 24),
                           SimilarFlavorWhiskies(
                             whiskyId: whisky.id,
+                            backendId: AppConfig.useDbApi ? whisky.externalId : null,
                             onWhiskyTap: (w) {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => DetailScreen(whiskyId: w.id),
+                                  builder: (context) => DetailScreen(whiskyId: w.id, backendId: AppConfig.useDbApi ? w.externalId : null),
                                 ),
                               );
                             },
                           ),
+
+                          if (AppConfig.useDbApi && (whisky.externalId?.startsWith("GSD-") == true))
+                            _buildCertificationSection(context, tr, whisky),
+
+                          if (AppConfig.useDbApi)
+                            _buildEvidenceSection(context, tr, ref, whisky),
                         ] else ...[
                           GlassContainer(
                             padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 16),

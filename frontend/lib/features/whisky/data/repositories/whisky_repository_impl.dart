@@ -326,11 +326,32 @@ class WhiskyRepositoryImpl implements WhiskyRepository {
 
   @override
   Future<void> clearReferenceWhisky() async {
-    await (_db.delete(_db.userSettings)
-          ..where((tbl) => tbl.key.isIn([
-            'reference_whisky_id',
-            'reference_whisky_absolute_score',
-          ])))
-        .go();
+      await (_db.delete(_db.userSettings)
+            ..where((tbl) => tbl.key.isIn([
+              'reference_whisky_id',
+              'reference_whisky_absolute_score',
+            ])))
+          .go();
   }
-}
+
+  // --------------------------------------------------------------------------
+  // DbApi-mode stubs (always return empty/none — the local/CSV repo does not
+  // support backend-driven lookups). These satisfy the interface contract so
+  // the app compiles regardless of which mode is active at build time.
+  // --------------------------------------------------------------------------
+
+  @override
+  Future<List<Whisky>> getAllWhiskies({int limit = 100, int offset = 0}) async => [];
+
+  @override
+  Future<Whisky?> getWhiskyByBackendId(String backendId) async => null;
+
+  @override
+  Future<List<Map<String, dynamic>>> getEvidence(String backendId) async => [];
+
+  @override
+  Future<List<Whisky>> getSimilarWhiskies(String backendId, {int limit = 5}) async => [];
+
+  @override
+  Future<List<Whisky>> searchBackend(String query) async => [];
+  }
