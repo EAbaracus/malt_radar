@@ -1,0 +1,49 @@
+{
+  "_checksum": "c857c9d44510e603ba17ea6a355ae2781a27d870ea23d4429f4c662eb6cfedc0",
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.glenfarclas.com/our-whiskies/12-years-old"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "43% ABV",
+      "value": 43.0
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "12 Years Old",
+      "value": 12
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "100% Oloroso sherry casks",
+      "value": "Sherry"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Scotland",
+      "value": "Scotland"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Glenfarclas Distillery",
+      "value": "Glenfarclas"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Speyside single malt",
+      "value": "Speyside"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0004",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:47.772827+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

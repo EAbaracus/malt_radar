@@ -1,0 +1,49 @@
+{
+  "_checksum": "d457107139f04a0224d2caa6727c251589e34bca02f044333c418ab0763aac96",
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "structured_data",
+    "source_key": "MR-KEP-GSD-V1",
+    "url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "[approx_abv] 55.2",
+      "value": 55.2
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "[age_statement_years] 0",
+      "value": 0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "[cask_type_primary] Bourbon",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "[country] India",
+      "value": "India"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "[distillery] Paul John",
+      "value": "Paul John"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "[region] Karnataka",
+      "value": "Karnataka"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0080",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:14:58.842298+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

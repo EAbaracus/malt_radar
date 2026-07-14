@@ -1,0 +1,49 @@
+{
+  "_checksum": "8b15414c1cf0c5cf6104d375b9a00599472ac40bf2361109cfc93c3390139e3a",
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "structured_data",
+    "source_key": "MR-KEP-GSD-V1",
+    "url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "[approx_abv] 57.8",
+      "value": 57.8
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "[age_statement_years] 0",
+      "value": 0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "[cask_type_primary] Wine (Vinho)",
+      "value": "Wine (Vinho)"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "[country] Taiwan",
+      "value": "Taiwan"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "[distillery] Kavalan",
+      "value": "Kavalan"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "[region] Taiwanese",
+      "value": "Taiwanese"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0085",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:14:58.860643+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

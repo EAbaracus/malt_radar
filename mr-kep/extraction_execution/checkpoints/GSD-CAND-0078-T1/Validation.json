@@ -1,0 +1,146 @@
+{
+  "_checksum": "aa1fdb2ec77fa26b4b109e45d23e9a1cb15a1923d0271f3f81ed5fd045212791",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-42f343a2b9751442",
+      "fact_id": "EV-4145f9d35080",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "Amrut",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Bottled at Amrut Distillery",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.amrut.com/whisky/amrut-single-malt",
+          "won": true
+        }
+      ],
+      "value": "Amrut"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-80907d43c046a320",
+      "fact_id": "EV-34d2db05f29f",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "India",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Product of India",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.amrut.com/whisky/amrut-single-malt",
+          "won": true
+        }
+      ],
+      "value": "India"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-23c58f17596d14d1",
+      "fact_id": "EV-114c28e84067",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "Karnataka",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Karnataka single malt",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.amrut.com/whisky/amrut-single-malt",
+          "won": true
+        }
+      ],
+      "value": "Karnataka"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-1513e591d1bce5cc",
+      "fact_id": "EV-e14a99a19d8c",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 46.0,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "46.0% ABV",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.amrut.com/whisky/amrut-single-malt",
+          "won": true
+        }
+      ],
+      "value": 46.0
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-fcf9e5d523de5382",
+      "fact_id": "EV-a25d7819c9aa",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Bourbon",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "matured in Bourbon casks",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.amrut.com/whisky/amrut-single-malt",
+          "won": true
+        }
+      ],
+      "value": "Bourbon"
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.amrut.com/whisky/amrut-single-malt"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "46.0% ABV",
+      "value": 46.0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Bourbon casks",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of India",
+      "value": "India"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Amrut Distillery",
+      "value": "Amrut"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Karnataka single malt",
+      "value": "Karnataka"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0078",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:49.612544+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

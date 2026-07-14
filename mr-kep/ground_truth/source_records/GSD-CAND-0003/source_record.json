@@ -1,0 +1,82 @@
+{
+  "distillery_name": {
+    "value": "Laphroaig",
+    "source": "https://www.laphroaig.com/en/10-year-old",
+    "exact_quote": "Laphroaig Distillery",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "country": {
+    "value": "Scotland",
+    "source": "https://www.laphroaig.com/en/10-year-old",
+    "exact_quote": "Product of Scotland",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "region": {
+    "value": "Islay",
+    "source": "https://www.laphroaig.com/en/10-year-old",
+    "exact_quote": "Islay Single Malt",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "abv": {
+    "value": 40.0,
+    "source": "https://www.laphroaig.com/en/10-year-old",
+    "exact_quote": "40% ABV",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "cask_type": {
+    "value": "Bourbon",
+    "source": "https://www.laphroaig.com/en/10-year-old",
+    "exact_quote": "ex-bourbon barrels",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "age_statement": {
+    "value": 10,
+    "source": "https://www.laphroaig.com/en/10-year-old",
+    "exact_quote": "10 Year Old",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "nose": {
+    "value": "Medicinal peat smoke, bandages, seaweed, salt",
+    "source": "https://www.whiskyfun.com/archivemarch20.html",
+    "exact_quote": "Nose: medicinal peat, TCP, seaweed",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "palate": {
+    "value": "Peat smoke, TCP, vanilla sweetness, sea salt",
+    "source": "https://www.whiskyfun.com/archivemarch20.html",
+    "exact_quote": "Palate: sweet peat TCP, salt",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "finish": {
+    "value": "Long, tarry, medicinal with lingering ash",
+    "source": "https://www.whiskyfun.com/archivemarch20.html",
+    "exact_quote": "Finish: long, tarry, medicinal",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "score": {
+    "value": 88,
+    "source": "https://www.whiskyfun.com/archivemarch20.html",
+    "exact_quote": "88 points",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  }
+}

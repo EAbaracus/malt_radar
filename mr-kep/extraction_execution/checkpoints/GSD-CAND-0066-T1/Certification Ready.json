@@ -1,0 +1,171 @@
+{
+  "_checksum": "fbe5eec0f224ab92df3973374cc9f75b99770acbec55aa0138080fcf430cf88f",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-f1be1419569b8662",
+      "fact_id": "EV-2a97c20603b1",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "Jim Beam",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Bottled at Jim Beam Distillery",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.jimbeam.com/whisky/jim-beam-black-8yo",
+          "won": true
+        }
+      ],
+      "value": "Jim Beam"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-d9113c6c170ee997",
+      "fact_id": "EV-dfffe18c6ff9",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "USA",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Product of USA",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.jimbeam.com/whisky/jim-beam-black-8yo",
+          "won": true
+        }
+      ],
+      "value": "USA"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-476b03465d32b1b6",
+      "fact_id": "EV-963ab94e1e7e",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "Kentucky",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Kentucky single malt",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.jimbeam.com/whisky/jim-beam-black-8yo",
+          "won": true
+        }
+      ],
+      "value": "Kentucky"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-e84f9a787f1284f4",
+      "fact_id": "EV-89efaf1bee1b",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 43.0,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "43.0% ABV",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.jimbeam.com/whisky/jim-beam-black-8yo",
+          "won": true
+        }
+      ],
+      "value": 43.0
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-151a33f21e171c92",
+      "fact_id": "EV-43aa1a27fc3c",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Bourbon",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "matured in Bourbon casks",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.jimbeam.com/whisky/jim-beam-black-8yo",
+          "won": true
+        }
+      ],
+      "value": "Bourbon"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-445db9b6dd295ebe",
+      "fact_id": "EV-a2a059de9a7b",
+      "field": "age_statement",
+      "field_name": "age_statement",
+      "field_value": 8,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "aged for 8 years",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.jimbeam.com/whisky/jim-beam-black-8yo",
+          "won": true
+        }
+      ],
+      "value": 8
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.jimbeam.com/whisky/jim-beam-black-8yo"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "43.0% ABV",
+      "value": 43.0
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "aged for 8 years",
+      "value": 8
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Bourbon casks",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of USA",
+      "value": "USA"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Jim Beam Distillery",
+      "value": "Jim Beam"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Kentucky single malt",
+      "value": "Kentucky"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0066",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:49.317132+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

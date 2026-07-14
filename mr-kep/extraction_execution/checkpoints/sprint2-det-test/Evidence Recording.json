@@ -1,0 +1,36 @@
+{
+  "_checksum": "614e05702fd9efb168b80600370bd2cb6ea1a008d540797f9b2b14bc3f2bfc4b",
+  "extraction_request": {
+    "url": "https://whiskyfun.com/reviews/ardbeg-10"
+  },
+  "extraction_result": {
+    "abv": "46%",
+    "age_statement": 10,
+    "cask_type": "Ex-Bourbon",
+    "country": "Scotland",
+    "distillery_name": "Ardbeg",
+    "finish": "Long, smoky with lingering peat, brine and oak spice",
+    "flavor_axes": {
+      "fruity": 0.3,
+      "maritime": 0.8,
+      "peaty": 0.85,
+      "sherry": 0.0,
+      "smoky": 0.9,
+      "spicy": 0.5,
+      "sweet": 0.2
+    },
+    "nose": "Coastal peat smoke, lemon zest, green apple, vanilla",
+    "palate": "Rich peat smoke, dark chocolate, sea salt, black pepper",
+    "region": "Islay",
+    "score": 92
+  },
+  "qualification_record": {
+    "candidate_id": "MRKEP-SAMPLE-001",
+    "priority_gate": "Extract Normally",
+    "source_key": "whiskyfun"
+  },
+  "validation_report": {
+    "gate": "PASS",
+    "recoverable": false
+  }
+}

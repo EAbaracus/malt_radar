@@ -1,0 +1,146 @@
+{
+  "_checksum": "6ed540e237b45dcc8f4f6a7fca327e4d2f7b63dadfcceebee8a8009c44df2fd8",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-aa98db6c64d759f4",
+      "fact_id": "EV-8139fbc6666c",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "Auchentoshan",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Bottled at Auchentoshan Distillery",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.auchentoshan.com/whisky/auchentoshan-three-wood",
+          "won": true
+        }
+      ],
+      "value": "Auchentoshan"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-052918db706a3dca",
+      "fact_id": "EV-f053fa428716",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "Scotland",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Product of Scotland",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.auchentoshan.com/whisky/auchentoshan-three-wood",
+          "won": true
+        }
+      ],
+      "value": "Scotland"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-272339b5bdf1b97f",
+      "fact_id": "EV-8542b9887b90",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "Lowland",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Lowland single malt",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.auchentoshan.com/whisky/auchentoshan-three-wood",
+          "won": true
+        }
+      ],
+      "value": "Lowland"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-52805de8fb72cee0",
+      "fact_id": "EV-4be03a217d0d",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 43.0,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "43.0% ABV",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.auchentoshan.com/whisky/auchentoshan-three-wood",
+          "won": true
+        }
+      ],
+      "value": 43.0
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-5c922526cbb21092",
+      "fact_id": "EV-c60fc0e298a2",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Bourbon+Sherry+Pedro Ximenez",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "matured in Bourbon+Sherry+Pedro Ximenez casks",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.auchentoshan.com/whisky/auchentoshan-three-wood",
+          "won": true
+        }
+      ],
+      "value": "Bourbon+Sherry+Pedro Ximenez"
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.auchentoshan.com/whisky/auchentoshan-three-wood"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "43.0% ABV",
+      "value": 43.0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Bourbon+Sherry+Pedro Ximenez casks",
+      "value": "Bourbon+Sherry+Pedro Ximenez"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Scotland",
+      "value": "Scotland"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Auchentoshan Distillery",
+      "value": "Auchentoshan"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Lowland single malt",
+      "value": "Lowland"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0035",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:48.527016+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

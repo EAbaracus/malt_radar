@@ -1,0 +1,202 @@
+[
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-87c409d689f8cda0",
+    "fact_id": "EV-cdf3e8c3900a",
+    "field": "distillery_name",
+    "field_name": "distillery_name",
+    "value": "Laphroaig",
+    "field_value": "Laphroaig",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.laphroaig.com/en/10-year-old",
+        "quote": "Laphroaig Distillery",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-644761a8ab40a206",
+    "fact_id": "EV-c4090222313e",
+    "field": "country",
+    "field_name": "country",
+    "value": "Scotland",
+    "field_value": "Scotland",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.laphroaig.com/en/10-year-old",
+        "quote": "Product of Scotland",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-6604d76653ecb965",
+    "fact_id": "EV-e61c9dcb699b",
+    "field": "region",
+    "field_name": "region",
+    "value": "Islay",
+    "field_value": "Islay",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.laphroaig.com/en/10-year-old",
+        "quote": "Islay Single Malt",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-d2cb04da50460ee3",
+    "fact_id": "EV-189f4f345812",
+    "field": "abv",
+    "field_name": "abv",
+    "value": 40.0,
+    "field_value": 40.0,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.laphroaig.com/en/10-year-old",
+        "quote": "40% ABV",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-da857a7d04d6c14d",
+    "fact_id": "EV-d8b15481610c",
+    "field": "cask_type",
+    "field_name": "cask_type",
+    "value": "Bourbon",
+    "field_value": "Bourbon",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.laphroaig.com/en/10-year-old",
+        "quote": "ex-bourbon barrels",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-580e92d96b6e5c98",
+    "fact_id": "EV-28926e999485",
+    "field": "age_statement",
+    "field_name": "age_statement",
+    "value": 10,
+    "field_value": 10,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.laphroaig.com/en/10-year-old",
+        "quote": "10 Year Old",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-aea6faaebbd0163c",
+    "fact_id": "EV-2bcdef994bb9",
+    "field": "nose",
+    "field_name": "nose",
+    "value": "Medicinal peat smoke, bandages, seaweed, salt",
+    "field_value": "Medicinal peat smoke, bandages, seaweed, salt",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archivemarch20.html",
+        "quote": "Nose: medicinal peat, TCP, seaweed",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-b94e09bc152b99ab",
+    "fact_id": "EV-feade39262ca",
+    "field": "palate",
+    "field_name": "palate",
+    "value": "Peat smoke, TCP, vanilla sweetness, sea salt",
+    "field_value": "Peat smoke, TCP, vanilla sweetness, sea salt",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archivemarch20.html",
+        "quote": "Palate: sweet peat TCP, salt",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-ae6843f4f34f3245",
+    "fact_id": "EV-d8c401c065a1",
+    "field": "finish",
+    "field_name": "finish",
+    "value": "Long, tarry, medicinal with lingering ash",
+    "field_value": "Long, tarry, medicinal with lingering ash",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archivemarch20.html",
+        "quote": "Finish: long, tarry, medicinal",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-72878d41880a57b4",
+    "fact_id": "EV-a0db8ecf47d3",
+    "field": "score",
+    "field_name": "score",
+    "value": 88,
+    "field_value": 88,
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archivemarch20.html",
+        "quote": "88 points",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  }
+]

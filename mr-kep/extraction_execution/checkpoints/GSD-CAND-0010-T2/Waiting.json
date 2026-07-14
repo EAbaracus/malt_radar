@@ -1,0 +1,39 @@
+{
+  "_checksum": "2b689a9acb3ac0104779ca0d040dc07fb03bf6bdae8010c67105194f24533f38",
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "expert_quote",
+    "source_key": "whiskyfun",
+    "url": "https://www.whiskyfun.com/archivejanuary19-2.html"
+  },
+  "extraction_result": {
+    "finish": {
+      "confidence": 1.0,
+      "quote": "Finish: long, dry, warm spices, chocolate",
+      "value": "Robust, long, sweet orange, chocolate, spices"
+    },
+    "nose": {
+      "confidence": 1.0,
+      "quote": "Nose: sherry, dried orange, cocoa, leather",
+      "value": "Mixed spices, praline, spiced orange, rich Oloroso"
+    },
+    "palate": {
+      "confidence": 1.0,
+      "quote": "Palate: heavy sherry, cinnamon, ginger, pepper",
+      "value": "Orange, black cherry, dried fruit, ginger, chocolate"
+    },
+    "score": {
+      "confidence": 1.0,
+      "quote": "85 points",
+      "value": 85
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0010",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:47.919232+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

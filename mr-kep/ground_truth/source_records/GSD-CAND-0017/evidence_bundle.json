@@ -1,0 +1,182 @@
+[
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-da44a1104985c18d",
+    "fact_id": "EV-f860d0f3d777",
+    "field": "distillery_name",
+    "field_name": "distillery_name",
+    "value": "Ardbeg",
+    "field_value": "Ardbeg",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.ardbeg.com/en-int/whisky/ultimate-range/uigeadail",
+        "quote": "Ardbeg Distillery",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-7c3a010a35a507da",
+    "fact_id": "EV-28a7e103dd22",
+    "field": "country",
+    "field_name": "country",
+    "value": "Scotland",
+    "field_value": "Scotland",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.ardbeg.com/en-int/whisky/ultimate-range/uigeadail",
+        "quote": "Product of Scotland",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-d3b7588dc4944d76",
+    "fact_id": "EV-b1aff0a72be5",
+    "field": "region",
+    "field_name": "region",
+    "value": "Islay",
+    "field_value": "Islay",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.ardbeg.com/en-int/whisky/ultimate-range/uigeadail",
+        "quote": "Islay Single Malt",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-c53b0fa92c9c734b",
+    "fact_id": "EV-f46eda0f17ac",
+    "field": "abv",
+    "field_name": "abv",
+    "value": 54.2,
+    "field_value": 54.2,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.ardbeg.com/en-int/whisky/ultimate-range/uigeadail",
+        "quote": "54.2% ABV",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-de7a20272479775f",
+    "fact_id": "EV-3e165e17373d",
+    "field": "cask_type",
+    "field_name": "cask_type",
+    "value": "Sherry+Bourbon",
+    "field_value": "Sherry+Bourbon",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.ardbeg.com/en-int/whisky/ultimate-range/uigeadail",
+        "quote": "sherry and bourbon casks",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-974ae0258709c084",
+    "fact_id": "EV-a4c56f285d37",
+    "field": "nose",
+    "field_name": "nose",
+    "value": "Rich sherry peat smoke, leather, dark chocolate",
+    "field_value": "Rich sherry peat smoke, leather, dark chocolate",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19.html",
+        "quote": "Nose: heavy sherry peat, dark chocolate, coffee, brine",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-f452daa133652502",
+    "fact_id": "EV-1c3f314db321",
+    "field": "palate",
+    "field_name": "palate",
+    "value": "Intense peat smoke, sweet Oloroso sherry, pepper",
+    "field_value": "Intense peat smoke, sweet Oloroso sherry, pepper",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19.html",
+        "quote": "Palate: intense peat, sweet sherry, leather, black pepper",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-b6839ff98947bfd0",
+    "fact_id": "EV-8a60f6bf70bb",
+    "field": "finish",
+    "field_name": "finish",
+    "value": "Long, dry, warm peat and sherry spice",
+    "field_value": "Long, dry, warm peat and sherry spice",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19.html",
+        "quote": "Finish: long, dry, warm sherried peat",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-af00e44dbb3c3628",
+    "fact_id": "EV-bdba29b9dd05",
+    "field": "score",
+    "field_name": "score",
+    "value": 92,
+    "field_value": 92,
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19.html",
+        "quote": "92 points",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  }
+]

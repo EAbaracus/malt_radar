@@ -1,0 +1,166 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://malt-radar.local/mr-kep/evidence/evidence_schema.json",
+  "title": "MR-KEP Evidence Ledger Entry",
+  "description": "One atomic, IMMUTABLE evidence entry in the append-only Evidence Ledger (P64). Records the full provenance and lifecycle of a single (entity, field) observation from one source. Complements schemas/evidence.schema.json (Sprint 1), which is the per-certified-fact rollup; this schema is the finer-grained ledger row that rollup is built from. Evidence-first: no field value exists without a ledger entry. No fabrication: absent data is null, never invented.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "evidence_id",
+    "entity_type",
+    "entity_id",
+    "field_name",
+    "field_value",
+    "source_class",
+    "source_name",
+    "source_url",
+    "retrieval_timestamp",
+    "retrieval_hash",
+    "confidence",
+    "authority_tier",
+    "certification_level",
+    "review_status",
+    "provenance_state"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+
+    "evidence_id": {
+      "type": "string",
+      "pattern": "^EV-[a-f0-9]{16}$",
+      "description": "Deterministic ID = 'EV-' + first 16 hex of evidence_hash (see hash strategy). Immutable once written."
+    },
+
+    "entity_type": {
+      "enum": ["distillery", "brand", "whisky", "bottling"],
+      "description": "Matches P63 entity_types."
+    },
+    "entity_id": {
+      "type": "string",
+      "description": "Stable entity identifier (e.g. normalized whisky key or Malt Radar whisky_id like W001997). Never a fabricated id."
+    },
+
+    "field_name": {
+      "type": "string",
+      "description": "Canonical field (matches authority/field_rules.yaml), e.g. abv, region, nose, score."
+    },
+    "field_value": {
+      "type": ["string", "number", "null"],
+      "description": "The observed value AS EXTRACTED (pre- or post-normalization per normalization). null when the source did not state it (no fabrication)."
+    },
+    "normalization": {
+      "type": ["string", "null"],
+      "description": "Normalization applied (matches field_rules.yaml normalization key), or null if raw."
+    },
+
+    "source_class": {
+      "enum": ["official", "regulatory", "official_wayback", "book", "expert_review", "structured_metadata", "community"],
+      "description": "P63 source class."
+    },
+    "source_name": {
+      "type": "string",
+      "description": "Concrete source identity. Reuses authority source_key or P62 source id, e.g. 'whiskyfun', 'SRC_011', 'SRC_012', 'SRC_013', 'producer_technical_sheet'."
+    },
+    "source_url": {
+      "type": ["string", "null"],
+      "format": "uri",
+      "description": "Canonical URL of the evidence. For official_wayback this is the web.archive.org snapshot URL. null only for offline sources (e.g. book) that use citation instead."
+    },
+    "source_citation": {
+      "type": ["string", "null"],
+      "description": "Offline citation when source_url is null (e.g. book title, author, page). Required if source_url is null."
+    },
+
+    "extraction_method": {
+      "type": ["string", "null"],
+      "description": "Named method from the source profile (e.g. 'trigger_scan', 'structured_parse'). Declarative reference only; P64 writes no extractor."
+    },
+    "selector": {
+      "type": ["string", "null"],
+      "description": "The exact locator used (CSS/XPath/regex/anchor/page-offset). Enables re-verification. null for offline sources."
+    },
+    "selector_hash": {
+      "type": ["string", "null"],
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA-256 of the normalized selector string (see hash strategy)."
+    },
+
+    "retrieval_timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 UTC time the evidence was retrieved. For official_wayback, the SNAPSHOT capture time, with live_retrieved_at in notes if relevant."
+    },
+    "content_hash": {
+      "type": ["string", "null"],
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA-256 of the retrieved raw content (page/section) the value came from."
+    },
+    "snapshot_hash": {
+      "type": ["string", "null"],
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA-256 of the stored snapshot artifact (e.g. archived HTML/PDF), if a snapshot was preserved."
+    },
+    "retrieval_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA-256 binding retrieval context = hash(source_url|retrieval_timestamp|content_hash). Proves WHAT was fetched WHEN."
+    },
+    "evidence_hash": {
+      "type": ["string", "null"],
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA-256 identity of the whole entry (see hash strategy). evidence_id is derived from it. Self-referential field excluded from its own input."
+    },
+
+    "confidence": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "Deterministic confidence per authority/confidence.yaml at time of writing."
+    },
+    "authority_tier": {
+      "enum": ["T1_authoritative", "T2_expert", "T3_community"],
+      "description": "Tier of source_class per authority layer."
+    },
+    "merge_strategy": {
+      "type": ["string", "null"],
+      "description": "merge_policies.yaml key IF this entry participated in a merge (e.g. 'authority_wins', 'latest_expert_wins'). null for a lone observation."
+    },
+    "certification_level": {
+      "enum": ["uncertified", "proposed", "certified", "rejected"],
+      "description": "Maps to P63 certification paths: proposed=PROPOSED_NEEDS_CERT, certified=paths A/B, rejected=identity conflict etc."
+    },
+    "certification_path": {
+      "enum": ["A", "B", "C", "D", "E", "F", null],
+      "description": "P63 certification_paths.md path that produced certification_level, if applicable."
+    },
+
+    "review_status": {
+      "enum": ["auto", "needs_review", "reviewed_approved", "reviewed_rejected"],
+      "description": "Human-review state. Never auto-promoted past needs_review without human action."
+    },
+
+    "provenance_state": {
+      "enum": ["discovered", "extracted", "normalized", "verified", "certified", "superseded", "deprecated"],
+      "description": "Current lifecycle state (see provenance_model.md). Ledger is append-only: a state change is a NEW entry, never an in-place edit."
+    },
+    "supersedes": {
+      "type": ["string", "null"],
+      "pattern": "^EV-[a-f0-9]{16}$",
+      "description": "evidence_id this entry supersedes, when provenance_state transitions produce a new row. Preserves the chain; the old entry is NOT deleted."
+    },
+
+    "notes": {
+      "type": ["string", "null"],
+      "description": "Free-text audit note. Never used to store a fabricated value."
+    }
+  },
+
+  "allOf": [
+    {
+      "description": "If source_url is null, a source_citation is required (offline source traceability).",
+      "if": { "properties": { "source_url": { "type": "null" } } },
+      "then": { "required": ["source_citation"] }
+    }
+  ]
+}

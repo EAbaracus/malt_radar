@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://malt-radar.local/mr-kep/schemas/normalization.schema.json",
+  "title": "MR-KEP Normalization Record",
+  "description": "Output of the normalization step (shared by Extraction/Validation): canonicalized field values + success flag. Mirrors field_rules.yaml normalization keys.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "source_key", "unit_id", "normalized_at", "fields"],
+  "properties": {
+    "schema_version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "source_key": { "type": "string" },
+    "unit_id": { "type": "string" },
+    "normalized_at": { "type": "string", "format": "date-time" },
+    "fields": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["normalized_value", "normalization", "ok"],
+        "properties": {
+          "normalized_value": { "type": ["string", "number", "null"] },
+          "normalization": { "type": "string", "description": "Name of the normalization applied (must match field_rules.yaml)." },
+          "ok": { "type": "boolean", "description": "false => normalization failed; confidence penalty applies." },
+          "error": { "type": "string" }
+        }
+      }
+    }
+  }
+}

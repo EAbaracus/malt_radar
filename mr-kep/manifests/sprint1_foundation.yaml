@@ -1,0 +1,68 @@
+# =============================================================================
+# manifests/sprint1_foundation.yaml
+# -----------------------------------------------------------------------------
+# Example manifest instance for the Sprint 1 foundation run. Demonstrates the
+# contract from templates/manifest.yaml. No real extraction is performed in
+# Sprint 1 — this is the skeleton a future AOUS run fills in.
+# Validated against schemas/manifest.schema.json.
+# =============================================================================
+
+schema_version: "1.0.0"
+manifest_id: "MRKEP-20260713-000000"
+pipeline_name: "mr-kep-sprint1-foundation"
+created_at: "2026-07-13T00:00:00Z"
+deterministic: true
+seed: 42
+
+sources:
+  - source_key: "whiskyfun"
+    profile_ref: "sources/whiskyfun/source_profile.yaml"
+    scope:
+      whisky_name_contains: ""
+      date_from: null
+      date_to: null
+      max_units: 0
+
+stages:
+  - stage: qualification
+    agent: "qualification-agent"
+    status: "pending"
+    input_ref: ""
+    output_ref: ""
+    checksum: ""
+  - stage: extraction
+    agent: "extraction-agent"
+    status: "pending"
+    input_ref: ""
+    output_ref: ""
+    checksum: ""
+  - stage: validation
+    agent: "validation-agent"
+    status: "pending"
+    input_ref: ""
+    output_ref: ""
+    checksum: ""
+  - stage: merge
+    agent: "merge-agent"
+    status: "pending"
+    input_ref: ""
+    output_ref: ""
+    checksum: ""
+  - stage: certification
+    agent: "certification-agent"
+    status: "pending"
+    input_ref: ""
+    output_ref: ""
+    checksum: ""
+  - stage: audit
+    agent: "audit-agent"
+    status: "pending"
+    input_ref: ""
+    output_ref: ""
+    checksum: ""
+
+gate:
+  status: "AWAITING_APPROVAL"
+  evaluated_at: "2026-07-13T00:00:00Z"
+  reasons:
+    - "Foundation sprint: standards/schemas only; no extraction executed."

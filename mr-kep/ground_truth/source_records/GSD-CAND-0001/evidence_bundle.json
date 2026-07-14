@@ -1,0 +1,202 @@
+[
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-72ff3370f8c82f02",
+    "fact_id": "EV-99f8469ab5db",
+    "field": "distillery_name",
+    "field_name": "distillery_name",
+    "value": "Lagavulin",
+    "field_value": "Lagavulin",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DiageoMalts",
+        "source_url": "https://www.malts.com/en-gb/products/single-malt-whisky/lagavulin-16-year-old",
+        "quote": "Lagavulin Distillery",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-3bf68c6daa15c6e9",
+    "fact_id": "EV-e01a3028951b",
+    "field": "country",
+    "field_name": "country",
+    "value": "Scotland",
+    "field_value": "Scotland",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DiageoMalts",
+        "source_url": "https://www.malts.com/en-gb/products/single-malt-whisky/lagavulin-16-year-old",
+        "quote": "Product of Scotland",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-c69d8ca3cde20f08",
+    "fact_id": "EV-cbd9dad4d0ae",
+    "field": "region",
+    "field_name": "region",
+    "value": "Islay",
+    "field_value": "Islay",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DiageoMalts",
+        "source_url": "https://www.malts.com/en-gb/products/single-malt-whisky/lagavulin-16-year-old",
+        "quote": "Islay single malt",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-6bbd63537603764c",
+    "fact_id": "EV-cd72c8640340",
+    "field": "abv",
+    "field_name": "abv",
+    "value": 43.0,
+    "field_value": 43.0,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DiageoMalts",
+        "source_url": "https://www.malts.com/en-gb/products/single-malt-whisky/lagavulin-16-year-old",
+        "quote": "43% ABV",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-616a0eff60f5cadb",
+    "fact_id": "EV-8de834b33bb1",
+    "field": "cask_type",
+    "field_name": "cask_type",
+    "value": "Bourbon+Sherry",
+    "field_value": "Bourbon+Sherry",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DiageoMalts",
+        "source_url": "https://www.malts.com/en-gb/products/single-malt-whisky/lagavulin-16-year-old",
+        "quote": "matured in oak casks",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-309d107c1f533a5c",
+    "fact_id": "EV-54429f27cf9d",
+    "field": "age_statement",
+    "field_name": "age_statement",
+    "value": 16,
+    "field_value": 16,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DiageoMalts",
+        "source_url": "https://www.malts.com/en-gb/products/single-malt-whisky/lagavulin-16-year-old",
+        "quote": "aged for sixteen years",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-fc77b16dde6f1db0",
+    "fact_id": "EV-df60877cced0",
+    "field": "nose",
+    "field_name": "nose",
+    "value": "Coastal peat smoke, iodine, sweet spices, sherry",
+    "field_value": "Coastal peat smoke, iodine, sweet spices, sherry",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archivedecember18-2-clinch.html#201218",
+        "quote": "Nose: very thick peat smoke, iodine, sweet spices",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-3d26ff08c750d07b",
+    "fact_id": "EV-81eabb347a24",
+    "field": "palate",
+    "field_name": "palate",
+    "value": "Rich peat smoke, dry oak, sea salt, dried fruits",
+    "field_value": "Rich peat smoke, dry oak, sea salt, dried fruits",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archivedecember18-2-clinch.html#201218",
+        "quote": "Palate: sweet, rich peat, sherry sweetness, salt",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-d1cb124a24eb929b",
+    "fact_id": "EV-056a97cd43d7",
+    "field": "finish",
+    "field_name": "finish",
+    "value": "Long, warm, smoky with dry peat and brine",
+    "field_value": "Long, warm, smoky with dry peat and brine",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archivedecember18-2-clinch.html#201218",
+        "quote": "Finish: long, dry peat, sweet oak, sea salt",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-75caf37cb0ccc9bd",
+    "fact_id": "EV-c6a7f40805db",
+    "field": "score",
+    "field_name": "score",
+    "value": 90,
+    "field_value": 90,
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archivedecember18-2-clinch.html#201218",
+        "quote": "90 points",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  }
+]

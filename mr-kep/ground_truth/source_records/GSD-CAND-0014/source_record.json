@@ -1,0 +1,82 @@
+{
+  "distillery_name": {
+    "value": "GlenAllachie",
+    "source": "https://www.theglenallachie.com/whisky/12-year-old",
+    "exact_quote": "The GlenAllachie Distillery",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "country": {
+    "value": "Scotland",
+    "source": "https://www.theglenallachie.com/whisky/12-year-old",
+    "exact_quote": "Product of Scotland",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "region": {
+    "value": "Speyside",
+    "source": "https://www.theglenallachie.com/whisky/12-year-old",
+    "exact_quote": "Speyside Single Malt",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "abv": {
+    "value": 46.0,
+    "source": "https://www.theglenallachie.com/whisky/12-year-old",
+    "exact_quote": "46% ABV",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "cask_type": {
+    "value": "Sherry",
+    "source": "https://www.theglenallachie.com/whisky/12-year-old",
+    "exact_quote": "virgin oak, Oloroso, and PX sherry casks",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "age_statement": {
+    "value": 12,
+    "source": "https://www.theglenallachie.com/whisky/12-year-old",
+    "exact_quote": "12 Year Old",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "nose": {
+    "value": "Honey, marzipan, bananas, rich butterscotch",
+    "source": "https://www.whiskyfun.com/archiveapril18.html",
+    "exact_quote": "Nose: honey, marzipan, dark fruits, oak",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "palate": {
+    "value": "Honey, marzipan, raisins, mocha, orange zest",
+    "source": "https://www.whiskyfun.com/archiveapril18.html",
+    "exact_quote": "Palate: sweet sherry, orange zest, spices",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "finish": {
+    "value": "Long, warm mocha, sweet spices",
+    "source": "https://www.whiskyfun.com/archiveapril18.html",
+    "exact_quote": "Finish: medium, warm chocolate",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "score": {
+    "value": 83,
+    "source": "https://www.whiskyfun.com/archiveapril18.html",
+    "exact_quote": "83 points",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  }
+}

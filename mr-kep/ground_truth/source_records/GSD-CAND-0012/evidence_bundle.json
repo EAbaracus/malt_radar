@@ -1,0 +1,202 @@
+[
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-f6b083b9c81b74aa",
+    "fact_id": "EV-451bdc336a2c",
+    "field": "distillery_name",
+    "field_name": "distillery_name",
+    "value": "Glenfiddich",
+    "field_value": "Glenfiddich",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.glenfiddich.com/our-collection/18-year-old",
+        "quote": "Glenfiddich Distillery",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-7d2423f6b8b5f9c4",
+    "fact_id": "EV-67bf307c2b0e",
+    "field": "country",
+    "field_name": "country",
+    "value": "Scotland",
+    "field_value": "Scotland",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.glenfiddich.com/our-collection/18-year-old",
+        "quote": "Product of Scotland",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-7496d1fa7e832347",
+    "fact_id": "EV-3c729d4b71fd",
+    "field": "region",
+    "field_name": "region",
+    "value": "Speyside",
+    "field_value": "Speyside",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.glenfiddich.com/our-collection/18-year-old",
+        "quote": "Speyside Single Malt",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-8598b12fddacdb5d",
+    "fact_id": "EV-b34dc6f5d617",
+    "field": "abv",
+    "field_name": "abv",
+    "value": 40.0,
+    "field_value": 40.0,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.glenfiddich.com/our-collection/18-year-old",
+        "quote": "40% ABV",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-e5eff2b4fc8be414",
+    "fact_id": "EV-4024d87ec7b0",
+    "field": "cask_type",
+    "field_name": "cask_type",
+    "value": "Sherry+Bourbon",
+    "field_value": "Sherry+Bourbon",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.glenfiddich.com/our-collection/18-year-old",
+        "quote": "Oloroso sherry and bourbon casks",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-ef1c8a15b812525e",
+    "fact_id": "EV-4df6c7e66930",
+    "field": "age_statement",
+    "field_name": "age_statement",
+    "value": 18,
+    "field_value": 18,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.glenfiddich.com/our-collection/18-year-old",
+        "quote": "18 Year Old",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-732d852e98cc7671",
+    "fact_id": "EV-f05610ee394a",
+    "field": "nose",
+    "field_name": "nose",
+    "value": "Baked apple, cinnamon, dried fruit, rich oak",
+    "field_value": "Baked apple, cinnamon, dried fruit, rich oak",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archivemarch18.html",
+        "quote": "Nose: honey, vanilla, dark red fruits, baking spices",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-465600e8ccf5bc4b",
+    "fact_id": "EV-6ee872113254",
+    "field": "palate",
+    "field_name": "palate",
+    "value": "Dried fruit, candy peel, dates, elegant oak wood",
+    "field_value": "Dried fruit, candy peel, dates, elegant oak wood",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archivemarch18.html",
+        "quote": "Palate: silky smooth, marzipan, cinnamon, ginger",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-572b14b98947be95",
+    "fact_id": "EV-148a3229ce7a",
+    "field": "finish",
+    "field_name": "finish",
+    "value": "Long, warm, distinguished finish",
+    "field_value": "Long, warm, distinguished finish",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archivemarch18.html",
+        "quote": "Finish: medium, sweet oak, spice",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-33bb6e0766f4438a",
+    "fact_id": "EV-287897bea7c6",
+    "field": "score",
+    "field_name": "score",
+    "value": 82,
+    "field_value": 82,
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archivemarch18.html",
+        "quote": "82 points",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  }
+]

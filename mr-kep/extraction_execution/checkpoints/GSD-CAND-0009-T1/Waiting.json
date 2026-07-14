@@ -1,0 +1,49 @@
+{
+  "_checksum": "8c095943bb93ea348e61e965a5ff7d0c4934427ee2f9718d3d57110ffaf45094",
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.glenfarclas.com/our-whiskies/21-years-old"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "43% ABV",
+      "value": 43.0
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "21 Years Old",
+      "value": 21
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "Oloroso sherry casks",
+      "value": "Sherry"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Scotland",
+      "value": "Scotland"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Glenfarclas Distillery",
+      "value": "Glenfarclas"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Speyside single malt",
+      "value": "Speyside"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0009",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:47.892329+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

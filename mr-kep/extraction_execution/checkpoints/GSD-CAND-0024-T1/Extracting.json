@@ -1,0 +1,49 @@
+{
+  "_checksum": "3d9199e2c46261f185b0c11d6168c18519a39e0ea5f65b0b86322d50b0107ca6",
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.glendronach.com/whisky/glendronach-12yo"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "43.0% ABV",
+      "value": 43.0
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "aged for 12 years",
+      "value": 12
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Sherry casks",
+      "value": "Sherry"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Scotland",
+      "value": "Scotland"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at GlenDronach Distillery",
+      "value": "GlenDronach"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Highland single malt",
+      "value": "Highland"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0024",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:48.252255+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

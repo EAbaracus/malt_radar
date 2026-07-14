@@ -1,0 +1,216 @@
+# =============================================================================
+# resolution/source_resolution_model.yaml
+# -----------------------------------------------------------------------------
+# P63 — Source Resolution & Coverage Planner (SPEC ONLY, no code).
+# Declares the deterministic model that decides, for any entity + field, WHICH
+# sources are used and in WHAT ORDER. References the Sprint 1 authority layer
+# (mr-kep/authority/*) as the single source of truth for tiers/priorities.
+# No scraper/parser/extractor/download — planning layer only.
+# =============================================================================
+
+schema_version: "1.0.0"
+deterministic: true
+references:
+  authority_matrix: "authority/authority_matrix.yaml"
+  source_priority:  "authority/source_priority.yaml"
+  field_rules:      "authority/field_rules.yaml"
+  confidence:       "authority/confidence.yaml"
+  merge_policies:   "authority/merge_policies.yaml"
+
+# -----------------------------------------------------------------------------
+# 1. ENTITY TYPES — the resolvable subjects.
+# -----------------------------------------------------------------------------
+entity_types:
+  distillery:
+    description: "A production site (e.g. Glenfarclas distillery)."
+    identity_owner: T1_authoritative        # official/producer/regulator
+  brand:
+    description: "A market brand, may span multiple distilleries/OBs."
+    identity_owner: T1_authoritative
+  whisky:
+    description: "A named product line without a specific single bottling."
+    identity_owner: T1_authoritative
+  bottling:
+    description: "A specific bottling (vintage/batch/cask), incl. independent."
+    identity_owner: T1_authoritative
+
+# -----------------------------------------------------------------------------
+# 2. FIELD TYPES — grouped exactly as authority/field_rules.yaml categories.
+#    Each field_type inherits its authority ceiling from field_rules.yaml.
+# -----------------------------------------------------------------------------
+field_types:
+  identity:            { fields: [distillery_name, region, country], ceiling: T1_authoritative }
+  official_bottling:   { fields: [abv, age_statement, cask_type],     ceiling: T1_authoritative }
+  sensory_evaluation:  { fields: [nose, palate, finish, flavor_axes], ceiling: T2_expert }
+  scored_assessment:   { fields: [score],                             ceiling: T2_expert }
+  supporting:          { fields: [community_rating],                  ceiling: T3_community }
+
+# -----------------------------------------------------------------------------
+# 3. SOURCE CLASSES — the *coverage* dimensions the resolver plans over.
+#    Each class maps to an authority source_key + tier from Sprint 1 so the
+#    resolution layer never invents a new trust ranking.
+# -----------------------------------------------------------------------------
+source_classes:
+  official:
+    maps_to_source_key: "producer_technical_sheet"
+    tier: T1_authoritative
+    description: "Official producer / distillery site / technical sheet."
+    evidence_type: "primary_source_quote"
+  regulatory:
+    maps_to_source_key: "regulatory_register"
+    tier: T1_authoritative
+    description: "Appellation / regulator register."
+    evidence_type: "primary_source_quote"
+  official_wayback:
+    maps_to_source_key: "producer_technical_sheet"   # same authority as official
+    tier: T1_authoritative
+    description: >
+      Archived (Wayback / web.archive.org) snapshot of an official page. Same
+      authority tier as live official IF provenance proves it was the official
+      domain; carries an archival provenance marker.
+    evidence_type: "primary_source_quote"
+    provenance_marker: "archived_snapshot"
+  book:
+    maps_to_source_key: "reference_book"     # NEW key, see below
+    tier: T2_expert
+    description: "Published reference book (e.g. distillery histories, guides)."
+    evidence_type: "expert_quote"
+  expert_review:
+    maps_to_source_key: "whiskyfun"
+    tier: T2_expert
+    description: "Professional expert review (WhiskyFun and equivalents)."
+    evidence_type: "expert_quote"
+  structured_metadata:
+    maps_to_source_key: "structured_metadata"   # NEW key, see below
+    tier: T2_expert
+    description: >
+      Structured/semantic metadata (schema.org, retailer product data, curated
+      DBs). Expert-tier for official_bottling facts ONLY as corroboration, never
+      overriding an official source.
+    evidence_type: "aggregated_link"
+  community:
+    maps_to_source_key: "community_aggregate"
+    tier: T3_community
+    description: "Community / crowd-sourced aggregation."
+    evidence_type: "aggregated_link"
+
+# Source classes that introduce NEW authority source_keys not yet in the
+# Sprint 1 source_priority.yaml. These are PROPOSED for a future authority
+# update; P63 does NOT edit the authority layer (spec only).
+proposed_authority_additions:
+  - source_key: "reference_book"
+    tier: T2_expert
+    suggested_priority: 20
+    rationale: "Published reference; expert-tier, below live expert reviews."
+  - source_key: "structured_metadata"
+    tier: T2_expert
+    suggested_priority: 30
+    rationale: "Corroborating structured data; lowest expert precedence."
+
+# -----------------------------------------------------------------------------
+# 4. RESOLUTION MODEL — per (entity_type, field_type): preferred order,
+#    fallback chain, verification source, certification source.
+#    Order is a DETERMINISTIC list of source_classes (first = try first).
+# -----------------------------------------------------------------------------
+# Legend:
+#   preferred_source_order : ordered classes attempted to obtain the value.
+#   fallback_chain         : classes used only if all preferred fail (coverage gap).
+#   verification_source    : class used to CORROBORATE the winning value.
+#   certification_source   : tier/class whose agreement is REQUIRED to certify.
+resolution:
+
+  # ---- IDENTITY (all entity types: official owns identity) ----
+  identity:
+    all_entities:
+      preferred_source_order: [official, regulatory, official_wayback]
+      fallback_chain:         [book, expert_review]
+      verification_source:    regulatory
+      certification_source:   T1_authoritative
+      notes: >
+        Identity is a T1 field. If no T1 source (official/regulatory/wayback)
+        yields it, fallbacks may PROPOSE a value but it CANNOT be certified as
+        identity (authority ceiling) — routed to Certification/Audit.
+
+  # ---- OFFICIAL BOTTLING (abv, age, cask) ----
+  official_bottling:
+    all_entities:
+      preferred_source_order: [official, official_wayback, regulatory]
+      fallback_chain:         [structured_metadata, book, expert_review]
+      verification_source:    structured_metadata
+      certification_source:   T1_authoritative
+      notes: >
+        Fallback classes may fill a value at reduced confidence but never
+        override an official value; certification of the OFFICIAL value needs T1.
+
+  # ---- SENSORY (nose/palate/finish/flavor) ----
+  sensory_evaluation:
+    all_entities:
+      preferred_source_order: [expert_review, book]
+      fallback_chain:         [community]
+      verification_source:    book
+      certification_source:   T2_expert
+      notes: "Sensory is T2-ceiling; official never certifies flavor."
+
+  # ---- SCORE ----
+  scored_assessment:
+    all_entities:
+      preferred_source_order: [expert_review]
+      fallback_chain:         [community]
+      verification_source:    expert_review
+      certification_source:   T2_expert
+      notes: "Latest-expert-wins policy applies on multiple expert scores."
+
+  # ---- SUPPORTING (community rating) ----
+  supporting:
+    all_entities:
+      preferred_source_order: [community]
+      fallback_chain:         []
+      verification_source:    community
+      certification_source:   T3_community
+      notes: "Never a sole certifier of any non-supporting fact."
+
+# -----------------------------------------------------------------------------
+# 5. ENTITY-SPECIFIC OVERRIDES — where an entity type deviates from the
+#    all_entities default above.
+# -----------------------------------------------------------------------------
+entity_overrides:
+  bottling:
+    # Independent bottlings often lack an OB technical sheet; the IB's own
+    # sheet is the official source, distillery official is corroboration.
+    official_bottling:
+      preferred_source_order: [official, official_wayback, structured_metadata]
+      fallback_chain:         [book, expert_review]
+      verification_source:    expert_review
+      certification_source:   T1_authoritative
+      notes: "official = the bottler's own product data for an IB."
+  distillery:
+    identity:
+      preferred_source_order: [official, regulatory, official_wayback, book]
+      fallback_chain:         [expert_review]
+      verification_source:    regulatory
+      certification_source:   T1_authoritative
+      notes: >
+        For CLOSED/silent distilleries, live official is usually gone → the
+        resolver expects official_wayback + book to carry identity; regulatory
+        register (if the appellation persists) verifies. See coverage_resolution.
+
+# -----------------------------------------------------------------------------
+# 6. COVERAGE SIGNALS — deterministic booleans the Coverage Resolver computes
+#    (planning inputs only; NO fetching in P63). Each maps to a source_class.
+# -----------------------------------------------------------------------------
+coverage_signals:
+  official_available:      { source_class: official,            question: "Is a live official source present?" }
+  wayback_required:        { source_class: official_wayback,    question: "Is official gone/changed so an archived snapshot is needed?" }
+  book_support:            { source_class: book,                question: "Is there published reference-book support?" }
+  expert_review_available: { source_class: expert_review,       question: "Is an expert review present?" }
+  structured_metadata:     { source_class: structured_metadata, question: "Is structured metadata present?" }
+
+# -----------------------------------------------------------------------------
+# 7. CONFIDENCE COUPLING — how many INDEPENDENT sources changes confidence.
+#    Values reference authority/confidence.yaml (single source of truth).
+# -----------------------------------------------------------------------------
+confidence_coupling:
+  single_source:            "base confidence only (no agreement bonus)"
+  multi_independent_source: "apply agreement.per_agreeing_source bonus (cap agreement.max_bonus)"
+  conflict_unresolved:      "apply penalties.conflicting_unresolved; route to Certification"
+  reference: "authority/confidence.yaml"

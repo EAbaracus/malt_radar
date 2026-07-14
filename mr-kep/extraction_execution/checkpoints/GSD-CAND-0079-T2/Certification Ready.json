@@ -1,0 +1,121 @@
+{
+  "_checksum": "94f03536592df6cde1232a2cfe88681c01dbf71c401a048fa29bb0b1f4f0c407",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-3638939100bf90a1",
+      "fact_id": "EV-197aabddf76d",
+      "field": "nose",
+      "field_name": "nose",
+      "field_value": "Intense peat smoke, seaweed, tcp, ocean breeze",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Nose: intense peat smoke, seaweed, TCP, ocean breeze",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0079",
+          "won": true
+        }
+      ],
+      "value": "Intense peat smoke, seaweed, tcp, ocean breeze"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-11464d27ef5a1527",
+      "fact_id": "EV-c475cd0d206e",
+      "field": "palate",
+      "field_name": "palate",
+      "field_value": "Crisp peat, sea salt, black pepper, ash, lemon zest",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Palate: crisp peat, sea salt, black pepper, ash, lemon zest",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0079",
+          "won": true
+        }
+      ],
+      "value": "Crisp peat, sea salt, black pepper, ash, lemon zest"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-ec344fa64c56692b",
+      "fact_id": "EV-bf00b9be76ca",
+      "field": "finish",
+      "field_name": "finish",
+      "field_value": "Long, dry, smoky with brine and oak wood warmth",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Finish: long, dry, smoky with brine and oak wood warmth",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0079",
+          "won": true
+        }
+      ],
+      "value": "Long, dry, smoky with brine and oak wood warmth"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-67a493409cf3c768",
+      "fact_id": "EV-34d52585bac5",
+      "field": "score",
+      "field_name": "score",
+      "field_value": 88,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "88 points",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0079",
+          "won": true
+        }
+      ],
+      "value": 88
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "expert_quote",
+    "source_key": "whiskyfun",
+    "url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0079"
+  },
+  "extraction_result": {
+    "finish": {
+      "confidence": 1.0,
+      "quote": "Finish: long, dry, smoky with brine and oak wood warmth",
+      "value": "Long, dry, smoky with brine and oak wood warmth"
+    },
+    "nose": {
+      "confidence": 1.0,
+      "quote": "Nose: intense peat smoke, seaweed, TCP, ocean breeze",
+      "value": "Intense peat smoke, seaweed, tcp, ocean breeze"
+    },
+    "palate": {
+      "confidence": 1.0,
+      "quote": "Palate: crisp peat, sea salt, black pepper, ash, lemon zest",
+      "value": "Crisp peat, sea salt, black pepper, ash, lemon zest"
+    },
+    "score": {
+      "confidence": 1.0,
+      "quote": "88 points",
+      "value": 88
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0079",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:49.639172+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

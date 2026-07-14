@@ -1,0 +1,49 @@
+{
+  "_checksum": "2d694f56f1666f4163e3ee1532dcad76384d7d57ba72a92f8f568d3d7d26ba2b",
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "structured_data",
+    "source_key": "MR-KEP-GSD-V1",
+    "url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "[approx_abv] 40.0",
+      "value": 40.0
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "[age_statement_years] 16",
+      "value": 16
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "[cask_type_primary] Bourbon+Sherry+Port",
+      "value": "Bourbon+Sherry+Port"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "[country] Northern Ireland",
+      "value": "Northern Ireland"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "[distillery] Bushmills",
+      "value": "Bushmills"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "[region] Antrim",
+      "value": "Antrim"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0074",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:14:58.820192+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

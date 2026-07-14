@@ -1,0 +1,44 @@
+{
+  "_checksum": "e07eae0e986a5b27e421ed6366584a270c626f8f75794ffd5ea2ae2900d319d7",
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.starward.com/whisky/starward-solera"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "40.0% ABV",
+      "value": 40.0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Apera (Australian Sherry) casks",
+      "value": "Apera (Australian Sherry)"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Australia",
+      "value": "Australia"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Starward Distillery",
+      "value": "Starward"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Australian single malt",
+      "value": "Australian"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0100",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:50.157351+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

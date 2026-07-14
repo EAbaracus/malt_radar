@@ -1,0 +1,74 @@
+{
+  "distillery_name": {
+    "value": "English Whisky Co.",
+    "source": "https://www.englishwhiskyco..com/whisky/the-english-whisky-chapter-6",
+    "exact_quote": "Bottled at English Whisky Co. Distillery",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "country": {
+    "value": "England",
+    "source": "https://www.englishwhiskyco..com/whisky/the-english-whisky-chapter-6",
+    "exact_quote": "Product of England",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "region": {
+    "value": "English",
+    "source": "https://www.englishwhiskyco..com/whisky/the-english-whisky-chapter-6",
+    "exact_quote": "English single malt",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "abv": {
+    "value": 46.0,
+    "source": "https://www.englishwhiskyco..com/whisky/the-english-whisky-chapter-6",
+    "exact_quote": "46.0% ABV",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "cask_type": {
+    "value": "Bourbon",
+    "source": "https://www.englishwhiskyco..com/whisky/the-english-whisky-chapter-6",
+    "exact_quote": "matured in Bourbon casks",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "nose": {
+    "value": "Intense peat smoke, seaweed, tcp, ocean breeze",
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0093",
+    "exact_quote": "Nose: intense peat smoke, seaweed, TCP, ocean breeze",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "palate": {
+    "value": "Crisp peat, sea salt, black pepper, ash, lemon zest",
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0093",
+    "exact_quote": "Palate: crisp peat, sea salt, black pepper, ash, lemon zest",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "finish": {
+    "value": "Long, dry, smoky with brine and oak wood warmth",
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0093",
+    "exact_quote": "Finish: long, dry, smoky with brine and oak wood warmth",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "score": {
+    "value": 88,
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0093",
+    "exact_quote": "88 points",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  }
+}

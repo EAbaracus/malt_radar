@@ -1,0 +1,121 @@
+{
+  "_checksum": "31ea0c9e5cc3c90c97ae0c385740b665d35bba3ccaa5b167341595a49c679c52",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-aea6faaebbd0163c",
+      "fact_id": "EV-2bcdef994bb9",
+      "field": "nose",
+      "field_name": "nose",
+      "field_value": "Medicinal peat smoke, bandages, seaweed, salt",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Nose: medicinal peat, TCP, seaweed",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archivemarch20.html",
+          "won": true
+        }
+      ],
+      "value": "Medicinal peat smoke, bandages, seaweed, salt"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-b94e09bc152b99ab",
+      "fact_id": "EV-feade39262ca",
+      "field": "palate",
+      "field_name": "palate",
+      "field_value": "Peat smoke, TCP, vanilla sweetness, sea salt",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Palate: sweet peat TCP, salt",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archivemarch20.html",
+          "won": true
+        }
+      ],
+      "value": "Peat smoke, TCP, vanilla sweetness, sea salt"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-ae6843f4f34f3245",
+      "fact_id": "EV-d8c401c065a1",
+      "field": "finish",
+      "field_name": "finish",
+      "field_value": "Long, tarry, medicinal with lingering ash",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Finish: long, tarry, medicinal",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archivemarch20.html",
+          "won": true
+        }
+      ],
+      "value": "Long, tarry, medicinal with lingering ash"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-72878d41880a57b4",
+      "fact_id": "EV-a0db8ecf47d3",
+      "field": "score",
+      "field_name": "score",
+      "field_value": 88,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "88 points",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archivemarch20.html",
+          "won": true
+        }
+      ],
+      "value": 88
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "expert_quote",
+    "source_key": "whiskyfun",
+    "url": "https://www.whiskyfun.com/archivemarch20.html"
+  },
+  "extraction_result": {
+    "finish": {
+      "confidence": 1.0,
+      "quote": "Finish: long, tarry, medicinal",
+      "value": "Long, tarry, medicinal with lingering ash"
+    },
+    "nose": {
+      "confidence": 1.0,
+      "quote": "Nose: medicinal peat, TCP, seaweed",
+      "value": "Medicinal peat smoke, bandages, seaweed, salt"
+    },
+    "palate": {
+      "confidence": 1.0,
+      "quote": "Palate: sweet peat TCP, salt",
+      "value": "Peat smoke, TCP, vanilla sweetness, sea salt"
+    },
+    "score": {
+      "confidence": 1.0,
+      "quote": "88 points",
+      "value": 88
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0003",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:47.753063+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

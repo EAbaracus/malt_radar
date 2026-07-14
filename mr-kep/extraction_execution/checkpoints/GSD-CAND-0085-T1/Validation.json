@@ -1,0 +1,146 @@
+{
+  "_checksum": "6bec42cc6556811262cc338263854a452e5c0569f5082d017a786c1084d8de7f",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-0124b776d489358a",
+      "fact_id": "EV-83ecfd7bc21b",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "Kavalan",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Bottled at Kavalan Distillery",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.kavalan.com/whisky/kavalan-solist-vinho-barrique",
+          "won": true
+        }
+      ],
+      "value": "Kavalan"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-c50a7d739eae6a14",
+      "fact_id": "EV-20a709df0098",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "Taiwan",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Product of Taiwan",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.kavalan.com/whisky/kavalan-solist-vinho-barrique",
+          "won": true
+        }
+      ],
+      "value": "Taiwan"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-24e14638d313a717",
+      "fact_id": "EV-11c170ee49e7",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "Taiwanese",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Taiwanese single malt",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.kavalan.com/whisky/kavalan-solist-vinho-barrique",
+          "won": true
+        }
+      ],
+      "value": "Taiwanese"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-cc4ddb6a368e87fa",
+      "fact_id": "EV-7c081276fa5d",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 57.8,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "57.8% ABV",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.kavalan.com/whisky/kavalan-solist-vinho-barrique",
+          "won": true
+        }
+      ],
+      "value": 57.8
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-f421da911c9804d5",
+      "fact_id": "EV-198e28c3ca95",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Wine (Vinho)",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "matured in Wine (Vinho) casks",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.kavalan.com/whisky/kavalan-solist-vinho-barrique",
+          "won": true
+        }
+      ],
+      "value": "Wine (Vinho)"
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.kavalan.com/whisky/kavalan-solist-vinho-barrique"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "57.8% ABV",
+      "value": 57.8
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Wine (Vinho) casks",
+      "value": "Wine (Vinho)"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Taiwan",
+      "value": "Taiwan"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Kavalan Distillery",
+      "value": "Kavalan"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Taiwanese single malt",
+      "value": "Taiwanese"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0085",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:49.785409+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

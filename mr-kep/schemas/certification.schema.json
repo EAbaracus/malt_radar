@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://malt-radar.local/mr-kep/schemas/certification.schema.json",
+  "title": "MR-KEP Certification Record",
+  "description": "Output of the Certification Agent: a whisky's full certified knowledge vector, each field backed by an evidence record. This is the object promoted into production on a later apply gate.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "certified_at", "whisky_key", "confidence_min", "fields", "evidence_index"],
+  "properties": {
+    "schema_version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "certified_at": { "type": "string", "format": "date-time" },
+    "whisky_key": { "type": "string", "description": "Deterministic normalized whisky identifier used for matching." },
+    "confidence_min": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "Minimum field confidence across all certified fields; must be >= certify_min (0.70)."
+    },
+    "fields": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Canonical field name -> certified value (already normalized)."
+    },
+    "evidence_index": {
+      "type": "array",
+      "description": "One evidence.schema.json record per certified field.",
+      "items": { "type": "object" }
+    },
+    "certification_state": {
+      "type": "string",
+      "enum": ["CERTIFIED", "HOLD", "REJECTED"],
+      "description": "Aggregate certification state across all fields."
+    },
+    "confidence_overall": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "Overall confidence across all certified fields."
+    },
+    "run_id": {
+      "type": "string",
+      "description": "Identifier for the pipeline run that produced this record."
+    },
+    "audit_status": {
+      "enum": ["pending_audit", "audited_clean", "audited_flagged"],
+      "description": "Set by Audit Agent after certification."
+    }
+  }
+}

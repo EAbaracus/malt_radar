@@ -1,0 +1,146 @@
+{
+  "_checksum": "7cf8a3b78eaf1ad1c19de22e1f1709e311a945fc809e31f337c74cf6048d95e2",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-f7564f5ce6a11efa",
+      "fact_id": "EV-59e12bd6c948",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "Mackmyra",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Bottled at Mackmyra Distillery",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.mackmyra.com/whisky/mackmyra-brukswhisky",
+          "won": true
+        }
+      ],
+      "value": "Mackmyra"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-34c23034c53f1c1e",
+      "fact_id": "EV-caf784359c09",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "Sweden",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Product of Sweden",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.mackmyra.com/whisky/mackmyra-brukswhisky",
+          "won": true
+        }
+      ],
+      "value": "Sweden"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-9e13b7030f60f101",
+      "fact_id": "EV-2d0af3508d2c",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "Swedish",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Swedish single malt",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.mackmyra.com/whisky/mackmyra-brukswhisky",
+          "won": true
+        }
+      ],
+      "value": "Swedish"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-13344bdcf778fcde",
+      "fact_id": "EV-867d4ff66bfc",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 41.4,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "41.4% ABV",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.mackmyra.com/whisky/mackmyra-brukswhisky",
+          "won": true
+        }
+      ],
+      "value": 41.4
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-d8fa363632c64189",
+      "fact_id": "EV-5910b1ba15a4",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Bourbon+Swedish Oak",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "matured in Bourbon+Swedish Oak casks",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.mackmyra.com/whisky/mackmyra-brukswhisky",
+          "won": true
+        }
+      ],
+      "value": "Bourbon+Swedish Oak"
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.mackmyra.com/whisky/mackmyra-brukswhisky"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "41.4% ABV",
+      "value": 41.4
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Bourbon+Swedish Oak casks",
+      "value": "Bourbon+Swedish Oak"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Sweden",
+      "value": "Sweden"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Mackmyra Distillery",
+      "value": "Mackmyra"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Swedish single malt",
+      "value": "Swedish"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0089",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:49.877600+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

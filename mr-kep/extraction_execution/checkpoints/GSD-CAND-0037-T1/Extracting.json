@@ -1,0 +1,44 @@
+{
+  "_checksum": "94d5cd9a34ee96957f39e69f0935df6d5bbc0514b73858f9868674f4ce37b0c6",
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.ailsabay.com/whisky/ailsa-bay"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "48.9% ABV",
+      "value": 48.9
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Bourbon casks",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Scotland",
+      "value": "Scotland"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Ailsa Bay Distillery",
+      "value": "Ailsa Bay"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Lowland single malt",
+      "value": "Lowland"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0037",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:48.573079+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

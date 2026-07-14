@@ -1,0 +1,202 @@
+[
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-e39be1f6eeb2b053",
+    "fact_id": "EV-369c215dd34b",
+    "field": "distillery_name",
+    "field_name": "distillery_name",
+    "value": "High Coast",
+    "field_value": "High Coast",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.highcoast.com/whisky/high-coast-dalvve-10yo",
+        "quote": "Bottled at High Coast Distillery",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-a7c0a82b8137b172",
+    "fact_id": "EV-196b56fb93ac",
+    "field": "country",
+    "field_name": "country",
+    "value": "Sweden",
+    "field_value": "Sweden",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.highcoast.com/whisky/high-coast-dalvve-10yo",
+        "quote": "Product of Sweden",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-2bb45bb7803c3239",
+    "fact_id": "EV-4baad1bfb8a6",
+    "field": "region",
+    "field_name": "region",
+    "value": "Swedish",
+    "field_value": "Swedish",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.highcoast.com/whisky/high-coast-dalvve-10yo",
+        "quote": "Swedish single malt",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-ab6e124386618e79",
+    "fact_id": "EV-dcf1423cd945",
+    "field": "abv",
+    "field_name": "abv",
+    "value": 46.0,
+    "field_value": 46.0,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.highcoast.com/whisky/high-coast-dalvve-10yo",
+        "quote": "46.0% ABV",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-cdf00fa3cea6bd18",
+    "fact_id": "EV-d7318787f622",
+    "field": "cask_type",
+    "field_name": "cask_type",
+    "value": "Bourbon",
+    "field_value": "Bourbon",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.highcoast.com/whisky/high-coast-dalvve-10yo",
+        "quote": "matured in Bourbon casks",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-93f229b61c9b2823",
+    "fact_id": "EV-e168cf815a8a",
+    "field": "age_statement",
+    "field_name": "age_statement",
+    "value": 10,
+    "field_value": 10,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.highcoast.com/whisky/high-coast-dalvve-10yo",
+        "quote": "aged for 10 years",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-7219cd25d4e69e41",
+    "fact_id": "EV-36db499c8089",
+    "field": "nose",
+    "field_name": "nose",
+    "value": "Intense peat smoke, seaweed, tcp, ocean breeze",
+    "field_value": "Intense peat smoke, seaweed, tcp, ocean breeze",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0090",
+        "quote": "Nose: intense peat smoke, seaweed, TCP, ocean breeze",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-3643d7534f4342df",
+    "fact_id": "EV-a682a06728cb",
+    "field": "palate",
+    "field_name": "palate",
+    "value": "Crisp peat, sea salt, black pepper, ash, lemon zest",
+    "field_value": "Crisp peat, sea salt, black pepper, ash, lemon zest",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0090",
+        "quote": "Palate: crisp peat, sea salt, black pepper, ash, lemon zest",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-d6249191baf9a3fa",
+    "fact_id": "EV-bf86c0e78977",
+    "field": "finish",
+    "field_name": "finish",
+    "value": "Long, dry, smoky with brine and oak wood warmth",
+    "field_value": "Long, dry, smoky with brine and oak wood warmth",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0090",
+        "quote": "Finish: long, dry, smoky with brine and oak wood warmth",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-9bb72f8e927ed7ac",
+    "fact_id": "EV-5503db7f4f69",
+    "field": "score",
+    "field_name": "score",
+    "value": 88,
+    "field_value": 88,
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0090",
+        "quote": "88 points",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  }
+]

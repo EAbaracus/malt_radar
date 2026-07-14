@@ -1,0 +1,82 @@
+{
+  "distillery_name": {
+    "value": "Bushmills",
+    "source": "https://www.bushmills.com/whisky/bushmills-16yo",
+    "exact_quote": "Bottled at Bushmills Distillery",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "country": {
+    "value": "Northern Ireland",
+    "source": "https://www.bushmills.com/whisky/bushmills-16yo",
+    "exact_quote": "Product of Northern Ireland",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "region": {
+    "value": "Antrim",
+    "source": "https://www.bushmills.com/whisky/bushmills-16yo",
+    "exact_quote": "Antrim single malt",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "abv": {
+    "value": 40.0,
+    "source": "https://www.bushmills.com/whisky/bushmills-16yo",
+    "exact_quote": "40.0% ABV",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "cask_type": {
+    "value": "Bourbon+Sherry+Port",
+    "source": "https://www.bushmills.com/whisky/bushmills-16yo",
+    "exact_quote": "matured in Bourbon+Sherry+Port casks",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "age_statement": {
+    "value": 16,
+    "source": "https://www.bushmills.com/whisky/bushmills-16yo",
+    "exact_quote": "aged for 16 years",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "nose": {
+    "value": "Rich sherry sweetness, dark plums, raisins, dark cocoa",
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0074",
+    "exact_quote": "Nose: rich sherry sweetness, dark plums, raisins, dark cocoa",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "palate": {
+    "value": "Sweet fruit cake, orange peel, cinnamon, nutmeg, ginger",
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0074",
+    "exact_quote": "Palate: sweet fruit cake, orange peel, cinnamon, nutmeg, ginger",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "finish": {
+    "value": "Long, warm, sweet oak and spicy dark chocolate",
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0074",
+    "exact_quote": "Finish: long, warm, sweet oak and spicy dark chocolate",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "score": {
+    "value": 86,
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0074",
+    "exact_quote": "86 points",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  }
+}

@@ -1,0 +1,146 @@
+{
+  "_checksum": "eb2a76871cd3844ae24e8be4dca8f304c4bf469748e989a6f50caf58749e9db4",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-1d317ec053d6e865",
+      "fact_id": "EV-93e98a15d44d",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "Slyrs",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Bottled at Slyrs Distillery",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.slyrs.com/whisky/slyrs-bavarian-single-malt",
+          "won": true
+        }
+      ],
+      "value": "Slyrs"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-b48649096251ca2a",
+      "fact_id": "EV-ef4210e09cf5",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "Germany",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Product of Germany",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.slyrs.com/whisky/slyrs-bavarian-single-malt",
+          "won": true
+        }
+      ],
+      "value": "Germany"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-a05f698b08715447",
+      "fact_id": "EV-682deb765453",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "German",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "German single malt",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.slyrs.com/whisky/slyrs-bavarian-single-malt",
+          "won": true
+        }
+      ],
+      "value": "German"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-2c5c52a3b4b1c632",
+      "fact_id": "EV-e8d227e9c51e",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 43.0,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "43.0% ABV",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.slyrs.com/whisky/slyrs-bavarian-single-malt",
+          "won": true
+        }
+      ],
+      "value": 43.0
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-6d3f4c332bc2e4dd",
+      "fact_id": "EV-d283ae5352db",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Bourbon",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "matured in Bourbon casks",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.slyrs.com/whisky/slyrs-bavarian-single-malt",
+          "won": true
+        }
+      ],
+      "value": "Bourbon"
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.slyrs.com/whisky/slyrs-bavarian-single-malt"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "43.0% ABV",
+      "value": 43.0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Bourbon casks",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Germany",
+      "value": "Germany"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Slyrs Distillery",
+      "value": "Slyrs"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "German single malt",
+      "value": "German"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0097",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:50.088115+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

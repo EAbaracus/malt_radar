@@ -1,0 +1,49 @@
+{
+  "_checksum": "c518ffa0afcd10962a0f835a5db4920fc3c0582d0e5fcae0ae6151c49eea5ae2",
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.themacallan.com/en/whisky/single-malts/double-cask/double-cask-12-years-old"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "40% ABV",
+      "value": 40.0
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "12 Years Old",
+      "value": 12
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "sherry seasoned American and European oak casks",
+      "value": "Sherry+Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Scotland",
+      "value": "Scotland"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "The Macallan Distillery",
+      "value": "Macallan"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Speyside Single Malt",
+      "value": "Speyside"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0006",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:47.819350+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

@@ -1,0 +1,146 @@
+{
+  "_checksum": "a74ce0bc4f1c140044c55caf3fc54282c64f3a7cc0dea1725e18eae9c7036b6e",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-fdf362fbce7d7fd2",
+      "fact_id": "EV-c3021aac7236",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "Kavalan",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Bottled at Kavalan Distillery",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.kavalan.com/whisky/kavalan-solist-ex-bourbon",
+          "won": true
+        }
+      ],
+      "value": "Kavalan"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-d814b4c5fa9e9085",
+      "fact_id": "EV-d82ca4aa496c",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "Taiwan",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Product of Taiwan",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.kavalan.com/whisky/kavalan-solist-ex-bourbon",
+          "won": true
+        }
+      ],
+      "value": "Taiwan"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-e68a54f18204172c",
+      "fact_id": "EV-5566cad4204e",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "Taiwanese",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Taiwanese single malt",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.kavalan.com/whisky/kavalan-solist-ex-bourbon",
+          "won": true
+        }
+      ],
+      "value": "Taiwanese"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-3b7b18ea18379e3c",
+      "fact_id": "EV-a622b31812d0",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 57.3,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "57.3% ABV",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.kavalan.com/whisky/kavalan-solist-ex-bourbon",
+          "won": true
+        }
+      ],
+      "value": 57.3
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-da83a53b8d843d13",
+      "fact_id": "EV-2b37c5b4d858",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Bourbon",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "matured in Bourbon casks",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.kavalan.com/whisky/kavalan-solist-ex-bourbon",
+          "won": true
+        }
+      ],
+      "value": "Bourbon"
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.kavalan.com/whisky/kavalan-solist-ex-bourbon"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "57.3% ABV",
+      "value": 57.3
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Bourbon casks",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Taiwan",
+      "value": "Taiwan"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Kavalan Distillery",
+      "value": "Kavalan"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Taiwanese single malt",
+      "value": "Taiwanese"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0086",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:49.808834+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

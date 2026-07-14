@@ -1,0 +1,44 @@
+{
+  "_checksum": "0dd74225aadfc0a2bce95df5a2748535f5fec6baedef86a5624f3405d303aab4",
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.chichibu.com/whisky/chichibu-the-floor-malted-2022"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "50.5% ABV",
+      "value": 50.5
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Bourbon casks",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Japan",
+      "value": "Japan"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Chichibu Distillery",
+      "value": "Chichibu"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Japanese single malt",
+      "value": "Japanese"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0050",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:48.919932+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

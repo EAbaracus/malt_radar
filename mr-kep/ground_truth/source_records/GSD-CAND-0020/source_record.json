@@ -1,0 +1,74 @@
+{
+  "distillery_name": {
+    "value": "Kilchoman",
+    "source": "https://www.kilchomandistillery.com/our-whiskies/machir-bay",
+    "exact_quote": "Kilchoman Distillery",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "country": {
+    "value": "Scotland",
+    "source": "https://www.kilchomandistillery.com/our-whiskies/machir-bay",
+    "exact_quote": "Product of Scotland",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "region": {
+    "value": "Islay",
+    "source": "https://www.kilchomandistillery.com/our-whiskies/machir-bay",
+    "exact_quote": "Islay Single Malt",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "abv": {
+    "value": 46.0,
+    "source": "https://www.kilchomandistillery.com/our-whiskies/machir-bay",
+    "exact_quote": "46% ABV",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "cask_type": {
+    "value": "Bourbon+Sherry",
+    "source": "https://www.kilchomandistillery.com/our-whiskies/machir-bay",
+    "exact_quote": "bourbon and sherry casks",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "nose": {
+    "value": "Sweet peat smoke, lemon peel, vanilla, sea breeze",
+    "source": "https://www.whiskyfun.com/archiveoctober19.html",
+    "exact_quote": "Nose: sweet peat smoke, lemon, vanilla, brine",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "palate": {
+    "value": "Sweet vanilla, crisp peat smoke, pear, sea salt",
+    "source": "https://www.whiskyfun.com/archiveoctober19.html",
+    "exact_quote": "Palate: crisp peat, sweet vanilla, pear, salt",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "finish": {
+    "value": "Long, clean, dry peaty and citrus finish",
+    "source": "https://www.whiskyfun.com/archiveoctober19.html",
+    "exact_quote": "Finish: long, clean peaty finish",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "score": {
+    "value": 86,
+    "source": "https://www.whiskyfun.com/archiveoctober19.html",
+    "exact_quote": "86 points",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "_checksum": "d19ff8a4267f08140f39dc6ddd110ac8a673ade30d3cf2480e6b55176525f713",
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "structured_data",
+    "source_key": "MR-KEP-GSD-V1",
+    "url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "[approx_abv] 40.0",
+      "value": 40.0
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "[age_statement_years] 12",
+      "value": 12
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "[cask_type_primary] Sherry",
+      "value": "Sherry"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "[country] Scotland",
+      "value": "Scotland"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "[distillery] Dalmore",
+      "value": "Dalmore"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "[region] Highland",
+      "value": "Highland"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0026",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:14:58.638837+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

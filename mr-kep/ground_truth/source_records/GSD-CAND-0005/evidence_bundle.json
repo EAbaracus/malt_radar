@@ -1,0 +1,202 @@
+[
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-27e3fa6748330adb",
+    "fact_id": "EV-4db54f7f6f4a",
+    "field": "distillery_name",
+    "field_name": "distillery_name",
+    "value": "Glenfiddich",
+    "field_value": "Glenfiddich",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.glenfiddich.com/our-collection/12-year-old",
+        "quote": "Glenfiddich Distillery",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-6296caf6be07da06",
+    "fact_id": "EV-87a56f516dc7",
+    "field": "country",
+    "field_name": "country",
+    "value": "Scotland",
+    "field_value": "Scotland",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.glenfiddich.com/our-collection/12-year-old",
+        "quote": "Product of Scotland",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-c28b6c1f139d4591",
+    "fact_id": "EV-7c0ab9a5bc92",
+    "field": "region",
+    "field_name": "region",
+    "value": "Speyside",
+    "field_value": "Speyside",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.glenfiddich.com/our-collection/12-year-old",
+        "quote": "Speyside Single Malt",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-8e8c86962bc15497",
+    "fact_id": "EV-80ec79effd34",
+    "field": "abv",
+    "field_name": "abv",
+    "value": 40.0,
+    "field_value": 40.0,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.glenfiddich.com/our-collection/12-year-old",
+        "quote": "40% ABV",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-1cdcbe8b2b4e3d6f",
+    "fact_id": "EV-7b460ccdc9fe",
+    "field": "cask_type",
+    "field_name": "cask_type",
+    "value": "Bourbon+Sherry",
+    "field_value": "Bourbon+Sherry",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.glenfiddich.com/our-collection/12-year-old",
+        "quote": "Oloroso sherry and bourbon casks",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-081cf88648bcde0e",
+    "fact_id": "EV-11578f40332e",
+    "field": "age_statement",
+    "field_name": "age_statement",
+    "value": 12,
+    "field_value": 12,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.glenfiddich.com/our-collection/12-year-old",
+        "quote": "12 Year Old",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-d1aa31d774fe3c0c",
+    "fact_id": "EV-cd07737d90c4",
+    "field": "nose",
+    "field_name": "nose",
+    "value": "Fresh pear, green apple, light oak, floral",
+    "field_value": "Fresh pear, green apple, light oak, floral",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archivefebruary18.html",
+        "quote": "Nose: fresh pear, green apple, light oak",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-7dab2cdfb8c59b4c",
+    "fact_id": "EV-76d54ebb69cd",
+    "field": "palate",
+    "field_name": "palate",
+    "value": "Sweet, fresh fruit, butterscotch, malt",
+    "field_value": "Sweet, fresh fruit, butterscotch, malt",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archivefebruary18.html",
+        "quote": "Palate: sweet, fruity, butterscotch, malt",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-6859ec5d9101cdec",
+    "fact_id": "EV-80bd1b9c8145",
+    "field": "finish",
+    "field_name": "finish",
+    "value": "Short, clean, smooth finish",
+    "field_value": "Short, clean, smooth finish",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archivefebruary18.html",
+        "quote": "Finish: short, clean, smooth",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-d4317792650e182c",
+    "fact_id": "EV-06d0ece98ae6",
+    "field": "score",
+    "field_name": "score",
+    "value": 79,
+    "field_value": 79,
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archivefebruary18.html",
+        "quote": "79 points",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  }
+]

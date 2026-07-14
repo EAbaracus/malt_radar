@@ -1,0 +1,146 @@
+{
+  "_checksum": "28d2c729d65dd6ee9e38166754bc30794880e1de64217825e5466ccd865b79e9",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-5887e6d50b06a03c",
+      "fact_id": "EV-fc69ae47cfda",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "Nikka",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Bottled at Nikka Distillery",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.nikka.com/whisky/nikka-coffey-grain",
+          "won": true
+        }
+      ],
+      "value": "Nikka"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-76337b6f980b1caa",
+      "fact_id": "EV-8a81fef466e9",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "Japan",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Product of Japan",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.nikka.com/whisky/nikka-coffey-grain",
+          "won": true
+        }
+      ],
+      "value": "Japan"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-da5e91f5af7759fa",
+      "fact_id": "EV-36a672b2adcb",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "Japanese",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Japanese single malt",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.nikka.com/whisky/nikka-coffey-grain",
+          "won": true
+        }
+      ],
+      "value": "Japanese"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-a29bce8fa1c448a1",
+      "fact_id": "EV-91a17359bf76",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 45.0,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "45.0% ABV",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.nikka.com/whisky/nikka-coffey-grain",
+          "won": true
+        }
+      ],
+      "value": 45.0
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-39f3e7a69a384e26",
+      "fact_id": "EV-d214fa547c71",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Bourbon",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "matured in Bourbon casks",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.nikka.com/whisky/nikka-coffey-grain",
+          "won": true
+        }
+      ],
+      "value": "Bourbon"
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.nikka.com/whisky/nikka-coffey-grain"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "45.0% ABV",
+      "value": 45.0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Bourbon casks",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Japan",
+      "value": "Japan"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Nikka Distillery",
+      "value": "Nikka"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Japanese single malt",
+      "value": "Japanese"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0048",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:48.869662+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

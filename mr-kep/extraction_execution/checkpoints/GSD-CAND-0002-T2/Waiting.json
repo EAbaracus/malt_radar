@@ -1,0 +1,39 @@
+{
+  "_checksum": "93ce5b5c6130dd129b5b3112fd8870a6a8ba80c5dfba71d129cb6fd71312d7c8",
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "expert_quote",
+    "source_key": "whiskyfun",
+    "url": "https://www.whiskyfun.com/archiveoctober19-2.html"
+  },
+  "extraction_result": {
+    "finish": {
+      "confidence": 1.0,
+      "quote": "Finish: long, dry, peaty, clean citrus",
+      "value": "Long, dry, peaty with lingering lime and ash"
+    },
+    "nose": {
+      "confidence": 1.0,
+      "quote": "Nose: lemony peat smoke, tar, brine",
+      "value": "Intense peat smoke, fresh lemon zest, tar, sea salt"
+    },
+    "palate": {
+      "confidence": 1.0,
+      "quote": "Palate: crisp peat, lime zest, black pepper, sea salt",
+      "value": "Peat smoke, lime juice, black pepper, brine"
+    },
+    "score": {
+      "confidence": 1.0,
+      "quote": "89 points",
+      "value": 89
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0002",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:47.729714+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

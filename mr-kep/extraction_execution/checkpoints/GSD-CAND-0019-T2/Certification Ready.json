@@ -1,0 +1,121 @@
+{
+  "_checksum": "229ba50cfbfe690b36a2effe95d1687b566d3e6c59d5e7c7c05d603cccc3be19",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-4a02b5fc7df7b3a5",
+      "fact_id": "EV-f46189e11dff",
+      "field": "nose",
+      "field_name": "nose",
+      "field_value": "Fresh peat smoke, olive oil, seaweed, lemon zest",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Nose: peat smoke, seaweed, olive oil, lemon zest",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html",
+          "won": true
+        }
+      ],
+      "value": "Fresh peat smoke, olive oil, seaweed, lemon zest"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-3897e55813a926e9",
+      "fact_id": "EV-62890f8c8f40",
+      "field": "palate",
+      "field_name": "palate",
+      "field_value": "Crisp peat, olive oil, sea salt, lemon peel",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Palate: crisp peat, olive oil, sea salt, green apple",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html",
+          "won": true
+        }
+      ],
+      "value": "Crisp peat, olive oil, sea salt, lemon peel"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-f831a33d987b593b",
+      "fact_id": "EV-60c85e4fcc6d",
+      "field": "finish",
+      "field_name": "finish",
+      "field_value": "Long, dry, warm smoky peat and salt",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Finish: long, dry, smoky peat",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html",
+          "won": true
+        }
+      ],
+      "value": "Long, dry, warm smoky peat and salt"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-0673f13970225013",
+      "fact_id": "EV-8f991c99d80c",
+      "field": "score",
+      "field_name": "score",
+      "field_value": 87,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "87 points",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html",
+          "won": true
+        }
+      ],
+      "value": 87
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "expert_quote",
+    "source_key": "whiskyfun",
+    "url": "https://www.whiskyfun.com/archiveoctober19-clinch.html"
+  },
+  "extraction_result": {
+    "finish": {
+      "confidence": 1.0,
+      "quote": "Finish: long, dry, smoky peat",
+      "value": "Long, dry, warm smoky peat and salt"
+    },
+    "nose": {
+      "confidence": 1.0,
+      "quote": "Nose: peat smoke, seaweed, olive oil, lemon zest",
+      "value": "Fresh peat smoke, olive oil, seaweed, lemon zest"
+    },
+    "palate": {
+      "confidence": 1.0,
+      "quote": "Palate: crisp peat, olive oil, sea salt, green apple",
+      "value": "Crisp peat, olive oil, sea salt, lemon peel"
+    },
+    "score": {
+      "confidence": 1.0,
+      "quote": "87 points",
+      "value": 87
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0019",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:48.130578+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

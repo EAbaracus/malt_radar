@@ -1,0 +1,146 @@
+{
+  "_checksum": "c5760ec885f143b6c2e75b2989e9d60e2670d41d4eba6181e100fb85bc09b1bf",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-f3fc62266f06d3bf",
+      "fact_id": "EV-a5fe52dc3549",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "Four Roses",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Bottled at Four Roses Distillery",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.fourroses.com/whisky/four-roses-single-barrel",
+          "won": true
+        }
+      ],
+      "value": "Four Roses"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-c6d56599cd184679",
+      "fact_id": "EV-4e6ea5140189",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "USA",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Product of USA",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.fourroses.com/whisky/four-roses-single-barrel",
+          "won": true
+        }
+      ],
+      "value": "USA"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-0f99d6d2d42df684",
+      "fact_id": "EV-5bc5cc35eca5",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "Kentucky",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Kentucky single malt",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.fourroses.com/whisky/four-roses-single-barrel",
+          "won": true
+        }
+      ],
+      "value": "Kentucky"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-e9395c2f65c49aa7",
+      "fact_id": "EV-4a57206b0be7",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 50.0,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "50.0% ABV",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.fourroses.com/whisky/four-roses-single-barrel",
+          "won": true
+        }
+      ],
+      "value": 50.0
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-9ffb0b47e7f3740d",
+      "fact_id": "EV-b9449c0b09cc",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Bourbon",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "matured in Bourbon casks",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.fourroses.com/whisky/four-roses-single-barrel",
+          "won": true
+        }
+      ],
+      "value": "Bourbon"
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.fourroses.com/whisky/four-roses-single-barrel"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "50.0% ABV",
+      "value": 50.0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Bourbon casks",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of USA",
+      "value": "USA"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Four Roses Distillery",
+      "value": "Four Roses"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Kentucky single malt",
+      "value": "Kentucky"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0061",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:49.193926+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

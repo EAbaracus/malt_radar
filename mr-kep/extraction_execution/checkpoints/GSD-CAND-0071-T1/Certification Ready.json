@@ -1,0 +1,146 @@
+{
+  "_checksum": "3a0451d9d615ab88f18b5c7ed6a2941a6e9d46f4fccce544b1de4335cb174e84",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-7200032a19631bcb",
+      "fact_id": "EV-cdcc77d71178",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "Teeling",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Bottled at Teeling Distillery",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.teeling.com/whisky/teeling-single-malt",
+          "won": true
+        }
+      ],
+      "value": "Teeling"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-81e0a8f6032a657e",
+      "fact_id": "EV-6028cb017425",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "Ireland",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Product of Ireland",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.teeling.com/whisky/teeling-single-malt",
+          "won": true
+        }
+      ],
+      "value": "Ireland"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-9faaaa6028834a88",
+      "fact_id": "EV-40f3ad3b76c9",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "Dublin",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Dublin single malt",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.teeling.com/whisky/teeling-single-malt",
+          "won": true
+        }
+      ],
+      "value": "Dublin"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-09ee295c8767af7a",
+      "fact_id": "EV-8e72756599c8",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 46.0,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "46.0% ABV",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.teeling.com/whisky/teeling-single-malt",
+          "won": true
+        }
+      ],
+      "value": 46.0
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-73edda6a11eb3e21",
+      "fact_id": "EV-e6b2bfc6af73",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Rum+Wine",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "matured in Rum+Wine casks",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.teeling.com/whisky/teeling-single-malt",
+          "won": true
+        }
+      ],
+      "value": "Rum+Wine"
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.teeling.com/whisky/teeling-single-malt"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "46.0% ABV",
+      "value": 46.0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Rum+Wine casks",
+      "value": "Rum+Wine"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Ireland",
+      "value": "Ireland"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Teeling Distillery",
+      "value": "Teeling"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Dublin single malt",
+      "value": "Dublin"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0071",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:49.441292+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

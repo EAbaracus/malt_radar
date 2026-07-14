@@ -1,0 +1,82 @@
+{
+  "distillery_name": {
+    "value": "Balvenie",
+    "source": "https://www.thebalvenie.com/our-whisky-range/doublewood-12-year-old",
+    "exact_quote": "The Balvenie Distillery",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "country": {
+    "value": "Scotland",
+    "source": "https://www.thebalvenie.com/our-whisky-range/doublewood-12-year-old",
+    "exact_quote": "Product of Scotland",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "region": {
+    "value": "Speyside",
+    "source": "https://www.thebalvenie.com/our-whisky-range/doublewood-12-year-old",
+    "exact_quote": "Speyside Single Malt",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "abv": {
+    "value": 40.0,
+    "source": "https://www.thebalvenie.com/our-whisky-range/doublewood-12-year-old",
+    "exact_quote": "40% ABV",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "cask_type": {
+    "value": "Bourbon+Sherry",
+    "source": "https://www.thebalvenie.com/our-whisky-range/doublewood-12-year-old",
+    "exact_quote": "ex-bourbon and sherry casks",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "age_statement": {
+    "value": 12,
+    "source": "https://www.thebalvenie.com/our-whisky-range/doublewood-12-year-old",
+    "exact_quote": "12 Year Old",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "nose": {
+    "value": "Sweet fruit, Oloroso sherry notes, honey, vanilla",
+    "source": "https://www.whiskyfun.com/archivejanuary19.html",
+    "exact_quote": "Nose: honey, vanilla, sherry notes, orange peel",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "palate": {
+    "value": "Smooth, mellow, nuttiness, cinnamon, sherry sweetness",
+    "source": "https://www.whiskyfun.com/archivejanuary19.html",
+    "exact_quote": "Palate: mellow, sweet, cinnamon, sherry, nuttiness",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "finish": {
+    "value": "Long, warm, sweet spice finish",
+    "source": "https://www.whiskyfun.com/archivejanuary19.html",
+    "exact_quote": "Finish: warm, sweet, slightly spicy",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "score": {
+    "value": 84,
+    "source": "https://www.whiskyfun.com/archivejanuary19.html",
+    "exact_quote": "84 points",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  }
+}

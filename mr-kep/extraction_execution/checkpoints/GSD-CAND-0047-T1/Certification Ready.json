@@ -1,0 +1,171 @@
+{
+  "_checksum": "f2ba19e3f249883091e14cd5a9e3d3dac47295f586cedd0c0ad155e24b9005c3",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-cb0d77ff65b342da",
+      "fact_id": "EV-1021727808bf",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "Miyagikyo",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Bottled at Miyagikyo Distillery",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.miyagikyo.com/whisky/nikka-miyagikyo-10yo",
+          "won": true
+        }
+      ],
+      "value": "Miyagikyo"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-918906d471e538f7",
+      "fact_id": "EV-7e7576e33e70",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "Japan",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Product of Japan",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.miyagikyo.com/whisky/nikka-miyagikyo-10yo",
+          "won": true
+        }
+      ],
+      "value": "Japan"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-83bc7aa312969dda",
+      "fact_id": "EV-b66bc54cbbb7",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "Japanese",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Japanese single malt",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.miyagikyo.com/whisky/nikka-miyagikyo-10yo",
+          "won": true
+        }
+      ],
+      "value": "Japanese"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-0cceba69e49c928e",
+      "fact_id": "EV-2b389dfb9e85",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 45.0,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "45.0% ABV",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.miyagikyo.com/whisky/nikka-miyagikyo-10yo",
+          "won": true
+        }
+      ],
+      "value": 45.0
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-9535b0387a9eae9e",
+      "fact_id": "EV-35d197499f0e",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Bourbon",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "matured in Bourbon casks",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.miyagikyo.com/whisky/nikka-miyagikyo-10yo",
+          "won": true
+        }
+      ],
+      "value": "Bourbon"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-b238c0c6e05d2fd4",
+      "fact_id": "EV-007b78a612c0",
+      "field": "age_statement",
+      "field_name": "age_statement",
+      "field_value": 10,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "aged for 10 years",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.miyagikyo.com/whisky/nikka-miyagikyo-10yo",
+          "won": true
+        }
+      ],
+      "value": 10
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.miyagikyo.com/whisky/nikka-miyagikyo-10yo"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "45.0% ABV",
+      "value": 45.0
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "aged for 10 years",
+      "value": 10
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Bourbon casks",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Japan",
+      "value": "Japan"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Miyagikyo Distillery",
+      "value": "Miyagikyo"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Japanese single malt",
+      "value": "Japanese"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0047",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:48.845367+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

@@ -1,0 +1,171 @@
+{
+  "_checksum": "bad8d382589ddc7458e82ef19fc3fe62ef30d5ed24c3c94f97087f94d0a8e746",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-9069fd8733aa86b0",
+      "fact_id": "EV-a3f33ce2e1ba",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "Talisker",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Bottled at Talisker Distillery",
+          "source_key": "DiageoMalts",
+          "source_url": "https://www.malts.com/en-gb/products/single-malt-whisky/talisker-10-year-old",
+          "won": true
+        }
+      ],
+      "value": "Talisker"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-68f32dd7dcbdbe17",
+      "fact_id": "EV-ee67d33b2783",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "Scotland",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Product of Scotland",
+          "source_key": "DiageoMalts",
+          "source_url": "https://www.malts.com/en-gb/products/single-malt-whisky/talisker-10-year-old",
+          "won": true
+        }
+      ],
+      "value": "Scotland"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-d05c42ce957b8558",
+      "fact_id": "EV-8364451177a0",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "Islands",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Islands single malt",
+          "source_key": "DiageoMalts",
+          "source_url": "https://www.malts.com/en-gb/products/single-malt-whisky/talisker-10-year-old",
+          "won": true
+        }
+      ],
+      "value": "Islands"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-8cf3af14113a3342",
+      "fact_id": "EV-ef3c48dc1edb",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 45.8,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "45.8% ABV",
+          "source_key": "DiageoMalts",
+          "source_url": "https://www.malts.com/en-gb/products/single-malt-whisky/talisker-10-year-old",
+          "won": true
+        }
+      ],
+      "value": 45.8
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-4894bcbd4f4d70ab",
+      "fact_id": "EV-ccc3cce85766",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Bourbon",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "matured in Bourbon casks",
+          "source_key": "DiageoMalts",
+          "source_url": "https://www.malts.com/en-gb/products/single-malt-whisky/talisker-10-year-old",
+          "won": true
+        }
+      ],
+      "value": "Bourbon"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-8f4dfa28613e3072",
+      "fact_id": "EV-81c82b15d768",
+      "field": "age_statement",
+      "field_name": "age_statement",
+      "field_value": 10,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "aged for 10 years",
+          "source_key": "DiageoMalts",
+          "source_url": "https://www.malts.com/en-gb/products/single-malt-whisky/talisker-10-year-old",
+          "won": true
+        }
+      ],
+      "value": 10
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DiageoMalts",
+    "url": "https://www.malts.com/en-gb/products/single-malt-whisky/talisker-10-year-old"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "45.8% ABV",
+      "value": 45.8
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "aged for 10 years",
+      "value": 10
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Bourbon casks",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Scotland",
+      "value": "Scotland"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Talisker Distillery",
+      "value": "Talisker"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Islands single malt",
+      "value": "Islands"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0030",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:48.404777+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

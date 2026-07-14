@@ -1,0 +1,202 @@
+[
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-1f8583c00a9dca33",
+    "fact_id": "EV-f22a01899fdc",
+    "field": "distillery_name",
+    "field_name": "distillery_name",
+    "value": "Glenfarclas",
+    "field_value": "Glenfarclas",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.glenfarclas.com/our-whiskies/12-years-old",
+        "quote": "Glenfarclas Distillery",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-0d261d45fa589d2d",
+    "fact_id": "EV-24773736a12b",
+    "field": "country",
+    "field_name": "country",
+    "value": "Scotland",
+    "field_value": "Scotland",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.glenfarclas.com/our-whiskies/12-years-old",
+        "quote": "Product of Scotland",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-fc01247bbe245a72",
+    "fact_id": "EV-611faa924b45",
+    "field": "region",
+    "field_name": "region",
+    "value": "Speyside",
+    "field_value": "Speyside",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.glenfarclas.com/our-whiskies/12-years-old",
+        "quote": "Speyside single malt",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-7590ce36d2d54718",
+    "fact_id": "EV-d1f4c40a1d5c",
+    "field": "abv",
+    "field_name": "abv",
+    "value": 43.0,
+    "field_value": 43.0,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.glenfarclas.com/our-whiskies/12-years-old",
+        "quote": "43% ABV",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-db4e1adb8029a638",
+    "fact_id": "EV-648568f173f4",
+    "field": "cask_type",
+    "field_name": "cask_type",
+    "value": "Sherry",
+    "field_value": "Sherry",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.glenfarclas.com/our-whiskies/12-years-old",
+        "quote": "100% Oloroso sherry casks",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-981815c20c40e401",
+    "fact_id": "EV-5f3bd17f7d34",
+    "field": "age_statement",
+    "field_name": "age_statement",
+    "value": 12,
+    "field_value": 12,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.glenfarclas.com/our-whiskies/12-years-old",
+        "quote": "12 Years Old",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-0b810e2395d55ff6",
+    "fact_id": "EV-0b57a6437aa8",
+    "field": "nose",
+    "field_name": "nose",
+    "value": "Rich sherry, dried fruits, honey, light oak",
+    "field_value": "Rich sherry, dried fruits, honey, light oak",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archivejanuary17-2.html",
+        "quote": "Nose: sherry, dried fruits, oak, honey",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-5aa940849d0e92f2",
+    "fact_id": "EV-abb31dacbda3",
+    "field": "palate",
+    "field_name": "palate",
+    "value": "Sherry sweetness, Christmas cake, spices",
+    "field_value": "Sherry sweetness, Christmas cake, spices",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archivejanuary17-2.html",
+        "quote": "Palate: rich sherry, spices, fruitcake",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-24a76bebbfd48a89",
+    "fact_id": "EV-d29f79890d6b",
+    "field": "finish",
+    "field_name": "finish",
+    "value": "Medium, warm, clean sherry notes",
+    "field_value": "Medium, warm, clean sherry notes",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archivejanuary17-2.html",
+        "quote": "Finish: medium, warm, clean sherry",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-b2958e5fead261b8",
+    "fact_id": "EV-270ceace9260",
+    "field": "score",
+    "field_name": "score",
+    "value": 83,
+    "field_value": 83,
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archivejanuary17-2.html",
+        "quote": "83 points",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  }
+]

@@ -1,0 +1,49 @@
+{
+  "_checksum": "34ee2cfffcfa75a87e0e5564310f35921bbf852b2a842e53937d37a8ea6a06a9",
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "structured_data",
+    "source_key": "MR-KEP-GSD-V1",
+    "url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "[approx_abv] 41.4",
+      "value": 41.4
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "[age_statement_years] 0",
+      "value": 0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "[cask_type_primary] Bourbon+Swedish Oak",
+      "value": "Bourbon+Swedish Oak"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "[country] Sweden",
+      "value": "Sweden"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "[distillery] Mackmyra",
+      "value": "Mackmyra"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "[region] Swedish",
+      "value": "Swedish"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0089",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:14:58.875265+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

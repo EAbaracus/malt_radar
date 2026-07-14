@@ -1,0 +1,146 @@
+{
+  "_checksum": "51b76d96aea0535a70fdc11653bbc0e43fdef19dfb1935239c6f508d49dfe7df",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-6542f5515ce6facb",
+      "fact_id": "EV-a221c9897c87",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "Starward",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Bottled at Starward Distillery",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.starward.com/whisky/starward-nova",
+          "won": true
+        }
+      ],
+      "value": "Starward"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-20fdcb2694687df1",
+      "fact_id": "EV-e3da141b2da2",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "Australia",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Product of Australia",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.starward.com/whisky/starward-nova",
+          "won": true
+        }
+      ],
+      "value": "Australia"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-1cf89b785f9278f5",
+      "fact_id": "EV-9258b7622492",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "Australian",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Australian single malt",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.starward.com/whisky/starward-nova",
+          "won": true
+        }
+      ],
+      "value": "Australian"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-be68f5cde83cdb6f",
+      "fact_id": "EV-21e41decc0ae",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 41.0,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "41.0% ABV",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.starward.com/whisky/starward-nova",
+          "won": true
+        }
+      ],
+      "value": 41.0
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-a136d12866c972f7",
+      "fact_id": "EV-5ac295301e99",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Australian Red Wine",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "matured in Australian Red Wine casks",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.starward.com/whisky/starward-nova",
+          "won": true
+        }
+      ],
+      "value": "Australian Red Wine"
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.starward.com/whisky/starward-nova"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "41.0% ABV",
+      "value": 41.0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Australian Red Wine casks",
+      "value": "Australian Red Wine"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Australia",
+      "value": "Australia"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Starward Distillery",
+      "value": "Starward"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Australian single malt",
+      "value": "Australian"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0099",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:50.133993+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

@@ -1,0 +1,32 @@
+# =============================================================================
+# templates/certification.yaml
+# -----------------------------------------------------------------------------
+# Template for a CERTIFICATION policy. Declares the confidence floor and the
+# evidence requirements a fact must meet before the Certification Agent marks
+# it certified. Consumed by the AOUS Certification Agent.
+# =============================================================================
+
+schema_version: "1.0.0"
+
+policy_name: "example-certification"
+
+# Minimum confidence for ANY certified field (mirrors confidence.yaml
+# thresholds.certify_min). 0.70 = certified knowledge requires >= 0.70.
+certify_min_confidence: 0.70
+
+# A field is certified only if backed by at least this many evidence records.
+min_evidence_records: 1
+
+# Fields that may NEVER be certified from a single T3 (community) source.
+sole_source_forbidden_tiers:
+  - T3_community
+
+# Audit gate: certified facts below this confidence are flagged for review.
+audit_warn_below: 0.60
+
+# Promotion: certified records are NOT written to production here. Production
+# apply happens only on a later, explicit apply gate (see HERMES.md
+# read-only verification). This template only certifies into staging evidence.
+promotion:
+  writes_production: false
+  requires_explicit_apply_gate: true

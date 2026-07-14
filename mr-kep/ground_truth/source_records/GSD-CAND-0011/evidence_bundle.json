@@ -1,0 +1,182 @@
+[
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-f0dba033c692995e",
+    "fact_id": "EV-5b714767858f",
+    "field": "distillery_name",
+    "field_name": "distillery_name",
+    "value": "Glenfarclas",
+    "field_value": "Glenfarclas",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.glenfarclas.com/our-whiskies/105-cask-strength",
+        "quote": "Glenfarclas Distillery",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-cb510c4cb331acba",
+    "fact_id": "EV-0ad666b43f5d",
+    "field": "country",
+    "field_name": "country",
+    "value": "Scotland",
+    "field_value": "Scotland",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.glenfarclas.com/our-whiskies/105-cask-strength",
+        "quote": "Product of Scotland",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-4d3b1ec39943e928",
+    "fact_id": "EV-a7158638866b",
+    "field": "region",
+    "field_name": "region",
+    "value": "Speyside",
+    "field_value": "Speyside",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.glenfarclas.com/our-whiskies/105-cask-strength",
+        "quote": "Speyside single malt",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-54f52874f6657923",
+    "fact_id": "EV-9e309b80322f",
+    "field": "abv",
+    "field_name": "abv",
+    "value": 60.0,
+    "field_value": 60.0,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.glenfarclas.com/our-whiskies/105-cask-strength",
+        "quote": "60% ABV",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-9294550a9f416059",
+    "fact_id": "EV-8b66013d35f6",
+    "field": "cask_type",
+    "field_name": "cask_type",
+    "value": "Sherry",
+    "field_value": "Sherry",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.glenfarclas.com/our-whiskies/105-cask-strength",
+        "quote": "Oloroso sherry casks",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-e6bce183315b4f52",
+    "fact_id": "EV-50148ebe9261",
+    "field": "nose",
+    "field_name": "nose",
+    "value": "Sherry, oak, pears, apples, sweet caramel",
+    "field_value": "Sherry, oak, pears, apples, sweet caramel",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober17-2.html",
+        "quote": "Nose: alcohol, sherry, wood, caramel",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-aee0deb2953b0a14",
+    "fact_id": "EV-b00d8702e5ee",
+    "field": "palate",
+    "field_name": "palate",
+    "value": "Dry, assertive, rich sherry, oak spice",
+    "field_value": "Dry, assertive, rich sherry, oak spice",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober17-2.html",
+        "quote": "Palate: hot, intense sherry, oak, dark fruit",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-dc2f58a4b7c8ac14",
+    "fact_id": "EV-91ceeffb07ff",
+    "field": "finish",
+    "field_name": "finish",
+    "value": "Long, warm sherry, spicy oak notes",
+    "field_value": "Long, warm sherry, spicy oak notes",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober17-2.html",
+        "quote": "Finish: long, peppery, warm sherry",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-2bf026da91100244",
+    "fact_id": "EV-f9f25c498139",
+    "field": "score",
+    "field_name": "score",
+    "value": 82,
+    "field_value": 82,
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober17-2.html",
+        "quote": "82 points",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  }
+]

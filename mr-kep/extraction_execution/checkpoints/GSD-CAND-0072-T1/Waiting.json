@@ -1,0 +1,44 @@
+{
+  "_checksum": "4e1dac2fe4f31114cf00b05337c6a4664e3c7d254eed1cd90cd2d77f8e7a9910",
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.waterford.com/whisky/waterford-gaia-edition-1.1"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "50.0% ABV",
+      "value": 50.0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Bourbon casks",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Ireland",
+      "value": "Ireland"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Waterford Distillery",
+      "value": "Waterford"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Waterford single malt",
+      "value": "Waterford"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0072",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:49.472441+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

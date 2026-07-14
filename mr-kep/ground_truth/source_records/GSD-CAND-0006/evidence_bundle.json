@@ -1,0 +1,202 @@
+[
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-6777ceff847a4c22",
+    "fact_id": "EV-18ded4478b28",
+    "field": "distillery_name",
+    "field_name": "distillery_name",
+    "value": "Macallan",
+    "field_value": "Macallan",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.themacallan.com/en/whisky/single-malts/double-cask/double-cask-12-years-old",
+        "quote": "The Macallan Distillery",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-bdaeeab3b236d4b2",
+    "fact_id": "EV-de1d011057eb",
+    "field": "country",
+    "field_name": "country",
+    "value": "Scotland",
+    "field_value": "Scotland",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.themacallan.com/en/whisky/single-malts/double-cask/double-cask-12-years-old",
+        "quote": "Product of Scotland",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-30be7d0c609995f8",
+    "fact_id": "EV-595261f019b0",
+    "field": "region",
+    "field_name": "region",
+    "value": "Speyside",
+    "field_value": "Speyside",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.themacallan.com/en/whisky/single-malts/double-cask/double-cask-12-years-old",
+        "quote": "Speyside Single Malt",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-7f70a8d1a9ff8eba",
+    "fact_id": "EV-1b8991b49daa",
+    "field": "abv",
+    "field_name": "abv",
+    "value": 40.0,
+    "field_value": 40.0,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.themacallan.com/en/whisky/single-malts/double-cask/double-cask-12-years-old",
+        "quote": "40% ABV",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-d100886ad3d52917",
+    "fact_id": "EV-6d2310aea8e0",
+    "field": "cask_type",
+    "field_name": "cask_type",
+    "value": "Sherry+Bourbon",
+    "field_value": "Sherry+Bourbon",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.themacallan.com/en/whisky/single-malts/double-cask/double-cask-12-years-old",
+        "quote": "sherry seasoned American and European oak casks",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-65b0b2ce853b8a36",
+    "fact_id": "EV-439d2d076fd4",
+    "field": "age_statement",
+    "field_name": "age_statement",
+    "value": 12,
+    "field_value": 12,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.themacallan.com/en/whisky/single-malts/double-cask/double-cask-12-years-old",
+        "quote": "12 Years Old",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-1a2249ce46108053",
+    "fact_id": "EV-4169d83330cb",
+    "field": "nose",
+    "field_name": "nose",
+    "value": "Creamy butterscotch, toffee apple, candied orange",
+    "field_value": "Creamy butterscotch, toffee apple, candied orange",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archivejuly16-2.html",
+        "quote": "Nose: fudge, honey, citrus, vanilla",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-5ca441b0a045fd41",
+    "fact_id": "EV-f7f89b4f4660",
+    "field": "palate",
+    "field_name": "palate",
+    "value": "Wood spices, ginger, honey, sweet sherry",
+    "field_value": "Wood spices, ginger, honey, sweet sherry",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archivejuly16-2.html",
+        "quote": "Palate: spicy sherry, wood, honey",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-125de728946d19d6",
+    "fact_id": "EV-2664d82a8a6b",
+    "field": "finish",
+    "field_name": "finish",
+    "value": "Medium, warm wood spice, sweet oak",
+    "field_value": "Medium, warm wood spice, sweet oak",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archivejuly16-2.html",
+        "quote": "Finish: medium, sweet oak",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-b6521b4fa25c36fb",
+    "fact_id": "EV-bede659c423d",
+    "field": "score",
+    "field_name": "score",
+    "value": 82,
+    "field_value": 82,
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archivejuly16-2.html",
+        "quote": "82 points",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  }
+]
