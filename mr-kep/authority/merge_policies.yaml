@@ -1,0 +1,59 @@
+# =============================================================================
+# merge_policies.yaml
+# -----------------------------------------------------------------------------
+# Purpose : Declares the named MERGE POLICIES referenced by MERGE_STRATEGIES.md
+#           and consumed by the AOUS Merge Agent. Each policy is deterministic
+#           and specifies exactly how conflicting field values are resolved.
+# Scope   : MR-KEP Sprint 1 (FOUNDATION). Standards only. Deterministic.
+# Reuse   : AOUS merge stage selects a policy per field (see field_rules.yaml)
+#           and applies the rules below without ambiguity.
+# =============================================================================
+
+schema_version: "1.0.0"
+deterministic: true
+
+policies:
+
+  authority_wins:
+    description: "Highest authority tier (then source_priority) wins; loser kept as evidence."
+    applicable_fields: [distillery_name, region, country, abv, age_statement, cask_type]
+    algorithm:
+      - "sort candidates by (tier_rank asc, priority asc)"
+      - "select first as winning value"
+      - "attach remaining candidates to provenance.evidence[] (not dropped)"
+    drops_loser_value: false
+
+  latest_expert_wins:
+    description: "Among T2 experts, the most recent review (by source date) wins."
+    applicable_fields: [nose, palate, finish, flavor_axes, score]
+    algorithm:
+      - "filter candidates to T2_expert tier"
+      - "sort by source_date desc"
+      - "select first as winning value"
+      - "if no T2 candidate, fall back to authority_wins"
+    requires: "source_date"        # must be present, else policy fails -> audit
+
+  consensus_additive:
+    description: "Take agreeing values; add agreement bonus (see confidence.yaml)."
+    applicable_fields: [flavor_axes, community_rating]
+    algorithm:
+      - "group candidates by normalized value"
+      - "if >=2 independent sources share a value -> mark agreed, add bonus"
+      - "emit agreed value with elevated confidence"
+    requires: "independent_sources"
+
+  keep_all_supporting:
+    description: "Never drop; preserve every candidate as parallel evidence."
+    applicable_fields: [community_rating]
+    algorithm:
+      - "emit primary value per authority_wins"
+      - "store all others under provenance.evidence[]"
+    drops_loser_value: false
+
+  reject_on_conflict:
+    description: "If any T1 field conflicts and cannot be resolved, REJECT (do not certify)."
+    applicable_fields: [distillery_name, region, country]
+    algorithm:
+      - "if conflict among T1 candidates and no deterministic resolution -> reject"
+      - "emit nothing; route to Audit Agent with reason=UNRESOLVED_CONFLICT"
+    on_failure: "route_to_audit"

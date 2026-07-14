@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0.0",
+  "fact_id": "evt_sha256_example_marker_only",
+  "field": "score",
+  "value": 89,
+  "normalization": "scale_0_to_100",
+  "confidence": 0.90,
+  "authority_tier": "T2_expert",
+  "decided_by_policy": "latest_expert_wins",
+  "sources": [
+    {
+      "source_key": "whiskyfun",
+      "source_url": "https://www.whiskyfun.com/archive.html",
+      "quote": "Glenfarclas 1990, 89 points.",
+      "evidence_type": "expert_quote",
+      "won": true
+    }
+  ],
+  "conflict": {
+    "resolved": true,
+    "reason": "single_expert_source",
+    "losers_kept": false
+  }
+}

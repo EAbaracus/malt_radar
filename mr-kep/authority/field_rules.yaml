@@ -1,0 +1,111 @@
+# =============================================================================
+# field_rules.yaml
+# -----------------------------------------------------------------------------
+# Purpose : Per-FIELD governance. Declares, for every extractable knowledge
+#           field, its authority tier ceiling, whether it may be overwritten,
+#           required evidence strength, and normalization expectations.
+# Scope   : MR-KEP Sprint 1 (FOUNDATION). Standards only. Deterministic.
+# Reuse   : AOUS validation + merge stages enforce these rules. A field value
+#           that violates `authority_ceiling` is REJECTED, not merged.
+# =============================================================================
+
+schema_version: "1.0.0"
+deterministic: true
+
+# Field categories mirror the Malt Radar canonical model so extracted knowledge
+# maps cleanly onto production fields without re-architecture.
+fields:
+
+  # --- Identity (T1 only) -------------------------------------------------
+  distillery_name:
+    category: identity
+    authority_ceiling: T1_authoritative
+    overwrite: false                # once certified, T1 wins; T2/T3 cannot change
+    evidence_required: "primary_source_quote"
+    normalization: "trim_canonical_case"
+
+  region:
+    category: identity
+    authority_ceiling: T1_authoritative
+    overwrite: false
+    evidence_required: "primary_source_quote"
+    normalization: "canonical_region_enum"
+
+  country:
+    category: identity
+    authority_ceiling: T1_authoritative
+    overwrite: false
+    evidence_required: "primary_source_quote"
+    normalization: "iso_country_enum"
+
+  # --- Official bottling (T1 only) ----------------------------------------
+  abv:
+    category: official_bottling
+    authority_ceiling: T1_authoritative
+    overwrite: false
+    evidence_required: "bottle_print"
+    normalization: "strip_percent_cast_real"   # matches P53/P54 ABV fix: strip '%' then CAST REAL
+    unit: "percent_abv"
+
+  age_statement:
+    category: official_bottling
+    authority_ceiling: T1_authoritative
+    overwrite: false
+    evidence_required: "bottle_print"
+    normalization: "extract_first_integer_year"
+
+  cask_type:
+    category: official_bottling
+    authority_ceiling: T1_authoritative
+    overwrite: false
+    evidence_required: "primary_source_quote"
+    normalization: "canonical_cask_enum"
+
+  # --- Sensory (T2 expert, never T1) --------------------------------------
+  nose:
+    category: sensory_evaluation
+    authority_ceiling: T2_expert
+    overwrite: true                 # newer expert review may refine
+    evidence_required: "expert_quote"
+    normalization: "raw_text"
+
+  palate:
+    category: sensory_evaluation
+    authority_ceiling: T2_expert
+    overwrite: true
+    evidence_required: "expert_quote"
+    normalization: "raw_text"
+
+  finish:
+    category: sensory_evaluation
+    authority_ceiling: T2_expert
+    overwrite: true
+    evidence_required: "expert_quote"
+    normalization: "raw_text"
+
+  flavor_axes:
+    category: sensory_evaluation
+    authority_ceiling: T2_expert
+    overwrite: true
+    evidence_required: "expert_quote"
+    normalization: "canonical_7axis"   # smoky, peaty, fruity, sweet, spicy, maritime, sherry
+    allowed_axes: [smoky, peaty, fruity, sweet, spicy, maritime, sherry]
+
+  # --- Assessment (T2 expert) ---------------------------------------------
+  score:
+    category: scored_assessment
+    authority_ceiling: T2_expert
+    overwrite: true
+    evidence_required: "expert_quote"
+    normalization: "scale_0_to_100"
+    scale: { min: 0, max: 100 }
+
+  # --- Community (T3 supporting only) -------------------------------------
+  community_rating:
+    category: supporting_evidence_only
+    authority_ceiling: T3_community
+    overwrite: true
+    evidence_required: "aggregated_link"
+    normalization: "scale_0_to_5"
+    scale: { min: 0, max: 5 }
+    sole_source: false              # may never be the ONLY certifier

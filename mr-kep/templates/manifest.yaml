@@ -1,0 +1,75 @@
+# =============================================================================
+# templates/manifest.yaml
+# -----------------------------------------------------------------------------
+# Template for a pipeline run manifest. Copy to manifests/<run>.yaml and fill.
+# Validated against schemas/manifest.schema.json by the AOUS orchestrator.
+# =============================================================================
+
+schema_version: "1.0.0"
+
+# Format: MRKEP-YYYYMMDD-HHMMSS (deterministic from run start timestamp).
+manifest_id: "MRKEP-00000000-000000"
+
+pipeline_name: "mr-kep-standard-run"
+
+# ISO-8601 UTC. Deterministic runs pin this so re-runs are reproducible.
+created_at: "0000-00-00T00:00:00Z"
+
+# MUST remain true. Any source of non-determinism is a pipeline violation.
+deterministic: true
+
+# Fixed seed for deterministic ordering (e.g. tie-break sorts).
+seed: 42
+
+sources:
+  - source_key: "whiskyfun"
+    profile_ref: "sources/whiskyfun/source_profile.yaml"
+    scope:
+      # Qualification scope — which units to consider.
+      whisky_name_contains: ""
+      date_from: null
+      date_to: null
+      max_units: 0            # 0 = no cap
+
+stages:
+  - stage: qualification
+    agent: "qualification-agent"
+    status: "pending"
+    input_ref: ""
+    output_ref: ""
+    checksum: ""
+  - stage: extraction
+    agent: "extraction-agent"
+    status: "pending"
+    input_ref: ""
+    output_ref: ""
+    checksum: ""
+  - stage: validation
+    agent: "validation-agent"
+    status: "pending"
+    input_ref: ""
+    output_ref: ""
+    checksum: ""
+  - stage: merge
+    agent: "merge-agent"
+    status: "pending"
+    input_ref: ""
+    output_ref: ""
+    checksum: ""
+  - stage: certification
+    agent: "certification-agent"
+    status: "pending"
+    input_ref: ""
+    output_ref: ""
+    checksum: ""
+  - stage: audit
+    agent: "audit-agent"
+    status: "pending"
+    input_ref: ""
+    output_ref: ""
+    checksum: ""
+
+gate:
+  status: "AWAITING_APPROVAL"
+  evaluated_at: "0000-00-00T00:00:00Z"
+  reasons: []

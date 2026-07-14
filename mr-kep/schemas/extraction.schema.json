@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://malt-radar.local/mr-kep/schemas/extraction.schema.json",
+  "title": "MR-KEP Extraction Record",
+  "description": "Output of the Extraction Agent: raw field-level extractions WITH provenance anchors. No merging, no judgment — only what the source text says.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "source_key", "unit_id", "extracted_at", "fields", "provenance"],
+  "properties": {
+    "schema_version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "source_key": { "type": "string" },
+    "unit_id": { "type": "string" },
+    "extracted_at": { "type": "string", "format": "date-time" },
+    "extraction_method": {
+      "type": "string",
+      "description": "Named method (e.g. 'trigger_scan', 'structured_parse'). Defined in source profile, not invented here."
+    },
+    "fields": {
+      "type": "object",
+      "description": "Field name -> raw extracted value (string). Normalization happens in the normalization stage.",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["value", "quote"],
+        "properties": {
+          "value": { "type": ["string", "number", "null"] },
+          "quote": { "type": "string", "description": "Verbatim source excerpt that supports the value (evidence-first)." },
+          "quote_offset": { "type": "integer", "minimum": 0 }
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_url", "retrieved_at", "evidence_type"],
+      "properties": {
+        "source_url": { "type": "string", "format": "uri" },
+        "retrieved_at": { "type": "string", "format": "date-time" },
+        "evidence_type": { "enum": ["primary_source_quote", "bottle_print", "expert_quote", "aggregated_link", "inferred"] },
+        "source_date": { "type": "string", "format": "date", "description": "Publication date of the source unit, for latest_expert_wins." }
+      }
+    }
+  }
+}
