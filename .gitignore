@@ -109,3 +109,6 @@ keystore*
 *.p12
 credentials*
 secrets*
+
+# P103 KEP Cleanup
+mr-kep/**/output/
