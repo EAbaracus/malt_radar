@@ -1,0 +1,76 @@
+{
+  "intake_stage": "P103 Source Intake \u2014 NEW BOOK REGISTRATION (read-only pre-flight)",
+  "generated_at_utc": "2026-07-15T15:40:00Z",
+  "file": {
+    "name": "The Complete Whiskey Course -- Robin Robinson --.epub",
+    "path": "data/books/The Complete Whiskey Course -- Robin Robinson --.epub",
+    "size_bytes": 23885526,
+    "sha256": "659f2d4cf3c651d6b805c04d204e5acaf4296b5c5fcf6d84240df60f17e3fa2f",
+    "format": "EPUB",
+    "detected_added": "2026-07-15 (newest mtime in data/books/)"
+  },
+  "metadata": {
+    "title": "The Complete Whiskey Course",
+    "author": "Robin Robinson",
+    "year": 2019,
+    "isbn": "9781454932215",
+    "publisher": "Sterling Epicure",
+    "language": "en-US",
+    "identifiers": ["calibre:37186", "uuid:74216343-f64a-417f-a377-e2ef7275d393", "978-1-4549-3221-5"],
+    "rights": "Copyright \u00a9 2019 by Robin Robinson"
+  },
+  "extraction": {
+    "compatible": true,
+    "documents": 20,
+    "total_chars": 466957,
+    "method": "ebooklib.read_epub + bs4.get_text (reflowable EPUB; same stack as scripts/manual_sources/extract_epub_text.py)",
+    "note": "EPUB is reflowable; 'documents'=20 content blocks, NOT fixed pages. Sprint 01-03 scripts use pypdf and assume fixed pages; a Sprint 04 loader must substitute the EPUB text step (no schema change, no archive rewrite)."
+  },
+  "compare_b1b2b3": {
+    "B1": "Malt Whisky Yearbook 2019 (Ronde) \u2014 annual distillery directory, factual metadata",
+    "B2": "World Atlas of Whisky (Broom) \u2014 region structure + distillery profiles + flavor commentary",
+    "B3": "Michael Jackson World Guide to Whisky (1987) \u2014 historical distillery facts",
+    "new": "Robin Robinson \u2014 The Complete Whiskey Course (2019) \u2014 contemporary educational course book (production, tasting, types, brands)",
+    "differentiation": "Unique author/title; contemporary educational scope distinct from B1 directory, B2 atlas, B3 historical guide. No overlap in identity with B1-B3."
+  },
+  "collision_checks": {
+    "content_hash_in_registry": false,
+    "duplicate_filename_in_registry": false,
+    "duplicate_title_in_registry": false,
+    "duplicate_author_in_registry": false,
+    "duplicate_isbn_in_registry": false,
+    "knowledge_db_title_collision": false,
+    "knowledge_db_author_collision": false,
+    "knowledge_db_isbn_collision": false,
+    "proposed_book_id": "BK_RR2020_B8",
+    "proposed_book_id_collision": false,
+    "existing_book_identities_in_knowledge_db": 22
+  },
+  "contribution_estimate": {
+    "method": "READ-ONLY in-memory dry-run using frozen Sprint 01 extractor/lexicon (no DB writes)",
+    "lexicon_entries": 13330,
+    "entities_matched_total": 389,
+    "resolved_to_whisky_id": 236,
+    "unresolved_entities": 153,
+    "resolution_rate_pct": 60.67,
+    "distinct_whisky_ids_touched": 236,
+    "already_covered_whisky_ids": 217,
+    "estimated_net_new_coverage": 19,
+    "estimated_net_new_flavor_vectors": 19,
+    "manual_review_backlog": 153
+  },
+  "suggestions": {
+    "source_id": "B8",
+    "priority": "P2",
+    "authority_tier": "T3_community (books fall to T3 in frozen authority_matrix \u2014 supporting-only, cannot sole-certify per P95 audit D1)",
+    "book_key": "RR2020_B8",
+    "algorithm_version": "rr2020_b8"
+  },
+  "go_no_go": "CONDITIONAL GO",
+  "conditions": [
+    "EPUB (not PDF): Sprint 04 requires an EPUB text-extraction step (verified extractable here via ebooklib) in place of pypdf. No DB schema change needed.",
+    "Formal B8 registration in frozen source_priority_matrix.md + book_ingestion_plan.md is a net-new matrix addition \u2014 requires user approval before any ingestion.",
+    "Book remains T3_community: it may corroborate but not sole-certify (P95 books-tier audit C1/D1).",
+    "Net-new coverage is modest (19) because 217 of 236 touched whisky_ids are already covered by S01-S03; primary value is corroboration + a fresh contemporary source, not large coverage expansion."
+  ]
+}
