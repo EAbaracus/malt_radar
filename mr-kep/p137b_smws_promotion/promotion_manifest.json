@@ -1,0 +1,25 @@
+{
+  "task": "P137B SMWS metadata promotion (artifacts only)",
+  "canonical_decisions": [
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "D5"
+  ],
+  "source_db": "knowledge.db",
+  "target_db": "production.db (NOT MODIFIED \u2014 export only)",
+  "schema_column": "source_id (canonical; NOT source_key)",
+  "crosswalk": "deferred (D5) \u2014 not used",
+  "rows_in_export": 1233,
+  "distinct_whiskies": 724,
+  "artifacts": [
+    "promotion_export.csv",
+    "conflict_report.csv",
+    "coverage_delta.csv",
+    "promotion_statistics.json",
+    "promotion_manifest.json"
+  ],
+  "deterministic": true,
+  "validation": "run_again_equal_hashes"
+}
