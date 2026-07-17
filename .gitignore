@@ -112,3 +112,7 @@ secrets*
 
 # P103 KEP Cleanup
 mr-kep/**/output/
+*.db-wal
+*.db-shm
+*.sqlite-wal
+*.sqlite-shm

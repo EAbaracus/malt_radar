@@ -61,6 +61,9 @@ jobs:
         run: flutter pub get
 
       - name: Build APK (release)
+        # Default runtime path: Drift (local offline) repository.
+        # AppConfig.useDbApi defaults to false (no --dart-define supplied),
+        # so whiskyRepositoryProvider selects WhiskyRepositoryImpl (Drift).
         run: flutter build apk --release
 
       - name: Upload APK artifact
