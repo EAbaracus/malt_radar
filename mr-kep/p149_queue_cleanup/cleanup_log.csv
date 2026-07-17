@@ -1,0 +1,10 @@
+step,action,target,count,result
+1,backup,knowledge.db,1,C:\Users\eltun\Documents\malt radar CLEAN\mr-kep\p149_queue_cleanup\backups\knowledge.db.pre_p149.20260717_151750.bak
+2,delete,NO_CHANGE rows,2580,deleted
+3,delete,INVALID rows,3,deleted
+4,keep,READY_NULL_FILL,3,preserved
+5,keep,REVIEW_REQUIRED,78,preserved
+6,verify,final queue size,81,81 OK
+7,integrity,PRAGMA integrity_check,1,ok
+8,verify,duplicate dedupe_key,1,0
+9,atomic_swap,knowledge.db,1,applied
