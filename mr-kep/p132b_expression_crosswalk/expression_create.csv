@@ -1,0 +1,15 @@
+staging_id,smws_code,staging_name,matched_whisky_id,matched_name,score,classification,age,abv
+123,5.42,,,,0.3834,CREATE,,
+371,48.8,Fantastic Evolution,,,0.5423,CREATE,17.0,55.8
+395,50.62,,,,0.3834,CREATE,,
+502,64.60,,,,0.3834,CREATE,,
+571,73.67,,,,0.3834,CREATE,,
+668,100.8,"Highlands, Speyside (Strathisla)",,,0.5357,CREATE,10.0,60.9
+708,123.3,"Highlands, Southwest Highlands",,,0.536,CREATE,8.0,59.5
+709,123.4,"Highlands, Southwest Highlands",,,0.5358,CREATE,13.0,58.1
+753,127.9,"Islay, Loch Indaal",,,0.4856,CREATE,9.0,65.1
+762,5.42,,,,0.3834,CREATE,,
+763,50.62,,,,0.3834,CREATE,,
+767,64.60,,,,0.3834,CREATE,,
+783,G3,CASK #G3,,,0.4848,CREATE,16.0,66.3
+786,G4.6,,,,0.3834,CREATE,,

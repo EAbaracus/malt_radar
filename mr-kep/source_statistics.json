@@ -1,0 +1,9 @@
+{
+  "total_sources_evaluated": 5,
+  "highest_verified_yield_source": "low_risk_retail_probe_v11.csv",
+  "highest_verified_yield_count": 39,
+  "unverified_high_value_sources": [
+    "SMWS USA TASTING NOTES ARCHIVE",
+    "PDF/EPUB Books"
+  ]
+}
