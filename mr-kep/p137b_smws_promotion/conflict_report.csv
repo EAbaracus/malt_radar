@@ -1,0 +1,89 @@
+whisky_id,field,proposed,existing,policy,citation_id
+02a86d9a-5af2-5e4a-bb77-9af6fae9f63d,region,Highland,Highland / District,no_overwrite,CIT_6e18e4c4bf7b93e8fe2bfc73dde639a8556b481c088da9f1ddb850514d71f359
+086f622f-b23c-508d-b448-8218aec33aea,region,Highlands,"Highlands
+          District",no_overwrite,CIT_f2356e85f8e7f026961f566a35ed7764175eb36ca0630d554483acc324132e64
+09f3e5e3-5c92-526c-b8e1-4b0fc4b7f27d,region,Highland,Highland District,no_overwrite,CIT_cc45ccf7cde3468a8625f274037e3f26d70144244344fded52eafde431c96402
+0b9d77e4-659a-59ee-a1a0-c30bc035b351,region,Islay,Islay District,no_overwrite,CIT_aa9df6ad6bbc5c167e556ea05ea5585c5db090949ea587b4dfc11d4aae5882ca
+0db5e21b-c412-51d2-a2dd-74098738ba8b,region,Highlands,Highlands / District,no_overwrite,CIT_b982bff34ee5f09db8b61b5424f0a45b3ad78d11e7904e09fbe9022fac311e74
+0f01956b-105b-5d7a-aee4-cfcfcee1bf9b,region,Islay,Islay / District,no_overwrite,CIT_3c2d9b30f634dd9be2158cac61d57bf62b0ad123260db951889e25cd5fbb0817
+14b2e951-1feb-51ee-995c-6bcea1f7f7a7,region,Highlands,Highlands / District,no_overwrite,CIT_6ac27f7f688a29e622c3321efa471afb50c64d9c43cc676bb3279f5eb985ed94
+14bf995e-4f44-53a0-950d-fb547b537c26,region,Islay,"Islay
+              District",no_overwrite,CIT_f60f0c2dc973f285b92ad27567d4ab6e73ae470918ed7e59d5a4a2708fb1cb57
+1d7003ff-3292-5775-bc19-8d6beb7f95c0,region,Highland,Highland / District,no_overwrite,CIT_b3956b6f96bb681ca2b1c97ff2a26386d0049d8054665f6a67f3f7967308dfa7
+21e7ffc0-6813-5c8d-9a31-26a99ca23a6f,region,Highlands,Highlands / District,no_overwrite,CIT_8ba7fff7ca2b7762c8a2914a7c2418c08ba1319e89d24881fbf6cdb98d83ceb2
+2b28b0ac-5533-57d5-aafb-cd990d7c350f,region,Highlands,"Highlands
+          District",no_overwrite,CIT_33d653faa72360bcedb937a01f50c2ba89b9233fda9967edce866d0e33ff0c00
+319488d7-4dee-5391-a1f0-71a6efbd0bf5,region,Lowlands,"Lowlands
+               District",no_overwrite,CIT_bcfe9421988b5a775c461b9290bad0747210f63b6e950307ff7bf3091bcba113
+32e77202-b5f9-55fa-85cf-3b2e96d47d7c,region,Highlands,Highlands / District,no_overwrite,CIT_fbdcfa6af063d4bfce3173481c83410851a6858513e79dc3aa2ca7c3a877e938
+332742fb-7e74-54ea-b106-ef4891386b98,region,Highlands,Highlands / District,no_overwrite,CIT_ce8ae4d0bfeb1c1a223c2a4ab0a37a50582669ecc4c543a946d4c368d7050d65
+33dfae40-73c8-5be1-a67b-5fb91f3fe9a7,region,Islay,Islay / District,no_overwrite,CIT_12a8f2563f6b4e7f2f15d72d2eef19ff44e9f774b7b33dc2ea7410625d3e973b
+361c1dd2-c51e-52bb-a001-2a76e661a567,region,Islay,Islay / District,no_overwrite,CIT_4f5b442b21dbcfd53ffeb70a4f4f28bd7d6e66ffee1693815f6b0712f7e88464
+37b64209-818d-5db8-b702-e4befa51d54e,region,Islay,Islay / District,no_overwrite,CIT_151a3305cdc1db1903fd720b903d739718f5a7d3e0cf7dca251f3398c489f494
+383db153-5ff5-55af-b798-483269f9139d,region,Campbeltown,Campbeltown / District,no_overwrite,CIT_31d4455d9b54c2e04f19c5310e400265cf3940ca73e818e7b34ffcb429468798
+39e4c233-0ec9-5d42-9fbe-bf734cee666d,region,Islay,Islay / District,no_overwrite,CIT_d243ecb2d47f913df93af7382db8b3febf20a445bc74902b236b03029fdafda9
+3b9fddcc-d2e8-5b32-b263-19521428b3fb,region,Highlands,Highlands / Speyside,no_overwrite,CIT_6575d6f4a6ccc1c1753449cf2197786883bd4bff238e10d2132dbea11b6880f5
+3f8a6602-ccaf-5f8b-b348-9ce76750afdf,region,Islay,Islay / District,no_overwrite,CIT_7016d89fb67f49fd0e11bc5461e5dcbb25839cc55f2beef4c2a9ca676d530c96
+48b76d49-3cea-56bb-a5ea-02af7c181389,region,Highlands,Highlands / Island,no_overwrite,CIT_ca76bc74d85f13fe7b6ead425f2813e476d17ea3a08eff13133a60b5913047b0
+503ce28c-d1ed-54e5-aba5-eeb9bd1d271b,region,Highlands,Highlands / District,no_overwrite,CIT_fd27aedc887881315bd13de5a37940da4f057d74cda043f41e8ea25ab1841b9a
+59761d20-d362-5720-ba97-1e8d1bf89362,region,Islay,Islay / District,no_overwrite,CIT_e573fb1b4fbb869b206f26f744041ffbb833c6ab91d98e5af8941be60ba0ac0e
+5d3f8399-d8ce-5f0a-b597-db701aefb0f6,region,Islay,Islay District,no_overwrite,CIT_bbaf4ad819b98f06bad7374830c837559939924e94fa42b3609e493cdf06cd8d
+6037a55b-ec66-55f7-9e17-b482a403e7e0,region,Highlands,Highlands / Island,no_overwrite,CIT_138f58e5cbf684da724e22895e6e03d9ddf471f57ce6a09638b4d828df4a54fc
+61feb702-492b-5674-b911-5ae85fe3918d,region,Highland,Highland / District,no_overwrite,CIT_af28bc87ab4cef35df0f7ac2207e231ee150a88fca7e3d34af2f3c64330a2519
+62b0665b-f8a0-5e68-a226-9c3cee92b809,region,Highlands,"Highlands
+         District",no_overwrite,CIT_c92ccb7246dc23853b5e2e94433b61892f1c37ed00cc8a75958cc81ab83b0f34
+68029326-80e1-58d6-b7ad-e3f741a03fde,region,Highlands,Highlands District,no_overwrite,CIT_83c47e30db0cac741692dc5b05c68c2a4afdb70007b30e007a257b515c9d5cfe
+68e01dd9-147e-55df-b08b-4185fbeb26b4,region,Highland,Highland / Western,no_overwrite,CIT_25259931ea8f64545f865ec717ef9c429cb3c733e85d87dcce4096f9a1cbbd1e
+6930804a-cb30-545b-b9bf-a071bde3cf2d,region,Campbeltown,Campbeltown / District,no_overwrite,CIT_2568ede729c64c1a460c45ce5d32ae2ae289d6f73bafe0cc76600d7b4827f392
+69447d22-fdd9-5c9e-a755-d1dcf8fd1879,region,Highlands,Highlands/ Northern                   Region,no_overwrite,CIT_08b1c06de94bd2936b2205cb13ed3d10d6a127435c7a720611d655f4f2a6f327
+6f658247-ce6c-5917-9718-99c92d81dab6,region,Highlands,"Highlands
+           District",no_overwrite,CIT_36baa6d8e3cd8ddc85683927543dccbce856b3d9774ba8ad94efef4ea3a81f7e
+7389e104-5f42-5cf7-8500-9cc05b98c048,region,Lowlands,"Lowlands
+               District",no_overwrite,CIT_b0052d996df2131afdc1d9a7a91cccf38380be67327eb544c19c4049ff652642
+741ae3e7-d2db-53fb-9dae-37d261992741,region,Highlands,"Highlands
+         District",no_overwrite,CIT_2c43688a116418707b1ee5dcbb90ea6baf4b2e061d99362fa769cd5b9d7e0adb
+752ca0b5-c422-52fd-951e-a9673675b22d,region,Highlands,Highlands / Speyside,no_overwrite,CIT_41ab84545a27fef7781a405c716269f0cab159257f0dc17c26c89cf14ffaf96e
+75457a81-d010-5484-8d64-e54977f7f1d7,region,Highlands,Highlands / District,no_overwrite,CIT_c6f6116cf2e189742724657f9dadb2f5114e2eacb867367dfb118b25047f0e05
+777cbd6e-d905-579d-8cd1-64058dccc1f2,region,Islay,Islay / District,no_overwrite,CIT_7af46cac88fc9bdbb7a0aac8a714088827cf69962fa727a5812f5018cfa2c9f5
+7df43210-70eb-5556-8f54-096fa1ae296f,region,Islay,Islay District,no_overwrite,CIT_1c9a7e79e1919846e2e4684a93bc6e138e6e310ffff6033ee7ef32cb06ffe5dd
+848f0045-74af-53ee-935b-e25e98760ca2,region,Highlands,Highlands / Speyside,no_overwrite,CIT_fba8b414d107b87fa81fb7d82083fe1807cc35571fcb03f30c2d53a975462eaa
+85f639a6-a130-538b-b701-68da13fbc28d,region,Highlands,Highlands / District,no_overwrite,CIT_93b30545abff51be90d42457369824c8ec5d9a61de2097a745ebc96fc80bf184
+88035bdd-884f-5488-93f8-c1ffb817364f,region,Highlands,Highlands / Island,no_overwrite,CIT_d81ba0d3fde0c28093eb08d4e10d3523806cf54aced02d41535763d571bdefb4
+8ad5b983-e855-57fb-8289-a246738d047a,region,Highlands,Highlands / District,no_overwrite,CIT_260da2aa8200fd5901f760e40f9915d1e85b9a27da41578d44c0f141226b2fb9
+8e6430a0-ce42-54ed-b68f-b238ec0acc3a,region,Highland,Highland / District,no_overwrite,CIT_3dc0f13e7228eccfdc8df2520cee996ff676277188dcff77c77e0958e5e0ba8b
+8f1ebd93-a589-5854-b4c9-d477829f0a8b,region,Campbeltown,Campbeltown / District,no_overwrite,CIT_5427300d233ef973351c8f06d5c71bf04b1362c5c98c0d7dac24b5dd7aa3327f
+90925ce2-f26c-59de-adb7-e323c2c1a5f7,region,Islay,Islay / District,no_overwrite,CIT_82844df8f5ebd43545d7fea6b52ce71d7c1288b55e847bb97f8e4a139cd0ea38
+9389b180-caad-501a-a44b-06d1f2630566,region,Islay,Islay / District,no_overwrite,CIT_fffb6e1e5b64c6610f361551410dc40552c5512a12555f91f8906b5370318e92
+96a86aa7-1497-5f93-9755-74d58a947f27,region,Highlands,"Highlands
+         District",no_overwrite,CIT_673a9f0ac0d7ea5dfa34f54f5205084499f74a25b902ab942cee28fd0eeca079
+9c699417-4417-54d0-892f-28b1f8cb8b02,region,Lowlands,Lowlands / Western Lowlands,no_overwrite,CIT_93eda577edbf3721e9d4e7647492e45e77255b25c880c880dcbba1dd34d31575
+9c7b5716-5970-55c8-bb60-05a13d2312ed,region,Highlands,"Highlands
+          District",no_overwrite,CIT_94b05c02894d76449001fe1cf292fd59c20deafd156fc26911cdf66fcb8ebcc8
+9e1c7d21-d46e-501f-b4db-cb9c49b927e2,region,Highlands,Highlands District,no_overwrite,CIT_705de95c15ce3afaa07254a07509e9128d1392eb6deda2a88a4f0d52596c8127
+9fdd5383-121f-5566-973a-36d04d95a068,region,Highlands,Highlands / Island,no_overwrite,CIT_5f2c36cf49b3fb4f96594c6ed674e0d145314b0545f0828da61d3cc08abd5816
+a03064a7-81b2-5658-b4a3-821ce4ffb573,region,Highlands,Highlands / District,no_overwrite,CIT_0d12a1d3c3918b5bd13a48b123c0a56bc1fbca09ec75a203058ece35e225a5a8
+a2dfb32f-4c31-5e2a-bde8-8a884168c3c2,region,Islay,Islay / District,no_overwrite,CIT_874288ad1b8c5a35fda1cf572fa738a645daf52d05dffffb7c51c192c2563048
+a5551e4a-7c00-5bae-a95a-58e25cd197ff,region,Highlands,Highlands / District,no_overwrite,CIT_0f01681ff2b608ccda6b1d3bb1ffe403ac4776918c959d1052757036163fa871
+aaa43573-8c35-57b3-afd2-0c7a26683263,region,Highlands,Highlands / Island,no_overwrite,CIT_d4b5397081ee52e7d465f80da781ea7ac685c494af7dc62dd3d6fc3521158675
+b37d3fd8-5f0f-50c9-9636-2be8259c829d,region,Lowlands,Lowlands / District,no_overwrite,CIT_0a02087c528289f13e79cb3c283d2a75aaeeab40f4e995a6f8408c25c67b1428
+b4df6f56-6372-505a-a0e0-b7d713924932,region,Highlands,Highlands / Speyside,no_overwrite,CIT_62f51b682f42dcffdc7dbc159aab16c3d0ea254c303a49fa2cce991555b25454
+b5e4ba52-de1f-527a-81f7-87f07b3560e9,region,Highlands,Highlands / District,no_overwrite,CIT_06b9ecfaa191f9ae9d20789e421a0a27fe355ea80cb11a74cdc6bef9106c1e5d
+ba40e478-5e37-5261-aa3b-e60ef1448470,region,Islay,Islay District,no_overwrite,CIT_fa923a0171f4972bf190ea273a45f1b2674d89ed9bbe335df9dec91dc72fc1d8
+bb7e1cc2-b1ea-5007-9911-c82410d737ca,region,Highlands,Highlands / District,no_overwrite,CIT_ebe448d3b1d53aa89cc8ecc20986feb881f1f2651edba0072a27ebcd200e3c77
+bfd02fd3-2f68-5494-89f2-8d9f5b3fe69b,region,Highlands,"Highlands
+           District",no_overwrite,CIT_4bdabe9494fa3e787568773008b5603847dd972764ae4023f9a92b82903f891b
+c3dce1c4-9531-51fe-b1b6-0b2edc1a5e7d,region,Highland,Highland / District,no_overwrite,CIT_cd18113fa77d15f15de4f6801bb52b20f9379805d8ca878ff0eda5943ceeef10
+c3facd38-30f5-5a7f-bfe7-71ae09afa327,region,Highlands,Highlands / District,no_overwrite,CIT_825d636c551e655d731d87ef4a7d42023dba1fb173e51db08b5e91de82d2e79d
+c8e7c7c0-992b-5b2b-8a20-b75ca0b224ca,region,Lowlands,"Lowlands
+            District",no_overwrite,CIT_5a18b776463dae4892517c5909fcfdb4a7a5e101eee171f2888940819419618e
+c8ff908b-57c0-53c0-b4eb-e4b937c96110,region,Islay,Islay District,no_overwrite,CIT_35cbe98709be4abb603955ed12f33869753430a0e150a7356dd76d343abeb93c
+db0e5646-1718-57e5-adc8-103b3cea1870,region,Lowlands,"Lowlands
+            District",no_overwrite,CIT_9c923123488e9dcb03f9de9a8f8eb6b80a598b1aa1964929ce178abb1e21bc49
+dbb848a6-7eb6-51d8-af80-023a111fa87b,region,Highlands,Highlands / District,no_overwrite,CIT_f95b94463e39e825be3399fdc614db1482030af3e14f66bb4d5b8a68539202a3
+de6f75e8-74ba-501c-beda-3658a4df39ea,region,Highlands,Highlands / District,no_overwrite,CIT_707416e4ccfe13771dc7454647bc8540751bf376a4767ce82d0fcda4168464cb
+e00d6a82-80c7-54ef-a39f-2385bd7c897d,region,Islay,Islay / District,no_overwrite,CIT_afa7df3d08686907d16f29ca81a5f558339176540e7e5173514232b01a72bc88
+e1fa9e80-a79b-5cf2-bc3f-ae380696f7b4,region,Highlands,Highlands / Island,no_overwrite,CIT_38edf6c37fa9c4b7d1d6af06a611831d593f192818aef279b399e95e38238bb6
+eec34799-b7ba-51d9-9d85-1e31d79fb37d,region,Highlands,Highlands / District,no_overwrite,CIT_fbe28e42ae082874419b57016fee08eb9343f0a490ba38ec040315b4db678ccc
+f1c7dad4-49a1-591b-8873-a426e5aa6bc1,region,Islay,Islay / South Shore,no_overwrite,CIT_5dcecd39b14c8cb99a35e5cbaf2c95ea571d641a7ed14ccd27ab308828236be0
+fb8f7cfa-78ee-54dc-8a41-e4b3ca1a7dfb,region,Highlands,Highlands / District,no_overwrite,CIT_340b44c741ec10b571eabb609b4f3aaf79077002d843faa74641671da9a93100
+fd7b2a97-d5e8-56f6-b03f-a68591ff085c,region,Lowland,Lowland / District,no_overwrite,CIT_5056a335128f90955f059bfa01f8c01128cc8361a19f69fe1f118e18b485a8fa
