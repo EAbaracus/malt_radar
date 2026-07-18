@@ -1,0 +1,118 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://maltradar.local/schemas/editorial_review.schema.json",
+  "title": "EditorialReview",
+  "description": "Canonical normalized schema for one expert editorial whisky review ingested from a public source. Evidence-first, provenance-preserving. 7 canonical flavor axes from memory/flavor-system.md.",
+  "type": "object",
+  "required": ["schema_version", "evidence_id", "source", "whisky_identity", "tasting_notes", "flavor_vector", "evidence"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "editorial-review/1.0"},
+    "evidence_id": {
+      "type": "string",
+      "pattern": "^EDR-[0-9a-f]{16}$",
+      "description": "Deterministic id = 'EDR-' + sha256(source_url + content_hash)[:16]. Stable across re-runs (idempotency)."
+    },
+    "source": {
+      "type": "object",
+      "required": ["source_id", "source_type", "authority_tier", "url", "license", "content_hash_sha256"],
+      "properties": {
+        "source_id": {"type": "string", "examples": ["thewhiskyphiles", "whiskynotes_be", "thedramble"]},
+        "source_type": {"type": "string", "const": "editorial"},
+        "authority_tier": {"type": "string", "enum": ["T1_authoritative", "T2_expert", "T3_community"]},
+        "url": {"type": "string", "format": "uri"},
+        "title": {"type": ["string", "null"]},
+        "author": {"type": ["string", "null"]},
+        "published_date": {"type": ["string", "null"], "description": "ISO-8601 date when available."},
+        "license": {"type": "string", "examples": ["copyright-attribution-required", "unknown"]},
+        "fetched_at": {"type": "string", "format": "date-time"},
+        "content_hash_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "whisky_identity": {
+      "type": "object",
+      "required": ["raw_name", "normalized_name", "match_status"],
+      "properties": {
+        "raw_name": {"type": "string"},
+        "normalized_name": {"type": "string"},
+        "matched_master_whisky_id": {"type": ["string", "null"], "description": "TEXT whisky_id 'Wxxxxxx' from whiskies, or null if unmatched."},
+        "match_status": {"type": "string", "enum": ["unmatched", "exact", "normalized_exact", "fuzzy", "manual_review"]},
+        "match_confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        "distillery_hint": {"type": ["string", "null"]},
+        "age_hint": {"type": ["integer", "null"]}
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Optional specs; null when not stated in the review (never fabricate).",
+      "properties": {
+        "abv": {"type": ["number", "null"]},
+        "age_statement": {"type": ["string", "null"]},
+        "cask_type": {"type": ["string", "null"]},
+        "region": {"type": ["string", "null"]},
+        "bottler": {"type": ["string", "null"]},
+        "vintage": {"type": ["string", "null"]}
+      }
+    },
+    "score": {
+      "type": "object",
+      "required": ["value", "scale_max", "normalized"],
+      "properties": {
+        "value": {"type": ["number", "null"]},
+        "scale_max": {"type": ["number", "null"], "examples": [100, 5, 10], "description": "denominator for normalized; null when no score detected in source."},
+        "normalized": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "maximum": 1,
+          "description": "value / scale_max, clamped; null when no score was detected in the source (never fabricate)."
+        },
+        "scale": {"type": "string", "examples": ["site_specific", "out_of_100", "out_of_5"]}
+      }
+    },
+    "tasting_notes": {
+      "type": "object",
+      "required": ["nose", "palate", "finish"],
+      "properties": {
+        "nose": {"type": ["string", "null"]},
+        "palate": {"type": ["string", "null"]},
+        "finish": {"type": ["string", "null"]},
+        "conclusion": {"type": ["string", "null"]}
+      }
+    },
+    "flavor_vector": {
+      "type": "object",
+      "description": "Canonical 7-axis Malt Radar flavor vector (0.0-1.0). Missing axes = 0.0, never omitted.",
+      "required": ["smoky", "peaty", "fruity", "sweet", "spicy", "maritime", "sherry"],
+      "properties": {
+        "smoky": {"type": "number", "minimum": 0, "maximum": 1},
+        "peaty": {"type": "number", "minimum": 0, "maximum": 1},
+        "fruity": {"type": "number", "minimum": 0, "maximum": 1},
+        "sweet": {"type": "number", "minimum": 0, "maximum": 1},
+        "spicy": {"type": "number", "minimum": 0, "maximum": 1},
+        "maritime": {"type": "number", "minimum": 0, "maximum": 1},
+        "sherry": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "required": ["confidence", "extraction_method", "provenance_state"],
+      "properties": {
+        "confidence": {"type": "number", "minimum": 0, "maximum": 1, "description": "Per-review evidence confidence = authority_tier_weight x extraction_quality."},
+        "extraction_method": {"type": "string", "enum": ["llm", "heuristic", "manual"]},
+        "quotes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["field", "value", "quote"],
+            "properties": {
+              "field": {"type": "string", "examples": ["score", "abv", "cask_type"]},
+              "value": {},
+              "quote": {"type": "string"}
+            }
+          }
+        },
+        "provenance_state": {"type": "string", "enum": ["staging_unverified", "staging_reviewed", "promoted"], "default": "staging_unverified"},
+        "ingested_by": {"type": "string", "examples": ["p201_pipeline"]}
+      }
+    }
+  }
+}

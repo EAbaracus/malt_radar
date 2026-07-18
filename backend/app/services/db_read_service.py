@@ -80,7 +80,12 @@ class DbReadService:
     # not an app axis). Stored values are never modified -- this is a
     # presentation-format adaptation only.
     # ------------------------------------------------------------------
-    APP_AXES = ["fruity", "sweet", "spicy", "smoky_peaty", "oak_cask", "malty_cereal", "floral_herbal"]
+    # The app (Flutter radar) receives a fixed 7-axis vocabulary. Maritime is a
+    # canonical axis (canonical_flavor_standard.md frozen 7) and MUST be exposed to
+    # clients; it is no longer dropped. smoky_peaty / oak_cask / malty_cereal /
+    # floral_herbal are presentation merges/projections of canonical axes; maritime
+    # is passed through directly. Stored values are never modified.
+    APP_AXES = ["fruity", "sweet", "spicy", "smoky_peaty", "oak_cask", "malty_cereal", "floral_herbal", "maritime"]
 
     @staticmethod
     def _normalize_flavor_profile(raw: Any) -> Optional[str]:
@@ -120,6 +125,8 @@ class DbReadService:
             "oak_cask": max(g("sherry"), g("oak"), g("cask")),
             "malty_cereal": g("malty"),
             "floral_herbal": g("floral"),
+            # Maritime is a canonical axis; pass it through (do NOT drop).
+            "maritime": g("maritime"),
         }
         return json.dumps(mapped)
 
