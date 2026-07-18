@@ -49,9 +49,29 @@ anchor (smws_code, book_id+page, notebooklm_run_id).
 
 ## 5. Canonical flavor axes (fixed 7)
 
-`smoky, peaty, fruity, sweet, spicy, maritime, sherry` — stored normalized to
-`axis_scale='0-100'`. Inputs in 0–1 are ×100. `rich` (SMWS) maps to sweet-side; it is
-NOT the `maritime` axis. Consensus method recorded in `consensus_method`.
+`smoky, peaty, fruity, sweet, spicy, maritime, sherry`.
+
+**Layered scale contract (ratified P95C, verdict C — intentional, NOT a contradiction):**
+
+| Layer | Table | Required axis scale | Notes |
+|---|---|---|---|
+| 1 — storage/raw | `flavor_evidence` | **0.0–1.0** | raw evidence landing; MUST be 0–1 |
+| 2 — derived/semantic | `canonical_flavor_vectors` | **0–100** | `axis_scale='0-100'`; bridge = `norm_axis_0_100()` (×100) |
+| 3 — application/presentation | `flavor_profiles` | **0–100** | presentation layer; 0–100 |
+
+Bridge: `norm_axis_0_100()` multiplies `flavor_evidence` (0–1) by 100 to produce
+`canonical_flavor_vectors` (0–100). `flavor_profiles` is populated in parallel from the
+same 0–100 source vector (it is NOT derived from `flavor_evidence`); the storage layer's
+0–1 form is produced by the writer (`to_storage_scale()` ÷ 100 before insert).
+
+**Writer contract (P95D):** any code writing `flavor_evidence` MUST emit axis values in
+0.0–1.0. Source vectors that are 0–100 (e.g. `staging_book_flavor_profiles`,
+`AxisReducer.canonical_vectors`) MUST be divided by 100 on the way into `flavor_evidence`.
+The regression invariant `MAX(flavor_evidence.*) <= 1.0` is enforced as a hard gate
+(R4) in `p95b_phase12_execute.py`.
+
+`rich` (SMWS) maps to sweet-side; it is NOT the `maritime` axis. Consensus method
+recorded in `consensus_method`.
 
 ## 6. Field class → promotion action (P128 field_merge_matrix)
 
