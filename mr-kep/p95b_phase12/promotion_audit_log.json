@@ -1,0 +1,427 @@
+{
+  "errors": [],
+  "pre_sha256": "8350fe9de2f1c73d9c4b6930bae607afe64696527910c2709b8b3a4a634c6a3a",
+  "pre_size": 12685312,
+  "phase": {
+    "B": {
+      "status": "committed",
+      "vector_maritime_added": true,
+      "vector_rich_retained": true
+    },
+    "C_book": {
+      "candidates": 8,
+      "promoted_evidence": 8,
+      "promoted_profiles": 0
+    },
+    "C_tasting": {
+      "candidates": 263,
+      "promoted_evidence": 188
+    },
+    "C": {
+      "status": "committed",
+      "promoted_evidence_total": 196,
+      "promoted_profiles_total": 0,
+      "skipped_count": 75
+    }
+  },
+  "skipped": [
+    {
+      "whisky_id": "W002007",
+      "staging_note_id": 484,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002028",
+      "staging_note_id": 486,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002024",
+      "staging_note_id": 488,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002025",
+      "staging_note_id": 489,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002029",
+      "staging_note_id": 491,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002045",
+      "staging_note_id": 492,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002047",
+      "staging_note_id": 494,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002043",
+      "staging_note_id": 495,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002036",
+      "staging_note_id": 498,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002039",
+      "staging_note_id": 499,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002057",
+      "staging_note_id": 503,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002053",
+      "staging_note_id": 504,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002090",
+      "staging_note_id": 505,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002099",
+      "staging_note_id": 510,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002102",
+      "staging_note_id": 513,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002145",
+      "staging_note_id": 524,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002160",
+      "staging_note_id": 526,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002169",
+      "staging_note_id": 529,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002174",
+      "staging_note_id": 530,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002182",
+      "staging_note_id": 531,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002177",
+      "staging_note_id": 532,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002188",
+      "staging_note_id": 534,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002209",
+      "staging_note_id": 535,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002203",
+      "staging_note_id": 536,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002234",
+      "staging_note_id": 545,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002265",
+      "staging_note_id": 548,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002312",
+      "staging_note_id": 551,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002326",
+      "staging_note_id": 555,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002314",
+      "staging_note_id": 556,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002339",
+      "staging_note_id": 561,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002337",
+      "staging_note_id": 563,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002338",
+      "staging_note_id": 564,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002346",
+      "staging_note_id": 566,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002359",
+      "staging_note_id": 568,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002367",
+      "staging_note_id": 569,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002381",
+      "staging_note_id": 575,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002422",
+      "staging_note_id": 580,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002439",
+      "staging_note_id": 583,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002440",
+      "staging_note_id": 584,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002467",
+      "staging_note_id": 587,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002477",
+      "staging_note_id": 589,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002527",
+      "staging_note_id": 599,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002619",
+      "staging_note_id": 607,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002632",
+      "staging_note_id": 609,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002655",
+      "staging_note_id": 615,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002673",
+      "staging_note_id": 619,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002674",
+      "staging_note_id": 620,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002675",
+      "staging_note_id": 621,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002688",
+      "staging_note_id": 627,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W001239",
+      "staging_note_id": 628,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002699",
+      "staging_note_id": 633,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002826",
+      "staging_note_id": 636,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002839",
+      "staging_note_id": 641,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002872",
+      "staging_note_id": 645,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002947",
+      "staging_note_id": 660,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002954",
+      "staging_note_id": 662,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002977",
+      "staging_note_id": 667,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002981",
+      "staging_note_id": 669,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002983",
+      "staging_note_id": 671,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002993",
+      "staging_note_id": 675,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W003042",
+      "staging_note_id": 678,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W003044",
+      "staging_note_id": 681,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W003065",
+      "staging_note_id": 689,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W003082",
+      "staging_note_id": 693,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W003122",
+      "staging_note_id": 700,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W003139",
+      "staging_note_id": 702,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W003143",
+      "staging_note_id": 703,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W003146",
+      "staging_note_id": 704,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W003149",
+      "staging_note_id": 706,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W003023",
+      "staging_note_id": 710,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W003230",
+      "staging_note_id": 713,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W003244",
+      "staging_note_id": 716,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W003238",
+      "staging_note_id": 718,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002197",
+      "staging_note_id": 735,
+      "reason": "no canonical descriptor tokens extracted"
+    },
+    {
+      "whisky_id": "W002198",
+      "staging_note_id": 736,
+      "reason": "no canonical descriptor tokens extracted"
+    }
+  ],
+  "post_sha256": "704fee10138560b18492557feb1bd97a4a8dac35256d5dbae57c6c5a607323a1",
+  "post_size": 12705792,
+  "validation": {
+    "migration_committed": true,
+    "vector_maritime_exists": true,
+    "evidence_rows_before": 791,
+    "evidence_rows_after": 987,
+    "evidence_id_unique": [
+      987,
+      987
+    ],
+    "null_whisky_in_evidence": 0,
+    "flavor_profiles_promoted_checked": 0,
+    "flavor_profiles_promoted_bad_axis_count": 0,
+    "vector_maritime_nonnull": 196,
+    "vector_rich_present": 791,
+    "integrity_check": "ok"
+  },
+  "validation_passed": true,
+  "regression": "7 passed in 0.13s",
+  "regression_passed": true,
+  "all_gates_passed": true,
+  "rollback_executed": false
+}

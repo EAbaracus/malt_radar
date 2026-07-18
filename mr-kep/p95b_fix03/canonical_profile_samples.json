@@ -1,0 +1,432 @@
+{
+  "sample_count": 8,
+  "checks": [
+    {
+      "label": "book_all7_1",
+      "src": "book",
+      "whisky_id": "W002573",
+      "whisky_name": "BUNNAHABHAIN",
+      "axes_7_present": true,
+      "maritime_value": 35.0,
+      "maritime_preserved": true,
+      "rich_absent": true,
+      "no_legacy_leak": true,
+      "candidate_keys": [
+        "fruity",
+        "maritime",
+        "peaty",
+        "sherry",
+        "smoky",
+        "spicy",
+        "sweet"
+      ],
+      "leaked_keys": []
+    },
+    {
+      "label": "book_all7_2",
+      "src": "book",
+      "whisky_id": "W002442",
+      "whisky_name": "Loch Lomond",
+      "axes_7_present": true,
+      "maritime_value": 35.0,
+      "maritime_preserved": true,
+      "rich_absent": true,
+      "no_legacy_leak": true,
+      "candidate_keys": [
+        "fruity",
+        "maritime",
+        "peaty",
+        "sherry",
+        "smoky",
+        "spicy",
+        "sweet"
+      ],
+      "leaked_keys": []
+    },
+    {
+      "label": "book_all7_3",
+      "src": "book",
+      "whisky_id": "W001980",
+      "whisky_name": "ardbeg",
+      "axes_7_present": true,
+      "maritime_value": 35.0,
+      "maritime_preserved": true,
+      "rich_absent": true,
+      "no_legacy_leak": true,
+      "candidate_keys": [
+        "fruity",
+        "maritime",
+        "peaty",
+        "sherry",
+        "smoky",
+        "spicy",
+        "sweet"
+      ],
+      "leaked_keys": []
+    },
+    {
+      "label": "book_all7_4",
+      "src": "book",
+      "whisky_id": "W000014",
+      "whisky_name": "Glen Scotia",
+      "axes_7_present": true,
+      "maritime_value": 68.0,
+      "maritime_preserved": true,
+      "rich_absent": true,
+      "no_legacy_leak": true,
+      "candidate_keys": [
+        "fruity",
+        "maritime",
+        "peaty",
+        "sherry",
+        "smoky",
+        "spicy",
+        "sweet"
+      ],
+      "leaked_keys": []
+    },
+    {
+      "label": "book_all7_5",
+      "src": "book",
+      "whisky_id": "W002288",
+      "whisky_name": "Benriach",
+      "axes_7_present": true,
+      "maritime_value": 35.0,
+      "maritime_preserved": true,
+      "rich_absent": true,
+      "no_legacy_leak": true,
+      "candidate_keys": [
+        "fruity",
+        "maritime",
+        "peaty",
+        "sherry",
+        "smoky",
+        "spicy",
+        "sweet"
+      ],
+      "leaked_keys": []
+    },
+    {
+      "label": "note_text_1",
+      "src": "tasting_note",
+      "whisky_id": "None",
+      "whisky_name": null,
+      "axes_7_present": true,
+      "maritime_value": 100,
+      "maritime_preserved": true,
+      "rich_absent": true,
+      "no_legacy_leak": true,
+      "candidate_keys": [
+        "fruity",
+        "maritime",
+        "peaty",
+        "sherry",
+        "smoky",
+        "spicy",
+        "sweet"
+      ],
+      "leaked_keys": []
+    },
+    {
+      "label": "note_text_2",
+      "src": "tasting_note",
+      "whisky_id": "None",
+      "whisky_name": null,
+      "axes_7_present": true,
+      "maritime_value": 60,
+      "maritime_preserved": true,
+      "rich_absent": true,
+      "no_legacy_leak": true,
+      "candidate_keys": [
+        "fruity",
+        "maritime",
+        "peaty",
+        "sherry",
+        "smoky",
+        "spicy",
+        "sweet"
+      ],
+      "leaked_keys": []
+    },
+    {
+      "label": "note_text_3",
+      "src": "tasting_note",
+      "whisky_id": "None",
+      "whisky_name": null,
+      "axes_7_present": true,
+      "maritime_value": 60,
+      "maritime_preserved": true,
+      "rich_absent": true,
+      "no_legacy_leak": true,
+      "candidate_keys": [
+        "fruity",
+        "maritime",
+        "peaty",
+        "sherry",
+        "smoky",
+        "spicy",
+        "sweet"
+      ],
+      "leaked_keys": []
+    }
+  ],
+  "samples": [
+    {
+      "label": "book_all7_1",
+      "src": "book",
+      "whisky_id": "W002573",
+      "whisky_name": "BUNNAHABHAIN",
+      "canonical_vectors": {
+        "smoky": 44.0,
+        "peaty": 55.0,
+        "fruity": 50.0,
+        "sweet": 50.0,
+        "spicy": 35.0,
+        "maritime": 35.0,
+        "sherry": 44.0
+      },
+      "candidate_flavor_profile": {
+        "smoky": 44.0,
+        "peaty": 55.0,
+        "fruity": 50.0,
+        "sweet": 50.0,
+        "spicy": 35.0,
+        "maritime": 35.0,
+        "sherry": 44.0
+      },
+      "source_descriptors": [
+        "smoky",
+        "peaty",
+        "fruity",
+        "sweet",
+        "spicy",
+        "maritime",
+        "sherry"
+      ]
+    },
+    {
+      "label": "book_all7_2",
+      "src": "book",
+      "whisky_id": "W002442",
+      "whisky_name": "Loch Lomond",
+      "canonical_vectors": {
+        "smoky": 44.0,
+        "peaty": 35.0,
+        "fruity": 82.0,
+        "sweet": 70.0,
+        "spicy": 70.0,
+        "maritime": 35.0,
+        "sherry": 62.0
+      },
+      "candidate_flavor_profile": {
+        "smoky": 44.0,
+        "peaty": 35.0,
+        "fruity": 82.0,
+        "sweet": 70.0,
+        "spicy": 70.0,
+        "maritime": 35.0,
+        "sherry": 62.0
+      },
+      "source_descriptors": [
+        "smoky",
+        "peaty",
+        "fruity",
+        "sweet",
+        "spicy",
+        "maritime",
+        "sherry"
+      ]
+    },
+    {
+      "label": "book_all7_3",
+      "src": "book",
+      "whisky_id": "W001980",
+      "whisky_name": "ardbeg",
+      "canonical_vectors": {
+        "smoky": 50.0,
+        "peaty": 55.0,
+        "fruity": 50.0,
+        "sweet": 35.0,
+        "spicy": 35.0,
+        "maritime": 35.0,
+        "sherry": 35.0
+      },
+      "candidate_flavor_profile": {
+        "smoky": 50.0,
+        "peaty": 55.0,
+        "fruity": 50.0,
+        "sweet": 35.0,
+        "spicy": 35.0,
+        "maritime": 35.0,
+        "sherry": 35.0
+      },
+      "source_descriptors": [
+        "smoky",
+        "peaty",
+        "fruity",
+        "sweet",
+        "spicy",
+        "maritime",
+        "sherry"
+      ]
+    },
+    {
+      "label": "book_all7_4",
+      "src": "book",
+      "whisky_id": "W000014",
+      "whisky_name": "Glen Scotia",
+      "canonical_vectors": {
+        "smoky": 50.0,
+        "peaty": 55.0,
+        "fruity": 72.0,
+        "sweet": 68.0,
+        "spicy": 59.0,
+        "maritime": 68.0,
+        "sherry": 44.0
+      },
+      "candidate_flavor_profile": {
+        "smoky": 50.0,
+        "peaty": 55.0,
+        "fruity": 72.0,
+        "sweet": 68.0,
+        "spicy": 59.0,
+        "maritime": 68.0,
+        "sherry": 44.0
+      },
+      "source_descriptors": [
+        "smoky",
+        "peaty",
+        "fruity",
+        "sweet",
+        "spicy",
+        "maritime",
+        "sherry"
+      ]
+    },
+    {
+      "label": "book_all7_5",
+      "src": "book",
+      "whisky_id": "W002288",
+      "whisky_name": "Benriach",
+      "canonical_vectors": {
+        "smoky": 62.0,
+        "peaty": 35.0,
+        "fruity": 50.0,
+        "sweet": 65.0,
+        "spicy": 44.0,
+        "maritime": 35.0,
+        "sherry": 44.0
+      },
+      "candidate_flavor_profile": {
+        "smoky": 62.0,
+        "peaty": 35.0,
+        "fruity": 50.0,
+        "sweet": 65.0,
+        "spicy": 44.0,
+        "maritime": 35.0,
+        "sherry": 44.0
+      },
+      "source_descriptors": [
+        "smoky",
+        "peaty",
+        "fruity",
+        "sweet",
+        "spicy",
+        "maritime",
+        "sherry"
+      ]
+    },
+    {
+      "label": "note_text_1",
+      "src": "tasting_note",
+      "whisky_id": "None",
+      "whisky_name": null,
+      "canonical_vectors": {
+        "smoky": 0,
+        "peaty": 60,
+        "fruity": 0,
+        "sweet": 0,
+        "spicy": 0,
+        "maritime": 100,
+        "sherry": 0
+      },
+      "candidate_flavor_profile": {
+        "smoky": 0,
+        "peaty": 60,
+        "fruity": 0,
+        "sweet": 0,
+        "spicy": 0,
+        "maritime": 100,
+        "sherry": 0
+      },
+      "source_descriptors": [
+        "medicinal",
+        "salt",
+        "sea"
+      ]
+    },
+    {
+      "label": "note_text_2",
+      "src": "tasting_note",
+      "whisky_id": "None",
+      "whisky_name": null,
+      "canonical_vectors": {
+        "smoky": 60,
+        "peaty": 60,
+        "fruity": 60,
+        "sweet": 0,
+        "spicy": 60,
+        "maritime": 60,
+        "sherry": 0
+      },
+      "candidate_flavor_profile": {
+        "smoky": 60,
+        "peaty": 60,
+        "fruity": 60,
+        "sweet": 0,
+        "spicy": 60,
+        "maritime": 60,
+        "sherry": 0
+      },
+      "source_descriptors": [
+        "apple",
+        "peat",
+        "pepper",
+        "sea",
+        "smoky"
+      ]
+    },
+    {
+      "label": "note_text_3",
+      "src": "tasting_note",
+      "whisky_id": "None",
+      "whisky_name": null,
+      "canonical_vectors": {
+        "smoky": 60,
+        "peaty": 60,
+        "fruity": 60,
+        "sweet": 0,
+        "spicy": 60,
+        "maritime": 60,
+        "sherry": 0
+      },
+      "candidate_flavor_profile": {
+        "smoky": 60,
+        "peaty": 60,
+        "fruity": 60,
+        "sweet": 0,
+        "spicy": 60,
+        "maritime": 60,
+        "sherry": 0
+      },
+      "source_descriptors": [
+        "apple",
+        "peat",
+        "pepper",
+        "salt",
+        "smoke"
+      ]
+    }
+  ],
+  "verdict": "GO"
+}
