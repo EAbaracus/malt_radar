@@ -15,6 +15,10 @@ import os, sqlite3, csv, re, json, hashlib, datetime, argparse, uuid
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", "..", ".."))  # malt radar CLEAN
+# Shared canonical flavor scale helpers (P95G): single source of truth for the
+# layered scale contract. Replaces the local norm_axis_0_100 bridge.
+sys.path.insert(0, os.path.join(ROOT, "mr-kep", "common"))
+from flavor_scale_utils import to_profile_scale  # noqa: E402
 PROD = os.path.join(ROOT, "output", "import", "production.db")
 KB_DEF = os.path.join(ROOT, "output", "import", "knowledge.db")
 STAGING_SMWS = os.path.join(ROOT, "mr-kep", "p119_6", "staging_smws_tasting_notes.csv")
@@ -50,14 +54,6 @@ def norm_cask(s):
     for k, v in CASK_CANON.items():
         if k in low: out.append(v)
     return ";".join(sorted(set(out))) if out else s.strip().lower()
-
-def norm_axis_0_100(v):
-    """Map any source axis to 0-100 int. Source 0-1 -> *100; else assume 0-100."""
-    if v is None or v == "": return None
-    try: f = float(v)
-    except: return None
-    if f <= 1.0: f = f * 100
-    return round(f)
 
 def norm_region(s):
     if not s: return None
@@ -182,9 +178,9 @@ def stage_consensus(c, run_id):
                    " vector_spicy, vector_sweet, vector_rich FROM flavor_evidence").fetchall()
     p.close()
     for wid, vsm, vpe, vsh, vfr, vsp, vsw, vri in fe:
-        vals = [norm_axis_0_100(vsm), norm_axis_0_100(vpe), norm_axis_0_100(vfr),
-                norm_axis_0_100(vsw), norm_axis_0_100(vsp), norm_axis_0_100(vsh),
-                norm_axis_0_100(vri)]
+        vals = [to_profile_scale(vsm), to_profile_scale(vpe), to_profile_scale(vfr),
+                to_profile_scale(vsw), to_profile_scale(vsp), to_profile_scale(vsh),
+                to_profile_scale(vri)]
         c.execute("INSERT OR REPLACE INTO canonical_flavor_vectors"
                   " (vector_id,entity_key,entity_type,smoky,peaty,fruity,sweet,spicy,maritime,sherry,axis_scale,consensus_method,source_count,confidence,source,provenance,created_at,updated_at)"
                   " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",

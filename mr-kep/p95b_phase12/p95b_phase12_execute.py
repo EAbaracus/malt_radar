@@ -1,6 +1,10 @@
 # p95b_phase12_execute.py  (AUTHORIZED — Phase B schema + Phase C promotion, gated, rollback-on-fail)
 import os, sys, json, sqlite3, hashlib, datetime, uuid
 ROOT = r"C:\Users\eltun\Documents\malt radar CLEAN"
+# Shared canonical flavor scale helpers (P95G): single source of truth for the
+# layered scale contract (flavor_evidence=0-1, canonical_flavor_vectors/flavor_profiles=0-100).
+sys.path.insert(0, os.path.join(ROOT, "mr-kep", "common"))
+from flavor_scale_utils import to_storage_scale  # noqa: E402
 PROD = os.path.join(ROOT, "output", "import", "production.db")
 BAK  = os.path.join(ROOT, "mr-kep", "p95b_phase12", "backups",
                        "production.db.pre_p95b_phase12.20260718_101917.bak")
@@ -57,12 +61,15 @@ try:
             skipped.append({"whisky_id": wid, "reason": "already_in_flavor_evidence (authority preserved)"})
             continue
         smoky, peaty, fruity, sweet, spicy, maritime, sherry = [float(x or 0) for x in r[2:9]]
+        # storage layer (flavor_evidence) MUST be 0.0-1.0; source staging values are 0-100
+        s_smoky, s_peaty, s_fruity, s_sweet, s_spicy, s_maritime, s_sherry = (
+            to_storage_scale(v) for v in (smoky, peaty, fruity, sweet, spicy, maritime, sherry))
         eid = "P95B_" + uuid.uuid4().hex[:20]
         cur.execute(
             "INSERT INTO flavor_evidence (evidence_id, whisky_id, source, vector_smoky, vector_peaty, "
             "vector_fruity, vector_sweet, vector_spicy, vector_maritime, vector_sherry, vector_rich) "
             "VALUES (?,?,?,?,?,?,?,?,?,?,?)",
-            (eid, wid, "book", smoky, peaty, fruity, sweet, spicy, maritime, sherry, None))
+            (eid, wid, "book", s_smoky, s_peaty, s_fruity, s_sweet, s_spicy, s_maritime, s_sherry, None))
         promoted_ev += 1; promoted_wids.add(wid)
         if wid not in exist_fp:
             prof = json.dumps({ax: [smoky, peaty, fruity, sweet, spicy, maritime, sherry][i] for i, ax in enumerate(CANON)})
@@ -99,13 +106,15 @@ try:
         descs = [{"descriptor": w, "intensity": 3, "fact_id": f"note:{snid}:{w}"} for w in words]
         result, _ = reducer.reduce_entity_flavor(str(wid), descs)
         canon = result["canonical_vectors"]  # 7 axes, 0-100
+        # storage layer (flavor_evidence) MUST be 0.0-1.0; canon is 0-100 -> divide by 100
+        s_canon = {ax: to_storage_scale(canon[ax]) for ax in CANON}
         eid = "P95B_" + uuid.uuid4().hex[:20]
         cur.execute(
             "INSERT INTO flavor_evidence (evidence_id, whisky_id, source, vector_smoky, vector_peaty, "
             "vector_fruity, vector_sweet, vector_spicy, vector_maritime, vector_sherry, vector_rich) "
             "VALUES (?,?,?,?,?,?,?,?,?,?,?)",
-            (eid, wid, "tasting_note", canon["smoky"], canon["peaty"], canon["fruity"], canon["sweet"],
-             canon["spicy"], canon["maritime"], canon["sherry"], None))
+            (eid, wid, "tasting_note", s_canon["smoky"], s_canon["peaty"], s_canon["fruity"], s_canon["sweet"],
+             s_canon["spicy"], s_canon["maritime"], s_canon["sherry"], None))
         note_promoted += 1; promoted_wids.add(wid)
         if wid not in exist_fp:
             prof = json.dumps(canon)
@@ -154,13 +163,22 @@ mar_nonnull = post.execute("SELECT COUNT(*) FROM flavor_evidence WHERE vector_ma
 rich_present = post.execute("SELECT COUNT(*) FROM flavor_evidence WHERE vector_rich IS NOT NULL").fetchone()[0]
 v["vector_maritime_nonnull"] = mar_nonnull
 v["vector_rich_present"] = rich_present
+# --- R4 scale invariant (P95C verdict C): flavor_evidence storage layer MUST be 0.0-1.0 ---
+_ev_axes = ["vector_smoky", "vector_peaty", "vector_fruity", "vector_sweet",
+            "vector_spicy", "vector_maritime", "vector_sherry"]
+_ev_max = post.execute(
+    "SELECT MAX({}) FROM flavor_evidence".format(", MAX(".join(_ev_axes))
+).fetchone()
+_axis_max = max([x for x in _ev_max if x is not None]) if _ev_max else 0.0
+v["evidence_axis_max"] = _axis_max
+v["scale_invariant_ok"] = (_axis_max <= 1.0)
 integ = post.execute("PRAGMA integrity_check").fetchone()[0]
 v["integrity_check"] = integ
 AUDIT["validation"] = v
 
 gates = (v["vector_maritime_exists"] and v["evidence_id_unique"][0] == v["evidence_id_unique"][1]
           and v["null_whisky_in_evidence"] == 0 and v["flavor_profiles_promoted_bad_axis_count"] == 0
-          and integ == "ok")
+          and v["scale_invariant_ok"] and integ == "ok")
 AUDIT["validation_passed"] = bool(gates)
 print("PHASE D validation:", json.dumps(v, indent=2))
 conn.close()
