@@ -1,0 +1,221 @@
+{
+  "generated_with": "MaltRadar-EditorialCrawler/0.1 (+https://github.com/malt-radar; controlled editorial crawl; contact: maltradar@example.com)",
+  "sources": {
+    "thewhiskyphiles": {
+      "robots_url": "https://thewhiskyphiles.com/robots.txt",
+      "fetched": true,
+      "status": 200,
+      "crawl_delay": null,
+      "disallow": [
+        "/wp-admin/",
+        "/wp-login.php",
+        "/wp-signup.php",
+        "/press-this.php",
+        "/remote-login.php",
+        "/activate/",
+        "/cgi-bin/",
+        "/mshots/v1/",
+        "/next/",
+        "/public.api/"
+      ],
+      "allow": [
+        "/wp-admin/admin-ajax.php"
+      ],
+      "disallow_blocks_target": [],
+      "disallow_other": [
+        "/wp-login.php",
+        "/wp-signup.php",
+        "/press-this.php",
+        "/remote-login.php",
+        "/activate/",
+        "/cgi-bin/",
+        "/mshots/v1/",
+        "/next/",
+        "/public.api/"
+      ],
+      "ua_specific_block": false,
+      "sitemaps": [
+        "https://thewhiskyphiles.com/sitemap.xml",
+        "https://thewhiskyphiles.com/news-sitemap.xml"
+      ],
+      "compliant": true,
+      "reason": "OK"
+    },
+    "whiskymonster": {
+      "robots_url": "https://www.whiskymonster.com/robots.txt",
+      "fetched": false,
+      "status": 403,
+      "compliant": false,
+      "reason": "robots.txt fetch failed (403)"
+    },
+    "thedramble": {
+      "robots_url": "https://www.thedramble.com/robots.txt",
+      "fetched": true,
+      "status": 200,
+      "crawl_delay": null,
+      "disallow": [],
+      "allow": [
+        "/"
+      ],
+      "disallow_blocks_target": [],
+      "disallow_other": [],
+      "ua_specific_block": false,
+      "sitemaps": [
+        "https://www.thedramble.com/sitemap.xml"
+      ],
+      "compliant": true,
+      "reason": "OK"
+    },
+    "whiskynotes_be": {
+      "robots_url": "https://www.whiskynotes.be/robots.txt",
+      "fetched": true,
+      "status": 200,
+      "crawl_delay": null,
+      "disallow": [
+        "/wp-admin/",
+        "/search",
+        "/outgoing",
+        "/download",
+        "/feed",
+        "/comments/feed",
+        "/feed/$",
+        "/*/feed/$",
+        "/*/feed/rss/$",
+        "/*/trackback/$",
+        "/*/*/feed/$",
+        "/*/*/feed/rss/$",
+        "/*/*/trackback/$",
+        "/*/*/*/feed/$",
+        "/*/*/*/feed/rss/$",
+        "/*/*/*/trackback/$",
+        "/embed.js*$",
+        "/*134*$",
+        "/xmlrpc.php"
+      ],
+      "allow": [],
+      "disallow_blocks_target": [],
+      "disallow_other": [
+        "/download",
+        "/feed",
+        "/comments/feed",
+        "/feed/$",
+        "/*/feed/$",
+        "/*/feed/rss/$",
+        "/*/trackback/$",
+        "/*/*/feed/$",
+        "/*/*/feed/rss/$",
+        "/*/*/trackback/$",
+        "/*/*/*/feed/$",
+        "/*/*/*/feed/rss/$",
+        "/*/*/*/trackback/$",
+        "/embed.js*$",
+        "/*134*$",
+        "/xmlrpc.php"
+      ],
+      "ua_specific_block": false,
+      "sitemaps": [
+        "http://www.whiskynotes.be/sitemap.xml"
+      ],
+      "compliant": true,
+      "reason": "OK"
+    },
+    "thewhiskeywash": {
+      "robots_url": "https://thewhiskeywash.com/robots.txt",
+      "fetched": true,
+      "status": 200,
+      "crawl_delay": null,
+      "disallow": [
+        "/wp-admin/",
+        "/wp-includes/",
+        "/wp-content/plugins/",
+        "/wp-content/themes/",
+        "/wp-content/cache/",
+        "/wp-login.php",
+        "/wp-register.php",
+        "/xmlrpc.php",
+        "/trackback/",
+        "/?s=",
+        "/search/",
+        "/author/",
+        "*/feed/",
+        "*/rss/",
+        "*/embed/",
+        "*/attachment/",
+        "*/replytocom=",
+        "*?replytocom=",
+        "/cgi-bin/",
+        "/*.php$",
+        "/*.inc$",
+        "/*.gz$",
+        "/tag"
+      ],
+      "allow": [
+        "/wp-admin/admin-ajax.php",
+        "/wp-content/uploads/",
+        "*.css",
+        "*.js"
+      ],
+      "disallow_blocks_target": [],
+      "disallow_other": [
+        "/wp-includes/",
+        "/wp-content/plugins/",
+        "/wp-content/themes/",
+        "/wp-content/cache/",
+        "/wp-login.php",
+        "/wp-register.php",
+        "/xmlrpc.php",
+        "/trackback/",
+        "/?s=",
+        "/search/",
+        "/author/",
+        "*/feed/",
+        "*/rss/",
+        "*/embed/",
+        "*/attachment/",
+        "*/replytocom=",
+        "*?replytocom=",
+        "/cgi-bin/",
+        "/*.php$",
+        "/*.inc$",
+        "/*.gz$",
+        "/tag"
+      ],
+      "ua_specific_block": false,
+      "sitemaps": [
+        "https://thewhiskeywash.com/sitemap_index.xml"
+      ],
+      "compliant": true,
+      "reason": "OK"
+    },
+    "wordsofwhisky": {
+      "robots_url": "https://wordsofwhisky.com/robots.txt",
+      "fetched": true,
+      "status": 200,
+      "crawl_delay": null,
+      "disallow": [
+        "/wp-admin/"
+      ],
+      "allow": [
+        "/wp-admin/admin-ajax.php"
+      ],
+      "disallow_blocks_target": [],
+      "disallow_other": [],
+      "ua_specific_block": false,
+      "sitemaps": [
+        "https://wordsofwhisky.com/sitemap_index.xml"
+      ],
+      "compliant": true,
+      "reason": "OK"
+    }
+  },
+  "excluded": [
+    "whiskycast",
+    "whisky.com",
+    "scotchwhisky.com",
+    "thewhiskeyjug.com"
+  ],
+  "all_compliant": false,
+  "blocked_sources": [
+    "whiskymonster"
+  ]
+}

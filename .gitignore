@@ -116,3 +116,17 @@ mr-kep/**/output/
 *.db-shm
 *.sqlite-wal
 *.sqlite-shm
+
+# P204A — temporary / generated / backup / local-DB / machine-specific hardening
+# stray legacy DBs (e.g. knowledge.db.p149_old); *.db alone does NOT match *.db.p149_old
+knowledge.db.*
+# ACL-DENY scratch artifact written by the DEATHSTAR isolation guard
+nul
+# local safety state (last_backup_path, pre_change_hash, pre_isolation_*)
+backups/*.txt
+# generated P203d scratch compute output
+_p203d_compute.json
+# unrelated skill-infra lockfile (NVIDIA deepstream skill)
+skills-lock.json
+# unrelated external skill packages (untracked, separate commit)
+.agents/skills/
