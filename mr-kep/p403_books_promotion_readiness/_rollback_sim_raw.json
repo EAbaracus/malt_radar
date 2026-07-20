@@ -1,0 +1,9 @@
+{
+  "after_apply_book_rows": 64,
+  "restored_book_rows": 8,
+  "original_snapshot_row_count": 8,
+  "restored_evidence_ids_match_original": true,
+  "restored_exact_state": true,
+  "restored_total_evidence": 993,
+  "pre_apply_total_reference": null
+}

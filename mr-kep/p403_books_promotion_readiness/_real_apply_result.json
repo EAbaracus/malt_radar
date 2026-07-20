@@ -1,0 +1,30 @@
+{
+  "real_apply": {
+    "inserted": 58,
+    "updated": 8,
+    "skipped": 0,
+    "failed": 0,
+    "failures": [],
+    "final_book_rows": 64,
+    "duplicate_book_rows": 0,
+    "final_evidence_total": 1049
+  },
+  "post_apply_sha": "9c3e1ba7d3e8911b50e9277ab175de774df0af696f8f4db815d7195b03db9b93",
+  "verify": {
+    "ev_total": 1049,
+    "book_rows": 64,
+    "duplicate_book_rows": 0,
+    "distinct_book_whiskies": 64
+  },
+  "idempotent_rerun": {
+    "inserted": 0,
+    "updated": 0,
+    "skipped": 64,
+    "failed": 0,
+    "failures": [],
+    "final_book_rows": 64,
+    "duplicate_book_rows": 0,
+    "final_evidence_total": 1049
+  },
+  "post_rerun_sha": "9c3e1ba7d3e8911b50e9277ab175de774df0af696f8f4db815d7195b03db9b93"
+}
