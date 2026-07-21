@@ -32,6 +32,10 @@ rules:
     tier: T3_community
     priority: 50
     rationale: "Crowd-sourced; supporting evidence only, lowest precedence."
+  - source_key: "whiskymag"
+    tier: T2_expert
+    priority: 12
+    rationale: "Whisky Magazine (SRC_013) professional periodical review; expert_review class, comparable to whiskyfun (priority 10). Matches sources/whiskymag/source_profile.yaml (priority 12, tier T2_expert)."
 
 # Unlisted sources default to the lowest precedence of their tier, or T3 if
 # the tier is unknown (fail-safe: never let an unknown source override known ones).
