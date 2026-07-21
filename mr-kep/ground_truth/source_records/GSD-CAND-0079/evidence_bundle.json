@@ -1,0 +1,182 @@
+[
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-9645f4a2dbdb9728",
+    "fact_id": "EV-4986ebf6b709",
+    "field": "distillery_name",
+    "field_name": "distillery_name",
+    "value": "Paul John",
+    "field_value": "Paul John",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.pauljohn.com/whisky/paul-john-edited",
+        "quote": "Bottled at Paul John Distillery",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-04b91769cd20c308",
+    "fact_id": "EV-95f6cd8445d7",
+    "field": "country",
+    "field_name": "country",
+    "value": "India",
+    "field_value": "India",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.pauljohn.com/whisky/paul-john-edited",
+        "quote": "Product of India",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-2dbb306f254245cf",
+    "fact_id": "EV-af86a24087ea",
+    "field": "region",
+    "field_name": "region",
+    "value": "Karnataka",
+    "field_value": "Karnataka",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.pauljohn.com/whisky/paul-john-edited",
+        "quote": "Karnataka single malt",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-3b5efba1a9fc26a3",
+    "fact_id": "EV-a35dfd0cae40",
+    "field": "abv",
+    "field_name": "abv",
+    "value": 46.0,
+    "field_value": 46.0,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.pauljohn.com/whisky/paul-john-edited",
+        "quote": "46.0% ABV",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-8e713c077c3d34f4",
+    "fact_id": "EV-fd77cc75160d",
+    "field": "cask_type",
+    "field_name": "cask_type",
+    "value": "Bourbon",
+    "field_value": "Bourbon",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.pauljohn.com/whisky/paul-john-edited",
+        "quote": "matured in Bourbon casks",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-3638939100bf90a1",
+    "fact_id": "EV-197aabddf76d",
+    "field": "nose",
+    "field_name": "nose",
+    "value": "Intense peat smoke, seaweed, tcp, ocean breeze",
+    "field_value": "Intense peat smoke, seaweed, tcp, ocean breeze",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0079",
+        "quote": "Nose: intense peat smoke, seaweed, TCP, ocean breeze",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-11464d27ef5a1527",
+    "fact_id": "EV-c475cd0d206e",
+    "field": "palate",
+    "field_name": "palate",
+    "value": "Crisp peat, sea salt, black pepper, ash, lemon zest",
+    "field_value": "Crisp peat, sea salt, black pepper, ash, lemon zest",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0079",
+        "quote": "Palate: crisp peat, sea salt, black pepper, ash, lemon zest",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-ec344fa64c56692b",
+    "fact_id": "EV-bf00b9be76ca",
+    "field": "finish",
+    "field_name": "finish",
+    "value": "Long, dry, smoky with brine and oak wood warmth",
+    "field_value": "Long, dry, smoky with brine and oak wood warmth",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0079",
+        "quote": "Finish: long, dry, smoky with brine and oak wood warmth",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-67a493409cf3c768",
+    "fact_id": "EV-34d52585bac5",
+    "field": "score",
+    "field_name": "score",
+    "value": 88,
+    "field_value": 88,
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0079",
+        "quote": "88 points",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  }
+]

@@ -1,0 +1,82 @@
+{
+  "distillery_name": {
+    "value": "Bowmore",
+    "source": "https://www.bowmore.com/whisky/bowmore-12yo",
+    "exact_quote": "Bottled at Bowmore Distillery",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "country": {
+    "value": "Scotland",
+    "source": "https://www.bowmore.com/whisky/bowmore-12yo",
+    "exact_quote": "Product of Scotland",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "region": {
+    "value": "Islay",
+    "source": "https://www.bowmore.com/whisky/bowmore-12yo",
+    "exact_quote": "Islay single malt",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "abv": {
+    "value": 40.0,
+    "source": "https://www.bowmore.com/whisky/bowmore-12yo",
+    "exact_quote": "40.0% ABV",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "cask_type": {
+    "value": "Bourbon+Sherry",
+    "source": "https://www.bowmore.com/whisky/bowmore-12yo",
+    "exact_quote": "matured in Bourbon+Sherry casks",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "age_statement": {
+    "value": 12,
+    "source": "https://www.bowmore.com/whisky/bowmore-12yo",
+    "exact_quote": "aged for 12 years",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "nose": {
+    "value": "Intense peat smoke, seaweed, tcp, ocean breeze",
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0022",
+    "exact_quote": "Nose: intense peat smoke, seaweed, TCP, ocean breeze",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "palate": {
+    "value": "Crisp peat, sea salt, black pepper, ash, lemon zest",
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0022",
+    "exact_quote": "Palate: crisp peat, sea salt, black pepper, ash, lemon zest",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "finish": {
+    "value": "Long, dry, smoky with brine and oak wood warmth",
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0022",
+    "exact_quote": "Finish: long, dry, smoky with brine and oak wood warmth",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "score": {
+    "value": 88,
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0022",
+    "exact_quote": "88 points",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  }
+}

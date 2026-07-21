@@ -1,0 +1,4 @@
+GATE: GO
+REASON: Template, example, and rules generated safely.
+REASON: No DB or frontend files touched.
+REASON: Permission and source traceability fields included.

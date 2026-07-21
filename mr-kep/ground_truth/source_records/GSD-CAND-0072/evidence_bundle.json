@@ -1,0 +1,182 @@
+[
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-21ca0f508a2f3888",
+    "fact_id": "EV-47b95cc8d6b6",
+    "field": "distillery_name",
+    "field_name": "distillery_name",
+    "value": "Waterford",
+    "field_value": "Waterford",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.waterford.com/whisky/waterford-gaia-edition-1.1",
+        "quote": "Bottled at Waterford Distillery",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-3b4a7698ba245d1a",
+    "fact_id": "EV-ab2be53db96e",
+    "field": "country",
+    "field_name": "country",
+    "value": "Ireland",
+    "field_value": "Ireland",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.waterford.com/whisky/waterford-gaia-edition-1.1",
+        "quote": "Product of Ireland",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-969670cf2a2cb16b",
+    "fact_id": "EV-6f2a55ff1431",
+    "field": "region",
+    "field_name": "region",
+    "value": "Waterford",
+    "field_value": "Waterford",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.waterford.com/whisky/waterford-gaia-edition-1.1",
+        "quote": "Waterford single malt",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-f1166b91eb292b04",
+    "fact_id": "EV-027b7f5c7252",
+    "field": "abv",
+    "field_name": "abv",
+    "value": 50.0,
+    "field_value": 50.0,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.waterford.com/whisky/waterford-gaia-edition-1.1",
+        "quote": "50.0% ABV",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-23805d3cddd45650",
+    "fact_id": "EV-f18d39c81dc3",
+    "field": "cask_type",
+    "field_name": "cask_type",
+    "value": "Bourbon",
+    "field_value": "Bourbon",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.waterford.com/whisky/waterford-gaia-edition-1.1",
+        "quote": "matured in Bourbon casks",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-a8d42727eaf5ba94",
+    "fact_id": "EV-9bd9a5bae6e2",
+    "field": "nose",
+    "field_name": "nose",
+    "value": "Sweet honey, fresh pear, green apple, vanilla, light floral",
+    "field_value": "Sweet honey, fresh pear, green apple, vanilla, light floral",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0072",
+        "quote": "Nose: sweet honey, fresh pear, green apple, vanilla, light floral",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-5d4d6c3fc6871710",
+    "fact_id": "EV-e404bb929561",
+    "field": "palate",
+    "field_name": "palate",
+    "value": "Mellow malt, vanilla cream, butterscotch, orchard fruit",
+    "field_value": "Mellow malt, vanilla cream, butterscotch, orchard fruit",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0072",
+        "quote": "Palate: mellow malt, vanilla cream, butterscotch, orchard fruit",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-822a4ba07cfabfc8",
+    "fact_id": "EV-a2394abb5e28",
+    "field": "finish",
+    "field_name": "finish",
+    "value": "Medium, clean, soft oak and sweet barley warmth",
+    "field_value": "Medium, clean, soft oak and sweet barley warmth",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0072",
+        "quote": "Finish: medium, clean, soft oak and sweet barley warmth",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-90d0f0aa530f047b",
+    "fact_id": "EV-3e1c4aab6ae0",
+    "field": "score",
+    "field_name": "score",
+    "value": 83,
+    "field_value": 83,
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0072",
+        "quote": "83 points",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  }
+]

@@ -1,0 +1,146 @@
+{
+  "_checksum": "e5038e8444c5a409fd787129bd124a3888e4ae72cdc19936ed4174183df26e44",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-21ca0f508a2f3888",
+      "fact_id": "EV-47b95cc8d6b6",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "Waterford",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Bottled at Waterford Distillery",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.waterford.com/whisky/waterford-gaia-edition-1.1",
+          "won": true
+        }
+      ],
+      "value": "Waterford"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-3b4a7698ba245d1a",
+      "fact_id": "EV-ab2be53db96e",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "Ireland",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Product of Ireland",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.waterford.com/whisky/waterford-gaia-edition-1.1",
+          "won": true
+        }
+      ],
+      "value": "Ireland"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-969670cf2a2cb16b",
+      "fact_id": "EV-6f2a55ff1431",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "Waterford",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Waterford single malt",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.waterford.com/whisky/waterford-gaia-edition-1.1",
+          "won": true
+        }
+      ],
+      "value": "Waterford"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-f1166b91eb292b04",
+      "fact_id": "EV-027b7f5c7252",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 50.0,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "50.0% ABV",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.waterford.com/whisky/waterford-gaia-edition-1.1",
+          "won": true
+        }
+      ],
+      "value": 50.0
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-23805d3cddd45650",
+      "fact_id": "EV-f18d39c81dc3",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Bourbon",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "matured in Bourbon casks",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.waterford.com/whisky/waterford-gaia-edition-1.1",
+          "won": true
+        }
+      ],
+      "value": "Bourbon"
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.waterford.com/whisky/waterford-gaia-edition-1.1"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "50.0% ABV",
+      "value": 50.0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Bourbon casks",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Ireland",
+      "value": "Ireland"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Waterford Distillery",
+      "value": "Waterford"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Waterford single malt",
+      "value": "Waterford"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0072",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:49.472441+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

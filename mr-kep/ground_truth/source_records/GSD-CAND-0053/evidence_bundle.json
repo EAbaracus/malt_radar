@@ -1,0 +1,182 @@
+[
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-81e94b94a94d33cf",
+    "fact_id": "EV-b0001cf84bb4",
+    "field": "distillery_name",
+    "field_name": "distillery_name",
+    "value": "Nagahama",
+    "field_value": "Nagahama",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.nagahama.com/whisky/nagahama-roman",
+        "quote": "Bottled at Nagahama Distillery",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-ab9d3fc21b1351dd",
+    "fact_id": "EV-9bf4e8a0760e",
+    "field": "country",
+    "field_name": "country",
+    "value": "Japan",
+    "field_value": "Japan",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.nagahama.com/whisky/nagahama-roman",
+        "quote": "Product of Japan",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-484bce8c50976e4a",
+    "fact_id": "EV-93dc533a89c4",
+    "field": "region",
+    "field_name": "region",
+    "value": "Japanese",
+    "field_value": "Japanese",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.nagahama.com/whisky/nagahama-roman",
+        "quote": "Japanese single malt",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-25e7543562be1d63",
+    "fact_id": "EV-470b2fde8ca6",
+    "field": "abv",
+    "field_name": "abv",
+    "value": 47.0,
+    "field_value": 47.0,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.nagahama.com/whisky/nagahama-roman",
+        "quote": "47.0% ABV",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-39cfffe7ceb6ade2",
+    "fact_id": "EV-643889637377",
+    "field": "cask_type",
+    "field_name": "cask_type",
+    "value": "Bourbon",
+    "field_value": "Bourbon",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.nagahama.com/whisky/nagahama-roman",
+        "quote": "matured in Bourbon casks",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-e36fa50bea360273",
+    "fact_id": "EV-9c52d0e7d7da",
+    "field": "nose",
+    "field_name": "nose",
+    "value": "Sweet honey, fresh pear, green apple, vanilla, light floral",
+    "field_value": "Sweet honey, fresh pear, green apple, vanilla, light floral",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0053",
+        "quote": "Nose: sweet honey, fresh pear, green apple, vanilla, light floral",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-ba81e51922895a11",
+    "fact_id": "EV-0f89561d2a12",
+    "field": "palate",
+    "field_name": "palate",
+    "value": "Mellow malt, vanilla cream, butterscotch, orchard fruit",
+    "field_value": "Mellow malt, vanilla cream, butterscotch, orchard fruit",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0053",
+        "quote": "Palate: mellow malt, vanilla cream, butterscotch, orchard fruit",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-44e634b83b782714",
+    "fact_id": "EV-f2b4629345a4",
+    "field": "finish",
+    "field_name": "finish",
+    "value": "Medium, clean, soft oak and sweet barley warmth",
+    "field_value": "Medium, clean, soft oak and sweet barley warmth",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0053",
+        "quote": "Finish: medium, clean, soft oak and sweet barley warmth",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-56a6e9a8b15c5e77",
+    "fact_id": "EV-e5f32ad4e8b6",
+    "field": "score",
+    "field_name": "score",
+    "value": 83,
+    "field_value": 83,
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0053",
+        "quote": "83 points",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  }
+]

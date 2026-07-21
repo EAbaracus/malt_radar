@@ -1,0 +1,49 @@
+{
+  "_checksum": "929b2f1d3ebf721aeb581f4a4add0e08789cb7f4598d7ffdd9f8f03c43837fcd",
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DiageoMalts",
+    "url": "https://www.malts.com/en-gb/products/single-malt-whisky/glenkinchie-12-year-old"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "43.0% ABV",
+      "value": 43.0
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "aged for 12 years",
+      "value": 12
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Bourbon casks",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Scotland",
+      "value": "Scotland"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Glenkinchie Distillery",
+      "value": "Glenkinchie"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Lowland single malt",
+      "value": "Lowland"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0036",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:48.549350+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

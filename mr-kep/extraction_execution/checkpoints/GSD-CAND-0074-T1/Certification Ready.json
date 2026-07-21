@@ -1,0 +1,171 @@
+{
+  "_checksum": "2658544ea07206632ed0b12e1caf4d9e192112b3447897ae8fcf41c1a01d2696",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-e2c1e11ba98c508b",
+      "fact_id": "EV-6c0d268b5039",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "Bushmills",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Bottled at Bushmills Distillery",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.bushmills.com/whisky/bushmills-16yo",
+          "won": true
+        }
+      ],
+      "value": "Bushmills"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-cf36eb38a82dc335",
+      "fact_id": "EV-5f71afc433dc",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "Northern Ireland",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Product of Northern Ireland",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.bushmills.com/whisky/bushmills-16yo",
+          "won": true
+        }
+      ],
+      "value": "Northern Ireland"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-d540ab4a6ea2ab88",
+      "fact_id": "EV-da74bad56afa",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "Antrim",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Antrim single malt",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.bushmills.com/whisky/bushmills-16yo",
+          "won": true
+        }
+      ],
+      "value": "Antrim"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-e112920970259350",
+      "fact_id": "EV-2744c4bf4831",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 40.0,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "40.0% ABV",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.bushmills.com/whisky/bushmills-16yo",
+          "won": true
+        }
+      ],
+      "value": 40.0
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-240d8d867504437b",
+      "fact_id": "EV-12559984c980",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Bourbon+Sherry+Port",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "matured in Bourbon+Sherry+Port casks",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.bushmills.com/whisky/bushmills-16yo",
+          "won": true
+        }
+      ],
+      "value": "Bourbon+Sherry+Port"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-a1280633bc4709f2",
+      "fact_id": "EV-fb61ad6dbd23",
+      "field": "age_statement",
+      "field_name": "age_statement",
+      "field_value": 16,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "aged for 16 years",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.bushmills.com/whisky/bushmills-16yo",
+          "won": true
+        }
+      ],
+      "value": 16
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.bushmills.com/whisky/bushmills-16yo"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "40.0% ABV",
+      "value": 40.0
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "aged for 16 years",
+      "value": 16
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Bourbon+Sherry+Port casks",
+      "value": "Bourbon+Sherry+Port"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Northern Ireland",
+      "value": "Northern Ireland"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Bushmills Distillery",
+      "value": "Bushmills"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Antrim single malt",
+      "value": "Antrim"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0074",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:49.520611+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

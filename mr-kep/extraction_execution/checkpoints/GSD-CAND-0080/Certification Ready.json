@@ -1,0 +1,165 @@
+{
+  "_checksum": "c2f062ca9a9f10efaade8524360621777c1276457969d97bf8183fe839a03014",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-da7e6f467e33",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "Paul John",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "structured_data",
+          "quote": "[distillery] Paul John",
+          "source_key": "MR-KEP-GSD-V1",
+          "source_url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv",
+          "won": true
+        }
+      ],
+      "value": "Paul John"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-0e7588bfb812",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "Karnataka",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "structured_data",
+          "quote": "[region] Karnataka",
+          "source_key": "MR-KEP-GSD-V1",
+          "source_url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv",
+          "won": true
+        }
+      ],
+      "value": "Karnataka"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-1c80a80f2501",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "India",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "structured_data",
+          "quote": "[country] India",
+          "source_key": "MR-KEP-GSD-V1",
+          "source_url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv",
+          "won": true
+        }
+      ],
+      "value": "India"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-800ceef7a731",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Bourbon",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "structured_data",
+          "quote": "[cask_type_primary] Bourbon",
+          "source_key": "MR-KEP-GSD-V1",
+          "source_url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv",
+          "won": true
+        }
+      ],
+      "value": "Bourbon"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-c0f1d4076621",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 55.2,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "structured_data",
+          "quote": "[approx_abv] 55.2",
+          "source_key": "MR-KEP-GSD-V1",
+          "source_url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv",
+          "won": true
+        }
+      ],
+      "value": 55.2
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-2f9c6ac378b1",
+      "field": "age_statement",
+      "field_name": "age_statement",
+      "field_value": 0,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "structured_data",
+          "quote": "[age_statement_years] 0",
+          "source_key": "MR-KEP-GSD-V1",
+          "source_url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv",
+          "won": true
+        }
+      ],
+      "value": 0
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "structured_data",
+    "source_key": "MR-KEP-GSD-V1",
+    "url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "[approx_abv] 55.2",
+      "value": 55.2
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "[age_statement_years] 0",
+      "value": 0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "[cask_type_primary] Bourbon",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "[country] India",
+      "value": "India"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "[distillery] Paul John",
+      "value": "Paul John"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "[region] Karnataka",
+      "value": "Karnataka"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0080",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:14:58.842298+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

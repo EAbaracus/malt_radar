@@ -1,0 +1,165 @@
+{
+  "_checksum": "9df04ea0d3f6d28289a33c692239d467618cabb15e529facc9fb7f8fff44a112",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-a5fe52dc3549",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "Four Roses",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "structured_data",
+          "quote": "[distillery] Four Roses",
+          "source_key": "MR-KEP-GSD-V1",
+          "source_url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv",
+          "won": true
+        }
+      ],
+      "value": "Four Roses"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-5bc5cc35eca5",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "Kentucky",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "structured_data",
+          "quote": "[region] Kentucky",
+          "source_key": "MR-KEP-GSD-V1",
+          "source_url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv",
+          "won": true
+        }
+      ],
+      "value": "Kentucky"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-4e6ea5140189",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "USA",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "structured_data",
+          "quote": "[country] USA",
+          "source_key": "MR-KEP-GSD-V1",
+          "source_url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv",
+          "won": true
+        }
+      ],
+      "value": "USA"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-b9449c0b09cc",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Bourbon",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "structured_data",
+          "quote": "[cask_type_primary] Bourbon",
+          "source_key": "MR-KEP-GSD-V1",
+          "source_url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv",
+          "won": true
+        }
+      ],
+      "value": "Bourbon"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-4a57206b0be7",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 50.0,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "structured_data",
+          "quote": "[approx_abv] 50.0",
+          "source_key": "MR-KEP-GSD-V1",
+          "source_url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv",
+          "won": true
+        }
+      ],
+      "value": 50.0
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-144a6ceeab17",
+      "field": "age_statement",
+      "field_name": "age_statement",
+      "field_value": 0,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "structured_data",
+          "quote": "[age_statement_years] 0",
+          "source_key": "MR-KEP-GSD-V1",
+          "source_url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv",
+          "won": true
+        }
+      ],
+      "value": 0
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "structured_data",
+    "source_key": "MR-KEP-GSD-V1",
+    "url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "[approx_abv] 50.0",
+      "value": 50.0
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "[age_statement_years] 0",
+      "value": 0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "[cask_type_primary] Bourbon",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "[country] USA",
+      "value": "USA"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "[distillery] Four Roses",
+      "value": "Four Roses"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "[region] Kentucky",
+      "value": "Kentucky"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0061",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:14:58.771427+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

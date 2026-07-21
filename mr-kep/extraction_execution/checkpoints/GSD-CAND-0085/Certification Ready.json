@@ -1,0 +1,165 @@
+{
+  "_checksum": "a2f03e44cea6b79fc275521b9fcce69af9f207aa28ae11ce17f23c2677c7f2be",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-83ecfd7bc21b",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "Kavalan",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "structured_data",
+          "quote": "[distillery] Kavalan",
+          "source_key": "MR-KEP-GSD-V1",
+          "source_url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv",
+          "won": true
+        }
+      ],
+      "value": "Kavalan"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-11c170ee49e7",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "Taiwanese",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "structured_data",
+          "quote": "[region] Taiwanese",
+          "source_key": "MR-KEP-GSD-V1",
+          "source_url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv",
+          "won": true
+        }
+      ],
+      "value": "Taiwanese"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-20a709df0098",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "Taiwan",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "structured_data",
+          "quote": "[country] Taiwan",
+          "source_key": "MR-KEP-GSD-V1",
+          "source_url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv",
+          "won": true
+        }
+      ],
+      "value": "Taiwan"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-198e28c3ca95",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Wine (Vinho)",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "structured_data",
+          "quote": "[cask_type_primary] Wine (Vinho)",
+          "source_key": "MR-KEP-GSD-V1",
+          "source_url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv",
+          "won": true
+        }
+      ],
+      "value": "Wine (Vinho)"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-7c081276fa5d",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 57.8,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "structured_data",
+          "quote": "[approx_abv] 57.8",
+          "source_key": "MR-KEP-GSD-V1",
+          "source_url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv",
+          "won": true
+        }
+      ],
+      "value": 57.8
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-2f308413fe35",
+      "field": "age_statement",
+      "field_name": "age_statement",
+      "field_value": 0,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "structured_data",
+          "quote": "[age_statement_years] 0",
+          "source_key": "MR-KEP-GSD-V1",
+          "source_url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv",
+          "won": true
+        }
+      ],
+      "value": 0
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "structured_data",
+    "source_key": "MR-KEP-GSD-V1",
+    "url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "[approx_abv] 57.8",
+      "value": 57.8
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "[age_statement_years] 0",
+      "value": 0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "[cask_type_primary] Wine (Vinho)",
+      "value": "Wine (Vinho)"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "[country] Taiwan",
+      "value": "Taiwan"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "[distillery] Kavalan",
+      "value": "Kavalan"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "[region] Taiwanese",
+      "value": "Taiwanese"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0085",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:14:58.860643+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

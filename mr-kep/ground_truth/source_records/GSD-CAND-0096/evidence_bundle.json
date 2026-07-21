@@ -1,0 +1,182 @@
+[
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-d45374e45853a398",
+    "fact_id": "EV-9509bac96b2b",
+    "field": "distillery_name",
+    "field_name": "distillery_name",
+    "value": "Bellevoye",
+    "field_value": "Bellevoye",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.bellevoye.com/whisky/bellevoye-bleu-triple-malt",
+        "quote": "Bottled at Bellevoye Distillery",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-ebeb1c44129910f0",
+    "fact_id": "EV-5e433c5f5cc0",
+    "field": "country",
+    "field_name": "country",
+    "value": "France",
+    "field_value": "France",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.bellevoye.com/whisky/bellevoye-bleu-triple-malt",
+        "quote": "Product of France",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-5543784ada2d3342",
+    "fact_id": "EV-ad657144d167",
+    "field": "region",
+    "field_name": "region",
+    "value": "French",
+    "field_value": "French",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.bellevoye.com/whisky/bellevoye-bleu-triple-malt",
+        "quote": "French single malt",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-fa9a695a30444ab7",
+    "fact_id": "EV-57f65acfe674",
+    "field": "abv",
+    "field_name": "abv",
+    "value": 40.0,
+    "field_value": 40.0,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.bellevoye.com/whisky/bellevoye-bleu-triple-malt",
+        "quote": "40.0% ABV",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-aea211302ad96248",
+    "fact_id": "EV-f61e8b9b8267",
+    "field": "cask_type",
+    "field_name": "cask_type",
+    "value": "Bourbon+Cognac",
+    "field_value": "Bourbon+Cognac",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.bellevoye.com/whisky/bellevoye-bleu-triple-malt",
+        "quote": "matured in Bourbon+Cognac casks",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-b21f2724ed994c7d",
+    "fact_id": "EV-211bbfe9f167",
+    "field": "nose",
+    "field_name": "nose",
+    "value": "Sweet honey, fresh pear, green apple, vanilla, light floral",
+    "field_value": "Sweet honey, fresh pear, green apple, vanilla, light floral",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0096",
+        "quote": "Nose: sweet honey, fresh pear, green apple, vanilla, light floral",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-23a0c4d6d592ab6b",
+    "fact_id": "EV-7a7df22562f7",
+    "field": "palate",
+    "field_name": "palate",
+    "value": "Mellow malt, vanilla cream, butterscotch, orchard fruit",
+    "field_value": "Mellow malt, vanilla cream, butterscotch, orchard fruit",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0096",
+        "quote": "Palate: mellow malt, vanilla cream, butterscotch, orchard fruit",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-370ce07304eef0a3",
+    "fact_id": "EV-f922209979c9",
+    "field": "finish",
+    "field_name": "finish",
+    "value": "Medium, clean, soft oak and sweet barley warmth",
+    "field_value": "Medium, clean, soft oak and sweet barley warmth",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0096",
+        "quote": "Finish: medium, clean, soft oak and sweet barley warmth",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-5b7343115aa9d11e",
+    "fact_id": "EV-7b190ed96bd0",
+    "field": "score",
+    "field_name": "score",
+    "value": 83,
+    "field_value": 83,
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0096",
+        "quote": "83 points",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  }
+]

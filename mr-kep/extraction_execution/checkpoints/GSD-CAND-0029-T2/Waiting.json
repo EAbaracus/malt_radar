@@ -1,0 +1,39 @@
+{
+  "_checksum": "803335722aceb97980710f789b87c55d835dae6303358f114404d0c8fc80c470",
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "expert_quote",
+    "source_key": "whiskyfun",
+    "url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0029"
+  },
+  "extraction_result": {
+    "finish": {
+      "confidence": 1.0,
+      "quote": "Finish: long, warm, sweet oak and spicy dark chocolate",
+      "value": "Long, warm, sweet oak and spicy dark chocolate"
+    },
+    "nose": {
+      "confidence": 1.0,
+      "quote": "Nose: rich sherry sweetness, dark plums, raisins, dark cocoa",
+      "value": "Rich sherry sweetness, dark plums, raisins, dark cocoa"
+    },
+    "palate": {
+      "confidence": 1.0,
+      "quote": "Palate: sweet fruit cake, orange peel, cinnamon, nutmeg, ginger",
+      "value": "Sweet fruit cake, orange peel, cinnamon, nutmeg, ginger"
+    },
+    "score": {
+      "confidence": 1.0,
+      "quote": "86 points",
+      "value": 86
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0029",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:48.386000+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

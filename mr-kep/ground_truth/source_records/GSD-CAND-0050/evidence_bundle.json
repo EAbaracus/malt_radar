@@ -1,0 +1,182 @@
+[
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-4ed26fc6009480fa",
+    "fact_id": "EV-d3e28f54806a",
+    "field": "distillery_name",
+    "field_name": "distillery_name",
+    "value": "Chichibu",
+    "field_value": "Chichibu",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.chichibu.com/whisky/chichibu-the-floor-malted-2022",
+        "quote": "Bottled at Chichibu Distillery",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-f197b53672e69d93",
+    "fact_id": "EV-add2a31be3f5",
+    "field": "country",
+    "field_name": "country",
+    "value": "Japan",
+    "field_value": "Japan",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.chichibu.com/whisky/chichibu-the-floor-malted-2022",
+        "quote": "Product of Japan",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-7ca2ea454419230e",
+    "fact_id": "EV-f7a3eb2e7fef",
+    "field": "region",
+    "field_name": "region",
+    "value": "Japanese",
+    "field_value": "Japanese",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.chichibu.com/whisky/chichibu-the-floor-malted-2022",
+        "quote": "Japanese single malt",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-f33c26075d230819",
+    "fact_id": "EV-c82351bc141b",
+    "field": "abv",
+    "field_name": "abv",
+    "value": 50.5,
+    "field_value": 50.5,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.chichibu.com/whisky/chichibu-the-floor-malted-2022",
+        "quote": "50.5% ABV",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-8eddf0d2ef9d06cb",
+    "fact_id": "EV-5e4f76bcee23",
+    "field": "cask_type",
+    "field_name": "cask_type",
+    "value": "Bourbon",
+    "field_value": "Bourbon",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.chichibu.com/whisky/chichibu-the-floor-malted-2022",
+        "quote": "matured in Bourbon casks",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-c30cf24ee8aa2576",
+    "fact_id": "EV-9243d286de3c",
+    "field": "nose",
+    "field_name": "nose",
+    "value": "Sweet honey, fresh pear, green apple, vanilla, light floral",
+    "field_value": "Sweet honey, fresh pear, green apple, vanilla, light floral",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0050",
+        "quote": "Nose: sweet honey, fresh pear, green apple, vanilla, light floral",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-f5a1712a274d749c",
+    "fact_id": "EV-7dea2d78eb57",
+    "field": "palate",
+    "field_name": "palate",
+    "value": "Mellow malt, vanilla cream, butterscotch, orchard fruit",
+    "field_value": "Mellow malt, vanilla cream, butterscotch, orchard fruit",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0050",
+        "quote": "Palate: mellow malt, vanilla cream, butterscotch, orchard fruit",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-0a50c8d530da48fc",
+    "fact_id": "EV-3e1b14b9b304",
+    "field": "finish",
+    "field_name": "finish",
+    "value": "Medium, clean, soft oak and sweet barley warmth",
+    "field_value": "Medium, clean, soft oak and sweet barley warmth",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0050",
+        "quote": "Finish: medium, clean, soft oak and sweet barley warmth",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-c7726ad946db5c5f",
+    "fact_id": "EV-6c2db439216f",
+    "field": "score",
+    "field_name": "score",
+    "value": 83,
+    "field_value": 83,
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0050",
+        "quote": "83 points",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  }
+]

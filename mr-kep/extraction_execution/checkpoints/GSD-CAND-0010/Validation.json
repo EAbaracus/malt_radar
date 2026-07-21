@@ -1,0 +1,165 @@
+{
+  "_checksum": "e6f1377b51e838a1efd6c97f7a2fa9e042a390ee2cb1cdaca228e4eed7f1a5fe",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-5f69c6d5a52c",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "Aberlour",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "structured_data",
+          "quote": "[distillery] Aberlour",
+          "source_key": "MR-KEP-GSD-V1",
+          "source_url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv",
+          "won": true
+        }
+      ],
+      "value": "Aberlour"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-0d32987405bc",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "Speyside",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "structured_data",
+          "quote": "[region] Speyside",
+          "source_key": "MR-KEP-GSD-V1",
+          "source_url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv",
+          "won": true
+        }
+      ],
+      "value": "Speyside"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-09fd2e32b3ae",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "Scotland",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "structured_data",
+          "quote": "[country] Scotland",
+          "source_key": "MR-KEP-GSD-V1",
+          "source_url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv",
+          "won": true
+        }
+      ],
+      "value": "Scotland"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-0994ad4d1dba",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Sherry",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "structured_data",
+          "quote": "[cask_type_primary] Sherry",
+          "source_key": "MR-KEP-GSD-V1",
+          "source_url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv",
+          "won": true
+        }
+      ],
+      "value": "Sherry"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-16812bfba61a",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 61.2,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "structured_data",
+          "quote": "[approx_abv] 61.2",
+          "source_key": "MR-KEP-GSD-V1",
+          "source_url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv",
+          "won": true
+        }
+      ],
+      "value": 61.2
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-ee169cb47607",
+      "field": "age_statement",
+      "field_name": "age_statement",
+      "field_value": 0,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "structured_data",
+          "quote": "[age_statement_years] 0",
+          "source_key": "MR-KEP-GSD-V1",
+          "source_url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv",
+          "won": true
+        }
+      ],
+      "value": 0
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "structured_data",
+    "source_key": "MR-KEP-GSD-V1",
+    "url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "[approx_abv] 61.2",
+      "value": 61.2
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "[age_statement_years] 0",
+      "value": 0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "[cask_type_primary] Sherry",
+      "value": "Sherry"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "[country] Scotland",
+      "value": "Scotland"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "[distillery] Aberlour",
+      "value": "Aberlour"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "[region] Speyside",
+      "value": "Speyside"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0010",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:14:58.579012+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

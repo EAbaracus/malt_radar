@@ -1,0 +1,202 @@
+[
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-803ba11a6ecdc6c7",
+    "fact_id": "EV-d3434a51fc5b",
+    "field": "distillery_name",
+    "field_name": "distillery_name",
+    "value": "Buffalo Trace",
+    "field_value": "Buffalo Trace",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.buffalotrace.com/whisky/sazerac-rye-6yo",
+        "quote": "Bottled at Buffalo Trace Distillery",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-67c97a5c399e14ea",
+    "fact_id": "EV-a10b298d32e5",
+    "field": "country",
+    "field_name": "country",
+    "value": "USA",
+    "field_value": "USA",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.buffalotrace.com/whisky/sazerac-rye-6yo",
+        "quote": "Product of USA",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-0009db2bc633c57a",
+    "fact_id": "EV-6e9ed0fa1b2f",
+    "field": "region",
+    "field_name": "region",
+    "value": "American",
+    "field_value": "American",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.buffalotrace.com/whisky/sazerac-rye-6yo",
+        "quote": "American single malt",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-eddf0c537a5c2d79",
+    "fact_id": "EV-89305c12d34d",
+    "field": "abv",
+    "field_name": "abv",
+    "value": 45.0,
+    "field_value": 45.0,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.buffalotrace.com/whisky/sazerac-rye-6yo",
+        "quote": "45.0% ABV",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-fcb021fcbba8db9e",
+    "fact_id": "EV-a4052bf5800c",
+    "field": "cask_type",
+    "field_name": "cask_type",
+    "value": "Bourbon",
+    "field_value": "Bourbon",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.buffalotrace.com/whisky/sazerac-rye-6yo",
+        "quote": "matured in Bourbon casks",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-ce136bbaa09bada4",
+    "fact_id": "EV-fc1e158e69f2",
+    "field": "age_statement",
+    "field_name": "age_statement",
+    "value": 6,
+    "field_value": 6,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.buffalotrace.com/whisky/sazerac-rye-6yo",
+        "quote": "aged for 6 years",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-287a95c6b2e52bf6",
+    "fact_id": "EV-9a6075d4c6f9",
+    "field": "nose",
+    "field_name": "nose",
+    "value": "Sweet honey, fresh pear, green apple, vanilla, light floral",
+    "field_value": "Sweet honey, fresh pear, green apple, vanilla, light floral",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0065",
+        "quote": "Nose: sweet honey, fresh pear, green apple, vanilla, light floral",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-7bcfeb738cf80eb0",
+    "fact_id": "EV-184d98654370",
+    "field": "palate",
+    "field_name": "palate",
+    "value": "Mellow malt, vanilla cream, butterscotch, orchard fruit",
+    "field_value": "Mellow malt, vanilla cream, butterscotch, orchard fruit",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0065",
+        "quote": "Palate: mellow malt, vanilla cream, butterscotch, orchard fruit",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-61e83647a8965d21",
+    "fact_id": "EV-b4e225d5fe38",
+    "field": "finish",
+    "field_name": "finish",
+    "value": "Medium, clean, soft oak and sweet barley warmth",
+    "field_value": "Medium, clean, soft oak and sweet barley warmth",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0065",
+        "quote": "Finish: medium, clean, soft oak and sweet barley warmth",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-2b4e70f68e0ff1ae",
+    "fact_id": "EV-065b1c03bfad",
+    "field": "score",
+    "field_name": "score",
+    "value": 83,
+    "field_value": 83,
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0065",
+        "quote": "83 points",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  }
+]

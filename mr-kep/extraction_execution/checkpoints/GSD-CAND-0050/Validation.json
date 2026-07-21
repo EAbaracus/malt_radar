@@ -1,0 +1,165 @@
+{
+  "_checksum": "7b632ef210162d9629dd4a6a73f50ecda751cb4a747992cc8d90926953ee3795",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-d3e28f54806a",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "Chichibu",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "structured_data",
+          "quote": "[distillery] Chichibu",
+          "source_key": "MR-KEP-GSD-V1",
+          "source_url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv",
+          "won": true
+        }
+      ],
+      "value": "Chichibu"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-f7a3eb2e7fef",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "Japanese",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "structured_data",
+          "quote": "[region] Japanese",
+          "source_key": "MR-KEP-GSD-V1",
+          "source_url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv",
+          "won": true
+        }
+      ],
+      "value": "Japanese"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-add2a31be3f5",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "Japan",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "structured_data",
+          "quote": "[country] Japan",
+          "source_key": "MR-KEP-GSD-V1",
+          "source_url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv",
+          "won": true
+        }
+      ],
+      "value": "Japan"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-5e4f76bcee23",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Bourbon",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "structured_data",
+          "quote": "[cask_type_primary] Bourbon",
+          "source_key": "MR-KEP-GSD-V1",
+          "source_url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv",
+          "won": true
+        }
+      ],
+      "value": "Bourbon"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-c82351bc141b",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 50.5,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "structured_data",
+          "quote": "[approx_abv] 50.5",
+          "source_key": "MR-KEP-GSD-V1",
+          "source_url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv",
+          "won": true
+        }
+      ],
+      "value": 50.5
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-180b660da257",
+      "field": "age_statement",
+      "field_name": "age_statement",
+      "field_value": 0,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "structured_data",
+          "quote": "[age_statement_years] 0",
+          "source_key": "MR-KEP-GSD-V1",
+          "source_url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv",
+          "won": true
+        }
+      ],
+      "value": 0
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "structured_data",
+    "source_key": "MR-KEP-GSD-V1",
+    "url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "[approx_abv] 50.5",
+      "value": 50.5
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "[age_statement_years] 0",
+      "value": 0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "[cask_type_primary] Bourbon",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "[country] Japan",
+      "value": "Japan"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "[distillery] Chichibu",
+      "value": "Chichibu"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "[region] Japanese",
+      "value": "Japanese"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0050",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:14:58.728162+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

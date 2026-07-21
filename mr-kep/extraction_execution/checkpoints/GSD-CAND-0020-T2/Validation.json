@@ -1,0 +1,121 @@
+{
+  "_checksum": "a9af868780c3293bc60c989d68a10653dac415a25b8b513ab091b01a4c98878b",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-8bc6e6e782334f1e",
+      "fact_id": "EV-dbba45181980",
+      "field": "nose",
+      "field_name": "nose",
+      "field_value": "Sweet peat smoke, lemon peel, vanilla, sea breeze",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Nose: sweet peat smoke, lemon, vanilla, brine",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archiveoctober19.html",
+          "won": true
+        }
+      ],
+      "value": "Sweet peat smoke, lemon peel, vanilla, sea breeze"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-4ebf25491eb1930a",
+      "fact_id": "EV-e57b818abe58",
+      "field": "palate",
+      "field_name": "palate",
+      "field_value": "Sweet vanilla, crisp peat smoke, pear, sea salt",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Palate: crisp peat, sweet vanilla, pear, salt",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archiveoctober19.html",
+          "won": true
+        }
+      ],
+      "value": "Sweet vanilla, crisp peat smoke, pear, sea salt"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-222fb33ff17e32d3",
+      "fact_id": "EV-2c5ff38523da",
+      "field": "finish",
+      "field_name": "finish",
+      "field_value": "Long, clean, dry peaty and citrus finish",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Finish: long, clean peaty finish",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archiveoctober19.html",
+          "won": true
+        }
+      ],
+      "value": "Long, clean, dry peaty and citrus finish"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-f6c616000da6edd7",
+      "fact_id": "EV-cc5ce757c1ba",
+      "field": "score",
+      "field_name": "score",
+      "field_value": 86,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "86 points",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archiveoctober19.html",
+          "won": true
+        }
+      ],
+      "value": 86
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "expert_quote",
+    "source_key": "whiskyfun",
+    "url": "https://www.whiskyfun.com/archiveoctober19.html"
+  },
+  "extraction_result": {
+    "finish": {
+      "confidence": 1.0,
+      "quote": "Finish: long, clean peaty finish",
+      "value": "Long, clean, dry peaty and citrus finish"
+    },
+    "nose": {
+      "confidence": 1.0,
+      "quote": "Nose: sweet peat smoke, lemon, vanilla, brine",
+      "value": "Sweet peat smoke, lemon peel, vanilla, sea breeze"
+    },
+    "palate": {
+      "confidence": 1.0,
+      "quote": "Palate: crisp peat, sweet vanilla, pear, salt",
+      "value": "Sweet vanilla, crisp peat smoke, pear, sea salt"
+    },
+    "score": {
+      "confidence": 1.0,
+      "quote": "86 points",
+      "value": 86
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0020",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:48.160407+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

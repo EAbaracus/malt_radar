@@ -1,0 +1,5 @@
+field,coverage_before,coverage_after,delta,total_whiskies
+age,0,0,0,4749
+abv,0,0,0,4749
+cask_type,0,627,627,4749
+region,75,606,531,4749

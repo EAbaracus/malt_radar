@@ -1,0 +1,44 @@
+{
+  "_checksum": "818ffda63eee5ae905a38481f940650a059f8f32ef1f2705223eb10afcaa98dc",
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.fortycreek.com/whisky/forty-creek-confederation-oak"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "40.0% ABV",
+      "value": 40.0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Bourbon+Sherry casks",
+      "value": "Bourbon+Sherry"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Canada",
+      "value": "Canada"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Forty Creek Distillery",
+      "value": "Forty Creek"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Canadian single malt",
+      "value": "Canadian"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0083",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:49.738565+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

@@ -1,0 +1,182 @@
+[
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-7fe0b3d61fab7ff0",
+    "fact_id": "EV-433480395a59",
+    "field": "distillery_name",
+    "field_name": "distillery_name",
+    "value": "Midleton",
+    "field_value": "Midleton",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.midleton.com/whisky/redbreast-lustau-edition",
+        "quote": "Bottled at Midleton Distillery",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-d9d6d9ef800b0fb3",
+    "fact_id": "EV-906b28f784a8",
+    "field": "country",
+    "field_name": "country",
+    "value": "Ireland",
+    "field_value": "Ireland",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.midleton.com/whisky/redbreast-lustau-edition",
+        "quote": "Product of Ireland",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-976179070559c68e",
+    "fact_id": "EV-535e859eb55b",
+    "field": "region",
+    "field_name": "region",
+    "value": "Dublin",
+    "field_value": "Dublin",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.midleton.com/whisky/redbreast-lustau-edition",
+        "quote": "Dublin single malt",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-7e693928127f8db2",
+    "fact_id": "EV-258c98b909c8",
+    "field": "abv",
+    "field_name": "abv",
+    "value": 46.0,
+    "field_value": 46.0,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.midleton.com/whisky/redbreast-lustau-edition",
+        "quote": "46.0% ABV",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-69df64603780c91c",
+    "fact_id": "EV-2765c1ecc671",
+    "field": "cask_type",
+    "field_name": "cask_type",
+    "value": "Sherry",
+    "field_value": "Sherry",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.midleton.com/whisky/redbreast-lustau-edition",
+        "quote": "matured in Sherry casks",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-6fc1cd6ee7c9963d",
+    "fact_id": "EV-0f829a86168c",
+    "field": "nose",
+    "field_name": "nose",
+    "value": "Rich sherry sweetness, dark plums, raisins, dark cocoa",
+    "field_value": "Rich sherry sweetness, dark plums, raisins, dark cocoa",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0069",
+        "quote": "Nose: rich sherry sweetness, dark plums, raisins, dark cocoa",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-09249f99d185fc44",
+    "fact_id": "EV-f3804100fbb7",
+    "field": "palate",
+    "field_name": "palate",
+    "value": "Sweet fruit cake, orange peel, cinnamon, nutmeg, ginger",
+    "field_value": "Sweet fruit cake, orange peel, cinnamon, nutmeg, ginger",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0069",
+        "quote": "Palate: sweet fruit cake, orange peel, cinnamon, nutmeg, ginger",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-64dba76547baf60f",
+    "fact_id": "EV-54f062980ce8",
+    "field": "finish",
+    "field_name": "finish",
+    "value": "Long, warm, sweet oak and spicy dark chocolate",
+    "field_value": "Long, warm, sweet oak and spicy dark chocolate",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0069",
+        "quote": "Finish: long, warm, sweet oak and spicy dark chocolate",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-73bd6a2724a8188f",
+    "fact_id": "EV-c6ba1b3dc73c",
+    "field": "score",
+    "field_name": "score",
+    "value": 86,
+    "field_value": 86,
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0069",
+        "quote": "86 points",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  }
+]

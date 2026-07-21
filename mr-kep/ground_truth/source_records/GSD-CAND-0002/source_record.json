@@ -1,0 +1,82 @@
+{
+  "distillery_name": {
+    "value": "Ardbeg",
+    "source": "https://www.ardbeg.com/en-int/whisky/ultimate-range/ten-years-old",
+    "exact_quote": "Ardbeg Distillery",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "country": {
+    "value": "Scotland",
+    "source": "https://www.ardbeg.com/en-int/whisky/ultimate-range/ten-years-old",
+    "exact_quote": "Product of Scotland",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "region": {
+    "value": "Islay",
+    "source": "https://www.ardbeg.com/en-int/whisky/ultimate-range/ten-years-old",
+    "exact_quote": "Islay Single Malt",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "abv": {
+    "value": 46.0,
+    "source": "https://www.ardbeg.com/en-int/whisky/ultimate-range/ten-years-old",
+    "exact_quote": "46% ABV",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "cask_type": {
+    "value": "Bourbon",
+    "source": "https://www.ardbeg.com/en-int/whisky/ultimate-range/ten-years-old",
+    "exact_quote": "ex-bourbon casks",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "age_statement": {
+    "value": 10,
+    "source": "https://www.ardbeg.com/en-int/whisky/ultimate-range/ten-years-old",
+    "exact_quote": "Ten Years Old",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "nose": {
+    "value": "Intense peat smoke, fresh lemon zest, tar, sea salt",
+    "source": "https://www.whiskyfun.com/archiveoctober19-2.html",
+    "exact_quote": "Nose: lemony peat smoke, tar, brine",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "palate": {
+    "value": "Peat smoke, lime juice, black pepper, brine",
+    "source": "https://www.whiskyfun.com/archiveoctober19-2.html",
+    "exact_quote": "Palate: crisp peat, lime zest, black pepper, sea salt",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "finish": {
+    "value": "Long, dry, peaty with lingering lime and ash",
+    "source": "https://www.whiskyfun.com/archiveoctober19-2.html",
+    "exact_quote": "Finish: long, dry, peaty, clean citrus",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "score": {
+    "value": 89,
+    "source": "https://www.whiskyfun.com/archiveoctober19-2.html",
+    "exact_quote": "89 points",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  }
+}

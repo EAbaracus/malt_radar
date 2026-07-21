@@ -1,0 +1,202 @@
+[
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-80644f5fce890504",
+    "fact_id": "EV-6573b0ffa957",
+    "field": "distillery_name",
+    "field_name": "distillery_name",
+    "value": "Macallan",
+    "field_value": "Macallan",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.themacallan.com/en/whisky/single-malts/sherry-oak/sherry-oak-18-years-old",
+        "quote": "The Macallan Distillery",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-9b3f5093454b92b5",
+    "fact_id": "EV-43e271f930cf",
+    "field": "country",
+    "field_name": "country",
+    "value": "Scotland",
+    "field_value": "Scotland",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.themacallan.com/en/whisky/single-malts/sherry-oak/sherry-oak-18-years-old",
+        "quote": "Product of Scotland",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-e166bab4b6ece37c",
+    "fact_id": "EV-1984d44fe71d",
+    "field": "region",
+    "field_name": "region",
+    "value": "Speyside",
+    "field_value": "Speyside",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.themacallan.com/en/whisky/single-malts/sherry-oak/sherry-oak-18-years-old",
+        "quote": "Speyside Single Malt",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-96725176e4920e0e",
+    "fact_id": "EV-c0ce6f558d90",
+    "field": "abv",
+    "field_name": "abv",
+    "value": 43.0,
+    "field_value": 43.0,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.themacallan.com/en/whisky/single-malts/sherry-oak/sherry-oak-18-years-old",
+        "quote": "43% ABV",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-8ba00995207d183d",
+    "fact_id": "EV-2e570f0643c2",
+    "field": "cask_type",
+    "field_name": "cask_type",
+    "value": "Sherry",
+    "field_value": "Sherry",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.themacallan.com/en/whisky/single-malts/sherry-oak/sherry-oak-18-years-old",
+        "quote": "European oak casks seasoned with sherry",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-04ef38142c50046c",
+    "fact_id": "EV-44cf857d46f0",
+    "field": "age_statement",
+    "field_name": "age_statement",
+    "value": 18,
+    "field_value": 18,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.themacallan.com/en/whisky/single-malts/sherry-oak/sherry-oak-18-years-old",
+        "quote": "18 Years Old",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-f61c8f8e57375f6b",
+    "fact_id": "EV-617e4e71b64e",
+    "field": "nose",
+    "field_name": "nose",
+    "value": "Dried fruits, ginger, cinnamon, nutmeg, orange zest",
+    "field_value": "Dried fruits, ginger, cinnamon, nutmeg, orange zest",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveaugust18.html",
+        "quote": "Nose: dried fruits, ginger, cinnamon, clove",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-ad5ed647e9f4e924",
+    "fact_id": "EV-57343cef6520",
+    "field": "palate",
+    "field_name": "palate",
+    "value": "Rich dried fruit, spice, clove, orange, wood smoke",
+    "field_value": "Rich dried fruit, spice, clove, orange, wood smoke",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveaugust18.html",
+        "quote": "Palate: rich sherry, orange, spice, wood smoke",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-69d4e644c252ad2f",
+    "fact_id": "EV-52a5a9717da3",
+    "field": "finish",
+    "field_name": "finish",
+    "value": "Long, warm, sweet ginger and dried fruit",
+    "field_value": "Long, warm, sweet ginger and dried fruit",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveaugust18.html",
+        "quote": "Finish: long, dried fruit, sweet ginger",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-4a25d895d3d4b7cb",
+    "fact_id": "EV-ccd1030e58c0",
+    "field": "score",
+    "field_name": "score",
+    "value": 87,
+    "field_value": 87,
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveaugust18.html",
+        "quote": "87 points",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  }
+]

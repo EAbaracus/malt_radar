@@ -1,0 +1,202 @@
+[
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-e2c1e11ba98c508b",
+    "fact_id": "EV-6c0d268b5039",
+    "field": "distillery_name",
+    "field_name": "distillery_name",
+    "value": "Bushmills",
+    "field_value": "Bushmills",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.bushmills.com/whisky/bushmills-16yo",
+        "quote": "Bottled at Bushmills Distillery",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-cf36eb38a82dc335",
+    "fact_id": "EV-5f71afc433dc",
+    "field": "country",
+    "field_name": "country",
+    "value": "Northern Ireland",
+    "field_value": "Northern Ireland",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.bushmills.com/whisky/bushmills-16yo",
+        "quote": "Product of Northern Ireland",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-d540ab4a6ea2ab88",
+    "fact_id": "EV-da74bad56afa",
+    "field": "region",
+    "field_name": "region",
+    "value": "Antrim",
+    "field_value": "Antrim",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.bushmills.com/whisky/bushmills-16yo",
+        "quote": "Antrim single malt",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-e112920970259350",
+    "fact_id": "EV-2744c4bf4831",
+    "field": "abv",
+    "field_name": "abv",
+    "value": 40.0,
+    "field_value": 40.0,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.bushmills.com/whisky/bushmills-16yo",
+        "quote": "40.0% ABV",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-240d8d867504437b",
+    "fact_id": "EV-12559984c980",
+    "field": "cask_type",
+    "field_name": "cask_type",
+    "value": "Bourbon+Sherry+Port",
+    "field_value": "Bourbon+Sherry+Port",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.bushmills.com/whisky/bushmills-16yo",
+        "quote": "matured in Bourbon+Sherry+Port casks",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-a1280633bc4709f2",
+    "fact_id": "EV-fb61ad6dbd23",
+    "field": "age_statement",
+    "field_name": "age_statement",
+    "value": 16,
+    "field_value": 16,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.bushmills.com/whisky/bushmills-16yo",
+        "quote": "aged for 16 years",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-b3f5ce6ac13d67b2",
+    "fact_id": "EV-a1a00937f5a0",
+    "field": "nose",
+    "field_name": "nose",
+    "value": "Rich sherry sweetness, dark plums, raisins, dark cocoa",
+    "field_value": "Rich sherry sweetness, dark plums, raisins, dark cocoa",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0074",
+        "quote": "Nose: rich sherry sweetness, dark plums, raisins, dark cocoa",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-f4f7f6799178bf20",
+    "fact_id": "EV-7da4f7956360",
+    "field": "palate",
+    "field_name": "palate",
+    "value": "Sweet fruit cake, orange peel, cinnamon, nutmeg, ginger",
+    "field_value": "Sweet fruit cake, orange peel, cinnamon, nutmeg, ginger",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0074",
+        "quote": "Palate: sweet fruit cake, orange peel, cinnamon, nutmeg, ginger",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-47f16ba770431887",
+    "fact_id": "EV-5a1232381dc4",
+    "field": "finish",
+    "field_name": "finish",
+    "value": "Long, warm, sweet oak and spicy dark chocolate",
+    "field_value": "Long, warm, sweet oak and spicy dark chocolate",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0074",
+        "quote": "Finish: long, warm, sweet oak and spicy dark chocolate",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-574da989abc49958",
+    "fact_id": "EV-1d5a31987970",
+    "field": "score",
+    "field_name": "score",
+    "value": 86,
+    "field_value": 86,
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0074",
+        "quote": "86 points",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  }
+]

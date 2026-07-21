@@ -1,0 +1,49 @@
+{
+  "_checksum": "f556eee0b6a43369b9bd4682ac7d7b0c6f7fd6eccd69fb629d58c65f29c12a18",
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "structured_data",
+    "source_key": "MR-KEP-GSD-V1",
+    "url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "[approx_abv] 40.0",
+      "value": 40.0
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "[age_statement_years] 0",
+      "value": 0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "[cask_type_primary] Cognac+Bourbon",
+      "value": "Cognac+Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "[country] France",
+      "value": "France"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "[distillery] Brenne",
+      "value": "Brenne"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "[region] French",
+      "value": "French"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0095",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:14:58.897549+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

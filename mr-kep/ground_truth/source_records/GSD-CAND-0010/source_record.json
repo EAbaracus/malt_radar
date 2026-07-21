@@ -1,0 +1,74 @@
+{
+  "distillery_name": {
+    "value": "Aberlour",
+    "source": "https://www.aberlour.com/en/our-collection/aberlour-abunadh",
+    "exact_quote": "Aberlour Distillery",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "country": {
+    "value": "Scotland",
+    "source": "https://www.aberlour.com/en/our-collection/aberlour-abunadh",
+    "exact_quote": "Product of Scotland",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "region": {
+    "value": "Speyside",
+    "source": "https://www.aberlour.com/en/our-collection/aberlour-abunadh",
+    "exact_quote": "Speyside Single Malt",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "abv": {
+    "value": 61.2,
+    "source": "https://www.aberlour.com/en/our-collection/aberlour-abunadh",
+    "exact_quote": "61.2% ABV",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "cask_type": {
+    "value": "Sherry",
+    "source": "https://www.aberlour.com/en/our-collection/aberlour-abunadh",
+    "exact_quote": "Oloroso sherry butts",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "nose": {
+    "value": "Mixed spices, praline, spiced orange, rich Oloroso",
+    "source": "https://www.whiskyfun.com/archivejanuary19-2.html",
+    "exact_quote": "Nose: sherry, dried orange, cocoa, leather",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "palate": {
+    "value": "Orange, black cherry, dried fruit, ginger, chocolate",
+    "source": "https://www.whiskyfun.com/archivejanuary19-2.html",
+    "exact_quote": "Palate: heavy sherry, cinnamon, ginger, pepper",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "finish": {
+    "value": "Robust, long, sweet orange, chocolate, spices",
+    "source": "https://www.whiskyfun.com/archivejanuary19-2.html",
+    "exact_quote": "Finish: long, dry, warm spices, chocolate",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "score": {
+    "value": 85,
+    "source": "https://www.whiskyfun.com/archivejanuary19-2.html",
+    "exact_quote": "85 points",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  }
+}

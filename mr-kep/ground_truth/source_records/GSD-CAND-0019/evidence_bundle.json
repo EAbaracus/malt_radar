@@ -1,0 +1,202 @@
+[
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-c6e437f2e26a3eef",
+    "fact_id": "EV-ea840c3917d6",
+    "field": "distillery_name",
+    "field_name": "distillery_name",
+    "value": "Caol Ila",
+    "field_value": "Caol Ila",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DiageoMalts",
+        "source_url": "https://www.malts.com/en-gb/products/single-malt-whisky/caol-ila-12-year-old",
+        "quote": "Caol Ila Distillery",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-40f777d192948eb8",
+    "fact_id": "EV-938964b2ecc0",
+    "field": "country",
+    "field_name": "country",
+    "value": "Scotland",
+    "field_value": "Scotland",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DiageoMalts",
+        "source_url": "https://www.malts.com/en-gb/products/single-malt-whisky/caol-ila-12-year-old",
+        "quote": "Product of Scotland",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-6d5e3f6f628403b2",
+    "fact_id": "EV-2019a6b0dbfa",
+    "field": "region",
+    "field_name": "region",
+    "value": "Islay",
+    "field_value": "Islay",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DiageoMalts",
+        "source_url": "https://www.malts.com/en-gb/products/single-malt-whisky/caol-ila-12-year-old",
+        "quote": "Islay single malt",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-43b8854cb95b7fed",
+    "fact_id": "EV-058b393a593d",
+    "field": "abv",
+    "field_name": "abv",
+    "value": 43.0,
+    "field_value": 43.0,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DiageoMalts",
+        "source_url": "https://www.malts.com/en-gb/products/single-malt-whisky/caol-ila-12-year-old",
+        "quote": "43% ABV",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-5797447a9ff86c89",
+    "fact_id": "EV-5c820d51fce1",
+    "field": "cask_type",
+    "field_name": "cask_type",
+    "value": "Bourbon",
+    "field_value": "Bourbon",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DiageoMalts",
+        "source_url": "https://www.malts.com/en-gb/products/single-malt-whisky/caol-ila-12-year-old",
+        "quote": "ex-bourbon casks",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-be9924e2c955dd86",
+    "fact_id": "EV-8eda49de58a2",
+    "field": "age_statement",
+    "field_name": "age_statement",
+    "value": 12,
+    "field_value": 12,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DiageoMalts",
+        "source_url": "https://www.malts.com/en-gb/products/single-malt-whisky/caol-ila-12-year-old",
+        "quote": "12 Years Old",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-4a02b5fc7df7b3a5",
+    "fact_id": "EV-f46189e11dff",
+    "field": "nose",
+    "field_name": "nose",
+    "value": "Fresh peat smoke, olive oil, seaweed, lemon zest",
+    "field_value": "Fresh peat smoke, olive oil, seaweed, lemon zest",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html",
+        "quote": "Nose: peat smoke, seaweed, olive oil, lemon zest",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-3897e55813a926e9",
+    "fact_id": "EV-62890f8c8f40",
+    "field": "palate",
+    "field_name": "palate",
+    "value": "Crisp peat, olive oil, sea salt, lemon peel",
+    "field_value": "Crisp peat, olive oil, sea salt, lemon peel",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html",
+        "quote": "Palate: crisp peat, olive oil, sea salt, green apple",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-f831a33d987b593b",
+    "fact_id": "EV-60c85e4fcc6d",
+    "field": "finish",
+    "field_name": "finish",
+    "value": "Long, dry, warm smoky peat and salt",
+    "field_value": "Long, dry, warm smoky peat and salt",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html",
+        "quote": "Finish: long, dry, smoky peat",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-0673f13970225013",
+    "fact_id": "EV-8f991c99d80c",
+    "field": "score",
+    "field_name": "score",
+    "value": 87,
+    "field_value": 87,
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html",
+        "quote": "87 points",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  }
+]

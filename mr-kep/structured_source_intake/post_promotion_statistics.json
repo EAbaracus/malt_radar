@@ -1,0 +1,11 @@
+{
+  "total_inserted": 0,
+  "total_rejected": 787,
+  "production_universe_delta": 0,
+  "rollback_status": "ROLLED_BACK: UNIQUE constraint failed: brands.brand_name",
+  "fk_integrity": "SCHEMA_ERROR: foreign key mismatch - \"price_history\" referencing \"whiskies\"",
+  "schema_signature": "UNCHANGED",
+  "post_promotion_row_counts": {
+    "whiskies": 3876
+  }
+}

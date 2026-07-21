@@ -1,0 +1,202 @@
+[
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-fcd6dc50e9805098",
+    "fact_id": "EV-f75f57199d97",
+    "field": "distillery_name",
+    "field_name": "distillery_name",
+    "value": "Ardbeg",
+    "field_value": "Ardbeg",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.ardbeg.com/en-int/whisky/ultimate-range/ten-years-old",
+        "quote": "Ardbeg Distillery",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-c1d33e6034ce96c8",
+    "fact_id": "EV-4eae11163444",
+    "field": "country",
+    "field_name": "country",
+    "value": "Scotland",
+    "field_value": "Scotland",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.ardbeg.com/en-int/whisky/ultimate-range/ten-years-old",
+        "quote": "Product of Scotland",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-48594b733f714b33",
+    "fact_id": "EV-25927779a2d6",
+    "field": "region",
+    "field_name": "region",
+    "value": "Islay",
+    "field_value": "Islay",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.ardbeg.com/en-int/whisky/ultimate-range/ten-years-old",
+        "quote": "Islay Single Malt",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-f6eb0d50e0f7f450",
+    "fact_id": "EV-9a71a0411bf8",
+    "field": "abv",
+    "field_name": "abv",
+    "value": 46.0,
+    "field_value": 46.0,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.ardbeg.com/en-int/whisky/ultimate-range/ten-years-old",
+        "quote": "46% ABV",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-115fb1e2af611d1c",
+    "fact_id": "EV-1a0fe6a6b5a8",
+    "field": "cask_type",
+    "field_name": "cask_type",
+    "value": "Bourbon",
+    "field_value": "Bourbon",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.ardbeg.com/en-int/whisky/ultimate-range/ten-years-old",
+        "quote": "ex-bourbon casks",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-6e2b0ba68608c90b",
+    "fact_id": "EV-db7a369c9fb6",
+    "field": "age_statement",
+    "field_name": "age_statement",
+    "value": 10,
+    "field_value": 10,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.ardbeg.com/en-int/whisky/ultimate-range/ten-years-old",
+        "quote": "Ten Years Old",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-1d638a1ee693d8b6",
+    "fact_id": "EV-2fc1fd4eb6e5",
+    "field": "nose",
+    "field_name": "nose",
+    "value": "Intense peat smoke, fresh lemon zest, tar, sea salt",
+    "field_value": "Intense peat smoke, fresh lemon zest, tar, sea salt",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-2.html",
+        "quote": "Nose: lemony peat smoke, tar, brine",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-49f33b8b9f2b9145",
+    "fact_id": "EV-69f00c0dbd77",
+    "field": "palate",
+    "field_name": "palate",
+    "value": "Peat smoke, lime juice, black pepper, brine",
+    "field_value": "Peat smoke, lime juice, black pepper, brine",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-2.html",
+        "quote": "Palate: crisp peat, lime zest, black pepper, sea salt",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-680cd4de7e515dba",
+    "fact_id": "EV-de89ef765df1",
+    "field": "finish",
+    "field_name": "finish",
+    "value": "Long, dry, peaty with lingering lime and ash",
+    "field_value": "Long, dry, peaty with lingering lime and ash",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-2.html",
+        "quote": "Finish: long, dry, peaty, clean citrus",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-ee2a962935d6314f",
+    "fact_id": "EV-ecb4f0ca1b5f",
+    "field": "score",
+    "field_name": "score",
+    "value": 89,
+    "field_value": 89,
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-2.html",
+        "quote": "89 points",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  }
+]

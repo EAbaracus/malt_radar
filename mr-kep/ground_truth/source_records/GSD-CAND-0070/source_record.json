@@ -1,0 +1,74 @@
+{
+  "distillery_name": {
+    "value": "Midleton",
+    "source": "https://www.midleton.com/whisky/green-spot",
+    "exact_quote": "Bottled at Midleton Distillery",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "country": {
+    "value": "Ireland",
+    "source": "https://www.midleton.com/whisky/green-spot",
+    "exact_quote": "Product of Ireland",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "region": {
+    "value": "Dublin",
+    "source": "https://www.midleton.com/whisky/green-spot",
+    "exact_quote": "Dublin single malt",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "abv": {
+    "value": 40.0,
+    "source": "https://www.midleton.com/whisky/green-spot",
+    "exact_quote": "40.0% ABV",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "cask_type": {
+    "value": "Bourbon+Sherry",
+    "source": "https://www.midleton.com/whisky/green-spot",
+    "exact_quote": "matured in Bourbon+Sherry casks",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "nose": {
+    "value": "Rich sherry sweetness, dark plums, raisins, dark cocoa",
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0070",
+    "exact_quote": "Nose: rich sherry sweetness, dark plums, raisins, dark cocoa",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "palate": {
+    "value": "Sweet fruit cake, orange peel, cinnamon, nutmeg, ginger",
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0070",
+    "exact_quote": "Palate: sweet fruit cake, orange peel, cinnamon, nutmeg, ginger",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "finish": {
+    "value": "Long, warm, sweet oak and spicy dark chocolate",
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0070",
+    "exact_quote": "Finish: long, warm, sweet oak and spicy dark chocolate",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "score": {
+    "value": 86,
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0070",
+    "exact_quote": "86 points",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "_checksum": "f82e0924adb391e34dd11bbcc8c5a8e5c1bffc7452d5f16cdc643ac39402c0d0",
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.marskomagatake.com/whisky/mars-komagatake-limited-2018"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "59.0% ABV",
+      "value": 59.0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Bourbon casks",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Japan",
+      "value": "Japan"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Mars Komagatake Distillery",
+      "value": "Mars Komagatake"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Japanese single malt",
+      "value": "Japanese"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0049",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:48.893749+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

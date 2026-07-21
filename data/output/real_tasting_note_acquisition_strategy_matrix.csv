@@ -1,0 +1,7 @@
+strategy,feasibility,legal_risk,data_quality_risk,engineering_effort,expected_yield,cost,recommendation,next_phase
+Manual curated URL/file import,High,Low (requires fair use review of sources),Low (human vetted),Low (pipeline already exists for uploaded_document/manual CSV),Low-Medium (time intensive),Free,Recommended as baseline,Prepare template CSV for manual note collection
+Playwright/Selenium browser fetch,Medium,Medium (must respect robots.txt and Terms of Service),Medium (requires DOM parsing per site),High,Medium-High,Free,"Not recommended (high maintenance, potential ToS violations)",N/A
+"Scraping API services (ScrapingBee, ZenRows)",High,Medium (outsources fetch but underlying legal/ToS risks persist),Medium,Medium,High,Paid ($$),"Not recommended (costly, anti-bot bypass is discouraged)",N/A
+Source Exchange (API / RSS / Sitemap / Static HTML),Medium,Low (using publicly provided developer endpoints or feeds),Low,Medium,Medium,Free / Freemium,Highly Recommended for automation,Identify whisky DB APIs or official RSS feeds
+In-app User-generated Tasting Notes,High,None,Medium-High (requires moderation/aggregation),Medium (frontend/backend feature),"High (long-term, scales with user base)",Free,Highly Recommended as long-term core strategy,Design UGC schema for tasting notes
+Disable Current Web Pipeline,High,None,None,Low,Zero,Free,Mandatory immediately,Archive discovery/fetch scripts and freeze automated pipeline

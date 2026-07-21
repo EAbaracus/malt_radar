@@ -1,0 +1,202 @@
+[
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-3688d092ba281d7b",
+    "fact_id": "EV-bf9264f39f98",
+    "field": "distillery_name",
+    "field_name": "distillery_name",
+    "value": "Ledaig",
+    "field_value": "Ledaig",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.ledaig.com/whisky/ledaig-10yo",
+        "quote": "Bottled at Ledaig Distillery",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-9bc46afe03d1bff8",
+    "fact_id": "EV-f158e59b8fec",
+    "field": "country",
+    "field_name": "country",
+    "value": "Scotland",
+    "field_value": "Scotland",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.ledaig.com/whisky/ledaig-10yo",
+        "quote": "Product of Scotland",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-71ed01f351f28ace",
+    "fact_id": "EV-83d433802383",
+    "field": "region",
+    "field_name": "region",
+    "value": "Islands",
+    "field_value": "Islands",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.ledaig.com/whisky/ledaig-10yo",
+        "quote": "Islands single malt",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-0f0761807a740dc3",
+    "fact_id": "EV-d08b20ce4e50",
+    "field": "abv",
+    "field_name": "abv",
+    "value": 46.3,
+    "field_value": 46.3,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.ledaig.com/whisky/ledaig-10yo",
+        "quote": "46.3% ABV",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-b6755567fc0591d7",
+    "fact_id": "EV-33cc29ee9999",
+    "field": "cask_type",
+    "field_name": "cask_type",
+    "value": "Bourbon",
+    "field_value": "Bourbon",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.ledaig.com/whisky/ledaig-10yo",
+        "quote": "matured in Bourbon casks",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-8ca0a623ff71ab92",
+    "fact_id": "EV-e70b7cee7819",
+    "field": "age_statement",
+    "field_name": "age_statement",
+    "value": 10,
+    "field_value": 10,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.ledaig.com/whisky/ledaig-10yo",
+        "quote": "aged for 10 years",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-ffa7b2b344ed0631",
+    "fact_id": "EV-075c8598f6bf",
+    "field": "nose",
+    "field_name": "nose",
+    "value": "Intense peat smoke, seaweed, tcp, ocean breeze",
+    "field_value": "Intense peat smoke, seaweed, tcp, ocean breeze",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0034",
+        "quote": "Nose: intense peat smoke, seaweed, TCP, ocean breeze",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-f536f8803364d5d5",
+    "fact_id": "EV-b9dc7bca07e1",
+    "field": "palate",
+    "field_name": "palate",
+    "value": "Crisp peat, sea salt, black pepper, ash, lemon zest",
+    "field_value": "Crisp peat, sea salt, black pepper, ash, lemon zest",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0034",
+        "quote": "Palate: crisp peat, sea salt, black pepper, ash, lemon zest",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-6918d97ffd60c455",
+    "fact_id": "EV-781109054ae3",
+    "field": "finish",
+    "field_name": "finish",
+    "value": "Long, dry, smoky with brine and oak wood warmth",
+    "field_value": "Long, dry, smoky with brine and oak wood warmth",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0034",
+        "quote": "Finish: long, dry, smoky with brine and oak wood warmth",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-55362a6ac26fe3ad",
+    "fact_id": "EV-d7fe434361fc",
+    "field": "score",
+    "field_name": "score",
+    "value": 88,
+    "field_value": 88,
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0034",
+        "quote": "88 points",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  }
+]

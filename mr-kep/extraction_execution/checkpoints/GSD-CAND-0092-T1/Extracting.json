@@ -1,0 +1,44 @@
+{
+  "_checksum": "4506a9c99298f15b1add2278a86780bcd672dd0200a1432a282b855f8ac3a2e3",
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.penderyn.com/whisky/penderyn-icon-of-wales"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "41.0% ABV",
+      "value": 41.0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Bourbon+Madeira casks",
+      "value": "Bourbon+Madeira"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Wales",
+      "value": "Wales"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Penderyn Distillery",
+      "value": "Penderyn"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Brecon Beacons single malt",
+      "value": "Brecon Beacons"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0092",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:49.947123+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

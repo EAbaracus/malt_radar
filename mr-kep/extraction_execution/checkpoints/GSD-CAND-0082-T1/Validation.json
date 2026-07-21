@@ -1,0 +1,146 @@
+{
+  "_checksum": "273059224b8062adbc9190f6f158011898d3fd5afc76e1cb8b97a6f39fa6f060",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-36d625498be9aa16",
+      "fact_id": "EV-e50e59074e0c",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "Hiram Walker",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Bottled at Hiram Walker Distillery",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.hiramwalker.com/whisky/lot-no-40-rye",
+          "won": true
+        }
+      ],
+      "value": "Hiram Walker"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-3fc1402329e04db4",
+      "fact_id": "EV-a5dc67356410",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "Canada",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Product of Canada",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.hiramwalker.com/whisky/lot-no-40-rye",
+          "won": true
+        }
+      ],
+      "value": "Canada"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-6e5a8b2bbcca2d1d",
+      "fact_id": "EV-5c7a9671e375",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "Canadian",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Canadian single malt",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.hiramwalker.com/whisky/lot-no-40-rye",
+          "won": true
+        }
+      ],
+      "value": "Canadian"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-87362427e7676373",
+      "fact_id": "EV-ff742d6d5510",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 43.0,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "43.0% ABV",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.hiramwalker.com/whisky/lot-no-40-rye",
+          "won": true
+        }
+      ],
+      "value": 43.0
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-8d6dc838482a7a40",
+      "fact_id": "EV-26a70294dec6",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Bourbon",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "matured in Bourbon casks",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.hiramwalker.com/whisky/lot-no-40-rye",
+          "won": true
+        }
+      ],
+      "value": "Bourbon"
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.hiramwalker.com/whisky/lot-no-40-rye"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "43.0% ABV",
+      "value": 43.0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Bourbon casks",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Canada",
+      "value": "Canada"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Hiram Walker Distillery",
+      "value": "Hiram Walker"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Canadian single malt",
+      "value": "Canadian"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0082",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:49.714493+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

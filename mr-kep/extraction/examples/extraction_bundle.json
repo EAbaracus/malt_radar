@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0.0",
+  "bundle_type": "extraction",
+  "run_id": "MRKEP-20260713-000000",
+  "generated_at": "2026-07-13T12:00:00Z",
+  "deterministic": true,
+  "seed": 42,
+  "checksum": "0000000000000000000000000000000000000000000000000000000000000000",
+  "payload": {
+    "results": [
+      {
+        "schema_version": "1.0.0",
+        "entity": {
+          "entity_type": "whisky",
+          "entity_id": "W001997",
+          "entity_key": "ardbeg-uigeadail|nas|54.2",
+          "display_name": "Ardbeg Uigeadail"
+        },
+        "metadata": {
+          "distillery_name": "Ardbeg",
+          "region": "Islay",
+          "country": "Scotland",
+          "abv": 54.2,
+          "age_statement": null,
+          "cask_type": null,
+          "nose": "Illustrative placeholder note; not an asserted fact.",
+          "palate": null,
+          "finish": null,
+          "flavor_axes": { "smoky": 0.8, "peaty": 0.9, "fruity": null, "sweet": 0.4, "spicy": null, "maritime": 0.6, "sherry": 0.5 },
+          "score": 88,
+          "community_rating": null
+        },
+        "evidence": [
+          { "evidence_id": "EV-0a1b2c3d4e5f6071", "field_name": "score", "source_class": "expert_review", "source_name": "SRC_013" }
+        ],
+        "provenance": {
+          "extractor_id": "example-extractor",
+          "extractor_version": "0.0.0",
+          "run_id": "MRKEP-20260713-000000",
+          "generated_at": "2026-07-13T12:00:00Z",
+          "deterministic": true,
+          "seed": 42
+        },
+        "confidence": { "overall": 0.7, "per_field": { "abv": 0.98, "score": 0.9, "region": 0.95 } },
+        "certification": {
+          "per_field": {
+            "abv": { "certification_level": "certified", "certification_path": "A", "authority_tier": "T1_authoritative" },
+            "score": { "certification_level": "certified", "certification_path": "A", "authority_tier": "T2_expert" },
+            "age_statement": { "certification_level": "uncertified", "certification_path": "F", "authority_tier": null }
+          }
+        },
+        "merge_candidates": []
+      }
+    ],
+    "validation_reports": [
+      {
+        "run_id": "MRKEP-20260713-000000",
+        "entity_key": "ardbeg-uigeadail|nas|54.2",
+        "required_fields_present": true,
+        "enum_violations": 0,
+        "null_policy_ok": true,
+        "normalization_ok": true,
+        "gate": "PASS",
+        "checks": [
+          { "id": "required_fields", "status": "pass", "detail": "all required present" },
+          { "id": "null_policy", "status": "pass", "detail": "age_statement null with no evidence (OK)" }
+        ]
+      }
+    ]
+  }
+}

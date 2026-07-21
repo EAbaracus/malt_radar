@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0.0",
+  "source_key": "whiskyfun",
+  "qualified_at": "2026-07-13T10:00:00Z",
+  "criteria": { "min_score": 60, "gate": "HighPriority" },
+  "units": [
+    {
+      "unit_id": "https://whiskyfun.com/reviews/laphroaig-10#score",
+      "decision": "in_scope",
+      "reason": "expert review, scored assessment in scope",
+      "whisky_hint": "Laphroaig 10yo"
+    },
+    {
+      "unit_id": "https://whiskyfun.com/reviews/laphroaig-10#nose",
+      "decision": "in_scope",
+      "reason": "expert review, sensory evaluation in scope",
+      "whisky_hint": "Laphroaig 10yo"
+    },
+    {
+      "unit_id": "https://whiskyfun.com/reviews/lagavulin-16#score",
+      "decision": "in_scope",
+      "reason": "expert review, scored assessment in scope",
+      "whisky_hint": "Lagavulin 16yo"
+    },
+    {
+      "unit_id": "https://spam.example/phish",
+      "decision": "out_of_scope",
+      "reason": "license_risk=1.0 (reject)",
+      "whisky_hint": ""
+    },
+    {
+      "unit_id": "https://scan.example/ocr-only",
+      "decision": "deferred",
+      "reason": "OCR-blocked (archive only)",
+      "whisky_hint": "Mystery Distillery 12yo"
+    }
+  ],
+  "summary": { "in_scope": 3, "out_of_scope": 1, "deferred": 1 }
+}

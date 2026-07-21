@@ -1,0 +1,121 @@
+{
+  "_checksum": "1105c231afc37e0032c52d395fbd15cf9022757c19566e693d7f0e503a2b11cb",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-732d852e98cc7671",
+      "fact_id": "EV-f05610ee394a",
+      "field": "nose",
+      "field_name": "nose",
+      "field_value": "Baked apple, cinnamon, dried fruit, rich oak",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Nose: honey, vanilla, dark red fruits, baking spices",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archivemarch18.html",
+          "won": true
+        }
+      ],
+      "value": "Baked apple, cinnamon, dried fruit, rich oak"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-465600e8ccf5bc4b",
+      "fact_id": "EV-6ee872113254",
+      "field": "palate",
+      "field_name": "palate",
+      "field_value": "Dried fruit, candy peel, dates, elegant oak wood",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Palate: silky smooth, marzipan, cinnamon, ginger",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archivemarch18.html",
+          "won": true
+        }
+      ],
+      "value": "Dried fruit, candy peel, dates, elegant oak wood"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-572b14b98947be95",
+      "fact_id": "EV-148a3229ce7a",
+      "field": "finish",
+      "field_name": "finish",
+      "field_value": "Long, warm, distinguished finish",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Finish: medium, sweet oak, spice",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archivemarch18.html",
+          "won": true
+        }
+      ],
+      "value": "Long, warm, distinguished finish"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-33bb6e0766f4438a",
+      "fact_id": "EV-287897bea7c6",
+      "field": "score",
+      "field_name": "score",
+      "field_value": 82,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "82 points",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archivemarch18.html",
+          "won": true
+        }
+      ],
+      "value": 82
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "expert_quote",
+    "source_key": "whiskyfun",
+    "url": "https://www.whiskyfun.com/archivemarch18.html"
+  },
+  "extraction_result": {
+    "finish": {
+      "confidence": 1.0,
+      "quote": "Finish: medium, sweet oak, spice",
+      "value": "Long, warm, distinguished finish"
+    },
+    "nose": {
+      "confidence": 1.0,
+      "quote": "Nose: honey, vanilla, dark red fruits, baking spices",
+      "value": "Baked apple, cinnamon, dried fruit, rich oak"
+    },
+    "palate": {
+      "confidence": 1.0,
+      "quote": "Palate: silky smooth, marzipan, cinnamon, ginger",
+      "value": "Dried fruit, candy peel, dates, elegant oak wood"
+    },
+    "score": {
+      "confidence": 1.0,
+      "quote": "82 points",
+      "value": 82
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0012",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:47.966110+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

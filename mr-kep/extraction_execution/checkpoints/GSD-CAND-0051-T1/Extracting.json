@@ -1,0 +1,44 @@
+{
+  "_checksum": "b922c7f17ba81dc02c16f3b2acdcd28a7d7a5d61358fc9664116a5db79a2281e",
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.akkeshi.com/whisky/akkeshi-sarorunkamuy-2023"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "55.0% ABV",
+      "value": 55.0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Bourbon casks",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Japan",
+      "value": "Japan"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Akkeshi Distillery",
+      "value": "Akkeshi"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Japanese single malt",
+      "value": "Japanese"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0051",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:48.943169+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

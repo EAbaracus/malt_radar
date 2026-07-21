@@ -1,0 +1,49 @@
+{
+  "_checksum": "21f83a339208c7dac0a49108a611db6faf81887126c4b65eb15ffe258f07ce2b",
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "structured_data",
+    "source_key": "MR-KEP-GSD-V1",
+    "url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "[approx_abv] 50.0",
+      "value": 50.0
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "[age_statement_years] 0",
+      "value": 0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "[cask_type_primary] Bourbon",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "[country] India",
+      "value": "India"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "[distillery] Amrut",
+      "value": "Amrut"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "[region] Karnataka",
+      "value": "Karnataka"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0077",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:14:58.831194+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

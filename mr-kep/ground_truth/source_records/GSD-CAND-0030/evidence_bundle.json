@@ -1,0 +1,202 @@
+[
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-9069fd8733aa86b0",
+    "fact_id": "EV-a3f33ce2e1ba",
+    "field": "distillery_name",
+    "field_name": "distillery_name",
+    "value": "Talisker",
+    "field_value": "Talisker",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DiageoMalts",
+        "source_url": "https://www.malts.com/en-gb/products/single-malt-whisky/talisker-10-year-old",
+        "quote": "Bottled at Talisker Distillery",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-68f32dd7dcbdbe17",
+    "fact_id": "EV-ee67d33b2783",
+    "field": "country",
+    "field_name": "country",
+    "value": "Scotland",
+    "field_value": "Scotland",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DiageoMalts",
+        "source_url": "https://www.malts.com/en-gb/products/single-malt-whisky/talisker-10-year-old",
+        "quote": "Product of Scotland",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-d05c42ce957b8558",
+    "fact_id": "EV-8364451177a0",
+    "field": "region",
+    "field_name": "region",
+    "value": "Islands",
+    "field_value": "Islands",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DiageoMalts",
+        "source_url": "https://www.malts.com/en-gb/products/single-malt-whisky/talisker-10-year-old",
+        "quote": "Islands single malt",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-8cf3af14113a3342",
+    "fact_id": "EV-ef3c48dc1edb",
+    "field": "abv",
+    "field_name": "abv",
+    "value": 45.8,
+    "field_value": 45.8,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DiageoMalts",
+        "source_url": "https://www.malts.com/en-gb/products/single-malt-whisky/talisker-10-year-old",
+        "quote": "45.8% ABV",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-4894bcbd4f4d70ab",
+    "fact_id": "EV-ccc3cce85766",
+    "field": "cask_type",
+    "field_name": "cask_type",
+    "value": "Bourbon",
+    "field_value": "Bourbon",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DiageoMalts",
+        "source_url": "https://www.malts.com/en-gb/products/single-malt-whisky/talisker-10-year-old",
+        "quote": "matured in Bourbon casks",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-8f4dfa28613e3072",
+    "fact_id": "EV-81c82b15d768",
+    "field": "age_statement",
+    "field_name": "age_statement",
+    "value": 10,
+    "field_value": 10,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DiageoMalts",
+        "source_url": "https://www.malts.com/en-gb/products/single-malt-whisky/talisker-10-year-old",
+        "quote": "aged for 10 years",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-2168c981b78434c8",
+    "fact_id": "EV-5db224e3ea77",
+    "field": "nose",
+    "field_name": "nose",
+    "value": "Intense peat smoke, seaweed, tcp, ocean breeze",
+    "field_value": "Intense peat smoke, seaweed, tcp, ocean breeze",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0030",
+        "quote": "Nose: intense peat smoke, seaweed, TCP, ocean breeze",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-24aeffcab18b9a25",
+    "fact_id": "EV-2cf7f414fe92",
+    "field": "palate",
+    "field_name": "palate",
+    "value": "Crisp peat, sea salt, black pepper, ash, lemon zest",
+    "field_value": "Crisp peat, sea salt, black pepper, ash, lemon zest",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0030",
+        "quote": "Palate: crisp peat, sea salt, black pepper, ash, lemon zest",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-c572eb9f9b78eb3e",
+    "fact_id": "EV-366e1cc378d5",
+    "field": "finish",
+    "field_name": "finish",
+    "value": "Long, dry, smoky with brine and oak wood warmth",
+    "field_value": "Long, dry, smoky with brine and oak wood warmth",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0030",
+        "quote": "Finish: long, dry, smoky with brine and oak wood warmth",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-0c2fe5422ec4fdec",
+    "fact_id": "EV-b37e9d47c458",
+    "field": "score",
+    "field_name": "score",
+    "value": 88,
+    "field_value": 88,
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0030",
+        "quote": "88 points",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  }
+]

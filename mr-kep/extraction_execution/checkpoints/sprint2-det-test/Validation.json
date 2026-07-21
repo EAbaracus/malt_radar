@@ -1,0 +1,233 @@
+{
+  "_checksum": "450e7ad4cafecd6b75cb282e126fb5cca6daa7072d34dfa7e32af34d6798b073",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-593e2092b4ad",
+      "field": "distillery_name",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Extracted 'Ardbeg' from http://mock.local",
+          "source_key": "mock_source",
+          "source_url": "http://mock.local",
+          "won": true
+        }
+      ],
+      "value": "Ardbeg"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-da0ba26de083",
+      "field": "region",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Extracted 'Islay' from http://mock.local",
+          "source_key": "mock_source",
+          "source_url": "http://mock.local",
+          "won": true
+        }
+      ],
+      "value": "Islay"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-87b297b5594a",
+      "field": "country",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Extracted 'Scotland' from http://mock.local",
+          "source_key": "mock_source",
+          "source_url": "http://mock.local",
+          "won": true
+        }
+      ],
+      "value": "Scotland"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-1019542b3468",
+      "field": "abv",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Extracted '46%' from http://mock.local",
+          "source_key": "mock_source",
+          "source_url": "http://mock.local",
+          "won": true
+        }
+      ],
+      "value": "46%"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-6564f7f8c189",
+      "field": "age_statement",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Extracted '10' from http://mock.local",
+          "source_key": "mock_source",
+          "source_url": "http://mock.local",
+          "won": true
+        }
+      ],
+      "value": 10
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-f3f7aeebb8ee",
+      "field": "cask_type",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Extracted 'Ex-Bourbon' from http://mock.local",
+          "source_key": "mock_source",
+          "source_url": "http://mock.local",
+          "won": true
+        }
+      ],
+      "value": "Ex-Bourbon"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-446cdab90212",
+      "field": "nose",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Extracted 'Coastal peat smoke, lemon zest, green apple, vanilla' from http://mock.local",
+          "source_key": "mock_source",
+          "source_url": "http://mock.local",
+          "won": true
+        }
+      ],
+      "value": "Coastal peat smoke, lemon zest, green apple, vanilla"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-6292b57ad36e",
+      "field": "palate",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Extracted 'Rich peat smoke, dark chocolate, sea salt, black pepper' from http://mock.local",
+          "source_key": "mock_source",
+          "source_url": "http://mock.local",
+          "won": true
+        }
+      ],
+      "value": "Rich peat smoke, dark chocolate, sea salt, black pepper"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-3a0315865110",
+      "field": "finish",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Extracted 'Long, smoky with lingering peat, brine and oak spice' from http://mock.local",
+          "source_key": "mock_source",
+          "source_url": "http://mock.local",
+          "won": true
+        }
+      ],
+      "value": "Long, smoky with lingering peat, brine and oak spice"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-8c658474d83a",
+      "field": "flavor_axes",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Extracted '{'smoky': 0.9, 'peaty': 0.85, 'fruity': 0.3, 'sweet': 0.2, 'spicy': 0.5, 'maritime': 0.8, 'sherry': 0.0}' from http://mock.local",
+          "source_key": "mock_source",
+          "source_url": "http://mock.local",
+          "won": true
+        }
+      ],
+      "value": {
+        "fruity": 0.3,
+        "maritime": 0.8,
+        "peaty": 0.85,
+        "sherry": 0.0,
+        "smoky": 0.9,
+        "spicy": 0.5,
+        "sweet": 0.2
+      }
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-dfdfd25ddcc8",
+      "field": "score",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Extracted '92' from http://mock.local",
+          "source_key": "mock_source",
+          "source_url": "http://mock.local",
+          "won": true
+        }
+      ],
+      "value": 92
+    }
+  ],
+  "extraction_request": {
+    "url": "https://whiskyfun.com/reviews/ardbeg-10"
+  },
+  "extraction_result": {
+    "abv": "46%",
+    "age_statement": 10,
+    "cask_type": "Ex-Bourbon",
+    "country": "Scotland",
+    "distillery_name": "Ardbeg",
+    "finish": "Long, smoky with lingering peat, brine and oak spice",
+    "flavor_axes": {
+      "fruity": 0.3,
+      "maritime": 0.8,
+      "peaty": 0.85,
+      "sherry": 0.0,
+      "smoky": 0.9,
+      "spicy": 0.5,
+      "sweet": 0.2
+    },
+    "nose": "Coastal peat smoke, lemon zest, green apple, vanilla",
+    "palate": "Rich peat smoke, dark chocolate, sea salt, black pepper",
+    "region": "Islay",
+    "score": 92
+  },
+  "qualification_record": {
+    "candidate_id": "MRKEP-SAMPLE-001",
+    "priority_gate": "Extract Normally",
+    "source_key": "whiskyfun"
+  },
+  "validation_report": {
+    "gate": "PASS",
+    "recoverable": false
+  }
+}

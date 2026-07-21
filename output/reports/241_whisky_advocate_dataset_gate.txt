@@ -1,0 +1,6 @@
+GATE: BLOCKED_DATA_ACCESS
+production.db changed = NO
+csv_available = False
+keep_for_staging_count = 0
+review_count = 0
+reject_count = 0

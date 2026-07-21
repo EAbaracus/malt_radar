@@ -1,0 +1,9 @@
+metric,value
+input_rows,123
+quality_keep_rows,94
+staging_preview_rows,94
+full_text_leak,0
+public_source_field_leak,0
+db_write,0
+unique_whisky_ids,74
+duplicate_source_record_id,0

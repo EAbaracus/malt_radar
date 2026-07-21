@@ -1,0 +1,49 @@
+{
+  "_checksum": "2e1b3b59b225106c37d387de59bb437b387bae823603e6e528a06b46f4443f34",
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "structured_data",
+    "source_key": "MR-KEP-GSD-V1",
+    "url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "[approx_abv] 40.0",
+      "value": 40.0
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "[age_statement_years] 0",
+      "value": 0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "[cask_type_primary] Bourbon+Sherry",
+      "value": "Bourbon+Sherry"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "[country] Canada",
+      "value": "Canada"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "[distillery] Forty Creek",
+      "value": "Forty Creek"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "[region] Canadian",
+      "value": "Canadian"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0083",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:14:58.853274+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

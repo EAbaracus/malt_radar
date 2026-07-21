@@ -1,0 +1,49 @@
+{
+  "_checksum": "d9de6478cfb298bc2ad7e905ae511012655929b90b2f29ec2787a9b976e125ed",
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "structured_data",
+    "source_key": "MR-KEP-GSD-V1",
+    "url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "[approx_abv] 43.0",
+      "value": 43.0
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "[age_statement_years] 18",
+      "value": 18
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "[cask_type_primary] Sherry",
+      "value": "Sherry"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "[country] Scotland",
+      "value": "Scotland"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "[distillery] Macallan",
+      "value": "Macallan"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "[region] Speyside",
+      "value": "Speyside"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0007",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:14:58.567871+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

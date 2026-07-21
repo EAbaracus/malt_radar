@@ -1,0 +1,202 @@
+[
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-fc5136c268afa916",
+    "fact_id": "EV-5fbfc1a4b1ed",
+    "field": "distillery_name",
+    "field_name": "distillery_name",
+    "value": "Glenfarclas",
+    "field_value": "Glenfarclas",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.glenfarclas.com/our-whiskies/21-years-old",
+        "quote": "Glenfarclas Distillery",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-3733ff21bcdbdd51",
+    "fact_id": "EV-050c769259f9",
+    "field": "country",
+    "field_name": "country",
+    "value": "Scotland",
+    "field_value": "Scotland",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.glenfarclas.com/our-whiskies/21-years-old",
+        "quote": "Product of Scotland",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-d5eaf359dfeb1659",
+    "fact_id": "EV-4e71f29a9240",
+    "field": "region",
+    "field_name": "region",
+    "value": "Speyside",
+    "field_value": "Speyside",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.glenfarclas.com/our-whiskies/21-years-old",
+        "quote": "Speyside single malt",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-a1ae568354352976",
+    "fact_id": "EV-baddf7d38a1a",
+    "field": "abv",
+    "field_name": "abv",
+    "value": 43.0,
+    "field_value": 43.0,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.glenfarclas.com/our-whiskies/21-years-old",
+        "quote": "43% ABV",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-65c63f312dbb3690",
+    "fact_id": "EV-49b2c500e35c",
+    "field": "cask_type",
+    "field_name": "cask_type",
+    "value": "Sherry",
+    "field_value": "Sherry",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.glenfarclas.com/our-whiskies/21-years-old",
+        "quote": "Oloroso sherry casks",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-36614774330b0e0f",
+    "fact_id": "EV-c92b5d286e0b",
+    "field": "age_statement",
+    "field_name": "age_statement",
+    "value": 21,
+    "field_value": 21,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.glenfarclas.com/our-whiskies/21-years-old",
+        "quote": "21 Years Old",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-3324f51df4b1d13e",
+    "fact_id": "EV-13c3b4c3ba0c",
+    "field": "nose",
+    "field_name": "nose",
+    "value": "Sherry, honey, dried fruit, cocoa, leather",
+    "field_value": "Sherry, honey, dried fruit, cocoa, leather",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober17.html",
+        "quote": "Nose: sherry, dark chocolate, leather, dried fruit",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-672922db25d381f3",
+    "fact_id": "EV-4b9e1b264210",
+    "field": "palate",
+    "field_name": "palate",
+    "value": "Smooth, rich sherry, nutmeg, oak, spices",
+    "field_value": "Smooth, rich sherry, nutmeg, oak, spices",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober17.html",
+        "quote": "Palate: smooth, rich sherry, nutmeg, oak",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-dae0c0b79db1bdf9",
+    "fact_id": "EV-552dc4f0ab57",
+    "field": "finish",
+    "field_name": "finish",
+    "value": "Long, dry, warm cocoa and spice",
+    "field_value": "Long, dry, warm cocoa and spice",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober17.html",
+        "quote": "Finish: long, dry, cocoa, spice",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-df850f4e56a37d3b",
+    "fact_id": "EV-e2b42dc27d0d",
+    "field": "score",
+    "field_name": "score",
+    "value": 86,
+    "field_value": 86,
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober17.html",
+        "quote": "86 points",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  }
+]

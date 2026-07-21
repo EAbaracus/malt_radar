@@ -1,0 +1,49 @@
+{
+  "_checksum": "5a3ad5f2132ae682175b4cf58044d45be63dca040a176d688aa085044ddb905a",
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "structured_data",
+    "source_key": "MR-KEP-GSD-V1",
+    "url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "[approx_abv] 45.2",
+      "value": 45.2
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "[age_statement_years] 0",
+      "value": 0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "[cask_type_primary] Bourbon",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "[country] USA",
+      "value": "USA"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "[distillery] Woodford Reserve",
+      "value": "Woodford Reserve"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "[region] Kentucky",
+      "value": "Kentucky"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0060",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:14:58.767658+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

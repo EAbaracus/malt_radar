@@ -1,0 +1,2 @@
+GATE: GO_IDENTITY_ADDED
+REASON: Identity columns restored successfully without full text.

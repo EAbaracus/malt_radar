@@ -1,0 +1,121 @@
+{
+  "_checksum": "60009f522160f96ad71f1569bfdb00548e1f81d7519b748e52aff1a470a46d26",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-95d327b9b5e906b3",
+      "fact_id": "EV-bd276d617683",
+      "field": "nose",
+      "field_name": "nose",
+      "field_value": "Burning embers, peat smoke, coconut, sweet vanilla",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Nose: ash, peat smoke, vanilla, sweet oak",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html",
+          "won": true
+        }
+      ],
+      "value": "Burning embers, peat smoke, coconut, sweet vanilla"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-fd266e6de4679ca2",
+      "fact_id": "EV-dc8e1214dc64",
+      "field": "palate",
+      "field_name": "palate",
+      "field_value": "Deep peat smoke, sweet oak, coconut, sea salt",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Palate: sweet peat, pepper, salt, vanilla",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html",
+          "won": true
+        }
+      ],
+      "value": "Deep peat smoke, sweet oak, coconut, sea salt"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-38c7af2fe467e795",
+      "fact_id": "EV-71ebe39ecea8",
+      "field": "finish",
+      "field_name": "finish",
+      "field_value": "Long, dry, smoky with lingering vanilla sweetness",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Finish: long, sweet peat, ash",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html",
+          "won": true
+        }
+      ],
+      "value": "Long, dry, smoky with lingering vanilla sweetness"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-4fb6ffcfcd3d463c",
+      "fact_id": "EV-0f4e9015779c",
+      "field": "score",
+      "field_name": "score",
+      "field_value": 86,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "86 points",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html",
+          "won": true
+        }
+      ],
+      "value": 86
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "expert_quote",
+    "source_key": "whiskyfun",
+    "url": "https://www.whiskyfun.com/archiveoctober19-clinch.html"
+  },
+  "extraction_result": {
+    "finish": {
+      "confidence": 1.0,
+      "quote": "Finish: long, sweet peat, ash",
+      "value": "Long, dry, smoky with lingering vanilla sweetness"
+    },
+    "nose": {
+      "confidence": 1.0,
+      "quote": "Nose: ash, peat smoke, vanilla, sweet oak",
+      "value": "Burning embers, peat smoke, coconut, sweet vanilla"
+    },
+    "palate": {
+      "confidence": 1.0,
+      "quote": "Palate: sweet peat, pepper, salt, vanilla",
+      "value": "Deep peat smoke, sweet oak, coconut, sea salt"
+    },
+    "score": {
+      "confidence": 1.0,
+      "quote": "86 points",
+      "value": 86
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0018",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:48.107414+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

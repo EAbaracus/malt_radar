@@ -1,0 +1,146 @@
+{
+  "_checksum": "c124dd34140d224a852782903c71ad87ae0eac6bb7d2a2325d19b631fecd9c82",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-9a7f8f8dfe35d199",
+      "fact_id": "EV-cc119b64430b",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "Brenne",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Bottled at Brenne Distillery",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.brenne.com/whisky/brenne-estate-cask",
+          "won": true
+        }
+      ],
+      "value": "Brenne"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-478abe308e980dc3",
+      "fact_id": "EV-87b4a9da3f71",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "France",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Product of France",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.brenne.com/whisky/brenne-estate-cask",
+          "won": true
+        }
+      ],
+      "value": "France"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-9c7ea746311b2419",
+      "fact_id": "EV-648e421de24b",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "French",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "French single malt",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.brenne.com/whisky/brenne-estate-cask",
+          "won": true
+        }
+      ],
+      "value": "French"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-16dbfaa69e38d37a",
+      "fact_id": "EV-6975735e3c1b",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 40.0,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "40.0% ABV",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.brenne.com/whisky/brenne-estate-cask",
+          "won": true
+        }
+      ],
+      "value": 40.0
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-0391ddd0d2479cae",
+      "fact_id": "EV-cdb6c9fdb080",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Cognac+Bourbon",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "matured in Cognac+Bourbon casks",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.brenne.com/whisky/brenne-estate-cask",
+          "won": true
+        }
+      ],
+      "value": "Cognac+Bourbon"
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.brenne.com/whisky/brenne-estate-cask"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "40.0% ABV",
+      "value": 40.0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Cognac+Bourbon casks",
+      "value": "Cognac+Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of France",
+      "value": "France"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Brenne Distillery",
+      "value": "Brenne"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "French single malt",
+      "value": "French"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0095",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:50.033927+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

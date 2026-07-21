@@ -1,0 +1,12 @@
+GO-NO-GO GATE: 11H FLAVOR SOURCE PRIORITY
+
+CRITERIA CHECKLIST:
+[X] Source priority clearly defined (Production > WhiskeyMapper > ScotchGit)
+[X] ScotchGit production import is NO-GO (Isolated as Preview)
+[X] production.db changed = NO (Verified by script check)
+[X] UI integration is plan-only (No codebase modifications made)
+[X] Debug/QA flag proposed (AppConfig.enableFlavorPreviewMode)
+[X] Existing/WhiskeyMapper priorities preserved (No overwrites allowed)
+
+DECISION: GO
+All requirements for Stage 11H have been met successfully. The data is secured and the UI integration strategy is clearly defined.

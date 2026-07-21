@@ -1,0 +1,171 @@
+{
+  "_checksum": "1d4f90c98fb2f1192c4778f011fa48c71093c43a1f8e82d2d9080e551511fd97",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-80644f5fce890504",
+      "fact_id": "EV-6573b0ffa957",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "Macallan",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "The Macallan Distillery",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.themacallan.com/en/whisky/single-malts/sherry-oak/sherry-oak-18-years-old",
+          "won": true
+        }
+      ],
+      "value": "Macallan"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-9b3f5093454b92b5",
+      "fact_id": "EV-43e271f930cf",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "Scotland",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Product of Scotland",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.themacallan.com/en/whisky/single-malts/sherry-oak/sherry-oak-18-years-old",
+          "won": true
+        }
+      ],
+      "value": "Scotland"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-e166bab4b6ece37c",
+      "fact_id": "EV-1984d44fe71d",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "Speyside",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Speyside Single Malt",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.themacallan.com/en/whisky/single-malts/sherry-oak/sherry-oak-18-years-old",
+          "won": true
+        }
+      ],
+      "value": "Speyside"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-96725176e4920e0e",
+      "fact_id": "EV-c0ce6f558d90",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 43.0,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "43% ABV",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.themacallan.com/en/whisky/single-malts/sherry-oak/sherry-oak-18-years-old",
+          "won": true
+        }
+      ],
+      "value": 43.0
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-8ba00995207d183d",
+      "fact_id": "EV-2e570f0643c2",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Sherry",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "European oak casks seasoned with sherry",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.themacallan.com/en/whisky/single-malts/sherry-oak/sherry-oak-18-years-old",
+          "won": true
+        }
+      ],
+      "value": "Sherry"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-04ef38142c50046c",
+      "fact_id": "EV-44cf857d46f0",
+      "field": "age_statement",
+      "field_name": "age_statement",
+      "field_value": 18,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "18 Years Old",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.themacallan.com/en/whisky/single-malts/sherry-oak/sherry-oak-18-years-old",
+          "won": true
+        }
+      ],
+      "value": 18
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.themacallan.com/en/whisky/single-malts/sherry-oak/sherry-oak-18-years-old"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "43% ABV",
+      "value": 43.0
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "18 Years Old",
+      "value": 18
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "European oak casks seasoned with sherry",
+      "value": "Sherry"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Scotland",
+      "value": "Scotland"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "The Macallan Distillery",
+      "value": "Macallan"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Speyside Single Malt",
+      "value": "Speyside"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0007",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:47.842460+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

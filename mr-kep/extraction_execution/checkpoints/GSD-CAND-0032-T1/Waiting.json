@@ -1,0 +1,49 @@
+{
+  "_checksum": "f6ede24850dece81ef1c3a12e1b7b377a5c7a451b943e5260a5defd472962ed6",
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.arran.com/whisky/arran-10yo"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "46.0% ABV",
+      "value": 46.0
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "aged for 10 years",
+      "value": 10
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Bourbon casks",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Scotland",
+      "value": "Scotland"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Arran Distillery",
+      "value": "Arran"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Islands single malt",
+      "value": "Islands"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0032",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:48.451294+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

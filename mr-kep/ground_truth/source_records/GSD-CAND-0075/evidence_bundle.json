@@ -1,0 +1,182 @@
+[
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-138bf777385c8a1b",
+    "fact_id": "EV-7159c641a3a5",
+    "field": "distillery_name",
+    "field_name": "distillery_name",
+    "value": "Midleton",
+    "field_value": "Midleton",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.midleton.com/whisky/midleton-very-rare-2023",
+        "quote": "Bottled at Midleton Distillery",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-9e75dd80867ce332",
+    "fact_id": "EV-cab3710e639b",
+    "field": "country",
+    "field_name": "country",
+    "value": "Ireland",
+    "field_value": "Ireland",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.midleton.com/whisky/midleton-very-rare-2023",
+        "quote": "Product of Ireland",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-436af0bcde9bb14e",
+    "fact_id": "EV-e47558827010",
+    "field": "region",
+    "field_name": "region",
+    "value": "Cork",
+    "field_value": "Cork",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.midleton.com/whisky/midleton-very-rare-2023",
+        "quote": "Cork single malt",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-821c98aa679b4d80",
+    "fact_id": "EV-ab1351173551",
+    "field": "abv",
+    "field_name": "abv",
+    "value": 40.0,
+    "field_value": 40.0,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.midleton.com/whisky/midleton-very-rare-2023",
+        "quote": "40.0% ABV",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-57e04f896e92f62a",
+    "fact_id": "EV-3250f582ecff",
+    "field": "cask_type",
+    "field_name": "cask_type",
+    "value": "Bourbon+Sherry",
+    "field_value": "Bourbon+Sherry",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.midleton.com/whisky/midleton-very-rare-2023",
+        "quote": "matured in Bourbon+Sherry casks",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-64987906aebb3122",
+    "fact_id": "EV-c0816d106c03",
+    "field": "nose",
+    "field_name": "nose",
+    "value": "Rich sherry sweetness, dark plums, raisins, dark cocoa",
+    "field_value": "Rich sherry sweetness, dark plums, raisins, dark cocoa",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0075",
+        "quote": "Nose: rich sherry sweetness, dark plums, raisins, dark cocoa",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-6bf9e408a8c9f75f",
+    "fact_id": "EV-587717e9b4cd",
+    "field": "palate",
+    "field_name": "palate",
+    "value": "Sweet fruit cake, orange peel, cinnamon, nutmeg, ginger",
+    "field_value": "Sweet fruit cake, orange peel, cinnamon, nutmeg, ginger",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0075",
+        "quote": "Palate: sweet fruit cake, orange peel, cinnamon, nutmeg, ginger",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-7fdfb275e6ac0af6",
+    "fact_id": "EV-69d68dcf0c93",
+    "field": "finish",
+    "field_name": "finish",
+    "value": "Long, warm, sweet oak and spicy dark chocolate",
+    "field_value": "Long, warm, sweet oak and spicy dark chocolate",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0075",
+        "quote": "Finish: long, warm, sweet oak and spicy dark chocolate",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-78646794f6382c0d",
+    "fact_id": "EV-0925d4fbd0b7",
+    "field": "score",
+    "field_name": "score",
+    "value": 86,
+    "field_value": 86,
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0075",
+        "quote": "86 points",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  }
+]

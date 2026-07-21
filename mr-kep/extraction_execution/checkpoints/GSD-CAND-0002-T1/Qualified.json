@@ -1,0 +1,49 @@
+{
+  "_checksum": "dbca41c551d0504fcd1880bbf49c75bf387a3834ce1b410f11458a722722281b",
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.ardbeg.com/en-int/whisky/ultimate-range/ten-years-old"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "46% ABV",
+      "value": 46.0
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "Ten Years Old",
+      "value": 10
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "ex-bourbon casks",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Scotland",
+      "value": "Scotland"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Ardbeg Distillery",
+      "value": "Ardbeg"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Islay Single Malt",
+      "value": "Islay"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0002",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:47.725424+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

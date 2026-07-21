@@ -1,0 +1,44 @@
+{
+  "_checksum": "7d539c4a74a2a2b15a7d6fde9f8defb7a7f70e5c28cb57f097ddf7f2f4fabb1e",
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.buffalotrace.com/whisky/buffalo-trace-bourbon"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "45.0% ABV",
+      "value": 45.0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Bourbon casks",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of USA",
+      "value": "USA"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Buffalo Trace Distillery",
+      "value": "Buffalo Trace"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "American single malt",
+      "value": "American"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0054",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:49.013731+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

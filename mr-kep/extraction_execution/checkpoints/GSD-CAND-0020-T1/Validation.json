@@ -1,0 +1,146 @@
+{
+  "_checksum": "c363c1be29b1825c003221d3e2e66a771fb95a81f25f2e00dc3b3b148ac6e134",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-271d327126bb417f",
+      "fact_id": "EV-84b870fc77ea",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "Kilchoman",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Kilchoman Distillery",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.kilchomandistillery.com/our-whiskies/machir-bay",
+          "won": true
+        }
+      ],
+      "value": "Kilchoman"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-2f4de3aee5b71e98",
+      "fact_id": "EV-4e9bd5d47b4c",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "Scotland",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Product of Scotland",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.kilchomandistillery.com/our-whiskies/machir-bay",
+          "won": true
+        }
+      ],
+      "value": "Scotland"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-4d47ce2886061d03",
+      "fact_id": "EV-bc916fa3bf4d",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "Islay",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Islay Single Malt",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.kilchomandistillery.com/our-whiskies/machir-bay",
+          "won": true
+        }
+      ],
+      "value": "Islay"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-97fd7520c5ba9312",
+      "fact_id": "EV-82f6b4dd4f32",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 46.0,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "46% ABV",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.kilchomandistillery.com/our-whiskies/machir-bay",
+          "won": true
+        }
+      ],
+      "value": 46.0
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-ba65e249deaf18fb",
+      "fact_id": "EV-6ec7ef17e97d",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Bourbon+Sherry",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "bourbon and sherry casks",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.kilchomandistillery.com/our-whiskies/machir-bay",
+          "won": true
+        }
+      ],
+      "value": "Bourbon+Sherry"
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.kilchomandistillery.com/our-whiskies/machir-bay"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "46% ABV",
+      "value": 46.0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "bourbon and sherry casks",
+      "value": "Bourbon+Sherry"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Scotland",
+      "value": "Scotland"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Kilchoman Distillery",
+      "value": "Kilchoman"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Islay Single Malt",
+      "value": "Islay"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0020",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:48.156555+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

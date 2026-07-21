@@ -1,0 +1,49 @@
+{
+  "_checksum": "ed2676d675f7f2cca1f7f54fa83f1da0c3fd49c83d680d093be317fc9835ca16",
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.whistlepig.com/whisky/whistlepig-10yo-rye"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "50.0% ABV",
+      "value": 50.0
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "aged for 10 years",
+      "value": 10
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Bourbon casks",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of USA",
+      "value": "USA"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at WhistlePig Distillery",
+      "value": "WhistlePig"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "American single malt",
+      "value": "American"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0063",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:49.247526+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

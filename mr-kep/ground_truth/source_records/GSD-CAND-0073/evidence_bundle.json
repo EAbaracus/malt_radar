@@ -1,0 +1,182 @@
+[
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-0c3cbce6a12ebc65",
+    "fact_id": "EV-6db462ab4d1f",
+    "field": "distillery_name",
+    "field_name": "distillery_name",
+    "value": "Dingle",
+    "field_value": "Dingle",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.dingle.com/whisky/dingle-single-malt-batch-5",
+        "quote": "Bottled at Dingle Distillery",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-ebbbdc5f56520549",
+    "fact_id": "EV-d245b5cafa1a",
+    "field": "country",
+    "field_name": "country",
+    "value": "Ireland",
+    "field_value": "Ireland",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.dingle.com/whisky/dingle-single-malt-batch-5",
+        "quote": "Product of Ireland",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-acd3ec42928904e2",
+    "fact_id": "EV-34318ed0d813",
+    "field": "region",
+    "field_name": "region",
+    "value": "Cork",
+    "field_value": "Cork",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.dingle.com/whisky/dingle-single-malt-batch-5",
+        "quote": "Cork single malt",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-129a384836f2f10b",
+    "fact_id": "EV-1914664be19c",
+    "field": "abv",
+    "field_name": "abv",
+    "value": 46.5,
+    "field_value": 46.5,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.dingle.com/whisky/dingle-single-malt-batch-5",
+        "quote": "46.5% ABV",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-2e713f073cabd0b7",
+    "fact_id": "EV-0e5a32398769",
+    "field": "cask_type",
+    "field_name": "cask_type",
+    "value": "Bourbon+Sherry+Port",
+    "field_value": "Bourbon+Sherry+Port",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.dingle.com/whisky/dingle-single-malt-batch-5",
+        "quote": "matured in Bourbon+Sherry+Port casks",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-94974a4f161a8f35",
+    "fact_id": "EV-ab45e7d0cc4f",
+    "field": "nose",
+    "field_name": "nose",
+    "value": "Rich sherry sweetness, dark plums, raisins, dark cocoa",
+    "field_value": "Rich sherry sweetness, dark plums, raisins, dark cocoa",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0073",
+        "quote": "Nose: rich sherry sweetness, dark plums, raisins, dark cocoa",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-b5064545efde0780",
+    "fact_id": "EV-cd0d1b518bd4",
+    "field": "palate",
+    "field_name": "palate",
+    "value": "Sweet fruit cake, orange peel, cinnamon, nutmeg, ginger",
+    "field_value": "Sweet fruit cake, orange peel, cinnamon, nutmeg, ginger",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0073",
+        "quote": "Palate: sweet fruit cake, orange peel, cinnamon, nutmeg, ginger",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-7008cedde99b06f4",
+    "fact_id": "EV-6feb5f744fa1",
+    "field": "finish",
+    "field_name": "finish",
+    "value": "Long, warm, sweet oak and spicy dark chocolate",
+    "field_value": "Long, warm, sweet oak and spicy dark chocolate",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0073",
+        "quote": "Finish: long, warm, sweet oak and spicy dark chocolate",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-10603249ee5756c4",
+    "fact_id": "EV-a172e969890d",
+    "field": "score",
+    "field_name": "score",
+    "value": 86,
+    "field_value": 86,
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0073",
+        "quote": "86 points",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  }
+]

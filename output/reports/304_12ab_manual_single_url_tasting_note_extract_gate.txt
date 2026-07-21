@@ -1,0 +1,2 @@
+GATE: PARTIAL-GO
+REASON: Single URL extraction helper executed.

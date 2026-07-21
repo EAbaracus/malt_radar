@@ -1,0 +1,82 @@
+{
+  "distillery_name": {
+    "value": "Glenfarclas",
+    "source": "https://www.glenfarclas.com/our-whiskies/21-years-old",
+    "exact_quote": "Glenfarclas Distillery",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "country": {
+    "value": "Scotland",
+    "source": "https://www.glenfarclas.com/our-whiskies/21-years-old",
+    "exact_quote": "Product of Scotland",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "region": {
+    "value": "Speyside",
+    "source": "https://www.glenfarclas.com/our-whiskies/21-years-old",
+    "exact_quote": "Speyside single malt",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "abv": {
+    "value": 43.0,
+    "source": "https://www.glenfarclas.com/our-whiskies/21-years-old",
+    "exact_quote": "43% ABV",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "cask_type": {
+    "value": "Sherry",
+    "source": "https://www.glenfarclas.com/our-whiskies/21-years-old",
+    "exact_quote": "Oloroso sherry casks",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "age_statement": {
+    "value": 21,
+    "source": "https://www.glenfarclas.com/our-whiskies/21-years-old",
+    "exact_quote": "21 Years Old",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "nose": {
+    "value": "Sherry, honey, dried fruit, cocoa, leather",
+    "source": "https://www.whiskyfun.com/archiveoctober17.html",
+    "exact_quote": "Nose: sherry, dark chocolate, leather, dried fruit",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "palate": {
+    "value": "Smooth, rich sherry, nutmeg, oak, spices",
+    "source": "https://www.whiskyfun.com/archiveoctober17.html",
+    "exact_quote": "Palate: smooth, rich sherry, nutmeg, oak",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "finish": {
+    "value": "Long, dry, warm cocoa and spice",
+    "source": "https://www.whiskyfun.com/archiveoctober17.html",
+    "exact_quote": "Finish: long, dry, cocoa, spice",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "score": {
+    "value": 86,
+    "source": "https://www.whiskyfun.com/archiveoctober17.html",
+    "exact_quote": "86 points",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  }
+}

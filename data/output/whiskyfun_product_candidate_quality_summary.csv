@@ -1,0 +1,16 @@
+metric,value
+input_rows,123
+quality_keep_candidate,94
+manual_review_required,29
+full_text_leak,0
+public_source_field_leak,0
+quality_decision:QUALITY_KEEP_CANDIDATE,94
+quality_decision:MANUAL_REVIEW_REQUIRED,29
+quality_flag:batch_missing_in_match,15
+quality_flag:raw_release_term_missing_in_match,14
+quality_flag:release_term_mismatch,9
+quality_flag:raw_cask_term_missing_in_match,8
+quality_flag:storm_dark_storm_mismatch,7
+quality_flag:matched_release_term_not_in_raw,1
+quality_flag:cask_term_mismatch,1
+quality_flag:age_of_discovery_cask_mismatch,1

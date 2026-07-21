@@ -1,0 +1,49 @@
+{
+  "_checksum": "44d38c96c80693ae673b230b66df75c4c1c8d70a5799f98debd6c36fb68a2bbe",
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "structured_data",
+    "source_key": "MR-KEP-GSD-V1",
+    "url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "[approx_abv] 46.0",
+      "value": 46.0
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "[age_statement_years] 0",
+      "value": 0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "[cask_type_primary] Sherry",
+      "value": "Sherry"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "[country] Ireland",
+      "value": "Ireland"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "[distillery] Midleton",
+      "value": "Midleton"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "[region] Dublin",
+      "value": "Dublin"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0069",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:14:58.801598+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

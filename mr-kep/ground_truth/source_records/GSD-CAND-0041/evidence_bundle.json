@@ -1,0 +1,202 @@
+[
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-3d0466849ae0e11b",
+    "fact_id": "EV-6152fad887ed",
+    "field": "distillery_name",
+    "field_name": "distillery_name",
+    "value": "Yamazaki",
+    "field_value": "Yamazaki",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.yamazaki.com/whisky/yamazaki-12yo",
+        "quote": "Bottled at Yamazaki Distillery",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-aacc88367fd3311a",
+    "fact_id": "EV-141732baed1c",
+    "field": "country",
+    "field_name": "country",
+    "value": "Japan",
+    "field_value": "Japan",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.yamazaki.com/whisky/yamazaki-12yo",
+        "quote": "Product of Japan",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-39790d7a7e088b67",
+    "fact_id": "EV-00369f1481d8",
+    "field": "region",
+    "field_name": "region",
+    "value": "Japanese",
+    "field_value": "Japanese",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.yamazaki.com/whisky/yamazaki-12yo",
+        "quote": "Japanese single malt",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-1910eb31e2354718",
+    "fact_id": "EV-1e4d51a9b8b2",
+    "field": "abv",
+    "field_name": "abv",
+    "value": 43.0,
+    "field_value": 43.0,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.yamazaki.com/whisky/yamazaki-12yo",
+        "quote": "43.0% ABV",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-924d637ed16295cf",
+    "fact_id": "EV-cb4d44b9e014",
+    "field": "cask_type",
+    "field_name": "cask_type",
+    "value": "Mizunara+Bourbon+Sherry",
+    "field_value": "Mizunara+Bourbon+Sherry",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.yamazaki.com/whisky/yamazaki-12yo",
+        "quote": "matured in Mizunara+Bourbon+Sherry casks",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-c2042f947135f757",
+    "fact_id": "EV-f7aa59ad7f84",
+    "field": "age_statement",
+    "field_name": "age_statement",
+    "value": 12,
+    "field_value": 12,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.yamazaki.com/whisky/yamazaki-12yo",
+        "quote": "aged for 12 years",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-69f52139a8651a58",
+    "fact_id": "EV-6cd713906b5e",
+    "field": "nose",
+    "field_name": "nose",
+    "value": "Rich sherry sweetness, dark plums, raisins, dark cocoa",
+    "field_value": "Rich sherry sweetness, dark plums, raisins, dark cocoa",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0041",
+        "quote": "Nose: rich sherry sweetness, dark plums, raisins, dark cocoa",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-317872dc3a550199",
+    "fact_id": "EV-c9da7d451195",
+    "field": "palate",
+    "field_name": "palate",
+    "value": "Sweet fruit cake, orange peel, cinnamon, nutmeg, ginger",
+    "field_value": "Sweet fruit cake, orange peel, cinnamon, nutmeg, ginger",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0041",
+        "quote": "Palate: sweet fruit cake, orange peel, cinnamon, nutmeg, ginger",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-44508e5335964aa6",
+    "fact_id": "EV-f4b16b4e3888",
+    "field": "finish",
+    "field_name": "finish",
+    "value": "Long, warm, sweet oak and spicy dark chocolate",
+    "field_value": "Long, warm, sweet oak and spicy dark chocolate",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0041",
+        "quote": "Finish: long, warm, sweet oak and spicy dark chocolate",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-1e79e0acd2a68334",
+    "fact_id": "EV-fc655bce3f0b",
+    "field": "score",
+    "field_name": "score",
+    "value": 86,
+    "field_value": 86,
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0041",
+        "quote": "86 points",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  }
+]

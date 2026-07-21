@@ -1,0 +1,202 @@
+[
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-0703eafc27508620",
+    "fact_id": "EV-f9e0fe85e92c",
+    "field": "distillery_name",
+    "field_name": "distillery_name",
+    "value": "Balvenie",
+    "field_value": "Balvenie",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.thebalvenie.com/our-whisky-range/caribbean-cask-14-year-old",
+        "quote": "The Balvenie Distillery",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-e9ca5ebdbf1b8f45",
+    "fact_id": "EV-9de828112f8b",
+    "field": "country",
+    "field_name": "country",
+    "value": "Scotland",
+    "field_value": "Scotland",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.thebalvenie.com/our-whisky-range/caribbean-cask-14-year-old",
+        "quote": "Product of Scotland",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-2428325df76f49a7",
+    "fact_id": "EV-a86c91af85c8",
+    "field": "region",
+    "field_name": "region",
+    "value": "Speyside",
+    "field_value": "Speyside",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.thebalvenie.com/our-whisky-range/caribbean-cask-14-year-old",
+        "quote": "Speyside Single Malt",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-8e051a700c0a71b5",
+    "fact_id": "EV-cd7945b3883a",
+    "field": "abv",
+    "field_name": "abv",
+    "value": 43.0,
+    "field_value": 43.0,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.thebalvenie.com/our-whisky-range/caribbean-cask-14-year-old",
+        "quote": "43% ABV",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-00df6fc6ce06acf9",
+    "fact_id": "EV-4862c42138fd",
+    "field": "cask_type",
+    "field_name": "cask_type",
+    "value": "Rum Finish",
+    "field_value": "Rum Finish",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.thebalvenie.com/our-whisky-range/caribbean-cask-14-year-old",
+        "quote": "matured in oak casks finished in rum casks",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-4e5914a3d6c5c5d2",
+    "fact_id": "EV-0b25eaa8a1c7",
+    "field": "age_statement",
+    "field_name": "age_statement",
+    "value": 14,
+    "field_value": 14,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.thebalvenie.com/our-whisky-range/caribbean-cask-14-year-old",
+        "quote": "14 Year Old",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-57651b050f893bff",
+    "fact_id": "EV-f15eb42708c8",
+    "field": "nose",
+    "field_name": "nose",
+    "value": "Rich sweet toffee, tropical fruit, honey",
+    "field_value": "Rich sweet toffee, tropical fruit, honey",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archivejanuary19-2.html",
+        "quote": "Nose: tropical fruits, brown sugar, honey",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-399a9f4dc9d4a57f",
+    "fact_id": "EV-2773d2d65dc2",
+    "field": "palate",
+    "field_name": "palate",
+    "value": "Vanilla, sweet oak notes, fruit character",
+    "field_value": "Vanilla, sweet oak notes, fruit character",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archivejanuary19-2.html",
+        "quote": "Palate: rum sweetness, vanilla, mango, spices",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-c3b2d2465e1daaca",
+    "fact_id": "EV-d81024f79178",
+    "field": "finish",
+    "field_name": "finish",
+    "value": "Soft, lingering sweet finish",
+    "field_value": "Soft, lingering sweet finish",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archivejanuary19-2.html",
+        "quote": "Finish: medium, sweet warmth",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-e7ab6d884ef5617f",
+    "fact_id": "EV-93d50eff2f07",
+    "field": "score",
+    "field_name": "score",
+    "value": 83,
+    "field_value": 83,
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archivejanuary19-2.html",
+        "quote": "83 points",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  }
+]

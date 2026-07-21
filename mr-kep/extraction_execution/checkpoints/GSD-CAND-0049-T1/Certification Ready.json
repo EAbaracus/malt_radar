@@ -1,0 +1,146 @@
+{
+  "_checksum": "495f205d475ae006362f080cbc5bf0ef472e889544d86c8b72cfb0790a27f5ff",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-6cdf7c57b99d846a",
+      "fact_id": "EV-f82ad5e2da36",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "Mars Komagatake",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Bottled at Mars Komagatake Distillery",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.marskomagatake.com/whisky/mars-komagatake-limited-2018",
+          "won": true
+        }
+      ],
+      "value": "Mars Komagatake"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-d56d9630b7980b1d",
+      "fact_id": "EV-17b1ee6cd9c8",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "Japan",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Product of Japan",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.marskomagatake.com/whisky/mars-komagatake-limited-2018",
+          "won": true
+        }
+      ],
+      "value": "Japan"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-96bb8688614d04a6",
+      "fact_id": "EV-dac7d6cd0436",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "Japanese",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Japanese single malt",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.marskomagatake.com/whisky/mars-komagatake-limited-2018",
+          "won": true
+        }
+      ],
+      "value": "Japanese"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-a3fd2d1b6af5d8de",
+      "fact_id": "EV-1a16739eab1b",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 59.0,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "59.0% ABV",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.marskomagatake.com/whisky/mars-komagatake-limited-2018",
+          "won": true
+        }
+      ],
+      "value": 59.0
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-eee8fa0b45189c81",
+      "fact_id": "EV-b92511287d8d",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Bourbon",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "matured in Bourbon casks",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.marskomagatake.com/whisky/mars-komagatake-limited-2018",
+          "won": true
+        }
+      ],
+      "value": "Bourbon"
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.marskomagatake.com/whisky/mars-komagatake-limited-2018"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "59.0% ABV",
+      "value": 59.0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Bourbon casks",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Japan",
+      "value": "Japan"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Mars Komagatake Distillery",
+      "value": "Mars Komagatake"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Japanese single malt",
+      "value": "Japanese"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0049",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:48.893749+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

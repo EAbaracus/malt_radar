@@ -1,0 +1,165 @@
+{
+  "_checksum": "593ebdd201b827ba13d070f61634599f1ef1c909f25a749774338c17efb4eef9",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-043159e1acae",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "Midleton",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "structured_data",
+          "quote": "[distillery] Midleton",
+          "source_key": "MR-KEP-GSD-V1",
+          "source_url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv",
+          "won": true
+        }
+      ],
+      "value": "Midleton"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-2f07c429c40f",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "Dublin",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "structured_data",
+          "quote": "[region] Dublin",
+          "source_key": "MR-KEP-GSD-V1",
+          "source_url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv",
+          "won": true
+        }
+      ],
+      "value": "Dublin"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-0daa13078285",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "Ireland",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "structured_data",
+          "quote": "[country] Ireland",
+          "source_key": "MR-KEP-GSD-V1",
+          "source_url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv",
+          "won": true
+        }
+      ],
+      "value": "Ireland"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-79dac394e97e",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Bourbon+Sherry",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "structured_data",
+          "quote": "[cask_type_primary] Bourbon+Sherry",
+          "source_key": "MR-KEP-GSD-V1",
+          "source_url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv",
+          "won": true
+        }
+      ],
+      "value": "Bourbon+Sherry"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-9841b2395477",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 40.0,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "structured_data",
+          "quote": "[approx_abv] 40.0",
+          "source_key": "MR-KEP-GSD-V1",
+          "source_url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv",
+          "won": true
+        }
+      ],
+      "value": 40.0
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "fact_id": "EV-94e61c60accc",
+      "field": "age_statement",
+      "field_name": "age_statement",
+      "field_value": 12,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "structured_data",
+          "quote": "[age_statement_years] 12",
+          "source_key": "MR-KEP-GSD-V1",
+          "source_url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv",
+          "won": true
+        }
+      ],
+      "value": 12
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "structured_data",
+    "source_key": "MR-KEP-GSD-V1",
+    "url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "[approx_abv] 40.0",
+      "value": 40.0
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "[age_statement_years] 12",
+      "value": 12
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "[cask_type_primary] Bourbon+Sherry",
+      "value": "Bourbon+Sherry"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "[country] Ireland",
+      "value": "Ireland"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "[distillery] Midleton",
+      "value": "Midleton"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "[region] Dublin",
+      "value": "Dublin"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0067",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:14:58.793890+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

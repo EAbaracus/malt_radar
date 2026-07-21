@@ -1,0 +1,49 @@
+{
+  "_checksum": "ee163d4b044fa4bfffd49139919872a9a29fe80a1c58d765f1ce5e3d4147e8d9",
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "structured_data",
+    "source_key": "MR-KEP-GSD-V1",
+    "url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "[approx_abv] 50.0",
+      "value": 50.0
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "[age_statement_years] 0",
+      "value": 0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "[cask_type_primary] Bourbon",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "[country] Ireland",
+      "value": "Ireland"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "[distillery] Waterford",
+      "value": "Waterford"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "[region] Waterford",
+      "value": "Waterford"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0072",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:14:58.812912+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

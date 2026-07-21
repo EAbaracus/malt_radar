@@ -1,0 +1,171 @@
+{
+  "_checksum": "f850aae4a77300242108a37420ce7ab142d21b25c8e1a9caa6733cd4ddc5f5b4",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-e39be1f6eeb2b053",
+      "fact_id": "EV-369c215dd34b",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "High Coast",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Bottled at High Coast Distillery",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.highcoast.com/whisky/high-coast-dalvve-10yo",
+          "won": true
+        }
+      ],
+      "value": "High Coast"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-a7c0a82b8137b172",
+      "fact_id": "EV-196b56fb93ac",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "Sweden",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Product of Sweden",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.highcoast.com/whisky/high-coast-dalvve-10yo",
+          "won": true
+        }
+      ],
+      "value": "Sweden"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-2bb45bb7803c3239",
+      "fact_id": "EV-4baad1bfb8a6",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "Swedish",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Swedish single malt",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.highcoast.com/whisky/high-coast-dalvve-10yo",
+          "won": true
+        }
+      ],
+      "value": "Swedish"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-ab6e124386618e79",
+      "fact_id": "EV-dcf1423cd945",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 46.0,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "46.0% ABV",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.highcoast.com/whisky/high-coast-dalvve-10yo",
+          "won": true
+        }
+      ],
+      "value": 46.0
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-cdf00fa3cea6bd18",
+      "fact_id": "EV-d7318787f622",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Bourbon",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "matured in Bourbon casks",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.highcoast.com/whisky/high-coast-dalvve-10yo",
+          "won": true
+        }
+      ],
+      "value": "Bourbon"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-93f229b61c9b2823",
+      "fact_id": "EV-e168cf815a8a",
+      "field": "age_statement",
+      "field_name": "age_statement",
+      "field_value": 10,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "aged for 10 years",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.highcoast.com/whisky/high-coast-dalvve-10yo",
+          "won": true
+        }
+      ],
+      "value": 10
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.highcoast.com/whisky/high-coast-dalvve-10yo"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "46.0% ABV",
+      "value": 46.0
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "aged for 10 years",
+      "value": 10
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Bourbon casks",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Sweden",
+      "value": "Sweden"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at High Coast Distillery",
+      "value": "High Coast"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Swedish single malt",
+      "value": "Swedish"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0090",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:49.900479+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "distillery_name": {
+    "value": "Akkeshi",
+    "source": "https://www.akkeshi.com/whisky/akkeshi-sarorunkamuy-2023",
+    "exact_quote": "Bottled at Akkeshi Distillery",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "country": {
+    "value": "Japan",
+    "source": "https://www.akkeshi.com/whisky/akkeshi-sarorunkamuy-2023",
+    "exact_quote": "Product of Japan",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "region": {
+    "value": "Japanese",
+    "source": "https://www.akkeshi.com/whisky/akkeshi-sarorunkamuy-2023",
+    "exact_quote": "Japanese single malt",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "abv": {
+    "value": 55.0,
+    "source": "https://www.akkeshi.com/whisky/akkeshi-sarorunkamuy-2023",
+    "exact_quote": "55.0% ABV",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "cask_type": {
+    "value": "Bourbon",
+    "source": "https://www.akkeshi.com/whisky/akkeshi-sarorunkamuy-2023",
+    "exact_quote": "matured in Bourbon casks",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "nose": {
+    "value": "Intense peat smoke, seaweed, tcp, ocean breeze",
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0051",
+    "exact_quote": "Nose: intense peat smoke, seaweed, TCP, ocean breeze",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "palate": {
+    "value": "Crisp peat, sea salt, black pepper, ash, lemon zest",
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0051",
+    "exact_quote": "Palate: crisp peat, sea salt, black pepper, ash, lemon zest",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "finish": {
+    "value": "Long, dry, smoky with brine and oak wood warmth",
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0051",
+    "exact_quote": "Finish: long, dry, smoky with brine and oak wood warmth",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "score": {
+    "value": 88,
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0051",
+    "exact_quote": "88 points",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  }
+}

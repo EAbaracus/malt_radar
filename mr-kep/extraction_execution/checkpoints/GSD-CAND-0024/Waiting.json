@@ -1,0 +1,49 @@
+{
+  "_checksum": "edd8dbdf19582d6745d5b5acc490f2bed915ed41684a6cd3cdd526030f123a31",
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "structured_data",
+    "source_key": "MR-KEP-GSD-V1",
+    "url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "[approx_abv] 43.0",
+      "value": 43.0
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "[age_statement_years] 12",
+      "value": 12
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "[cask_type_primary] Sherry",
+      "value": "Sherry"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "[country] Scotland",
+      "value": "Scotland"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "[distillery] GlenDronach",
+      "value": "GlenDronach"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "[region] Highland",
+      "value": "Highland"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0024",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:14:58.631195+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

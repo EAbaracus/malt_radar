@@ -1,0 +1,82 @@
+{
+  "distillery_name": {
+    "value": "Lagavulin",
+    "source": "https://www.malts.com/en-gb/products/single-malt-whisky/lagavulin-16-year-old",
+    "exact_quote": "Lagavulin Distillery",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "country": {
+    "value": "Scotland",
+    "source": "https://www.malts.com/en-gb/products/single-malt-whisky/lagavulin-16-year-old",
+    "exact_quote": "Product of Scotland",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "region": {
+    "value": "Islay",
+    "source": "https://www.malts.com/en-gb/products/single-malt-whisky/lagavulin-16-year-old",
+    "exact_quote": "Islay single malt",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "abv": {
+    "value": 43.0,
+    "source": "https://www.malts.com/en-gb/products/single-malt-whisky/lagavulin-16-year-old",
+    "exact_quote": "43% ABV",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "cask_type": {
+    "value": "Bourbon+Sherry",
+    "source": "https://www.malts.com/en-gb/products/single-malt-whisky/lagavulin-16-year-old",
+    "exact_quote": "matured in oak casks",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "age_statement": {
+    "value": 16,
+    "source": "https://www.malts.com/en-gb/products/single-malt-whisky/lagavulin-16-year-old",
+    "exact_quote": "aged for sixteen years",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "nose": {
+    "value": "Coastal peat smoke, iodine, sweet spices, sherry",
+    "source": "https://www.whiskyfun.com/archivedecember18-2-clinch.html#201218",
+    "exact_quote": "Nose: very thick peat smoke, iodine, sweet spices",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "palate": {
+    "value": "Rich peat smoke, dry oak, sea salt, dried fruits",
+    "source": "https://www.whiskyfun.com/archivedecember18-2-clinch.html#201218",
+    "exact_quote": "Palate: sweet, rich peat, sherry sweetness, salt",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "finish": {
+    "value": "Long, warm, smoky with dry peat and brine",
+    "source": "https://www.whiskyfun.com/archivedecember18-2-clinch.html#201218",
+    "exact_quote": "Finish: long, dry peat, sweet oak, sea salt",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "score": {
+    "value": 90,
+    "source": "https://www.whiskyfun.com/archivedecember18-2-clinch.html#201218",
+    "exact_quote": "90 points",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  }
+}

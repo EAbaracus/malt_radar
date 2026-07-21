@@ -1,0 +1,39 @@
+{
+  "_checksum": "74fe6a4fa50dd3e2a0dd556d9b590084325c5d9efce4c2521f0ae97dff279706",
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "expert_quote",
+    "source_key": "whiskyfun",
+    "url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0064"
+  },
+  "extraction_result": {
+    "finish": {
+      "confidence": 1.0,
+      "quote": "Finish: medium, clean, soft oak and sweet barley warmth",
+      "value": "Medium, clean, soft oak and sweet barley warmth"
+    },
+    "nose": {
+      "confidence": 1.0,
+      "quote": "Nose: sweet honey, fresh pear, green apple, vanilla, light floral",
+      "value": "Sweet honey, fresh pear, green apple, vanilla, light floral"
+    },
+    "palate": {
+      "confidence": 1.0,
+      "quote": "Palate: mellow malt, vanilla cream, butterscotch, orchard fruit",
+      "value": "Mellow malt, vanilla cream, butterscotch, orchard fruit"
+    },
+    "score": {
+      "confidence": 1.0,
+      "quote": "83 points",
+      "value": 83
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0064",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:49.274428+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

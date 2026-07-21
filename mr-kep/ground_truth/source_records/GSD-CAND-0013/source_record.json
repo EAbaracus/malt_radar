@@ -1,0 +1,82 @@
+{
+  "distillery_name": {
+    "value": "BenRiach",
+    "source": "https://www.benriachdistillery.com/en-gb/our-whiskies/the-curiositas-10-year-old",
+    "exact_quote": "BenRiach Distillery",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "country": {
+    "value": "Scotland",
+    "source": "https://www.benriachdistillery.com/en-gb/our-whiskies/the-curiositas-10-year-old",
+    "exact_quote": "Product of Scotland",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "region": {
+    "value": "Speyside",
+    "source": "https://www.benriachdistillery.com/en-gb/our-whiskies/the-curiositas-10-year-old",
+    "exact_quote": "Speyside single malt",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "abv": {
+    "value": 46.0,
+    "source": "https://www.benriachdistillery.com/en-gb/our-whiskies/the-curiositas-10-year-old",
+    "exact_quote": "46% ABV",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "cask_type": {
+    "value": "Bourbon",
+    "source": "https://www.benriachdistillery.com/en-gb/our-whiskies/the-curiositas-10-year-old",
+    "exact_quote": "ex-bourbon casks",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "age_statement": {
+    "value": 10,
+    "source": "https://www.benriachdistillery.com/en-gb/our-whiskies/the-curiositas-10-year-old",
+    "exact_quote": "10 Years Old",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "nose": {
+    "value": "Sweet peat smoke, honey, orchard fruits, vanilla",
+    "source": "https://www.whiskyfun.com/archiveoctober15.html",
+    "exact_quote": "Nose: sweet peat smoke, honey, pear",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "palate": {
+    "value": "Peaty malt, dry oak, vanilla, heather honey",
+    "source": "https://www.whiskyfun.com/archiveoctober15.html",
+    "exact_quote": "Palate: peaty, sweet malt, vanilla, oak",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "finish": {
+    "value": "Medium, dry peaty wood notes",
+    "source": "https://www.whiskyfun.com/archiveoctober15.html",
+    "exact_quote": "Finish: medium, dry peat, spice",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "score": {
+    "value": 81,
+    "source": "https://www.whiskyfun.com/archiveoctober15.html",
+    "exact_quote": "81 points",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  }
+}

@@ -1,0 +1,182 @@
+[
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-4abac2af2b1d12ca",
+    "fact_id": "EV-317432b250d5",
+    "field": "distillery_name",
+    "field_name": "distillery_name",
+    "value": "Laphroaig",
+    "field_value": "Laphroaig",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.laphroaig.com/en/quarter-cask",
+        "quote": "Laphroaig Distillery",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-5930928242c1f308",
+    "fact_id": "EV-afe2a353009a",
+    "field": "country",
+    "field_name": "country",
+    "value": "Scotland",
+    "field_value": "Scotland",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.laphroaig.com/en/quarter-cask",
+        "quote": "Product of Scotland",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-bc3e845dd139764f",
+    "fact_id": "EV-9b2607313e4e",
+    "field": "region",
+    "field_name": "region",
+    "value": "Islay",
+    "field_value": "Islay",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.laphroaig.com/en/quarter-cask",
+        "quote": "Islay Single Malt",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-435232818e9a0a34",
+    "fact_id": "EV-b22c8d6a4871",
+    "field": "abv",
+    "field_name": "abv",
+    "value": 48.0,
+    "field_value": 48.0,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.laphroaig.com/en/quarter-cask",
+        "quote": "48% ABV",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-8dcf1b6d2e0c4f5c",
+    "fact_id": "EV-e9d75382fe9e",
+    "field": "cask_type",
+    "field_name": "cask_type",
+    "value": "Bourbon (Quarter)",
+    "field_value": "Bourbon (Quarter)",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.laphroaig.com/en/quarter-cask",
+        "quote": "double matured in quarter casks",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-95d327b9b5e906b3",
+    "fact_id": "EV-bd276d617683",
+    "field": "nose",
+    "field_name": "nose",
+    "value": "Burning embers, peat smoke, coconut, sweet vanilla",
+    "field_value": "Burning embers, peat smoke, coconut, sweet vanilla",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html",
+        "quote": "Nose: ash, peat smoke, vanilla, sweet oak",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-fd266e6de4679ca2",
+    "fact_id": "EV-dc8e1214dc64",
+    "field": "palate",
+    "field_name": "palate",
+    "value": "Deep peat smoke, sweet oak, coconut, sea salt",
+    "field_value": "Deep peat smoke, sweet oak, coconut, sea salt",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html",
+        "quote": "Palate: sweet peat, pepper, salt, vanilla",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-38c7af2fe467e795",
+    "fact_id": "EV-71ebe39ecea8",
+    "field": "finish",
+    "field_name": "finish",
+    "value": "Long, dry, smoky with lingering vanilla sweetness",
+    "field_value": "Long, dry, smoky with lingering vanilla sweetness",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html",
+        "quote": "Finish: long, sweet peat, ash",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-4fb6ffcfcd3d463c",
+    "fact_id": "EV-0f4e9015779c",
+    "field": "score",
+    "field_name": "score",
+    "value": 86,
+    "field_value": 86,
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html",
+        "quote": "86 points",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  }
+]

@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0.0",
+  "document_id": "MRKEP-SAMPLE-001",
+  "source_key": "whiskyfun",
+  "surface_signals": {
+    "url": "https://whiskyfun.com/reviews/ardbeg-10",
+    "mime_type": "text/html",
+    "filename": "ardbeg-10.html",
+    "has_isbn": false,
+    "has_issn": false,
+    "is_gov_domain": false,
+    "is_producer_domain": false,
+    "is_brand_domain": false,
+    "is_auction_domain": false,
+    "is_blog_domain": false,
+    "has_doi": false,
+    "is_structured_export": true,
+    "has_text_layer": true,
+    "title": "Ardbeg 10yo Single Malt Scotch Whisky",
+    "whisky_hint": "Ardbeg 10"
+  },
+  "profile_overrides": {},
+  "extracted_fields": {
+    "distillery_name": "Ardbeg",
+    "region": "Islay",
+    "country": "Scotland",
+    "abv": "46%",
+    "age_statement": 10,
+    "cask_type": "Ex-Bourbon",
+    "nose": "Coastal peat smoke, lemon zest, green apple, vanilla",
+    "palate": "Rich peat smoke, dark chocolate, sea salt, black pepper",
+    "finish": "Long, smoky with lingering peat, brine and oak spice",
+    "flavor_axes": {
+      "smoky": 0.9,
+      "peaty": 0.85,
+      "fruity": 0.3,
+      "sweet": 0.2,
+      "spicy": 0.5,
+      "maritime": 0.8,
+      "sherry": 0.0
+    },
+    "score": 92
+  }
+}

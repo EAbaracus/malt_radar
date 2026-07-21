@@ -1,0 +1,39 @@
+{
+  "_checksum": "0bb7a195f7493d636454273e364cbce5b2079c2a641db65ae837aeae9be57eb4",
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "expert_quote",
+    "source_key": "whiskyfun",
+    "url": "https://www.whiskyfun.com/archivejanuary19-2.html"
+  },
+  "extraction_result": {
+    "finish": {
+      "confidence": 1.0,
+      "quote": "Finish: medium, sweet warmth",
+      "value": "Soft, lingering sweet finish"
+    },
+    "nose": {
+      "confidence": 1.0,
+      "quote": "Nose: tropical fruits, brown sugar, honey",
+      "value": "Rich sweet toffee, tropical fruit, honey"
+    },
+    "palate": {
+      "confidence": 1.0,
+      "quote": "Palate: rum sweetness, vanilla, mango, spices",
+      "value": "Vanilla, sweet oak notes, fruit character"
+    },
+    "score": {
+      "confidence": 1.0,
+      "quote": "83 points",
+      "value": 83
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0016",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:48.060480+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

@@ -1,0 +1,202 @@
+[
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-ae2bc1ebc843c2dd",
+    "fact_id": "EV-567f32aa17d1",
+    "field": "distillery_name",
+    "field_name": "distillery_name",
+    "value": "BenRiach",
+    "field_value": "BenRiach",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.benriachdistillery.com/en-gb/our-whiskies/the-curiositas-10-year-old",
+        "quote": "BenRiach Distillery",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-735267a8384a6904",
+    "fact_id": "EV-5fb75c6339f5",
+    "field": "country",
+    "field_name": "country",
+    "value": "Scotland",
+    "field_value": "Scotland",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.benriachdistillery.com/en-gb/our-whiskies/the-curiositas-10-year-old",
+        "quote": "Product of Scotland",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-2ae42cfca6dc5f76",
+    "fact_id": "EV-69ddf1371bdb",
+    "field": "region",
+    "field_name": "region",
+    "value": "Speyside",
+    "field_value": "Speyside",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.benriachdistillery.com/en-gb/our-whiskies/the-curiositas-10-year-old",
+        "quote": "Speyside single malt",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-bbf4c12e4b31dd0b",
+    "fact_id": "EV-e422fb729c80",
+    "field": "abv",
+    "field_name": "abv",
+    "value": 46.0,
+    "field_value": 46.0,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.benriachdistillery.com/en-gb/our-whiskies/the-curiositas-10-year-old",
+        "quote": "46% ABV",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-bfd2120ee4630ea7",
+    "fact_id": "EV-36e724a9e86e",
+    "field": "cask_type",
+    "field_name": "cask_type",
+    "value": "Bourbon",
+    "field_value": "Bourbon",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.benriachdistillery.com/en-gb/our-whiskies/the-curiositas-10-year-old",
+        "quote": "ex-bourbon casks",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-1eb138c73f497486",
+    "fact_id": "EV-15a7308e1737",
+    "field": "age_statement",
+    "field_name": "age_statement",
+    "value": 10,
+    "field_value": 10,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.benriachdistillery.com/en-gb/our-whiskies/the-curiositas-10-year-old",
+        "quote": "10 Years Old",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-a147bfb5b6bc51aa",
+    "fact_id": "EV-ae1eaa2a5591",
+    "field": "nose",
+    "field_name": "nose",
+    "value": "Sweet peat smoke, honey, orchard fruits, vanilla",
+    "field_value": "Sweet peat smoke, honey, orchard fruits, vanilla",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober15.html",
+        "quote": "Nose: sweet peat smoke, honey, pear",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-380351edcdeba2d4",
+    "fact_id": "EV-cf01172079b1",
+    "field": "palate",
+    "field_name": "palate",
+    "value": "Peaty malt, dry oak, vanilla, heather honey",
+    "field_value": "Peaty malt, dry oak, vanilla, heather honey",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober15.html",
+        "quote": "Palate: peaty, sweet malt, vanilla, oak",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-41e50d0a764825f9",
+    "fact_id": "EV-976ca83c5315",
+    "field": "finish",
+    "field_name": "finish",
+    "value": "Medium, dry peaty wood notes",
+    "field_value": "Medium, dry peaty wood notes",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober15.html",
+        "quote": "Finish: medium, dry peat, spice",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-910b071b9a8c413f",
+    "fact_id": "EV-9fc327b8f9b2",
+    "field": "score",
+    "field_name": "score",
+    "value": 81,
+    "field_value": 81,
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober15.html",
+        "quote": "81 points",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  }
+]

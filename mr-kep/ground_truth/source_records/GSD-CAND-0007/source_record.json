@@ -1,0 +1,82 @@
+{
+  "distillery_name": {
+    "value": "Macallan",
+    "source": "https://www.themacallan.com/en/whisky/single-malts/sherry-oak/sherry-oak-18-years-old",
+    "exact_quote": "The Macallan Distillery",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "country": {
+    "value": "Scotland",
+    "source": "https://www.themacallan.com/en/whisky/single-malts/sherry-oak/sherry-oak-18-years-old",
+    "exact_quote": "Product of Scotland",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "region": {
+    "value": "Speyside",
+    "source": "https://www.themacallan.com/en/whisky/single-malts/sherry-oak/sherry-oak-18-years-old",
+    "exact_quote": "Speyside Single Malt",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "abv": {
+    "value": 43.0,
+    "source": "https://www.themacallan.com/en/whisky/single-malts/sherry-oak/sherry-oak-18-years-old",
+    "exact_quote": "43% ABV",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "cask_type": {
+    "value": "Sherry",
+    "source": "https://www.themacallan.com/en/whisky/single-malts/sherry-oak/sherry-oak-18-years-old",
+    "exact_quote": "European oak casks seasoned with sherry",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "age_statement": {
+    "value": 18,
+    "source": "https://www.themacallan.com/en/whisky/single-malts/sherry-oak/sherry-oak-18-years-old",
+    "exact_quote": "18 Years Old",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "nose": {
+    "value": "Dried fruits, ginger, cinnamon, nutmeg, orange zest",
+    "source": "https://www.whiskyfun.com/archiveaugust18.html",
+    "exact_quote": "Nose: dried fruits, ginger, cinnamon, clove",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "palate": {
+    "value": "Rich dried fruit, spice, clove, orange, wood smoke",
+    "source": "https://www.whiskyfun.com/archiveaugust18.html",
+    "exact_quote": "Palate: rich sherry, orange, spice, wood smoke",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "finish": {
+    "value": "Long, warm, sweet ginger and dried fruit",
+    "source": "https://www.whiskyfun.com/archiveaugust18.html",
+    "exact_quote": "Finish: long, dried fruit, sweet ginger",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "score": {
+    "value": 87,
+    "source": "https://www.whiskyfun.com/archiveaugust18.html",
+    "exact_quote": "87 points",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  }
+}
