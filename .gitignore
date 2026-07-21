@@ -130,3 +130,94 @@ _p203d_compute.json
 skills-lock.json
 # unrelated external skill packages (untracked, separate commit)
 .agents/skills/
+
+# ============================================================
+# P204B — Data Hygiene Hardening (2026-07-20)
+# Policy: NO production/staging data, NO generated pipeline
+# outputs, NO backups, NO runtime artifacts, NO mr-kep
+# execution data in Git.
+# PRESERVED: source, tests, schemas, intentional design
+# docs, reusable config (never ignored below).
+# ============================================================
+
+## --- Databases (production / staging / local) ---
+*.db
+*.sqlite
+*.sqlite3
+*.db-wal
+*.db-shm
+*.sqlite-wal
+*.sqlite-shm
+production*.db
+staging*.db
+*_staging*.db
+knowledge.db
+knowledge.db.*
+
+## --- Backups & archives ---
+backups/
+**/backups/
+output/backups/
+*.bak
+*.bak_*
+*.zip
+*.7z
+*.rar
+*.tar
+*.tar.gz
+*.tgz
+# Backup-named artifacts (anchored; NOT "backup" anywhere in a filename,
+# which would swallow source like *_back_up_copy.py).
+backup_*
+*_backup.db
+*_backup.sqlite
+*_backup.sql
+production_before_*
+*_production_pre*.db
+*_staging_pre*.db
+*_pre_*.db
+
+## --- Runtime state ---
+## --- Runtime state (root-only; never swallow nested source/runtime/ dirs) ---
+/kep_review_runtime/
+kep_review_runtime/runtime/
+*.state
+**/runtime/*.db
+## --- Generated outputs (repo-root dirs only; anchored with /) ---
+data/output/
+data/input/
+data/templates/
+/output/
+/artifacts/
+/reports/
+/scratch/
+/archive/
+frontend/assets/data/
+backend/data/
+mr-kep/structured_source_intake/
+mr-kep/csv_intelligence_sprint*/
+mr-kep/extraction_execution/checkpoints/
+**/checkpoints/
+
+## --- mr-kep book_ingestion: data/reports only (keep .py source) ---
+mr-kep/book_ingestion/**/*.csv
+mr-kep/book_ingestion/**/*.jsonl
+mr-kep/book_ingestion/**/*.json
+mr-kep/book_ingestion/**/*.md
+
+## --- mr-kep phase-execution generated artifacts ---
+mr-kep/p[0-9]*/**/*.csv
+mr-kep/p[0-9]*/**/*.jsonl
+mr-kep/p[0-9]*/**/*.json
+mr-kep/p[0-9]*/**/_*.json
+mr-kep/p[0-9]*/**/*_raw.json
+mr-kep/p[0-9]*/**/*_state.json
+# (keeps mr-kep/pNNN/*.py, *.sql, intentional design docs)
+
+## --- mr-kep local execution scratch / stray DBs ---
+mr-kep/book_pipeline/tmp_*.db
+mr-kep/book_pipeline/tmp_*.db-wal
+mr-kep/book_pipeline/tmp_*.db-shm
+mr-kep/**/_evidence/
+mr-kep/**/staging_*.db
+mr-kep/**/editorial_staging.db
