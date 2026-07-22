@@ -1,6 +1,8 @@
-# Pipeline Stages (P1 - P25)
+# [DEPRECATED / HISTORICAL] Classic Pipeline Stages (P1 - P25)
 
-The Malt Radar pipeline uses sequential Python scripts to safely massage, deduplicate, and ingest data.
+**WARNING:** This pipeline has been **RETIRED** per P500-A. The active canonical architecture is **MR-KEP** (domain pipeline) + **KEP Runtime** (safety/execution layer). All promotions now use `PromotionGate` under `kep_review_runtime`. Do not run or reference this pipeline for active work.
+
+For historical reference only, the classic stages were:
 
 - **P1-P17**: Core schema creation, dataset ingestion, and basic coverage metrics.
 - **P18 (A-E)**: Library-wide extraction. Scans PDF books, utilizes anchor regex to deduce flavors, and deduplicates.

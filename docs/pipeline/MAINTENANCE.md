@@ -1,6 +1,10 @@
-# Malt Radar Pipeline — Maintenance Guide (Pipeline v1, FROZEN)
+# [DEPRECATED / RETIRED] Malt Radar Pipeline — Maintenance Guide (Pipeline v1, FROZEN)
 
-This guide explains how to operate and maintain the frozen pipeline **without regenerating P32–P42 outputs** and without unsafe production writes. The pipeline is `PIPELINE_V1_FROZEN`; the authoritative integrity reference is `output/release/pipeline_manifest.json`.
+**WARNING:** This maintenance guide describes the **Classic Pipeline (P32-P42)** which has been **RETIRED** per P500-A. The active canonical architecture is **MR-KEP** (domain pipeline) + **KEP Runtime** (safety/execution layer). All production mutations MUST go through the KEP Runtime `PromotionGate` (`promotion_engine.py`). Do not use any old scripts or processes described below.
+
+---
+
+For historical reference only, the classic maintenance guidelines were:
 
 ## 0. Integrity first
 Always verify freeze before and after any operation:

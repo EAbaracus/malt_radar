@@ -1,0 +1,101 @@
+# Canonical Invariant Registry — P500-F
+# Single source of truth for all MR-KEP + KEP Runtime promotion invariants.
+#
+# Each invariant has:
+#   id             Stable label (G1-G8, R4, etc.)
+#   type           canonical | domain
+#   category       logical group (backup, dry_run, apply, data_integrity, data_quality)
+#   description    Human-readable what-this-checks
+#   check_method   Python callable name registered in InvariantRegistry._CHECKERS
+#   fail_action    NO_GO | ROLLBACK  (what happens on failure)
+#   severity       critical | warning | info
+#   applies_to     Which lifecycle phases this invariant applies to
+#
+# P500-E G1-G8 are canonical. R4 is domain (flavor axis constraint).
+
+version: 1
+description: "Canonical promotion invariant registry for MR-KEP + KEP Runtime"
+created: "2026-07-21"
+source: "P500-F"
+
+invariants:
+  - id: G1
+    type: canonical
+    category: backup
+    description: "Backup SHA matches pre-SHA — backup must be byte-for-byte identical to production before mutation"
+    check_method: check_g1_backup_matches_pre
+    fail_action: NO_GO
+    severity: critical
+    applies_to: ["promotion"]
+
+  - id: G2
+    type: canonical
+    category: dry_run
+    description: "TEMP COPY mutation count matches expected — expected vs actual inserts must match"
+    check_method: check_g2_temp_copy_matches_expected
+    fail_action: NO_GO
+    severity: critical
+    applies_to: ["promotion"]
+
+  - id: G3
+    type: canonical
+    category: apply
+    description: "Real mutation delta matches expected — applied evidence rows match dry-run prediction"
+    check_method: check_g3_real_delta_matches_expected
+    fail_action: ROLLBACK
+    severity: critical
+    applies_to: ["promotion"]
+
+  - id: G4
+    type: canonical
+    category: data_integrity
+    description: "No orphan whisky_id FK in flavor_evidence — every evidence row references a valid whisky"
+    check_method: check_g4_no_orphan_fk
+    fail_action: ROLLBACK
+    severity: critical
+    applies_to: ["promotion"]
+
+  - id: G5
+    type: canonical
+    category: data_integrity
+    description: "No duplicate evidence_id — every evidence row has a unique identifier"
+    check_method: check_g5_no_duplicate_evidence_id
+    fail_action: ROLLBACK
+    severity: critical
+    applies_to: ["promotion"]
+
+  - id: G6
+    type: canonical
+    category: data_integrity
+    description: "Existing evidence immutable — INSERT-only policy, never UPDATE existing evidence"
+    check_method: check_g6_existing_evidence_unchanged
+    fail_action: ROLLBACK
+    severity: critical
+    applies_to: ["promotion"]
+
+  - id: G7
+    type: canonical
+    category: data_integrity
+    description: "SQLite PRAGMA integrity_check returns 'ok'"
+    check_method: check_g7_integrity_check_ok
+    fail_action: ROLLBACK
+    severity: critical
+    applies_to: ["promotion"]
+
+  - id: G8
+    type: canonical
+    category: apply
+    description: "Post-SHA differs from Pre-SHA when mutation occurred — detect whether the mutation actually changed the DB"
+    check_method: check_g8_post_sha_ne_pre_sha
+    fail_action: ROLLBACK
+    severity: warning
+    applies_to: ["promotion"]
+
+  - id: R4
+    type: domain
+    category: data_quality
+    description: "No flavor_evidence axis normalized vector exceeds 1.0 — upstream normalization contract violation"
+    check_method: check_r4_invariant
+    fail_action: ROLLBACK
+    severity: critical
+    applies_to: ["promotion"]

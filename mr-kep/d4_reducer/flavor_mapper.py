@@ -25,17 +25,17 @@ class FlavorMapper:
             "peat": "peaty", "peaty": "peaty", "medicinal": "peaty",
             "iodine": "peaty", "phenolic": "peaty", "earthy": "peaty", "moss": "peaty",
             # fruity
-            "apple": "fruity", "pear": "fruity", "citrus": "fruity", "lemon": "fruity",
+            "fruity": "fruity", "apple": "fruity", "pear": "fruity", "citrus": "fruity", "lemon": "fruity",
             "orange": "fruity", "tropical": "fruity", "berry": "fruity", "cherry": "fruity",
             "raisin": "fruity", "banana": "fruity",
             # sweet
-            "honey": "sweet", "vanilla": "sweet", "caramel": "sweet", "toffee": "sweet",
+            "sweet": "sweet", "honey": "sweet", "vanilla": "sweet", "caramel": "sweet", "toffee": "sweet",
             "sugar": "sweet", "syrup": "sweet", "cake": "sweet", "chocolate": "sweet",
             # spicy
-            "cinnamon": "spicy", "pepper": "spicy", "clove": "spicy", "ginger": "spicy",
+            "spicy": "spicy", "cinnamon": "spicy", "pepper": "spicy", "clove": "spicy", "ginger": "spicy",
             "nutmeg": "spicy", "chili": "spicy", "spice": "spicy",
-            # maritime  (P95B-FIX-02: added)
-            "salt": "maritime", "brine": "maritime", "seaweed": "maritime",
+            # maritime
+            "maritime": "maritime", "salt": "maritime", "brine": "maritime", "seaweed": "maritime",
             "coastal": "maritime", "sea": "maritime", "sea spray": "maritime",
             "marine": "maritime", "salty": "maritime", "ocean": "maritime",
             # sherry
