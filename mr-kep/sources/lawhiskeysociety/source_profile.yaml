@@ -1,0 +1,53 @@
+schema_version: "1.0.0"
+
+source_key: "lawhiskeysociety"
+display_name: "LA Whiskey Society (member tasting notes)"
+
+# Canonical identity labels (task-confirmation wording). Mirrors the GO editorial
+# integration pattern: this source is a READ-ONLY discovery + canonical adapter
+# source, NOT a parallel pipeline.
+authority_class: "GO"
+tier: "T2_expert"          # expert review society notes (peer-curated)
+authority_tier: "T2_expert"
+priority: 16               # after whiskyfun(10)/whiskymag(12)/breakingbourbon(14)
+license: "copyright-attribution-required"
+
+# Discovery
+discovery:
+  method: "sitemap_or_index"
+  index_url: "https://www.lawhiskeysociety.com/whiskey_list.php"
+  pagination: "whiskey_list.php?page=N"
+  profile_pattern: "/whiskey-profile/<id>/<slug>"
+  enumeration_surface: 3744   # verified 38 pages x 100 (audit_5)
+  max_pages: 40
+
+# Content structure (learned from live fetch, audit_5)
+content:
+  title_selector: "whiskey-profile/<id>/<slug> slug -> canonical name"
+  metadata_fields: ["Bottler", "Age", "Vintage", "ABV", "Price", "Type", "Subtype", "Region"]
+  tasting_note_format: "single_prose_with_inline_nose_palate_finish"
+  score_format: "letter_grade_image"   # e.g. bminus_thumb.jpg -> map to /100
+  sections_inline: true                 # nose/palate/finish are inline words, not headers
+
+# ZE coverage (audit_5 verified)
+ze_coverage:
+  matched_ze: 275
+  resolved: 67
+  ambiguous: 208
+  net_new: 266
+  baseline_ze: 1733
+
+# Bridge / promotion
+promotion:
+  target_schema: "staging_editorial_reviews"
+  writer: "EditorialPromotionWriter"
+  gate: "PromotionGate"
+  identity_rule: "distillery_id -> production distilleries.name literal substring + age match"
+
+notes: >
+  Discovered and verified in SOURCE ROI AUDIT 5 (READ-ONLY). Carries genuine
+  Nose/Palate/Finish prose (single-prose format). Complementary to Breaking
+  Bourbon (adds non-US coverage: Yamazaki, Hibiki, Bowmore, Laphroaig, etc.).
+  Bottler/IB records (Gordon & MacPhail, Duncan Taylor, Compass Box) are
+  excluded from ZE matching by denylist in the audit; the canonical adapter
+  inherits the same identity-safe rule.

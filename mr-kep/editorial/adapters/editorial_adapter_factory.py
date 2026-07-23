@@ -18,6 +18,9 @@ from bs4 import BeautifulSoup
 from .editorial_base_adapter import (
     EditorialBaseAdapter, ArticleParse, ListingResult, CANONICAL_AXES,
 )
+from .whiskyfun_adapter import WhiskyFunAdapter  # canonical WhiskyFun (T2_expert) integration
+from .breakingbourbon_adapter import BreakingBourbonAdapter  # canonical Breaking Bourbon (T2_expert) integration
+from .lawhiskeysociety_adapter import LAWhiskeySocietyAdapter  # canonical LA Whiskey Society (T2_expert) integration
 
 
 def _post_links(html: str, base: str, pattern: str = r'/20\d\d/') -> List[str]:
@@ -138,13 +141,35 @@ def _extract_title(soup, url: str) -> str:
 
 
 class WhiskyNotesBeAdapter(EditorialBaseAdapter):
-    """GO-6. Confirmed rel=next + page/N pagination during audit."""
+    """GO-6. Deterministic year-index discovery (2010-2026).
+
+    WhiskyNotes.be exposes its full review archive as per-year index pages
+    at /YYYY/ (verified live during the READ-ONLY discovery audit:
+    /2026/ -> 155 review URLs, /2025/ -> 246, etc.; ~4,288 total). The
+    non-standard sitemap.xml is unusable, so year-index seeding is the
+    canonical deterministic discovery mechanism. discover_listing already
+    filters to year-path article links and follows rel=next pagination.
+    """
     source_id = "whiskynotes_be"
     authority_tier = "T2_expert"
-    start_urls = ["https://www.whiskynotes.be/"]
+    # Minimal repair (PHASE 1): seed year-index pages instead of homepage-only.
+    # Homepage surfaced only ~19 mixed/recent links; year indexes expose the
+    # full deterministic archive.
+    start_urls = [f"https://www.whiskynotes.be/{y}/" for y in range(2010, 2027)]
+    # Non-whisky path segments to exclude from the whisky ZE corpus.
+    _NON_WHISKY_SEGMENTS = {
+        "whisky-news", "cognac", "rum", "armagnac", "other-spirits",
+        "world", "gin", "brandy", "tequila", "vodka",
+    }
 
     def discover_listing(self, start_url: str, html: str) -> ListingResult:
-        urls = _discover_articles(html, start_url, include=r'/20\d\d/', min_parts=3)
+        # Full enumeration: lift the default cap (20) so the entire year index
+        # is discovered, and follow rel=next pagination. Only whisky review
+        # permalinks are kept (non-whisky sections excluded deterministically).
+        urls = _discover_articles(html, start_url, include=r'/20\d\d/', min_parts=3, cap=10_000)
+        urls = [u for u in urls if not any(
+            f"/{seg}/" in u for seg in self._NON_WHISKY_SEGMENTS
+        )]
         nxt = self.next_page_url(start_url, html)
         return ListingResult(article_urls=urls, next_page=nxt)
 
@@ -273,6 +298,9 @@ GO_ADAPTERS: Dict[str, Type[EditorialBaseAdapter]] = {
     "whiskynotes_be": WhiskyNotesBeAdapter,
     "thewhiskeywash": TheWhiskeyWashAdapter,
     "wordsofwhisky": WordsOfWhiskyAdapter,
+    "whiskyfun": WhiskyFunAdapter,  # Serge Valentin expert review (T2_expert)
+    "breakingbourbon": BreakingBourbonAdapter,  # American whiskey expert review (T2_expert)
+    "lawhiskeysociety": LAWhiskeySocietyAdapter,  # LA Whiskey Society member notes (T2_expert)
 }
 
 
@@ -291,5 +319,6 @@ __all__ = [
     "GO_ADAPTERS", "get_adapter", "all_go_sources",
     "WhiskyNotesBeAdapter", "TheWhiskyPhilesAdapter", "WhiskyMonsterAdapter",
     "TheDrambleAdapter", "TheWhiskeyWashAdapter", "WordsOfWhiskyAdapter",
+    "WhiskyFunAdapter", "BreakingBourbonAdapter", "LAWhiskeySocietyAdapter",
     "CANONICAL_AXES",
 ]
