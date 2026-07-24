@@ -17,6 +17,28 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   bool _isLoading = false;
 
   void _clearCache() async {
+    final tr = ref.read(trProvider);
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: AppTheme.surface,
+        title: Text(tr('clear_cache')),
+        content: Text(tr('clear_cache_confirm')),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(tr('cancel')),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: Text(tr('clear_cache'), style: const TextStyle(color: AppTheme.error)),
+          ),
+        ],
+      ),
+    );
+
+    if (confirm != true || !mounted) return;
+
     setState(() {
       _isLoading = true;
     });
@@ -29,7 +51,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     });
 
     if (mounted) {
-      final tr = ref.read(trProvider);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(tr('cache_cleared')),
@@ -311,17 +332,30 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               Card(
                 color: AppTheme.surface,
                 child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    children: [
-                      _SourceTile(name: 'WhiskyHunter API', status: tr('active_mock')),
-                      const Divider(),
-                      _SourceTile(name: 'WhiskyEdition API', status: tr('active_mock')),
-                      const Divider(),
-                      _SourceTile(name: tr('manual_entry_module'), status: tr('active')),
-                    ],
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      children: [
+                        _SourceTile(
+                          name: 'WhiskyHunter API',
+                          status: tr('active_mock'),
+                          badgeColor: AppTheme.secondary,
+                          badgeTextColor: AppTheme.secondary,
+                        ),
+                        const Divider(),
+                        _SourceTile(
+                          name: 'WhiskyEdition API',
+                          status: tr('active_mock'),
+                          badgeColor: AppTheme.secondary,
+                          badgeTextColor: AppTheme.secondary,
+                        ),
+                        const Divider(),
+                        _SourceTile(
+                          name: tr('manual_entry_module'),
+                          status: tr('active'),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
               ),
               const SizedBox(height: 32),
 
@@ -370,10 +404,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 class _SourceTile extends StatelessWidget {
   final String name;
   final String status;
-  const _SourceTile({required this.name, required this.status});
+  final Color? badgeColor;
+  final Color? badgeTextColor;
+  const _SourceTile({required this.name, required this.status, this.badgeColor, this.badgeTextColor});
 
   @override
   Widget build(BuildContext context) {
+    final color = badgeColor ?? AppTheme.success;
+    final textColor = badgeTextColor ?? AppTheme.success;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
@@ -383,13 +421,13 @@ class _SourceTile extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
-              color: AppTheme.success.withValues(alpha: 0.12),
+              color: color.withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(6),
-              border: Border.all(color: AppTheme.success.withValues(alpha: 0.2)),
+              border: Border.all(color: color.withValues(alpha: 0.2)),
             ),
             child: Text(
               status,
-              style: const TextStyle(color: AppTheme.success, fontSize: 11, fontWeight: FontWeight.bold),
+              style: TextStyle(color: textColor, fontSize: 11, fontWeight: FontWeight.bold),
             ),
           )
         ],

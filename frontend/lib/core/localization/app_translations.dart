@@ -6,6 +6,14 @@ const Map<String, Map<String, String>> appTranslations = {
     'add': 'EKLE',
     'unknown': 'Bilinmiyor',
     'error': 'Hata',
+    'explore': 'Keşfet',
+    'fruity': 'Meyvemsi',
+    'sweet': 'Tatlı',
+    'spicy': 'Baharatlı',
+    'smoky': 'İsli',
+    'oak_cask': 'Meşe/Fıçı',
+    'malty': 'Malt',
+    'floral': 'Çiçeksi',
     
     // Home Screen
     'home_title': 'Malt Radar',
@@ -121,6 +129,7 @@ const Map<String, Map<String, String>> appTranslations = {
 
     // Settings Screen
     'cache_cleared': 'Önbellek başarıyla temizlendi.',
+    'clear_cache_confirm': 'Önbelleği temizlemek istediğinize emin misiniz?',
     'add_whisky_first': 'Lütfen önce kütüphanenize bir viski ekleyin.',
     'select_new_reference': 'Yeni Referans Viskiyi Seçin',
     'set_reference_score': 'Referans Puanını Belirle',
@@ -154,6 +163,9 @@ const Map<String, Map<String, String>> appTranslations = {
     'lists': 'Listeler',
     'my_lists': 'Listelerim',
     'create_list': 'Liste oluştur',
+    'create_new_list': 'Yeni liste oluştur...',
+    'enter_list_name': 'Liste adı girin',
+    'delete_list_confirm': '"{0}" listesini silmek istediğinize emin misiniz? Viskileriniz silinmeyecektir.',
     'edit_list': 'Listeyi düzenle',
     'delete_list': 'Listeyi sil',
     'list_name': 'Liste adı',
@@ -173,6 +185,14 @@ const Map<String, Map<String, String>> appTranslations = {
     'add': 'ADD',
     'unknown': 'Unknown',
     'error': 'Error',
+    'explore': 'Explore',
+    'fruity': 'Fruity',
+    'sweet': 'Sweet',
+    'spicy': 'Spicy',
+    'smoky': 'Smoky',
+    'oak_cask': 'Oak/Cask',
+    'malty': 'Malty',
+    'floral': 'Floral',
     
     // Home Screen
     'home_title': 'Malt Radar',
@@ -284,6 +304,7 @@ const Map<String, Map<String, String>> appTranslations = {
     
     // Settings Screen
     'cache_cleared': 'Cache cleared successfully.',
+    'clear_cache_confirm': 'Are you sure you want to clear the cache?',
     'add_whisky_first': 'Please add a whisky to your library first.',
     'select_new_reference': 'Select New Reference Whisky',
     'set_reference_score': 'Set Reference Score',
@@ -318,6 +339,9 @@ const Map<String, Map<String, String>> appTranslations = {
     'lists': 'Lists',
     'my_lists': 'My lists',
     'create_list': 'Create list',
+    'create_new_list': 'Create new list...',
+    'enter_list_name': 'Enter list name',
+    'delete_list_confirm': 'Are you sure you want to delete "{0}"? Whiskies inside the list will not be deleted.',
     'edit_list': 'Edit list',
     'delete_list': 'Delete list',
     'list_name': 'List name',

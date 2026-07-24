@@ -30,8 +30,8 @@ class _ListsScreenState extends ConsumerState<ListsScreen> {
     return list.name;
   }
 
-  String _getItemCountString(int count, String Function(String) tr) {
-    final isEn = tr('whisky_library') == 'Whisky library';
+  String _getItemCountString(int count) {
+    final isEn = ref.read(localizationProvider) == 'en';
     if (isEn) {
       return count == 1 ? '1 whisky' : '$count whiskies';
     } else {
@@ -175,7 +175,7 @@ class _ListsScreenState extends ConsumerState<ListsScreen> {
     );
   }
 
-  void _showDeleteConfirmationDialog(BuildContext context, UserList list, String Function(String) tr) {
+  void _showDeleteConfirmationDialog(BuildContext context, UserList list, String Function(String, [List<dynamic>?]) tr) {
     showDialog(
       context: context,
       builder: (context) {
@@ -184,9 +184,7 @@ class _ListsScreenState extends ConsumerState<ListsScreen> {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           title: Text(tr('delete_list'), style: const TextStyle(color: AppTheme.error)),
           content: Text(
-            tr('whisky_library') == 'Whisky library'
-                ? 'Are you sure you want to delete "${list.name}"? Whiskies inside the list will not be deleted.'
-                : '"${list.name}" listesini silmek istediğinize emin misiniz? Viskileriniz silinmeyecektir.',
+            tr('delete_list_confirm', [list.name]),
             style: const TextStyle(color: AppTheme.textPrimary),
           ),
           actions: [
@@ -222,10 +220,13 @@ class _ListsScreenState extends ConsumerState<ListsScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _showCreateListDialog(context, tr),
-        backgroundColor: AppTheme.primary,
-        child: const Icon(Icons.add, color: AppTheme.background),
+      floatingActionButton: Padding(
+        padding: EdgeInsets.only(bottom: MediaQuery.paddingOf(context).bottom + 48),
+        child: FloatingActionButton(
+          onPressed: () => _showCreateListDialog(context, tr),
+          backgroundColor: AppTheme.primary,
+          child: const Icon(Icons.add, color: AppTheme.background),
+        ),
       ),
       body: Container(
         decoration: const BoxDecoration(
@@ -275,13 +276,13 @@ class _ListsScreenState extends ConsumerState<ListsScreen> {
               }
 
               return ListView.separated(
-                padding: const EdgeInsets.all(24),
+                padding: EdgeInsets.fromLTRB(24, 24, 24, MediaQuery.paddingOf(context).bottom + 96),
                 itemCount: lists.length,
                 separatorBuilder: (context, index) => const SizedBox(height: 16),
                 itemBuilder: (context, index) {
                   final list = lists[index];
                   final displayName = _getLocalizedListName(list, tr);
-                  final itemText = _getItemCountString(list.itemCount, tr);
+                  final itemText = _getItemCountString(list.itemCount);
 
                   return Container(
                     decoration: BoxDecoration(

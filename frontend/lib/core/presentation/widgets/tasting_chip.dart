@@ -22,7 +22,7 @@ class TastingChip extends StatelessWidget {
         color: isSelected
             ? AppTheme.primary.withValues(alpha: 0.25)
             : Colors.white.withValues(alpha: 0.05),
-        borderRadius: BorderRadius.circular(16), // Pill shape
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: isSelected
               ? AppTheme.primary
@@ -53,9 +53,9 @@ class TastingChip extends StatelessWidget {
     );
 
     if (onTap != null) {
-      return GestureDetector(
+      return InkWell(
         onTap: onTap,
-        behavior: HitTestBehavior.opaque,
+        borderRadius: BorderRadius.circular(16),
         child: chipWidget,
       );
     }

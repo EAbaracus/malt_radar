@@ -158,17 +158,13 @@ class _AddToListSheetState extends ConsumerState<AddToListSheet> {
                       controller: _newListNameController,
                       style: const TextStyle(color: AppTheme.textPrimary),
                       decoration: InputDecoration(
-                        hintText: tr('search_whisky') == 'Search whisky' 
-                            ? 'Create new list...' 
-                            : 'Yeni liste oluştur...',
+                        hintText: tr('create_new_list'),
                         hintStyle: const TextStyle(color: AppTheme.textMuted),
                         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                       ),
                       validator: (value) {
                         if (value == null || value.trim().isEmpty) {
-                          return tr('search_whisky') == 'Search whisky'
-                              ? 'Enter list name'
-                              : 'Liste adı girin';
+                          return tr('enter_list_name');
                         }
                         return null;
                       },
