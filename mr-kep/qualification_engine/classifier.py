@@ -4,6 +4,7 @@ Assigns exactly one of the 12 classes based on surface signals.
 """
 
 from typing import Dict, Any
+from urllib.parse import urlparse
 from . import config
 
 def classify(surface_signals: Dict[str, Any]) -> str:
@@ -40,7 +41,7 @@ def classify(surface_signals: Dict[str, Any]) -> str:
         return config.CLASS_DATABASE_DUMP
         
     # Archived Snapshot
-    if "web.archive.org" in url:
+    if urlparse(url).netloc == "web.archive.org":
         return config.CLASS_ARCHIVED_SNAPSHOT
         
     # Review Website Export

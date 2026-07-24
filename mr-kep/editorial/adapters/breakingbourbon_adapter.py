@@ -83,10 +83,14 @@ class BreakingBourbonAdapter(EditorialBaseAdapter):
     # ----------------------------------------------------------------- #
     @staticmethod
     def _clean(html: str) -> str:
-        h = re.sub(r"<script.*?</script>", "", html, flags=re.S | re.I)
-        h = re.sub(r"<style.*?</style>", "", h, flags=re.S | re.I)
-        # Remove the Webflow consent/cookie block text.
-        h = re.sub(r"By clicking.*?Privacy Policy", "", h, flags=re.S | re.I)
+        from html_noise import strip_html_noise
+        h = strip_html_noise(html)
+        # Remove the Webflow consent/cookie block text (single-line blob).
+        start = h.find("By clicking")
+        end = h.find("Privacy Policy", start)
+        if start != -1 and end != -1:
+            end += len("Privacy Policy")
+            h = h[:start] + h[end:]
         return h
 
     @staticmethod

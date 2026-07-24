@@ -72,8 +72,8 @@ class LAWhiskeySocietyAdapter(EditorialBaseAdapter):
     # ------------------------------------------------------------------ #
     @staticmethod
     def _clean(html: str) -> str:
-        h = re.sub(r"<script.*?</script>", "", html, flags=re.S | re.I)
-        h = re.sub(r"<style.*?</style>", "", h, flags=re.S | re.I)
+        from html_noise import strip_html_noise
+        h = strip_html_noise(html)
         return h
 
     @staticmethod
