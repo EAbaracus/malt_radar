@@ -96,15 +96,27 @@ class LAWhiskeySocietyAdapter(EditorialBaseAdapter):
 
     @staticmethod
     def _segment(prose: str, label: str) -> Optional[str]:
-        """Return the sentence(s) around an inline label (nose/palate/finish)."""
+        """Return the sentence(s) around an inline label (nose/palate/finish).
+
+        Handles both full-word labels ("nose:", "the nose is...") and the
+        short member-note markers ("n:", "p:", "f:") used on
+        multi-reviewer LAWS pages.
+        """
+        # 1) full-word label
         rx = re.compile(rf"\b{label}\b\s*(.*?)(?=\s*\b(?:nose|palate|mouth|finish)\b\s|$)", re.I | re.S)
         m = rx.search(prose)
-        if not m:
-            return None
-        txt = m.group(1).strip()
-        # trim trailing connective words
-        txt = re.sub(r"^(has|have|is|are|with|on|in|the|a|an)\s+", "", txt, flags=re.I)
-        return txt or None
+        if m and m.group(1).strip():
+            txt = m.group(1).strip()
+            txt = re.sub(r"^(has|have|is|are|with|on|in|the|a|an)\s+", "", txt, flags=re.I)
+            return txt or None
+        # 2) short member marker (n: / p: / f:)
+        short = {"nose": "n", "palate": "p", "mouth": "p", "finish": "f"}.get(label.lower())
+        if short:
+            rxs = re.compile(rf"(?:\b|^){short}\s*:\s*(.*?)(?=\s+(?:[npf])\s*:|$)", re.I | re.S)
+            ms = rxs.search(prose)
+            if ms and ms.group(1).strip():
+                return ms.group(1).strip()
+        return None
 
     @staticmethod
     def _grade(md: str) -> Optional[float]:
@@ -115,11 +127,21 @@ class LAWhiskeySocietyAdapter(EditorialBaseAdapter):
 
     def parse_article(self, url: str, html: str,
                       expression_identity: str = "", anchor: str = "") -> ArticleParse:
-        clean = self._clean(html)
-        soup = BeautifulSoup(clean, "html.parser")
-        md = soup.get_text("\n")
-        md = re.sub(r"\s+", " ", md)
-        md = md.replace("|", " ")  # flatten tables so Age:/ABV: cells parse
+        # Firecrawl returns markdown (clean text with | tables). Parsing markdown
+        # through an HTML parser (BS4) destroys table-cell content (the n:/p:/f:
+        # member notes), so use the markdown text directly when no real HTML tags
+        # are present. Fall back to BS4 only for genuine HTML input.
+        is_markdown = ("<" not in html[:200]) or ("|" in html)
+        if is_markdown:
+            md = re.sub(r"\s+", " ", html)
+            md = md.replace("|", " ")  # flatten tables so Age:/ABV: cells parse
+            soup = None
+        else:
+            clean = self._clean(html)
+            soup = BeautifulSoup(clean, "html.parser")
+            md = soup.get_text("\n")
+            md = re.sub(r"\s+", " ", md)
+            md = md.replace("|", " ")
 
         # Title: prefer the profile slug's name; else first heading
         title = expression_identity or ""
@@ -127,7 +149,7 @@ class LAWhiskeySocietyAdapter(EditorialBaseAdapter):
         if m:
             title = m.group(1).replace("-", " ").strip().title()
         if not title:
-            h = soup.find(["h1", "h2"])
+            h = soup.find(["h1", "h2"]) if soup is not None else None
             title = h.get_text(strip=True) if h else url
 
         notes = self._member_notes(md)

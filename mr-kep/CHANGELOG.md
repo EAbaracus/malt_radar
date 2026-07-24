@@ -6,17 +6,22 @@ schema_version (`MAJOR.MINOR.PATCH`).
 
 ---
 
-## [2.1.0] — 2026-07-21 — P500-P/Q Repository & Documentation Canonicalization
+## [2.1.0] — 2026-07-22 — P500-P/Q Repository & Documentation Canonicalization
 
-**Status: ACTIVE (in progress)**
+**Status: CLOSED**
 
 ### Changed
 - `README.md` — full rewrite to reflect canonical architecture, PromotionGate, governance, and post-P500-O baseline
-- `ROADMAP.md` — P500-N/O descriptions corrected; P500-P/Q description updated
+- `ROADMAP.md` — P500-N/O descriptions corrected; P500-P/Q description updated; stale labels fixed; footer updated
 - `AGENTS.md` — expanded to include all 15 canonical governance rules
-- `CHANGELOG.md` (root) — created; P500-A through P500-O entries added
-- `mr-kep/archive/ARCHIVE_MANIFEST.md` — extended with P500-A..O phase archive entries
+- `CHANGELOG.md` (root) — created; P500-A through P500-O entries added; P500-P/Q closure added
+- `mr-kep/archive/ARCHIVE_MANIFEST.md` — extended with P500-A..O phase archive entries; P500-P/Q marked CLOSED
 - `docs/ARCHITECTURE.md` — canonical repository structure + pipeline responsibility documentation
+- `docs/pipeline/PIPELINE_OVERVIEW.md` — RETIRED banner added
+
+### Closed
+- Pipeline v1 → RETIRED
+- MR-KEP → CANONICAL
 
 ---
 
