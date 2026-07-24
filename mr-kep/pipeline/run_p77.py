@@ -561,7 +561,7 @@ def run_p77():
                 "url": signals_t1["url"],
                 "authority_tier": auth_tier_t1,
                 "evidence_type": "official_bottling",
-                "source_key": "DiageoMalts" if urlparse(signals_t1["url"]).netloc.endswith("malts.com") else "DistilleryOfficial"
+                "source_key": "DiageoMalts" if urlparse(signals_t1["url"]).netloc.lower() in {"malts.com", "www.malts.com"} else "DistilleryOfficial",
             },
             "extraction_result": ext_t1,
             "validation_report": {"gate": "PASS"}
