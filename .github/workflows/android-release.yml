@@ -32,8 +32,16 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Run tests
-        run: flutter test --reporter expanded
+      - name: Run unit & integration tests (excluding widget smoke test)
+        # The widget smoke test runs in its own step below. We cap the per-test
+        # timeout at 120s so a pathological hang cannot consume the whole
+        # 15-minute job window.
+        run: flutter test --reporter expanded --timeout=120s $(find test -name "*_test.dart" ! -name "widget_test.dart")
+
+      - name: Run widget smoke test (tight timeout, isolated)
+        # Isolated so a 10-minute per-test hang cannot block the pipeline.
+        # If the smoke test regresses, it fails fast at 120s instead of 10 min.
+        run: flutter test --reporter expanded test/widget_test.dart --timeout=120s
 
   build:
     name: Build APK
