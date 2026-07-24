@@ -82,6 +82,10 @@ CHANGELOG_FIXES.md
 # Local external source checkouts
 external_repos/
 
+# Local MCP server checkout (separate repo; was accidentally staged as a gitlink
+# with no .gitmodules entry, which broke CI submodule cleanup)
+mcp-servers/
+
 # AI Data Safety Gates
 output/import/*.db
 output/import/*.sqlite
