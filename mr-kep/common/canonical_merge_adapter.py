@@ -96,7 +96,59 @@ class CanonicalMergeAdapter:
             conn.close()
         return len(rows)
 
-    # ── plan() — READ-ONLY ──────────────────────────────────────────────
+    # ── Staging build from a human-review recommendation table ──────────
+    @staticmethod
+    def build_staging_plan_from_review(review_json: str, staging_db: str,
+                                       recommendations=("MERGE",)) -> int:
+        """Read a human-review decision table and materialize the merge plan.
+
+        Used when the canonical decision package classifies groups as
+        NEEDS_HUMAN_REVIEW but a later, authorized human-review pass has assigned
+        a per-group recommendation (MERGE/KEEP_SEPARATE/DEFER). This method reads
+        the REVIEW table (NOT the decision package) and emits merge_plan rows for
+        the groups whose `recommended` is in `recommendations`.
+
+        The decision package JSON is never read or modified by this method.
+
+        Returns the number of variant rows written.
+        """
+        review = json.load(open(review_json, "r", encoding="utf-8"))
+        rows = []
+        for t in review:
+            if t.get("recommended") not in recommendations:
+                continue
+            canon = t["group"]  # canonical survivor == group id
+            gname = t.get("canonical_name", canon)
+            for m in t["members"]:
+                vid = m["whisky_id"]
+                if vid == canon:
+                    continue
+                rows.append((gname, canon, vid, t["recommended"]))
+
+        rows.sort(key=lambda r: (r[2], r[1]))
+
+        if Path(staging_db).exists():
+            Path(staging_db).unlink()
+        conn = sqlite3.connect(staging_db)
+        try:
+            conn.execute(
+                "CREATE TABLE merge_plan ("
+                " group_name TEXT, canonical_whisky_id TEXT,"
+                " variant_whisky_id TEXT, decision TEXT,"
+                " PRIMARY KEY (variant_whisky_id))"
+            )
+            conn.executemany(
+                "INSERT INTO merge_plan"
+                " (group_name, canonical_whisky_id, variant_whisky_id, decision)"
+                " VALUES (?,?,?,?)",
+                rows,
+            )
+            conn.commit()
+        finally:
+            conn.close()
+        return len(rows)
+
+
     def plan(
         self,
         staging_db: str = "",
@@ -224,11 +276,21 @@ def verify_canonical_merge(
     merged_variant_ids: list[str],
     pre_whisky_count: int,
     pre_evidence_count: int,
+    pre_active_count: Optional[int] = None,
 ) -> dict:
     """Independently verify a post-merge (or dry-run temp-copy) DB.
 
     Returns dict with per-check booleans + overall `all_passed`.
+
+    `pre_whisky_count`  = total whiskies BEFORE this merge (row count must be
+                         unchanged — no DELETE).
+    `pre_active_count`  = ACTIVE (non-superseded) whiskies BEFORE this merge.
+                         After the merge, active must drop by exactly
+                         len(merged_variant_ids). Defaults to pre_whisky_count
+                         (correct only when nothing was superseded beforehand).
     """
+    if pre_active_count is None:
+        pre_active_count = pre_whisky_count
     cur = conn.cursor()
     checks = {}
 
@@ -257,14 +319,14 @@ def verify_canonical_merge(
     post_count = cur.execute("SELECT COUNT(*) FROM whiskies").fetchone()[0]
     checks["M5_row_count_unchanged"] = (post_count == pre_whisky_count)
 
-    # M6 active count reduced by merged count
+    # M6 active count reduced by merged count (relative to pre-merge ACTIVE)
     try:
         active = cur.execute(
             f"SELECT COUNT(*) FROM whiskies WHERE {MERGE_COLUMN} IS NULL OR {MERGE_COLUMN} = ''"
         ).fetchone()[0]
     except sqlite3.OperationalError:
         active = post_count
-    checks["M6_active_reduced_by_merged"] = (active == pre_whisky_count - len(merged_variant_ids))
+    checks["M6_active_reduced_by_merged"] = (active == pre_active_count - len(merged_variant_ids))
 
     # M7 canon present + variant present (just marked)
     checks["M7_survivors_present"] = True  # implied by M1/M5; canon rows untouched
