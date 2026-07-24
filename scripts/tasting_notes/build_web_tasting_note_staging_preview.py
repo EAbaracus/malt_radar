@@ -122,12 +122,12 @@ def main():
     r1_path = os.path.join(reports_dir, "228_web_tasting_note_staging_preview_report.md")
     with open(r1_path, 'w', encoding='utf-8') as f:
         f.write("# Staging Preview Report\n\n")
-        f.write("
+        f.write("""\
 Estimated API Cost: $0.00
 Actual API Cost: $0.00
 Local Compute Used: Yes
 Fully Local Execution: Yes
-")
+""")
 
         f.write(f"- Total candidates: {len(reader)}\n")
         f.write(f"- Successful staging records: {len(staging_records)}\n")
