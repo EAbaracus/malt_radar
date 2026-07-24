@@ -3,11 +3,11 @@ import re
 from fastapi import FastAPI, HTTPException, Request, Response, Depends, Header
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Optional
-from slowapi import Limiter, _rate_limit_exceeded_handler
-from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
 import collections
 
+from app.security import limiter, verify_api_key, API_KEY_HEADER
+from app.security import _rate_limit_exceeded_handler
 from app.models.schemas import WhiskySearchItem, WhiskyPriceItem, NormalizeRequest
 from app.providers.base import WhiskyProvider
 from app.providers.csv_provider import CsvWhiskyProvider
@@ -16,8 +16,6 @@ from app.providers.distiller_provider import DistillerProvider
 from app.routers import admin_review
 from app.routers import db_api
 
-# Configure rate limiter (default: 60 requests per minute per IP)
-limiter = Limiter(key_func=get_remote_address)
 app = FastAPI(
     title="Malt Radar API",
     description="Backend service for Malt Radar Whisky Database application",
@@ -94,13 +92,10 @@ class LRUCache:
 search_cache = LRUCache(256)
 
 # Security: Require API key for public endpoints
-API_KEY = os.getenv("MALT_RADAR_API_KEY")
-
-async def verify_api_key(x_api_key: Optional[str] = Header(None)):
-    if not API_KEY:
-        raise HTTPException(status_code=403, detail="Server API Key not configured")
-    if x_api_key != API_KEY:
-        raise HTTPException(status_code=403, detail="Invalid or missing API Key")
+# Backwards-compatible re-export: tests and routers may still import
+# verify_api_key / API_KEY_HEADER via app.main.
+verify_api_key = verify_api_key
+API_KEY_HEADER = API_KEY_HEADER
 
 @app.get("/api/health")
 @limiter.limit("10/minute")

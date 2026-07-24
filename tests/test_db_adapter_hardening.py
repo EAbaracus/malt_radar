@@ -8,17 +8,22 @@ from fastapi.testclient import TestClient
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(base_dir, "backend"))
 
+# API key + feature flags are configured by tests/conftest.py (autouse fixture
+# + module-level env setup) so the app imports with the expected config.
 from app.main import app
 from app.providers.sqlite_read_adapter import SqliteReadAdapter
 
 client = TestClient(app)
+# Matches tests/conftest.TEST_API_KEY
+DB_HEADERS = {"X-API-Key": "test-api-key"}
+
 
 # A) DB resolver tests
 def test_db_resolver_default_path():
     # Ensure env var is unset
     if "MALT_RADAR_DB_PATH" in os.environ:
         del os.environ["MALT_RADAR_DB_PATH"]
-    
+
     adapter = SqliteReadAdapter()
     assert adapter.db_path_source == "default"
     assert "production.db" in adapter.db_path
@@ -48,7 +53,7 @@ def test_read_only_enforcement():
     with pytest.raises(sqlite3.OperationalError) as exc_info:
         cursor.execute("CREATE TABLE read_only_test (id INT)")
     assert "attempt to write a readonly database" in str(exc_info.value).lower()
-    
+
     with pytest.raises(sqlite3.OperationalError) as exc_info2:
         cursor.execute("INSERT INTO whiskies (whisky_id) VALUES ('123')")
     assert "attempt to write a readonly database" in str(exc_info2.value).lower()
@@ -56,7 +61,7 @@ def test_read_only_enforcement():
 
 # C) Endpoint contract tests
 def test_health_contract():
-    r = client.get("/api/db/health")
+    r = client.get("/api/db/health", headers=DB_HEADERS)
     assert r.status_code == 200
     data = r.json()
     assert "db_reachable" in data
@@ -64,77 +69,79 @@ def test_health_contract():
 
 @pytest.mark.skip(reason="Schema endpoint removed")
 def test_schema_contract():
-    r = client.get("/api/db/schema")
+    r = client.get("/api/db/schema", headers=DB_HEADERS)
     assert r.status_code == 200
     data = r.json()
     assert data["expected_canonical_table_check"] is True
 
 def test_whiskies_pagination_contract():
-    r = client.get("/api/db/whiskies")
+    r = client.get("/api/db/whiskies", headers=DB_HEADERS)
     assert r.status_code == 200
     data = r.json()
-    assert isinstance(data, list)
-    assert len(data) <= 50 # default limit
-    
-    r2 = client.get("/api/db/whiskies?limit=150")
+    assert isinstance(data, dict)
+    assert "items" in data
+    assert isinstance(data["items"], list)
+    assert len(data["items"]) <= 50  # default limit
+
+    r2 = client.get("/api/db/whiskies?limit=150", headers=DB_HEADERS)
     assert r2.status_code == 422
-    
-    r3 = client.get("/api/db/whiskies?limit=5&offset=2")
+
+    r3 = client.get("/api/db/whiskies?limit=5&offset=2", headers=DB_HEADERS)
     assert r3.status_code == 200
-    assert len(r3.json()) <= 5
+    assert len(r3.json()["items"]) <= 5
 
 def test_whiskies_search_contract():
-    # parameterized query check (we can't easily see it's parameterized from the outside, 
-    # but we can test SQL injection characters)
-    r = client.get("/api/db/whiskies?q=' OR 1=1 --")
+    r = client.get("/api/db/whiskies?q=' OR 1=1 --", headers=DB_HEADERS)
     assert r.status_code == 200
     # Should not return all whiskies (it returns nothing or whiskies matching the literal string)
     assert len(r.json()) < 100
 
 def test_whiskies_detail_contract():
     # Get a valid id
-    r = client.get("/api/db/whiskies?limit=1")
-    items = r.json() if isinstance(r.json(), list) else []
+    r = client.get("/api/db/whiskies?limit=1", headers=DB_HEADERS)
+    payload = r.json()
+    items = payload["items"] if isinstance(payload, dict) else []
     if len(items) > 0:
         w_id = items[0]["whisky_id"]
-        r2 = client.get(f"/api/db/whiskies/{w_id}")
+        r2 = client.get(f"/api/db/whiskies/{w_id}", headers=DB_HEADERS)
         assert r2.status_code == 200
         assert r2.json()["whisky_id"] == w_id
 
     # Invalid ID
-    r3 = client.get("/api/db/whiskies/invalid_9999_xyz")
+    r3 = client.get("/api/db/whiskies/invalid_9999_xyz", headers=DB_HEADERS)
     assert r3.status_code == 404
 
 def test_distilleries_contract():
-    r = client.get("/api/db/distilleries")
+    r = client.get("/api/db/distilleries", headers=DB_HEADERS)
     assert r.status_code == 200
-    items = r.json() if isinstance(r.json(), list) else []
+    payload = r.json()
+    items = payload["items"] if isinstance(payload, dict) else []
     assert len(items) <= 50
-    
+
     if len(items) > 0:
         d_id = items[0]["distillery_id"]
-        r2 = client.get(f"/api/db/distilleries/{d_id}")
+        r2 = client.get(f"/api/db/distilleries/{d_id}", headers=DB_HEADERS)
         assert r2.status_code == 404
 
 def test_related_endpoints_empty_behavior():
     w_id = "invalid_nonexistent_id"
-    r = client.get(f"/api/db/whiskies/{w_id}/flavor-profile")
-    assert r.status_code == 404 # Empty behavior for FP is 404
-    
-    r2 = client.get(f"/api/db/whiskies/{w_id}/tasting-notes")
+    r = client.get(f"/api/db/whiskies/{w_id}/flavor-profile", headers=DB_HEADERS)
+    assert r.status_code == 404  # Empty behavior for FP is 404
+
+    r2 = client.get(f"/api/db/whiskies/{w_id}/tasting-notes", headers=DB_HEADERS)
     assert r2.status_code == 200
     assert isinstance(r2.json(), list)
-    assert len(r2.json()) == 0 # Empty behavior is []
-    
-    r3 = client.get(f"/api/db/whiskies/{w_id}/price-history")
+    assert len(r2.json()) == 0  # Empty behavior is []
+
+    r3 = client.get(f"/api/db/whiskies/{w_id}/price-history", headers=DB_HEADERS)
     assert r3.status_code == 200
     assert isinstance(r3.json(), list)
     assert len(r3.json()) == 0
 
 # D) Legacy regression tests
 def test_legacy_regression(monkeypatch):
-    import app.main
-    monkeypatch.setattr(app.main, "API_KEY", "testkey")
+    import app.security
+    monkeypatch.setattr(app.security, "API_KEY", "testkey")
     r = client.get("/api/whiskies/search?q=glen", headers={"X-API-Key": "testkey"})
     assert r.status_code == 200
     # Should return List[WhiskySearchItem]

@@ -43,7 +43,7 @@ class ReviewQueueItem(BaseModel):
     source_table: str
     source_record_key: str
     display_name: str
-    source_name: str
+    source_name: Optional[str] = ""
     approval_status: str
     dedupe_action: Optional[str]
     import_recommendation: Optional[str]
@@ -77,7 +77,10 @@ class ReviewActionRequest(BaseModel):
     source_record_key: str
     action_type: str
     target_status: str
-    reviewer: str
+    # DEPRECATED / UNTRUSTED: the audit-trail reviewer is now derived from the
+    # verified API-key identity in the router, never from this client-supplied
+    # field. Kept optional only for backward-compatible request parsing.
+    reviewer: Optional[str] = None
     reviewer_note: Optional[str] = None
     dry_run: bool = False
 

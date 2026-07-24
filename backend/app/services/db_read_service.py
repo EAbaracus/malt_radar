@@ -3,6 +3,8 @@ import sqlite3
 import json
 from typing import List, Dict, Any, Optional
 
+from app.utils.source_guard import SourceGuard
+
 # Certified pilot whiskies use the 'GSD-CAND-XXXX' whisky_id prefix and are
 # flagged with data_confidence = 'certified'. The staging DB is the single
 # source of truth for them; production.db is the default datasource.
@@ -210,15 +212,21 @@ class DbReadService:
             return self._prepare_whisky(dict(row)) if row else None
 
     def get_official_source_references(self, whisky_id: str) -> List[Dict[str, Any]]:
-        """Return official_source_references rows exactly as stored (read-only).
-        No transformation, summarization, or generated citations."""
+        """Return official_source_references for a whisky.
+
+        Read-only. Public responses are passed through SourceGuard so internal
+        source fields (source_name, source_url, source_domain, ...) are never
+        leaked to untrusted clients. This is the public read path, so
+        is_manual defaults to False and the forbidden fields are stripped.
+        """
         with self._get_connection() as conn:
             cursor = conn.cursor()
             cursor.execute(
                 "SELECT * FROM official_source_references WHERE entity_id = ? ORDER BY field_name ASC",
                 (whisky_id,),
             )
-            return [dict(row) for row in cursor.fetchall()]
+            rows = [dict(row) for row in cursor.fetchall()]
+        return SourceGuard.sanitize_collection(rows, is_manual=False)
 
     def get_distilleries(self, limit: int = 50, offset: int = 0) -> Dict[str, Any]:
         limit = min(max(1, limit), 100)

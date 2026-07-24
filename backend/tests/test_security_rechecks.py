@@ -26,8 +26,8 @@ def test_api_key_protection_invalid_header():
 
 def test_verify_api_key_no_fallback(monkeypatch):
     # Ensure there is no fallback to "mock-secret-key-123"
-    import app.main
-    monkeypatch.setattr(app.main, "API_KEY", None)
+    import app.security
+    monkeypatch.setattr(app.security, "API_KEY", None)
     
     # When API_KEY is None, it should raise 403
     from fastapi import HTTPException

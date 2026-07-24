@@ -3,6 +3,8 @@ import os
 import logging
 from typing import List, Dict, Any
 
+from app.utils.source_guard import SourceGuard
+
 class ReviewQueryService:
     def __init__(self, db_path: str = None):
         if db_path is None:
@@ -135,7 +137,11 @@ class ReviewQueryService:
         
         if row:
             # Convert all to strings for simple dict
-            return {k: str(row[k]) if row[k] is not None else "" for k in row.keys()}
+            item = {k: str(row[k]) if row[k] is not None else "" for k in row.keys()}
+            # Caller is the authenticated admin review API; internal source
+            # fields are retained (is_manual=True). Public read paths must NOT
+            # use this method.
+            return SourceGuard.sanitize_response(item, is_manual=True)
         return None
 
     def get_allowed_actions(self, current_status: str) -> List[Dict[str, Any]]:

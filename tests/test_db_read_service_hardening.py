@@ -7,12 +7,12 @@ from fastapi.testclient import TestClient
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(base_dir, "backend"))
 
-os.environ["DB_API_ENABLED"] = "true"
-
+# API key + feature flags are configured by tests/conftest.py.
 from app.main import app
 from app.services.db_read_service import DbReadService
 
 client = TestClient(app)
+DB_HEADERS = {"X-API-Key": "test-api-key"}
 
 def test_db_resolver_default_path():
     if "MALT_RADAR_DB_PATH" in os.environ:
@@ -47,74 +47,78 @@ def test_read_only_enforcement():
     conn.close()
 
 def test_health_contract():
-    r = client.get("/api/db/health")
+    r = client.get("/api/db/health", headers=DB_HEADERS)
     assert r.status_code == 200
     data = r.json()
     assert "counts" in data
     assert data["read_only"] is True
 
 def test_schema_contract():
-    r = client.get("/api/db/health")
+    r = client.get("/api/db/health", headers=DB_HEADERS)
     assert r.status_code == 200
     data = r.json()
     assert "whiskies" in data["counts"]
     assert "distilleries" in data["counts"]
 
 def test_whiskies_pagination_contract():
-    r = client.get("/api/db/whiskies")
+    r = client.get("/api/db/whiskies", headers=DB_HEADERS)
     assert r.status_code == 200
     data = r.json()
-    assert isinstance(data, list)
-    assert len(data) <= 50
+    assert isinstance(data, dict)
+    assert "items" in data
+    assert isinstance(data["items"], list)
+    assert len(data["items"]) <= 50
     
-    r2 = client.get("/api/db/whiskies?limit=150")
+    r2 = client.get("/api/db/whiskies?limit=150", headers=DB_HEADERS)
     assert r2.status_code == 422
     
-    r3 = client.get("/api/db/whiskies?limit=5&offset=2")
+    r3 = client.get("/api/db/whiskies?limit=5&offset=2", headers=DB_HEADERS)
     assert r3.status_code == 200
-    assert len(r3.json()) <= 5
+    assert len(r3.json()["items"]) <= 5
 
 def test_whiskies_search_contract():
-    r = client.get("/api/db/search?q=' OR 1=1 --")
+    r = client.get("/api/db/search?q=' OR 1=1 --", headers=DB_HEADERS)
     assert r.status_code == 200
     assert len(r.json()) < 100
 
 def test_whiskies_detail_contract():
-    r = client.get("/api/db/whiskies?limit=1")
-    items = r.json()
+    r = client.get("/api/db/whiskies?limit=1", headers=DB_HEADERS)
+    payload = r.json()
+    items = payload["items"] if isinstance(payload, dict) else payload
     if len(items) > 0:
         w_id = items[0]["whisky_id"]
-        r2 = client.get(f"/api/db/whiskies/{w_id}")
+        r2 = client.get(f"/api/db/whiskies/{w_id}", headers=DB_HEADERS)
         assert r2.status_code == 200
         assert r2.json()["whisky_id"] == w_id
-
-    r3 = client.get("/api/db/whiskies/invalid_9999_xyz")
+    
+    r3 = client.get("/api/db/whiskies/invalid_9999_xyz", headers=DB_HEADERS)
     assert r3.status_code == 404
 
 def test_distilleries_contract():
-    r = client.get("/api/db/distilleries")
+    r = client.get("/api/db/distilleries", headers=DB_HEADERS)
     assert r.status_code == 200
-    items = r.json()
+    payload = r.json()
+    items = payload["items"] if isinstance(payload, dict) else payload
     assert len(items) <= 50
 
 def test_related_endpoints_empty_behavior():
     w_id = "invalid_nonexistent_id"
-    r = client.get(f"/api/db/whiskies/{w_id}/flavor-profile")
+    r = client.get(f"/api/db/whiskies/{w_id}/flavor-profile", headers=DB_HEADERS)
     assert r.status_code == 404
     
-    r2 = client.get(f"/api/db/whiskies/{w_id}/tasting-notes")
+    r2 = client.get(f"/api/db/whiskies/{w_id}/tasting-notes", headers=DB_HEADERS)
     assert r2.status_code == 200
     assert isinstance(r2.json(), list)
     assert len(r2.json()) == 0
     
-    r3 = client.get(f"/api/db/whiskies/{w_id}/price-history")
+    r3 = client.get(f"/api/db/whiskies/{w_id}/price-history", headers=DB_HEADERS)
     assert r3.status_code == 200
     assert isinstance(r3.json(), list)
     assert len(r3.json()) == 0
 
 def test_legacy_regression(monkeypatch):
-    import app.main
-    monkeypatch.setattr(app.main, "API_KEY", "testkey")
+    import app.security
+    monkeypatch.setattr(app.security, "API_KEY", "testkey")
     r = client.get("/api/whiskies/search?q=glen", headers={"X-API-Key": "testkey"})
     assert r.status_code == 200
     data = r.json()

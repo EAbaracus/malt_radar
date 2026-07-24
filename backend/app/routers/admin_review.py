@@ -6,8 +6,10 @@ from app.models.schemas import (
     AllowedAction, ReviewActionRequest, ReviewActionResponse
 )
 from app.services.review_query_service import ReviewQueryService
+from app.security import verify_api_key
 
-router = APIRouter(prefix="/admin/review", tags=["Admin Review"])
+router = APIRouter(prefix="/admin/review", tags=["Admin Review"],
+                    dependencies=[Depends(verify_api_key)])
 
 def get_query_service():
     return ReviewQueryService()
@@ -65,8 +67,12 @@ async def get_actions(
 @router.post("/action", response_model=ReviewActionResponse, dependencies=[Depends(check_feature_flag)])
 async def post_action(
     req: ReviewActionRequest,
+    api_key: str = Depends(verify_api_key),
     service: ReviewQueryService = Depends(get_query_service)
 ):
+    # The audit-trail reviewer is the VERIFIED API-key identity, never the
+    # client-supplied req.reviewer field (which is untrusted/deprecated).
+    reviewer_identity = api_key
     if not req.dry_run:
         write_enabled = os.getenv("ADMIN_REVIEW_WRITE_ENABLED", "false").lower() == "true"
         if not write_enabled:
@@ -105,7 +111,7 @@ async def post_action(
                 source_record_key=req.source_record_key,
                 target_status=req.target_status,
                 action_type=req.action_type,
-                reviewer=req.reviewer,
+                reviewer=reviewer_identity,
                 reviewer_note=req.reviewer_note,
                 previous_status=status
             )
