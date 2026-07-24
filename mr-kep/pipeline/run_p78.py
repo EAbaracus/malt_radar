@@ -4,6 +4,7 @@ import json
 import sys
 import hashlib
 from datetime import datetime, timezone
+from urllib.parse import urlparse
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -666,7 +667,7 @@ def run_p78():
                 "url": signals_t1["url"],
                 "authority_tier": auth_tier_t1,
                 "evidence_type": "official_bottling",
-                "source_key": "DiageoMalts" if "malts.com" in signals_t1["url"] else "DistilleryOfficial"
+                "source_key": "DiageoMalts" if urlparse(signals_t1["url"]).netloc.endswith("malts.com") else "DistilleryOfficial"
             },
             "extraction_result": ext_t1,
             "validation_report": {"gate": "PASS"}
