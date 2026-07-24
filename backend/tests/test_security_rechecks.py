@@ -38,6 +38,7 @@ def test_verify_api_key_no_fallback(monkeypatch):
     assert "not configured" in exc.value.detail
 
 def test_seeder_script_fails_loudly(tmp_path):
+    pytest.importorskip("sqlalchemy")
     # Run the seeder script in a temp directory where CSVs don't exist
     script_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../scripts/72_production_import_seeder.py'))
     
