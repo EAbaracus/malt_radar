@@ -30,9 +30,10 @@ void main() {
       ),
     );
 
-    // Give the async providers a chance to emit their first value
-    await tester.pump();
-    await tester.pump();
+    // Give the async providers a chance to emit their first value.
+    // pumpAndSettle() (not pump()) is required so the overridden
+    // appInitializationProvider future resolves and the MaterialApp renders.
+    await tester.pumpAndSettle();
 
     // Verify that the app boots and renders a MaterialApp.
     expect(find.byType(MaterialApp), findsOneWidget);
