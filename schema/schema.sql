@@ -499,3 +499,17 @@ CREATE INDEX idx_staging_book_flavor_profiles_approval_status ON staging_book_fl
 CREATE INDEX idx_staging_book_flavor_profiles_source_system ON staging_book_flavor_profiles(source_system);
 
 CREATE INDEX idx_staging_book_flavor_profiles_whisky_id ON staging_book_flavor_profiles(whisky_id);
+
+-- ----- source_audit (ETL provenance log) -----
+-- Created here so `ingest()` (which replays schema.sql) provisions the table
+-- before inserting audit rows. Missing from the original schema → ingestion
+-- tests failed with "no such table: source_audit".
+CREATE TABLE source_audit (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    source_title TEXT,
+    source_type TEXT,
+    domain TEXT,
+    extraction_timestamp TEXT,
+    extracted_records_count INTEGER,
+    status TEXT
+);
