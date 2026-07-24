@@ -53,6 +53,11 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
     final repository = ref.read(whiskyRepositoryProvider);
     Whisky? whisky;
     if (AppConfig.useDbApi && widget.backendId != null) {
+      // DbApi mode has no local price repository. Stop the spinner instead of
+      // leaving it spinning forever. The price section is gated by
+      // AppConfig.showPriceData, so this only surfaces if that flag is enabled
+      // or later flipped to a runtime flag.
+      if (mounted) setState(() => _isLoadingPrices = false);
       return;
     }
     whisky = await repository.getWhiskyById(widget.whiskyId);
