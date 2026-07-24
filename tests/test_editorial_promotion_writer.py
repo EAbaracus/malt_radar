@@ -128,7 +128,19 @@ def test_accept_valid_row():
 def prod_copy(tmp_path):
     cp = tmp_path / "production_copy.db"
     shutil.copy2(REAL_PROD, cp)
-    return str(cp)
+    yield str(cp)
+    # Best-effort teardown: release any open handles (Windows file locking)
+    # before the next test re-copies or removes the temp DB.
+    import gc
+    gc.collect()
+    import time
+    for _ in range(5):
+        try:
+            if cp.exists():
+                cp.unlink()
+            break
+        except (PermissionError, OSError):
+            time.sleep(0.1)
 
 
 def test_execute_on_copy_inserts_and_scales(prod_copy):
@@ -137,14 +149,13 @@ def test_execute_on_copy_inserts_and_scales(prod_copy):
     res = w.execute(plan, backup=False)
     assert res["executed"] is True
     assert res["new_evidence_rows"] == 2
-    c = sqlite3.connect(prod_copy)
-    n = c.execute("SELECT COUNT(*) FROM flavor_evidence WHERE source='editorial'").fetchone()[0]
-    assert n == 2
-    bad = c.execute("SELECT COUNT(*) FROM flavor_evidence WHERE vector_smoky>1.0 OR vector_peaty>1.0 "
-                    "OR vector_sherry>1.0 OR vector_fruity>1.0 OR vector_sweet>1.0 OR vector_spicy>1.0 "
-                    "OR vector_maritime>1.0").fetchone()[0]
-    assert bad == 0
-    c.close()
+    with sqlite3.connect(prod_copy) as c:
+        n = c.execute("SELECT COUNT(*) FROM flavor_evidence WHERE source='editorial'").fetchone()[0]
+        assert n == 2
+        bad = c.execute("SELECT COUNT(*) FROM flavor_evidence WHERE vector_smoky>1.0 OR vector_peaty>1.0 "
+                        "OR vector_sherry>1.0 OR vector_fruity>1.0 OR vector_sweet>1.0 OR vector_spicy>1.0 "
+                        "OR vector_maritime>1.0").fetchone()[0]
+        assert bad == 0
 
 
 def test_rollback_on_r4_violation(prod_copy):
@@ -158,9 +169,8 @@ def test_rollback_on_r4_violation(prod_copy):
     with pytest.raises(Exception):
         w.execute(plan, backup=False)
     assert sha_before == _sha(prod_copy), "production copy must be unchanged after rollback"
-    c = sqlite3.connect(prod_copy)
-    assert c.execute("SELECT COUNT(*) FROM flavor_evidence WHERE source='editorial'").fetchone()[0] == 0
-    c.close()
+    with sqlite3.connect(prod_copy) as c:
+        assert c.execute("SELECT COUNT(*) FROM flavor_evidence WHERE source='editorial'").fetchone()[0] == 0
 
 
 def test_execute_backup_and_sha256(prod_copy):
