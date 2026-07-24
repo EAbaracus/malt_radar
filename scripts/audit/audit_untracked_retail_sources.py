@@ -2,6 +2,7 @@ import os
 import re
 import csv
 import hashlib
+from urllib.parse import urlparse
 
 # Configuration
 RETAIL_SOURCES_DIR = 'scripts/retail_sources'
@@ -61,14 +62,17 @@ def analyze_file(filepath):
                         
     # 2. URLs / Domains
     urls_found = set(re.findall(r'https?://[^\s\'"]+|[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\b', content))
-    # Filter domains of interest (e.g. alko.fi, github, etc)
+    # Filter domains of interest (e.g. alko.fi, github, etc).
+    # Match on the parsed host so a substring like 'evilalko.fi' or a path
+    # segment cannot masquerade as the domain of interest.
     relevant_domains = []
-    for url in urls_found:
-        if 'alko.fi' in url.lower():
+    for raw in urls_found:
+        host = urlparse(raw).netloc.lower() or raw.lower()
+        if host == 'alko.fi' or host.endswith('.alko.fi'):
             relevant_domains.append('alko.fi')
-        elif 'github.com' in url.lower():
+        elif host == 'github.com' or host.endswith('.github.com'):
             relevant_domains.append('github.com')
-        elif 'sqlite' in url.lower():
+        elif 'sqlite' in raw.lower():
             relevant_domains.append('sqlite')
             
     relevant_domains = list(set(relevant_domains))
