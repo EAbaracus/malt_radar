@@ -1,5 +1,7 @@
 # Malt Radar Data Pipeline — Overview (Pipeline v1, FROZEN)
 
+> **⚠️ [RETIRED / HISTORICAL APPENDIX]** This document describes the legacy Pipeline v1 (P32-P42), which has been superseded by the MR-KEP canonical pipeline. See `mr-kep/` for the active pipeline implementation. Do NOT use this document as a reference for current development.
+
 **Status:** `PIPELINE_V1_FROZEN` · Freeze timestamp recorded in `output/release/pipeline_manifest.json`
 **Scope:** P32 (import assessment) → P42 (human review & controlled apply). No new ETL phases.
 **Golden rule:** Production business tables are read-only except inside a single controlled transaction authorized by a human. Writes only ever go to `staging_*` tables in `output/import/production.db`.

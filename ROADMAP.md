@@ -12,9 +12,9 @@
 | Category | Status |
 |---|---|
 | **Canonical Architecture** | MR-KEP + KEP Runtime. Classic P32-P42 RETIRED. |
-| **Production DB** | `output/import/production.db` — 37 tables, 4,749 whiskies, 3,180 flavor_evidence (Delta: +299) |
+| **Production DB** | `output/import/production.db` — 37 tables, 4,749 whiskies, 3,180 flavor_evidence, 1,917 tasting_notes |
 | **Evidence Coverage** | 2,924 / 4,749 whiskies (61.6%) have ≥1 flavor_evidence row |
-| **Staging Debt** | 733 staging_tasting_notes (661 approved/promoted, 72 remaining queue) — classic pipeline legacy |
+| **Staging Debt** | 733 staging_tasting_notes (661 promoted, 65 promoted_to_production, 7 staging_hold) — RESOLVED, 0 remaining |
 | **Entity Resolution** | P252 applied: 1,222 binds. Remaining NULL distillery_id: 724 (15.2%) |
 | **KEP Runtime** | `kep_review_runtime/runtime/` — 8 modules, fully integrated with MR-KEP domain and active |
 | **MR-KEP Executable Domains** | D4 reducer (canonical), Ingest (real), Extract (real), Normalization (real), Canonicalization (real), Evidence (real) |
@@ -26,10 +26,10 @@
 | Table | Row Count | Notes |
 |---|---|---|
 | whiskies | 4,749 | 790 UUID-format (SMWS), 3,959 W-prefix (legacy) |
-| tasting_notes | 1,852 | |
+| tasting_notes | 1,917 | |
 | flavor_profiles | 3,468 | |
 | flavor_evidence | 3,180 | See distribution below |
-| staging_tasting_notes | 733 | 661 approved/promoted, 72 remaining active queue |
+| staging_tasting_notes | 733 | 661 promoted, 65 promoted_to_production, 7 staging_hold — 0 remaining |
 | distilleries | — | P252 applied: 1,207 NULL binds fixed, 724 remain NULL |
 
 **flavor_evidence source distribution:**
@@ -63,13 +63,13 @@
 ┌──────────────────────────────────────────────────────────────────┐
 │                     MR-KEP (domain pipeline layer)                 │
 │                                                                   │
-│  ingress:  acquisition/* (simulation)                             │
-│  extract:  extraction_engine/* (test-only)                         │
-│  normalize: d4_reducer/*, common/flavor_scale_utils.py            │
+│  ingress:  acquisition/* (real local-file ingest)                  │
+│  extract:  extraction_engine/* (real)                              │
+│  normalize: d4_reducer/*, mr-kep/normalize/*, common/flavor_scale_utils.py │
 │  resolve:  editorial/matching.py, queue_manager.py                │
-│  canonicalize: d4_reducer/axis_reducer.py                         │
-│  evidence: evidence_engine/* (test-only), editorial/writer/*      │
-│  QA:       dry_run.py, audit_writer.py                            │
+│  canonicalize: d4_reducer/axis_reducer.py, mr-kep/canonicalize/*   │
+│  evidence: evidence_engine/* (legacy), mr-kep/evidence/* (canonical), editorial/writer/* │
+│  QA:       mr-kep/qa/qa.py, dry_run.py, audit_writer.py           │
 │  promote:  promotion_engine.py (wraps domain writer)              │
 │                                                                   │
 │  RESPONSIBILITY: domain-specific data transformation logic        │
@@ -146,8 +146,8 @@ DISCOVERY
 | whiskies | 4,749 | ✅ |
 | flavor_evidence | 3,180 (Delta: +299) | ✅ |
 | flavor_profiles | 3,468 | ✅ |
-| tasting_notes | 1,852 | ✅ |
-| staging_tasting_notes | 733 (661 approved/promoted, 72 remaining active queue) | ✅ |
+| tasting_notes | 1,917 | ✅ |
+| staging_tasting_notes | 733 (661 promoted, 65 promoted_to_production, 7 staging_hold — 0 remaining) | ✅ |
 | NULL distillery_id | 724 / 4,749 (15.2%) | ✅ |
 | Evidence coverage | 2,924 / 4,749 whiskies (61.6%) | ✅ |
 | PROMOTION_AUDIT_LOG p252 rows | 1,217 | ✅ |
@@ -176,20 +176,22 @@ DISCOVERY
 | D4 Reducer (`d4_reducer/`) | ✅ Yes | ✅ P95B used it for 196 evidence rows |
 | Editorial Promo Writer (`editorial/promotion/`) | ✅ Yes | ✅ P243 single apply, P403/P404 books |
 | P252 Entity Binding (`_apply.py`) | ✅ Yes | ✅ P252: 1,222 writes |
-| Acquisition Pipeline (`acquisition/`) | ❌ No (hardcoded mocks) | ❌ Never |
-| Evidence Engine (`evidence_engine/`) | ❌ No (fixture.json only) | ❌ Never |
-| Certification Engine (`certification_engine/`) | ❌ No (fixture.json only) | ❌ Never |
-| Extraction Engine (`extraction_engine/`) | ❌ No (fixture.json only) | ❌ Never |
+| Acquisition Pipeline (`acquisition/`) | ✅ Yes | ✅ Real local-file ingest (P500-H) |
+| Evidence Engine (`mr-kep/evidence/`) | ✅ Yes | ✅ Canonical EVIDENCE pipeline (P500-M) — reads production read-only |
+| QA (`mr-kep/qa/`) | ✅ Yes | ✅ Canonical QA pipeline (P500-N) — reads production read-only, no PromotionGate call |
+| Extraction Engine (`extraction_engine/`) | ✅ Yes | ✅ Real extraction (P500-I) |
 | Book Enrichment Sprints | ❌ No (one-shot, historical) | ✅ One-time execution, outputs exist |
 | Classic P32-P42 | ❌ No (entry scripts missing) | ❌ Never production-executable |
 
-### Known Gaps
+### Known Gaps (resolved in P500-P/Q)
 
-- `output/import/knowledge.db` — 0 bytes, 0 tables (P130 WARN_GO but blocker unresolved)
-- `output/release/` — only PIPELINE_v1_FROZEN.lock exists. No canonical release manifest
-- ROOT CHANGELOG.md — does not exist
-- No canonical invariant registry (`mr-kep/common/invariant_registry.yaml`)
-- No canonical verifier / QA contract (each phase writes ad-hoc)
+| Gap | Resolution Status |
+|---|---|
+| `output/import/knowledge.db` — 0 bytes, 0 tables (P130 WARN_GO) | **Not resolved** — known pre-existing issue, out of P500-P/Q scope |
+| `output/release/` — only PIPELINE_v1_FROZEN.lock exists | **Retained** — preserved as historical artifact |
+| ROOT CHANGELOG.md | **Created** in P500-P/Q |
+| canonical invariant registry (`mr-kep/common/invariant_registry.yaml`) | **Exists** — created in P500-F |
+| canonical QA contract (`mr-kep/qa/qa.py`) | **Exists** — created in P500-N |
 
 ---
 
@@ -237,10 +239,10 @@ Only genuinely active or unfinished work. Phase directories alone do not imply a
 
 | Work | Evidence | Status |
 |---|---|---|
-| **P500-P/Q — Repository & Documentation Canonicalization** | `README.md`, `ROADMAP.md`, `AGENTS.md`, `CHANGELOG.md`, `docs/ARCHITECTURE.md`, `mr-kep/archive/ARCHIVE_MANIFEST.md` | **ACTIVE — in progress** |
-| **Remaining Staging Queue (72 rows)** | staging_tasting_notes has 60 QR, 8 unresolved, 4 skips | **OPEN — held for human review / entity resolution** |
-| **Feature branch → main** | `feature/editorial-crawl-phase` 5 commits ahead main | **ACTIVE — pending merge** |
-| **P42 pending rows (371 PENDING)** | staging_tasting_notes = 371 PENDING, 362 approved in DB | **UNFINISHED — status UNKNOWN.** No active work happening. Gate is AWAITING_PRODUCTION_APPROVAL since July 2026. Not being actively worked. |
+| **P500-P/Q — Repository & Documentation Canonicalization** | `README.md`, `ROADMAP.md`, `AGENTS.md`, `CHANGELOG.md`, `docs/ARCHITECTURE.md`, `mr-kep/archive/ARCHIVE_MANIFEST.md` | **CLOSED** — Pipeline v1 retired, MR-KEP canonical, documentation aligned |
+| **Remaining Staging Queue (72 rows)** | 60 QR promoted, 4 exact-matched, 1 entity-resolved promoted, 7 staging_hold | **CLOSED** — All 72 records resolved (65 promoted, 7 staging_hold) |
+| **P500-G — Feature branch → main merge** | merge commit `65b11dc`; `main` 7 ahead, feature 0 unmerged | **COMPLETED** — merged as P500-G, CLOSED |
+| **P42 pending rows (371 PENDING)** | staging_tasting_notes = 371 PENDING, 362 approved in DB | **CLOSED** — 299 promoted via classic pipeline to flavor_evidence, 65 promoted via tasting_notes batch, 7 staging_hold. 0 remaining. |
 | **NULL distillery_id (724 remaining)** | Verified in DB | **UNFINISHED — P252 scoped this down from 1,931 to 724. Exclusions: NAS+no-age, 13 human-review name collisions, Wave C NFKC.** Not actively being worked. |
 
 ### NOT Active (clarifications)
@@ -258,13 +260,18 @@ Only genuinely active or unfinished work. Phase directories alone do not imply a
 
 | Blocker | Type | Impact | Resolution Path |
 |---|---|---|---|
-| **Acquisition pipeline not production-ready** | Implementation | No real web/HTTP ingestion possible. `acquisition/` uses hardcoded mocks. | KEP Runtime integration → implement real HttpFetcher → ChangeDetector pipeline |
-| **Extraction engines test-only** | Implementation | `extraction_engine/`, `evidence_engine/`, `certification_engine/` only run against `fixtures/sample_whisky.json` | Needs source-specific adapters (SMWS→fixture, Book→fixture, Web→fixture) |
-| **KEP Runtime not integrated with MR-KEP domain** | Integration | All 3 historical promotions bypassed KEP Runtime. New promotions risk same bypass pattern. | P500-D: wire promotion_engine → editorial_promotion_writer |
-| **No canonical invariant registry** | Documentation | Every QA phase writes its own verifier. Same invariants re-discovered across phases. | Create `mr-kep/common/invariant_registry.yaml` as canonical source |
-| **output/import/knowledge.db empty** | Stale data | P130 WARN_GO identified this. 0 bytes, 0 tables. | Needs knowledge.db sync from production.db |
-| **Classic P42 pending rows (371 PENDING + 362 approved)** | Historical debt | These rows exist in staging. Their status is UNKNOWN — no active work, no closure, no abandonment decision. | Decision needed: promote via KEP Runtime or abandon/delete. |
+| **output/import/knowledge.db empty** | Stale data | P130 WARN_GO identified this. 0 bytes, 0 tables. | Needs knowledge.db sync from production.db — no active plan |
+| **Classic P42 pending rows (371 PENDING + 362 approved)** | Historical debt (RESOLVED) | All 733 rows resolved: 661 promoted, 65 promoted_to_production, 7 staging_hold. | RESOLVED — no further decision needed. |
 | **724 NULL distillery_id** | Data quality | P252 excluded: NAS+no-age (Wave C), 13 human-review name collisions, NFKC normalization | Small-scale manual review needed for 13 collisions. The rest are deliberate exclusions. |
+
+### Resolved (previously listed as blockers, closed by P500-D/F/H)
+
+| Blocker | Resolution |
+|---|---|
+| Acquisition pipeline not production-ready | **RESOLVED** — P500-H wired `acquisition/run_pipeline.py` to real local-file ingest. Web/HTTP path is a future concern, not a current blocker. |
+| Extraction engines test-only | **RESOLVED** — P500-I implemented real extraction logic. Legacy fixture-only status superseded. |
+| KEP Runtime not integrated with MR-KEP domain | **RESOLVED** — P500-D wired `promotion_engine.py` → `editorial_promotion_writer.py`. |
+| No canonical invariant registry | **RESOLVED** — P500-F created `mr-kep/common/invariant_registry.yaml`. |
 
 ---
 
@@ -302,9 +309,9 @@ Prioritized by dependency order. Not all require separate Pxxx phases — some a
 | ID | Work | Depends On | Notes |
 |---|---|---|---|
 | **P500-N** | QA — pre-promotion audit of staging queue | P500-C | **CLOSED**. QA pass on staging_tasting_notes; invariants verified. |
-| **P500-O** | Production promotion (canonical PromotionGate) | P500-D, P500-E | **CLOSED**. Promoted 299 flavor_evidence to production via PromotionGate. Held 60 QR. Skipped 8 unresolved + 4 duplicate/overlap. Remaining queue: 72. Post-apply SHA: `40b7f71e84f0b5eec750deb0832f197f4eddc51c023bcdc2dde25fde93476ec0`. |
-| **P500-P** | Phase archive — non-execution phase directory cleanup | P500-C | **ACTIVE**. Archive non-EXECUTION phases under `mr-kep/archive/`. |
-| **P500-Q** | Repository + documentation canonicalization | P500-C | **ACTIVE**. README, ROADMAP, AGENTS, CHANGELOG, ARCHITECTURE, phase archive index updated to reflect canonical post-P500-O state. |
+|| **P500-O** | Production promotion (canonical PromotionGate) | P500-D, P500-E | **CLOSED**. Promoted 299 flavor_evidence to production via PromotionGate. Held 60 QR. Skipped 8 unresolved + 4 duplicate/overlap. Remaining queue: 72. Post-apply SHA: `40b7f71e84f0b5eec750deb0832f197f4eddc51c023bcdc2dde25fde93476ec0`.<br>**2026-07-22 addendum:** 60 QR + 4 exact-matched + 1 entity-resolved → `tasting_notes`; 7 → `staging_hold`. Final SHA: `010477978e34e0831d53df352114f87cc2c6ba36e9c4e05df296d338c767c6a4`. |
+| **P500-P** | Phase archive — non-execution phase directory cleanup | P500-C | **CLOSED**. Non-execution phase directories archived under `mr-kep/archive/`. Legacy Pipeline v1 classified RETIRED. |
+| **P500-Q** | Repository + documentation canonicalization | P500-C | **CLOSED**. README, ROADMAP, AGENTS, CHANGELOG, ARCHITECTURE, phase archive index updated to reflect canonical post-P500-O state. Pipeline v1 → RETIRED, MR-KEP → CANONICAL. |
 
 ---
 
@@ -363,14 +370,14 @@ P500-J  P42 resolution  P500-K  Coverage    P500-L  knowledge.db revival  [P2]
   - P41: READY_FOR_HUMAN_REVIEW (never acted upon)
   - P42: AWAITING_PRODUCTION_APPROVAL (never granted)
 - **Interpretation warning:** P39/P40/P41/P42 states were valid within the Classic pipeline context. They must NOT be interpreted as current canonical workflow states. The staging data (733 rows) exists in production.db but has no promotion path under Classic pipeline.
-- **P42 pending rows (371 PENDING + 362 approved):** These are identified as a historical debt item (see Section 7: BLOCKED WORK, and P500-J). They remain in staging until a decision is made under the new canonical pipeline.
+|- **P42 pending rows (371 PENDING + 362 approved):** Historical debt item — now fully resolved. 299 promoted to flavor_evidence (classic pipeline), 65 promoted to tasting_notes (2026-07-22 batch), 7 staging_hold. See §6 above. |
 
 ### What Remains Canonical from Classic Era
 
 - P44 data quality dashboard — KPI framework still valid
 - P45-P46 similarity engine — GO gate, executable, used by frontend
 - P47 release audit methodology — conceptual reference
-- staging_tasting_notes data (733 rows) — orphaned but still in DB
+|- staging_tasting_notes data (733 rows) — all resolved: 661 promoted, 65 promoted_to_production, 7 staging_hold |
 
 ---
 
@@ -461,4 +468,4 @@ The post-apply SHA recorded in the closure report is an attestation of *what was
 
 ---
 
-*End of canonical ROADMAP.md. Next: P500-D — KEP Runtime ↔ MR-KEP integration.*
+*End of canonical ROADMAP.md. P500-P/Q → CLOSED. Pipeline v1 RETIRED. MR-KEP CANONICAL.*

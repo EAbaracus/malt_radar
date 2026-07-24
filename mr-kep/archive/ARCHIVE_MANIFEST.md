@@ -44,8 +44,8 @@ execution artifacts are in the repository history and closure reports. They are
 | P500-M | CLOSED | EVIDENCE pipeline | `mr-kep/evidence/` |
 | P500-N | CLOSED | QA pre-promotion audit | staging_tasting_notes invariant pass |
 | P500-O | CLOSED | Production promotion — 299 flavor_evidence via PromotionGate | SHA `40b7f71e...`, 3,180 flavor_evidence |
-| P500-P | ACTIVE | Phase archive cleanup | This manifest |
-| P500-Q | ACTIVE | Repository + documentation canonicalization | README, ROADMAP, AGENTS, CHANGELOG, ARCHITECTURE |
+| P500-P | CLOSED | Phase archive cleanup | ROADMAP.md, mr-kep/archive/ |
+| P500-Q | CLOSED | Repository + documentation canonicalization | README, ROADMAP, AGENTS, CHANGELOG, ARCHITECTURE |
 
 ---
 

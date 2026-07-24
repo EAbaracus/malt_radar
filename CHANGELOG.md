@@ -10,13 +10,25 @@ Format: [keep-a-changelog](https://keepachangelog.com/en/1.0.0/)
 ## [Unreleased]
 
 ### Active
-- P500-P/Q — Repository & documentation canonicalization (in progress)
+- (none — P500-P/Q completed)
 
 ### Remaining production queue
 - 60 staging_tasting_notes QR HOLD — held for quality review
 - 8 staging_tasting_notes unresolved — pending entity resolution or human decision
 - 4 staging_tasting_notes duplicate/overlap skips — no action required
 - Total: 72 rows remaining in staging queue
+
+---
+
+## [P500-P/Q] — 2026-07-22 — Pipeline v1 Retirement + Documentation Canonicalization
+
+**Status: CLOSED**
+
+### Closed
+- Pipeline v1 → RETIRED. MR-KEP → CANONICAL.
+- P500-P: Non-execution phase directories archived.
+- P500-Q: ROADMAP, CHANGELOGs, ARCHIVE_MANIFEST, PIPELINE_OVERVIEW updated.
+- All P500 series phases now CLOSED.
 
 ---
 

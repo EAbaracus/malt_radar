@@ -180,9 +180,9 @@ class EditorialDomainAdapter:
                 "flavor_evidence": p["flavor_evidence"],
                 "flavor_profiles": p["flavor_profiles"],
             })
-            plan.new_evidence_rows += 1
-            if p["flavor_profiles"] is not None:
-                plan.promoted_flavor_profile_rows += 1
+            # NOTE: new_evidence_rows / promoted_flavor_profile_rows are already
+            # set above from writer.plan()'s authoritative counts. Do NOT
+            # double-count here (would break the gate's expected==actual match).
 
         plan.rejected = result["rejected"]
         plan.skipped = result["skipped"]
@@ -221,6 +221,10 @@ class EditorialDomainAdapter:
                 new_fp += 1
 
         check_r4_invariant(conn)
+        # Commit into the connection the gate handed us. The gate (PromotionGate)
+        # either reopens this temp copy to verify the delta, or copies it to
+        # production.db after apply — so the writes MUST be persisted here.
+        conn.commit()
 
         return {
             "new_evidence_rows": new_ev,
