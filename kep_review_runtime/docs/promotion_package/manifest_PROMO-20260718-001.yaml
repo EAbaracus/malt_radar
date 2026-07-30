@@ -1,0 +1,34 @@
+promotion_id: PROMO-20260718-001
+
+candidate:
+  evidence_ids:
+    - EDR-b6108f7ac8d252af
+  product:
+    - ardbeg 10
+
+source:
+  staging_database_hash:
+    sha256: 6e4ae12c27c343daabcabb315718634ba3a17ee5cd3689e1cdd30a4b15419217
+
+target:
+  database:
+    path: C:\Users\eltun\Documents\malt radar CLEAN\output\import\production.db
+    sha256: 045ba814445f637c74c1732cc96550ec6ba9c2e0221c53b5b35a7e6bfa68f352
+
+certification:
+  state: APPROVED
+  provenance: APPROVED
+  reviewer: eltun
+  approval_date: 2026-07-18
+
+preflight:
+  integrity_check: OK
+  schema_verified: true
+
+authorization:
+  go_reference: GO-20260718-001
+  authorized_by: eltun
+  timestamp: 2026-07-18T22:30:00+03:00
+
+manifest_hash:
+  sha256: 2e07ce83fa94fe65de939264f7f75ee818054414dff2714130f09ac8110e3e14

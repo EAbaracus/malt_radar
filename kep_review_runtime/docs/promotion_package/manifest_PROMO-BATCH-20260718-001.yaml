@@ -1,0 +1,45 @@
+# Batch Promotion Manifest — PROMO-BATCH-20260718-001
+
+promotion_id: PROMO-BATCH-20260718-001
+batch_id: PROMO-BATCH-20260718-001
+candidate_count: 3
+
+candidate:
+  product:
+    - ardbeg 10yo
+    - talisker 10yo
+    - lagavulin 16yo
+  evidence_ids:
+    - EDR-0645f7a10c3c59c1
+    - EDR-63a322317c787409
+    - EDR-9949a1899234acde
+  whisky_ids:
+    - W001152
+    - W000976
+    - W001100
+
+source:
+  database: mr-kep/editorial/staging_editorial.db
+  staging_database_hash:
+    sha256: 6e4ae12c27c343daabcabb315718634ba3a17ee5cd3689e1cdd30a4b15419217
+
+target:
+  database: output/import/production.db
+  pre_promotion_sha256: 12d5c31907e38c31075ceaff13814bf9b54028f14ec4ca1a2d6a6211426d62b2
+
+certification:
+  state: APPROVED
+  reviewer: eltun
+  approval_date: 2026-07-18
+  provenance: APPROVED
+  decision_reference: kep_runtime/docs/p320_5_reviewer_evidence_view.md
+
+preflight:
+  match_all_accepted: true
+  provenance_all_ratified: true
+  backup_available: true
+
+authorization:
+  go_reference: GO-BATCH-20260718-001
+  authorized_by: eltun
+  timestamp: 2026-07-18T23:56:27+03:00

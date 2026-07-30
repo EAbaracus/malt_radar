@@ -183,8 +183,6 @@ production_before_*
 
 ## --- Runtime state ---
 ## --- Runtime state (root-only; never swallow nested source/runtime/ dirs) ---
-/kep_review_runtime/
-kep_review_runtime/runtime/
 *.state
 **/runtime/*.db
 ## --- Generated outputs (repo-root dirs only; anchored with /) ---
@@ -225,3 +223,11 @@ mr-kep/book_pipeline/tmp_*.db-shm
 mr-kep/**/_evidence/
 mr-kep/**/staging_*.db
 mr-kep/**/editorial_staging.db
+
+# KEP runtime source is tracked; only local runtime state/data is ignored.
+kep_review_runtime/runtime/*.db
+kep_review_runtime/runtime/*.db-wal
+kep_review_runtime/runtime/*.db-shm
+kep_review_runtime/runtime/*.sqlite
+kep_review_runtime/runtime/*.sqlite3
+kep_review_runtime/runtime/*.state
