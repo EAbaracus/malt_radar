@@ -112,7 +112,8 @@ def main():
     report.append("## Found WhiskeyMapper Pipeline Scripts")
     report.append(f"Total scripts found matching keywords: {len(found_scripts)}")
     for s in found_scripts:
-        report.append(f"- [{os.path.basename(s)}](file:///{os.path.abspath(s).replace('\\', '/')})")
+        normalized_path = os.path.abspath(s).replace("\\", "/")
+        report.append(f"- [{os.path.basename(s)}](file:///{normalized_path})")
     report.append("")
 
     report.append("## Input File Status")
@@ -163,12 +164,13 @@ def main():
 
     with open(REPORT_MD, 'w', encoding='utf-8') as f:
         f.write("\n".join(report))
-        f.write("
-Estimated API Cost: $0.00
-Actual API Cost: $0.00
-Local Compute Used: Yes
-Fully Local Execution: Yes
-")
+        f.write(
+            "\n"
+            "Estimated API Cost: $0.00\n"
+            "Actual API Cost: $0.00\n"
+            "Local Compute Used: Yes\n"
+            "Fully Local Execution: Yes\n"
+        )
 
         
     with open(GATE_TXT, 'w', encoding='utf-8') as f:

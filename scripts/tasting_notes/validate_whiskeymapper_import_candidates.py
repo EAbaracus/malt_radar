@@ -282,12 +282,13 @@ def write_reports(input_rows, preview_rows, counters, table_counts, duplicate_id
     ])
     with open(DRY_RUN_REPORT, "w", encoding="utf-8") as handle:
         handle.write("\n".join(report) + "\n")
-        handle.write("
-Estimated API Cost: $0.00
-Actual API Cost: $0.00
-Local Compute Used: Yes
-Fully Local Execution: Yes
-")
+        handle.write(
+            "\n"
+            "Estimated API Cost: $0.00\n"
+            "Actual API Cost: $0.00\n"
+            "Local Compute Used: Yes\n"
+            "Fully Local Execution: Yes\n"
+        )
 
 
     conflicts = [

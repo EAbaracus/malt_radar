@@ -314,7 +314,8 @@ def main():
         f.write("| File Path | Classification | Size (Bytes) | Line Count |\n")
         f.write("| --- | --- | --- | --- |\n")
         for a in audits:
-            f.write(f"| [{a['filename']}](file:///{os.path.abspath(a['filepath']).replace('\\', '/')}) | `{a['classification']}` | {a['file_size_bytes']} | {a['line_count']} |\n")
+            normalized_path = os.path.abspath(a['filepath']).replace("\\", "/")
+            f.write(f"| [{a['filename']}](file:///{normalized_path}) | `{a['classification']}` | {a['file_size_bytes']} | {a['line_count']} |\n")
         f.write("\n")
         
         f.write("## Detailed Risk Matrix Analysis\n")

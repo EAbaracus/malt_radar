@@ -177,9 +177,11 @@ GATE_TXT.write_text(
     f"{gate}\n{prod_gate}\nPLANNED={stats['planned_insert']}\nBLOCKED={stats['blocked']}\n",
     encoding="utf-8"
 )
-GATE_TXT.write_text("
-Estimated API Cost: $0.00
-Actual API Cost: $0.00
-Local Compute Used: Yes
-Fully Local Execution: Yes
-", encoding="utf-8")
+GATE_TXT.write_text(
+    "\n"
+    "Estimated API Cost: $0.00\n"
+    "Actual API Cost: $0.00\n"
+    "Local Compute Used: Yes\n"
+    "Fully Local Execution: Yes\n",
+    encoding="utf-8"
+)
