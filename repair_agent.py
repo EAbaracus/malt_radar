@@ -170,18 +170,30 @@ def is_allowed_to_modify(filepath):
     """Dosyanın değiştirilmesine izin verilip verilmediğini kontrol eder."""
     if not filepath: return False
     
-    filepath_normalized = filepath.replace("\\", "/")
+    try:
+        # Resolve the absolute path of the file and the current working directory
+        abs_filepath = os.path.abspath(filepath)
+        abs_cwd = os.path.abspath(os.getcwd())
+
+        # Ensure the file is within the current working directory to prevent path traversal
+        if not abs_filepath.startswith(abs_cwd + os.sep):
+            return False
+
+        # Get the relative path for directory/file checks
+        rel_filepath = os.path.relpath(abs_filepath, abs_cwd).replace("\\", "/")
+    except ValueError:
+        return False
     
     for forbidden in FORBIDDEN_DIRS:
-        if forbidden in filepath_normalized.split('/'):
+        if forbidden in rel_filepath.split('/'):
             return False
             
     for forbidden_file in FORBIDDEN_FILES:
-        if filepath_normalized.endswith(forbidden_file):
+        if rel_filepath.endswith(forbidden_file):
             return False
             
     for allowed in ALLOWED_DIRS:
-        if filepath_normalized.startswith(allowed):
+        if rel_filepath.startswith(allowed):
             return True
             
     return False
