@@ -2,6 +2,7 @@ import os
 import re
 import sys
 import hashlib
+import urllib.parse
 
 # Target directories to scan for scripts
 SCRIPTS_ROOT = "scripts"
@@ -16,6 +17,21 @@ EXPECTED_INPUTS = {
     "whiskey_table.json": "data/raw/whiskeymapper/whiskey_table.json",
     "whiskey_scatter.json": "data/raw/whiskeymapper/whiskey_scatter.json",
 }
+
+# Allowlist of hosts that count as "WhiskeyMapper-related" external references
+ALLOWED_WM_HOST = "whiskeymapper.com"
+URL_RE = re.compile(r'https?://[^\s<>"\'`)\],;]+')
+
+def contains_whiskeymapper_url(text):
+    """Return True if text contains a URL whose host is exactly
+    whiskeymapper.com or a subdomain of it. Parses each URL and validates
+    the hostname against the allowlist instead of naive substring matching."""
+    for match in URL_RE.finditer(text):
+        raw = match.group(0).rstrip(".,;:)")
+        hostname = urllib.parse.urlparse(raw).hostname
+        if hostname and (hostname == ALLOWED_WM_HOST or hostname.endswith("." + ALLOWED_WM_HOST)):
+            return True
+    return False
 
 # Reports to extract metrics from
 REPORTS_TO_PARSER = {
@@ -91,7 +107,7 @@ def main():
             try:
                 with open(s_path, 'r', encoding='utf-8', errors='ignore') as f:
                     content = f.read()
-                    if "https://whiskeymapper.com" in content or "requests." in content or "urllib." in content:
+                    if contains_whiskeymapper_url(content) or "requests." in content or "urllib." in content:
                         external_fetches.append(s_path)
             except Exception:
                 pass
