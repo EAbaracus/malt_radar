@@ -158,8 +158,8 @@ def create_github_issue_if_needed(workspace_path, state, broken_tests):
     issue_title = f"Test Hatası: {fingerprint[:8]}"
     
     try:
-        issue_cmd = f'gh issue create --title "{issue_title}" --body-file "{report_path}"'
-        res = subprocess.run(issue_cmd, shell=True, capture_output=True, text=True, cwd=workspace_path)
+        issue_cmd = ["gh", "issue", "create", "--title", issue_title, "--body-file", report_path]
+        res = subprocess.run(issue_cmd, shell=False, capture_output=True, text=True, cwd=workspace_path)
         if res.returncode == 0:
             print(f"GitHub Issue açıldı: {issue_title}")
         else:
@@ -187,8 +187,10 @@ async def run_tests(workspace_path, state):
     env["PYTHONPATH"] = os.pathsep.join(pythonpath_parts)
     
     try:
-        process = await asyncio.create_subprocess_shell(
-            command,
+        import shlex
+        command_args = shlex.split(command)
+        process = await asyncio.create_subprocess_exec(
+            *command_args,
             stdout=asyncio.subprocess.PIPE,
             stderr=asyncio.subprocess.PIPE,
             cwd=workspace_path,
