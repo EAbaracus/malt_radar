@@ -154,7 +154,7 @@ class DbReadService:
             FROM whiskies w
             LEFT JOIN distilleries d ON w.distillery_id = d.distillery_id
             LEFT JOIN flavor_profiles fp ON w.whisky_id = fp.whisky_id
-            WHERE 1=1
+            WHERE w.superseded_by IS NULL
         """
         params = []
 
@@ -166,6 +166,7 @@ class DbReadService:
             query += " AND w.distillery_id = ?"
             params.append(distillery_id)
 
+        query += " GROUP BY w.whisky_id"
         # Certified Gold Dataset rows (whisky_id LIKE 'GSD-CAND-%') are surfaced first.
         query += " ORDER BY CASE WHEN w.whisky_id LIKE 'GSD-CAND-%' THEN 0 ELSE 1 END, w.name ASC"
         query += " LIMIT ? OFFSET ?"
@@ -261,7 +262,8 @@ class DbReadService:
             FROM whiskies w
             LEFT JOIN distilleries d ON w.distillery_id = d.distillery_id
             LEFT JOIN flavor_profiles fp ON w.whisky_id = fp.whisky_id
-            WHERE w.name LIKE ? OR d.name LIKE ?
+            WHERE (w.name LIKE ? OR d.name LIKE ?) AND w.superseded_by IS NULL
+            GROUP BY w.whisky_id
             ORDER BY CASE WHEN w.whisky_id LIKE 'GSD-CAND-%' THEN 0 ELSE 1 END, w.name ASC
             LIMIT 50
         """

@@ -140,12 +140,7 @@ def main():
         with open(out_jsonl, "w", encoding="utf-8") as f:
             for r in out_jsonl_rows:
                 f.write(json.dumps(r) + "\n")
-                f.write("
-Estimated API Cost: $0.00
-Actual API Cost: $0.00
-Local Compute Used: Yes
-Fully Local Execution: Yes
-")
+                f.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
 
             
     hash_after = get_hash(db_path)

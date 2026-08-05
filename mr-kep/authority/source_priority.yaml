@@ -36,6 +36,10 @@ rules:
     tier: T2_expert
     priority: 12
     rationale: "Whisky Magazine (SRC_013) professional periodical review; expert_review class, comparable to whiskyfun (priority 10). Matches sources/whiskymag/source_profile.yaml (priority 12, tier T2_expert)."
+  - source_key: "meleklerinpayi"
+    tier: T2_expert
+    priority: 18
+    rationale: "Meleklerin Payı (Burkay Adalığ) Turkish-language expert whisky blog; single-author editorial tasting notes. After whiskyfun(10)/whiskymag(12)/breakingbourbon(14)/lawhiskeysociety(16). Matches sources/meleklerinpayi/source_profile.yaml (priority 18, tier T2_expert)."
 
 # Unlisted sources default to the lowest precedence of their tier, or T3 if
 # the tier is unknown (fail-safe: never let an unknown source override known ones).

@@ -173,12 +173,7 @@ def main():
     report_md_path = os.path.join(reports_dir, "277_workspace_hygiene_audit_report.md")
     with open(report_md_path, 'w', encoding='utf-8') as f:
         f.write("# 277 Workspace Hygiene Audit Report\n\n")
-        f.write("
-Estimated API Cost: $0.00
-Actual API Cost: $0.00
-Local Compute Used: Yes
-Fully Local Execution: Yes
-")
+        f.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
 
         f.write("## Overview\n")
         f.write(f"- modified tracked dosyalar: {stats['modified_tracked']}\n")

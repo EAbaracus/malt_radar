@@ -21,6 +21,7 @@ from .editorial_base_adapter import (
 from .whiskyfun_adapter import WhiskyFunAdapter  # canonical WhiskyFun (T2_expert) integration
 from .breakingbourbon_adapter import BreakingBourbonAdapter  # canonical Breaking Bourbon (T2_expert) integration
 from .lawhiskeysociety_adapter import LAWhiskeySocietyAdapter  # canonical LA Whiskey Society (T2_expert) integration
+from .meleklerinpayi_adapter import MeleklerinPayiAdapter  # canonical Meleklerin Payı (T2_expert, Turkish) integration
 
 
 def _post_links(html: str, base: str, pattern: str = r'/20\d\d/') -> List[str]:
@@ -301,6 +302,7 @@ GO_ADAPTERS: Dict[str, Type[EditorialBaseAdapter]] = {
     "whiskyfun": WhiskyFunAdapter,  # Serge Valentin expert review (T2_expert)
     "breakingbourbon": BreakingBourbonAdapter,  # American whiskey expert review (T2_expert)
     "lawhiskeysociety": LAWhiskeySocietyAdapter,  # LA Whiskey Society member notes (T2_expert)
+    "meleklerinpayi": MeleklerinPayiAdapter,  # Meleklerin Payı Turkish expert blog (T2_expert)
 }
 
 
@@ -320,5 +322,6 @@ __all__ = [
     "WhiskyNotesBeAdapter", "TheWhiskyPhilesAdapter", "WhiskyMonsterAdapter",
     "TheDrambleAdapter", "TheWhiskeyWashAdapter", "WordsOfWhiskyAdapter",
     "WhiskyFunAdapter", "BreakingBourbonAdapter", "LAWhiskeySocietyAdapter",
+    "MeleklerinPayiAdapter",
     "CANONICAL_AXES",
 ]

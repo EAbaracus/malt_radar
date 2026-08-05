@@ -133,12 +133,7 @@ def main():
         for path in [OUT_PREVIEW, OUT_BLOCKED, OUT_READY]:
             with open(path, "w", encoding="utf-8") as f:
                 f.write("whisky_id,whisky_name\n")
-                f.write("
-Estimated API Cost: $0.00
-Actual API Cost: $0.00
-Local Compute Used: Yes
-Fully Local Execution: Yes
-")
+                f.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
 
 
     hash_after = get_file_hash(PROD_DB)

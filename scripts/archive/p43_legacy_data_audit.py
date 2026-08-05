@@ -187,12 +187,7 @@ This report evaluates the coverage and metadata richness of the legacy database 
 """
     with open(OUT_COVERAGE, 'w', encoding='utf-8') as f:
         f.write(coverage_md)
-        f.write("
-Estimated API Cost: $0.00
-Actual API Cost: $0.00
-Local Compute Used: Yes
-Fully Local Execution: Yes
-")
+        f.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
 
 
     # 2. p43_legacy_duplicate_risk.md

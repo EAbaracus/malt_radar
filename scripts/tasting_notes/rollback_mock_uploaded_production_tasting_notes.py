@@ -115,12 +115,7 @@ def rollback():
                     
     with open(REPORT_MD, 'w', encoding='utf-8') as f:
         f.write("# Uploaded Production Tasting Notes Rollback Report\n\n")
-        f.write("
-Estimated API Cost: $0.00
-Actual API Cost: $0.00
-Local Compute Used: Yes
-Fully Local Execution: Yes
-")
+        f.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
 
         f.write(f"- Backup created: `production_before_12o_rollback_mock_uploaded_notes.db` (Hash: {backup_hash})\n")
         f.write(f"- Delete target count: {target_count}\n")

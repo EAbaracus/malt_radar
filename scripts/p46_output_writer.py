@@ -49,12 +49,7 @@ Contamination Risk kaldırıldı.
 os.makedirs(r'C:\Users\eltun\Documents\malt radar CLEAN\output\reports', exist_ok=True)
 with open(r'C:\Users\eltun\Documents\malt radar CLEAN\output\reports\p45_lineage_reconciliation_audit.md', 'w', encoding='utf-8') as f:
     f.write(report)
-    f.write("
-Estimated API Cost: $0.00
-Actual API Cost: $0.00
-Local Compute Used: Yes
-Fully Local Execution: Yes
-")
+    f.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
 
 
 with open(r'C:\Users\eltun\Documents\malt radar CLEAN\output\reports\p45_lineage_gate.txt', 'w', encoding='utf-8') as f:

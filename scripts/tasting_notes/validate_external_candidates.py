@@ -92,12 +92,7 @@ def main():
 
     with open(os.path.join(reports_dir, "187_candidate_duplicate_validation_report.md"), 'w', encoding='utf-8') as f:
         f.write("\n".join(duplicate_lines))
-        f.write("
-Estimated API Cost: $0.00
-Actual API Cost: $0.00
-Local Compute Used: Yes
-Fully Local Execution: Yes
-")
+        f.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
 
 
     # Write Match Quality Report

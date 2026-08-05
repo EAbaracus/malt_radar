@@ -126,12 +126,7 @@ def apply_to_staging():
     # Report
     with open(REPORT_APPLY, 'w', encoding='utf-8') as f:
         f.write("# Uploaded Tasting Notes Staging Apply Report\n\n")
-        f.write("
-Estimated API Cost: $0.00
-Actual API Cost: $0.00
-Local Compute Used: Yes
-Fully Local Execution: Yes
-")
+        f.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
 
         f.write(f"- Pre-Apply tasting_notes: {pre_tn}\n")
         f.write(f"- Pre-Apply staging_tasting_notes: {pre_stn}\n")

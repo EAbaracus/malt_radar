@@ -285,12 +285,7 @@ def main():
 """
     with open(OUT_REPORT, 'w', encoding='utf-8') as f:
         f.write(report_md)
-        f.write("
-Estimated API Cost: $0.00
-Actual API Cost: $0.00
-Local Compute Used: Yes
-Fully Local Execution: Yes
-")
+        f.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
 
     print(f"Report written to {OUT_REPORT}")
 

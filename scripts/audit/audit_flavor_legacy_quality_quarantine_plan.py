@@ -130,12 +130,7 @@ def main():
                 writer.writerows(subset)
             else:
                 f.write("whisky_id,flavor_source,quality_class,active_any,active_app,has_invalid\n")
-                f.write("
-Estimated API Cost: $0.00
-Actual API Cost: $0.00
-Local Compute Used: Yes
-Fully Local Execution: Yes
-")
+                f.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
 
 
     write_subset(CSV_ALL, None)

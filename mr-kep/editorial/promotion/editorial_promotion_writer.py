@@ -12,6 +12,10 @@ and even then it takes a backup + SHA256 + atomic transaction with rollback.
 
 No production.db write occurs unless --execute is passed AND a transaction
 commits. Dry-run opens production.db read-only and reports the plan only.
+
+FIXED-AXES (P96A-2): flavor_profiles.flavor_profile is written with the app
+presentation axes (0-100) per the Dart normalizer contract. Storage axes
+(smoky/peaty/maritime/sherry) are preserved in flavor_evidence only.
 """
 
 from __future__ import annotations
@@ -37,6 +41,9 @@ from flavor_scale_utils import (  # noqa: E402
 
 # flavor_evidence stores 7 canonical axes + non-canonical 'vector_rich' (legacy col).
 EVIDENCE_AXES = CANONICAL_AXES  # smoky, peaty, fruity, sweet, spicy, maritime, sherry
+# flavor_profiles presentation axes — app contract (Dart normalizer).
+# NOT exported by flavor_scale_utils; defined locally to keep scale utils untouched.
+PROFILE_AXES = ["fruity", "sweet", "spicy", "smoky_peaty", "oak_cask", "malty_cereal", "floral_herbal"]
 EVIDENCE_INSERT_COLS = (
     "evidence_id, whisky_id, source, vector_smoky, vector_peaty, "
     "vector_fruity, vector_sweet, vector_spicy, vector_maritime, vector_sherry, vector_rich"
@@ -113,7 +120,24 @@ def validate_staging_row(row: dict):
 
     # convert to storage scale (idempotent on already-0-1 staging vectors)
     storage_vec = {ax: to_storage_scale(vec[ax]) for ax in EVIDENCE_AXES}
-    profile_vec = {ax: to_profile_scale(vec[ax]) for ax in EVIDENCE_AXES}
+    # Presentation profile: map storage axes -> app presentation axes (0-100).
+    # maritime/sherry have no presentation counterpart -> dropped from the
+    # profile JSON (fully preserved in flavor_evidence storage vector).
+    # oak_cask/malty_cereal/floral_herbal -> 0 (never fabricated).
+    # None storage values -> 0 (presentation JSON stays fully numeric;
+    # Dart normalizer treats null as 0 anyway, this keeps it explicit).
+    profile_vec = {
+        "fruity": to_profile_scale(vec["fruity"]) or 0.0,
+        "sweet": to_profile_scale(vec["sweet"]) or 0.0,
+        "spicy": to_profile_scale(vec["spicy"]) or 0.0,
+        "smoky_peaty": to_profile_scale(max(vec["smoky"] or 0.0, vec["peaty"] or 0.0)),
+        "oak_cask": 0.0,
+        "malty_cereal": 0.0,
+        "floral_herbal": 0.0,
+    }
+    # local range check: every presentation axis must be numeric in [0, 100]
+    if not all(isinstance(v, (int, float)) and 0.0 <= v <= 100.0 for v in profile_vec.values()):
+        raise RowRejected(eid, "invalid profile vector (presentation axes must be 0-100)")
     return wid, eid, storage_vec, profile_vec
 
 
@@ -151,6 +175,7 @@ class EditorialPromotionWriter:
 
         prepared = []
         accepted, rejected, skipped, duplicates = [], [], [], []
+        fp_written: set = set()  # intra-batch dedup: one canonical profile per whisky_id
         axis_present = {ax: 0 for ax in EVIDENCE_AXES}
         conf_bins = {"<0.7": 0, "0.7-0.85": 0, "0.85-0.95": 0, ">=0.95": 0}
 
@@ -173,12 +198,17 @@ class EditorialPromotionWriter:
                 continue
 
             ev_tuple = (
-                eid, wid, "editorial",
+                eid, wid, row.get("source_id") or "editorial",
                 svec["smoky"], svec["peaty"], svec["fruity"], svec["sweet"],
                 svec["spicy"], svec["maritime"], svec["sherry"], None,  # vector_rich legacy col -> None
             )
-            wants_fp = wid not in existing_fp
-            fp_tuple = (wid, json.dumps({ax: pvec[ax] for ax in EVIDENCE_AXES})) if wants_fp else None
+            # One canonical flavor_profile per whisky_id per batch: the FIRST
+            # row for a whisky_id writes the profile; later rows (other sources)
+            # add flavor_evidence only. Deterministic: row order is the staging
+            # INSERT order (evidence_id order).
+            wants_fp = wid not in existing_fp and wid not in fp_written
+            fp_written.add(wid)
+            fp_tuple = (wid, json.dumps({ax: pvec[ax] for ax in PROFILE_AXES})) if wants_fp else None
             prepared.append({
                 "evidence_id": eid,
                 "whisky_id": wid,

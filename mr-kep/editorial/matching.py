@@ -25,6 +25,18 @@ THRESH_MANUAL = 0.82
 MARGIN_HIGH = 0.03
 MARGIN_REVIEW = 0.04
 
+# Leading tokens that carry no identity signal ("The Glenlivet" -> "glenlivet").
+STOPWORDS = {"the", "a", "an", "and", "by", "of", "at", "de", "le", "la",
+             "das", "der", "di", "da", "del", "les", "el"}
+
+
+def _first_sig_token(norm_name: str) -> str:
+    """First token of a normalized name, skipping identity-neutral stopwords."""
+    for tok in norm_name.split():
+        if tok not in STOPWORDS:
+            return tok
+    return ""
+
 
 def normalize_text(text) -> str:
     """Faithful copy of scripts/external_sources/...normalize_text."""
@@ -82,6 +94,13 @@ class WhiskyRegistryMatcher:
              "age": r[2]}
             for r in rows
         ]
+        # Fast-match index: group targets by first significant token so match()
+        # never SequenceMatchers all ~4,750 registrants per row
+        # (5,035 x 4,750 = 24M calls timed out at 180s on the staging set).
+        self._first_index: dict[str, list[dict]] = {}
+        for t in self._targets:
+            key = _first_sig_token(t["norm_name"])
+            self._first_index.setdefault(key, []).append(t)
         return len(self._targets)
 
     def match(self, raw_name: str, age_hint: Optional[int] = None) -> MatchDecision:
@@ -89,10 +108,18 @@ class WhiskyRegistryMatcher:
             self.load_registry()
         src = normalize_text(raw_name)
         src_age = str(age_hint) if age_hint is not None else extract_age(raw_name)
-        src_first = src.split()[0] if src else ""
+        src_first = _first_sig_token(src) or (src.split()[0] if src else "")
+
+        # Fast path: only SequenceMatcher candidates sharing the first
+        # significant token (~dozens, not ~4,750 per row).
+        candidates = self._first_index.get(src_first, [])
+        if not candidates:
+            # Fallback: literal first-token bucket, then full scan (rare).
+            candidates = self._first_index.get(src.split()[0] if src else "", []) \
+                or self._targets
 
         scored = []
-        for t in self._targets:
+        for t in candidates:
             ratio = SequenceMatcher(None, src, t["norm_name"]).ratio()
             scored.append((ratio, t))
         scored.sort(key=lambda x: x[0], reverse=True)
@@ -116,6 +143,14 @@ class WhiskyRegistryMatcher:
                 tgt_age = str(int(tgt_age)) if float(tgt_age) == int(tgt_age) else str(tgt_age)
             if src_age and tgt_age and str(src_age) != str(tgt_age):
                 status = "manual_review"
+            # R9 hard-block: numeric identifiers in the source and target names
+            # MUST intersect. "Port Askaig 28" vs "Port Askaig 8" must never
+            # exact/fuzzy-match — different year/vintage identifiers are a
+            # hard identity mismatch, not a fuzzy suggestion.
+            src_nums = set(re.findall(r"\d+", src))
+            tgt_nums = set(re.findall(r"\d+", best[1]["norm_name"]))
+            if src_nums and tgt_nums and not (src_nums & tgt_nums):
+                status = "unmatched"
         if status == "exact" and src_first and src_first not in best[1]["norm_name"]:
             status = "fuzzy"
 

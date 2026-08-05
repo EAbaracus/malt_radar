@@ -110,12 +110,7 @@ def execute_cleanup():
     report_md = os.path.join(reports_dir, "281_workspace_cleanup_execution_report.md")
     with open(report_md, 'w', encoding='utf-8') as f:
         f.write("# 281 Workspace Cleanup Execution Report\n\n")
-        f.write("
-Estimated API Cost: $0.00
-Actual API Cost: $0.00
-Local Compute Used: Yes
-Fully Local Execution: Yes
-")
+        f.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
 
         f.write("## Overview\n")
         f.write(f"- Deleted: {stats['deleted']}\n")

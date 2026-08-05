@@ -181,12 +181,7 @@ def generate_preview():
     # Write Main Report
     with open(REPORT_MD, 'w', encoding='utf-8') as f:
         f.write("# Uploaded Notes Flavor Profile Preview Report\n\n")
-        f.write("
-Estimated API Cost: $0.00
-Actual API Cost: $0.00
-Local Compute Used: Yes
-Fully Local Execution: Yes
-")
+        f.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
 
         f.write(f"- uploaded_document tasting_notes count: {pre_uploaded}\n")
         f.write(f"- Total unique whiskies analyzed: {len(whisky_texts)}\n")

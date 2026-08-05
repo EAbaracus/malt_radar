@@ -102,18 +102,18 @@ class SqliteReadAdapter:
         with self._get_connection() as conn:
             cursor = conn.cursor()
             if q and len(q.strip()) > 0:
-                count_query = "SELECT COUNT(*) as c FROM whiskies WHERE name LIKE ?"
+                count_query = "SELECT COUNT(*) as c FROM whiskies WHERE name LIKE ? AND superseded_by IS NULL"
                 cursor.execute(count_query, (f"%{q.strip()}%",))
                 total = cursor.fetchone()["c"]
                 
-                query = "SELECT * FROM whiskies WHERE name LIKE ? LIMIT ? OFFSET ?"
+                query = "SELECT * FROM whiskies WHERE name LIKE ? AND superseded_by IS NULL LIMIT ? OFFSET ?"
                 cursor.execute(query, (f"%{q.strip()}%", limit, offset))
             else:
-                count_query = "SELECT COUNT(*) as c FROM whiskies"
+                count_query = "SELECT COUNT(*) as c FROM whiskies WHERE superseded_by IS NULL"
                 cursor.execute(count_query)
                 total = cursor.fetchone()["c"]
                 
-                query = "SELECT * FROM whiskies LIMIT ? OFFSET ?"
+                query = "SELECT * FROM whiskies WHERE superseded_by IS NULL LIMIT ? OFFSET ?"
                 cursor.execute(query, (limit, offset))
                 
             items = [dict(row) for row in cursor.fetchall()]

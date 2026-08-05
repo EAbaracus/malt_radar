@@ -146,12 +146,7 @@ def run_dryrun(df_cand, df_hold):
     dry_run_report_path = os.path.join(REPORTS_DIR, "p47_legacy_traceability_apply_dry_run.md")
     with open(dry_run_report_path, "w", encoding="utf-8") as f:
         f.write(dry_run_md)
-        f.write("
-Estimated API Cost: $0.00
-Actual API Cost: $0.00
-Local Compute Used: Yes
-Fully Local Execution: Yes
-")
+        f.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
 
         
     print(f"Dry-run report generated: {dry_run_report_path}")

@@ -28,6 +28,8 @@ class FlavorMapper:
             "fruity": "fruity", "apple": "fruity", "pear": "fruity", "citrus": "fruity", "lemon": "fruity",
             "orange": "fruity", "tropical": "fruity", "berry": "fruity", "cherry": "fruity",
             "raisin": "fruity", "banana": "fruity",
+            # P95C-gap extension: 'fruit' (plain) maps unambiguously to fruity
+            "fruit": "fruity",
             # sweet
             "sweet": "sweet", "honey": "sweet", "vanilla": "sweet", "caramel": "sweet", "toffee": "sweet",
             "sugar": "sweet", "syrup": "sweet", "cake": "sweet", "chocolate": "sweet",
