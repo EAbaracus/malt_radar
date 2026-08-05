@@ -7,9 +7,12 @@ user-agent rotation, robots compliance, graceful failures,
 structured logging.
 
 Reuses SourceRegistry for per-source configuration.
+
+Routing: sources marked with `hound_route: true` in the registry
+(and legacy source_id "whiskybase") go through HoundMCPClient
+instead of raw HTTP, bypassing Cloudflare/Turnstile.
 """
 import hashlib
-import json
 import logging
 import os
 import time

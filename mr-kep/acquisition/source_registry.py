@@ -43,6 +43,21 @@ class SourceRegistry:
                 "incremental_support": True,
                 "authentication_requirements": "oauth2",
                 "estimated_token_cost": 1200
+            },
+            "meleklerinpayi": {
+                "source_id": "meleklerinpayi",
+                "authority_tier": "T2_expert",
+                "source_type": "editorial_blog",
+                "language": "tr",
+                "license": "copyright-attribution-required",
+                "crawl_frequency": "weekly",
+                "robots_policy": "respect",
+                "rate_limit": "20/min",
+                "parser": "meleklerinpayi_adapter",
+                "evidence_confidence": 0.85,
+                "incremental_support": True,
+                "authentication_requirements": "none",
+                "estimated_token_cost": 300
             }
         }
         self.save()
