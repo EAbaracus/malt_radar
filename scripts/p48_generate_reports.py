@@ -193,12 +193,7 @@ We recommend keeping the Ollama Staging datasets on **HOLD** and **NOT** applyin
     report_path = os.path.join(REPORTS_DIR, "p48_ollama_staging_snapshot_audit.md")
     with open(report_path, "w", encoding="utf-8") as f:
         f.write(report_md)
-        f.write("
-Estimated API Cost: $0.00
-Actual API Cost: $0.00
-Local Compute Used: Yes
-Fully Local Execution: Yes
-")
+        f.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
 
 
     # Gate file

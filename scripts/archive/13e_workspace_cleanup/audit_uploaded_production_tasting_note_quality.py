@@ -149,12 +149,7 @@ def audit():
                 
     with open(REPORT_MD, 'w', encoding='utf-8') as f:
         f.write("# Uploaded Production Tasting Notes Quality Audit Report\n\n")
-        f.write("
-Estimated API Cost: $0.00
-Actual API Cost: $0.00
-Local Compute Used: Yes
-Fully Local Execution: Yes
-")
+        f.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
 
         f.write(f"- Total notes audited: {len(audit_data)}\n")
         f.write(f"- keep_production_candidate: {stats['keep_production_candidate']}\n")

@@ -112,12 +112,7 @@ def match_whiskies():
     # Reports
     with open(REPORT_FILE, 'w', encoding='utf-8') as f:
         f.write("# Uploaded Tasting Notes Match Quality Report\n\n")
-        f.write("
-Estimated API Cost: $0.00
-Actual API Cost: $0.00
-Local Compute Used: Yes
-Fully Local Execution: Yes
-")
+        f.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
 
         f.write(f"- Total Parsed: {len(parsed_notes)}\n")
         f.write(f"- Staging Preview (High Confidence): {len(staging)}\n")

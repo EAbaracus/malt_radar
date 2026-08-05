@@ -183,12 +183,7 @@ def main():
 
     with open(reports_dir / "325_17a_flavor_profile_coverage_audit_report.md", "w", encoding="utf-8") as f:
         f.write(md)
-        f.write("
-Estimated API Cost: $0.00
-Actual API Cost: $0.00
-Local Compute Used: Yes
-Fully Local Execution: Yes
-")
+        f.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
 
 
     with open(reports_dir / "326_17a_flavor_profile_coverage_audit_gate.txt", "w", encoding="utf-8") as f:

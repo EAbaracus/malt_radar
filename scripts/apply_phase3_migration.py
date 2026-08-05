@@ -49,12 +49,7 @@ report_09 = f"""STAGING MIGRATION APPLY REPORT
 """
 with open(os.path.join(OUT_DIR, "09_staging_migration_apply_report.txt"), "w", encoding="utf-8") as f:
     f.write(report_09)
-    f.write("
-Estimated API Cost: $0.00
-Actual API Cost: $0.00
-Local Compute Used: Yes
-Fully Local Execution: Yes
-")
+    f.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
 
 
 # 2. 10_staging_schema_inspection.txt

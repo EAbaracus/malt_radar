@@ -155,12 +155,7 @@ def main():
 
     with open(os.path.join(REPORTS_DIR, "195_real_external_candidate_validation_report.md"), "w", encoding="utf-8") as handle:
         handle.write("\n".join(validation_lines) + "\n")
-        handle.write("
-Estimated API Cost: $0.00
-Actual API Cost: $0.00
-Local Compute Used: Yes
-Fully Local Execution: Yes
-")
+        handle.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
 
 
     match_lines = [

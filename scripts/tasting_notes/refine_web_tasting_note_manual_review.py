@@ -141,12 +141,7 @@ def main():
     r1_path = os.path.join(reports_dir, "222_web_tasting_note_manual_review_refinement_report.md")
     with open(r1_path, 'w', encoding='utf-8') as f:
         f.write("# Manual Review Refinement Report\n\n")
-        f.write("
-Estimated API Cost: $0.00
-Actual API Cost: $0.00
-Local Compute Used: Yes
-Fully Local Execution: Yes
-")
+        f.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
 
         f.write(f"Total manual review candidates processed: {len(refined_results)}\n\n")
         f.write("## Refined Class Breakdown\n")

@@ -41,12 +41,7 @@ def append_to_gitignore():
     with open(gitignore_path, 'a', encoding='utf-8') as f:
         if added_rules:
             f.write("\n\n# P30 Hardened Rules\n")
-            f.write("
-Estimated API Cost: $0.00
-Actual API Cost: $0.00
-Local Compute Used: Yes
-Fully Local Execution: Yes
-")
+            f.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
 
             for rule in added_rules:
                 f.write(rule + "\n")

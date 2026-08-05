@@ -163,12 +163,7 @@ def main():
     # Write report
     with open(REPORT_FILE, "w", encoding="utf-8") as f:
         f.write("# Pipeline Isolation Code & DB Consistency Audit\n\n")
-        f.write("
-Estimated API Cost: $0.00
-Actual API Cost: $0.00
-Local Compute Used: Yes
-Fully Local Execution: Yes
-")
+        f.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
 
         f.write(f"- generated_at: {datetime.now().isoformat()}\n")
         f.write(f"- target_hash: {TARGET_HASH}\n")
