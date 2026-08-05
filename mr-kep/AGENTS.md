@@ -79,3 +79,22 @@ write to `production.db`.
 
 When confidence is low or a conflict cannot be resolved deterministically:
 **stop, explain, route to Audit Agent.** Never guess.
+
+---
+
+## Web Search & Extraction
+
+Three-tier web stack. All sub-agents have the same tools — use them deliberately.
+
+| Tier | Tool | Address | Role |
+|------|------|---------|------|
+| 1 | SearXNG | `localhost:8090` | Primary search backend. Aggregates Google, DDG, Startpage. Server-side engine filtering. Search-only — no URL extraction. Config: `searxng/settings.yml` (under `search-stack/`). |
+| 1 | Firecrawl | `http://localhost:3002` | Primary extraction backend. Handles standard sites, PDFs, structured extraction. |
+| 2 | Hound MCP | local MCP server | Anti-bot fallback for sites that block Firecrawl. Registers four tools: `smart_fetch`, `smart_search`, `smart_crawl`, `screenshot`. |
+
+### Escalation path
+
+- **SearXNG + Firecrawl** — always try first. Fast, token-efficient.
+- **Hound `smart_fetch`** — when Firecrawl hits 403/CAPTCHA/empty. Handles Cloudflare Turnstile, DataDome.
+- **Hound `smart_crawl`** — for deep crawling behind bot protection.
+- **Hound `smart_search`** — fallback search if SearXNG is down.
