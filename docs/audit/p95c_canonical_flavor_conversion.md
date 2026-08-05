@@ -14,8 +14,8 @@ Convert eligible **T2 / core** flavor data into canonical 7-axis vectors. **Excl
 
 ## Eligibility
 Eligible tier = `T2_core` + `T2` (Whisky Advocate, whiskeymapper, tasting_note_rule_based, production_data.csv, scotchgit, whiskyfun, whiskynotes, structured_whisky_source_01).
-Excluded tiers (count, **not** converted): {'T3_notebooklm': 2, 'T3_other': 5, 'T3_upload': 153, 'T3_ml': 326, 'T3_book': 192}.
-**Eligible rows = 1998.** Excluded = 678.
+Excluded tiers (count, **not** converted): {'T3_notebooklm': 2, 'T3_other': 959, 'T3_upload': 153, 'T3_ml': 326, 'T3_book': 192}.
+**Eligible rows = 1998.** Excluded = 1632.
 
 ## Mapping methodology (deterministic, rule-based, no LLM)
 1. **axis7** (already canonical, keys ⊆ 7 axes): pass-through; clamp values to 0–100; missing axes filled with 0.
@@ -41,7 +41,7 @@ Descriptor→axis conflicts recorded in `ambiguous_mappings.csv` (14 rows). Exam
 ## Validation
 - Before (eligible) = 1998; After (converted 1611 + rejected 387) = 1998 → **balanced: True**.
 - Every canonical vector contains **exactly the 7 frozen axes** (verified programmatically).
-- **Zero excluded (book/NotebookLM/T3) rows entered conversion** (excluded count = 678, all non-T2).
+- **Zero excluded (book/NotebookLM/T3) rows entered conversion** (excluded count = 1632, all non-T2).
 - Deterministic: no timestamps in artifacts; re-run yields byte-identical outputs (integrity_hash.json).
 - No duplicate profiles: output keyed by `whisky_id` (PK of flavor_profiles); one row per whisky. MERGE/KEEP_SEPARATE respected (no new product records created). P35/P37 protections honored (read-only; any future promotion must use gated backup+transaction path).
 
@@ -52,7 +52,7 @@ Descriptor→axis conflicts recorded in `ambiguous_mappings.csv` (14 rows). Exam
 **GO (conditional).** Canonical 7-axis conversion of eligible T2/core data is complete, deterministic, and DB-safe:
 - 1611 canonical vectors produced (1345 pass-through + 266 lexicon-converted).
 - 387 rows correctly held out as unmappable (PCA 225, num_array without axis-order 161, term-bag none-mappable 1, unparseable 0).
-- No book/NotebookLM/T3 data included (excluded = 678).
+- No book/NotebookLM/T3 data included (excluded = 1632).
 
 **Conditions / not-yet-converted (do not promote until resolved):**
 - Book/NotebookLM (T3) vectors remain excluded pending **D4** (16/20→7 reducer).
