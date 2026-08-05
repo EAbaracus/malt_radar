@@ -231,3 +231,22 @@ kep_review_runtime/runtime/*.db-shm
 kep_review_runtime/runtime/*.sqlite
 kep_review_runtime/runtime/*.sqlite3
 kep_review_runtime/runtime/*.state
+
+# P204C — repo hygiene 2026-08-05: execution scratch / temp dirs (root-anchored)
+/tmp_scripts/
+/.tmp_fici/
+/.worktrees/
+/%TEMP%/
+/tmp*.py
+
+# P204C — mr-kep/audit execution data (round manifests, ledgers, ZE sweep state)
+mr-kep/audit/*.csv
+mr-kep/audit/*.jsonl
+mr-kep/audit/*.json
+mr-kep/audit/tmp_*
+mr-kep/audit/orphan_webcrawl/
+mr-kep/audit/book_contribution/
+mr-kep/audit/zero_evidence_opportunity/
+mr-kep/audit/flavor_gap_audit/*.json
+mr-kep/audit/flavor_gap_audit/*.jsonl
+mr-kep/audit/flavor_gap_audit/*.sql
