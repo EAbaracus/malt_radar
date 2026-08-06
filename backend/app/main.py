@@ -2,6 +2,7 @@ import os
 import re
 from fastapi import FastAPI, HTTPException, Request, Response, Depends, Header
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.base import BaseHTTPMiddleware
 from typing import List, Optional
 from slowapi.errors import RateLimitExceeded
 import collections
@@ -51,6 +52,44 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+# ---------------------------------------------------------------------------
+# Security headers middleware (P1 hardening, scope 2026-08-06)
+#
+# Applies hardcoded defense-in-depth response headers to EVERY response,
+# including error responses. Header values are fixed and safe for a
+# JSON-only API surface; they are NOT derived from request input, so this
+# introduces no reflection/CSP-bypass vector.
+#
+# HSTS note: only meaningful when served over HTTPS. The value is still set
+# unconditionally so the header is present behind whatever TLS terminator /
+# proxy terminates HTTPS; the deployment's TLS termination point must be
+# verified separately at deployment time.
+# ---------------------------------------------------------------------------
+SECURITY_HEADERS = {
+    # max-age=1y, includeSubDomains; preload flag omitted (needs domain consent)
+    "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+    # JSON-only API: deny all non-API resource loads by default
+    "Content-Security-Policy": "default-src 'none'",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "Referrer-Policy": "no-referrer",
+    "Permissions-Policy": "geolocation=(), microphone=(), camera=()",
+    # Database/search API responses are not cacheable
+    "Cache-Control": "no-store",
+}
+
+
+class SecurityHeadersMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        response = await call_next(request)
+        for name, value in SECURITY_HEADERS.items():
+            response.headers[name] = value
+        return response
+
+
+app.add_middleware(SecurityHeadersMiddleware)
 
 # Initialize providers
 provider_instances = [
