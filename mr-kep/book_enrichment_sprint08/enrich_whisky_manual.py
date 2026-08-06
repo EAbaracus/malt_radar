@@ -217,7 +217,7 @@ def save_sprint08_to_knowledge_db(resolutions, page_map):
                 )
                 inserted["citations"] += 1
 
-                ev_hash = hashlib.sha1(citation_id.encode("utf-8")).hexdigest()[:12]
+                ev_hash = hashlib.sha1(citation_id.encode("utf-8"), usedforsecurity=False).hexdigest()[:12]
                 evidence_id = f"EV_{SOURCE_ID}_{ev_hash}"
                 cursor.execute(
                     "INSERT INTO evidence_nodes (evidence_id, citation_id, extraction_method, model_version, extracted_at, status) VALUES (?, ?, ?, ?, ?, ?)",

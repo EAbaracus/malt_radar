@@ -104,7 +104,7 @@ def norm_name(name):
     return n
 
 def sha1_of(data):
-    return hashlib.sha1(data.encode("utf-8")).hexdigest()[:12]
+    return hashlib.sha1(data.encode("utf-8"), usedforsecurity=False).hexdigest()[:12]
 
 def strip_percent_cast_real(val):
     """Normalize '46%' → 46.0, return None on failure."""
