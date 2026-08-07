@@ -12,8 +12,6 @@ from app.security import _rate_limit_exceeded_handler
 from app.models.schemas import WhiskySearchItem, WhiskyPriceItem, NormalizeRequest
 from app.providers.base import WhiskyProvider
 from app.providers.csv_provider import CsvWhiskyProvider
-from app.providers.mock_providers import WhiskyHunterProvider, WhiskyEditionProvider
-from app.providers.distiller_provider import DistillerProvider
 from app.routers import admin_review
 from app.routers import db_api
 from app.auth.routes import router as auth_router
@@ -96,19 +94,15 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
 app.add_middleware(SecurityHeadersMiddleware)
 
 # Initialize providers
-provider_instances = [
-    CsvWhiskyProvider(csv_paths=["data/whisky_database_merged_max.csv"]),
-    WhiskyHunterProvider(),
-    WhiskyEditionProvider(),
-    DistillerProvider()
-]
+# Single local source: the certified CSV catalog. (Mock + external providers
+# removed: surfaced only scraped/invented third-party data, violating the
+# product rule and adding surface. Catalog provenance is now local-only.)
+csv_provider = CsvWhiskyProvider(csv_paths=["data/whisky_database_merged_max.csv"])
+provider_instances = [csv_provider]
 
 # Robust provider mapping
 provider_map = {
-    "csv": provider_instances[0],
-    "wh": provider_instances[1],
-    "we": provider_instances[2],
-    "ds": provider_instances[3]
+    "csv": csv_provider
 }
 
 # Bounded LRU cache (max 256 items)
