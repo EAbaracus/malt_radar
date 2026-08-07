@@ -12,12 +12,16 @@ from app.auth.store import UserStore
 def isolated_users_db(tmp_path, monkeypatch):
     db = tmp_path / "users.db"
     monkeypatch.setenv("MALT_RADAR_USERS_DB_PATH", str(db))
-    app.state.user_store = None
+    # Ensure get_store exercises its LAZY init (attribute absent), mirroring a
+    # fresh app process — a pre-set .user_store masked the AttributeError bug.
+    if hasattr(app.state, "user_store"):
+        del app.state.user_store
     # Disable slowapi global rate limits so tests can make many same-IP calls
     # deterministically (rate limiting is exercised separately / in prod).
     app.state.limiter.enabled = False
     yield
-    app.state.user_store = None
+    if hasattr(app.state, "user_store"):
+        del app.state.user_store
     app.state.limiter.enabled = True
 
 

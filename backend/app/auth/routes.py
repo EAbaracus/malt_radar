@@ -31,7 +31,7 @@ router = APIRouter(prefix="/api/auth", tags=["auth"])
 
 # --- dependencies -----------------------------------------------------
 def get_store(request: Request) -> UserStore:
-    store: Optional[UserStore] = request.app.state.user_store
+    store: Optional[UserStore] = getattr(request.app.state, "user_store", None)
     if store is None:
         store = UserStore.from_env()
         request.app.state.user_store = store
