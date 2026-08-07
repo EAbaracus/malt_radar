@@ -67,10 +67,11 @@ non-web clients can keep it on with the key).
 6. **Web build:** `cd frontend && flutter build web \
    --dart-define=MALT_RADAR_API_BASE_URL=https://maltradar.<tld>` then copy
    `frontend/build/web/*` → `deploy/web-build/`.
-   - **Strip catalog CSV from the web bundle** before publishing: the
-     `assets/data/*.csv` are still bundled as static assets. Run the web build
-     from a pubspec that does not list them (or move them out for the web
-     target) so the catalog CSV is not downloadable.
+   - **Catalog CSV is already absent from the client** (removed at source —
+     see `docs/ads-monetization.md` / anti-scrape work): the catalog CSVs are no
+     longer bundled in any client target. Before publishing, verify the web
+     bundle carries no catalog payload: `find build/web -name "*.csv"` must be
+     empty (see the nodata probe in the deployment workflow).
 7. **Env:** `cp deploy/.env.example deploy/.env` and fill `MALT_RADAR_API_KEY`
    (`openssl rand -hex 32`) + domain.
 8. **Run:** `cd deploy && docker compose up -d`.
