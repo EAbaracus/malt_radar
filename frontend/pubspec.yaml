@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.0+1
+version: 1.0.1+2
 
 environment:
   sdk: ^3.12.1
@@ -45,6 +45,7 @@ dependencies:
   fl_chart: ^0.68.0
   csv: ^6.0.0
   go_router: ^17.3.0
+  google_mobile_ads: ^9.0.0
 
 dev_dependencies:
   flutter_test:
@@ -71,10 +72,16 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  assets:
-    - assets/data/flavor_profiles.csv
-    - assets/data/whisky_database_merged_max.csv
-    - assets/data/scotchgit_flavor_preview_import.csv
+  # NOTE (anti-scrape): the catalog CSV files (asset data) are intentionally
+  # NOT listed here. They must NOT ship in any client bundle (the web bundle in
+  # particular) — packaging them would let a scraper download the full catalog
+  # and bypass the backend entirely. Catalog data now lives server-side only:
+  # web is force-backend (AppConfig.useDbApi), and mobile fetches/initial-seeds
+  # from FastAPI. The CSVs remain in the repo for tests (read via File(path))
+  # and for backend staging/seed — never for runtime client bundling.
+  #   - assets/data/flavor_profiles.csv
+  #   - assets/data/whisky_database_merged_max.csv
+  #   - assets/data/scotchgit_flavor_preview_import.csv
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

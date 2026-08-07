@@ -10,8 +10,9 @@ void main() {
   test('DataSeedService reads real CSV', () async {
     final db = AppDatabase.forTesting(NativeDatabase.memory());
     
-    // Read the actual CSV file
-    final file = File('assets/data/whisky_database_merged_max.csv');
+    // Read the canonical CSV file from the backend data dir (the client must
+    // NOT bundle catalog data; tests read the single canonical source).
+    final file = File('../backend/data/whisky_database_merged_max.csv');
     expect(file.existsSync(), isTrue);
     
     final csvString = await file.readAsString();

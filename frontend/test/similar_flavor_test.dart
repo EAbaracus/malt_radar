@@ -13,12 +13,18 @@ void main() {
 
   test('Similar Flavor calculates successfully', () async {
     final db = AppDatabase.forTesting(NativeDatabase.memory());
-    
-    // Read the actual CSV file
-    final file = File('assets/data/whisky_database_merged_max.csv');
+
+    // Read the canonical CSV files from the backend data dir (the client must
+    // NOT bundle catalog data — web is force-backend, and these committed
+    // files would otherwise let a scraper download the full catalog. Tests
+    // read the single canonical source at ../backend/data so logic is verified
+    // against real data without shipping it to clients).
+    final file = File('../backend/data/whisky_database_merged_max.csv');
     final csvString = await file.readAsString();
-    
-    await DataSeedService.seedDatabaseIfEmpty(db, testCsvString: csvString);
+    final flavorFile = File('../backend/data/flavor_profiles.csv');
+    final flavorCsv = await flavorFile.readAsString();
+
+    await DataSeedService.seedDatabaseIfEmpty(db, testCsvString: csvString, flavorCsvString: flavorCsv);
     
     final whiskiesWithFlavor = await (db.select(db.whiskies)..where((t) => t.flavorProfile.isNotNull())).get();
     
