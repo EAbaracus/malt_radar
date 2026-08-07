@@ -11,7 +11,7 @@ recurring cost).
         ^ :8080
    [Caddy]  <--static Flutter web (/),  reverse-proxy /api/* -->
         ^  :443  (Let's Encrypt auto)
-   https://maltradar.<tld>
+   https://maltradar.com
 ```
 
 ## Directory layout
@@ -60,12 +60,12 @@ non-web clients can keep it on with the key).
 2. **Install** on the box: `apt-get install -y docker.io docker-compose-plugin` (or
    Caddy directly + systemd unit).
 3. **Copy repo** to the box (or `git clone` your `malt_radar` repo).
-4. **Domain → DNS:** point `maltradar.<tld>` (A record) to the VM's public IP.
+4. **Domain → DNS:** point `maltradar.com` (A record) to the VM's public IP.
    Edit `deploy/Caddyfile` + `.env` `MALT_RADAR_ALLOWED_ORIGINS` to your domain.
 5. **Data:** copy a read-only `production.db` snapshot into `deploy/data/`
    (chmod 444; it is never written on the host — PromotionGate stays local/CI).
 6. **Web build:** `cd frontend && flutter build web \
-   --dart-define=MALT_RADAR_API_BASE_URL=https://maltradar.<tld>` then copy
+   --dart-define=MALT_RADAR_API_BASE_URL=https://maltradar.com` then copy
    `frontend/build/web/*` → `deploy/web-build/`.
    - **Catalog CSV is already absent from the client** (removed at source —
      see `docs/ads-monetization.md` / anti-scrape work): the catalog CSVs are no
@@ -76,9 +76,9 @@ non-web clients can keep it on with the key).
    (`openssl rand -hex 32`) + domain.
 8. **Run:** `cd deploy && docker compose up -d`.
 9. **Verify:**
-   - `curl -k https://maltradar.<tld>/api/health` → `{"status":"healthy",...}`
+   - `curl -k https://maltradar.com/api/health` → `{"status":"healthy",...}`
    - Browser loads `/` (webapp), `/api` works same-origin, no CORS error.
-   - `curl https://maltradar.<tld>/robots.txt` → `Disallow: /api/`.
+   - `curl https://maltradar.com/robots.txt` → `Disallow: /api/`.
 
 ## Backup (SQLite)
 

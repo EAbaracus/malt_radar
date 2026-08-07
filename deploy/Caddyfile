@@ -1,7 +1,7 @@
 # Malt Radar — Caddy: static Flutter web + same-origin /api reverse proxy.
 # Caddy obtains + renews Let's Encrypt TLS automatically for the domain.
 
-maltradar.example.com {
+maltradar.com {
     encode gzip zstd
 
     root * /srv/web
