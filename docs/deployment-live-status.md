@@ -29,3 +29,11 @@ the catalogue stays off (current state is the safe state).
 ## Next (deferred, in order)
 1. `/api/db` per-user gating (anti-scrape prerequisite).
 2. Web build → `deploy/web-build/` + Caddy up + DNS A record + `https://maltradar.com`.
+
+## Catalog sources (updated 2026-08-07)
+- `/api/db` → `backend/data` (gated off for public web; `DB_API_ENABLED=false`).
+- `/api/whiskies/search` → **CSV-only single source** (`CsvWhiskyProvider`).
+- Mock (`WhiskyHunterProvider`, `WhiskyEditionProvider`) + external `DistillerProvider`
+  (distiller.com scraper) **removed** (`49a5ed24`). No third-party scraped data surface.
+- `deploy/.env.example` now defaults `DB_API_ENABLED=false` (was `true`) — safe default
+  until per-user bearer auth lands.
