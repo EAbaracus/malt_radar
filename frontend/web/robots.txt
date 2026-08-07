@@ -1,0 +1,5 @@
+# Malt Radar — scraping of the whisky catalog is prohibited (see Terms of Service).
+# The catalog is served only through the authenticated, rate-limited API; crawlers
+# must not bulk-extract it.
+User-agent: *
+Disallow: /api/

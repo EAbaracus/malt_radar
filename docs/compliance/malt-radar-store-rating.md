@@ -49,3 +49,18 @@ submitting or updating the app.
 
 Price information may exist in storage but must **never** be exposed in UI or
 API. Do not add price rendering to any screen.
+
+## Accounts & KVKK (added)
+
+Registration/login (`backend/app/auth`) stores account + per-user sync data in
+a **separate `users.db`** — never the governed whisky `production.db`. At
+registration the server enforces:
+- explicit privacy (KVKK) consent — otherwise rejected,
+- age gate (country + legal minimum age),
+- password ≥ 8 chars; PBKDF2-HMAC-SHA256 hashing; bearer tokens stored hashed.
+
+Account == personal data ⇒ KVKK obligations apply: aydınlatma metni, consent
+(captured), owner-level data storage; tie `users.db` to your VERBIS / data
+controller record. Transactional email (verify) is currently stubbed to the
+server log — wire an SMTP provider before public launch.
+

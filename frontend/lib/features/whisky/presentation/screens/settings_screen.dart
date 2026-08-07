@@ -6,6 +6,8 @@ import '../../domain/models/whisky.dart';
 
 import '../../../../core/localization/localization_provider.dart';
 import 'package:malt_radar/features/compliance/presentation/age_gate_providers.dart';
+import 'package:malt_radar/features/auth/presentation/auth_controller.dart';
+import 'package:malt_radar/features/auth/presentation/auth_screen.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
@@ -297,6 +299,166 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     }
   }
 
+  void _openAuth() {
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (_) => const AuthScreen()));
+  }
+
+  Future<void> _syncNow() async {
+    final isTr = ref.read(localizationProvider) == 'tr';
+    try {
+      final pushRes = await ref.read(syncServiceProvider).push();
+      await ref.read(syncServiceProvider).pull();
+      final counts = pushRes['counts'] as Map<String, dynamic>? ?? const {};
+      final total = counts.values.fold<int>(
+        0,
+        (a, b) => a + ((b as num?)?.toInt() ?? 0),
+      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              isTr
+                  ? 'Senkronize edildi ($total öğe yüklendi)'
+                  : 'Synced ($total items pushed)',
+            ),
+            backgroundColor: AppTheme.primary,
+          ),
+        );
+      }
+      await ref.read(authControllerProvider.notifier).refresh();
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              isTr ? 'Senkronizasyon başarısız: $e' : 'Sync failed: $e',
+            ),
+            backgroundColor: AppTheme.error,
+          ),
+        );
+      }
+    }
+  }
+
+  Future<void> _signOut() async {
+    final isTr = ref.read(localizationProvider) == 'tr';
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: AppTheme.surface,
+        title: Text(isTr ? 'Çıkış yap' : 'Sign out'),
+        content: Text(
+          isTr
+              ? 'Bu cihazdan çıkış yapılacak. Sunucuda saklanan veriler korunur.'
+              : 'Sign out from this device. Data stored on the server is kept.',
+          style: const TextStyle(color: AppTheme.textSecondary),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(isTr ? 'İPTAL' : 'CANCEL'),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: Text(isTr ? 'ÇIKIŞ' : 'SIGN OUT'),
+          ),
+        ],
+      ),
+    );
+    if (confirm == true && mounted) {
+      await ref.read(authControllerProvider.notifier).logout();
+    }
+  }
+
+  Widget _buildAccountCard(String langCode) {
+    final auth = ref.watch(authControllerProvider);
+    final loggedIn = auth.isLoggedIn;
+    final user = auth.user;
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const Icon(
+                  Icons.account_circle_outlined,
+                  color: AppTheme.primary,
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    loggedIn
+                        ? (user?.email ?? 'user')
+                        : (langCode == 'tr'
+                              ? 'Giriş yapılmadı'
+                              : 'Not signed in'),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: AppTheme.textPrimary,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            if (!loggedIn)
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton.icon(
+                  onPressed: _openAuth,
+                  icon: const Icon(Icons.login, color: AppTheme.primary),
+                  label: Text(
+                    langCode == 'tr'
+                        ? 'Giriş Yap / Kayıt Ol'
+                        : 'Sign in / Create account',
+                    style: const TextStyle(color: AppTheme.primary),
+                  ),
+                  style: OutlinedButton.styleFrom(
+                    side: const BorderSide(color: AppTheme.primary),
+                  ),
+                ),
+              )
+            else ...[
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton.icon(
+                  onPressed: _syncNow,
+                  icon: const Icon(Icons.sync, color: AppTheme.primary),
+                  label: Text(
+                    langCode == 'tr' ? 'Şimdi senkronize et' : 'Sync now',
+                    style: const TextStyle(color: AppTheme.primary),
+                  ),
+                  style: OutlinedButton.styleFrom(
+                    side: const BorderSide(color: AppTheme.primary),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 8),
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton.icon(
+                  onPressed: _signOut,
+                  icon: const Icon(Icons.logout, color: AppTheme.error),
+                  label: Text(
+                    langCode == 'tr' ? 'Çıkış yap' : 'Sign out',
+                    style: const TextStyle(color: AppTheme.error),
+                  ),
+                  style: OutlinedButton.styleFrom(
+                    side: const BorderSide(color: AppTheme.error),
+                  ),
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final settingsAsync = ref.watch(referenceSettingsStreamProvider);
@@ -359,6 +521,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   ),
                 ),
               ),
+              const SizedBox(height: 32),
+
+              // Account (sign in / sync / sign out)
+              _buildSectionHeader(langCode == 'tr' ? 'Hesap' : 'Account'),
+              const SizedBox(height: 12),
+              _buildAccountCard(langCode),
               const SizedBox(height: 32),
 
               // Reference Configuration Card

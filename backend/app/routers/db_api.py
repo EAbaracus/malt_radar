@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, Query, Depends, Request
 from typing import Optional, List, Dict, Any
 import os
 import sqlite3
-from app.services.db_read_service import DbReadService
+from app.services.db_read_service import DbReadService, CatalogBoundsError
 from app.security import verify_api_key, limiter
 
 
@@ -40,6 +40,8 @@ def get_whiskies(
 ):
     try:
         return service.get_whiskies(limit, offset, q, distillery_id)
+    except CatalogBoundsError:
+        raise HTTPException(status_code=400, detail="Offset beyond catalog browse limit")
     except FileNotFoundError:
         raise HTTPException(status_code=503, detail="Database file missing")
     except sqlite3.Error:
@@ -69,6 +71,8 @@ def get_distilleries(
 ):
     try:
         return service.get_distilleries(limit, offset)
+    except CatalogBoundsError:
+        raise HTTPException(status_code=400, detail="Offset beyond catalog browse limit")
     except FileNotFoundError:
         raise HTTPException(status_code=503, detail="Database file missing")
     except sqlite3.Error:

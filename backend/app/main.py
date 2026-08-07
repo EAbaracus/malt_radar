@@ -16,6 +16,7 @@ from app.providers.mock_providers import WhiskyHunterProvider, WhiskyEditionProv
 from app.providers.distiller_provider import DistillerProvider
 from app.routers import admin_review
 from app.routers import db_api
+from app.auth.routes import router as auth_router
 
 app = FastAPI(
     title="Malt Radar API",
@@ -32,6 +33,9 @@ app.include_router(admin_review.router)
 
 # Include new Read-Only DB API router
 app.include_router(db_api.router)
+
+# Include auth + per-user sync router (separate from the whisky production DB)
+app.include_router(auth_router)
 
 # Fix CORS: don't use * with allow_credentials=True
 allowed_origins_env = os.getenv("MALT_RADAR_ALLOWED_ORIGINS", "")

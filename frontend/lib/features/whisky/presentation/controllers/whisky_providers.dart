@@ -28,10 +28,15 @@ final dbWhiskyApiClientProvider = Provider<DbWhiskyApiClient>((ref) {
   return DbWhiskyApiClient();
 });
 
-// Provider for app initialization (seed data)
+// Provider for app initialization
 final appInitializationProvider = FutureProvider<void>((ref) async {
   final db = ref.watch(appDatabaseProvider);
-  await DataSeedService.seedDatabaseIfEmpty(db);
+  // Backend/web mode: the catalog comes from FastAPI, so do NOT seed the local
+  // Drift DB from the bundled CSV (avoids pulling catalog data from the web
+  // asset bundle — part of the anti-scrape posture).
+  if (!AppConfig.useDbApi) {
+    await DataSeedService.seedDatabaseIfEmpty(db);
+  }
 });
 
 // Provider for the repository (Feature flag switch)

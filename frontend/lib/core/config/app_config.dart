@@ -1,6 +1,9 @@
 import 'package:flutter/foundation.dart';
 
 class AppConfig {
+  static const bool useDbApiConst =
+      bool.fromEnvironment('MALT_RADAR_USE_DB_API', defaultValue: false);
+
   /// Feature flag to switch between the local Drift/legacy-CSV repository and
   /// the certified-staging backend (DbApi mode).
   ///
@@ -9,11 +12,11 @@ class AppConfig {
   /// and the backend is the single source of truth. When false, the local
   /// Drift database (offline / legacy CSV / fallback) is used.
   ///
-  /// Default is false. In debug builds it can be overridden with the
-  /// --dart-define=MALT_RADAR_USE_DB_API=true build flag at runtime, so the
-  /// mode is selected entirely through configuration (no source change).
-  static const bool useDbApi =
-      bool.fromEnvironment('MALT_RADAR_USE_DB_API', defaultValue: false);
+  /// The web target is ALWAYS backend-driven: forbidding the bundled catalog
+  /// CSV from being pulled on web keeps the whisky data server-side (a core
+  /// part of the anti-scrape posture — the CSV is not meant to ship to web
+  /// clients at all). Local CSV mode remains for desktop/mobile fleet / offline.
+  static bool get useDbApi => kIsWeb ? true : useDbApiConst;
 
   /// Feature flag for ScotchGit QA preview mode.
   /// If true, preview profiles (e.g. scotchgit) are considered in the UI.

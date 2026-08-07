@@ -11,6 +11,30 @@ from app.utils.source_guard import SourceGuard
 
 CERTIFIED_PREFIX = "GSD-CAND-"
 
+# Anti-scrape bounds (configurable via env; bulk-dump / deep-paging ceiling).
+# The API never returns more than CATALOG_MAX_PAGE rows per page nor lets a
+# client offset past CATALOG_MAX_OFFSET rows (blocks unbounded full-catalog
+# replay through pagination).
+CATALOG_MAX_PAGE = int(os.getenv("CATALOG_MAX_PAGE", "50"))
+CATALOG_MAX_OFFSET = int(os.getenv("CATALOG_MAX_OFFSET", "10000"))
+
+
+class CatalogBoundsError(ValueError):
+    """Raised when a read would exceed the catalog browse bounds."""
+
+
+def _clamp_page(limit: int) -> int:
+    return min(max(1, int(limit)), CATALOG_MAX_PAGE)
+
+
+def _check_offset(offset: int, limit: int) -> int:
+    offset = max(0, int(offset))
+    if offset > CATALOG_MAX_OFFSET or offset + limit > CATALOG_MAX_OFFSET + CATALOG_MAX_PAGE:
+        raise CatalogBoundsError(
+            f"offset beyond catalog browse limit (max {CATALOG_MAX_OFFSET})"
+        )
+    return offset
+
 
 class DbReadService:
     def __init__(self):
@@ -146,8 +170,8 @@ class DbReadService:
             return self._normalize_flavor_profile(row["flavor_profile"])
 
     def get_whiskies(self, limit: int = 50, offset: int = 0, q: Optional[str] = None, distillery_id: Optional[str] = None) -> Dict[str, Any]:
-        limit = min(max(1, limit), 100)
-        offset = max(0, offset)
+        limit = _clamp_page(limit)
+        offset = _check_offset(offset, limit)
 
         query = """
             SELECT w.*, d.name as distillery_name, fp.flavor_profile as flavor_profile
@@ -230,8 +254,8 @@ class DbReadService:
         return SourceGuard.sanitize_collection(rows, is_manual=False)
 
     def get_distilleries(self, limit: int = 50, offset: int = 0) -> Dict[str, Any]:
-        limit = min(max(1, limit), 100)
-        offset = max(0, offset)
+        limit = _clamp_page(limit)
+        offset = _check_offset(offset, limit)
 
         query = """
             SELECT d.distillery_id, d.name, COUNT(w.whisky_id) as whisky_count
