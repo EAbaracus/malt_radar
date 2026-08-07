@@ -28,6 +28,15 @@ void main() {
     final db = AppDatabase.forTesting(NativeDatabase.memory());
     addTearDown(() => db.close());
 
+    // Simulate a user who already passed the age gate so the smoke test keeps
+    // exercising the post-gate flow (MainNavigationScreen) as before the gate
+    // was introduced. The gate itself is covered by age_gate_test.dart.
+    await db
+        .into(db.userSettings)
+        .insertOnConflictUpdate(
+          UserSettingsCompanion.insert(key: 'age_gate', value: 'US|21'),
+        );
+
     // Build the full app inside a ProviderScope with stable overrides for
     // every provider the IndexedStack builds at once (Home / Lists / Settings
     // tabs are all rendered by MainNavigationScreen).
