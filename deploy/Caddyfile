@@ -1,0 +1,25 @@
+# Malt Radar — Caddy: static Flutter web + same-origin /api reverse proxy.
+# Caddy obtains + renews Let's Encrypt TLS automatically for the domain.
+
+maltradar.example.com {
+    encode gzip zstd
+
+    root * /srv/web
+
+    # API: same-origin reverse proxy to uvicorn (num: api:8080).
+    @api path /api/*
+    handle @api {
+        reverse_proxy api:8080
+        header -Server
+        header Cache-Control no-store
+    }
+
+    # Static Flutter web (CanvasKit). SPA fallback to index.html.
+    handle {
+        file_server
+        try_files {path} /index.html
+    }
+
+    # Crawlers: catalog is served only via the API layer.
+    header /robots.txt Content-Type "text/plain; charset=utf-8"
+}
