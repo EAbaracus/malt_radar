@@ -1,8 +1,12 @@
 import 'package:flutter/foundation.dart';
 
 class AppConfig {
+  /// The catalog (whisky data / production.db) is served from the backend
+  /// only — the client no longer bundles it. So the default is TRUE: unless a
+  /// build opts out via --dart-define=MALT_RADAR_USE_DB_API=false, the app
+  /// pulls whisky data from FastAPI. kIsWeb is always force-true below.
   static const bool useDbApiConst =
-      bool.fromEnvironment('MALT_RADAR_USE_DB_API', defaultValue: false);
+      bool.fromEnvironment('MALT_RADAR_USE_DB_API', defaultValue: true);
 
   /// Feature flag to switch between the local Drift/legacy-CSV repository and
   /// the certified-staging backend (DbApi mode).

@@ -4,8 +4,8 @@ import 'package:malt_radar/features/whisky/data/dto/db_whisky_dto.dart';
 
 void main() {
   group('Feature Flag Validation', () {
-    test('USE_DB_API default is false', () {
-      expect(AppConfig.useDbApi, false);
+    test('USE_DB_API default is true (backend is the source of truth; no local catalog)', () {
+      expect(AppConfig.useDbApi, true);
     });
   });
 
