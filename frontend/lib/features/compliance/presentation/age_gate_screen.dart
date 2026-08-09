@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:malt_radar/core/localization/localization_provider.dart';
 import 'package:malt_radar/core/theme/app_theme.dart';
+import 'package:malt_radar/core/branding/brand_medallion.dart';
+import 'package:malt_radar/core/branding/brand_medallion_widget.dart';
 import '../domain/legal_age.dart';
 import 'age_gate_providers.dart';
 
@@ -94,10 +96,9 @@ class _AgeGateScreenState extends ConsumerState<AgeGateScreen> {
                           width: 2,
                         ),
                       ),
-                      child: const Icon(
-                        Icons.local_bar,
-                        color: AppTheme.primary,
+                      child: const Medallion(
                         size: 48,
+                        level: MedallionLevel.icon,
                       ),
                     ),
                   ),

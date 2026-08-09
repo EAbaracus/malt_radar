@@ -22,12 +22,16 @@ final appDatabaseProvider = Provider<AppDatabase>((ref) {
 // client ready for catalog reads whenever a session exists).
 final dbWhiskyApiClientProvider = Provider<DbWhiskyApiClient>((ref) {
   final client = DbWhiskyApiClient();
-  // Keep the token in sync with the auth session (login/register/logout/restore).
+  // Lazy token source: any request that finds no in-memory token loads it from
+  // the persisted session first. This removes the login/restore race where an
+  // early catalog fetch would 401 (=> empty list / empty search).
+  final db = ref.read(appDatabaseProvider);
+  final authRepo = AuthRepository(db);
+  client.setTokenLoader(() => authRepo.loadToken());
+  // Keep the in-memory token in sync with the auth session too.
   ref.listen(authControllerProvider, (prev, next) {
     if (next.user != null && next.status == AuthStatus.loggedIn) {
-      AuthRepository(ref.read(appDatabaseProvider)).loadToken().then((t) {
-        client.setToken(t);
-      });
+      authRepo.loadToken().then(client.setToken);
     } else if (next.status == AuthStatus.loggedOut) {
       client.setToken(null);
     }
@@ -70,52 +74,72 @@ final selectedFiltersProvider = StateProvider<List<String>>((ref) => []);
 // backend (single source of truth). Both keep the same Stream<List<Whisky>>
 // contract so the UI is unchanged.
 final whiskiesStreamProvider = StreamProvider<List<Whisky>>((ref) {
+  // Depend on auth so the list (re)fetches once a session (and thus the
+  // /api/db bearer token) is available. Without this, the first build fires
+  // before login/restore sets the token -> 401 -> silently-empty catalog.
+  ref.watch(authControllerProvider);
   final query = ref.watch(searchQueryProvider);
   final favoritesOnly = ref.watch(favoritesOnlyProvider);
   final selectedFilters = ref.watch(selectedFiltersProvider);
 
-  // Backend-driven list. The repository fetches from FastAPI/SQLite; we
-  // expose it as a stream via a Future -> Stream bridge so the UI, filters
-  // and favorites toggle behave identically to local mode.
-  final stream = ref
-          .read(whiskyRepositoryProvider)
-          .getAllWhiskies(limit: 5000, offset: 0)
-          .asStream()
-    .asyncMap<List<Whisky>>((list) async {
-      var filtered = list;
-      if (query.isNotEmpty) {
-        final q = query.toLowerCase();
-        filtered = filtered
-            .where((w) => (w.name).toLowerCase().contains(q))
-            .toList();
-      }
-
-      final seen = <String>{};
-      final unique = <Whisky>[];
-      for (final w in filtered) {
-        final name = w.name.trim().toLowerCase();
-        if (!seen.contains(name)) {
-          seen.add(name);
-          unique.add(w);
-        }
-      }
-      filtered = unique;
-
-      if (favoritesOnly) {
-        filtered = filtered.where((w) => w.isFavorite).toList();
-      }
-      if (selectedFilters.isNotEmpty) {
-        filtered = filtered.where((w) {
-          for (final f in selectedFilters) {
-            if (!_matchesFilterStatic(w, f)) return false;
-          }
-          return true;
-        }).toList();
-      }
-      return filtered;
-    });
-    return stream;
+  // Backend-driven list. Build with Stream.multi so that on every (re)listen
+  // (including the auth-induced rebuild) we FIRST ensure the bearer token is
+  // loaded into the client, THEN fetch — closing the login/restore race where
+  // an early build fires before the token is set and returns a 401 -> empty.
+  final stream = Stream<List<Whisky>>.multi((controller) async {
+    final repo = ref.read(whiskyRepositoryProvider);
+    // Ensure the /api/db bearer token is present before the catalog fetch.
+    final auth = ref.read(authControllerProvider);
+    if (auth.isLoggedIn) {
+      final token =
+          await AuthRepository(ref.read(appDatabaseProvider)).loadToken();
+      ref.read(dbWhiskyApiClientProvider).setToken(token);
+    }
+    final list = await repo.getAllWhiskies(limit: 5000, offset: 0);
+    controller.add(_filterWhiskies(list, query, favoritesOnly, selectedFilters));
+    controller.close();
+  });
+  return stream;
 });
+
+List<Whisky> _filterWhiskies(
+  List<Whisky> list,
+  String query,
+  bool favoritesOnly,
+  List<String> selectedFilters,
+) {
+  var filtered = list;
+  if (query.isNotEmpty) {
+    final q = query.toLowerCase();
+    filtered = filtered
+        .where((w) => (w.name).toLowerCase().contains(q))
+        .toList();
+  }
+
+  final seen = <String>{};
+  final unique = <Whisky>[];
+  for (final w in filtered) {
+    final name = w.name.trim().toLowerCase();
+    if (!seen.contains(name)) {
+      seen.add(name);
+      unique.add(w);
+    }
+  }
+  filtered = unique;
+
+  if (favoritesOnly) {
+    filtered = filtered.where((w) => w.isFavorite).toList();
+  }
+  if (selectedFilters.isNotEmpty) {
+    filtered = filtered.where((w) {
+      for (final f in selectedFilters) {
+        if (!_matchesFilterStatic(w, f)) return false;
+      }
+      return true;
+    }).toList();
+  }
+  return filtered;
+}
 
 // Stream provider for a single whisky (for detail screen real-time updates)
 final whiskyDetailProvider = StreamProvider.family<Whisky?, int>((ref, id) {

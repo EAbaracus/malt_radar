@@ -608,39 +608,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               ),
               const SizedBox(height: 32),
 
-              // Data Providers Section
-              _buildSectionHeader(tr('data_sources')),
-              const SizedBox(height: 12),
-              Card(
-                color: AppTheme.surface,
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    children: [
-                      _SourceTile(
-                        name: 'WhiskyHunter API',
-                        status: tr('active_mock'),
-                        badgeColor: AppTheme.secondary,
-                        badgeTextColor: AppTheme.secondary,
-                      ),
-                      const Divider(),
-                      _SourceTile(
-                        name: 'WhiskyEdition API',
-                        status: tr('active_mock'),
-                        badgeColor: AppTheme.secondary,
-                        badgeTextColor: AppTheme.secondary,
-                      ),
-                      const Divider(),
-                      _SourceTile(
-                        name: tr('manual_entry_module'),
-                        status: tr('active'),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 32),
-
               // Cache settings
               _buildSectionHeader(tr('cache_management')),
               const SizedBox(height: 12),
@@ -760,56 +727,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         fontWeight: FontWeight.bold,
         fontSize: 16,
         color: AppTheme.secondary,
-      ),
-    );
-  }
-}
-
-class _SourceTile extends StatelessWidget {
-  final String name;
-  final String status;
-  final Color? badgeColor;
-  final Color? badgeTextColor;
-  const _SourceTile({
-    required this.name,
-    required this.status,
-    this.badgeColor,
-    this.badgeTextColor,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final color = badgeColor ?? AppTheme.success;
-    final textColor = badgeTextColor ?? AppTheme.success;
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            name,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              color: AppTheme.textPrimary,
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            decoration: BoxDecoration(
-              color: color.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(6),
-              border: Border.all(color: color.withValues(alpha: 0.2)),
-            ),
-            child: Text(
-              status,
-              style: TextStyle(
-                color: textColor,
-                fontSize: 11,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }

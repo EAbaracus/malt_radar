@@ -6,7 +6,10 @@ import 'package:malt_radar/core/theme/app_theme_colors.dart';
 import '../controllers/whisky_providers.dart';
 import '../../domain/models/whisky.dart';
 import '../../../../core/localization/localization_provider.dart';
+import 'package:malt_radar/core/branding/brand_medallion.dart';
+import 'package:malt_radar/core/branding/brand_medallion_widget.dart';
 import 'detail_screen.dart';
+import '../../../flavor/presentation/widgets/flavor_radar_chart.dart';
 import '../widgets/glass_container.dart';
 import '../../../../core/presentation/widgets/cask_card.dart';
 import '../../../../core/presentation/widgets/tasting_chip.dart';
@@ -148,6 +151,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   )).toList(),
                 ),
               ],
+              // Flavor radar — shown in the preview so the selected whisky's
+              // profile is visible before adding to a list.
+              if (whisky.flavorProfile != null && whisky.flavorProfile!.isNotEmpty) ...[
+                const SizedBox(height: 24),
+                Text(tr('flavor_radar'), style: Theme.of(context).textTheme.titleMedium),
+                const SizedBox(height: 8),
+                FlavorRadarChart(flavorProfileJson: whisky.flavorProfile!),
+              ],
               const SizedBox(height: 36),
               SizedBox(
                 width: double.infinity,
@@ -232,9 +243,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             center: Alignment(-0.8, -0.6),
             radius: 1.5,
             colors: [
-              Color(0xFF1E1E2C),
+              AppTheme.surfaceElevated,
               AppTheme.background,
-              Color(0xFF040406),
+              AppTheme.surface,
             ],
           ),
         ),
@@ -532,7 +543,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => DetailScreen(whiskyId: whisky.id),
+            builder: (context) => DetailScreen(
+              whiskyId: whisky.id,
+              // Web/mobile are force-backend: pass the backend id so the
+              // detail screen fetches radar/evidence from /api/db instead of
+              // the (anti-scrape-empty) local DB.
+              backendId: whisky.externalId,
+            ),
           ),
         );
       },
@@ -547,10 +564,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
           borderRadius: BorderRadius.circular(16),
         ),
-        child: const Icon(
-          Icons.local_bar,
-          color: AppTheme.background,
+        child: const Medallion(
           size: 32,
+          level: MedallionLevel.micro,
         ),
       ),
       tags: whisky.tastingNotes.take(3).map((note) => TastingChip(label: note)).toList(),

@@ -3,6 +3,8 @@ import 'package:drift/drift.dart' hide Column;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:malt_radar/core/theme/app_theme.dart';
+import 'package:malt_radar/core/branding/brand_medallion.dart';
+import 'package:malt_radar/core/branding/brand_medallion_widget.dart';
 import 'package:malt_radar/core/theme/app_theme_colors.dart';
 import 'package:malt_radar/features/whisky/domain/models/whisky.dart';
 import '../controllers/whisky_providers.dart';
@@ -154,7 +156,7 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
                         shape: BoxShape.circle,
                         border: Border.all(color: AppTheme.primary.withValues(alpha: 0.2), width: 2),
                       ),
-                      child: const Icon(Icons.local_bar, color: AppTheme.primary, size: 48),
+                      child: const Medallion(size: 48, level: MedallionLevel.icon),
                     ),
                     const SizedBox(height: 16),
                     Text(

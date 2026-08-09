@@ -13,6 +13,7 @@ import 'package:drift/native.dart';
 import 'package:malt_radar/main.dart';
 import 'package:malt_radar/core/database/database.dart';
 import 'package:malt_radar/core/presentation/screens/main_navigation_screen.dart';
+import 'package:malt_radar/features/auth/presentation/auth_screen.dart';
 import 'package:malt_radar/features/compliance/presentation/age_gate_screen.dart';
 import 'package:malt_radar/features/compliance/presentation/age_gate_blocked_screen.dart';
 import 'package:malt_radar/features/whisky/presentation/controllers/whisky_providers.dart';
@@ -79,8 +80,11 @@ void main() {
     await tester.tap(find.byType(ElevatedButton));
     await tester.pumpAndSettle();
 
-    expect(find.byType(MainNavigationScreen), findsOneWidget);
+    // Age gate passed; the app now requires login before the catalog (no
+    // session in this test) -> the auth screen is shown, not the catalog yet.
+    expect(find.byType(AuthScreen), findsOneWidget);
     expect(find.byType(AgeGateScreen), findsNothing);
+    expect(find.byType(MainNavigationScreen), findsNothing);
 
     // Consent persisted for default selection (US, +21).
     final row = await (db.select(
@@ -99,11 +103,14 @@ void main() {
     expect(find.byType(AgeGateScreen), findsNothing);
   });
 
-  testWidgets('an already-consented install goes straight to content', (
+  testWidgets('an already-consented install goes straight to auth (content is gated behind login)', (
     tester,
   ) async {
     await pumpApp(tester, seedConsented: true);
+    // Age gate is skipped (consent present), but the catalog is now behind
+    // login: no session in this test -> the auth screen is shown.
     expect(find.byType(AgeGateScreen), findsNothing);
-    expect(find.byType(MainNavigationScreen), findsOneWidget);
+    expect(find.byType(AuthScreen), findsOneWidget);
+    expect(find.byType(MainNavigationScreen), findsNothing);
   });
 }

@@ -32,10 +32,14 @@ class DbWhiskyMapper {
       mapped['tasting_notes'] = <String>[];
     }
 
-    mapped['flavor_profile'] = flavorProfile;
-    if (flavorProfile != null) {
-      mapped['flavor_vector'] = flavorProfile['flavor_vector_json'];
-      mapped['flavor_tags'] = flavorProfile['flavor_tags_json'];
+    // flavor_profile: prefer the explicit (detail) payload; otherwise fall
+    // back to the raw catalogue row's string (list items carry their own
+    // flavor_profile JSON, which the radar UI needs to render).
+    final rawProfile = flavorProfile ?? dbWhisky['flavor_profile'];
+    mapped['flavor_profile'] = rawProfile;
+    if (rawProfile is Map<String, dynamic>) {
+      mapped['flavor_vector'] = rawProfile['flavor_vector_json'];
+      mapped['flavor_tags'] = rawProfile['flavor_tags_json'];
     }
 
     return mapped;

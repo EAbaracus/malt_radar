@@ -7,6 +7,8 @@ import '../controllers/whisky_providers.dart';
 import '../../../../core/localization/localization_provider.dart';
 import '../widgets/glass_container.dart';
 import '../../../flavor/presentation/widgets/flavor_radar_chart.dart';
+import 'package:malt_radar/core/branding/brand_medallion.dart';
+import 'package:malt_radar/core/branding/brand_medallion_widget.dart';
 import '../../../flavor/presentation/widgets/similar_flavor_whiskies.dart';
 import '../../../../core/config/app_config.dart';
 import 'package:malt_radar/features/lists/presentation/widgets/add_to_list_sheet.dart';
@@ -15,7 +17,6 @@ import 'package:malt_radar/core/localization/flavor_tag_translator.dart';
 import '../../../../core/presentation/widgets/section_header.dart';
 import '../../../../core/presentation/widgets/tasting_chip.dart';
 import '../../domain/models/whisky.dart';
-import '../../../flavor/presentation/providers/similar_flavor_provider.dart';
 class DetailScreen extends ConsumerStatefulWidget {
   final int whiskyId;
   /// Backend whisky_id (e.g. 'GSD-CAND-0001' / 'W000441'). Used in DbApi mode,
@@ -246,13 +247,19 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Container(
         decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [Color(0xFF1A3A1A), Color(0xFF0D260D)],
+          gradient: LinearGradient(
+            colors: [
+              AppTheme.secondary.withValues(alpha: 0.18),
+              AppTheme.surface,
+            ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: const Color(0xFF2D5A2D), width: 1),
+          border: Border.all(
+            color: AppTheme.secondary.withValues(alpha: 0.45),
+            width: 1,
+          ),
         ),
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -260,12 +267,12 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
           children: [
             Row(
               children: [
-                const Icon(Icons.verified, color: Color(0xFF4CAF50), size: 20),
+                const Icon(Icons.verified, color: AppTheme.secondary, size: 20),
                 const SizedBox(width: 8),
                 Text(
                   tr('certified_whisky'),
                   style: const TextStyle(
-                    color: Color(0xFF4CAF50),
+                    color: AppTheme.secondary,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                   ),
@@ -362,7 +369,7 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
           gradient: RadialGradient(
             center: Alignment(0, -0.8),
             radius: 1.5,
-            colors: [Color(0xFF1E1E2C), AppTheme.background, Color(0xFF040406)],
+            colors: [AppTheme.surfaceElevated, AppTheme.background, AppTheme.surface],
           ),
         ),
         child: whiskyAsync.when(
@@ -452,10 +459,9 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                           ),
                         ),
                         Center(
-                          child: Icon(
-                            Icons.local_bar,
+                          child: Medallion(
                             size: 120,
-                            color: AppTheme.primary.withValues(alpha: 0.15),
+                            level: MedallionLevel.master,
                           ),
                         ),
                         // Bottom gradient for text readability
