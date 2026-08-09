@@ -1,39 +1,47 @@
 # Deploy live status (GCP e2-micro · 34.60.144.38)
 
-Status: **Backend-only "internal" mode — webapp/catalog intentionally NOT public.**
+Status: **Backend "internal" mode — webapp/catalog not yet public** (waits on
+the human provisioning step; the anti-scrape *code* prerequisite is done).
 
-## Decision (2026-08-07)
-Per user: keep the webapp + catalog **internal** for now. The domain is
-acquired (`maltradar.com`, Cloudflare Registrar) but **on hold** until the
-`/api/db` per-user gating is landed. Current exposed surface = backend health +
-auth only; catalogue stays off.
+## Anti-scrape prerequisite — RESOLVED (2026-08-09)
 
-## Verified live facts (checked over SSH, `trblnfxn@34.60.144.38`)
+`/api/db` is now gated by **per-user bearer auth** (`get_current_user`, commit
+`68bb9b4`) — the shared `MALT_RADAR_API_KEY` no longer guards catalog reads and
+is not depended on by any browser client. The anti-scrape precondition
+("migrate /api/db to per-user bearer before `DB_API_ENABLED=true` for a public
+webapp") is **met**. Verified: `test_db_read_api_smoke` + `test_db_adapter_hardening`
++ `test_security_authz` → **30 passed, 1 skipped**.
+
+It is now safe to set `DB_API_ENABLED=true` for a public webapp.
+
+## Live facts (verified over SSH, `trblnfxn@34.60.144.38`)
 
 | Component | State | Evidence |
 |-----------|-------|----------|
-| SSH | ✅ | `~/.ssh/mr_deploy` key; user `trblnfxn` (short OS-Login) |
+| SSH | ✅ | `~/.ssh/mr_deploy` key; user `trblnfxn` |
 | Docker / Compose | ✅ | 26.1.5 / 2.26.1-4 |
 | Repo | ✅ /srv/maltradar | deploy/ backend/ frontend/ |
 | production.db | ✅ RO copy | `MALT_RADAR_DB_PATH=/srv/data/production.db` |
-| Backend api container | ✅ Up | `deploy-api-1` Up 5h; health **200** (in-container) |
-| Catalog `/api/db` | 🔒 OFF | `DB_API_ENABLED=false`; no-key → **403** |
-| Caddy | ❌ not up | no caddy container → no 80/443 |
+| Backend api container | ✅ Up | `deploy-api-1` health 200 (in-container) |
+| Catalog `/api/db` | 🔒 OFF (default) | `DB_API_ENABLED=false` → 403; NOW auth-gated |
+| Caddy | ❌ not up | no 80/443 yet (human step remains) |
 | External surface | 🔒 SSH only | 22 OPEN; 80/443 refused; 8080 unpublished |
 
-## Anti-scrape precondition (before public webapp)
-`/api/db` must be migrated to per-user bearer auth before `DB_API_ENABLED=true`
-for a public webapp; a shared API key must never ship to a browser. Until then
-the catalogue stays off (current state is the safe state).
+## Next (in order) — human provision steps
 
-## Next (deferred, in order)
-1. `/api/db` per-user gating (anti-scrape prerequisite).
-2. Web build → `deploy/web-build/` + Caddy up + DNS A record + `https://maltradar.com`.
+1. Build web: `cd frontend && flutter build web --dart-define=MALT_RADAR_API_BASE_URL=https://maltradar.com`
+   → copy `frontend/build/web/*` to `deploy/web-build/`. Verify no catalog CSV:
+   `find build/web -name "*.csv"` empty.
+2. `cd deploy && cp .env.example .env` → `MALT_RADAR_API_KEY=$(openssl rand -hex 32)`,
+   `DB_API_ENABLED=true`.
+3. DNS A record `maltradar.com` → VM public IP.
+4. `docker compose up -d` + Caddy validate (per `deploy/README` verify step).
+5. Verify: `curl https://maltradar.com/api/health`, `/` loads, `/robots.txt`
+   `Disallow: /api/`, same-origin no CORS.
 
-## Catalog sources (updated 2026-08-07)
-- `/api/db` → `backend/data` (gated off for public web; `DB_API_ENABLED=false`).
-- `/api/whiskies/search` → **CSV-only single source** (`CsvWhiskyProvider`).
-- Mock (`WhiskyHunterProvider`, `WhiskyEditionProvider`) + external `DistillerProvider`
-  (distiller.com scraper) **removed** (`49a5ed24`). No third-party scraped data surface.
-- `deploy/.env.example` now defaults `DB_API_ENABLED=false` (was `true`) — safe default
-  until per-user bearer auth lands.
+## Catalog sources (updated 2026-08-09)
+- `/api/db` → `production.db` (per-user bearer gated; the only catalog surface).
+- `/api/whiskies/*` **closed** (`b6880bb`) — legacy CSV provider routes removed;
+  `CsvWhiskyProvider` deleted. Catalog reads are `/api/db` only.
+- `deploy/.env.example` defaults `DB_API_ENABLED=false` (safe default); now safe
+  to flip true for public web post-provision.

@@ -3,7 +3,7 @@
 Hosts the static Flutter web app and the FastAPI backend on ONE free-tier VM
 behind Caddy (auto TLS, same-origin → no CORS).
 
-Cost: **server $0** (Oracle Cloud Always Free) · **domain ~$10–15/yr** (only
+Cost: **server $0** (GCP e2-micro Always Free) · **domain ~$10–15/yr** (only
 recurring cost).
 
 ```
@@ -27,36 +27,23 @@ deploy/
   web-build/              # flutter build web output
 ```
 
-## Anti-scrape prerequisite (READ FIRST)
+## Anti-scrape prerequisite (resolved)
 
-The public webapp reads the catalog through `/api/db`. Today:
+`/api/db` is now gated by **per-user bearer auth** (`get_current_user`) — not a
+shared key (commit 68bb9b4). A public webapp authenticates with the account
+token; `MALT_RADAR_API_KEY` never ships to a browser, preserving the
+anti-scrape posture. It is therefore now safe to set `DB_API_ENABLED=true` for
+a public webapp. Keep the shared key out of the Flutter web bundle; forbidding
+it server-side is handled by the bearer dependency.
 
-- `/api/db` is gated by the **shared** `MALT_RADAR_API_KEY` header.
-- `DbWhiskyApiClient` (frontend) does **not** send that header → DbApi-mode web
-  calls currently 403.
+## Provisioning checklist (human steps — GCP account is yours to create)
 
-**Before enabling `DB_API_ENABLED=true` for a public webapp** you must either:
-
-1. **Migrate `/api/db` to per-user bearer auth** (recommended; reuse
-   `backend/app/auth` token check) so the client authenticates with the account
-   token — the shared key never ships to browsers, preserving the anti-scrape
-   posture; **or**
-2. Inject the key server-side for same-origin only (Caddy cannot do this
-   cleanly; a trust boundary change). Do **not** embed `MALT_RADAR_API_KEY` in
-   the Flutter web bundle — a scraper reads it.
-
-Until then, keep `DB_API_ENABLED=false` for the public webapp (local/dev and
-non-web clients can keep it on with the key).
-
-## Provisioning checklist (human steps — Oracle account is yours to create)
-
-1. **Oracle Cloud Free** → sign up (Ampere A1):
-   - Compute → Create instance → Shape: **VM.Standard.A1.Flex** (ARM),
-     OCPU **4**, RAM **24 GB**.
-   - Boot volume: keep ≥ **100 GB** (free quota), or attach a **block volume**
-     (200 GB free) mounted at `/srv/maltradar`.
-   - Image: **Ubuntu 22.04/24.04 LTS**; open security list ports **22, 80, 443**.
-   - Save the SSH key.
+1. **GCP Cloud Free Tier** → sign up:
+   - Compute Engine → Create VM → Machine type **e2-micro** (x86, 1 vCPU /
+     1 GB RAM, Always Free).
+   - Boot volume ≥ 30 GB (free quota); mount at `/srv/maltradar`.
+   - Image: **Ubuntu 22.04/24.04 LTS**; firewall rules open **22, 80, 443**.
+   - Save the SSH key (`~/.ssh/mr_deploy`).
 2. **Install** on the box: `apt-get install -y docker.io docker-compose-plugin` (or
    Caddy directly + systemd unit).
 3. **Copy repo** to the box (or `git clone` your `malt_radar` repo).
