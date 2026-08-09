@@ -344,7 +344,7 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
   Widget build(BuildContext context) {
     final tr = ref.watch(trProvider);
     final langCode = ref.watch(localizationProvider);
-    final AsyncValue<Whisky?> whiskyAsync = AppConfig.useDbApi && widget.backendId != null
+    final AsyncValue<Whisky?> whiskyAsync = widget.backendId != null
         ? ref.watch(backendWhiskyDetailProvider(widget.backendId!))
         : ref.watch(whiskyDetailProvider(widget.whiskyId));
     final settingsAsync = ref.watch(referenceSettingsStreamProvider);

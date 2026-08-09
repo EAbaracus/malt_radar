@@ -1,27 +1,6 @@
 import 'package:flutter/foundation.dart';
 
 class AppConfig {
-  /// The catalog (whisky data / production.db) is served from the backend
-  /// only — the client no longer bundles it. So the default is TRUE: unless a
-  /// build opts out via --dart-define=MALT_RADAR_USE_DB_API=false, the app
-  /// pulls whisky data from FastAPI. kIsWeb is always force-true below.
-  static const bool useDbApiConst =
-      bool.fromEnvironment('MALT_RADAR_USE_DB_API', defaultValue: true);
-
-  /// Feature flag to switch between the local Drift/legacy-CSV repository and
-  /// the certified-staging backend (DbApi mode).
-  ///
-  /// When true, the entire app data path is:
-  ///   Flutter -> DbWhiskyRepositoryImpl -> FastAPI -> SQLite (staging)
-  /// and the backend is the single source of truth. When false, the local
-  /// Drift database (offline / legacy CSV / fallback) is used.
-  ///
-  /// The web target is ALWAYS backend-driven: forbidding the bundled catalog
-  /// CSV from being pulled on web keeps the whisky data server-side (a core
-  /// part of the anti-scrape posture — the CSV is not meant to ship to web
-  /// clients at all). Local CSV mode remains for desktop/mobile fleet / offline.
-  static bool get useDbApi => kIsWeb ? true : useDbApiConst;
-
   /// Feature flag for ScotchGit QA preview mode.
   /// If true, preview profiles (e.g. scotchgit) are considered in the UI.
   /// Should be false in production/release mode.

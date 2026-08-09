@@ -1,14 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:malt_radar/core/config/app_config.dart';
 import 'package:malt_radar/features/whisky/data/dto/db_whisky_dto.dart';
 
 void main() {
-  group('Feature Flag Validation', () {
-    test('USE_DB_API default is true (backend is the source of truth; no local catalog)', () {
-      expect(AppConfig.useDbApi, true);
-    });
-  });
-
   group('DTO Mapper Validation', () {
     test('Maps full DB whisky correctly to legacy map', () {
       final dbWhisky = {

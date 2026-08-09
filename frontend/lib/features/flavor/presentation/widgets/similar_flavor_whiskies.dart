@@ -5,7 +5,6 @@ import '../../../../core/localization/localization_provider.dart';
 import '../providers/similar_flavor_provider.dart';
 import '../../../whisky/domain/models/whisky.dart';
 import '../../../whisky/presentation/controllers/whisky_providers.dart';
-import '../../../../core/config/app_config.dart';
 import 'package:malt_radar/core/theme/app_theme_colors.dart';
 
 class SimilarFlavorWhiskies extends ConsumerWidget {
@@ -26,7 +25,7 @@ class SimilarFlavorWhiskies extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final AsyncValue<List<Whisky>> similarAsync;
-    if (AppConfig.useDbApi && backendId != null) {
+    if (backendId != null) {
       similarAsync = ref.watch(backendSimilarWhiskiesProvider(backendId!));
     } else {
       similarAsync = ref.watch(similarFlavorWhiskiesProvider(whiskyId));

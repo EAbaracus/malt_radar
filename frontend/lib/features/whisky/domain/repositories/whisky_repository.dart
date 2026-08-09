@@ -9,7 +9,7 @@ abstract class WhiskyRepository {
   });
 
   // --- Backend (DbApi) data path -----------------------------------------
-  // When AppConfig.useDbApi is true these methods form the single source of
+  // Single source of
   // truth: Flutter -> DbWhiskyRepositoryImpl -> FastAPI -> SQLite. They are
   // backed by the local Drift DB only in offline/legacy/fallback mode.
 
