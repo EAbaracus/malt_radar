@@ -250,3 +250,15 @@ mr-kep/audit/zero_evidence_opportunity/
 mr-kep/audit/flavor_gap_audit/*.json
 mr-kep/audit/flavor_gap_audit/*.jsonl
 mr-kep/audit/flavor_gap_audit/*.sql
+
+# ---- git-data-hygiene (2026-08-07): temp/data strays (source stays tracked) ----
+# Temp working dirs / scraped HTML (never intended for VCS).
+/.tmp_connosr/
+/_connosr_*.html
+# Hermes desktop attachments (bulk data zips) — plans/*.md stay tracked.
+/.hermes/desktop-attachments/
+# Residual mr-kep audit GENERATED data (json/jsonl only; *.py source stays).
+/mr-kep/audit/zero_evidence_opportunity/
+/mr-kep/audit/book_contribution/
+/mr-kep/audit/flavor_gap_audit/*.json
+/mr-kep/audit/**/*.json
