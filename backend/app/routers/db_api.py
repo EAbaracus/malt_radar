@@ -3,7 +3,8 @@ from typing import Optional, List, Dict, Any
 import os
 import sqlite3
 from app.services.db_read_service import DbReadService, CatalogBoundsError
-from app.security import verify_api_key, limiter
+from app.security import limiter
+from app.auth.routes import get_current_user
 
 
 
@@ -14,7 +15,7 @@ def check_db_api_enabled():
 router = APIRouter(
     prefix="/api/db", 
     tags=["DB API Adapter"],
-    dependencies=[Depends(check_db_api_enabled), Depends(verify_api_key)]
+    dependencies=[Depends(check_db_api_enabled), Depends(get_current_user)]
 )
 
 def get_service() -> DbReadService:

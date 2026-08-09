@@ -126,13 +126,54 @@ def test_db_read_service_evidence_strips_source_fields():
 
 
 # ----------------------------------------------------------------------
-# C. /api/db/* requires an API key
+# C. /api/db/* requires per-user bearer auth (no shared API key)
 # ----------------------------------------------------------------------
-def test_db_api_requires_api_key():
-    r = client.get("/api/db/health")
-    assert r.status_code == 403
+def _bearer_for_db():
+    """Register a throwaway user and return its bearer token (db_api gate)."""
+    import tempfile, pathlib
+
+    _old = os.environ.get("MALT_RADAR_USERS_DB_PATH")
+    os.environ["MALT_RADAR_USERS_DB_PATH"] = str(
+        pathlib.Path(tempfile.mkdtemp()) / "users.db"
+    )
+    if hasattr(app.state, "user_store"):
+        del app.state.user_store
+    app.state.limiter.enabled = False
+    try:
+        r = client.post(
+            "/api/auth/register",
+            json={
+                "email": "authz@example.com",
+                "password": "s3curePass",
+                "age_country": "TR",
+                "age_min": 18,
+                "privacy_consent": True,
+            },
+        )
+        assert r.status_code == 201, r.text
+        return r.json()["token"]
+    finally:
+        if _old is None:
+            os.environ.pop("MALT_RADAR_USERS_DB_PATH", None)
+        else:
+            os.environ["MALT_RADAR_USERS_DB_PATH"] = _old
+        app.state.limiter.enabled = True
 
 
-def test_db_api_allowed_with_key():
-    r = client.get("/api/db/health", headers=ADMIN_HEADERS)
+def test_db_api_requires_auth():
+    # No bearer token -> 401 (never served).
+    assert client.get("/api/db/health").status_code == 401
+
+
+def test_db_api_allowed_with_bearer():
+    r = client.get(
+        "/api/db/health",
+        headers={"Authorization": f"Bearer {_bearer_for_db()}"},
+    )
     assert r.status_code == 200
+
+
+def test_db_api_rejects_legacy_api_key():
+    # The shared X-API-Key channel is gone; it must NOT authorize db reads.
+    r = client.get("/api/db/health", headers=ADMIN_HEADERS)
+    assert r.status_code in [401, 403]

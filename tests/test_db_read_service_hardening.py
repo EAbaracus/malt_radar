@@ -12,7 +12,44 @@ from app.main import app
 from app.services.db_read_service import DbReadService
 
 client = TestClient(app)
-DB_HEADERS = {"X-API-Key": "test-api-key"}
+# db_api is per-user bearer-authenticated (no shared X-API-Key). Module-scope
+# autouse fixture registers a throwaway user and rewrites DB_HEADERS to carry
+# its bearer token, so existing `headers=DB_HEADERS` call sites stay valid.
+DB_HEADERS: dict = {}
+
+
+@pytest.fixture(scope="module", autouse=True)
+def _bearer_for_db_tests(tmp_path_factory):
+    # (No monkeypatch: function-scoped. Manage os.environ manually.)
+    _old_db = os.environ.get("MALT_RADAR_USERS_DB_PATH")
+    os.environ["MALT_RADAR_USERS_DB_PATH"] = str(
+        tmp_path_factory.mktemp("users") / "users.db"
+    )
+    if hasattr(app.state, "user_store"):
+        del app.state.user_store
+    app.state.limiter.enabled = False
+    r = client.post(
+        "/api/auth/register",
+        json={
+            "email": "svcharden@example.com",
+            "password": "s3curePass",
+            "age_country": "TR",
+            "age_min": 18,
+            "privacy_consent": True,
+        },
+    )
+    assert r.status_code == 201, r.text
+    DB_HEADERS.clear()
+    DB_HEADERS["Authorization"] = f"Bearer {r.json()['token']}"
+    yield
+    DB_HEADERS.clear()
+    if _old_db is None:
+        os.environ.pop("MALT_RADAR_USERS_DB_PATH", None)
+    else:
+        os.environ["MALT_RADAR_USERS_DB_PATH"] = _old_db
+    if hasattr(app.state, "user_store"):
+        del app.state.user_store
+    app.state.limiter.enabled = True
 
 def test_db_resolver_default_path():
     if "MALT_RADAR_DB_PATH" in os.environ:

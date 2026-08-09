@@ -14,8 +14,47 @@ from app.main import app
 from app.providers.sqlite_read_adapter import SqliteReadAdapter
 
 client = TestClient(app)
-# Matches tests/conftest.TEST_API_KEY
-DB_HEADERS = {"X-API-Key": "test-api-key"}
+# db_api is now per-user bearer-authenticated (no shared X-API-Key). A
+# module-scope autouse fixture registers a throwaway user and rewrites this
+# headers dict to carry its bearer token, so all existing `headers=DB_HEADERS`
+# call sites transparently use the authenticated path.
+DB_HEADERS: dict = {}
+
+
+@pytest.fixture(scope="module", autouse=True)
+def _bearer_for_db_tests(tmp_path_factory):
+    # Isolate users.db + drop rate limits for deterministic register->token.
+    # (No monkeypatch: it is function-scoped; manage os.environ manually.)
+    _old_db = os.environ.get("MALT_RADAR_USERS_DB_PATH")
+    os.environ["MALT_RADAR_USERS_DB_PATH"] = str(
+        tmp_path_factory.mktemp("users") / "users.db"
+    )
+    if hasattr(app.state, "user_store"):
+        del app.state.user_store
+    app.state.limiter.enabled = False
+    r = client.post(
+        "/api/auth/register",
+        json={
+            "email": "harden@example.com",
+            "password": "s3curePass",
+            "age_country": "TR",
+            "age_min": 18,
+            "privacy_consent": True,
+        },
+    )
+    assert r.status_code == 201, r.text
+    token = r.json()["token"]
+    DB_HEADERS.clear()
+    DB_HEADERS["Authorization"] = f"Bearer {token}"
+    yield
+    DB_HEADERS.clear()
+    if _old_db is None:
+        os.environ.pop("MALT_RADAR_USERS_DB_PATH", None)
+    else:
+        os.environ["MALT_RADAR_USERS_DB_PATH"] = _old_db
+    if hasattr(app.state, "user_store"):
+        del app.state.user_store
+    app.state.limiter.enabled = True
 
 
 # A) DB resolver tests
