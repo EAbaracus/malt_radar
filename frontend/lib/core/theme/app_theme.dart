@@ -52,6 +52,37 @@ class AppTheme {
           letterSpacing: 1.2,
         ),
       ),
+      navigationBarTheme: NavigationBarThemeData(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        height: 68,
+        indicatorColor: primary.withValues(alpha: 0.14),
+        indicatorShape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        iconTheme: WidgetStateProperty.resolveWith(
+          (states) => states.contains(WidgetState.selected)
+              ? const IconThemeData(color: primary)
+              : const IconThemeData(color: textMuted),
+        ),
+        labelTextStyle: WidgetStateProperty.resolveWith(
+          (states) => states.contains(WidgetState.selected)
+              ? const TextStyle(
+                  color: primary,
+                  fontFamily: 'Inter',
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 0.5,
+                )
+              : const TextStyle(
+                  color: textMuted,
+                  fontFamily: 'Inter',
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 0.5,
+                ),
+        ),
+      ),
       cardTheme: CardThemeData(
         color: surface,
         elevation: 0,

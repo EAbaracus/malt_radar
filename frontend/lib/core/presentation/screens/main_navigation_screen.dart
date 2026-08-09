@@ -52,31 +52,27 @@ class _MainNavigationScreenState extends ConsumerState<MainNavigationScreen> {
                     ),
                   ),
                   child: SafeArea(
-                    child: BottomNavigationBar(
-                      backgroundColor: Colors.transparent,
-                      elevation: 0,
-                      selectedItemColor: AppTheme.primary,
-                      unselectedItemColor: AppTheme.textMuted,
-                      currentIndex: _selectedIndex,
-                      onTap: (index) {
+                    child: NavigationBar(
+                      selectedIndex: _selectedIndex,
+                      onDestinationSelected: (index) {
                         setState(() {
                           _selectedIndex = index;
                         });
                       },
-                      items: [
-                        BottomNavigationBarItem(
+                      destinations: [
+                        NavigationDestination(
                           icon: const Icon(Icons.explore_outlined),
-                          activeIcon: const Icon(Icons.explore),
+                          selectedIcon: const Icon(Icons.explore),
                           label: tr('explore'),
                         ),
-                        BottomNavigationBarItem(
+                        NavigationDestination(
                           icon: const Icon(Icons.bookmark_outline),
-                          activeIcon: const Icon(Icons.bookmark),
+                          selectedIcon: const Icon(Icons.bookmark),
                           label: tr('lists'),
                         ),
-                        BottomNavigationBarItem(
+                        NavigationDestination(
                           icon: const Icon(Icons.settings_outlined),
-                          activeIcon: const Icon(Icons.settings),
+                          selectedIcon: const Icon(Icons.settings),
                           label: tr('settings'),
                         ),
                       ],
