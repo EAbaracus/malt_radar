@@ -43,10 +43,12 @@ def test_headers_on_health_ok():
     _assert_full_header_set(resp)
 
 
-def test_headers_on_auth_denied_403():
-    # Unauthenticated request -> 403. Headers must still be present.
-    resp = client.get("/api/whiskies/search?q=test")
-    assert resp.status_code == 403
+def test_headers_on_auth_denied():
+    # Unauthenticated request to a protected endpoint must be rejected (401
+    # bearer-gate or 403 since DB_API_ENABLED is off by default here). Headers
+    # must still be present on the error response.
+    resp = client.get("/api/db/health")
+    assert resp.status_code in (401, 403)
     _assert_full_header_set(resp)
 
 

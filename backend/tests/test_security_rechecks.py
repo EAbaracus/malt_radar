@@ -15,14 +15,21 @@ from app.services.db_read_service import DbReadService
 client = TestClient(app)
 
 def test_api_key_protection_missing_header():
-    # Attempting to access protected endpoint without header should fail
-    response = client.get("/api/whiskies/search?q=test")
-    assert response.status_code == 403
-    assert "API Key" in response.json()["detail"]
+    # verify_api_key rejects a missing/invalid key directly (the header path
+    # was previously exercised via the now-removed /api/whiskies/* routes).
+    import asyncio
+    from fastapi import HTTPException
+    with pytest.raises(HTTPException) as exc:
+        asyncio.run(verify_api_key(None))
+    assert exc.value.status_code == 403
+    assert "API Key" in exc.value.detail
 
 def test_api_key_protection_invalid_header():
-    response = client.get("/api/whiskies/search?q=test", headers={"X-API-Key": "wrong-key"})
-    assert response.status_code == 403
+    import asyncio
+    from fastapi import HTTPException
+    with pytest.raises(HTTPException) as exc:
+        asyncio.run(verify_api_key("wrong-key"))
+    assert exc.value.status_code == 403
 
 def test_verify_api_key_no_fallback(monkeypatch):
     # Ensure there is no fallback to "mock-secret-key-123"
