@@ -262,3 +262,18 @@ mr-kep/audit/flavor_gap_audit/*.sql
 /mr-kep/audit/book_contribution/
 /mr-kep/audit/flavor_gap_audit/*.json
 /mr-kep/audit/**/*.json
+
+# ---- git-data-hygiene purge (2026-08-09): generated data/artifacts, CSV-only catalog source ----
+# /api/whiskies/* closed (b6880bb); catalog served only via /api/db (production.db).
+# The CSV catalog files and generated preview/report artifacts are no longer read at
+# runtime. Removed from the index only (files stay on disk); never re-add.
+/output/
+/data/output/
+/backend/data/Distillery.csv
+/backend/data/The_Malt_List.pdf
+/backend/data/flavor_profiles.csv
+/backend/data/openapi.json
+/backend/data/production_data.csv
+/backend/data/whisky_database_merged_max.csv
+/mr-kep/p*/**/*.csv
+/mr-kep/p*/**/*.jsonl

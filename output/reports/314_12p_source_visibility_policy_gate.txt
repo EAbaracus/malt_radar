@@ -1,5 +1,0 @@
-GATE: GO_WITH_CODE_GUARD_RECOMMENDED
-frontend_risk: 9
-backend_risk: 5
-sources_updated: 11
-db_changed: False

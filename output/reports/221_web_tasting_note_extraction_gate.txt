@@ -1,5 +1,0 @@
-12D Web Tasting Note Extraction Gate
-=================================
-Decision: GO
-
-All extraction criteria met.

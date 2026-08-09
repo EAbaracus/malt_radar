@@ -1,5 +1,0 @@
-12G Extracted Tasting Note Staging Gate
-=======================================
-Decision: GO
-
-All staging preview criteria met.

@@ -1,8 +1,0 @@
-metric,value
-input_rows,11149.0
-candidate_rows,123.0
-full_text_leak,0.0
-public_source_field_leak,0.0
-min_name_match_score,95.7
-avg_name_match_score,98.82032520325201
-max_name_match_score,100.0

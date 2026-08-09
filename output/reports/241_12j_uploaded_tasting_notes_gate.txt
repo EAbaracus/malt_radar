@@ -1,4 +1,0 @@
-GATE: GO
-All safety checks passed.
-- DB remains unchanged.
-- Duplicates and low confidence matches handled.

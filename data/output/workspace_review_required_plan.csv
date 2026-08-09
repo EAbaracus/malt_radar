@@ -1,4 +1,0 @@
-path,current_git_status,current_category,recommended_action,proposed_command,risk_level,reason,requires_manual_confirmation,safe_for_automated_cleanup
-frontend/lib/core/widgets/,??,frontend_source,REVIEW_REQUIRED,git add 'frontend/lib/core/widgets/' OR git checkout 'frontend/lib/core/widgets/',HIGH,Frontend logic requires manual review,True,False
-frontend/lib/features/whisky/data/dto/,??,frontend_source,REVIEW_REQUIRED,git add 'frontend/lib/features/whisky/data/dto/' OR git checkout 'frontend/lib/features/whisky/data/dto/',HIGH,Frontend logic requires manual review,True,False
-frontend/lib/features/whisky/data/repositories/db_whisky_repository_impl.dart,??,frontend_source,REVIEW_REQUIRED,git add 'frontend/lib/features/whisky/data/repositories/db_whisky_repository_impl.dart' OR git checkout 'frontend/lib/features/whisky/data/repositories/db_whisky_repository_impl.dart',HIGH,Frontend logic requires manual review,True,False

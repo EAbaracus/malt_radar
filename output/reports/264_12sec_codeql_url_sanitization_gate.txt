@@ -1,9 +1,0 @@
-GATE: GO
-
-- substring URL allowlist kontrolü kaldırıldı
-- tests/test_tasting_note_url_safety.py PASS
-- CodeQL alert pattern'i iki dosyada da temizlendi
-- production.db değişmedi
-- output/import/* değişmedi
-- unsafe URL testleri reject edildi
-- valid allowed domain testleri accept edildi

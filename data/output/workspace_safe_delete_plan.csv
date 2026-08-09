@@ -1,5 +1,0 @@
-path,current_git_status,current_category,recommended_action,proposed_command,risk_level,reason,requires_manual_confirmation,safe_for_automated_cleanup
-check_indexes.py,??,temp_script,DELETE_CANDIDATE,rm 'check_indexes.py',LOW,Temporary diagnostic script,False,True
-check_table.py,??,temp_script,DELETE_CANDIDATE,rm 'check_table.py',LOW,Temporary diagnostic script,False,True
-check_whiskies.py,??,temp_script,DELETE_CANDIDATE,rm 'check_whiskies.py',LOW,Temporary diagnostic script,False,True
-erseltunDocumentsmalt radar\357\200\242,??,corrupted_path,DELETE_CANDIDATE,rm -rf 'erseltunDocumentsmalt radar\357\200\242',LOW,Garbage corrupted path,False,True
