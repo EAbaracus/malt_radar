@@ -114,8 +114,28 @@ class _GateLoadingScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: CircularProgressIndicator(color: AppTheme.primary)),
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Medallion(
+              size: 96,
+              level: MedallionLevel.master,
+              spin: true,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'MALT RADAR',
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    color: AppTheme.primary,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 2.0,
+                  ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

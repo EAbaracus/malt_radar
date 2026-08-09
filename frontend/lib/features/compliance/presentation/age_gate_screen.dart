@@ -84,32 +84,39 @@ class _AgeGateScreenState extends ConsumerState<AgeGateScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 8),
                   Center(
-                    child: Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: AppTheme.primary.withValues(alpha: 0.08),
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: AppTheme.primary.withValues(alpha: 0.2),
-                          width: 2,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: AppTheme.primary.withValues(alpha: 0.08),
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: AppTheme.primary.withValues(alpha: 0.2),
+                              width: 1.5,
+                            ),
+                          ),
+                          child: const Medallion(
+                            size: 40,
+                            level: MedallionLevel.icon,
+                          ),
                         ),
-                      ),
-                      child: const Medallion(
-                        size: 48,
-                        level: MedallionLevel.icon,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'MALT RADAR',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      color: AppTheme.primary,
-                      fontWeight: FontWeight.w900,
-                      letterSpacing: 2.0,
+                        const SizedBox(width: 12),
+                        Text(
+                          'MALT RADAR',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineMedium
+                              ?.copyWith(
+                                color: AppTheme.primary,
+                                fontWeight: FontWeight.w900,
+                                letterSpacing: 2.0,
+                              ),
+                        ),
+                      ],
                     ),
                   ),
                   const SizedBox(height: 20),

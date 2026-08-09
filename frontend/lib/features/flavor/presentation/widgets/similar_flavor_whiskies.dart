@@ -5,6 +5,7 @@ import '../../../../core/localization/localization_provider.dart';
 import '../providers/similar_flavor_provider.dart';
 import '../../../whisky/domain/models/whisky.dart';
 import '../../../whisky/presentation/controllers/whisky_providers.dart';
+import 'package:malt_radar/core/branding/brand_medallion_widget.dart';
 import 'package:malt_radar/core/theme/app_theme_colors.dart';
 
 class SimilarFlavorWhiskies extends ConsumerWidget {
@@ -132,7 +133,7 @@ class SimilarFlavorWhiskies extends ConsumerWidget {
           ],
         );
       },
-      loading: () => const Center(child: CircularProgressIndicator(strokeWidth: 2)),
+      loading: () => BrandSpinner(size: 24),
       error: (e, st) => const SizedBox(),
     );
   }
