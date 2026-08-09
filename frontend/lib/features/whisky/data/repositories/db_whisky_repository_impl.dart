@@ -1,5 +1,4 @@
 import 'package:drift/drift.dart';
-import 'package:malt_radar/core/api/api_client.dart';
 import 'package:malt_radar/core/api/db_whisky_api_client.dart';
 import 'package:malt_radar/core/database/database.dart';
 import 'package:malt_radar/features/flavor/domain/flavor_profile_normalizer.dart';
@@ -9,11 +8,9 @@ import '../dto/db_whisky_dto.dart';
 
 class DbWhiskyRepositoryImpl implements WhiskyRepository {
   final AppDatabase _db;
-  // ignore: unused_field
-  final ApiClient _apiClient;
   final DbWhiskyApiClient _dbClient;
 
-  DbWhiskyRepositoryImpl(this._db, this._apiClient, this._dbClient);
+  DbWhiskyRepositoryImpl(this._db, this._dbClient);
 
   @override
   Stream<List<Whisky>> watchLocalWhiskies({

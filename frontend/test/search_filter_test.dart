@@ -2,9 +2,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:malt_radar/core/database/database.dart';
-import 'package:malt_radar/core/api/api_client.dart';
+import 'package:malt_radar/core/api/db_whisky_api_client.dart';
 import 'package:malt_radar/features/whisky/domain/models/whisky.dart';
-import 'package:malt_radar/features/whisky/data/repositories/whisky_repository_impl.dart';
+import 'package:malt_radar/features/whisky/data/repositories/db_whisky_repository_impl.dart';
 import 'package:malt_radar/features/whisky/domain/repositories/whisky_repository.dart';
 
 void main() {
@@ -13,7 +13,7 @@ void main() {
 
   setUp(() async {
     db = AppDatabase.forTesting(NativeDatabase.memory());
-    repo = WhiskyRepositoryImpl(db, ApiClient());
+    repo = DbWhiskyRepositoryImpl(db, DbWhiskyApiClient());
 
     // Seed test whiskies directly into db
     await db.into(db.whiskies).insert(
