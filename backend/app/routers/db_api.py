@@ -15,7 +15,7 @@ def check_db_api_enabled():
 router = APIRouter(
     prefix="/api/db", 
     tags=["DB API Adapter"],
-    dependencies=[Depends(check_db_api_enabled), Depends(get_current_user)]
+    dependencies=[Depends(check_db_api_enabled)]
 )
 
 def get_service() -> DbReadService:
