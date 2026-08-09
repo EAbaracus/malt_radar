@@ -53,8 +53,8 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
   void _loadPrices() async {
     final repository = ref.read(whiskyRepositoryProvider);
     Whisky? whisky;
-    if (AppConfig.useDbApi && widget.backendId != null) {
-      // DbApi mode has no local price repository. Stop the spinner instead of
+    if (widget.backendId != null) {
+      // Backend mode has no local price repository. Stop the spinner instead of
       // leaving it spinning forever. The price section is gated by
       // AppConfig.showPriceData, so this only surfaces if that flag is enabled
       // or later flipped to a runtime flag.
@@ -660,22 +660,21 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                           const SizedBox(height: 24),
                           SimilarFlavorWhiskies(
                             whiskyId: whisky.id,
-                            backendId: AppConfig.useDbApi ? whisky.externalId : null,
+                            backendId: whisky.externalId,
                             onWhiskyTap: (w) {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => DetailScreen(whiskyId: w.id, backendId: AppConfig.useDbApi ? w.externalId : null),
+                                  builder: (context) => DetailScreen(whiskyId: w.id, backendId: w.externalId),
                                 ),
                               );
                             },
                           ),
 
-                          if (AppConfig.useDbApi && (whisky.externalId?.startsWith("GSD-") == true))
+                          if (whisky.externalId?.startsWith("GSD-") == true)
                             _buildCertificationSection(context, tr, whisky),
 
-                          if (AppConfig.useDbApi)
-                            _buildEvidenceSection(context, tr, ref, whisky),
+                          _buildEvidenceSection(context, tr, ref, whisky),
                         ] else ...[
                           GlassContainer(
                             padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 16),

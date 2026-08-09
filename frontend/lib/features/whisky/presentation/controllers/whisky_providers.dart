@@ -1,12 +1,10 @@
 import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:malt_radar/core/api/db_whisky_api_client.dart';
-import 'package:malt_radar/core/config/app_config.dart';
 import 'package:malt_radar/core/database/database.dart';
 import '../../data/repositories/db_whisky_repository_impl.dart';
 import '../../domain/models/whisky.dart';
 import '../../domain/repositories/whisky_repository.dart';
-import 'package:malt_radar/core/database/data_seed_service.dart';
 import 'package:malt_radar/features/flavor/domain/flavor_profile_normalizer.dart';
 
 // Provider for the local Drift database
@@ -21,15 +19,11 @@ final dbWhiskyApiClientProvider = Provider<DbWhiskyApiClient>((ref) {
   return DbWhiskyApiClient();
 });
 
-// Provider for app initialization
+// Provider for app initialization. Backend (/api/db) is the single data
+// source; the local Drift DB is not seeded from any bundled CSV (anti-scrape:
+// no catalog data ships to the client).
 final appInitializationProvider = FutureProvider<void>((ref) async {
-  final db = ref.watch(appDatabaseProvider);
-  // Backend/web mode: the catalog comes from FastAPI, so do NOT seed the local
-  // Drift DB from the bundled CSV (avoids pulling catalog data from the web
-  // asset bundle — part of the anti-scrape posture).
-  if (!AppConfig.useDbApi) {
-    await DataSeedService.seedDatabaseIfEmpty(db);
-  }
+  ref.watch(appDatabaseProvider);
 });
 
 // Provider for the repository — backend (/api/db) is the single source of
@@ -54,20 +48,18 @@ final selectedFiltersProvider = StateProvider<List<String>>((ref) => []);
 // backend (single source of truth). Both keep the same Stream<List<Whisky>>
 // contract so the UI is unchanged.
 final whiskiesStreamProvider = StreamProvider<List<Whisky>>((ref) {
-  final repository = ref.watch(whiskyRepositoryProvider);
   final query = ref.watch(searchQueryProvider);
   final favoritesOnly = ref.watch(favoritesOnlyProvider);
   final selectedFilters = ref.watch(selectedFiltersProvider);
 
-  if (AppConfig.useDbApi) {
-      // Backend-driven list. The repository fetches from FastAPI/SQLite; we
-      // expose it as a stream via a Future -> Stream bridge so the UI, filters
-      // and favorites toggle behave identically to local mode.
-      final stream = ref
-              .read(whiskyRepositoryProvider)
-              .getAllWhiskies(limit: 5000, offset: 0)
-              .asStream()
-        .asyncMap<List<Whisky>>((list) async {
+  // Backend-driven list. The repository fetches from FastAPI/SQLite; we
+  // expose it as a stream via a Future -> Stream bridge so the UI, filters
+  // and favorites toggle behave identically to local mode.
+  final stream = ref
+          .read(whiskyRepositoryProvider)
+          .getAllWhiskies(limit: 5000, offset: 0)
+          .asStream()
+    .asyncMap<List<Whisky>>((list) async {
       var filtered = list;
       if (query.isNotEmpty) {
         final q = query.toLowerCase();
@@ -101,13 +93,6 @@ final whiskiesStreamProvider = StreamProvider<List<Whisky>>((ref) {
       return filtered;
     });
     return stream;
-  }
-
-  return repository.watchLocalWhiskies(
-    query: query,
-    favoritesOnly: favoritesOnly,
-    filters: selectedFilters,
-  );
 });
 
 // Stream provider for a single whisky (for detail screen real-time updates)
