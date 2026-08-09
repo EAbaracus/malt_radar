@@ -10,6 +10,9 @@
 from __future__ import annotations
 
 import logging
+import os
+import smtplib
+from email.message import EmailMessage
 from typing import Any, Dict, List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Request
@@ -62,10 +65,52 @@ def _public_user(user: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def _send_verification_email(email: str, verify_url: str) -> None:
-    # Stub (no SMTP configured): log the link so the receiver can verify.
-    logger.info(
-        "EMAIL-STUB verify url for %s: %s", email, verify_url
+    """Send the email-verification link via SMTP (Gmail app-password) when
+    configured; otherwise fall back to a server-log stub so dev doesn't break.
+
+    Env (all optional; absent -> stub):
+      MALT_RADAR_SMTP_HOST / _PORT / _USER / _PASS / _FROM  (e.g. smtp.gmail.com)
+    """
+    host = os.getenv("MALT_RADAR_SMTP_HOST", "").strip()
+    user = os.getenv("MALT_RADAR_SMTP_USER", "").strip()
+    pw = os.getenv("MALT_RADAR_SMTP_PASS", "").strip()
+    fr = os.getenv("MALT_RADAR_SMTP_FROM", user or "maltradar@gmail.com")
+    port = int(os.getenv("MALT_RADAR_SMTP_PORT", "587") or "587")
+
+    if not (host and user and pw):
+        logger.info("EMAIL-STUB verify url for %s: %s", email, verify_url)
+        return
+
+    # A relative verify path ("/verify-email?…") is resolved against the app
+    # origin so the email carries a clickable absolute link.
+    if verify_url.startswith("/"):
+        origin = os.getenv("MALT_RADAR_APP_URL", "").rstrip("/")
+        if origin:
+            verify_url = f"{origin}{verify_url}"
+
+    subject = "Malt Radar – E-posta adresinizi doğrulayın"
+    body = (
+        "Merhaba,\n\n"
+        "Malt Radar hesabınız için e-posta adresinizi doğrulamak üzere "
+        "aşağıdaki bağlantıya tıklayın (24 saat geçerlidir):\n\n"
+        f"{verify_url}\n\n"
+        "Bu isteği siz yapmadıysanız bu e-postayı yok sayın.\n"
+        "Saygılar,\nMalt Radar"
     )
+    msg = EmailMessage()
+    msg["Subject"] = subject
+    msg["From"] = fr
+    msg["To"] = email
+    msg.set_content(body)
+
+    try:
+        with smtplib.SMTP(host, port, timeout=20) as s:
+            s.starttls()
+            s.login(user, pw)
+            s.send_message(msg)
+        logger.info("EMAIL sent verification link to %s", email)
+    except Exception as e:  # noqa: BLE001 — never break register on mail failure
+        logger.warning("EMAIL send failed for %s: %s", email, e)
 
 
 # --- account lifecycle ------------------------------------------------

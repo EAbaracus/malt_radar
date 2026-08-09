@@ -4,8 +4,9 @@ import 'core/theme/app_theme.dart';
 import 'core/branding/brand_medallion.dart';
 import 'core/branding/brand_medallion_widget.dart';
 import 'features/whisky/presentation/controllers/whisky_providers.dart';
-import 'features/whisky/presentation/screens/setup_screen.dart';
 import 'core/presentation/screens/main_navigation_screen.dart';
+import 'features/auth/presentation/auth_screen.dart';
+import 'features/auth/presentation/auth_controller.dart';
 import 'features/compliance/presentation/age_gate_providers.dart';
 import 'features/compliance/presentation/age_gate_screen.dart';
 import 'features/compliance/presentation/age_gate_blocked_screen.dart';
@@ -51,17 +52,13 @@ class MaltRadarApp extends ConsumerWidget {
 
     return initAsync.when(
       data: (_) {
-        final settingsAsync = ref.watch(referenceSettingsStreamProvider);
-        return settingsAsync.when(
-          data: (settings) {
-            final id = settings['reference_whisky_id'];
-            if (id != null) {
-              return const MainNavigationScreen();
-            } else {
-              return const SetupScreen();
-            }
-          },
-          loading: () => const Scaffold(
+        // Reference-whisky onboarding gate removed (open straight to the app).
+        // Route through auth: no session -> login/register; session -> main.
+        final auth = ref.watch(authControllerProvider);
+        if (auth.status == AuthStatus.unknown) {
+          // Session restore in flight — show a neutral splash, avoiding a
+          // login-screen flash for users who already have a session.
+          return const Scaffold(
             body: Center(
               child: Medallion(
                 size: 96,
@@ -69,21 +66,12 @@ class MaltRadarApp extends ConsumerWidget {
                 animate: true,
               ),
             ),
-          ),
-          error: (error, stack) => Scaffold(
-            body: Center(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    'Ayarlar yüklenemedi:\n$error\n\nStack:\n$stack',
-                    style: const TextStyle(color: AppTheme.error, fontSize: 12),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        );
+          );
+        }
+        if (!auth.isLoggedIn) {
+          return const AuthScreen();
+        }
+        return const MainNavigationScreen();
       },
       loading: () => const Scaffold(
         body: Center(

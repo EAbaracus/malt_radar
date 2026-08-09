@@ -2,6 +2,8 @@ import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:malt_radar/core/api/db_whisky_api_client.dart';
 import 'package:malt_radar/core/database/database.dart';
+import 'package:malt_radar/features/auth/data/auth_repository.dart';
+import 'package:malt_radar/features/auth/presentation/auth_controller.dart';
 import '../../data/repositories/db_whisky_repository_impl.dart';
 import '../../domain/models/whisky.dart';
 import '../../domain/repositories/whisky_repository.dart';
@@ -14,16 +16,36 @@ final appDatabaseProvider = Provider<AppDatabase>((ref) {
   return db;
 });
 
-// Provider for the backend (/api/db) API client
+// Provider for the backend (/api/db) API client. The bearer token is synced
+// from the auth session so gated /api/db reads succeed (anti-scrape).
+// The token is restored on login/start and cleared on logout (keeps the shared
+// client ready for catalog reads whenever a session exists).
 final dbWhiskyApiClientProvider = Provider<DbWhiskyApiClient>((ref) {
-  return DbWhiskyApiClient();
+  final client = DbWhiskyApiClient();
+  // Keep the token in sync with the auth session (login/register/logout/restore).
+  ref.listen(authControllerProvider, (prev, next) {
+    if (next.user != null && next.status == AuthStatus.loggedIn) {
+      AuthRepository(ref.read(appDatabaseProvider)).loadToken().then((t) {
+        client.setToken(t);
+      });
+    } else if (next.status == AuthStatus.loggedOut) {
+      client.setToken(null);
+    }
+  });
+  return client;
 });
 
-// Provider for app initialization. Backend (/api/db) is the single data
-// source; the local Drift DB is not seeded from any bundled CSV (anti-scrape:
-// no catalog data ships to the client).
+// Provider for app initialization. Opens the local DB, then loads any stored
+// auth token into the /api/db client so gated reads succeed (anti-scrape:
+// no catalog data ships to the client; the backend is the single source).
 final appInitializationProvider = FutureProvider<void>((ref) async {
   ref.watch(appDatabaseProvider);
+  // Restore the bearer token for the /api/db client (login persists token in
+  // local UserSettings). AuthController also restores it; wire here too so the
+  // client is ready before any UI triggers catalog reads.
+  final repo = AuthRepository(ref.read(appDatabaseProvider));
+  final token = await repo.loadToken();
+  ref.read(dbWhiskyApiClientProvider).setToken(token);
 });
 
 // Provider for the repository — backend (/api/db) is the single source of

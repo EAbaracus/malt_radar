@@ -130,13 +130,46 @@ class DbWhiskyRepositoryImpl implements WhiskyRepository {
   @override
   Future<List<Whisky>> getAllWhiskies({int limit = 100, int offset = 0}) async {
     try {
-      final response = await _dbClient.getWhiskies(limit: limit, offset: offset);
-      return response.items
-          .map((map) => Whisky.fromMap(DbWhiskyMapper.toLegacyMap(map)))
-          .toList();
+      // The backend clamps each page to CATALOG_MAX_PAGE (default 50) and
+      // rejects limit>100 (422). Fetch in paged chunks and assemble the full
+      // list instead of requesting one huge page (which 422s -> empty list).
+      return await _fetchAllPaged(offset: offset);
     } catch (_) {
       return [];
     }
+  }
+
+  /// Pages through /api/db/whiskies (50 rows/page) and concatenates results.
+  /// Stops when a page returns fewer than the page size (end of catalogue)
+  /// or after CATALOG_MAX_OFFSET pages to honour anti-scrape bounds.
+  Future<List<Whisky>> _fetchAllPaged({int offset = 0}) async {
+    const page = 50;
+    final out = <Whisky>[];
+    const maxOffset = 10000; // mirrors server CATALOG_MAX_OFFSET
+    var off = offset;
+    while (off < maxOffset) {
+      final resp = await _dbClient.getWhiskies(limit: page, offset: off);
+      if (resp.items.isEmpty) break;
+      final mapped = resp.items
+          .map((map) => Whisky.fromMap(DbWhiskyMapper.toLegacyMap(map)))
+          .toList();
+      out.addAll(mapped);
+      if (mapped.length < page) break; // short page = end
+      off += page;
+    }
+    // de-duplicate by external id / name (defensive; server should be unique)
+    final seen = <String>{};
+    final unique = <Whisky>[];
+    for (final w in out) {
+      final key = w.externalId?.isNotEmpty == true
+          ? w.externalId!
+          : w.name;
+      if (!seen.contains(key)) {
+        seen.add(key);
+        unique.add(w);
+      }
+    }
+    return unique;
   }
 
   @override
@@ -182,7 +215,7 @@ class DbWhiskyRepositoryImpl implements WhiskyRepository {
       if (targetProfile.isEmpty) return [];
 
       // Fetch the full backend catalogue (staging set is small: ~3.5k rows).
-      final all = await getAllWhiskies(limit: 5000, offset: 0);
+      final all = await getAllWhiskies(offset: 0);
       if (all.isEmpty) return [];
 
       final scored = <Map<String, dynamic>>[];

@@ -27,12 +27,22 @@ class DbPaginatedResponse<T> {
 
 class DbWhiskyApiClient {
   final http.Client _client;
+  String? _token;
 
   DbWhiskyApiClient({http.Client? client}) : _client = client ?? http.Client();
 
+  /// Bearer token for per-user gated /api/db reads. Set after login/restore.
+  /// When null, requests go out without Authorization (server → 401).
+  void setToken(String? token) => _token = token;
+
+  Map<String, String> _headers({bool json = false}) => {
+        if (_token != null) 'Authorization': 'Bearer $_token',
+        if (json) 'Content-Type': 'application/json',
+      };
+
   Future<Map<String, dynamic>> health() async {
     final uri = Uri.parse('${AppConfig.baseUrl}/api/db/health');
-    final response = await _client.get(uri);
+    final response = await _client.get(uri, headers: _headers());
     if (response.statusCode == 200) {
       return jsonDecode(utf8.decode(response.bodyBytes));
     }
@@ -41,7 +51,7 @@ class DbWhiskyApiClient {
 
   Future<Map<String, dynamic>> schema() async {
     final uri = Uri.parse('${AppConfig.baseUrl}/api/db/schema');
-    final response = await _client.get(uri);
+    final response = await _client.get(uri, headers: _headers());
     if (response.statusCode == 200) {
       return jsonDecode(utf8.decode(response.bodyBytes));
     }
@@ -53,7 +63,7 @@ class DbWhiskyApiClient {
     if (q != null && q.isNotEmpty) {
       url += '&q=${Uri.encodeComponent(q)}';
     }
-    final response = await _client.get(Uri.parse(url));
+    final response = await _client.get(Uri.parse(url), headers: _headers());
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
       final items = (data['items'] as List?)?.map((e) => e as Map<String, dynamic>).toList() ?? [];
@@ -76,7 +86,7 @@ class DbWhiskyApiClient {
 
   Future<Map<String, dynamic>?> getWhiskyById(String id) async {
     final uri = Uri.parse('${AppConfig.baseUrl}/api/db/whiskies/${Uri.encodeComponent(id)}');
-    final response = await _client.get(uri);
+    final response = await _client.get(uri, headers: _headers());
     if (response.statusCode == 200) {
       return jsonDecode(utf8.decode(response.bodyBytes));
     } else if (response.statusCode == 404) {
@@ -90,7 +100,7 @@ class DbWhiskyApiClient {
     if (q != null && q.isNotEmpty) {
       url += '&q=${Uri.encodeComponent(q)}';
     }
-    final response = await _client.get(Uri.parse(url));
+    final response = await _client.get(Uri.parse(url), headers: _headers());
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
       final items = (data['items'] as List?)?.map((e) => e as Map<String, dynamic>).toList() ?? [];
@@ -113,7 +123,7 @@ class DbWhiskyApiClient {
 
   Future<Map<String, dynamic>?> getDistilleryById(String id) async {
     final uri = Uri.parse('${AppConfig.baseUrl}/api/db/distilleries/${Uri.encodeComponent(id)}');
-    final response = await _client.get(uri);
+    final response = await _client.get(uri, headers: _headers());
     if (response.statusCode == 200) {
       return jsonDecode(utf8.decode(response.bodyBytes));
     } else if (response.statusCode == 404) {
@@ -124,7 +134,7 @@ class DbWhiskyApiClient {
 
   Future<Map<String, dynamic>?> getFlavorProfile(String whiskyId) async {
     final uri = Uri.parse('${AppConfig.baseUrl}/api/db/whiskies/${Uri.encodeComponent(whiskyId)}/flavor-profile');
-    final response = await _client.get(uri);
+    final response = await _client.get(uri, headers: _headers());
     if (response.statusCode == 200) {
       return jsonDecode(utf8.decode(response.bodyBytes));
     } else if (response.statusCode == 404) {
@@ -135,7 +145,7 @@ class DbWhiskyApiClient {
 
   Future<List<Map<String, dynamic>>> getTastingNotes(String whiskyId) async {
     final uri = Uri.parse('${AppConfig.baseUrl}/api/db/whiskies/${Uri.encodeComponent(whiskyId)}/tasting-notes');
-    final response = await _client.get(uri);
+    final response = await _client.get(uri, headers: _headers());
     if (response.statusCode == 200) {
       final List<dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
       return data.map((e) => e as Map<String, dynamic>).toList();
@@ -149,7 +159,7 @@ class DbWhiskyApiClient {
   /// backend (read-only; no transformation). Throws on transport/5xx errors.
   Future<List<Map<String, dynamic>>> getEvidence(String whiskyId) async {
     final uri = Uri.parse('${AppConfig.baseUrl}/api/db/whiskies/${Uri.encodeComponent(whiskyId)}/evidence');
-    final response = await _client.get(uri);
+    final response = await _client.get(uri, headers: _headers());
     if (response.statusCode == 200) {
       final List<dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
       return data.map((e) => e as Map<String, dynamic>).toList();
@@ -165,7 +175,7 @@ class DbWhiskyApiClient {
   Future<List<Map<String, dynamic>>> search(String q) async {
     if (q.trim().isEmpty) return [];
     final uri = Uri.parse('${AppConfig.baseUrl}/api/db/search?q=${Uri.encodeComponent(q)}');
-    final response = await _client.get(uri);
+    final response = await _client.get(uri, headers: _headers());
     if (response.statusCode == 200) {
       final List<dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
       return data.map((e) => e as Map<String, dynamic>).toList();
@@ -177,7 +187,7 @@ class DbWhiskyApiClient {
 
   Future<List<Map<String, dynamic>>> getPriceHistory(String whiskyId) async {
     final uri = Uri.parse('${AppConfig.baseUrl}/api/db/whiskies/${Uri.encodeComponent(whiskyId)}/price-history');
-    final response = await _client.get(uri);
+    final response = await _client.get(uri, headers: _headers());
     if (response.statusCode == 200) {
       final List<dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
       return data.map((e) => e as Map<String, dynamic>).toList();
