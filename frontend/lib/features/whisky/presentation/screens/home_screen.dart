@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:malt_radar/core/theme/app_theme.dart';
+import 'package:malt_radar/core/theme/app_theme_colors.dart';
 import '../controllers/whisky_providers.dart';
 import '../../domain/models/whisky.dart';
 import '../../../../core/localization/localization_provider.dart';
@@ -110,7 +111,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     const SizedBox(width: 6),
                     Text(
                       '${whisky.globalScore!.toStringAsFixed(0)} / 100',
-                      style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                      style: const TextStyle(color: AppThemeColors.parchment, fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(width: 8),
                     Text(tr('global_average_score'), style: const TextStyle(color: AppTheme.textSecondary, fontSize: 12)),
@@ -169,7 +170,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       decoration: BoxDecoration(
         color: AppTheme.surfaceElevated.withValues(alpha: 0.6),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
+        border: Border.all(color: AppThemeColors.parchment.withValues(alpha: 0.05)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -306,7 +307,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         onChanged: (value) {
                           ref.read(searchQueryProvider.notifier).state = value;
                         },
-                        style: const TextStyle(color: Colors.white),
+                        style: const TextStyle(color: AppThemeColors.parchment),
                         decoration: InputDecoration(
                           hintText: tr('search_whisky'),
                           prefixIcon: const Icon(Icons.search, color: AppTheme.primary),
@@ -350,7 +351,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               shrinkWrap: true,
                               itemCount: options.length,
                               separatorBuilder: (context, index) => Divider(
-                                color: Colors.white.withValues(alpha: 0.05),
+                                color: AppThemeColors.parchment.withValues(alpha: 0.05),
                                 height: 1,
                               ),
                               itemBuilder: (BuildContext context, int index) {
@@ -467,7 +468,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   error: (error, stackTrace) => Center(
                       child: Text(
                         tr('db_error', [error]),
-                        style: const TextStyle(color: Colors.redAccent),
+                        style: const TextStyle(color: AppTheme.error),
                     ),
                   ),
                 ),

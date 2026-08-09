@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:malt_radar/core/theme/app_theme.dart';
+import 'package:malt_radar/core/theme/app_theme_colors.dart';
 import '../controllers/whisky_providers.dart';
 import '../../../../core/localization/localization_provider.dart';
 import '../widgets/glass_container.dart';
@@ -419,13 +420,13 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                           whisky.name,
                           style: Theme.of(context).textTheme.headlineMedium
                               ?.copyWith(
-                                color: Colors.white,
+                                color: AppThemeColors.parchment,
                                 fontSize: 24,
                                 shadows: [
                                   Shadow(
                                     offset: const Offset(0, 2),
                                     blurRadius: 4.0,
-                                    color: Colors.black.withValues(alpha: 0.8),
+                                    color: AppTheme.background.withValues(alpha: 0.8),
                                   ),
                                 ],
                               ),
@@ -475,7 +476,7 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                     IconButton(
                       icon: const Icon(
                         Icons.playlist_add,
-                        color: Colors.white,
+                        color: AppThemeColors.parchment,
                         size: 28,
                       ),
                       onPressed: () {
@@ -487,13 +488,13 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                         whisky.isFavorite ? Icons.star : Icons.star_border,
                         color: whisky.isFavorite
                             ? AppTheme.accent
-                            : Colors.white,
+                            : AppThemeColors.parchment,
                         size: 28,
                         shadows: [
                           Shadow(
                             offset: const Offset(0, 2),
                             blurRadius: 4.0,
-                            color: Colors.black.withValues(alpha: 0.5),
+                            color: AppTheme.background.withValues(alpha: 0.5),
                           ),
                         ],
                       ),
@@ -731,7 +732,7 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                                             ),
                                             padding: const EdgeInsets.all(12),
                                             decoration: BoxDecoration(
-                                              color: Colors.white.withValues(
+                                              color: AppThemeColors.parchment.withValues(
                                                 alpha: 0.05,
                                               ),
                                               borderRadius: BorderRadius.circular(
@@ -869,7 +870,7 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                                       '${whisky.globalScore!.toStringAsFixed(0)} / 100',
                                       style: const TextStyle(
                                         fontSize: 22,
-                                        color: Colors.white,
+                                        color: AppThemeColors.parchment,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -877,7 +878,7 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                                 ),
                                 const SizedBox(height: 16),
                                 Divider(
-                                  color: Colors.white.withValues(alpha: 0.1),
+                                  color: AppThemeColors.parchment.withValues(alpha: 0.1),
                                 ),
                                 const SizedBox(height: 16),
                               ],
@@ -927,7 +928,7 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                                 Container(
                                   padding: const EdgeInsets.all(12),
                                   decoration: BoxDecoration(
-                                    color: Colors.black.withValues(alpha: 0.2),
+                                    color: AppTheme.background.withValues(alpha: 0.2),
                                     borderRadius: BorderRadius.circular(12),
                                   ),
                                   child: Row(
@@ -977,7 +978,7 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                               TextField(
                                 controller: _notesController,
                                 maxLines: 4,
-                                style: const TextStyle(color: Colors.white),
+                                style: const TextStyle(color: AppThemeColors.parchment),
                                 decoration: InputDecoration(
                                   hintText: tr('notes_hint'),
                                 ),

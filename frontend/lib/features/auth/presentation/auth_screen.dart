@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:malt_radar/core/localization/localization_provider.dart';
 import 'package:malt_radar/core/theme/app_theme.dart';
+import 'package:malt_radar/core/theme/app_theme_colors.dart';
 import 'package:malt_radar/features/compliance/presentation/age_gate_providers.dart';
 import 'auth_controller.dart';
 
@@ -168,7 +169,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
               if (_mode == AuthMode.register) ...[
                 TextField(
                   controller: _displayName,
-                  style: const TextStyle(color: Colors.white),
+                  style: const TextStyle(color: AppThemeColors.parchment),
                   decoration: InputDecoration(
                     labelText: isTr
                         ? 'Görünen ad (opsiyonel)'
@@ -185,7 +186,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                 controller: _email,
                 keyboardType: TextInputType.emailAddress,
                 autocorrect: false,
-                style: const TextStyle(color: Colors.white),
+                style: const TextStyle(color: AppThemeColors.parchment),
                 decoration: InputDecoration(
                   labelText: 'E-posta',
                   prefixIcon: const Icon(
@@ -198,7 +199,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
               TextField(
                 controller: _password,
                 obscureText: true,
-                style: const TextStyle(color: Colors.white),
+                style: const TextStyle(color: AppThemeColors.parchment),
                 decoration: InputDecoration(
                   labelText: isTr ? 'Şifre' : 'Password',
                   prefixIcon: const Icon(
@@ -212,7 +213,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                 TextField(
                   controller: _confirm,
                   obscureText: true,
-                  style: const TextStyle(color: Colors.white),
+                  style: const TextStyle(color: AppThemeColors.parchment),
                   decoration: InputDecoration(
                     labelText: isTr ? 'Şifre (tekrar)' : 'Confirm password',
                     prefixIcon: const Icon(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:malt_radar/core/theme/app_theme.dart';
+import 'package:malt_radar/core/theme/app_theme_colors.dart';
 import '../controllers/whisky_providers.dart';
 import '../../domain/models/whisky.dart';
 
@@ -665,7 +666,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                           label: Text(tr('clear_cache')),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppTheme.error,
-                            foregroundColor: Colors.white,
+                            foregroundColor: AppThemeColors.parchment,
                           ),
                         ),
                       ),

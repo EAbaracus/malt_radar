@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:malt_radar/core/theme/app_theme.dart';
+import 'package:malt_radar/core/theme/app_theme_colors.dart';
 
 class CaskCard extends StatelessWidget {
   final String title;
@@ -28,7 +29,7 @@ class CaskCard extends StatelessWidget {
           color: AppTheme.surface,
           borderRadius: BorderRadius.circular(24),
           border: Border.all(
-            color: Colors.white.withValues(alpha: 0.08),
+            color: AppThemeColors.parchment.withValues(alpha: 0.08),
             width: 1,
           ),
         ),

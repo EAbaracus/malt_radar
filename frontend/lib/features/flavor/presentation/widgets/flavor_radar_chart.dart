@@ -59,11 +59,11 @@ class FlavorRadarChart extends ConsumerWidget {
         RadarChartData(
           radarShape: RadarShape.polygon,
           radarBackgroundColor: Colors.transparent,
-          radarBorderData: BorderSide(color: const Color(0xFFA0A0A0).withValues(alpha: 0.2), width: 1.5),
+          radarBorderData: BorderSide(color: AppTheme.secondary.withValues(alpha: 0.2), width: 1.5),
           tickCount: 3,
           ticksTextStyle: const TextStyle(color: Colors.transparent, fontSize: 10),
-          tickBorderData: BorderSide(color: const Color(0xFFA0A0A0).withValues(alpha: 0.1)),
-          gridBorderData: BorderSide(color: const Color(0xFFA0A0A0).withValues(alpha: 0.2), width: 1.5),
+          tickBorderData: BorderSide(color: AppTheme.secondary.withValues(alpha: 0.1)),
+          gridBorderData: BorderSide(color: AppTheme.secondary.withValues(alpha: 0.2), width: 1.5),
           getTitle: (index, angle) {
             return RadarChartTitle(
               text: displayNames[index],

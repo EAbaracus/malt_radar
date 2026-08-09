@@ -8,7 +8,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:drift/native.dart';
 
 import 'package:malt_radar/main.dart';
@@ -22,7 +21,6 @@ void main() {
   // async font downloads. In CI the runner has network access, which would
   // otherwise leave pumpAndSettle() (and even bounded pump frames if fonts
   // are slow) in an indeterminate waiting state.
-  GoogleFonts.config.allowRuntimeFetching = false;
 
   testWidgets('Malt Radar App smoke test', (WidgetTester tester) async {
     final db = AppDatabase.forTesting(NativeDatabase.memory());

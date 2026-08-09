@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'core/theme/app_theme.dart';
+import 'core/branding/brand_medallion.dart';
+import 'core/branding/brand_medallion_widget.dart';
 import 'features/whisky/presentation/controllers/whisky_providers.dart';
 import 'features/whisky/presentation/screens/setup_screen.dart';
 import 'core/presentation/screens/main_navigation_screen.dart';
@@ -61,7 +63,11 @@ class MaltRadarApp extends ConsumerWidget {
           },
           loading: () => const Scaffold(
             body: Center(
-              child: CircularProgressIndicator(color: AppTheme.primary),
+              child: Medallion(
+                size: 96,
+                level: MedallionLevel.master,
+                animate: true,
+              ),
             ),
           ),
           error: (error, stack) => Scaffold(
@@ -84,7 +90,11 @@ class MaltRadarApp extends ConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              CircularProgressIndicator(color: AppTheme.primary),
+              Medallion(
+                size: 96,
+                level: MedallionLevel.master,
+                animate: true,
+              ),
               SizedBox(height: 16),
               Text(
                 'Veritabanı hazırlanıyor...',

@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:malt_radar/core/theme/app_theme.dart';
+import 'package:malt_radar/core/theme/app_theme_colors.dart';
 import 'package:malt_radar/core/localization/localization_provider.dart';
 import 'package:malt_radar/features/whisky/presentation/screens/home_screen.dart';
 import 'package:malt_radar/features/lists/presentation/screens/lists_screen.dart';
@@ -45,7 +46,7 @@ class _MainNavigationScreenState extends ConsumerState<MainNavigationScreen> {
                     color: AppTheme.background.withValues(alpha: 0.8),
                     border: Border(
                       top: BorderSide(
-                        color: Colors.white.withValues(alpha: 0.1),
+                        color: AppThemeColors.parchment.withValues(alpha: 0.1),
                         width: 1,
                       ),
                     ),
