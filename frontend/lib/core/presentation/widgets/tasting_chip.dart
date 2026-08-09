@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:malt_radar/core/theme/app_theme.dart';
+import 'package:malt_radar/core/theme/app_theme_colors.dart';
 
 class TastingChip extends StatelessWidget {
   final String label;
@@ -21,12 +22,12 @@ class TastingChip extends StatelessWidget {
       decoration: BoxDecoration(
         color: isSelected
             ? AppTheme.primary.withValues(alpha: 0.25)
-            : Colors.white.withValues(alpha: 0.05),
+            : AppThemeColors.parchment.withValues(alpha: 0.05),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: isSelected
               ? AppTheme.primary
-              : Colors.white.withValues(alpha: 0.10),
+              : AppThemeColors.parchment.withValues(alpha: 0.10),
           width: 1,
         ),
       ),
@@ -36,7 +37,7 @@ class TastingChip extends StatelessWidget {
           Text(
             label,
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: isSelected ? Colors.white : AppTheme.textSecondary,
+                  color: isSelected ? AppThemeColors.parchment : AppTheme.textSecondary,
                   fontWeight: isSelected ? FontWeight.bold : null,
                 ),
           ),
@@ -45,7 +46,7 @@ class TastingChip extends StatelessWidget {
             const Icon(
               Icons.close,
               size: 12,
-              color: Colors.white70,
+              color: AppThemeColors.parchment,
             ),
           ],
         ],

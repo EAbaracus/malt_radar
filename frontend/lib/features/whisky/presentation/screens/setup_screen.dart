@@ -3,6 +3,7 @@ import 'package:drift/drift.dart' hide Column;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:malt_radar/core/theme/app_theme.dart';
+import 'package:malt_radar/core/theme/app_theme_colors.dart';
 import 'package:malt_radar/features/whisky/domain/models/whisky.dart';
 import '../controllers/whisky_providers.dart';
 import 'home_screen.dart';
@@ -194,7 +195,7 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
                   child: TextField(
                     controller: _searchController,
                     onChanged: _searchWhiskies,
-                    style: const TextStyle(color: Colors.white),
+                    style: const TextStyle(color: AppThemeColors.parchment),
                     decoration: InputDecoration(
                       hintText: tr('setup_search_hint'),
                       prefixIcon: const Icon(Icons.search, color: AppTheme.primary),

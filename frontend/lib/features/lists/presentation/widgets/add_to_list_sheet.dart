@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:malt_radar/core/theme/app_theme.dart';
+import 'package:malt_radar/core/theme/app_theme_colors.dart';
 import 'package:malt_radar/core/localization/localization_provider.dart';
 import 'package:malt_radar/features/lists/presentation/controllers/user_lists_providers.dart';
 import 'package:malt_radar/features/lists/domain/models/user_list.dart';
@@ -235,7 +236,7 @@ class _AddToListSheetState extends ConsumerState<AddToListSheet> {
                               border: Border.all(
                                 color: isSelected 
                                     ? AppTheme.primary.withValues(alpha: 0.3)
-                                    : Colors.white.withValues(alpha: 0.05),
+                                    : AppThemeColors.parchment.withValues(alpha: 0.05),
                               ),
                             ),
                             child: CheckboxListTile(
