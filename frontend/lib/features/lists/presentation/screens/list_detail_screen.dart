@@ -6,6 +6,7 @@ import 'package:malt_radar/core/localization/localization_provider.dart';
 import 'package:malt_radar/features/lists/presentation/controllers/user_lists_providers.dart';
 import 'package:malt_radar/features/whisky/presentation/screens/detail_screen.dart';
 import 'package:malt_radar/features/whisky/presentation/controllers/whisky_providers.dart';
+import 'package:malt_radar/core/branding/brand_medallion_widget.dart';
 
 class ListDetailScreen extends ConsumerWidget {
   final int listId;
@@ -179,7 +180,7 @@ class ListDetailScreen extends ConsumerWidget {
               );
             },
             loading: () => const Center(
-              child: CircularProgressIndicator(color: AppTheme.primary),
+              child: BrandSpinner(),
             ),
             error: (err, _) => Center(
               child: Text(

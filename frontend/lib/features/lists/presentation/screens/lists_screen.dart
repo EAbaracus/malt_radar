@@ -6,6 +6,7 @@ import 'package:malt_radar/core/localization/localization_provider.dart';
 import 'package:malt_radar/features/lists/presentation/controllers/user_lists_providers.dart';
 import 'package:malt_radar/features/lists/domain/models/user_list.dart';
 import 'package:malt_radar/features/lists/presentation/screens/list_detail_screen.dart';
+import 'package:malt_radar/core/branding/brand_medallion_widget.dart';
 
 class ListsScreen extends ConsumerStatefulWidget {
   const ListsScreen({super.key});
@@ -378,7 +379,7 @@ class _ListsScreenState extends ConsumerState<ListsScreen> {
               );
             },
             loading: () => const Center(
-              child: CircularProgressIndicator(color: AppTheme.primary),
+              child: BrandSpinner(),
             ),
             error: (err, _) => Center(
               child: Text(

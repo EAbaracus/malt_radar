@@ -5,6 +5,7 @@ import 'package:malt_radar/core/theme/app_theme.dart';
 import 'package:malt_radar/core/theme/app_theme_colors.dart';
 import 'package:malt_radar/features/compliance/presentation/age_gate_providers.dart';
 import 'auth_controller.dart';
+import 'package:malt_radar/core/branding/brand_medallion_widget.dart';
 
 /// Login / Register form. Uses the already-passed age gate decision to fill the
 /// required country + legal-minimum-age at registration (KVKK consent is
@@ -246,10 +247,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                     ? const SizedBox(
                         width: 20,
                         height: 20,
-                        child: CircularProgressIndicator(
-                          color: AppTheme.background,
-                          strokeWidth: 2,
-                        ),
+                        child: BrandSpinner(),
                       )
                     : Text(
                         _mode == AuthMode.login

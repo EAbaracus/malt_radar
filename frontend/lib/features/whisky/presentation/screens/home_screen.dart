@@ -474,7 +474,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     );
                   },
                   loading: () => const Center(
-                    child: CircularProgressIndicator(color: AppTheme.primary),
+                    child: BrandSpinner(),
                   ),
                   error: (error, stackTrace) => Center(
                       child: Text(

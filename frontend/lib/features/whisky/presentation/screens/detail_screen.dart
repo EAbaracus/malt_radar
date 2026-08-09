@@ -294,7 +294,7 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
     if (_isLoadingEvidence) {
       return const Padding(
         padding: EdgeInsets.symmetric(vertical: 24),
-        child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
+        child: Center(child: BrandSpinner()),
       );
     }
     if (_evidence.isEmpty) return const SizedBox.shrink();
@@ -710,9 +710,7 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                           const SizedBox(height: 16),
                           _isLoadingPrices
                               ? const Center(
-                                  child: CircularProgressIndicator(
-                                    color: AppTheme.primary,
-                                  ),
+                                  child: BrandSpinner(),
                                 )
                               : GlassContainer(
                                   padding: const EdgeInsets.all(16),
@@ -1009,7 +1007,7 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
             );
           },
           loading: () => const Center(
-            child: CircularProgressIndicator(color: AppTheme.primary),
+            child: BrandSpinner(),
           ),
           error: (error, stackTrace) => Center(
             child: Text(

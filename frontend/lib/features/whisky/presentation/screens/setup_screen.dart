@@ -216,7 +216,7 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
                 // Search Results
                 Expanded(
                   child: _isLoading
-                      ? const Center(child: CircularProgressIndicator(color: AppTheme.primary))
+                      ? const Center(child: BrandSpinner())
                       : _searchResults.isEmpty
                           ? Center(
                               child: Text(
@@ -351,7 +351,7 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
                               ? const SizedBox(
                                   width: 20,
                                   height: 20,
-                                  child: CircularProgressIndicator(color: AppTheme.background, strokeWidth: 2),
+                                  child: BrandSpinner(),
                                 )
                               : Text(tr('setup_finish')),
                         ),
