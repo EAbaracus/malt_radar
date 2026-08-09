@@ -1,28 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'app_theme_colors.dart';
 
 class AppTheme {
-  // Brand Colors from DESIGN.md
-  static const Color background = Color(0xFF0F0F0F); // Obsidian
-  static const Color surface = Color(0xFF1A1A1A); // Surface for cards
-  static const Color surfaceElevated = Color(0xFF1E1E28);
-  
-  // Accents
-  static const Color primary = Color(0xFFD4AF37);    // Primary Gold
-  static const Color secondary = Color(0xFFB8860B);  // Amber Secondary
-  static const Color accent = Color(0xFFF3E5AB);
-  
-  // Feedback
-  static const Color error = Color(0xFFE57373);
+  // Marka tokenları — tek kaynak app_theme_colors.dart.
+  // Brass (C9A227) KASITLI olarak burada YOKTUR: yalnızca amblem mühür + ibrede
+  // (MedallionPalette). UI'nin brass'a erişimi UI'dan yalıtılmıştır.
+  static const Color background = AppThemeColors.caskChar; // #1A120B
+  static const Color surface = Color(0xFF241A10); // kart zemin (marka koyu)
+  static const Color surfaceElevated = Color(0xFF2B1F14);
+
+  // Vurgular
+  static const Color primary = AppThemeColors.copper; // Birincil
+  static const Color secondary = AppThemeColors.verdigris; // Rozet / ikincil
+  static const Color accent = AppThemeColors.copperDim; // Alt vurgu
+
+  // Bildirim
+  static const Color error = AppThemeColors.oxblood; // uyarı/hata (nadir)
   static const Color success = Color(0xFF81C784);
-  
-  // Text
-  static const Color textPrimary = Color(0xFFFDFDFD);
-  static const Color textSecondary = Color(0xFFA5A6AC);
-  static const Color textMuted = Color(0xFF6B6C75);
+
+  // Metin (koyu zeminde)
+  static const Color textPrimary = AppThemeColors.parchment; // #EDE1C8
+  static const Color textSecondary = Color(0xFFBDB2A0);
+  static const Color textMuted = Color(0xFF8C8071);
 
   static ThemeData get darkTheme {
-    final baseInter = GoogleFonts.interTextTheme(ThemeData.dark().textTheme);
+    final base = ThemeData.dark().textTheme;
 
     return ThemeData(
       useMaterial3: true,
@@ -42,7 +44,8 @@ class AppTheme {
         elevation: 0,
         centerTitle: true,
         iconTheme: const IconThemeData(color: primary),
-        titleTextStyle: GoogleFonts.playfairDisplay(
+        titleTextStyle: const TextStyle(
+          fontFamily: 'Fraunces',
           color: textPrimary,
           fontSize: 20,
           fontWeight: FontWeight.w600,
@@ -53,24 +56,28 @@ class AppTheme {
         color: surface,
         elevation: 0,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24), // Rounded-XL
+          borderRadius: BorderRadius.circular(24),
           side: BorderSide(
-            color: Colors.white.withValues(alpha: 0.08),
+            color: AppThemeColors.parchment.withValues(alpha: 0.08),
             width: 1,
           ),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: const Color(0xFF121212),
+        fillColor: const Color(0xFF1F170E),
         contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: const Color(0xFF000000).withValues(alpha: 0.2)),
+          borderSide: BorderSide(
+            color: AppThemeColors.caskChar.withValues(alpha: 0.2),
+          ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: const Color(0xFFA0A0A0).withValues(alpha: 0.2)),
+          borderSide: BorderSide(
+            color: AppThemeColors.parchment.withValues(alpha: 0.2),
+          ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -85,7 +92,10 @@ class AppTheme {
         thumbColor: primary,
         overlayColor: primary.withValues(alpha: 0.12),
         valueIndicatorColor: primary,
-        valueIndicatorTextStyle: const TextStyle(color: background, fontWeight: FontWeight.bold),
+        valueIndicatorTextStyle: const TextStyle(
+          color: background,
+          fontWeight: FontWeight.bold,
+        ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -97,25 +107,38 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
-          textStyle: GoogleFonts.inter(
+          textStyle: const TextStyle(
+            fontFamily: 'Inter',
             fontSize: 16,
             fontWeight: FontWeight.w600,
             letterSpacing: 0.5,
           ),
         ),
       ),
-      textTheme: baseInter.copyWith(
-        displayLarge: GoogleFonts.playfairDisplay(color: textPrimary, fontSize: 48, fontWeight: FontWeight.w700, letterSpacing: -0.96),
-        headlineLarge: GoogleFonts.playfairDisplay(color: textPrimary, fontSize: 32, fontWeight: FontWeight.w600),
-        headlineMedium: GoogleFonts.playfairDisplay(color: textPrimary, fontSize: 24, fontWeight: FontWeight.w500),
-        titleLarge: GoogleFonts.playfairDisplay(color: textPrimary, fontSize: 20, fontWeight: FontWeight.w600),
-        titleMedium: GoogleFonts.inter(color: textPrimary, fontSize: 16, fontWeight: FontWeight.w500),
-        bodyLarge: GoogleFonts.inter(color: textPrimary, fontSize: 18, fontWeight: FontWeight.w400),
-        bodyMedium: GoogleFonts.inter(color: textPrimary, fontSize: 16, fontWeight: FontWeight.w400),
-        bodySmall: GoogleFonts.inter(color: textSecondary, fontSize: 14, fontWeight: FontWeight.w400),
-        labelMedium: GoogleFonts.inter(color: textPrimary, fontSize: 14, fontWeight: FontWeight.w500, letterSpacing: 0.7),
-        labelSmall: GoogleFonts.inter(color: textSecondary, fontSize: 12, fontWeight: FontWeight.w600, letterSpacing: 1.2),
+      textTheme: base.copyWith(
+        displayLarge: MarkaFonts.fraunces(textPrimary, 48, FontWeight.w700, -0.96),
+        headlineLarge: MarkaFonts.fraunces(textPrimary, 32, FontWeight.w600, 0),
+        headlineMedium: MarkaFonts.fraunces(textPrimary, 24, FontWeight.w500, 0),
+        titleLarge: MarkaFonts.fraunces(textPrimary, 20, FontWeight.w600, 0),
+        titleMedium: MarkaFonts.inter(textPrimary, 16, FontWeight.w500, 0),
+        bodyLarge: MarkaFonts.serif(textPrimary, 18, FontWeight.w400, 0),
+        bodyMedium: MarkaFonts.serif(textPrimary, 16, FontWeight.w400, 0),
+        bodySmall: MarkaFonts.serif(textSecondary, 14, FontWeight.w400, 0),
+        labelMedium: MarkaFonts.inter(textPrimary, 14, FontWeight.w500, 0.7),
+        labelSmall: MarkaFonts.inter(textSecondary, 12, FontWeight.w600, 1.2),
       ),
     );
   }
+}
+
+/// Marka font aileleri bundle'dan gelir (offline-safe, Play-safe).
+class MarkaFonts {
+  const MarkaFonts._();
+
+  static TextStyle fraunces(Color c, double s, FontWeight w, double ls) =>
+      TextStyle(fontFamily: 'Fraunces', color: c, fontSize: s, fontWeight: w, letterSpacing: ls);
+  static TextStyle serif(Color c, double s, FontWeight w, double ls) =>
+      TextStyle(fontFamily: 'SourceSerif4', color: c, fontSize: s, fontWeight: w, letterSpacing: ls);
+  static TextStyle inter(Color c, double s, FontWeight w, double ls) =>
+      TextStyle(fontFamily: 'Inter', color: c, fontSize: s, fontWeight: w, letterSpacing: ls);
 }

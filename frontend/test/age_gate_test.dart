@@ -8,7 +8,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:drift/native.dart';
 
 import 'package:malt_radar/main.dart';
@@ -20,7 +19,6 @@ import 'package:malt_radar/features/whisky/presentation/controllers/whisky_provi
 import 'package:malt_radar/features/lists/presentation/controllers/user_lists_providers.dart';
 
 void main() {
-  GoogleFonts.config.allowRuntimeFetching = false;
 
   Future<AppDatabase> pumpApp(
     WidgetTester tester, {
