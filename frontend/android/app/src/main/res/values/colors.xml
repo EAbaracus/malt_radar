@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Marka Cask Char — native splash zemin. app_theme_colors.dart caskChar. -->
+    <color name="launch_cask_char">#1A120B</color>
+	<color name="ic_launcher_background">#1A120B</color>
+</resources>
