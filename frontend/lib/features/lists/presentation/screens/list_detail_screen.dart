@@ -34,9 +34,9 @@ class ListDetailScreen extends ConsumerWidget {
             center: Alignment(0, -0.8),
             radius: 1.5,
             colors: [
-              Color(0xFF1E1E2C),
+              AppTheme.surfaceElevated,
               AppTheme.background,
-              Color(0xFF040406),
+              AppTheme.surface,
             ],
           ),
         ),
