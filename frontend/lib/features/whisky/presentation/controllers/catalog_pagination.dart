@@ -23,8 +23,14 @@ class CatalogPaginationNotifier extends AsyncNotifier<List<Whisky>> {
 
   @override
   Future<List<Whisky>> build() async {
+    // Reconnect the paginated catalog to the selected chips: watching this
+    // provider makes build() re-run (fresh offset 0, fresh state) whenever
+    // the user taps a filter chip, so the filtered pages replace — never
+    // merge with — the previously loaded unfiltered ones.
+    final selectedFilters = ref.watch(selectedFiltersProvider);
     final repo = ref.read(whiskyRepositoryProvider);
-    final page = await repo.getWhiskiesPage(offset: 0, limit: pageSize);
+    final filter = selectedFilters.isEmpty ? null : selectedFilters.join(',');
+    final page = await repo.getWhiskiesPage(offset: 0, limit: pageSize, filter: filter);
     _offset = page.length;
     _hasMore = page.length == pageSize;
     loadState =
