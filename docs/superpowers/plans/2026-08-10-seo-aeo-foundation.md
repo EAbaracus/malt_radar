@@ -41,6 +41,13 @@ component_1/2/3 (Whiskey-Mapper) -> özel projeksiyon (backend ile aynı)
 
 **Tier sayıları:** plan başlangıcındaki sabitler (2.371/1.204/817/358) artık bilgilendiricidir — her build canlı DB'den hesaplar (spec test 8: aralık kontrolü warn, hard invariant sitemap URL sayısı).
 
+## REVİZYON R3 — spec review bulguları (2026-08-10, spec gate)
+
+1. **C_no sitemap dışı (KRİTİK)**: `generate()` tüm tier'ları sitemap entries'ine ekliyordu → C_no (noindex) sayfaları sitemap'e giriyordu (spec §3 ihlali). Düzeltme: `if tier != "C_no": entries.append(...)`.
+2. **axes.py component dalına `maritime: 0.0`**: 8 eksen şeması (spec §6) — component formunda maritime yok, şema tamlığı için 0.0.
+3. **verify.py genişletmeleri**: hreflang doğrulaması (çift yönlü + x-default), sitemap çift/noindex tespiti.
+4. Test kapsamı: generator (C_no sitemap dışı), verify (hreflang/çift/noindex), axes (component maritime), templates (maritime etiketi).
+
 ## REVİZYON R2 — Wave 1 uygulama bulguları (spec-kodu düzeltmeleri)
 
 1. **JSON-LD helper'ları dict döner** (`_breadcrumb_jsonld`/`_product_jsonld`): string döndürürse `render_whisky_page`'teki dış `_j.dumps` onları yeniden escape'ler → geçersiz iç-içe JSON-LD (`\"@type\": \"Product\"`). Test yakaladı (1/4 fail), düzeltildi (4/4).
@@ -607,7 +614,9 @@ def generate(db_path: str, out_dir: str, build_date: str | None = None) -> dict:
             w_data["seo_description"] = desc_tr if lang == "tr" else desc_en
             page(f"{lang}/w/{wid}", render_whisky_page(w_data, tier, lang, self_url, alt_url),
                  noindex=(tier == "C_no"))
-            entries.append((self_url, bd))
+            # R3: C_no (noindex) sayfaları sitemap'e GİRMEZ (spec §3)
+            if tier != "C_no":
+                entries.append((self_url, bd))
 
     # listeler: bölge, ülke, üretici
     for key, col, tr_label, en_label, tr_path, en_path in (
