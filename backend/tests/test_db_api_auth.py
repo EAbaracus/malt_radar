@@ -80,6 +80,25 @@ class TestCatalogEndpointsAuthRequired:
         response = client.get(path)
         assert response.status_code == 401
 
+    def test_unauthenticated_does_not_touch_db(self, client, monkeypatch):
+        """Auth rejection happens BEFORE the service/DB layer (bearer contract).
+
+        An unauthenticated catalog request must be refused by the auth
+        dependency without ever reaching DbReadService — otherwise a flood of
+        unauthenticated requests could still hammer SQLite (abuse surface).
+        """
+        import app.services.db_read_service as svc
+        calls = []
+        orig = svc.DbReadService.get_whiskies
+        monkeypatch.setattr(
+            svc.DbReadService,
+            "get_whiskies",
+            lambda self, *a, **k: (calls.append(1) or orig(self, *a, **k)),
+        )
+        r = client.get("/api/db/whiskies?limit=5")
+        assert r.status_code == 401
+        assert calls == [], "service layer must not run for unauthenticated requests"
+
     def test_whiskies_list_unauthenticated_401(self, client):
         response = client.get("/api/db/whiskies?limit=5")
         assert response.status_code == 401
