@@ -41,6 +41,15 @@ component_1/2/3 (Whiskey-Mapper) -> özel projeksiyon (backend ile aynı)
 
 **Tier sayıları:** plan başlangıcındaki sabitler (2.371/1.204/817/358) artık bilgilendiricidir — her build canlı DB'den hesaplar (spec test 8: aralık kontrolü warn, hard invariant sitemap URL sayısı).
 
+## REVİZYON R4 — canlı build doğrulama bulguları (2026-08-10)
+
+1. **Fiyat redact (Product Rule, KRİTİK)**: kirli kaynak `name` alanı fiyat içeriyor ("...$37 satsuma peel...") → `templates._e()` artık TÜM dinamik metne fiyat+TR-mevzuat redact uygular (`[...]` işareti). `PRICE_PATTERN`/`FORBIDDEN_RE` tek kaynak olarak templates.py'de, verify.py import eder.
+2. **FORBIDDEN `\b` sınırı**: `re.IGNORECASE` Türkçe `alın` (U+0131) ↔ Latin `alin` eşleşiyordu → "cristalino/valinch/dalintober" false positive. Word-boundary şart.
+3. **Sitemap çift URL**: kirli region değerleri ("Highlands", "Highlands District"...) aynı slug'a düşüyordu → liste sayfaları **slug'a göre gruplanır**, `add_entry()` tüm sitemap eklemelerini dedupe eder.
+4. **`seen_dists` scope**: distillery dedupe set'i iki dil döngüsü arasında paylaşılıyordu → EN damıtım sayfaları hiç üretilmiyordu → per-lang set.
+5. **verify performans**: 14k sayfada 3× dosya okuma → içerik cache'i (`_text`).
+6. Doğrulama: 21 birim test + canlı DB tam build (13.922 sayfa / 13.154 sitemap URL / C_no 384 sitemap dışı) + `seo.verify` → **TEMIZ**.
+
 ## REVİZYON R3 — spec review bulguları (2026-08-10, spec gate)
 
 1. **C_no sitemap dışı (KRİTİK)**: `generate()` tüm tier'ları sitemap entries'ine ekliyordu → C_no (noindex) sayfaları sitemap'e giriyordu (spec §3 ihlali). Düzeltme: `if tier != "C_no": entries.append(...)`.
