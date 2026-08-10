@@ -277,3 +277,4 @@ mr-kep/audit/flavor_gap_audit/*.sql
 /backend/data/whisky_database_merged_max.csv
 /mr-kep/p*/**/*.csv
 /mr-kep/p*/**/*.jsonl
+seo/build/

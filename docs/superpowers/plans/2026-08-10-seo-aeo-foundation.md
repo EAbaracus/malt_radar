@@ -896,15 +896,16 @@ if [ -n "$OLD_HASH" ] && [ "$OLD_HASH" = "$NEW_HASH" ]; then
   exit 0
 fi
 
-echo "==> [4/7] swap (dizini silme — bind-mount pitfall'ı) + .prev rollback"
-ssh -i "$SSH_KEY" "$VM" "rm -rf $WEB_SEO.prev && mv $WEB_SEO $WEB_SEO.prev 2>/dev/null; \
-  mv $TMP $WEB_SEO && echo '$NEW_HASH' > $WEB_SEO/.build_sha256 && echo SWAP_OK"
+echo "==> [4/7] swap (dizini DEĞİŞTİRME — bind-mount inode'u sabit kalmalı) + .prev rollback"
+ssh -i "$SSH_KEY" "$VM" "rm -rf $WEB_SEO.prev && cp -r $WEB_SEO $WEB_SEO.prev 2>/dev/null; \
+  rm -rf $WEB_SEO/* $WEB_SEO/.[!.]* 2>/dev/null; cp -r $TMP/. $WEB_SEO/ && \
+  echo '$NEW_HASH' > $WEB_SEO/.build_sha256 && rm -rf $TMP && echo SWAP_OK"
 
 echo "==> [5/7] canlı doğrulama"
-for u in /tr/ /en/ /sitemap.xml /robots.txt /llms.txt /tr/w/; do
+for u in /tr/ /en/ /sitemap.xml /robots.txt /llms.txt /tr/w/W000001/; do
   code=$(curl -s -o /dev/null -w "%{http_code}" -m 15 "https://maltradar.com$u")
   [ "$code" = "200" ] || { echo "FAIL: $u -> $code — ROLLBACK"; \
-    ssh -i "$SSH_KEY" "$VM" "rm -rf $WEB_SEO && mv $WEB_SEO.prev $WEB_SEO"; exit 1; }
+    ssh -i "$SSH_KEY" "$VM" "rm -rf $WEB_SEO/* $WEB_SEO/.[!.]* 2>/dev/null; cp -r $WEB_SEO.prev/. $WEB_SEO/"; exit 1; }
 done
 echo "==> canlı kontrol OK"
 
