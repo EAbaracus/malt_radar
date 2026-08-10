@@ -7,7 +7,7 @@ ROOT="$(cd "$(dirname "$0")" && pwd)"
 SSH_KEY="$HOME/.ssh/mr_deploy"
 VM="trblnfxn@34.60.144.38"
 REPO="/srv/maltradar"
-DB="/srv/data/production.db"
+DB="$REPO/deploy/data/production.db"   # HOST yolu (container /srv/data'ya mount edilir — generator host'ta çalışır!)
 WEB_SEO="$REPO/deploy/web-seo"
 TMP="$REPO/deploy/web-seo.tmp"
 
@@ -30,7 +30,7 @@ if [ -n "$OLD_HASH" ] && [ "$OLD_HASH" = "$NEW_HASH" ]; then
 fi
 
 echo "==> [4/7] swap (dizini DEĞİŞTİRME — bind-mount inode'u sabit kalmalı) + .prev rollback"
-ssh -i "$SSH_KEY" "$VM" "rm -rf $WEB_SEO.prev && cp -r $WEB_SEO $WEB_SEO.prev 2>/dev/null; \
+ssh -i "$SSH_KEY" "$VM" "mkdir -p $WEB_SEO && rm -rf $WEB_SEO.prev && cp -r $WEB_SEO $WEB_SEO.prev 2>/dev/null; \
   rm -rf $WEB_SEO/* $WEB_SEO/.[!.]* 2>/dev/null; cp -r $TMP/. $WEB_SEO/ && \
   echo '$NEW_HASH' > $WEB_SEO/.build_sha256 && rm -rf $TMP && echo SWAP_OK"
 
