@@ -58,55 +58,61 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     setState(() => _busy = true);
 
     String? err;
-    if (_mode == AuthMode.login) {
-      err = await ref
-          .read(authControllerProvider.notifier)
-          .login(email, password);
-    } else {
-      if (password.length < 8) {
-        setState(() => _busy = false);
-        _toast(
-          isTr
-              ? 'Şifre en az 8 karakter olmalı'
-              : 'Password must be at least 8 characters',
-        );
-        return;
-      }
-      if (password != _confirm.text) {
-        setState(() => _busy = false);
-        _toast(isTr ? 'Şifreler eşleşmiyor' : 'Passwords do not match');
-        return;
-      }
-      if (!_privacyConsent || !_ageAffirm) {
-        setState(() => _busy = false);
-        _toast(
-          isTr
-              ? 'Devam için onay kutularını işaretleyin'
-              : 'Please accept the consent boxes to continue',
-        );
-        return;
-      }
-      final age = ref.read(ageGateProvider);
-      final country = age.country ?? 'XX';
-      final minAge = age.minAge ?? 18;
-      err = await ref
-          .read(authControllerProvider.notifier)
-          .register(
-            email: email,
-            password: password,
-            displayName: _displayName.text.trim().isEmpty
-                ? null
-                : _displayName.text.trim(),
-            ageCountry: country,
-            ageMin: minAge,
-            privacyConsent: _privacyConsent,
+    try {
+      if (_mode == AuthMode.login) {
+        err = await ref
+            .read(authControllerProvider.notifier)
+            .login(email, password);
+      } else {
+        if (password.length < 8) {
+          setState(() => _busy = false);
+          _toast(
+            isTr
+                ? 'Şifre en az 8 karakter olmalı'
+                : 'Password must be at least 8 characters',
           );
+          return;
+        }
+        if (password != _confirm.text) {
+          setState(() => _busy = false);
+          _toast(isTr ? 'Şifreler eşleşmiyor' : 'Passwords do not match');
+          return;
+        }
+        if (!_privacyConsent || !_ageAffirm) {
+          setState(() => _busy = false);
+          _toast(
+            isTr
+                ? 'Devam için onay kutularını işaretleyin'
+                : 'Please accept the consent boxes to continue',
+          );
+          return;
+        }
+        final age = ref.read(ageGateProvider);
+        final country = age.country ?? 'XX';
+        final minAge = age.minAge ?? 18;
+        err = await ref
+            .read(authControllerProvider.notifier)
+            .register(
+              email: email,
+              password: password,
+              displayName: _displayName.text.trim().isEmpty
+                  ? null
+                  : _displayName.text.trim(),
+              ageCountry: country,
+              ageMin: minAge,
+              privacyConsent: _privacyConsent,
+            );
+      }
+    } catch (e) {
+      // Catch any unexpected exception
+      err = isTr ? 'Beklenmeyen hata: $e' : 'Unexpected error: $e';
     }
 
     if (!mounted) return;
     setState(() => _busy = false);
     if (err == null) {
-      if (mounted) Navigator.maybePop(context);
+      // Login succeeded. Force main.dart rebuild.
+      ref.invalidate(authControllerProvider);
     } else {
       _toast(err);
     }
@@ -122,16 +128,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     final isTr = ref.watch(localizationProvider) == 'tr';
-    final loggedIn = ref.watch(authControllerProvider).isLoggedIn;
-
-    // Already signed in -> nothing to do here.
-    if (loggedIn) {
-      return Scaffold(
-        backgroundColor: AppTheme.background,
-        appBar: AppBar(title: Text(isTr ? 'Hesap' : 'Account')),
-        body: const Center(child: Text('Zaten giriş yapıldı')),
-      );
-    }
+    // Don't watch auth here - let main.dart handle navigation.
+    // When login succeeds, main.dart rebuilds and unmounts this widget.
 
     return Scaffold(
       backgroundColor: AppTheme.background,

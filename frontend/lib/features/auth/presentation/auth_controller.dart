@@ -50,6 +50,11 @@ class AuthController extends StateNotifier<AuthState> {
     } on AuthApiException catch (e) {
       state = AuthState(AuthStatus.loggedOut, error: e.message);
       return e.message;
+    } catch (e) {
+      // Catch any unexpected exception (timeout, parse error, etc.)
+      final msg = 'Beklenmeyen hata: $e';
+      state = AuthState(AuthStatus.loggedOut, error: msg);
+      return msg;
     }
   }
 

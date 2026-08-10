@@ -14,7 +14,7 @@ abstract class WhiskyRepository {
   // backed by the local Drift DB only in offline/legacy/fallback mode.
 
   /// All whiskies from the backend (certified rows first).
-  Future<List<Whisky>> getAllWhiskies({int limit = 100, int offset = 0});
+  Future<List<Whisky>> getAllWhiskies({int limit = 100, int offset = 0, String? filter});
 
   /// A single whisky by its backend whisky_id (e.g. 'GSD-CAND-0001' / 'W000441').
   Future<Whisky?> getWhiskyByBackendId(String backendId);

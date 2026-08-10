@@ -37,10 +37,11 @@ def get_whiskies(
     offset: int = Query(0, ge=0),
     q: Optional[str] = Query(None),
     distillery_id: Optional[str] = Query(None),
+    filter: Optional[str] = Query(None),
     service: DbReadService = Depends(get_service)
 ):
     try:
-        return service.get_whiskies(limit, offset, q, distillery_id)
+        return service.get_whiskies(limit, offset, q, distillery_id, filter)
     except CatalogBoundsError:
         raise HTTPException(status_code=400, detail="Offset beyond catalog browse limit")
     except FileNotFoundError:
@@ -130,18 +131,6 @@ def get_evidence(request: Request, id: str, service: DbReadService = Depends(get
     """Return official_source_references for a whisky exactly as stored (read-only)."""
     try:
         return service.get_official_source_references(id)
-    except FileNotFoundError:
-        raise HTTPException(status_code=503, detail="Database file missing")
-    except sqlite3.Error:
-        raise HTTPException(status_code=500, detail="Database query failed")
-
-@router.get("/whiskies/{id}/price-history")
-@limiter.limit("120/minute")
-def get_price_history(request: Request, id: str, service: DbReadService = Depends(get_service)):
-    if os.getenv("SHOW_PRICE_DATA", "false").lower() != "true":
-        return []
-    try:
-        return service.get_price_history(id)
     except FileNotFoundError:
         raise HTTPException(status_code=503, detail="Database file missing")
     except sqlite3.Error:

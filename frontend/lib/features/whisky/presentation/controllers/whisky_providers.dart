@@ -7,7 +7,6 @@ import 'package:malt_radar/features/auth/presentation/auth_controller.dart';
 import '../../data/repositories/db_whisky_repository_impl.dart';
 import '../../domain/models/whisky.dart';
 import '../../domain/repositories/whisky_repository.dart';
-import 'package:malt_radar/features/flavor/domain/flavor_profile_normalizer.dart';
 
 // Provider for the local Drift database
 final appDatabaseProvider = Provider<AppDatabase>((ref) {
@@ -69,44 +68,51 @@ final favoritesOnlyProvider = StateProvider<bool>((ref) => false);
 // State provider for selected search filters/chips
 final selectedFiltersProvider = StateProvider<List<String>>((ref) => []);
 
-// Stream provider for the list of whiskies.
-// In local mode it observes the Drift cache; in DbApi mode it is backed by the
-// backend (single source of truth). Both keep the same Stream<List<Whisky>>
-// contract so the UI is unchanged.
+// All whiskies from the backend, fetched ONCE per auth session.
+// Keyed on auth only — NOT on search query/filters, so typing in the search
+// bar never refetches the 92-page catalog (that flooded the backend rate
+// limit: every keystroke x ~92 pages = 429s -> silently-empty list).
+final allWhiskiesProvider = FutureProvider<List<Whisky>>((ref) async {
+  final auth = ref.watch(authControllerProvider);
+  // Server-side filtering is the single source of truth: the chip list is
+  // sent to the backend, which applies the normalized-axis matching.
+  // Re-fetch on chip change so the server-filtered set replaces the cache.
+  final selectedFilters = ref.watch(selectedFiltersProvider);
+  final repo = ref.read(whiskyRepositoryProvider);
+  final dbClient = ref.read(dbWhiskyApiClientProvider);
+
+  // Ensure the /api/db bearer token is present before the catalog fetch.
+  if (auth.isLoggedIn) {
+    final token = await AuthRepository(ref.read(appDatabaseProvider)).loadToken();
+    if (token != null) {
+      dbClient.setToken(token);
+    }
+  }
+  final filterParam = selectedFilters.isEmpty ? null : selectedFilters.join(',');
+  return repo.getAllWhiskies(filter: filterParam);
+});
+
+// Stream provider for the filtered list of whiskies.
+// The catalog fetch is server-filtered (chips); query text and favorites are
+// applied CLIENT-SIDE on top of the (already chip-filtered) set.
 final whiskiesStreamProvider = StreamProvider<List<Whisky>>((ref) {
-  // Depend on auth so the list (re)fetches once a session (and thus the
-  // /api/db bearer token) is available. Without this, the first build fires
-  // before login/restore sets the token -> 401 -> silently-empty catalog.
-  ref.watch(authControllerProvider);
+  // Watch so the stream rebuilds when the (server-filtered) catalog changes.
+  ref.watch(allWhiskiesProvider);
   final query = ref.watch(searchQueryProvider);
   final favoritesOnly = ref.watch(favoritesOnlyProvider);
-  final selectedFilters = ref.watch(selectedFiltersProvider);
 
-  // Backend-driven list. Build with Stream.multi so that on every (re)listen
-  // (including the auth-induced rebuild) we FIRST ensure the bearer token is
-  // loaded into the client, THEN fetch — closing the login/restore race where
-  // an early build fires before the token is set and returns a 401 -> empty.
-  final stream = Stream<List<Whisky>>.multi((controller) async {
-    final repo = ref.read(whiskyRepositoryProvider);
-    // Ensure the /api/db bearer token is present before the catalog fetch.
-    final auth = ref.read(authControllerProvider);
-    if (auth.isLoggedIn) {
-      final token =
-          await AuthRepository(ref.read(appDatabaseProvider)).loadToken();
-      ref.read(dbWhiskyApiClientProvider).setToken(token);
-    }
-    final list = await repo.getAllWhiskies(limit: 5000, offset: 0);
-    controller.add(_filterWhiskies(list, query, favoritesOnly, selectedFilters));
+  return Stream<List<Whisky>>.multi((controller) async {
+    // await the cached catalog (no refetch — FutureProvider caches per auth/filter)
+    final list = await ref.read(allWhiskiesProvider.future);
+    controller.add(_filterWhiskies(list, query, favoritesOnly));
     controller.close();
   });
-  return stream;
 });
 
 List<Whisky> _filterWhiskies(
   List<Whisky> list,
   String query,
   bool favoritesOnly,
-  List<String> selectedFilters,
 ) {
   var filtered = list;
   if (query.isNotEmpty) {
@@ -129,14 +135,6 @@ List<Whisky> _filterWhiskies(
 
   if (favoritesOnly) {
     filtered = filtered.where((w) => w.isFavorite).toList();
-  }
-  if (selectedFilters.isNotEmpty) {
-    filtered = filtered.where((w) {
-      for (final f in selectedFilters) {
-        if (!_matchesFilterStatic(w, f)) return false;
-      }
-      return true;
-    }).toList();
   }
   return filtered;
 }
@@ -171,7 +169,7 @@ final whiskyDetailProvider = StreamProvider.family<Whisky?, int>((ref, id) {
 // All whiskies from the backend (certified rows first).
 final backendWhiskiesProvider = FutureProvider<List<Whisky>>((ref) async {
   final repository = ref.watch(whiskyRepositoryProvider);
-  return repository.getAllWhiskies(limit: 5000, offset: 0);
+  return repository.getAllWhiskies(limit: 50, offset: 0);
 });
 
 // A single whisky by its backend whisky_id (used by the detail screen in DbApi
@@ -188,60 +186,6 @@ final backendSimilarWhiskiesProvider =
   final repository = ref.watch(whiskyRepositoryProvider);
   return repository.getSimilarWhiskies(whiskyId, limit: 5);
 });
-
-// Static flavour/filter matcher shared by the DbApi list filtering and the
-// local repository matcher. Mirrors DbWhiskyRepositoryImpl._matchesFilter.
-bool _matchesFilterStatic(Whisky w, String filter) {
-  final f = filter.toLowerCase();
-
-  if (f == 'single malt') {
-    return (w.type?.toLowerCase() == 'malt' ||
-        w.category?.toLowerCase() == 'single malt' ||
-        w.category?.toLowerCase() == 'scotch' && w.type?.toLowerCase() == 'malt');
-  }
-  if (f == 'blended') {
-    return (w.type?.toLowerCase() == 'blend' ||
-        w.category?.toLowerCase() == 'blended' ||
-        w.category?.toLowerCase() == 'blend');
-  }
-  if (f == 'bourbon') {
-    return (w.category?.toLowerCase() == 'bourbon' || w.type?.toLowerCase() == 'bourbon');
-  }
-  if (f == 'rye') {
-    return (w.category?.toLowerCase() == 'rye' || w.type?.toLowerCase() == 'rye');
-  }
-
-  if (w.region != null && w.region!.toLowerCase() == f) return true;
-
-  if (w.flavorProfile != null) {
-    try {
-      final profile = normalizeFlavorProfileJson(w.flavorProfile!);
-      const double threshold = 1.0;
-      if (f == 'peated') {
-        return (profile['smoky_peaty'] ?? 0.0) > threshold || (profile['peaty'] ?? 0.0) > threshold;
-      }
-      if (f == 'smoky') {
-        return (profile['smoky_peaty'] ?? 0.0) > threshold || (profile['smoky'] ?? 0.0) > threshold;
-      }
-      if (f == 'sherry' || f == 'sherry cask') {
-        return (profile['sherry'] ?? 0.0) > threshold ||
-            (profile['oak_cask'] ?? 0.0) > threshold ||
-            (w.caskType?.toLowerCase().contains('sherry') ?? false);
-      }
-      if (f == 'sweet') {
-        return (profile['sweet'] ?? 0.0) > threshold;
-      }
-      if (f == 'fruity') {
-        return (profile['fruity'] ?? 0.0) > threshold;
-      }
-    } catch (_) {}
-  } else {
-    if ((f == 'sherry' || f == 'sherry cask') && (w.caskType?.toLowerCase().contains('sherry') ?? false)) {
-      return true;
-    }
-  }
-  return false;
-}
 
 // Stream provider for reference settings (100pt whisky configuration)
 final referenceSettingsStreamProvider = StreamProvider<Map<String, dynamic>>((ref) {

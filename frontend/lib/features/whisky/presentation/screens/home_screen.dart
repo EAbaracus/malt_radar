@@ -22,14 +22,8 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  bool _isAdding = false;
-  Timer? _debounce;
-  String _lastQuery = '';
-  Iterable<Whisky> _lastOptions = [];
-
   @override
   void dispose() {
-    _debounce?.cancel();
     super.dispose();
   }
 
@@ -37,32 +31,32 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final trimmedQuery = query.trim();
     if (trimmedQuery.length < 2) return const Iterable<Whisky>.empty();
 
-    if (_debounce?.isActive ?? false) _debounce!.cancel();
-
-    final completer = Completer<Iterable<Whisky>>();
-
-    _debounce = Timer(const Duration(milliseconds: 500), () async {
-      if (trimmedQuery == _lastQuery) {
-        completer.complete(_lastOptions);
-        return;
-      }
-
-      final repository = ref.read(whiskyRepositoryProvider);
-      try {
-        final results = await repository.searchExternalWhiskies(trimmedQuery);
-        _lastQuery = trimmedQuery;
-        _lastOptions = results;
-        completer.complete(results);
-      } catch (e) {
-        completer.complete(const Iterable<Whisky>.empty());
-      }
-    });
-
-    return completer.future;
+    final repository = ref.read(whiskyRepositoryProvider);
+    try {
+      // Search backend (includes both library and external). No debounce:
+      // every keystroke gets a fresh future — Autocomplete drops stale
+      // futures itself, and a cancelled debounce would leave the dropdown
+      // stuck waiting on a completer that never completes.
+      return await repository.searchBackend(trimmedQuery);
+    } catch (e) {
+      debugPrint('search autocomplete failed: $e');
+      return const Iterable<Whisky>.empty();
+    }
   }
 
   void _showWhiskyPreview(BuildContext context, Whisky whisky) {
     final tr = ref.read(trProvider);
+
+    // If whisky is already in library (has valid local ID > 0), go directly to detail
+    if (whisky.id > 0) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => DetailScreen(whiskyId: whisky.id)),
+      );
+      return;
+    }
+
+    // Otherwise show preview modal with "Add to Library" button
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -151,8 +145,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   )).toList(),
                 ),
               ],
-              // Flavor radar — shown in the preview so the selected whisky's
-              // profile is visible before adding to a list.
               if (whisky.flavorProfile != null && whisky.flavorProfile!.isNotEmpty) ...[
                 const SizedBox(height: 24),
                 Text(tr('flavor_radar'), style: Theme.of(context).textTheme.titleMedium),
@@ -197,16 +189,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   void _addWhiskyToLibrary(BuildContext context, Whisky whisky) async {
     final tr = ref.read(trProvider);
-    setState(() {
-      _isAdding = true;
-    });
-
     final repository = ref.read(whiskyRepositoryProvider);
     final localId = await repository.addWhiskyToLibrary(whisky);
-
-    setState(() {
-      _isAdding = false;
-    });
 
     if (!context.mounted) return;
 
@@ -304,6 +288,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   },
                   displayStringForOption: (option) => option.name,
                   onSelected: (selection) {
+                    // Autocomplete returns external whiskies (not in library yet).
+                    // Show preview modal with "Add to Library" button.
                     _showWhiskyPreview(context, selection);
                   },
                   fieldViewBuilder: (context, controller, focusNode, onEditingComplete) {
@@ -414,7 +400,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       'Sweet',
                       'Fruity',
                     ];
-                    
+
                     return ListView.builder(
                       scrollDirection: Axis.horizontal,
                       padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -442,12 +428,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ),
               ),
               const SizedBox(height: 8),
-
-              if (_isAdding)
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24),
-                  child: LinearProgressIndicator(color: AppTheme.primary, backgroundColor: Colors.transparent),
-                ),
 
               Expanded(
                 child: whiskiesAsync.when(

@@ -14,7 +14,7 @@ class DbWhiskyRepositoryImpl implements WhiskyRepository {
 
   @override
   Stream<List<Whisky>> watchLocalWhiskies({
-    String query = '', 
+    String query = '',
     bool favoritesOnly = false,
     List<String> filters = const [],
   }) {
@@ -61,7 +61,7 @@ class DbWhiskyRepositoryImpl implements WhiskyRepository {
 
   bool _matchesFilter(Whisky w, String filter) {
     final f = filter.toLowerCase();
-    
+
     // Category / Type match
     if (f == 'single malt') {
       return (w.type?.toLowerCase() == 'malt' || w.category?.toLowerCase() == 'single malt' || w.category?.toLowerCase() == 'scotch' && w.type?.toLowerCase() == 'malt');
@@ -86,7 +86,7 @@ class DbWhiskyRepositoryImpl implements WhiskyRepository {
       try {
         final profile = normalizeFlavorProfileJson(w.flavorProfile!);
         const double threshold = 1.0;
-        
+
         if (f == 'peated') {
           return (profile['smoky_peaty'] ?? 0.0) > threshold || (profile['peaty'] ?? 0.0) > threshold;
         }
@@ -128,35 +128,44 @@ class DbWhiskyRepositoryImpl implements WhiskyRepository {
   }
 
   @override
-  Future<List<Whisky>> getAllWhiskies({int limit = 100, int offset = 0}) async {
+  Future<List<Whisky>> getAllWhiskies({int limit = 100, int offset = 0, String? filter}) async {
     try {
       // The backend clamps each page to CATALOG_MAX_PAGE (default 50) and
       // rejects limit>100 (422). Fetch in paged chunks and assemble the full
       // list instead of requesting one huge page (which 422s -> empty list).
-      return await _fetchAllPaged(offset: offset);
+      return await _fetchAllPaged(offset: offset, filter: filter);
     } catch (_) {
       return [];
     }
   }
 
   /// Pages through /api/db/whiskies (50 rows/page) and concatenates results.
-  /// Stops when a page returns fewer than the page size (end of catalogue)
-  /// or after CATALOG_MAX_OFFSET pages to honour anti-scrape bounds.
-  Future<List<Whisky>> _fetchAllPaged({int offset = 0}) async {
+  /// Fetches up to 100 pages (5000 rows) to cover the full catalogue.
+  Future<List<Whisky>> _fetchAllPaged({int offset = 0, String? filter}) async {
     const page = 50;
+    const maxPages = 100; // Fetch up to 5000 rows
     final out = <Whisky>[];
-    const maxOffset = 10000; // mirrors server CATALOG_MAX_OFFSET
     var off = offset;
-    while (off < maxOffset) {
-      final resp = await _dbClient.getWhiskies(limit: page, offset: off);
-      if (resp.items.isEmpty) break;
-      final mapped = resp.items
-          .map((map) => Whisky.fromMap(DbWhiskyMapper.toLegacyMap(map)))
-          .toList();
-      out.addAll(mapped);
-      if (mapped.length < page) break; // short page = end
+    var pagesFetched = 0;
+
+    while (pagesFetched < maxPages) {
+      try {
+        final resp = await _dbClient.getWhiskies(limit: page, offset: off, filter: filter);
+        if (resp.items.isEmpty) break;
+
+        final mapped = resp.items
+            .map((map) => Whisky.fromMap(DbWhiskyMapper.toLegacyMap(map)))
+            .toList();
+        out.addAll(mapped);
+        if (mapped.length < page) break; // short page = end
+      } catch (e) {
+        if (out.isEmpty) rethrow;
+        break;
+      }
       off += page;
+      pagesFetched++;
     }
+
     // de-duplicate by external id / name (defensive; server should be unique)
     final seen = <String>{};
     final unique = <Whisky>[];

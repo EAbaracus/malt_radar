@@ -22,19 +22,20 @@ class MaltRadarApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final age = ref.watch(ageGateProvider);
+    final auth = ref.watch(authControllerProvider);
 
     return MaterialApp(
       title: 'Malt Radar',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.darkTheme,
-      home: _homeFor(age, ref),
+      home: _homeFor(age, auth, ref),
     );
   }
 
   /// Routes the entry screen through the compliance age gate. None of the
   /// product content renders until the user confirms they are of legal
   /// drinking age in their country.
-  Widget _homeFor(AgeGateDecision age, WidgetRef ref) {
+  Widget _homeFor(AgeGateDecision age, AuthState auth, WidgetRef ref) {
     switch (age.status) {
       case AgeGateStatus.unknown:
         return const _GateLoadingScaffold();
@@ -43,37 +44,16 @@ class MaltRadarApp extends ConsumerWidget {
       case AgeGateStatus.blocked:
         return const AgeGateBlockedScreen();
       case AgeGateStatus.consented:
-        return _mainHome(ref);
+        return _mainHome(auth, ref);
     }
   }
 
-  Widget _mainHome(WidgetRef ref) {
+  Widget _mainHome(AuthState auth, WidgetRef ref) {
     final initAsync = ref.watch(appInitializationProvider);
 
-    return initAsync.when(
-      data: (_) {
-        // Reference-whisky onboarding gate removed (open straight to the app).
-        // Route through auth: no session -> login/register; session -> main.
-        final auth = ref.watch(authControllerProvider);
-        if (auth.status == AuthStatus.unknown) {
-          // Session restore in flight — show a neutral splash, avoiding a
-          // login-screen flash for users who already have a session.
-          return const Scaffold(
-            body: Center(
-              child: Medallion(
-                size: 96,
-                level: MedallionLevel.master,
-                animate: true,
-              ),
-            ),
-          );
-        }
-        if (!auth.isLoggedIn) {
-          return const AuthScreen();
-        }
-        return const MainNavigationScreen();
-      },
-      loading: () => const Scaffold(
+    // Handle init states first
+    if (initAsync.isLoading) {
+      return const Scaffold(
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -91,21 +71,43 @@ class MaltRadarApp extends ConsumerWidget {
             ],
           ),
         ),
-      ),
-      error: (error, stack) => Scaffold(
+      );
+    }
+
+    if (initAsync.hasError) {
+      return Scaffold(
         body: Center(
           child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
-                'Veritabanı başlatılamadı:\n$error\n\nStack:\n$stack',
+                'Veritabanı başlatılamadı:\\n${initAsync.error}\\n\\nStack:\\n${initAsync.stackTrace}',
                 style: const TextStyle(color: AppTheme.error, fontSize: 12),
               ),
             ),
           ),
         ),
-      ),
-    );
+      );
+    }
+
+    // Init complete — now check auth (this rebuilds when auth changes)
+    if (auth.status == AuthStatus.unknown) {
+      // Session restore in flight — show a neutral splash, avoiding a
+      // login-screen flash for users who already have a session.
+      return const Scaffold(
+        body: Center(
+          child: Medallion(
+            size: 96,
+            level: MedallionLevel.master,
+            animate: true,
+          ),
+        ),
+      );
+    }
+    if (!auth.isLoggedIn) {
+      return const AuthScreen();
+    }
+    return const MainNavigationScreen();
   }
 }
 

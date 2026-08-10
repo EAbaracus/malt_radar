@@ -29,12 +29,16 @@ class DbWhiskyApiClient {
   final http.Client _client;
   String? _token;
   Future<String?> Function()? _tokenLoader;
+  Future<void>? _inflightToken;
 
   DbWhiskyApiClient({http.Client? client}) : _client = client ?? http.Client();
 
   /// Bearer token for per-user gated /api/db reads. Set after login/restore.
   /// When null, requests go out without Authorization (server → 401).
-  void setToken(String? token) => _token = token;
+  void setToken(String? token) {
+    _token = token;
+    _inflightToken = null;
+  }
 
   /// Optional lazy token source. When the in-memory token is absent, each
   /// request calls this (once) to load the persisted token before going out —
@@ -45,7 +49,12 @@ class DbWhiskyApiClient {
 
   Future<void> _ensureToken() async {
     if (_token != null || _tokenLoader == null) return;
-    _token = await _tokenLoader!();
+    // Memoize the in-flight load so concurrent callers share ONE loader run
+    // instead of each awaiting a fresh (raced) load.
+    _inflightToken ??= () async {
+      _token = await _tokenLoader!();
+    }();
+    await _inflightToken;
   }
 
   Map<String, String> _headers({bool json = false}) => {
@@ -71,11 +80,14 @@ class DbWhiskyApiClient {
     throw Exception('API db/schema failed: ${response.statusCode}');
   }
 
-  Future<DbPaginatedResponse<Map<String, dynamic>>> getWhiskies({int limit = 50, int offset = 0, String? q}) async {
+  Future<DbPaginatedResponse<Map<String, dynamic>>> getWhiskies({int limit = 50, int offset = 0, String? q, String? filter}) async {
     await _ensureToken();
     String url = '${AppConfig.baseUrl}/api/db/whiskies?limit=$limit&offset=$offset';
     if (q != null && q.isNotEmpty) {
       url += '&q=${Uri.encodeComponent(q)}';
+    }
+    if (filter != null && filter.isNotEmpty) {
+      url += '&filter=${Uri.encodeComponent(filter)}';
     }
     final response = await _client.get(Uri.parse(url), headers: _headers());
     if (response.statusCode == 200) {

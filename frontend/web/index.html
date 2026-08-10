@@ -45,6 +45,24 @@
     For more details:
     * https://docs.flutter.dev/platform-integration/web/initialization
   -->
+  <script>
+    // Kill any stale Flutter service worker + its caches on every load.
+    // The SW was serving an old main.dart.js (2-page pagination) even after redeploys,
+    // which manifested as an empty whisky list. Unregister + purge caches so the
+    // fresh build is always fetched.
+    (function () {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function (regs) {
+          regs.forEach(function (r) { r.unregister(); });
+        });
+      }
+      if (window.caches && window.caches.keys) {
+        caches.keys().then(function (keys) {
+          keys.forEach(function (k) { caches.delete(k); });
+        });
+      }
+    })();
+  </script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>
