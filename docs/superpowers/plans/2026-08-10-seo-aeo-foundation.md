@@ -19,9 +19,33 @@
 5. **Kapsam**: yalnız `seo/` + `deploy_seo.sh` + `deploy/Caddyfile`. Backend/frontend/social koduna dokunma.
 6. **Otonomi yetkisi (kural 15 istisnası, kullanıcı GO'su ile)**: `seo/` + deploy script commit'leri otomatik. `build/` ve çıktı dosyaları gitignore.
 7. **Determinizm**: aynı DB → aynı çıktı hash'i. Tier kuralı tek geçişli tam bölümleme.
-8. **Tier sınırları (lokal baseline)**: A 2.371, B 1.204, C_idx 817, C_no 358 — birim testlerde sentetik veri, entegrasyonda ARALIK (warn).
+8. **Tier kuralı = backend ile AYNI eksen vokabüleri (REVİZYON R1)**: profil JSON'u artık karışık vokabüler taşıyor (canonical + app eksenleri). `flavor_profile` ham değil, **canonical→app MAX-map'lenmiş** profilde aktif eksen sayılır (backend `db_read_service.py:_map_canonical_to_app_axes` aynası — `seo/axes.py`'de stdlib kopyası; maritime pass-through dahil 8 app ekseni). key=val string formu da parse edilir. Sayfa radarı da aynı 8 ekseni render eder. `seo/axes.py` backend ile senkron tutulur (parity riski dokümante edildi).
 9. **İzin modeli**: sunucuda `chown :deploygroup` + `chmod 640` (o+r DEĞİL). Windows'ta mevcut DENY ACE dokunulmaz.
 10. **Secret'lar**: loglara/env'e asla; GSC/GA4 kimlikleri gitignore'lu dosyada, env-gated degrade.
+
+## REVİZYON R1 — eksen vokabüleri (canlı veri keşfi, 2026-08-10)
+
+**Bulgu:** Bu oturum sırasında başka bir promotion akışı production.db'deki `flavor_profiles.flavor_profile` içeriğini değiştirdi: 3.575→4.382 satır, format karışık vokabüler (canonical `smoky/peaty/sherry/woody` + app eksenleri birlikte; ör. `{"sherry":1.5,"fruity":0.34,"smoky":0.25,...}`). Sabit sayılar bayatladı.
+
+**Karar (tier kuralı + radar):** Tier ve radar, ham JSON değil **canonical→app MAX-map** çıktısı üzerinden çalışır — backend `DbReadService._map_canonical_to_app_axes` (db_read_service.py:156-201) ile birebir aynı:
+```
+smoky, peaty, peat  -> smoky_peaty  (MAX)
+sherry, oak, cask, woody -> oak_cask (MAX)
+fruit -> fruity; spice -> spicy; floral -> floral_herbal; malty -> malty_cereal
+maritime -> maritime (pass-through)
+component_1/2/3 (Whiskey-Mapper) -> özel projeksiyon (backend ile aynı)
+```
+8 app ekseni: fruity, sweet, spicy, smoky_peaty, oak_cask, malty_cereal, floral_herbal, **maritime**.
+
+**Etki:** yeni `seo/axes.py` (parse JSON/key=val + map + active count); `tiers.py` `_active_axes` → axes.active_axes; `generator.py` profile'i axes.map_to_app çıktısıyla besler; `templates.py` radarına maritime eklenir (TR "Denizcilik"/EN "Maritime"); yeni `tests/test_seo_axes.py` (haritalama, MAX birleşimi, maritime, key=val, component formu).
+
+**Tier sayıları:** plan başlangıcındaki sabitler (2.371/1.204/817/358) artık bilgilendiricidir — her build canlı DB'den hesaplar (spec test 8: aralık kontrolü warn, hard invariant sitemap URL sayısı).
+
+## REVİZYON R2 — Wave 1 uygulama bulguları (spec-kodu düzeltmeleri)
+
+1. **JSON-LD helper'ları dict döner** (`_breadcrumb_jsonld`/`_product_jsonld`): string döndürürse `render_whisky_page`'teki dış `_j.dumps` onları yeniden escape'ler → geçersiz iç-içe JSON-LD (`\"@type\": \"Product\"`). Test yakaladı (1/4 fail), düzeltildi (4/4).
+2. **T4 test fixture'larına `xmlns`** eklendi: `verify.py` namespace'li iterasyon (`{...sitemap/0.9}loc`) kullanır; fixture'sız xmlns'ta sitemap "boş" sayılırdı. verify.py değişmedi — davranış doğru.
+3. T1 implementasyonu plan koduyla birebir; T4 aynı. T2 yukarıdaki tek düzeltmeyle plan kodu.
 
 ---
 
@@ -265,25 +289,27 @@ def hreflang_tags(lang: str, self_url: str, alt_url: str) -> str:
     )
 
 
-def _breadcrumb_jsonld(items: list[tuple[str, str]]) -> str:
-    return _j.dumps({
+def _breadcrumb_jsonld(items: list[tuple[str, str]]) -> dict:
+    # DİKKAT (REVİZYON R2): dict döner — string döndürürse dış _j.dumps
+    # yeniden escape'ler -> geçersiz iç-içe JSON-LD (\"@type\": \"Product\").
+    return {
         "@context": "https://schema.org", "@type": "BreadcrumbList",
         "itemListElement": [
             {"@type": "ListItem", "position": i + 1,
              "name": _e(n), "item": _e(u)} for i, (n, u) in enumerate(items)
         ],
-    }, ensure_ascii=False)
+    }
 
 
-def _product_jsonld(w: dict) -> str:
-    # Product Rule: offers/price/aggregateRating YOK (spec §5)
-    return _j.dumps({
+def _product_jsonld(w: dict) -> dict:
+    # Product Rule: offers/price/aggregateRating YOK (spec §5); dict döner (R2)
+    return {
         "@context": "https://schema.org", "@type": "Product",
         "name": _e(w.get("name")),
         "description": _e(w.get("seo_description", "")),
         "category": _e(w.get("type") or w.get("region") or ""),
         "brand": {"@type": "Brand", "name": _e(w.get("brand") or w.get("distillery_name") or "")},
-    }, ensure_ascii=False)
+    }
 
 
 def _radar_svg(profile: dict, lang: str) -> str:
@@ -684,7 +710,7 @@ def test_verify_catches_price_and_broken_link():
     with tempfile.TemporaryDirectory() as td:
         d = Path(td)
         _write(d / "tr/w/W1/index.html", '<html><head><title>X</title></head><body>₺199 fiyat</body></html>')
-        _write(d / "sitemap.xml", '<?xml version="1.0"?><urlset><url><loc>https://maltradar.com/tr/w/W1/</loc></url></urlset>')
+        _write(d / "sitemap.xml", '<?xml version="1.0"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://maltradar.com/tr/w/W1/</loc></url></urlset>')
         _write(d / "tr/w/W2/index.html", '<html><head></head><body><a href="https://maltradar.com/tr/w/W1/">W1</a><a href="https://maltradar.com/tr/w/MISSING/">x</a></body></html>')
         violations = verify(str(d), expected_pages=2)
         joined = " | ".join(violations)
@@ -699,7 +725,7 @@ def test_verify_clean_dir_passes():
         _write(d / "en/w/W1/index.html",
                '<html><head><title>W1</title><link rel="canonical" href="https://maltradar.com/en/w/W1/"></head><body></body></html>')
         _write(d / "sitemap.xml",
-               '<?xml version="1.0"?><urlset><url><loc>https://maltradar.com/tr/w/W1/</loc></url><url><loc>https://maltradar.com/en/w/W1/</loc></url></urlset>')
+               '<?xml version="1.0"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://maltradar.com/tr/w/W1/</loc></url><url><loc>https://maltradar.com/en/w/W1/</loc></url></urlset>')
         assert verify(str(d), expected_pages=2) == []
 ```
 
