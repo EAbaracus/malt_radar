@@ -915,14 +915,18 @@ Caddyfile site bloğuna (mevcut yapıya uyarlayarak — `handle` blokları varsa
 
 ```
     # SEO statik katmanı — Flutter SPA'dan ÖNCE (spec §2)
-    handle /w/* /tr/* /en/* /sitemap.xml /llms.txt /robots.txt {
+    @seo path /w/* /tr/* /en/* /sitemap.xml /llms.txt /robots.txt
+    handle @seo {
         root * /srv/web-seo
         file_server
         header Cache-Control "public, max-age=3600"
     }
 ```
 
-**DİKKAT — `handle` kullan, `handle_path` DEĞİL:** `handle_path` eşleşen yol önekini SİLER (`/tr/w/X/` → `/w/X/` arar). Dosyalar `web-seo/tr/w/...` düzeninde olduğundan tam yol root'a göre servis edilmeli → `handle` (orijinal yolu korur). Bu, uygulama sırasında Caddy kaynak incelemesiyle doğrulanmıştır.
+**DİKKAT — Caddy direktif seçimi (canlı doğrulandı, `caddy validate` PASS):**
+- `handle_path` KULLANMA: eşleşen yol önekini SİLER (`/tr/w/X/` → `/w/X/` arar; dosyalar `web-seo/tr/w/...` düzeninde olduğundan 404).
+- `handle /w/* /tr/* ...` KULLANMA: `handle` **çoklu yol deseni almaz** — `wrong argument count after '/tr/*'` hatası.
+- Doğru form: adlandırılmış **`path` matcher** (çoklu deseni destekler) + `handle @seo`.
 
 Sonra mevcut Flutter root bloğu (`root * /srv/web` vb.) aynen kalır. `/robots.txt` burada web-seo'dan servis edilir (Sitemap satırlı sürüm kazanır).
 
