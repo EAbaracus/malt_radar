@@ -140,11 +140,13 @@ class DbWhiskyRepositoryImpl implements WhiskyRepository {
   }
 
   @override
-  Future<List<Whisky>> getWhiskiesPage({required int offset, int limit = 50, String? filter}) {
-    // Real paginated wiring lands in D-hardening Task 2. This explicit
-    // non-implementation keeps the interface change compiling; nothing routes
-    // here until Task 2 wires the catalog UI to CatalogPaginationNotifier.
-    throw UnimplementedError('getWhiskiesPage: wired in D-hardening Task 2');
+  Future<List<Whisky>> getWhiskiesPage(
+      {required int offset, int limit = 50, String? filter}) async {
+    final resp =
+        await _dbClient.getWhiskies(limit: limit, offset: offset, filter: filter);
+    return resp.items
+        .map((map) => Whisky.fromMap(DbWhiskyMapper.toLegacyMap(map)))
+        .toList();
   }
 
   /// Pages through /api/db/whiskies (50 rows/page) and concatenates results.

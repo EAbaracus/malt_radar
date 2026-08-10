@@ -4,7 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:malt_radar/core/theme/app_theme.dart';
 import 'package:malt_radar/core/theme/app_theme_colors.dart';
 import '../controllers/whisky_providers.dart';
+import '../controllers/catalog_pagination.dart';
 import '../../domain/models/whisky.dart';
+import 'catalog_scroll_trigger.dart';
 import '../../../../core/localization/localization_provider.dart';
 import 'package:malt_radar/core/branding/brand_medallion.dart';
 import 'package:malt_radar/core/branding/brand_medallion_widget.dart';
@@ -436,21 +438,42 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       final query = ref.watch(searchQueryProvider);
                       return _buildEmptyState(context, isFavoritesOnly, query);
                     }
-                    return ListView.builder(
-                      physics: const BouncingScrollPhysics(),
-                      padding: EdgeInsets.fromLTRB(
-                        24,
-                        4,
-                        24,
-                        MediaQuery.viewInsetsOf(context).bottom +
-                        MediaQuery.paddingOf(context).bottom +
-                        (MediaQuery.viewInsetsOf(context).bottom > 0 ? 96.0 : 96.0)
-                      ),
-                      itemCount: whiskies.length,
-                      itemBuilder: (context, index) {
-                        final whisky = whiskies[index];
-                        return _buildWhiskyCard(context, ref, whisky, referenceScore);
+                    return NotificationListener<ScrollNotification>(
+                      onNotification: (notification) {
+                        // Near-bottom trigger (H1 Task 2): once the user
+                        // scrolls within ~400px of the end, ask the paginated
+                        // catalog for the next page. The notifier's own
+                        // guards (loadingMore / exhausted /
+                        // temporarilyUnavailable) make repeat notifications
+                        // cheap no-ops; hasValue keeps the very first scroll
+                        // (before page 0 finishes loading) from racing build.
+                        if (notification is ScrollUpdateNotification &&
+                            shouldLoadMoreCatalog(notification.metrics)) {
+                          final catalog = ref.read(catalogPaginationProvider);
+                          if (catalog.hasValue) {
+                            ref
+                                .read(catalogPaginationProvider.notifier)
+                                .loadMore();
+                          }
+                        }
+                        return false;
                       },
+                      child: ListView.builder(
+                        physics: const BouncingScrollPhysics(),
+                        padding: EdgeInsets.fromLTRB(
+                          24,
+                          4,
+                          24,
+                          MediaQuery.viewInsetsOf(context).bottom +
+                          MediaQuery.paddingOf(context).bottom +
+                          (MediaQuery.viewInsetsOf(context).bottom > 0 ? 96.0 : 96.0)
+                        ),
+                        itemCount: whiskies.length,
+                        itemBuilder: (context, index) {
+                          final whisky = whiskies[index];
+                          return _buildWhiskyCard(context, ref, whisky, referenceScore);
+                        },
+                      ),
                     );
                   },
                   loading: () => const Center(
