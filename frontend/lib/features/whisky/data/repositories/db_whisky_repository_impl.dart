@@ -129,11 +129,11 @@ class DbWhiskyRepositoryImpl implements WhiskyRepository {
 
   @override
   Future<List<Whisky>> getAllWhiskies({int limit = 100, int offset = 0, String? filter}) async {
+    // Bounded: a SINGLE page fetch (no eager multi-page cascade). The backend
+    // clamps to CATALOG_MAX_PAGE (50) and rejects limit>100 (422); callers
+    // needing more use the paginated catalog state (CatalogPaginationNotifier).
     try {
-      // The backend clamps each page to CATALOG_MAX_PAGE (default 50) and
-      // rejects limit>100 (422). Fetch in paged chunks and assemble the full
-      // list instead of requesting one huge page (which 422s -> empty list).
-      return await _fetchAllPaged(offset: offset, filter: filter);
+      return await getWhiskiesPage(offset: offset, limit: limit, filter: filter);
     } catch (_) {
       return [];
     }
@@ -147,48 +147,6 @@ class DbWhiskyRepositoryImpl implements WhiskyRepository {
     return resp.items
         .map((map) => Whisky.fromMap(DbWhiskyMapper.toLegacyMap(map)))
         .toList();
-  }
-
-  /// Pages through /api/db/whiskies (50 rows/page) and concatenates results.
-  /// Fetches up to 100 pages (5000 rows) to cover the full catalogue.
-  Future<List<Whisky>> _fetchAllPaged({int offset = 0, String? filter}) async {
-    const page = 50;
-    const maxPages = 100; // Fetch up to 5000 rows
-    final out = <Whisky>[];
-    var off = offset;
-    var pagesFetched = 0;
-
-    while (pagesFetched < maxPages) {
-      try {
-        final resp = await _dbClient.getWhiskies(limit: page, offset: off, filter: filter);
-        if (resp.items.isEmpty) break;
-
-        final mapped = resp.items
-            .map((map) => Whisky.fromMap(DbWhiskyMapper.toLegacyMap(map)))
-            .toList();
-        out.addAll(mapped);
-        if (mapped.length < page) break; // short page = end
-      } catch (e) {
-        if (out.isEmpty) rethrow;
-        break;
-      }
-      off += page;
-      pagesFetched++;
-    }
-
-    // de-duplicate by external id / name (defensive; server should be unique)
-    final seen = <String>{};
-    final unique = <Whisky>[];
-    for (final w in out) {
-      final key = w.externalId?.isNotEmpty == true
-          ? w.externalId!
-          : w.name;
-      if (!seen.contains(key)) {
-        seen.add(key);
-        unique.add(w);
-      }
-    }
-    return unique;
   }
 
   @override
@@ -233,8 +191,15 @@ class DbWhiskyRepositoryImpl implements WhiskyRepository {
       }
       if (targetProfile.isEmpty) return [];
 
-      // Fetch the full backend catalogue (staging set is small: ~3.5k rows).
-      final all = await getAllWhiskies(offset: 0);
+      // BOUNDED 5-page fetch (250 rows max) — similarity degrades gracefully
+      // with a smaller candidate pool, but avoids the 100-request eager
+      // cascade that flooded the backend rate limit (429 -> empty list).
+      final all = <Whisky>[];
+      for (var p = 0; p < 5; p++) {
+        final page = await getWhiskiesPage(offset: p * 50, limit: 50);
+        if (page.isEmpty) break;
+        all.addAll(page);
+      }
       if (all.isEmpty) return [];
 
       final scored = <Map<String, dynamic>>[];

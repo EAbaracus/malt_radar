@@ -7,6 +7,7 @@ import 'package:malt_radar/features/auth/presentation/auth_controller.dart';
 import '../../data/repositories/db_whisky_repository_impl.dart';
 import '../../domain/models/whisky.dart';
 import '../../domain/repositories/whisky_repository.dart';
+import 'catalog_pagination.dart';
 
 // Provider for the local Drift database
 final appDatabaseProvider = Provider<AppDatabase>((ref) {
@@ -68,42 +69,18 @@ final favoritesOnlyProvider = StateProvider<bool>((ref) => false);
 // State provider for selected search filters/chips
 final selectedFiltersProvider = StateProvider<List<String>>((ref) => []);
 
-// All whiskies from the backend, fetched ONCE per auth session.
-// Keyed on auth only — NOT on search query/filters, so typing in the search
-// bar never refetches the 92-page catalog (that flooded the backend rate
-// limit: every keystroke x ~92 pages = 429s -> silently-empty list).
-final allWhiskiesProvider = FutureProvider<List<Whisky>>((ref) async {
-  final auth = ref.watch(authControllerProvider);
-  // Server-side filtering is the single source of truth: the chip list is
-  // sent to the backend, which applies the normalized-axis matching.
-  // Re-fetch on chip change so the server-filtered set replaces the cache.
-  final selectedFilters = ref.watch(selectedFiltersProvider);
-  final repo = ref.read(whiskyRepositoryProvider);
-  final dbClient = ref.read(dbWhiskyApiClientProvider);
-
-  // Ensure the /api/db bearer token is present before the catalog fetch.
-  if (auth.isLoggedIn) {
-    final token = await AuthRepository(ref.read(appDatabaseProvider)).loadToken();
-    if (token != null) {
-      dbClient.setToken(token);
-    }
-  }
-  final filterParam = selectedFilters.isEmpty ? null : selectedFilters.join(',');
-  return repo.getAllWhiskies(filter: filterParam);
-});
-
 // Stream provider for the filtered list of whiskies.
-// The catalog fetch is server-filtered (chips); query text and favorites are
-// applied CLIENT-SIDE on top of the (already chip-filtered) set.
+// Consumes the PAGINATED catalog state (CatalogPaginationNotifier) — pages
+// loaded so far, not the whole catalog. Query text and favorites are applied
+// CLIENT-SIDE on the loaded pages; server-side chips filter at fetch time.
 final whiskiesStreamProvider = StreamProvider<List<Whisky>>((ref) {
-  // Watch so the stream rebuilds when the (server-filtered) catalog changes.
-  ref.watch(allWhiskiesProvider);
+  // Watch the paginated catalog so the stream rebuilds when pages load.
+  ref.watch(catalogPaginationProvider);
   final query = ref.watch(searchQueryProvider);
   final favoritesOnly = ref.watch(favoritesOnlyProvider);
 
   return Stream<List<Whisky>>.multi((controller) async {
-    // await the cached catalog (no refetch — FutureProvider caches per auth/filter)
-    final list = await ref.read(allWhiskiesProvider.future);
+    final list = await ref.read(catalogPaginationProvider.future);
     controller.add(_filterWhiskies(list, query, favoritesOnly));
     controller.close();
   });
