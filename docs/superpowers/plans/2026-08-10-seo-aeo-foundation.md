@@ -312,6 +312,11 @@ def render_whisky_page(w: dict, tier: str, lang: str, self_url: str, alt_url: st
             _product_jsonld(w)]}, ensure_ascii=False)
     radar = _radar_svg(w.get("flavor_profile"), lang) if tier == "A" else ""
     note = _e(w.get("tasting_note", "")) if tier == "A" else ""
+    score = w.get("meta_critic_score")
+    score_html = ""
+    if score is not None:
+        label = "Kritik puanı" if lang == "tr" else "Critic score"
+        score_html = f'<p>{label}: {_e(score)}</p>'
     extra = ("<p>Veri ekleniyor.</p>" if tier in ("B",) else "")
     return f"""<!DOCTYPE html>
 <html lang="{lang}"><head><meta charset="utf-8">
@@ -326,6 +331,7 @@ def render_whisky_page(w: dict, tier: str, lang: str, self_url: str, alt_url: st
 <p>{desc}</p>
 {radar}
 {note}
+{score_html}
 {extra}
 <p>{_CTA_TR if lang == 'tr' else _CTA_EN}</p>
 </main></body></html>"""
@@ -424,7 +430,7 @@ def _seed_db(path: Path):
           brand TEXT, meta_critic_score REAL);
         CREATE TABLE flavor_profiles (whisky_id TEXT, flavor_profile TEXT,
           production_price REAL);
-        CREATE TABLE flavor_evidence (whisky_id TEXT);
+        CREATE TABLE flavor_evidence (whisky_id TEXT, original_tasting_note TEXT);
         CREATE TABLE distilleries (distillery_id TEXT, name TEXT);
         INSERT INTO whiskies VALUES
           ('W1','Test Whisky A','D1','Speyside','Scotland','Single Malt',12,'BrandX',87.0),
@@ -432,7 +438,7 @@ def _seed_db(path: Path):
         INSERT INTO flavor_profiles VALUES
           ('W1','{"fruity":0.8,"sweet":0.6}',99.9),   -- price var ama çıktıya ASLA girmemeli
           ('W2','{"fruity":0.5}',NULL);
-        INSERT INTO flavor_evidence VALUES ('W1');
+        INSERT INTO flavor_evidence VALUES ('W1','Armut, vanilya, meşe');
         INSERT INTO distilleries VALUES ('D1','Test Distillery');
     """)
     c.commit(); c.close()
@@ -517,17 +523,18 @@ def _slug(s) -> str:
 def generate(db_path: str, out_dir: str, build_date: str | None = None) -> dict:
     bd = build_date or date.today().isoformat()
     conn = sqlite3.connect(f"file:{db_path}?mode=ro", uri=True)
+    conn.row_factory = sqlite3.Row
     _assert_readonly(conn)
     tiers = tier_map(conn)
 
-    # viski satırları + liste verileri
-    rows = {r[0]: r for r in conn.execute(
+    # viski satırları + liste verileri (Row -> dict; tuple unpack çakışması olmasın)
+    rows = {r["whisky_id"]: dict(r) for r in conn.execute(
         "SELECT whisky_id, name, distillery_id, region, country, type, age, brand, meta_critic_score "
         "FROM whiskies")}
-    dists = {r[0]: r[1] for r in conn.execute("SELECT distillery_id, name FROM distilleries")}
-    profiles = {r[0]: r[1] for r in conn.execute(
+    dists = {r["distillery_id"]: r["name"] for r in conn.execute("SELECT distillery_id, name FROM distilleries")}
+    profiles = {r["whisky_id"]: r["flavor_profile"] for r in conn.execute(
         "SELECT whisky_id, flavor_profile FROM flavor_profiles")}
-    notes = {r[0]: r[1] for r in conn.execute(
+    notes = {r["whisky_id"]: r["original_tasting_note"] for r in conn.execute(
         "SELECT whisky_id, original_tasting_note FROM flavor_evidence "
         "WHERE original_tasting_note IS NOT NULL AND original_tasting_note != ''")}
     ev_counts = {}
@@ -619,6 +626,16 @@ def generate(db_path: str, out_dir: str, build_date: str | None = None) -> dict:
     from collections import Counter
     return {"tiers": dict(Counter(tiers.values())), "pages": pages,
             "sitemap_urls": len(entries), "out_dir": str(out)}
+
+
+if __name__ == "__main__":
+    import argparse, json
+    ap = argparse.ArgumentParser(prog="seo.generator")
+    ap.add_argument("--db", required=True, help="production.db yolu (salt-okunur açılır)")
+    ap.add_argument("--out", required=True, help="çıktı dizini (build)")
+    ap.add_argument("--build-date", default=None, help="ISO tarih (determinizm için)")
+    args = ap.parse_args()
+    print(json.dumps(generate(args.db, args.out, args.build_date), ensure_ascii=False))
 ```
 
 - [ ] **Step 4: Run tests to verify they pass**
@@ -628,8 +645,8 @@ Expected: 3 passed
 
 - [ ] **Step 5: Canlı DB'de tam build (salt-okunur)**
 
-Run: `rm -rf /tmp/seo_build && env -u PYTHONPATH backend/.venv/Scripts/python.exe -m seo.generator --db output/import/production.db --out /tmp/seo_build 2>/dev/null || env -u PYTHONPATH backend/.venv/Scripts/python.exe -c "from seo.generator import generate; import json; print(json.dumps(generate('output/import/production.db', '/tmp/seo_build'), ensure_ascii=False))"`
-Expected: `{"tiers": {"A": ~2371, "B": ~1204, "C_idx": ~817, "C_no": ~358}, "pages": ~9000+, "sitemap_urls": ~8800+}` — süre ≤ 3 dk
+Run: `rm -rf /tmp/seo_build && env -u PYTHONPATH backend/.venv/Scripts/python.exe -m seo.generator --db output/import/production.db --out /tmp/seo_build`
+Expected: JSON çıktı `{"tiers": {"A": ~2371, "B": ~1204, "C_idx": ~817, "C_no": ~358}, "pages": ~9000+, "sitemap_urls": ~8800+}` — süre ≤ 3 dk
 
 - [ ] **Step 6: Commit**
 
@@ -671,7 +688,7 @@ def test_verify_catches_price_and_broken_link():
         _write(d / "tr/w/W2/index.html", '<html><head></head><body><a href="https://maltradar.com/tr/w/W1/">W1</a><a href="https://maltradar.com/tr/w/MISSING/">x</a></body></html>')
         violations = verify(str(d), expected_pages=2)
         joined = " | ".join(violations)
-        assert any("fiyat" in v or "₺" in v or "price" in v.lower() for v in violations)
+        assert any("price" in v.lower() for v in violations)
         assert any("MISSING" in v for v in violations)
 
 def test_verify_clean_dir_passes():
@@ -709,12 +726,12 @@ FORBIDDEN = re.compile(r"deneyin|mutlaka|tavsiye|alın|satın|sipariş|kampanya|
                        re.IGNORECASE)
 
 
-def verify(build_dir: str, expected_pages: int) -> list[str]:
+def verify(build_dir: str, expected_pages: int | None = None) -> list[str]:
     d = Path(build_dir)
     violations: list[str] = []
 
     html_files = sorted(d.rglob("*.html"))
-    if len(html_files) != expected_pages:
+    if expected_pages is not None and len(html_files) != expected_pages:
         violations.append(f"sayfa sayısı: {len(html_files)} != beklenen {expected_pages}")
 
     urls = {}  # url -> dosya (iç link doğrulaması için)
@@ -725,10 +742,9 @@ def verify(build_dir: str, expected_pages: int) -> list[str]:
         if url:
             urls[url] = f
         if PRICE_PATTERN.search(txt):
-            violations.append(f"FİYAT SIZINTISI: {rel}")
+            violations.append(f"PRICE LEAK: {rel}")
         if FORBIDDEN.search(txt):
             violations.append(f"TR mevzuat ihlali: {rel}")
-        m = re.search(r'hreflang="([a-z-]+)" href="([^"]+)"', txt)
         if not re.search(r'rel="canonical"', txt):
             violations.append(f"canonical yok: {rel}")
 
@@ -756,6 +772,19 @@ def verify(build_dir: str, expected_pages: int) -> list[str]:
             if target not in urls and not target.endswith("/w/"):
                 violations.append(f"bozuk link: {f.relative_to(d)} -> {href}")
     return violations
+
+
+if __name__ == "__main__":
+    import argparse
+    ap = argparse.ArgumentParser(prog="seo.verify")
+    ap.add_argument("--dir", required=True, help="build dizini")
+    ap.add_argument("--expected", type=int, default=None, help="beklenen html sayısı (opsiyonel)")
+    args = ap.parse_args()
+    v = verify(args.dir, args.expected)
+    print("IHLAL" if v else "TEMIZ")
+    for x in v:
+        print(" -", x)
+    raise SystemExit(1 if v else 0)
 ```
 
 - [ ] **Step 4: Run tests to verify they pass**
@@ -811,15 +840,8 @@ ssh -i "$SSH_KEY" "$VM" "cd $REPO && git pull --ff-only origin main && \
   || { echo "FAIL: üretim başarısız — eski sürüm canlı kalır"; exit 1; }
 
 echo "==> [2/7] sunucu: uyum denetimi"
-EXPECTED=$(ssh -i "$SSH_KEY" "$VM" "python3 -c \"from seo.verify import verify; import json; from seo.generator import generate; r=generate('$DB','/dev/null') if False else None\" 2>/dev/null; echo 9500")
-# beklenen sayfa sayısı: bir önceki marker'dan; yoksa ~9500 (canlı DB'ye göre kayar — rapor yeterli)
-ssh -i "$SSH_KEY" "$VM" "python3 -m seo.verify --dir $TMP --expected 1" 2>/dev/null \
-  || ssh -i "$SSH_KEY" "$VM" "cd $REPO && python3 -c \"
-from seo.verify import verify
-v = verify('$TMP', expected_pages=1)
-print('IHLAL' if v else 'TEMIZ')
-for x in v: print(' -', x)
-raise SystemExit(1 if v else 0)\""
+ssh -i "$SSH_KEY" "$VM" "cd $REPO && python3 -m seo.verify --dir $TMP" \
+  || { echo "FAIL: uyum denetimi başarısız — eski sürüm canlı kalır"; exit 1; }
 
 echo "==> [3/7] no-op kontrolü (çıktı hash'i değişmediyse atla)"
 NEW_HASH=$(ssh -i "$SSH_KEY" "$VM" "find $TMP -type f | sort | xargs sha256sum | sha256sum | cut -d' ' -f1")
@@ -870,7 +892,7 @@ git add deploy_seo.sh .gitignore
 git commit -m "feat(seo): deploy_seo.sh — autonomous SSH deploy with no-op, rollback, GSC gate"
 ```
 
-*(Not: script'in `--expected 1`/`9500` sabitleri ilk canlı koşuda gerçek sayfa sayısıyla değiştirilir — canlı DB 4.598 olduğundan sayı lokalden farklıdır. Doğrulama `TEMIZ`/`IHLAL` çıktısına güvenir, sayı katı eşik değildir.)*
+*(Not: `deploy_seo.sh` adım 1-2 `--build-date` kullanmaz (her gün taze lastmod ister); doğrulama `TEMIZ`/`IHLAL` çıktısına güvenir, sayı katı eşik değildir.)*
 
 ---
 
