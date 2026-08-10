@@ -36,8 +36,8 @@ ssh -i "$SSH_KEY" "$VM" "mkdir -p $WEB_SEO && rm -rf $WEB_SEO.prev && cp -r $WEB
 
 echo "==> [5/7] canlı doğrulama"
 for u in /tr/ /en/ /sitemap.xml /robots.txt /llms.txt /tr/w/W000001/; do
-  code=$(curl -s -o /dev/null -w "%{http_code}" -m 15 "https://maltradar.com$u")
-  [ "$code" = "200" ] || { echo "FAIL: $u -> $code — ROLLBACK"; \
+  code=$(curl -s -o /dev/null -w "%{http_code}" -m 15 "https://maltradar.com$u" 2>/dev/null || true)
+  [ "$code" = "200" ] || { echo "FAIL: $u -> ${code:-curl-hatasi} — ROLLBACK"; \
     ssh -i "$SSH_KEY" "$VM" "rm -rf $WEB_SEO/* $WEB_SEO/.[!.]* 2>/dev/null; cp -r $WEB_SEO.prev/. $WEB_SEO/"; exit 1; }
 done
 echo "==> canlı kontrol OK"
