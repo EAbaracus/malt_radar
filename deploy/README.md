@@ -36,6 +36,39 @@ anti-scrape posture. It is therefore now safe to set `DB_API_ENABLED=true` for
 a public webapp. Keep the shared key out of the Flutter web bundle; forbidding
 it server-side is handled by the bearer dependency.
 
+## Rate limiting (audit, 2026-08-10)
+
+- **Configured:** SlowAPI `@limiter.limit("120/minute")` per `/api/db`
+  endpoint, `Limiter(key_func=get_remote_address)`, in-memory storage (single
+  uvicorn worker → consistent). `app/security.py:16`.
+- **Effective ceiling:** live probing shows ~25–30 requests/min before 429
+  (130 requests → 24×200 + 106×429). Headers: `Server: cloudflare`,
+  `CF-RAY`, `cf-cache-status: DYNAMIC`, `via: 1.1 Caddy`. The backend emits
+  no rate-limit headers on 200 (SlowAPI `Retry-After` only appears on 429).
+- **Suspected source of the ~25–30 ceiling:** a **Cloudflare edge rate-limit
+  rule** (dashboard-level, not visible in headers). Caddy has no rate limit
+  (see `deploy/Caddyfile`). Verify in the CF dashboard before changing the
+  SlowAPI config — do NOT raise the app limit to "match" the observed
+  ceiling without confirming where it comes from.
+- **Client contract:** the Flutter catalog is human-paced (one page-50
+  request per scroll, `CatalogPaginationNotifier`) and must never eager-fetch
+  the whole catalog (the old 100-page cascade 429'd into an empty list — the
+  H1 hardening removed it).
+
+## Catalog pagination contract (H4, 2026-08-10)
+
+- Server: `CATALOG_MAX_PAGE=50` (clamped, `limit` max 100 rejected),
+  `CATALOG_MAX_OFFSET=10000` (`CatalogBoundsError` → 400). Anti-scrape bounds.
+- Client: paginated state fetches page-by-page (50) and stops on a short
+  page; 429/error marks `temporarilyUnavailable` — existing items stay
+  visible, no retry storm.
+- The 5000-row client headroom (never reached now — `hasMore` stops early)
+  vs the 10000-row server guard is a **deliberate safe-direction gap**: the
+  client can never hit the server offset guard first. `getSimilarWhiskies`
+  uses a bounded 5-page fetch (250 rows) for the same reason.
+- All of the above is bearer-gated; unauthenticated requests are refused by
+  the auth dependency **before** the service/DB layer (abuse surface closed).
+
 ## Provisioning checklist (human steps — GCP account is yours to create)
 
 1. **GCP Cloud Free Tier** → sign up:
