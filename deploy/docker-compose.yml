@@ -29,6 +29,7 @@ services:
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - ./web-build:/srv/web:ro
+      - ./web-seo:/srv/web-seo:ro
       - caddy_data:/data
       - caddy_config:/config
     depends_on:

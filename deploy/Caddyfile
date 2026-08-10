@@ -14,6 +14,16 @@ maltradar.com {
         header Cache-Control no-store
     }
 
+    # SEO statik katmanı — /w/, /tr/, /en/, sitemap, llms, robots -> web-seo (spec §2).
+    # Flutter SPA'dan ÖNCE servis edilir; robots.txt buradan Sitemap satırlı sürümle kazanır.
+    # NOT: handle (handle_path DEĞİL) — handle_path eşleşen öneki SİLER; dosyalar
+    # web-seo/tr/w/... düzeninde, tam yol root'a göre servis edilir.
+    handle /w/* /tr/* /en/* /sitemap.xml /llms.txt /robots.txt {
+        root * /srv/web-seo
+        file_server
+        header Cache-Control "public, max-age=3600"
+    }
+
     # Static Flutter web (CanvasKit). SPA fallback to index.html.
     handle {
         file_server

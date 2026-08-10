@@ -914,13 +914,15 @@ Run: `read_file deploy/Caddyfile` — mevcut site bloğunu ve web-build root'unu
 Caddyfile site bloğuna (mevcut yapıya uyarlayarak — `handle` blokları varsa onların içine, yoksa aşağıdaki `handle_path` bloğunu ekle):
 
 ```
-    # SEO statik katmanı — Flutter SPA'dan ÖNCE servis edilir (spec §2)
-    handle_path /w/* /tr/* /en/* /sitemap.xml /llms.txt /robots.txt {
+    # SEO statik katmanı — Flutter SPA'dan ÖNCE (spec §2)
+    handle /w/* /tr/* /en/* /sitemap.xml /llms.txt /robots.txt {
         root * /srv/web-seo
         file_server
         header Cache-Control "public, max-age=3600"
     }
 ```
+
+**DİKKAT — `handle` kullan, `handle_path` DEĞİL:** `handle_path` eşleşen yol önekini SİLER (`/tr/w/X/` → `/w/X/` arar). Dosyalar `web-seo/tr/w/...` düzeninde olduğundan tam yol root'a göre servis edilmeli → `handle` (orijinal yolu korur). Bu, uygulama sırasında Caddy kaynak incelemesiyle doğrulanmıştır.
 
 Sonra mevcut Flutter root bloğu (`root * /srv/web` vb.) aynen kalır. `/robots.txt` burada web-seo'dan servis edilir (Sitemap satırlı sürüm kazanır).
 
