@@ -139,6 +139,14 @@ class DbWhiskyRepositoryImpl implements WhiskyRepository {
     }
   }
 
+  @override
+  Future<List<Whisky>> getWhiskiesPage({required int offset, int limit = 50, String? filter}) {
+    // Real paginated wiring lands in D-hardening Task 2. This explicit
+    // non-implementation keeps the interface change compiling; nothing routes
+    // here until Task 2 wires the catalog UI to CatalogPaginationNotifier.
+    throw UnimplementedError('getWhiskiesPage: wired in D-hardening Task 2');
+  }
+
   /// Pages through /api/db/whiskies (50 rows/page) and concatenates results.
   /// Fetches up to 100 pages (5000 rows) to cover the full catalogue.
   Future<List<Whisky>> _fetchAllPaged({int offset = 0, String? filter}) async {

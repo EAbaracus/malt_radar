@@ -16,6 +16,11 @@ abstract class WhiskyRepository {
   /// All whiskies from the backend (certified rows first).
   Future<List<Whisky>> getAllWhiskies({int limit = 100, int offset = 0, String? filter});
 
+  /// ONE page of the catalog (paginated catalog mode). Returns up to [limit]
+  /// rows starting at [offset]. A short page (< [limit]) signals end-of-list.
+  /// Implementation lands in D-hardening Task 2.
+  Future<List<Whisky>> getWhiskiesPage({required int offset, int limit = 50, String? filter});
+
   /// A single whisky by its backend whisky_id (e.g. 'GSD-CAND-0001' / 'W000441').
   Future<Whisky?> getWhiskyByBackendId(String backendId);
 
