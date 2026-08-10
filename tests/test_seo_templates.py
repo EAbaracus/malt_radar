@@ -5,7 +5,7 @@ WHISKY = {
     "whisky_id": "W003805", "name": "Glenfiddich 12", "brand": "Glenfiddich",
     "distillery_name": "Glenfiddich", "region": "Speyside", "country": "Scotland",
     "age": 12, "type": "Single Malt", "meta_critic_score": 87.0,
-    "flavor_profile": {"fruity": 0.8, "sweet": 0.6, "oak_cask": 0.5},
+    "flavor_profile": {"fruity": 0.8, "sweet": 0.6, "oak_cask": 0.5, "maritime": 0.7},
     "evidence_count": 3, "tasting_note": "Armut, vanilya, meşe <script>",
 }
 
@@ -39,3 +39,20 @@ def test_sitemap_and_robots():
     assert sm.count("<url>") == 2
     rb = render_robots()
     assert "Disallow: /api/" in rb and "Sitemap:" in rb
+
+def test_radar_maritime_label():
+    page = render_whisky_page(WHISKY, "A", "en",
+        "https://maltradar.com/en/w/W003805/", "https://maltradar.com/tr/w/W003805/")
+    assert "Maritime" in page  # R3: 8 eksen radarı
+    page_tr = render_whisky_page(WHISKY, "A", "tr",
+        "https://maltradar.com/tr/w/W003805/", "https://maltradar.com/en/w/W003805/")
+    assert "Denizcilik" in page_tr
+
+def test_price_redaction_in_dirty_name():
+    # R4: kirli kaynak name fiyat içeriyor -> Product Rule, HTML'e sızmamalı
+    dirty = {**WHISKY, "name": "grace o'malley, 40%, $37 satsuma peel"}
+    page = render_whisky_page(dirty, "A", "en",
+        "https://maltradar.com/en/w/W003805/", "https://maltradar.com/tr/w/W003805/")
+    assert "$37" not in page
+    assert "37" not in page
+    assert "[...]" in page  # redacted marker

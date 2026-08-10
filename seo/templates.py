@@ -7,8 +7,15 @@ Kurallar:
 """
 import html as _h
 import json as _j
+import re as _re
 
 BASE = "https://maltradar.com"
+
+# R4: fiyat + TR mevzuat redact — _e() üzerinden TÜM dinamik metne uygulanır (tek kaynak).
+# Tek kaynak: verify.py de bunları import eder.
+PRICE_PATTERN = _re.compile(r"production_price|\bprice\b|\bTL\b|₺|\$|€|£", _re.IGNORECASE)
+_PRICE_TOKEN_RE = _re.compile(r"(production_price|\bprice\b|\bTL\b|₺|\$|€|£)\s?[0-9][0-9.,]*|[0-9][0-9.,]*\s?(₺|\$|€|£)\b", _re.IGNORECASE)
+FORBIDDEN_RE = _re.compile(r"\b(deneyin|mutlaka|tavsiye|alın|satın|sipariş|kampanya|indirim|fırsat)\b", _re.IGNORECASE)
 AXES_TR = {"fruity": "Meyvemsi", "sweet": "Tatlı", "spicy": "Baharatlı",
            "smoky_peaty": "Dumanlı/Turba", "oak_cask": "Meşe Fıçı",
            "malty_cereal": "Maltlı/Tahıllı", "floral_herbal": "Çiçeksi/Otsu",
@@ -22,7 +29,12 @@ _CTA_EN = "Explore on Malt Radar — sign up: https://maltradar.com/"
 
 
 def _e(s) -> str:
-    return _h.escape(str(s if s is not None else ""), quote=True)
+    # R4: fiyat + TR mevzuat kalıplarını redact ET, SONRA html-escape.
+    # (Product Rule + yasa kapısı — kirli kaynak veride name/not fiyat içerebilir.)
+    t = str(s if s is not None else "")
+    t = _PRICE_TOKEN_RE.sub("[...]", t)
+    t = FORBIDDEN_RE.sub("[...]", t)
+    return _h.escape(t, quote=True)
 
 
 def hreflang_tags(lang: str, self_url: str, alt_url: str) -> str:

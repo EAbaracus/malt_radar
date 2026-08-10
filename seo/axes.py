@@ -58,6 +58,7 @@ def map_to_app(axes: dict) -> dict:
             "oak_cask": scale((c2 + c3) / 2),
             "malty_cereal": scale((c1 + c3) / 2),
             "floral_herbal": scale(c1 * 0.5),
+            "maritime": 0.0,  # R3: 8 eksen şeması (spec §6) — component formunda maritime yok
         }
 
     return {

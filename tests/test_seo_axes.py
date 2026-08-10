@@ -25,6 +25,7 @@ def test_maritime_passthrough_and_app_keys():
 def test_component_projection():
     m = map_to_app({"component_1": 0.5, "component_2": 0.5, "component_3": 0.5})
     assert m["fruity"] == 5.0 and m["spicy"] == 5.0 and m["smoky_peaty"] == 5.0
+    assert m["maritime"] == 0.0  # R3: 8 eksen şeması
 
 def test_active_axes_counts_mapped():
     # canonical keys: smoky+peaty->1 app ekseni, sherry->1, fruity->1 => 3 aktif
