@@ -26,20 +26,53 @@ def enable_db_api():
         os.environ["DB_API_ENABLED"] = old_val
 
 
+@pytest.fixture(autouse=True)
+def disable_rate_limit():
+    """Disable slowapi limits so many same-IP calls in one suite don't 429."""
+    from app.main import app
+    app.state.limiter.enabled = False
+    yield
+    app.state.limiter.enabled = True
+
+
 @pytest.fixture
 def client():
     return TestClient(app)
+
+
+@pytest.fixture
+def auth_headers():
+    """Valid bearer token for authenticated catalog reads."""
+    c = TestClient(app)
+    email = "test_filter_param@example.com"
+    password = "TestPassword123!"
+    reg = c.post("/api/auth/register", json={
+        "email": email,
+        "password": password,
+        "display_name": "Test User",
+        "age_country": "TR",
+        "age_min": 18,
+        "privacy_consent": True,
+    })
+    if reg.status_code == 201:
+        token = reg.json()["token"]
+    else:
+        login = c.post("/api/auth/login", json={"email": email, "password": password})
+        assert login.status_code == 200
+        token = login.json()["token"]
+    return {"Authorization": f"Bearer {token}"}
 
 
 def _names(items):
     return [i["name"] for i in items]
 
 
-def test_filter_param_is_not_silently_swallowed(client):
+def test_filter_param_is_not_silently_swallowed(client, auth_headers):
     """Different filter values must return different result sets."""
-    base = client.get("/api/db/whiskies?limit=50&offset=0").json()["items"]
-    peated = client.get("/api/db/whiskies?limit=50&offset=0&filter=peated").json()["items"]
-    sweet = client.get("/api/db/whiskies?limit=50&offset=0&filter=sweet").json()["items"]
+    h = auth_headers
+    base = client.get("/api/db/whiskies?limit=50&offset=0", headers=h).json()["items"]
+    peated = client.get("/api/db/whiskies?limit=50&offset=0&filter=peated", headers=h).json()["items"]
+    sweet = client.get("/api/db/whiskies?limit=50&offset=0&filter=sweet", headers=h).json()["items"]
 
     # All three return 200 with data
     assert len(base) > 0
@@ -54,11 +87,11 @@ def test_filter_param_is_not_silently_swallowed(client):
     assert set(_names(peated)) != set(_names(sweet))
 
 
-def test_filter_peated_matches_normalized_smoky_peaty(client):
+def test_filter_peated_matches_normalized_smoky_peaty(client, auth_headers):
     """Peated filter must return whiskies whose normalized profile has
     smoky_peaty > 1.0 — including canonical-key rows (smoky/peaty) that used
     to map to 0 and therefore matched nothing."""
-    items = client.get("/api/db/whiskies?limit=50&offset=0&filter=peated").json()["items"]
+    items = client.get("/api/db/whiskies?limit=50&offset=0&filter=peated", headers=auth_headers).json()["items"]
     assert len(items) > 0
     for item in items:
         fp = item.get("flavor_profile")
@@ -69,9 +102,9 @@ def test_filter_peated_matches_normalized_smoky_peaty(client):
         assert prof.get("smoky_peaty", 0) > 1.0
 
 
-def test_filter_sherry_matches_normalized_oak_cask(client):
+def test_filter_sherry_matches_normalized_oak_cask(client, auth_headers):
     """Sherry filter must match canonical sherry rows mapped to oak_cask."""
-    items = client.get("/api/db/whiskies?limit=50&offset=0&filter=sherry").json()["items"]
+    items = client.get("/api/db/whiskies?limit=50&offset=0&filter=sherry", headers=auth_headers).json()["items"]
     assert len(items) > 0
     import json
     for item in items:
@@ -81,8 +114,8 @@ def test_filter_sherry_matches_normalized_oak_cask(client):
         assert prof.get("oak_cask", 0) > 1.0
 
 
-def test_unknown_filter_returns_empty_not_error(client):
+def test_unknown_filter_returns_empty_not_error(client, auth_headers):
     """An unrecognized filter value is a no-match, not a 500."""
-    resp = client.get("/api/db/whiskies?limit=50&offset=0&filter=doesnotexist")
+    resp = client.get("/api/db/whiskies?limit=50&offset=0&filter=doesnotexist", headers=auth_headers)
     assert resp.status_code == 200
     assert resp.json()["items"] == []
