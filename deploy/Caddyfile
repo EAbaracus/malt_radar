@@ -25,9 +25,12 @@ maltradar.com {
     }
 
     # Static Flutter web (CanvasKit). SPA fallback to index.html.
+    # Kısa TTL: Cloudflare origin'de Cache-Control yokken 4s default TTL uyguluyor
+    # -> her deploy'da bayat build servis ediliyordu. 300s ile yeni build hızla yayılır.
     handle {
         file_server
         try_files {path} /index.html
+        header Cache-Control "public, max-age=300"
     }
 
     # Crawlers: catalog is served only via the API layer.

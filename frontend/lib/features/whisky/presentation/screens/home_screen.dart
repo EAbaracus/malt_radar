@@ -11,7 +11,6 @@ import '../../../../core/localization/localization_provider.dart';
 import 'package:malt_radar/core/branding/brand_medallion.dart';
 import 'package:malt_radar/core/branding/brand_medallion_widget.dart';
 import 'detail_screen.dart';
-import '../../../flavor/presentation/widgets/flavor_radar_chart.dart';
 import '../widgets/glass_container.dart';
 import '../../../../core/presentation/widgets/cask_card.dart';
 import '../../../../core/presentation/widgets/tasting_chip.dart';
@@ -47,10 +46,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   void _showWhiskyPreview(BuildContext context, Whisky whisky) {
-    final tr = ref.read(trProvider);
-
-    // If whisky is already in library (has valid local ID > 0), go directly to detail
-    if (whisky.id > 0) {
+    // BUGFIX (2026-08-10): DbWhiskyMapper API sonuçlarına SENTEZ lokal id atar
+    // (whiskyId.hashCode % 1000000) — "id > 0" kontrolü her arama sonucunda
+    // true dönüp backendId'siz DetailScreen açıyordu; sentez id lokal DB'de
+    // olmadığından "whisky not found" üretiyordu.
+    // Gerçek lokal kayıt yalnızca externalId'sizdir (lokal DB kökenli).
+    if (whisky.id > 0 && whisky.externalId == null) {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => DetailScreen(whiskyId: whisky.id)),
@@ -58,157 +59,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       return;
     }
 
-    // Otherwise show preview modal with "Add to Library" button
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) {
-        return GlassContainer(
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
-          padding: EdgeInsets.only(
-            left: 24,
-            right: 24,
-            top: 28,
-            bottom: MediaQuery.of(context).padding.bottom + 24
-          ),
-          opacity: 0.8,
-          color: AppTheme.background,
-          blur: 20,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Text(
-                      whisky.name,
-                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        color: AppTheme.primary,
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.close, color: AppTheme.textSecondary),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              if (whisky.category != null || whisky.region != null)
-                Text(
-                  '${whisky.category ?? ''} ${whisky.region != null ? "• ${whisky.region}" : ""}',
-                  style: const TextStyle(color: AppTheme.accent),
-                ),
-              if (whisky.globalScore != null) ...[
-                const SizedBox(height: 12),
-                Row(
-                  children: [
-                    const Icon(Icons.star, color: AppTheme.primary, size: 20),
-                    const SizedBox(width: 6),
-                    Text(
-                      '${whisky.globalScore!.toStringAsFixed(0)} / 100',
-                      style: const TextStyle(color: AppThemeColors.parchment, fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(width: 8),
-                    Text(tr('global_average_score'), style: const TextStyle(color: AppTheme.textSecondary, fontSize: 12)),
-                  ],
-                ),
-              ],
-              const SizedBox(height: 20),
-              Wrap(
-                spacing: 10,
-                runSpacing: 10,
-                children: [
-                  if (whisky.distillery != null) _buildPreviewTag(tr('preview_distillery'), whisky.distillery!),
-                  if (whisky.country != null) _buildPreviewTag(tr('preview_origin'), whisky.country!),
-                  if (whisky.age != null) _buildPreviewTag(tr('preview_age'), '${whisky.age}'),
-                  if (whisky.abv != null) _buildPreviewTag(tr('preview_abv'), '%${whisky.abv}'),
-                  if (whisky.caskType != null && whisky.caskType != "Unknown") _buildPreviewTag(tr('preview_cask'), whisky.caskType!),
-                ],
-              ),
-              if (whisky.tastingNotes.isNotEmpty) ...[
-                const SizedBox(height: 24),
-                Text(tr('tasting_notes'), style: Theme.of(context).textTheme.titleMedium),
-                const SizedBox(height: 12),
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: whisky.tastingNotes.take(4).map((n) => Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: AppTheme.primary.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: AppTheme.primary.withValues(alpha: 0.3)),
-                    ),
-                    child: Text(n, style: const TextStyle(color: AppTheme.textPrimary, fontSize: 13)),
-                  )).toList(),
-                ),
-              ],
-              if (whisky.flavorProfile != null && whisky.flavorProfile!.isNotEmpty) ...[
-                const SizedBox(height: 24),
-                Text(tr('flavor_radar'), style: Theme.of(context).textTheme.titleMedium),
-                const SizedBox(height: 8),
-                FlavorRadarChart(flavorProfileJson: whisky.flavorProfile!),
-              ],
-              const SizedBox(height: 36),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton.icon(
-                  onPressed: () => _addWhiskyToLibrary(context, whisky),
-                  icon: const Icon(Icons.add, size: 20),
-                  label: Text(tr('add_to_library')),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildPreviewTag(String label, String value) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(
-        color: AppTheme.surfaceElevated.withValues(alpha: 0.6),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppThemeColors.parchment.withValues(alpha: 0.05)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(label, style: const TextStyle(color: AppTheme.textSecondary, fontSize: 10)),
-          const SizedBox(height: 2),
-          Text(value, style: const TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.bold, fontSize: 13)),
-        ],
-      ),
-    );
-  }
-
-  void _addWhiskyToLibrary(BuildContext context, Whisky whisky) async {
-    final tr = ref.read(trProvider);
-    final repository = ref.read(whiskyRepositoryProvider);
-    final localId = await repository.addWhiskyToLibrary(whisky);
-
-    if (!context.mounted) return;
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(tr('added_to_library', [whisky.name])),
-        backgroundColor: AppTheme.primary,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        duration: const Duration(seconds: 2),
-      ),
-    );
-    Navigator.pop(context);
+    // API sonucu: backendId ile doğrudan detail — radar/evidence canlı API'den
+    // (kart yolundaki _buildWhiskyCard davranışıyla tutarlı).
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => DetailScreen(whiskyId: localId)),
+      MaterialPageRoute(
+        builder: (context) => DetailScreen(
+          whiskyId: whisky.id,
+          backendId: whisky.externalId,
+        ),
+      ),
     );
   }
 
