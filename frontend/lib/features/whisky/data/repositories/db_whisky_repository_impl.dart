@@ -155,7 +155,7 @@ class DbWhiskyRepositoryImpl implements WhiskyRepository {
       final map = await _dbClient.getWhiskyById(backendId);
       if (map == null) return null;
       // DIAG2: her çağrıdan sonra marker — hangi adımın patladığını gösterir.
-      print('MRDIAG1 detail OK ($backendId): map=${map != null}');
+      print('MRDIAG1 detail OK ($backendId)');
       final flavorProfile = await _dbClient.getFlavorProfile(backendId);
       print('MRDIAG2 flavor OK ($backendId): profile=${flavorProfile != null}');
       final tastingNotes = await _dbClient.getTastingNotes(backendId);
