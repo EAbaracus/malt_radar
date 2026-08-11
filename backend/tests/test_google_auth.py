@@ -11,8 +11,8 @@ import pytest
 from fastapi.testclient import TestClient
 
 from app.main import app
-from app.auth.providers import InvalidTokenError
-from app.auth.store import UserStore
+from app.auth.providers import InvalidTokenError, TokenVerificationUnavailableError
+from app.auth.store import DuplicateEmailError, DuplicateIdentityError, UserStore
 
 
 class FakeGoogleVerifier:
@@ -156,7 +156,7 @@ def test_google_login_invalid_token(client):
     )
     r = client.post("/api/auth/google", json={"id_token": "bad"})
     assert r.status_code == 401
-    assert r.json()["detail"] == "invalid_google_token"
+    assert r.json()["detail"] == "Invalid Google token"
 
 
 def test_google_login_unverified_email(client):
@@ -189,6 +189,84 @@ def test_google_delete_me_removes_identity(client):
     # KVKK erasure also removes the provider identity link.
     assert store.get_identities(uid) == []
     assert client.get("/api/auth/me", headers=_auth(token)).status_code == 401
+
+
+def test_google_login_verifier_unavailable_is_503(client):
+    """Minor #6: a verifier that is down (network/JWKS failure) is NOT the
+    client's fault — 503 with a machine-readable detail, not 401."""
+    app.state.google_verifier = FakeGoogleVerifier(
+        error=TokenVerificationUnavailableError("jwks timeout")
+    )
+    r = client.post("/api/auth/google", json={"id_token": "t"})
+    assert r.status_code == 503
+    assert r.json()["detail"] == "verification_unavailable"
+
+
+def test_google_login_concurrent_same_sub(client):
+    """B1-fix regression: two requests with the same (google, sub) that BOTH
+    reach create_oauth_user. The loser gets DuplicateIdentityError from the
+    UNIQUE(provider, provider_sub) constraint and the route must still answer
+    200 with the SAME user — never 500/409."""
+    app.state.google_verifier = FakeGoogleVerifier(
+        claims=_google_claims("gsub-race", "race@example.com")
+    )
+    r1 = client.post("/api/auth/google", json={"id_token": "t1"})
+    assert r1.status_code == 200, r1.text
+    uid1 = r1.json()["user"]["id"]
+
+    store = UserStore.from_env()
+    # Simulate the losing half of the race: a concurrent request inserted the
+    # identity+user between this request's check and its insert, so the
+    # insert must raise — exactly what the sqlite UNIQUE(provider, provider_sub)
+    # constraint does. (A different email is used so only the identity
+    # constraint collides; with the same email the users.email UNIQUE trips
+    # first and surfaces as DuplicateEmailError — covered by the sibling test.)
+    with pytest.raises(DuplicateIdentityError):
+        store.create_oauth_user(
+            email="stale-email@example.com",
+            provider="google",
+            provider_sub="gsub-race",
+        )
+    # The real route then re-resolves by identity and answers 200 idempotent.
+    r2 = client.post("/api/auth/google", json={"id_token": "t2"})
+    assert r2.status_code == 200, r2.text
+    assert r2.json()["user"]["id"] == uid1
+    assert len(store.get_identities(uid1)) == 1
+
+
+def test_google_login_concurrent_same_email(client):
+    """B1-fix regression (the DuplicateEmailError half): two requests, same
+    email but DIFFERENT (google, sub). Both call create_oauth_user; the loser
+    hits the UNIQUE users.email constraint -> DuplicateEmailError. The route
+    must then link the identity to the EXISTING user and answer 200 — a user
+    who just registered by email and immediately double-taps Google login
+    must get into their own account, not a 500."""
+    app.state.google_verifier = FakeGoogleVerifier(
+        claims=_google_claims("gsub-mail-a", "shared@example.com")
+    )
+    r1 = client.post("/api/auth/google", json={"id_token": "t1"})
+    assert r1.status_code == 200, r1.text
+    uid1 = r1.json()["user"]["id"]
+
+    store = UserStore.from_env()
+    with pytest.raises(DuplicateEmailError):
+        store.create_oauth_user(
+            email="shared@example.com",
+            provider="google",
+            provider_sub="gsub-mail-b",
+        )
+
+    # The second sub now logs in: must resolve to the SAME account (identity
+    # linked to the existing user) and answer 200 — not 500.
+    app.state.google_verifier = FakeGoogleVerifier(
+        claims=_google_claims("gsub-mail-b", "shared@example.com")
+    )
+    r2 = client.post("/api/auth/google", json={"id_token": "t2"})
+    assert r2.status_code == 200, r2.text
+    assert r2.json()["user"]["id"] == uid1
+
+    idents = store.get_identities(uid1)
+    assert {i["provider_sub"] for i in idents} == {"gsub-mail-a", "gsub-mail-b"}
 
 
 def test_google_login_limiter_disabled(client):
