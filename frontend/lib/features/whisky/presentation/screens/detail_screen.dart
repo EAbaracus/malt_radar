@@ -616,9 +616,10 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                             padding: const EdgeInsets.all(16),
                             child: Column(
                               children: [
-                                FlavorRadarChart(
-                                  flavorProfileJson: whisky.flavorProfile!,
-                                ),
+                                if (whisky.flavorProfile != null)
+                                  FlavorRadarChart(
+                                    flavorProfileJson: whisky.flavorProfile!,
+                                  ),
                                 if (whisky.flavorTags != null) ...[
                                   const SizedBox(height: 16),
                                   Wrap(

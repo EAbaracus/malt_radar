@@ -166,7 +166,7 @@ class DbWhiskyRepositoryImpl implements WhiskyRepository {
         tastingNotes: tastingNotes,
       );
       final whisky = Whisky.fromMap(legacyMap);
-      print('MRDIAG4 fromMap OK ($backendId): ${whisky.name}');
+      print('MRDIAG4 fromMap OK ($backendId): ${whisky.name} | fp=${whisky.flavorProfile != null ? "len=${whisky.flavorProfile!.length}" : "NULL"}');
       return whisky;
     } catch (e, st) {
       // DIAG (kök neden avı): hata kör catch ile yutulmaz — tarayıcı konsoluna
