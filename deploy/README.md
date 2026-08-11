@@ -85,8 +85,14 @@ it server-side is handled by the bearer dependency.
 5. **Data:** copy a read-only `production.db` snapshot into `deploy/data/`
    (chmod 444; it is never written on the host — PromotionGate stays local/CI).
 6. **Web build:** `cd frontend && flutter build web \
-   --dart-define=MALT_RADAR_API_BASE_URL=https://maltradar.com` then copy
+   --dart-define=MALT_RADAR_API_BASE_URL=https://maltradar.com \
+   --dart-define=GOOGLE_CLIENT_ID_WEB=<same id as .env GOOGLE_CLIENT_ID>` then copy
    `frontend/build/web/*` → `deploy/web-build/`.
+   - **Google Sign-In:** the web client id must be identical in the build
+     (`GOOGLE_CLIENT_ID_WEB`) and in `.env` (`GOOGLE_CLIENT_ID`) — the backend
+     uses it as the id_token audience; a mismatch yields 401 on /api/auth/google.
+     Add the app origin (`https://maltradar.com`) to the client's Authorized
+     JavaScript origins in Google Cloud Console.
    - **Catalog CSV is already absent from the client** (removed at source —
      see `docs/ads-monetization.md` / anti-scrape work): the catalog CSVs are no
      longer bundled in any client target. Before publishing, verify the web
