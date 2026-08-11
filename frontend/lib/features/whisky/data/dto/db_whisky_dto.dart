@@ -42,11 +42,25 @@ class DbWhiskyMapper {
     // flavor_profile: prefer the explicit (detail) payload; otherwise fall
     // back to the raw catalogue row's string (list items carry their own
     // flavor_profile JSON, which the radar UI needs to render).
-    final rawProfile = flavorProfile ?? dbWhisky['flavor_profile'];
-    mapped['flavor_profile'] = rawProfile;
-    if (rawProfile is Map<String, dynamic>) {
-      mapped['flavor_vector'] = rawProfile['flavor_vector_json'];
-      mapped['flavor_tags'] = rawProfile['flavor_tags_json'];
+    //
+    // BUGFIX (2026-08-11): getFlavorProfile bir ROW map döndürür — row map'in
+    // kendisi flavor_profile olarak geçiyordu -> Whisky.fromMap .toString() ile
+    // "{"whisky_id":..., flavor_profile:{...}}" (geçersiz JSON) üretiyordu ->
+    // radar jsonDecode(FormatException) -> catch -> radar + similar GÖRÜNMÜYOR.
+    // Gerçek profil JSON'u row map'in 'flavor_profile' anahtarında.
+    final flavorProfileRow = flavorProfile;
+    if (flavorProfileRow is Map<String, dynamic>) {
+      mapped['flavor_profile'] =
+          flavorProfileRow['flavor_profile'] ?? dbWhisky['flavor_profile'];
+      mapped['flavor_vector'] = flavorProfileRow['flavor_vector'];
+      mapped['flavor_tags'] = flavorProfileRow['flavor_tags'];
+    } else {
+      final rawProfile = flavorProfile ?? dbWhisky['flavor_profile'];
+      mapped['flavor_profile'] = rawProfile;
+      if (rawProfile is Map<String, dynamic>) {
+        mapped['flavor_vector'] = rawProfile['flavor_vector'];
+        mapped['flavor_tags'] = rawProfile['flavor_tags'];
+      }
     }
 
     return mapped;
