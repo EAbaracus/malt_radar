@@ -36,7 +36,7 @@ from typing import Iterator, List, Optional
 # Configuration
 # ---------------------------------------------------------------------------
 DB_PATH = os.path.normpath(
-    os.path.join(os.path.dirname(__file__), "..", "..",
+    os.path.join(os.path.dirname(__file__), "..", "..", "..",
                  "output", "import", "production.db")
 )
 # The owning principal that holds Full control in this environment. The deny

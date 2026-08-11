@@ -35,8 +35,8 @@ WORD2_RE = re.compile(r"\b([A-Z][a-z]+ [A-Z][a-z]+(?: [A-Z][a-z]+)?)\b")
 
 
 def load_entities():
-    sys.path.insert(0, os.path.join(REPO, "mr-kep", "p121_write_gate"))
-    from db_write_guard import get_read_connection
+    sys.path.insert(0, os.path.join(REPO, "backend", "app", "db"))
+    from write_guard import get_read_connection
     with get_read_connection() as c:
         dist = [r[0].lower() for r in c.execute("SELECT name FROM distilleries WHERE name IS NOT NULL").fetchall() if r[0]]
         whisk = [r[0].lower() for r in c.execute("SELECT name FROM whiskies WHERE name IS NOT NULL").fetchall() if r[0]]

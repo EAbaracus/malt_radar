@@ -1,9 +1,20 @@
 import sqlite3
 import os
 import logging
+import secrets
+import hashlib
+import datetime
 from typing import List, Dict, Any
 
 from app.utils.source_guard import SourceGuard
+
+def _sha256_file(path: str) -> str:
+    """SHA-256 of a file's bytes (production.db pre/post write audit, G2)."""
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(1 << 16), b""):
+            h.update(chunk)
+    return h.hexdigest()
 
 class ReviewQueryService:
     def __init__(self, db_path: str = None):
@@ -166,25 +177,38 @@ class ReviewQueryService:
         if not safe_table:
             raise Exception("Invalid source table")
 
-        # We must open a writeable connection for this
-        conn = sqlite3.connect(self._write_path)
-        try:
+        # Guard-backed write (Faz 0, G2): production.db'ye yazı yalnızca
+        # canonical write_guard üzerinden. Otomatik pre/post SHA256 audit'i
+        # Order 7'nin geri-alınabilirlik amacını korur (senkron insan GO
+        # yalnızca toplu promotion sınıfı için geçerli — bkz. spec G2).
+        from app.db.write_guard import get_write_connection  # canonical gate
+
+        pre_sha = _sha256_file(self._write_path)
+
+        key_col = "queue_id" if safe_table == 'staging_manual_review_queue' else "source_record_key"
+        action_id = "ra_" + datetime.datetime.now().strftime("%Y%m%d%H%M%S%f") + "_" + secrets.token_hex(4)
+
+        with get_write_connection(
+            authorized_context="admin_review_execute_action",
+            restrict_tables=[safe_table, "review_actions"],
+            db_path=self._write_path,
+        ) as conn:
             conn.execute("PRAGMA foreign_keys = ON")
             cur = conn.cursor()
             # Update staging table using safe_table
-            key_col = "queue_id" if safe_table == 'staging_manual_review_queue' else "source_record_key"
             cur.execute(f"UPDATE {safe_table} SET approval_status = ? WHERE {key_col} = ?", (target_status, source_record_key))
-            
+
             # Insert log
             cur.execute("""
                 INSERT INTO review_actions 
-                (source_table, source_record_key, review_status, action_type, reviewer, reviewer_note, previous_status, new_status, created_at)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
-            """, (source_table, str(source_record_key), target_status, action_type, reviewer, reviewer_note, previous_status, target_status))
-            
-            conn.commit()
-        except Exception as e:
-            conn.rollback()
-            raise Exception(f"Database write failed: {e}")
-        finally:
-            conn.close()
+                (action_id, source_table, source_record_key, review_status, action_type, reviewer, reviewer_note, previous_status, new_status, created_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
+            """, (action_id, source_table, str(source_record_key), target_status, action_type, reviewer, reviewer_note, previous_status, target_status))
+
+        post_sha = _sha256_file(self._write_path)
+        logging.info(
+            "execute_action audit: table=%s key=%s action=%s status=%s pre_sha=%s post_sha=%s",
+            safe_table, source_record_key, action_type, target_status,
+            pre_sha[:16], post_sha[:16],
+        )
+        return action_id
