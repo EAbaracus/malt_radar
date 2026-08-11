@@ -154,14 +154,20 @@ class DbWhiskyRepositoryImpl implements WhiskyRepository {
     try {
       final map = await _dbClient.getWhiskyById(backendId);
       if (map == null) return null;
+      // DIAG2: her çağrıdan sonra marker — hangi adımın patladığını gösterir.
+      print('MRDIAG1 detail OK ($backendId): map=${map != null}');
       final flavorProfile = await _dbClient.getFlavorProfile(backendId);
+      print('MRDIAG2 flavor OK ($backendId): profile=${flavorProfile != null}');
       final tastingNotes = await _dbClient.getTastingNotes(backendId);
+      print('MRDIAG3 notes OK ($backendId): n=${tastingNotes.length}');
       final legacyMap = DbWhiskyMapper.toLegacyMap(
         map,
         flavorProfile: flavorProfile,
         tastingNotes: tastingNotes,
       );
-      return Whisky.fromMap(legacyMap);
+      final whisky = Whisky.fromMap(legacyMap);
+      print('MRDIAG4 fromMap OK ($backendId): ${whisky.name}');
+      return whisky;
     } catch (e, st) {
       // DIAG (kök neden avı): hata kör catch ile yutulmaz — tarayıcı konsoluna
       // düşer. "whisky not found + radar yok + similar yok" üçlüsünün tek
