@@ -142,7 +142,30 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
       // controller, so main.dart (which watches authControllerProvider)
       // rebuilds and unmounts this screen — no extra invalidation needed.
     } else {
-      _toast(err);
+      _toast(_googleErrorMessage(err, isTr));
+    }
+  }
+
+  /// Maps the semantic error codes returned by
+  /// [AuthController.signInWithGoogle] to locale-specific text. Non-code
+  /// errors (backend `AuthApiException` messages) pass through unchanged,
+  /// mirroring the email login path.
+  String _googleErrorMessage(String err, bool isTr) {
+    switch (err) {
+      case 'google_popup_closed':
+        return isTr
+            ? 'Popup kapatıldı. Tekrar deneyin.'
+            : 'Sign-in popup closed. Please try again.';
+      case 'google_sign_in_failed':
+        return isTr
+            ? 'Google ile giriş yapılamadı. Tekrar deneyin.'
+            : 'Google sign-in failed. Please try again.';
+      case 'google_unknown':
+        return isTr
+            ? 'Bir şeyler ters gitti. Tekrar deneyin.'
+            : 'Something went wrong. Please try again.';
+      default:
+        return err;
     }
   }
 
@@ -193,10 +216,13 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                 ),
               ),
               const SizedBox(height: 24),
+              // TODO(i18n): move the Google button label and the Google
+              // error strings (_googleErrorMessage) into the app's
+              // translation table (trProvider) once it exists.
               GoogleSignInButton(
                 label: isTr ? 'Google ile devam et' : 'Continue with Google',
                 isLoading: _googleBusy,
-                onPressed: _googleBusy ? null : _signInWithGoogle,
+                onPressed: _signInWithGoogle,
               ),
               const SizedBox(height: 16),
               Row(

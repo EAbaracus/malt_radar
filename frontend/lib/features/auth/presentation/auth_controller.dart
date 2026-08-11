@@ -109,9 +109,12 @@ class AuthController extends StateNotifier<AuthState> {
   /// `POST /api/auth/google` -> session persisted through the SAME
   /// [AuthRepository.saveSession] path as email login.
   ///
-  /// Returns `null` on success; a user-facing message otherwise. On
-  /// failure the state is always `loggedOut` with [AuthState.error] set.
-  /// Duplicate calls while a flow is already running are ignored.
+  /// Returns `null` on success; a semantic error code otherwise
+  /// (`google_popup_closed` / `google_sign_in_failed` / `google_unknown`).
+  /// The UI layer localizes codes to user-facing text and [AuthState.error]
+  /// carries the same code. Backend `AuthApiException` messages pass
+  /// through unchanged (same as email login). Duplicate calls while a flow
+  /// is already running are ignored.
   Future<String?> signInWithGoogle() async {
     if (_googleSignInInProgress) {
       // Re-entry guard: a second tap while the popup is open must not start
@@ -123,9 +126,11 @@ class AuthController extends StateNotifier<AuthState> {
       final idToken = await googleAuth.fetchIdToken();
       if (idToken == null || idToken.isEmpty) {
         // Popup dismissed before a token was produced (backend 400 case).
-        final msg = 'Popup kapatıldı. Tekrar deneyin.';
-        state = AuthState(AuthStatus.loggedOut, error: msg);
-        return msg;
+        state = const AuthState(
+          AuthStatus.loggedOut,
+          error: 'google_popup_closed',
+        );
+        return 'google_popup_closed';
       }
       final res = await api.signInWithGoogle(idToken);
       final user = AuthUser.fromJson(res['user'] as Map<String, dynamic>);
@@ -139,15 +144,14 @@ class AuthController extends StateNotifier<AuthState> {
     } on PlatformException catch (e) {
       // Should not normally reach here (seam maps cancels to null), but
       // classify defensively so no raw platform error leaks to the user.
-      final msg = _googleCancelCodes.contains(e.code)
-          ? 'Popup kapatıldı. Tekrar deneyin.'
-          : 'Google ile giriş yapılamadı. Tekrar deneyin.';
-      state = AuthState(AuthStatus.loggedOut, error: msg);
-      return msg;
+      final code = _googleCancelCodes.contains(e.code)
+          ? 'google_popup_closed'
+          : 'google_sign_in_failed';
+      state = AuthState(AuthStatus.loggedOut, error: code);
+      return code;
     } catch (_) {
-      final msg = 'Bir şeyler ters gitti. Tekrar deneyin.';
-      state = AuthState(AuthStatus.loggedOut, error: msg);
-      return msg;
+      state = const AuthState(AuthStatus.loggedOut, error: 'google_unknown');
+      return 'google_unknown';
     } finally {
       _googleSignInInProgress = false;
     }

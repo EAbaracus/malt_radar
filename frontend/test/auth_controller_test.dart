@@ -228,11 +228,12 @@ void main() {
       );
       final auth = container.read(authControllerProvider.notifier);
 
+      // Backend-provided messages pass through unlocalized (same as email).
       final err = await auth.signInWithGoogle();
-      expect(err, isNotNull);
+      expect(err, 'Gecersiz Google kimlik dogrulamasi');
       final state = container.read(authControllerProvider);
       expect(state.isLoggedIn, isFalse);
-      expect(state.error, isNotNull);
+      expect(state.error, 'Gecersiz Google kimlik dogrulamasi');
     });
 
     test('popup dismissed (null token) keeps loggedOut with message', () async {
@@ -246,10 +247,10 @@ void main() {
       final auth = container.read(authControllerProvider.notifier);
 
       final err = await auth.signInWithGoogle();
-      expect(err, isNotNull);
+      expect(err, 'google_popup_closed');
       final state = container.read(authControllerProvider);
       expect(state.isLoggedIn, isFalse);
-      expect(state.error, isNotNull);
+      expect(state.error, 'google_popup_closed');
     });
 
     test('google flow exception falls into loggedOut error path', () async {
@@ -263,14 +264,14 @@ void main() {
       final auth = container.read(authControllerProvider.notifier);
 
       final err = await auth.signInWithGoogle();
-      expect(err, isNotNull);
+      expect(err, 'google_unknown');
       final state = container.read(authControllerProvider);
       expect(state.isLoggedIn, isFalse);
-      expect(state.error, isNotNull);
+      expect(state.error, 'google_unknown');
     });
 
     test('web popup closed (PlatformException popup_closed_by_user) maps to '
-        'friendly TR message, no raw exception leak', () async {
+        'google_popup_closed code, no raw exception leak', () async {
       final db = AppDatabase.forTesting(NativeDatabase.memory());
       addTearDown(() => db.close());
       final container = await buildContainer(
@@ -283,16 +284,16 @@ void main() {
       final auth = container.read(authControllerProvider.notifier);
 
       final err = await auth.signInWithGoogle();
-      expect(err, 'Popup kapatıldı. Tekrar deneyin.');
+      expect(err, 'google_popup_closed');
       final state = container.read(authControllerProvider);
       expect(state.isLoggedIn, isFalse);
-      expect(state.error, 'Popup kapatıldı. Tekrar deneyin.');
+      expect(state.error, 'google_popup_closed');
       // The raw platform exception must never reach the UI.
       expect(state.error, isNot(contains('popup_closed_by_user')));
     });
 
-    test('mobile cancel (sign_in_canceled) also maps to friendly TR message',
-        () async {
+    test('mobile cancel (sign_in_canceled) also maps to google_popup_closed '
+        'code', () async {
       final db = AppDatabase.forTesting(NativeDatabase.memory());
       addTearDown(() => db.close());
       final container = await buildContainer(
@@ -305,13 +306,13 @@ void main() {
       final auth = container.read(authControllerProvider.notifier);
 
       final err = await auth.signInWithGoogle();
-      expect(err, 'Popup kapatıldı. Tekrar deneyin.');
+      expect(err, 'google_popup_closed');
       final state = container.read(authControllerProvider);
-      expect(state.error, 'Popup kapatıldı. Tekrar deneyin.');
+      expect(state.error, 'google_popup_closed');
       expect(state.error, isNot(contains('sign_in_canceled')));
     });
 
-    test('non-cancel PlatformException maps to generic TR message, '
+    test('non-cancel PlatformException maps to google_sign_in_failed code, '
         'no raw exception leak', () async {
       final db = AppDatabase.forTesting(NativeDatabase.memory());
       addTearDown(() => db.close());
@@ -328,10 +329,10 @@ void main() {
       final auth = container.read(authControllerProvider.notifier);
 
       final err = await auth.signInWithGoogle();
-      expect(err, 'Google ile giriş yapılamadı. Tekrar deneyin.');
+      expect(err, 'google_sign_in_failed');
       final state = container.read(authControllerProvider);
       expect(state.isLoggedIn, isFalse);
-      expect(state.error, 'Google ile giriş yapılamadı. Tekrar deneyin.');
+      expect(state.error, 'google_sign_in_failed');
       expect(state.error, isNot(contains('network_error')));
       expect(state.error, isNot(contains('Error 500')));
     });

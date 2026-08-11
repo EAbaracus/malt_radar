@@ -43,12 +43,16 @@ class GoogleSignInButton extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   // Inline "G" mark since no Google logo asset is bundled.
-                  Text(
-                    'G',
-                    style: TextStyle(
-                      color: AppTheme.primary,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 18,
+                  // Decorative: excluded from the semantics tree so screen
+                  // readers announce only the real [label], never a bare "G".
+                  const ExcludeSemantics(
+                    child: Text(
+                      'G',
+                      style: TextStyle(
+                        color: AppTheme.primary,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 18,
+                      ),
                     ),
                   ),
                   const SizedBox(width: 12),

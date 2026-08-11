@@ -88,6 +88,31 @@ void main() {
       );
       expect(find.text('Google ile devam et'), findsOneWidget);
     });
+
+    testWidgets('excludes the decorative G glyph from semantics',
+        (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: GoogleSignInButton(
+              label: 'Continue with Google',
+              isLoading: false,
+              onPressed: () {},
+            ),
+          ),
+        ),
+      );
+
+      // The inline "G" mark is decorative: it must be hidden from screen
+      // readers (ExcludeSemantics) so they announce only the real label.
+      expect(
+        find.descendant(
+          of: find.byType(GoogleSignInButton),
+          matching: find.byType(ExcludeSemantics),
+        ),
+        findsOneWidget,
+      );
+    });
   });
 
   group('AuthScreen Google sign-in (integration)', () {
@@ -110,7 +135,14 @@ void main() {
       await tester.pumpAndSettle();
       // Return the live container so the test can assert on session state.
       final ctx = tester.element(find.byType(AuthScreen));
-      return ProviderScope.containerOf(ctx);
+      final container = ProviderScope.containerOf(ctx);
+      // Materialize the controller NOW so its async session restore settles
+      // before a tap-driven sign-in (mirrors buildContainer in the unit
+      // tests). Without this, _restore's terminal loggedOut state can race
+      // with signInWithGoogle and clobber the error it just set.
+      container.read(authControllerProvider);
+      await tester.pumpAndSettle();
+      return container;
     }
 
     testWidgets('shows the button and logs in on tap (success)',
@@ -142,11 +174,14 @@ void main() {
           await pumpAuthScreen(tester, googleAuth: googleAuth);
 
       await tester.tap(find.byKey(const Key('google-sign-in-button')));
-      // One frame is enough for the SnackBar to appear.
-      await tester.pump();
+      await tester.pumpAndSettle();
 
-      expect(find.text('Popup kapatıldı. Tekrar deneyin.'), findsOneWidget);
-      expect(container.read(authControllerProvider).isLoggedIn, isFalse);
+      // Locale-independent: the error surfaces as a SnackBar, and the
+      // controller exposes the semantic code the UI layer localizes.
+      expect(find.byType(SnackBar), findsOneWidget);
+      final state = container.read(authControllerProvider);
+      expect(state.isLoggedIn, isFalse);
+      expect(state.error, 'google_popup_closed');
     });
 
     testWidgets('shows error SnackBar on backend rejection', (tester) async {
@@ -155,13 +190,17 @@ void main() {
           await pumpAuthScreen(tester, googleAuth: googleAuth);
 
       await tester.tap(find.byKey(const Key('google-sign-in-button')));
-      await tester.pump();
+      await tester.pumpAndSettle();
 
+      expect(find.byType(SnackBar), findsOneWidget);
+      // Backend-provided messages pass through unlocalized (like email).
       expect(
         find.text('Gecersiz Google kimlik dogrulamasi'),
         findsOneWidget,
       );
-      expect(container.read(authControllerProvider).isLoggedIn, isFalse);
+      final state = container.read(authControllerProvider);
+      expect(state.isLoggedIn, isFalse);
+      expect(state.error, 'Gecersiz Google kimlik dogrulamasi');
     });
   });
 }
