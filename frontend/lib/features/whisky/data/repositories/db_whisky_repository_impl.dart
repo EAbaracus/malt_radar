@@ -162,7 +162,12 @@ class DbWhiskyRepositoryImpl implements WhiskyRepository {
         tastingNotes: tastingNotes,
       );
       return Whisky.fromMap(legacyMap);
-    } catch (_) {
+    } catch (e, st) {
+      // DIAG (kök neden avı): hata kör catch ile yutulmaz — tarayıcı konsoluna
+      // düşer. "whisky not found + radar yok + similar yok" üçlüsünün tek
+      // kaynağı bu fonksiyon; gerçek hatayı (parse/tip/CORS/timeout) görmek
+      // için geçici olarak açık tutuluyor.
+      print('getWhiskyByBackendId FAILED ($backendId): $e\n$st');
       return null;
     }
   }
@@ -226,7 +231,9 @@ class DbWhiskyRepositoryImpl implements WhiskyRepository {
       scored.sort((a, b) =>
           (a['distance'] as double).compareTo(b['distance'] as double));
       return scored.take(limit).map((e) => e['whisky'] as Whisky).toList();
-    } catch (_) {
+    } catch (e, st) {
+      // DIAG (kök neden avı): similar boşluğu kör yutulmaz.
+      print('getSimilarWhiskies FAILED ($backendId): $e\n$st');
       return [];
     }
   }

@@ -447,7 +447,16 @@ class DbReadService:
     def get_flavor_profile(self, whisky_id: str) -> Optional[Dict[str, Any]]:
         with self._get_connection() as conn:
             cursor = conn.cursor()
-            cursor.execute("SELECT * FROM flavor_profiles WHERE whisky_id = ?", (whisky_id,))
+            # Product Rule (AGENTS.md): production_price ASLA API yanıtına girmez.
+            # Açık kolon listesi — SELECT * DEĞİL (eski sürüm production_price sızdırıyordu).
+            cursor.execute("""
+                SELECT whisky_id, whisky_name, production_bottle_name, match_score,
+                       match_method, flavor_vector, flavor_profile, flavor_tags,
+                       flavor_source, flavor_data_confidence, production_rating,
+                       production_region, notes_for_review, source_count,
+                       evidence_count, enrichment_version
+                FROM flavor_profiles WHERE whisky_id = ?
+            """, (whisky_id,))
             row = cursor.fetchone()
             if not row:
                 return None
