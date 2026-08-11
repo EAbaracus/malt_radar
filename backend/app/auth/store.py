@@ -196,14 +196,25 @@ class UserStore:
             conn.commit()
         return cur.rowcount > 0
 
-    def update_profile(self, uid: int, display_name: Optional[str] = None) -> None:
+    def update_profile(self, uid: int, display_name: Optional[str] = None, **kwargs: Any) -> None:
+        allowed_cols = {"display_name", "age_country", "age_min"}
         sets: List[str] = []
         vals: List[Any] = []
+
         if display_name is not None:
-            sets.append("display_name = ?")
-            vals.append(display_name.strip() or None)
+            kwargs["display_name"] = display_name
+
+        for key, value in kwargs.items():
+            if key in allowed_cols:
+                sets.append(f"{key} = ?")
+                if isinstance(value, str):
+                    vals.append(value.strip() or None)
+                else:
+                    vals.append(value)
+
         if not sets:
             return
+
         vals.append(uid)
         with self._connect() as conn:
             conn.execute(f"UPDATE users SET {', '.join(sets)} WHERE id = ?", vals)
