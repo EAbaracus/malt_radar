@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Query, Depends
 from typing import Optional
 import os
-from app.providers.sqlite_read_adapter import SqliteReadAdapter
+from app.archive.legacy_read_adapters.sqlite_read_adapter import SqliteReadAdapter
 
 router = APIRouter(prefix="/api/db", tags=["Database Read-Only API"])
 
