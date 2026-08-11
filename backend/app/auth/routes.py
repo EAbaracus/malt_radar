@@ -27,7 +27,7 @@ from app.auth.schemas import (
     AuthVerifyEmailRequest,
     SyncRequest,
 )
-from app.auth.store import DuplicateEmailError, UserStore
+from app.auth.store import DuplicateEmailError, DuplicateIdentityError, UserStore
 from app.auth.providers import (
     InvalidTokenError,
     OAuthIdentityVerifier,
@@ -227,15 +227,31 @@ async def google_login(
                 user["id"], "google", sub, email=email
             )
         else:
-            user = store.create_oauth_user(
-                email=email,
-                provider="google",
-                provider_sub=sub,
-                display_name=claims.get("name"),
-                age_country="",
-                age_min=0,
-                privacy_consent=True,
-            )
+            try:
+                user = store.create_oauth_user(
+                    email=email,
+                    provider="google",
+                    provider_sub=sub,
+                    display_name=claims.get("name"),
+                    age_country="",
+                    age_min=0,
+                    privacy_consent=True,
+                )
+            except DuplicateIdentityError:
+                # Race: a concurrent request with the same brand-new (google,
+                # sub) already created the identity+user between our
+                # get_user_by_identity check and this insert. That user IS the
+                # authenticated principal — log in as them (idempotent), not
+                # 409/500.
+                logger.info(
+                    "google identity %s:%s raced; reusing existing user", "google", sub
+                )
+                user = store.get_user_by_identity("google", sub)
+                if user is None:
+                    raise HTTPException(
+                        status_code=409,
+                        detail="Identity already exists but its user could not be resolved",
+                    )
     token = store.create_session(user["id"])
     return {"token": token, "user": _public_user(user)}
 

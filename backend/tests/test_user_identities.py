@@ -5,6 +5,8 @@ real backend users.db are never opened.
 """
 from __future__ import annotations
 
+import sqlite3
+
 import pytest
 
 from app.auth.store import DuplicateEmailError, DuplicateIdentityError, UserStore
@@ -79,6 +81,36 @@ def test_create_oauth_user_rejects_taken_email(store):
         store.create_oauth_user(
             email="taken@example.com", provider="google", provider_sub="sub-x"
         )
+
+
+def test_create_oauth_user_duplicate_sub_raises_identity_error(store):
+    # First login with this (provider, provider_sub) creates the account.
+    store.create_oauth_user(
+        email="dupsub1@example.com", provider="google", provider_sub="sub-dup"
+    )
+    # Second login with the SAME sub must be reported as a duplicate
+    # IDENTITY (the UNIQUE(provider, provider_sub) constraint fired), never
+    # as a duplicate email — the caller already matched this account via
+    # get_user_by_identity before reaching create_oauth_user.
+    with pytest.raises(DuplicateIdentityError):
+        store.create_oauth_user(
+            email="dupsub2@example.com",
+            provider="google",
+            provider_sub="sub-dup",
+        )
+    # And a genuinely taken email still surfaces as DuplicateEmailError.
+    with pytest.raises(DuplicateEmailError):
+        store.create_oauth_user(
+            email="dupsub1@example.com", provider="google", provider_sub="other-sub"
+        )
+
+
+def test_create_identity_unknown_user_raises(store):
+    # A user_id that does not exist trips the FK constraint on
+    # user_identities.user_id — that is a data-integrity failure, NOT a
+    # duplicate identity, and must surface as a raw sqlite3.IntegrityError.
+    with pytest.raises(sqlite3.IntegrityError):
+        store.create_identity(999999, "google", "sub-ghost")
 
 
 def test_delete_user_erases_identities(store):

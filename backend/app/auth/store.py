@@ -246,15 +246,26 @@ class UserStore:
                 )
                 assert cur.lastrowid is not None
                 uid = int(cur.lastrowid)
-                conn.execute(
-                    """INSERT INTO user_identities
-                       (user_id, provider, provider_sub, email, created_at)
-                       VALUES (?,?,?,?,?)""",
-                    (uid, provider, provider_sub, email, now),
-                )
-                conn.commit()
+                try:
+                    conn.execute(
+                        """INSERT INTO user_identities
+                           (user_id, provider, provider_sub, email, created_at)
+                           VALUES (?,?,?,?,?)""",
+                        (uid, provider, provider_sub, email, now),
+                    )
+                    conn.commit()
+                except sqlite3.IntegrityError as exc:
+                    # The users row inserted fine; a UNIQUE violation here can
+                    # only be the (provider, provider_sub) pairing, which means
+                    # this identity already exists — not a duplicate email.
+                    if (
+                        "UNIQUE" in str(exc).upper()
+                        and "user_identities" in str(exc)
+                    ):
+                        raise DuplicateIdentityError(provider, provider_sub) from exc
+                    raise
         except sqlite3.IntegrityError as exc:
-            if "UNIQUE" in str(exc).upper() or "constraint" in str(exc).lower():
+            if "UNIQUE" in str(exc).upper() and "users" in str(exc):
                 raise DuplicateEmailError(email) from exc
             raise
         return {
@@ -321,7 +332,14 @@ class UserStore:
                 assert cur.lastrowid is not None
                 ident_id = int(cur.lastrowid)
         except sqlite3.IntegrityError as exc:
-            if "UNIQUE" in str(exc).upper() or "constraint" in str(exc).lower():
+            # Only the UNIQUE(provider, provider_sub) constraint means this
+            # identity already exists. ANY other IntegrityError — e.g. the FK
+            # on user_identities.user_id when the user does not exist — is a
+            # data-integrity failure and must surface raw.
+            if (
+                "UNIQUE" in str(exc).upper()
+                and "user_identities" in str(exc)
+            ):
                 raise DuplicateIdentityError(provider, provider_sub) from exc
             raise
         return {
