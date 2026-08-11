@@ -8,6 +8,7 @@ import 'package:drift/native.dart';
 import 'package:malt_radar/core/api/auth_api.dart';
 import 'package:malt_radar/core/database/database.dart';
 import 'package:malt_radar/features/auth/presentation/auth_controller.dart';
+import 'package:malt_radar/features/auth/data/google_auth.dart';
 import 'package:malt_radar/features/whisky/presentation/controllers/whisky_providers.dart';
 
 class FakeAuthApi extends AuthApi {
@@ -33,6 +34,16 @@ class FakeAuthApi extends AuthApi {
   }
 
   @override
+  Future<Map<String, dynamic>> signInWithGoogle(String idToken) async {
+    if (idToken != 'good-google-token') {
+      // Mirrors the backend contract: 401 for an invalid/expired token.
+      throw AuthApiException('Gecersiz Google kimlik dogrulamasi');
+    }
+    serverToken = 'tok-google';
+    return {'token': serverToken!, 'user': _user()};
+  }
+
+  @override
   Future<Map<String, dynamic>> register({
     required String email,
     required String password,
@@ -54,11 +65,33 @@ class FakeAuthApi extends AuthApi {
   }
 }
 
-Future<ProviderContainer> buildContainer(AppDatabase db, AuthApi api) async {
+/// Fake Google OAuth seam: returns a fixed id token, or throws / returns
+/// null to simulate failure and popup-dismissed cases.
+class FakeGoogleAuth extends GoogleAuth {
+  final String? idToken;
+  final Object? error;
+  FakeGoogleAuth({this.idToken, this.error});
+
+  @override
+  Future<String?> fetchIdToken() async {
+    if (error != null) throw error!;
+    return idToken;
+  }
+
+  @override
+  Future<void> signOut() async {}
+}
+
+Future<ProviderContainer> buildContainer(
+  AppDatabase db,
+  AuthApi api, {
+  GoogleAuth? googleAuth,
+}) async {
   final container = ProviderContainer(
     overrides: [
       appDatabaseProvider.overrideWithValue(db),
       authApiProvider.overrideWithValue(api),
+      if (googleAuth != null) googleAuthProvider.overrideWithValue(googleAuth),
     ],
   );
   addTearDown(container.dispose);
@@ -69,6 +102,7 @@ Future<ProviderContainer> buildContainer(AppDatabase db, AuthApi api) async {
 }
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
   test('login populates session and persists it', () async {
     final db = AppDatabase.forTesting(NativeDatabase.memory());
     addTearDown(() => db.close());
@@ -145,5 +179,83 @@ void main() {
     );
     expect(err, isNotNull);
     expect(container.read(authControllerProvider).isLoggedIn, isFalse);
+  });
+
+  group('google sign-in', () {
+    test('success persists session and logs in', () async {
+      final db = AppDatabase.forTesting(NativeDatabase.memory());
+      addTearDown(() => db.close());
+      final container = await buildContainer(
+        db,
+        FakeAuthApi(),
+        googleAuth: FakeGoogleAuth(idToken: 'good-google-token'),
+      );
+      final auth = container.read(authControllerProvider.notifier);
+
+      final err = await auth.signInWithGoogle();
+      expect(err, isNull);
+
+      // Re-read the provider AFTER the async call (fresh snapshot).
+      final state = container.read(authControllerProvider);
+      expect(state.isLoggedIn, isTrue);
+      expect(state.user?.email, 'user@example.com');
+      expect(state.error, isNull);
+
+      // Same persistence path as email login (Drift UserSettings).
+      final repo = container.read(authRepositoryProvider);
+      expect(await repo.loadToken(), 'tok-google');
+      expect((await repo.loadUser())?.email, 'user@example.com');
+    });
+
+    test('backend rejection keeps loggedOut and sets error', () async {
+      final db = AppDatabase.forTesting(NativeDatabase.memory());
+      addTearDown(() => db.close());
+      final container = await buildContainer(
+        db,
+        FakeAuthApi(),
+        googleAuth: FakeGoogleAuth(idToken: 'expired-token'),
+      );
+      final auth = container.read(authControllerProvider.notifier);
+
+      final err = await auth.signInWithGoogle();
+      expect(err, isNotNull);
+      final state = container.read(authControllerProvider);
+      expect(state.isLoggedIn, isFalse);
+      expect(state.error, isNotNull);
+    });
+
+    test('popup dismissed (null token) keeps loggedOut with message', () async {
+      final db = AppDatabase.forTesting(NativeDatabase.memory());
+      addTearDown(() => db.close());
+      final container = await buildContainer(
+        db,
+        FakeAuthApi(),
+        googleAuth: FakeGoogleAuth(idToken: null),
+      );
+      final auth = container.read(authControllerProvider.notifier);
+
+      final err = await auth.signInWithGoogle();
+      expect(err, isNotNull);
+      final state = container.read(authControllerProvider);
+      expect(state.isLoggedIn, isFalse);
+      expect(state.error, isNotNull);
+    });
+
+    test('google flow exception falls into loggedOut error path', () async {
+      final db = AppDatabase.forTesting(NativeDatabase.memory());
+      addTearDown(() => db.close());
+      final container = await buildContainer(
+        db,
+        FakeAuthApi(),
+        googleAuth: FakeGoogleAuth(error: StateError('network down')),
+      );
+      final auth = container.read(authControllerProvider.notifier);
+
+      final err = await auth.signInWithGoogle();
+      expect(err, isNotNull);
+      final state = container.read(authControllerProvider);
+      expect(state.isLoggedIn, isFalse);
+      expect(state.error, isNotNull);
+    });
   });
 }

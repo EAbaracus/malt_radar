@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:malt_radar/core/api/auth_api.dart';
 import 'package:malt_radar/features/whisky/presentation/controllers/whisky_providers.dart';
 import '../data/auth_repository.dart';
+import '../data/google_auth.dart';
 import '../data/sync_service.dart';
 import '../domain/auth_user.dart';
 
@@ -23,9 +24,14 @@ class AuthState {
 class AuthController extends StateNotifier<AuthState> {
   final AuthApi api;
   final AuthRepository repo;
+  final GoogleAuth googleAuth;
 
-  AuthController({required this.api, required this.repo})
-    : super(const AuthState.initial()) {
+  AuthController({
+    required this.api,
+    required this.repo,
+    GoogleAuth? googleAuth,
+  }) : googleAuth = googleAuth ?? GoogleAuth(),
+       super(const AuthState.initial()) {
     _restore();
   }
 
@@ -86,6 +92,37 @@ class AuthController extends StateNotifier<AuthState> {
     }
   }
 
+  /// Google sign-in: interactive OAuth flow -> id token -> backend
+  /// `POST /api/auth/google` -> session persisted through the SAME
+  /// [AuthRepository.saveSession] path as email login.
+  ///
+  /// Returns `null` on success; a user-facing message otherwise. On
+  /// failure the state is always `loggedOut` with [AuthState.error] set.
+  Future<String?> signInWithGoogle() async {
+    try {
+      final idToken = await googleAuth.fetchIdToken();
+      if (idToken == null || idToken.isEmpty) {
+        // Popup dismissed before a token was produced (backend 400 case).
+        final msg = 'Google oturumu kapatildi. Tekrar deneyin.';
+        state = AuthState(AuthStatus.loggedOut, error: msg);
+        return msg;
+      }
+      final res = await api.signInWithGoogle(idToken);
+      final user = AuthUser.fromJson(res['user'] as Map<String, dynamic>);
+      final token = res['token'] as String;
+      await repo.saveSession(token, user);
+      state = AuthState(AuthStatus.loggedIn, user: user);
+      return null;
+    } on AuthApiException catch (e) {
+      state = AuthState(AuthStatus.loggedOut, error: e.message);
+      return e.message;
+    } catch (e) {
+      final msg = 'Beklenmeyen hata: $e';
+      state = AuthState(AuthStatus.loggedOut, error: msg);
+      return msg;
+    }
+  }
+
   Future<void> logout() async {
     final token = await repo.loadToken();
     if (token != null) {
@@ -133,6 +170,18 @@ class AuthController extends StateNotifier<AuthState> {
 
 final authApiProvider = Provider<AuthApi>((ref) => AuthApi());
 
+/// Web Google OAuth client id, injected at build time. Empty until the
+/// C1 task wires `--dart-define=GOOGLE_CLIENT_ID_WEB=...`; the web flow
+/// fails fast with a clear message until then.
+const String googleClientId = String.fromEnvironment(
+  'GOOGLE_CLIENT_ID_WEB',
+  defaultValue: '',
+);
+
+final googleAuthProvider = Provider<GoogleAuth>(
+  (ref) => GoogleAuth(clientId: googleClientId),
+);
+
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
   final db = ref.watch(appDatabaseProvider);
   return AuthRepository(db);
@@ -142,7 +191,8 @@ final authControllerProvider = StateNotifierProvider<AuthController, AuthState>(
   (ref) {
     final api = ref.watch(authApiProvider);
     final repo = ref.watch(authRepositoryProvider);
-    return AuthController(api: api, repo: repo);
+    final googleAuth = ref.watch(googleAuthProvider);
+    return AuthController(api: api, repo: repo, googleAuth: googleAuth);
   },
 );
 
