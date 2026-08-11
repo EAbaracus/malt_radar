@@ -5,6 +5,7 @@ import 'package:malt_radar/core/theme/app_theme.dart';
 import 'package:malt_radar/core/theme/app_theme_colors.dart';
 import 'package:malt_radar/features/compliance/presentation/age_gate_providers.dart';
 import 'auth_controller.dart';
+import 'google_sign_in_button.dart';
 import 'package:malt_radar/core/branding/brand_medallion_widget.dart';
 
 /// Login / Register form. Uses the already-passed age gate decision to fill the
@@ -30,6 +31,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
   bool _privacyConsent = false;
   bool _ageAffirm = false;
   bool _busy = false;
+  bool _googleBusy = false;
 
   @override
   void initState() {
@@ -118,6 +120,32 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     }
   }
 
+  Future<void> _signInWithGoogle() async {
+    if (_googleBusy) return;
+    final isTr = ref.read(localizationProvider) == 'tr';
+    setState(() => _googleBusy = true);
+
+    String? err;
+    try {
+      err = await ref
+          .read(authControllerProvider.notifier)
+          .signInWithGoogle();
+    } catch (e) {
+      // Catch any unexpected exception (timeout, parse error, etc.)
+      err = isTr ? 'Beklenmeyen hata: $e' : 'Unexpected error: $e';
+    }
+
+    if (!mounted) return;
+    setState(() => _googleBusy = false);
+    if (err == null) {
+      // Success: signInWithGoogle already set AuthStatus.loggedIn on the
+      // controller, so main.dart (which watches authControllerProvider)
+      // rebuilds and unmounts this screen — no extra invalidation needed.
+    } else {
+      _toast(err);
+    }
+  }
+
   void _toast(String msg) {
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
@@ -165,6 +193,41 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                 ),
               ),
               const SizedBox(height: 24),
+              GoogleSignInButton(
+                label: isTr ? 'Google ile devam et' : 'Continue with Google',
+                isLoading: _googleBusy,
+                onPressed: _googleBusy ? null : _signInWithGoogle,
+              ),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  const Expanded(
+                    child: Divider(
+                      color: AppTheme.textSecondary,
+                      thickness: 1,
+                      height: 1,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: Text(
+                      isTr ? 'veya' : 'or',
+                      style: const TextStyle(
+                        color: AppTheme.textSecondary,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
+                  const Expanded(
+                    child: Divider(
+                      color: AppTheme.textSecondary,
+                      thickness: 1,
+                      height: 1,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
               if (_mode == AuthMode.register) ...[
                 TextField(
                   controller: _displayName,
