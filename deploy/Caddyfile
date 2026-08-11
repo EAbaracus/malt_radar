@@ -25,12 +25,26 @@ maltradar.com {
     }
 
     # Static Flutter web (CanvasKit). SPA fallback to index.html.
-    # Kısa TTL: Cloudflare origin'de Cache-Control yokken 4s default TTL uyguluyor
-    # -> her deploy'da bayat build servis ediliyordu. 300s ile yeni build hızla yayılır.
+    # Cache stratejisi (2026-08-11 — deploy güvenilirlik fix'i):
+    # - index.html + Flutter JS çekirdeği NO-CACHE: SW-unregister script'i ve
+    #   asset manifest'i bu dosyalarda. Bayat index.html = bayat build sonsuza dek
+    #   (SW, network'e çıkmadan eski index.html'i serve eder; caddy log'unda hiç
+    #   istek görünmez). no-cache = her navigasyonda revalidate, bayat servis yok.
+    # - Hash'li statikler (assets/, canvaskit/) 1 yıl cache'lenebilir — içerikleri
+    #   build sürümüne bağlı, isimleri değişiyor.
+    # NOT: header'lar AYRI terminal handle'larda — aynı blokta iki header yazmak
+    # işe yaramaz (Caddy route sort'u match'siz generic route'u sona koyar, o da
+    # no-cache'i ezer). handle'lar sırayla denenir, ilk eşleşen terminaldir.
+    @nocache path /index.html /main.dart.js /flutter_service_worker.js /flutter_bootstrap.js /drift_worker.js
+    handle @nocache {
+        file_server
+        try_files {path} /index.html
+        header Cache-Control "no-cache"
+    }
     handle {
         file_server
         try_files {path} /index.html
-        header Cache-Control "public, max-age=300"
+        header Cache-Control "public, max-age=31536000"
     }
 
     # Crawlers: catalog is served only via the API layer.
