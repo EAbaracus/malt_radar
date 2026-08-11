@@ -154,26 +154,15 @@ class DbWhiskyRepositoryImpl implements WhiskyRepository {
     try {
       final map = await _dbClient.getWhiskyById(backendId);
       if (map == null) return null;
-      // DIAG2: her çağrıdan sonra marker — hangi adımın patladığını gösterir.
-      print('MRDIAG1 detail OK ($backendId)');
       final flavorProfile = await _dbClient.getFlavorProfile(backendId);
-      print('MRDIAG2 flavor OK ($backendId): profile=${flavorProfile != null}');
       final tastingNotes = await _dbClient.getTastingNotes(backendId);
-      print('MRDIAG3 notes OK ($backendId): n=${tastingNotes.length}');
       final legacyMap = DbWhiskyMapper.toLegacyMap(
         map,
         flavorProfile: flavorProfile,
         tastingNotes: tastingNotes,
       );
-      final whisky = Whisky.fromMap(legacyMap);
-      print('MRDIAG4 fromMap OK ($backendId): ${whisky.name} | fp=${whisky.flavorProfile != null ? "len=${whisky.flavorProfile!.length}" : "NULL"}');
-      return whisky;
-    } catch (e, st) {
-      // DIAG (kök neden avı): hata kör catch ile yutulmaz — tarayıcı konsoluna
-      // düşer. "whisky not found + radar yok + similar yok" üçlüsünün tek
-      // kaynağı bu fonksiyon; gerçek hatayı (parse/tip/CORS/timeout) görmek
-      // için geçici olarak açık tutuluyor.
-      print('getWhiskyByBackendId FAILED ($backendId): $e\n$st');
+      return Whisky.fromMap(legacyMap);
+    } catch (_) {
       return null;
     }
   }
@@ -237,9 +226,7 @@ class DbWhiskyRepositoryImpl implements WhiskyRepository {
       scored.sort((a, b) =>
           (a['distance'] as double).compareTo(b['distance'] as double));
       return scored.take(limit).map((e) => e['whisky'] as Whisky).toList();
-    } catch (e, st) {
-      // DIAG (kök neden avı): similar boşluğu kör yutulmaz.
-      print('getSimilarWhiskies FAILED ($backendId): $e\n$st');
+    } catch (_) {
       return [];
     }
   }
