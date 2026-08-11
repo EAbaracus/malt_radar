@@ -120,6 +120,15 @@ python -m pytest tests/ -v
 
 ---
 
+## Testing
+
+- To run backend tests, activate the virtual environment: `source backend/.venv/bin/activate`
+- Run pytest without PYTHONPATH: `env -u PYTHONPATH pytest`
+- To run frontend tests: `cd frontend && flutter test`
+
+---
+
+
 ## Documentation
 
 | Doc | Scope |
