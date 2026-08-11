@@ -143,11 +143,11 @@ def load_production_lexicon(db_path):
     never opened in RW mode (defense-in-depth; OS read-only lock also enforces).
     """
     # Route through the isolation gate's read chokepoint (no direct RW opener).
-    # sprint01 is at mr-kep/book_enrichment_sprint01; gate is at mr-kep/p121_write_gate.
-    _gate_dir = os.path.join(os.path.dirname(__file__), "..", "p121_write_gate")
+    # sprint01 is at mr-kep/book_enrichment_sprint01; gate is at backend/app/db.
+    _gate_dir = os.path.join(os.path.dirname(__file__), "..", "..", "backend", "app", "db")
     if _gate_dir not in sys.path:
         sys.path.insert(0, _gate_dir)
-    from db_write_guard import get_read_connection  # noqa: E402 (deferred import)
+    from write_guard import get_read_connection  # noqa: E402 (deferred import)
     lexicon = {}
     with get_read_connection(db_path) as conn:
         c = conn.cursor()

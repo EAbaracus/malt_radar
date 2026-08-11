@@ -34,7 +34,7 @@ app.include_router(db_api.router)
 # Include auth + per-user sync router (separate from the whisky production DB)
 app.include_router(auth_router)
 
-# Fix CORS: don't use * with allow_credentials=True
+# Security: Enforce strict CORS policy. Wildcards are strictly forbidden.
 allowed_origins_env = os.getenv("MALT_RADAR_ALLOWED_ORIGINS", "")
 if allowed_origins_env:
     allowed_origins = [o.strip() for o in allowed_origins_env.split(",")]
@@ -46,10 +46,13 @@ else:
         "http://localhost:8888",
     ]
 
+if "*" in allowed_origins:
+    raise ValueError("Wildcard '*' is not allowed in CORS origins. Please specify explicit origins.")
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,
-    allow_credentials=False if "*" in allowed_origins else True,
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )

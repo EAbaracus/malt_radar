@@ -242,15 +242,22 @@ What remains canonical from the Classic era:
 
 ---
 
-## Current Production Baseline (post-P500-O)
+## Current Production Baseline (post-P500-O, updated 2026-08-11)
 
 | Metric | Value |
 |--------|-------|
-| SHA256 | `40b7f71e84f0b5eec750deb0832f197f4eddc51c023bcdc2dde25fde93476ec0` |
+| SHA256 | `a9960053da30cc8da0897919c5e25392a7fc1c0f5ffed46a0d4325df7eaab6b4` |
 | Tables | 37 |
-| Whiskies | 4,749 |
-| flavor_evidence | 3,180 |
-| staging_tasting_notes remaining | 72 (60 QR HOLD + 8 unresolved + 4 skips) |
+| Whiskies | 4,750 (active 4,598 · superseded 152) |
+| flavor_evidence | 6,367 |
+| flavor_profiles | 4,409 |
+| staging_tasting_notes remaining | 7 (staging_hold) |
+
+> Baseline SHA, 2026-08-11 Faz 0 (guard taşıma + `execute_action` write-path fix) sonrası
+> yeniden ölçüldü: `a9960053…` (önceki kayıt `40b7f71e…` P500-O dönemindendi; aradaki
+> promotion'lar SHA'ı ilerletti — örn. identity backfill 223, editorial promotions).
+> SHA, Production Baseline olarak immutably korunur; yeni mutation ancak yeni closure ile
+> bu satırı günceller.
 
 P500-O is **CLOSED**. This baseline is the immutable starting point for
 all future production work.
