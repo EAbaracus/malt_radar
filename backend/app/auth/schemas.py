@@ -39,6 +39,10 @@ class AuthLoginRequest(BaseModel):
     password: str
 
 
+class AuthGoogleRequest(BaseModel):
+    id_token: str = Field(min_length=1, max_length=8192)
+
+
 class AuthVerifyEmailRequest(BaseModel):
     user_id: int
     token: str = Field(min_length=8)

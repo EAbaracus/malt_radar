@@ -21,6 +21,10 @@ app = FastAPI(
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
+# OAuth verifier DI hook: defaults to None -> routes fall back to the
+# provider registry (GoogleIdentityVerifier). Tests override with a fake.
+app.state.google_verifier = None
+
 # Include Admin Review router (protected by feature flag logic inside the router)
 app.include_router(admin_review.router)
 
