@@ -41,6 +41,17 @@ similar-whisky recommendations.
 
 ---
 
+## Architecture Overview
+
+The MR-KEP + KEP Runtime canonical pipeline processes data from ingestion to closure through the following stages:
+
+* **INGEST & EXTRACT:** Raw whisky data is collected from external sources and parsed to extract key information.
+* **NORMALIZE & CANONICALIZE:** The extracted data is cleaned, standardized, and resolved into canonical database records.
+* **EVIDENCE:** Flavor profiles and supporting factual data are gathered and attached to the canonical records.
+* **QA & Human GO:** Automated quality assurance invariants are checked, followed by a mandatory human review and GO/NO-GO decision.
+* **PromotionGate:** The KEP Runtime safely handles the execution and promotion of validated data into the production database.
+* **VERIFY & CLOSURE:** Post-promotion validation ensures data integrity, followed by formal pipeline closure.
+
 ## Canonical Pipeline — MR-KEP + KEP Runtime
 
 **MR-KEP** (domain pipeline) and **KEP Runtime** (execution / safety layer)
@@ -108,6 +119,15 @@ python -m pytest tests/ -v
 ```
 
 ---
+
+## Testing
+
+- To run backend tests, activate the virtual environment: `source backend/.venv/bin/activate`
+- Run pytest without PYTHONPATH: `env -u PYTHONPATH pytest`
+- To run frontend tests: `cd frontend && flutter test`
+
+---
+
 
 ## Documentation
 

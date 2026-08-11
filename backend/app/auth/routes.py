@@ -20,6 +20,7 @@ from fastapi import APIRouter, Depends, HTTPException, Request
 from app.security import limiter
 from app.auth.passwords import hash_password, verify_password
 from app.auth.schemas import (
+    AuthGoogleRequest,
     AuthLoginRequest,
     AuthRegisterRequest,
     AuthUpdateProfileRequest,
@@ -27,6 +28,11 @@ from app.auth.schemas import (
     SyncRequest,
 )
 from app.auth.store import DuplicateEmailError, UserStore
+from app.auth.providers import (
+    InvalidTokenError,
+    OAuthIdentityVerifier,
+    PROVIDER_VERIFIERS,
+)
 
 logger = logging.getLogger("malt_radar.auth")
 router = APIRouter(prefix="/api/auth", tags=["auth"])
@@ -166,6 +172,70 @@ async def login(
         raise HTTPException(
             status_code=401, detail="Invalid email or password"
         )
+    token = store.create_session(user["id"])
+    return {"token": token, "user": _public_user(user)}
+
+
+# --- social login -------------------------------------------------------
+def _get_verifier(request: Request) -> OAuthIdentityVerifier:
+    """Resolve the provider verifier with DI override support.
+
+    Tests set ``app.state.google_verifier`` to a fake; production falls back
+    to the registered provider verifier from the registry.
+    """
+    override = getattr(request.app.state, "google_verifier", None)
+    if override is not None:
+        return override
+    return PROVIDER_VERIFIERS["google"]
+
+
+@router.post("/google")
+@limiter.limit("8/minute")
+async def google_login(
+    request: Request,
+    body: AuthGoogleRequest,
+    store: UserStore = Depends(get_store),
+):
+    """Sign in (or sign up) with a Google id-token.
+
+    Find-or-create + link:
+      1. identity (google, sub) exists            -> reuse that user
+      2. else email already registered            -> link identity to it
+      3. else                                     -> create OAuth user
+    Google only signs accounts with a verified email, but we still refuse
+    tokens that claim otherwise. A single 401 (no enumeration) is returned
+    for both invalid tokens and unverified emails.
+    """
+    verifier = _get_verifier(request)
+    try:
+        claims = verifier.verify_id_token(body.id_token)
+    except InvalidTokenError:
+        raise HTTPException(status_code=401, detail="invalid_google_token")
+
+    sub: Optional[str] = claims.get("sub")
+    email: Optional[str] = claims.get("email")
+    email_verified: Optional[Any] = claims.get("email_verified")
+    if not sub or not email or not email_verified:
+        raise HTTPException(status_code=401, detail="invalid_google_token")
+
+    user = store.get_user_by_identity("google", sub)
+    if user is None:
+        user = store.get_user_by_email(email)
+        if user is not None:
+            # Merge: link the Google identity to the existing account.
+            store.create_identity(
+                user["id"], "google", sub, email=email
+            )
+        else:
+            user = store.create_oauth_user(
+                email=email,
+                provider="google",
+                provider_sub=sub,
+                display_name=claims.get("name"),
+                age_country="",
+                age_min=0,
+                privacy_consent=True,
+            )
     token = store.create_session(user["id"])
     return {"token": token, "user": _public_user(user)}
 
