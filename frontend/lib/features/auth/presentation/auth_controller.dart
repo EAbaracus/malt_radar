@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart' show PlatformException;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:malt_radar/core/api/auth_api.dart';
 import 'package:malt_radar/features/whisky/presentation/controllers/whisky_providers.dart';
@@ -25,6 +26,18 @@ class AuthController extends StateNotifier<AuthState> {
   final AuthApi api;
   final AuthRepository repo;
   final GoogleAuth googleAuth;
+
+  /// Error codes the platform plugins use when the user dismisses the Google
+  /// flow (web popup closed / mobile cancel). The seam already normalises
+  /// these to a null token; this set is a defensive backstop so a stray
+  /// PlatformException still reads as "popup closed", never a raw error.
+  static const Set<String> _googleCancelCodes = {
+    'popup_closed_by_user',
+    'sign_in_canceled',
+    'canceled',
+  };
+
+  bool _googleSignInInProgress = false;
 
   AuthController({
     required this.api,
@@ -98,12 +111,19 @@ class AuthController extends StateNotifier<AuthState> {
   ///
   /// Returns `null` on success; a user-facing message otherwise. On
   /// failure the state is always `loggedOut` with [AuthState.error] set.
+  /// Duplicate calls while a flow is already running are ignored.
   Future<String?> signInWithGoogle() async {
+    if (_googleSignInInProgress) {
+      // Re-entry guard: a second tap while the popup is open must not start
+      // a parallel flow. Return null so the caller treats it as a no-op.
+      return null;
+    }
+    _googleSignInInProgress = true;
     try {
       final idToken = await googleAuth.fetchIdToken();
       if (idToken == null || idToken.isEmpty) {
         // Popup dismissed before a token was produced (backend 400 case).
-        final msg = 'Google oturumu kapatildi. Tekrar deneyin.';
+        final msg = 'Popup kapatıldı. Tekrar deneyin.';
         state = AuthState(AuthStatus.loggedOut, error: msg);
         return msg;
       }
@@ -116,14 +136,30 @@ class AuthController extends StateNotifier<AuthState> {
     } on AuthApiException catch (e) {
       state = AuthState(AuthStatus.loggedOut, error: e.message);
       return e.message;
-    } catch (e) {
-      final msg = 'Beklenmeyen hata: $e';
+    } on PlatformException catch (e) {
+      // Should not normally reach here (seam maps cancels to null), but
+      // classify defensively so no raw platform error leaks to the user.
+      final msg = _googleCancelCodes.contains(e.code)
+          ? 'Popup kapatıldı. Tekrar deneyin.'
+          : 'Google ile giriş yapılamadı. Tekrar deneyin.';
       state = AuthState(AuthStatus.loggedOut, error: msg);
       return msg;
+    } catch (_) {
+      final msg = 'Bir şeyler ters gitti. Tekrar deneyin.';
+      state = AuthState(AuthStatus.loggedOut, error: msg);
+      return msg;
+    } finally {
+      _googleSignInInProgress = false;
     }
   }
 
   Future<void> logout() async {
+    try {
+      // Best-effort local Google sign-out; never let it block logout.
+      await googleAuth.signOut();
+    } catch (_) {
+      // Local Google session may already be gone — ignore.
+    }
     final token = await repo.loadToken();
     if (token != null) {
       try {
@@ -170,13 +206,15 @@ class AuthController extends StateNotifier<AuthState> {
 
 final authApiProvider = Provider<AuthApi>((ref) => AuthApi());
 
-/// Web Google OAuth client id, injected at build time. Empty until the
-/// C1 task wires `--dart-define=GOOGLE_CLIENT_ID_WEB=...`; the web flow
-/// fails fast with a clear message until then.
-const String googleClientId = String.fromEnvironment(
-  'GOOGLE_CLIENT_ID_WEB',
-  defaultValue: '',
-);
+/// Web Google OAuth client id, injected at build time via
+/// `--dart-define=GOOGLE_CLIENT_ID_WEB=...`. `null` until wired — the web
+/// flow then fails fast with a clear message. Nullable (never `''`) so
+/// mobile platforms don't receive an empty client id, which crashes iOS
+/// `GIDConfiguration(clientID: '')`; on mobile the plugin falls back to the
+/// client ids configured natively.
+const String? googleClientId = bool.hasEnvironment('GOOGLE_CLIENT_ID_WEB')
+    ? String.fromEnvironment('GOOGLE_CLIENT_ID_WEB')
+    : null;
 
 final googleAuthProvider = Provider<GoogleAuth>(
   (ref) => GoogleAuth(clientId: googleClientId),

@@ -1,6 +1,7 @@
 // Unit tests for the auth controller + session persistence. Uses a fake API
 // and an in-memory Drift DB — no network, no widgets.
 
+import 'package:flutter/services.dart' show PlatformException;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:drift/native.dart';
@@ -66,20 +67,30 @@ class FakeAuthApi extends AuthApi {
 }
 
 /// Fake Google OAuth seam: returns a fixed id token, or throws / returns
-/// null to simulate failure and popup-dismissed cases.
+/// null to simulate failure and popup-dismissed cases. Tracks signOut calls
+/// and can delay fetchIdToken to exercise the re-entry guard.
 class FakeGoogleAuth extends GoogleAuth {
   final String? idToken;
   final Object? error;
-  FakeGoogleAuth({this.idToken, this.error});
+  final Duration? fetchDelay;
+  Object? signOutError;
+  bool signOutCalled = false;
+  int fetchIdTokenCallCount = 0;
+  FakeGoogleAuth({this.idToken, this.error, this.fetchDelay});
 
   @override
   Future<String?> fetchIdToken() async {
+    fetchIdTokenCallCount++;
+    if (fetchDelay != null) await Future<void>.delayed(fetchDelay!);
     if (error != null) throw error!;
     return idToken;
   }
 
   @override
-  Future<void> signOut() async {}
+  Future<void> signOut() async {
+    signOutCalled = true;
+    if (signOutError != null) throw signOutError!;
+  }
 }
 
 Future<ProviderContainer> buildContainer(
@@ -256,6 +267,135 @@ void main() {
       final state = container.read(authControllerProvider);
       expect(state.isLoggedIn, isFalse);
       expect(state.error, isNotNull);
+    });
+
+    test('web popup closed (PlatformException popup_closed_by_user) maps to '
+        'friendly TR message, no raw exception leak', () async {
+      final db = AppDatabase.forTesting(NativeDatabase.memory());
+      addTearDown(() => db.close());
+      final container = await buildContainer(
+        db,
+        FakeAuthApi(),
+        googleAuth: FakeGoogleAuth(
+          error: PlatformException(code: 'popup_closed_by_user'),
+        ),
+      );
+      final auth = container.read(authControllerProvider.notifier);
+
+      final err = await auth.signInWithGoogle();
+      expect(err, 'Popup kapatıldı. Tekrar deneyin.');
+      final state = container.read(authControllerProvider);
+      expect(state.isLoggedIn, isFalse);
+      expect(state.error, 'Popup kapatıldı. Tekrar deneyin.');
+      // The raw platform exception must never reach the UI.
+      expect(state.error, isNot(contains('popup_closed_by_user')));
+    });
+
+    test('mobile cancel (sign_in_canceled) also maps to friendly TR message',
+        () async {
+      final db = AppDatabase.forTesting(NativeDatabase.memory());
+      addTearDown(() => db.close());
+      final container = await buildContainer(
+        db,
+        FakeAuthApi(),
+        googleAuth: FakeGoogleAuth(
+          error: PlatformException(code: 'sign_in_canceled'),
+        ),
+      );
+      final auth = container.read(authControllerProvider.notifier);
+
+      final err = await auth.signInWithGoogle();
+      expect(err, 'Popup kapatıldı. Tekrar deneyin.');
+      final state = container.read(authControllerProvider);
+      expect(state.error, 'Popup kapatıldı. Tekrar deneyin.');
+      expect(state.error, isNot(contains('sign_in_canceled')));
+    });
+
+    test('non-cancel PlatformException maps to generic TR message, '
+        'no raw exception leak', () async {
+      final db = AppDatabase.forTesting(NativeDatabase.memory());
+      addTearDown(() => db.close());
+      final container = await buildContainer(
+        db,
+        FakeAuthApi(),
+        googleAuth: FakeGoogleAuth(
+          error: PlatformException(
+            code: 'network_error',
+            message: 'Error 500: internal',
+          ),
+        ),
+      );
+      final auth = container.read(authControllerProvider.notifier);
+
+      final err = await auth.signInWithGoogle();
+      expect(err, 'Google ile giriş yapılamadı. Tekrar deneyin.');
+      final state = container.read(authControllerProvider);
+      expect(state.isLoggedIn, isFalse);
+      expect(state.error, 'Google ile giriş yapılamadı. Tekrar deneyin.');
+      expect(state.error, isNot(contains('network_error')));
+      expect(state.error, isNot(contains('Error 500')));
+    });
+
+    test('logout calls Google signOut (best effort) and clears session',
+        () async {
+      final db = AppDatabase.forTesting(NativeDatabase.memory());
+      addTearDown(() => db.close());
+      final googleAuth = FakeGoogleAuth(idToken: 'good-google-token');
+      final container =
+          await buildContainer(db, FakeAuthApi(), googleAuth: googleAuth);
+      final auth = container.read(authControllerProvider.notifier);
+
+      await auth.signInWithGoogle();
+      expect(container.read(authControllerProvider).isLoggedIn, isTrue);
+
+      await auth.logout();
+      expect(googleAuth.signOutCalled, isTrue);
+      final state = container.read(authControllerProvider);
+      expect(state.isLoggedIn, isFalse);
+      final repo = container.read(authRepositoryProvider);
+      expect(await repo.loadToken(), isNull);
+    });
+
+    test('logout still clears session when Google signOut throws '
+        '(best-effort, error swallowed)', () async {
+      final db = AppDatabase.forTesting(NativeDatabase.memory());
+      addTearDown(() => db.close());
+      final googleAuth = FakeGoogleAuth(idToken: 'good-google-token')
+        ..signOutError = StateError('disconnected');
+      final container =
+          await buildContainer(db, FakeAuthApi(), googleAuth: googleAuth);
+      final auth = container.read(authControllerProvider.notifier);
+
+      await auth.signInWithGoogle();
+      expect(container.read(authControllerProvider).isLoggedIn, isTrue);
+
+      await auth.logout(); // must not throw
+      expect(container.read(authControllerProvider).isLoggedIn, isFalse);
+      final repo = container.read(authRepositoryProvider);
+      expect(await repo.loadToken(), isNull);
+    });
+
+    test('re-entry guard: concurrent second call is a no-op', () async {
+      final db = AppDatabase.forTesting(NativeDatabase.memory());
+      addTearDown(() => db.close());
+      final googleAuth = FakeGoogleAuth(
+        idToken: 'good-google-token',
+        fetchDelay: const Duration(milliseconds: 50),
+      );
+      final container =
+          await buildContainer(db, FakeAuthApi(), googleAuth: googleAuth);
+      final auth = container.read(authControllerProvider.notifier);
+
+      // Both calls race while the first flow is in flight: the guard must
+      // let only ONE fetchIdToken through; the second call is a no-op.
+      await Future.wait([
+        auth.signInWithGoogle(),
+        auth.signInWithGoogle(),
+      ]);
+      expect(googleAuth.fetchIdTokenCallCount, 1);
+      final state = container.read(authControllerProvider);
+      expect(state.isLoggedIn, isTrue);
+      expect(state.user?.email, 'user@example.com');
     });
   });
 }
