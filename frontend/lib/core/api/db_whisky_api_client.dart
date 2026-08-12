@@ -62,8 +62,16 @@ class DbWhiskyApiClient {
         if (json) 'Content-Type': 'application/json',
       };
 
+  String _basePath(String endpoint) {
+    if (_token == null) {
+      return '${AppConfig.baseUrl}/api/db/public$endpoint';
+    }
+    return '${AppConfig.baseUrl}/api/db$endpoint';
+  }
+
   Future<Map<String, dynamic>> health() async {
-    final uri = Uri.parse('${AppConfig.baseUrl}/api/db/health');
+    await _ensureToken();
+    final uri = Uri.parse(_basePath('/health'));
     final response = await _client.get(uri, headers: _headers());
     if (response.statusCode == 200) {
       return jsonDecode(utf8.decode(response.bodyBytes));
@@ -72,7 +80,8 @@ class DbWhiskyApiClient {
   }
 
   Future<Map<String, dynamic>> schema() async {
-    final uri = Uri.parse('${AppConfig.baseUrl}/api/db/schema');
+    await _ensureToken();
+    final uri = Uri.parse(_basePath('/schema'));
     final response = await _client.get(uri, headers: _headers());
     if (response.statusCode == 200) {
       return jsonDecode(utf8.decode(response.bodyBytes));
@@ -83,6 +92,9 @@ class DbWhiskyApiClient {
   Future<DbPaginatedResponse<Map<String, dynamic>>> getWhiskies({int limit = 50, int offset = 0, String? q, String? filter}) async {
     await _ensureToken();
     String url = '${AppConfig.baseUrl}/api/db/whiskies?limit=$limit&offset=$offset';
+    if (_token == null) {
+      url = '${AppConfig.baseUrl}/api/db/public/whiskies?limit=$limit&offset=$offset';
+    }
     if (q != null && q.isNotEmpty) {
       url += '&q=${Uri.encodeComponent(q)}';
     }
@@ -112,7 +124,7 @@ class DbWhiskyApiClient {
 
   Future<Map<String, dynamic>?> getWhiskyById(String id) async {
     await _ensureToken();
-    final uri = Uri.parse('${AppConfig.baseUrl}/api/db/whiskies/${Uri.encodeComponent(id)}');
+    final uri = Uri.parse('${_basePath('/whiskies')}/${Uri.encodeComponent(id)}');
     final response = await _client.get(uri, headers: _headers());
     if (response.statusCode == 200) {
       return jsonDecode(utf8.decode(response.bodyBytes));
@@ -124,7 +136,7 @@ class DbWhiskyApiClient {
 
   Future<DbPaginatedResponse<Map<String, dynamic>>> getDistilleries({int limit = 50, int offset = 0, String? q}) async {
     await _ensureToken();
-    String url = '${AppConfig.baseUrl}/api/db/distilleries?limit=$limit&offset=$offset';
+    String url = '${_basePath('/distilleries')}?limit=$limit&offset=$offset';
     if (q != null && q.isNotEmpty) {
       url += '&q=${Uri.encodeComponent(q)}';
     }
@@ -151,7 +163,7 @@ class DbWhiskyApiClient {
 
   Future<Map<String, dynamic>?> getDistilleryById(String id) async {
     await _ensureToken();
-    final uri = Uri.parse('${AppConfig.baseUrl}/api/db/distilleries/${Uri.encodeComponent(id)}');
+    final uri = Uri.parse('${_basePath('/distilleries')}/${Uri.encodeComponent(id)}');
     final response = await _client.get(uri, headers: _headers());
     if (response.statusCode == 200) {
       return jsonDecode(utf8.decode(response.bodyBytes));
@@ -163,7 +175,7 @@ class DbWhiskyApiClient {
 
   Future<Map<String, dynamic>?> getFlavorProfile(String whiskyId) async {
     await _ensureToken();
-    final uri = Uri.parse('${AppConfig.baseUrl}/api/db/whiskies/${Uri.encodeComponent(whiskyId)}/flavor-profile');
+    final uri = Uri.parse('${_basePath('/whiskies')}/${Uri.encodeComponent(whiskyId)}/flavor-profile');
     final response = await _client.get(uri, headers: _headers());
     if (response.statusCode == 200) {
       return jsonDecode(utf8.decode(response.bodyBytes));
@@ -207,7 +219,7 @@ class DbWhiskyApiClient {
   Future<List<Map<String, dynamic>>> search(String q) async {
     if (q.trim().isEmpty) return [];
     await _ensureToken();
-    final uri = Uri.parse('${AppConfig.baseUrl}/api/db/search?q=${Uri.encodeComponent(q)}');
+    final uri = Uri.parse('${_basePath('/search')}?q=${Uri.encodeComponent(q)}');
     final response = await _client.get(uri, headers: _headers());
     if (response.statusCode == 200) {
       final List<dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));

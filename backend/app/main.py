@@ -4,11 +4,12 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
 from slowapi.errors import RateLimitExceeded
+from slowapi import _rate_limit_exceeded_handler
 
 from app.security import limiter, verify_api_key, API_KEY_HEADER
-from app.security import _rate_limit_exceeded_handler
 from app.routers import admin_review
 from app.routers import db_api
+from app.routers import db_public_api
 from app.auth.routes import router as auth_router
 
 app = FastAPI(
@@ -31,10 +32,13 @@ app.include_router(admin_review.router)
 # Include new Read-Only DB API router (per-user bearer-authenticated catalog)
 app.include_router(db_api.router)
 
+# Include Public DB API router (unauthenticated bounded catalog)
+app.include_router(db_public_api.router)
+
 # Include auth + per-user sync router (separate from the whisky production DB)
 app.include_router(auth_router)
 
-# Security: Enforce strict CORS policy. Wildcards are strictly forbidden.
+# Security: Enforce strict CORS policy.
 allowed_origins_env = os.getenv("MALT_RADAR_ALLOWED_ORIGINS", "")
 if allowed_origins_env:
     allowed_origins = [o.strip() for o in allowed_origins_env.split(",")]
@@ -46,13 +50,14 @@ else:
         "http://localhost:8888",
     ]
 
+allow_creds = True
 if "*" in allowed_origins:
-    raise ValueError("Wildcard '*' is not allowed in CORS origins. Please specify explicit origins.")
+    allow_creds = False
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,
-    allow_credentials=True,
+    allow_credentials=allow_creds,
     allow_methods=["*"],
     allow_headers=["*"],
 )

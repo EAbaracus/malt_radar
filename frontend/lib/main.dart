@@ -23,19 +23,20 @@ class MaltRadarApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final age = ref.watch(ageGateProvider);
     final auth = ref.watch(authControllerProvider);
+    final isGuest = ref.watch(guestModeProvider);
 
     return MaterialApp(
       title: 'Malt Radar',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.darkTheme,
-      home: _homeFor(age, auth, ref),
+      home: _homeFor(age, auth, isGuest, ref),
     );
   }
 
   /// Routes the entry screen through the compliance age gate. None of the
   /// product content renders until the user confirms they are of legal
   /// drinking age in their country.
-  Widget _homeFor(AgeGateDecision age, AuthState auth, WidgetRef ref) {
+  Widget _homeFor(AgeGateDecision age, AuthState auth, bool isGuest, WidgetRef ref) {
     switch (age.status) {
       case AgeGateStatus.unknown:
         return const _GateLoadingScaffold();
@@ -44,11 +45,11 @@ class MaltRadarApp extends ConsumerWidget {
       case AgeGateStatus.blocked:
         return const AgeGateBlockedScreen();
       case AgeGateStatus.consented:
-        return _mainHome(auth, ref);
+        return _mainHome(auth, isGuest, ref);
     }
   }
 
-  Widget _mainHome(AuthState auth, WidgetRef ref) {
+  Widget _mainHome(AuthState auth, bool isGuest, WidgetRef ref) {
     final initAsync = ref.watch(appInitializationProvider);
 
     // Handle init states first
@@ -104,7 +105,7 @@ class MaltRadarApp extends ConsumerWidget {
         ),
       );
     }
-    if (!auth.isLoggedIn) {
+    if (!auth.isLoggedIn && !isGuest) {
       return const AuthScreen();
     }
     return const MainNavigationScreen();

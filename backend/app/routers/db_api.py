@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, Query, Depends, Request
-from typing import Optional, List, Dict, Any
+from typing import Optional, List, Any
 import os
 import sqlite3
 from app.services.db_read_service import DbReadService, CatalogBoundsError
@@ -26,7 +26,7 @@ def get_service() -> DbReadService:
 def get_health(request: Request, service: DbReadService = Depends(get_service)):
     try:
         return service.get_health()
-    except Exception as e:
+    except Exception:
         raise HTTPException(status_code=503, detail="Database connection failed")
 
 @router.get("/whiskies")

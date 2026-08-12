@@ -7,6 +7,10 @@ from app.db.review_action_writer import ReviewActionWriter  # Faz B: write ayrı
 from app.utils.shared_paths import ALLOWED_TABLES as ALLOWED_TABLES_REVIEW  # review tabloları
 
 class ReviewQueryService:
+    # Class-level cache for table columns to avoid repeated PRAGMA queries
+    # Format: { db_path: { table_name: [columns] } }
+    _schema_cache: Dict[str, Dict[str, List[str]]] = {}
+
     def __init__(self, db_path: str = None):
         if db_path is None:
             db_path = os.getenv("MALT_RADAR_DB_PATH", "output/import/production.db")

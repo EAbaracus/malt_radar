@@ -6,7 +6,7 @@ from __future__ import annotations
 
 from typing import Any, Dict, List, Optional
 
-from pydantic import BaseModel, EmailStr, Field, field_validator
+from pydantic import BaseModel, Field, field_validator
 
 # EmailStr requires `email-validator`; avoid the extra dependency and validate
 # with a lightweight regex instead.

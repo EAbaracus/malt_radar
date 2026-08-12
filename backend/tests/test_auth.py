@@ -78,6 +78,55 @@ def test_register_rejects_without_consent(client):
     assert r.status_code == 422
 
 
+def test_register_rejects_omitted_consent(client):
+    r = client.post(
+        "/api/auth/register",
+        json={
+            "email": "omitted@b.com",
+            "password": "s3curePass",
+            "age_country": "US",
+            "age_min": 21,
+        },
+    )
+    assert r.status_code == 422
+
+
+def test_register_rejects_missing_age_gate(client):
+    r1 = client.post(
+        "/api/auth/register",
+        json={
+            "email": "age1@b.com",
+            "password": "s3curePass",
+            "privacy_consent": True,
+            "age_min": 21,
+        },
+    )
+    assert r1.status_code == 422
+
+    r2 = client.post(
+        "/api/auth/register",
+        json={
+            "email": "age2@b.com",
+            "password": "s3curePass",
+            "privacy_consent": True,
+            "age_country": "",
+            "age_min": 21,
+        },
+    )
+    assert r2.status_code == 422
+
+    r3 = client.post(
+        "/api/auth/register",
+        json={
+            "email": "age3@b.com",
+            "password": "s3curePass",
+            "privacy_consent": True,
+            "age_country": "US",
+        },
+    )
+    assert r3.status_code == 422
+
+
 def test_register_duplicate_email(client):
     payload = {
         "email": "dup@example.com",
@@ -112,6 +161,30 @@ def test_login_rejects_bad_password_and_unknown_email(client):
     assert r1.status_code == 401
     assert r2.status_code == 401
     assert r1.json()["detail"] == r2.json()["detail"]  # no user enumeration
+
+
+def test_login_verify_password_mocked_failure(client, monkeypatch):
+    client.post(
+        "/api/auth/register",
+        json={
+            "email": "c@example.com",
+            "password": "s3curePass",
+            "age_country": "US",
+            "age_min": 21,
+            "privacy_consent": True,
+        },
+    )
+
+    # Force verify_password to return False regardless of inputs
+    monkeypatch.setattr("app.auth.routes.verify_password", lambda pw, hash: False)
+
+    r = client.post(
+        "/api/auth/login",
+        json={"email": "c@example.com", "password": "s3curePass"},
+    )
+
+    assert r.status_code == 401
+    assert r.json()["detail"] == "Invalid email or password"
 
 
 def test_logout_invalidates_session(client):
@@ -184,6 +257,36 @@ def test_me_requires_token(client):
     assert client.get("/api/auth/me").status_code == 401
 
 
+def test_sync_pull_mocked(client, monkeypatch):
+    reg = client.post(
+        "/api/auth/register",
+        json={
+            "email": "mockpull@example.com",
+            "password": "s3curePass",
+            "age_country": "TR",
+            "age_min": 18,
+            "privacy_consent": True,
+        },
+    ).json()
+    token = reg["token"]
+
+    mocked_data = {
+        "favorites": [{"whisky_id": "w_mock", "updated_at": "2026-01-02T00:00:00Z"}],
+        "scores": [{"whisky_id": "w_mock", "score": 90, "updated_at": "2026-01-02T00:00:00Z"}],
+        "lists": [],
+        "items": []
+    }
+
+    def mock_sync_pull_all(self, uid):
+        return mocked_data
+
+    monkeypatch.setattr(UserStore, "sync_pull_all", mock_sync_pull_all)
+
+    pull = client.get("/api/auth/sync/pull", headers=_auth(token))
+    assert pull.status_code == 200
+    assert pull.json() == mocked_data
+
+
 def test_sync_push_pull(client):
     reg = client.post(
         "/api/auth/register",
@@ -247,6 +350,52 @@ def test_sync_push_pull(client):
     assert push_older.json()["counts"]["scores"] == 0
     pull2 = client.get("/api/auth/sync/pull", headers=_auth(token)).json()
     assert pull2["scores"][0]["score"] == 85
+
+
+def test_sync_push_payload_processing(client):
+    from unittest.mock import patch
+
+    reg = client.post(
+        "/api/auth/register",
+        json={
+            "email": "sync_mock@example.com",
+            "password": "s3curePass",
+            "age_country": "TR",
+            "age_min": 18,
+            "privacy_consent": True,
+        },
+    ).json()
+    token = reg["token"]
+
+    payload = {
+        "favorites": [{"whisky_id": "w1", "updated_at": "2026-01-02T00:00:00Z"}],
+        "scores": [],
+        "notes": [{"whisky_id": "w2", "note": "Great", "updated_at": "2026-01-02T00:00:00Z"}],
+        "lists": [],
+        "items": []
+    }
+
+    with patch("app.auth.store.UserStore.sync_push", return_value=1) as mock_sync_push:
+        push = client.post(
+            "/api/auth/sync/push",
+            headers=_auth(token),
+            json=payload,
+        )
+
+        assert push.status_code == 200, push.text
+
+        data = push.json()["counts"]
+        assert data["favorites"] == 1
+        assert data["scores"] == 0
+        assert data["notes"] == 1
+        assert data["lists"] == 0
+        assert data["items"] == 0
+
+        # Assert sync_push was called only for favorites and notes
+        assert mock_sync_push.call_count == 2
+        calls = mock_sync_push.call_args_list
+        called_kinds = {c.args[1] for c in calls}
+        assert called_kinds == {"favorites", "notes"}
 
 
 def test_delete_account_erases_user_and_sync(client):
