@@ -10,6 +10,7 @@ import 'package:malt_radar/core/localization/localization_provider.dart';
 import 'package:malt_radar/core/theme/app_theme.dart';
 import 'auth_controller.dart';
 import 'google_sign_in_messages.dart';
+import '../data/google_auth_script_loader.dart';
 
 /// Web-only official Google sign-in button backed by the GSI `renderButton`
 /// widget.
@@ -37,14 +38,32 @@ class GoogleSignInWebButton extends ConsumerStatefulWidget {
 class _GoogleSignInWebButtonState extends ConsumerState<GoogleSignInWebButton> {
   StreamSubscription<GoogleSignInAuthenticationEvent>? _sub;
   bool _busy = false;
+  bool _gsiReady = false;
 
   @override
   void initState() {
     super.initState();
+    _init();
     _sub = GoogleSignIn.instance.authenticationEvents.listen(
       _onSignIn,
       onError: _onError,
     );
+  }
+
+  /// Ensures the Google Identity Services client is initialized (which also
+  /// loads the GSI script on web) before [gsi_web.renderButton] can render.
+  ///
+  /// Root cause of the "Getting ready" hang / popup that never produces a
+  /// token: the web button previously called `renderButton` without ever
+  /// calling `GoogleSignIn.instance.initialize(clientId:)` — GSI had no
+  /// configured client, so the button stayed in its loading placeholder and
+  /// any popup could not mint a credential. Initialization is delegated to
+  /// [GoogleAuthScriptLoader] for flag gating + safe (no-retry) failure.
+  Future<void> _init() async {
+    final clientId = ref.read(googleAuthProvider).clientId;
+    final ok = await GoogleAuthScriptLoader.instance.loadScript(clientId: clientId);
+    if (!mounted) return;
+    setState(() => _gsiReady = ok);
   }
 
   void _onSignIn(GoogleSignInAuthenticationEvent event) {
@@ -107,6 +126,11 @@ class _GoogleSignInWebButtonState extends ConsumerState<GoogleSignInWebButton> {
         height: 48,
         child: Center(child: BrandSpinner()),
       );
+    }
+    if (!_gsiReady) {
+      // GSI client not initialized (script blocked, flag off, or failure).
+      // Render nothing instead of Google's stuck "Getting ready" iframe.
+      return const SizedBox(height: 48);
     }
     // The GSI-rendered button fills the available width; constrain its height
     // so it aligns with the mobile button.

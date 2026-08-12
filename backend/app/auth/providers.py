@@ -72,6 +72,12 @@ class GoogleIdentityVerifier:
                 id_token,
                 self._requests.Request(),
                 audience=self.audience,
+                # Google's JWT `iat` is stamped with Google server time; a
+                # client machine clock only a couple of seconds behind makes
+                # the strict default (0s skew) reject valid tokens with
+                # "Token used too early". Allow ±5 minutes, matching the
+                # tolerance google-auth documents for distributed clocks.
+                clock_skew_in_seconds=300,
             )
             return dict(claims)
         except InvalidTokenError:

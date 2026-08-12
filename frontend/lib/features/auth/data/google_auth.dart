@@ -48,6 +48,11 @@ class GoogleAuth {
   /// never pass `''` through.
   GoogleAuth({this._clientId, this._scopes = const ['email']});
 
+  /// Web OAuth client id (`--dart-define=GOOGLE_CLIENT_ID_WEB`). Null on
+  /// mobile. Exposed so the web GSI button can initialize the plugin with the
+  /// same id used by the interactive flow.
+  String? get clientId => _clientId;
+
   /// Runs the interactive Google sign-in flow and returns the OAuth ID token.
   ///
   /// `null` means the flow was dismissed (popup closed) — never an exception.
