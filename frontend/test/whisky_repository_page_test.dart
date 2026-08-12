@@ -50,7 +50,7 @@ void main() {
       );
     });
 
-    final repo = DbWhiskyRepositoryImpl(db, DbWhiskyApiClient(client: mock));
+    final repo = DbWhiskyRepositoryImpl(db, DbWhiskyApiClient(client: mock)..setToken('test-token'));
     final page = await repo.getWhiskiesPage(offset: 100, limit: 50);
 
     // The request URL must carry the requested page window.
@@ -85,7 +85,7 @@ void main() {
       );
     });
 
-    final repo = DbWhiskyRepositoryImpl(db, DbWhiskyApiClient(client: mock));
+    final repo = DbWhiskyRepositoryImpl(db, DbWhiskyApiClient(client: mock)..setToken('test-token'));
     await repo.getWhiskiesPage(offset: 0, limit: 25, filter: 'peated');
 
     expect(captured, isNotNull);

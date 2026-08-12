@@ -331,22 +331,35 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
               ),
               const SizedBox(height: 12),
               TextButton(
-                onPressed: _busy
-                    ? null
-                    : () => setState(
-                        () => _mode = _mode == AuthMode.login
-                            ? AuthMode.register
-                            : AuthMode.login,
-                      ),
+                onPressed: () {
+                  setState(() {
+                    _mode = _mode == AuthMode.login
+                        ? AuthMode.register
+                        : AuthMode.login;
+                  });
+                },
                 child: Text(
                   _mode == AuthMode.login
                       ? (isTr
-                            ? 'Hesabın yok mu? Kayıt ol'
-                            : 'No account? Create one')
+                          ? 'Hesabın yok mu? Kaydol'
+                          : "Don't have an account? Sign up")
                       : (isTr
-                            ? 'Zaten hesabın var? Giriş yap'
-                            : 'Already have an account? Sign in'),
+                          ? 'Zaten hesabın var? Giriş yap'
+                          : 'Already have an account? Sign in'),
                   style: const TextStyle(color: AppTheme.textSecondary),
+                ),
+              ),
+              const SizedBox(height: 8),
+              TextButton(
+                onPressed: () {
+                  ref.read(guestModeProvider.notifier).state = true;
+                },
+                child: Text(
+                  isTr ? 'Misafir Olarak İncele' : 'Explore as Guest',
+                  style: const TextStyle(
+                    color: AppTheme.primary,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ],

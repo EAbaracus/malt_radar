@@ -304,6 +304,8 @@ final authControllerProvider = StateNotifierProvider<AuthController, AuthState>(
   },
 );
 
+final guestModeProvider = StateProvider<bool>((ref) => false);
+
 final syncServiceProvider = Provider<SyncService>((ref) {
   final db = ref.watch(appDatabaseProvider);
   final api = ref.watch(authApiProvider);
