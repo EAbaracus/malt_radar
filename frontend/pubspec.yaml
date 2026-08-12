@@ -61,6 +61,7 @@ dev_dependencies:
   build_runner: ^2.15.0
   drift_dev: ^2.33.0
   flutter_launcher_icons: ^0.14.1
+  google_sign_in_platform_interface: ^3.1.0 # F5 test seam: GoogleSignInException/Code
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

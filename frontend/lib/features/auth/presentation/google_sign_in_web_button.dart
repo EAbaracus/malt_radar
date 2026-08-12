@@ -7,5 +7,7 @@
 /// `kIsWeb` guard, so the stub is never built off-web — and the
 /// `package:google_sign_in_web` / `package:web` imports never load on mobile or
 /// in the unit-test VM (which runs non-web).
+library;
+
 export 'google_sign_in_web_button_stub.dart'
     if (dart.library.html) 'google_sign_in_web_button_web.dart';
