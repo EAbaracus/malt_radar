@@ -239,7 +239,7 @@ class DbReadService:
         # after the DB query would scatter matches across page boundaries and
         # the client's short-page/empty-page detection would stop early).
         if filter:
-            cond, fparams = self._filter_to_sql(filter)
+            cond, fparams = self._prepare_chip_filter(filter)
             if cond:
                 query += f" AND ({cond})"
                 params.extend(fparams)
@@ -262,7 +262,7 @@ class DbReadService:
             "offset": offset,
         }
 
-    def _filter_to_sql(self, filter: str):
+    def _prepare_chip_filter(self, filter: str):
         """Translate a comma-separated chip list into (sql_cond, params).
 
         Chips are AND-ed together; the category/region/flavor vocab mirrors
