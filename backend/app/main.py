@@ -4,9 +4,9 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
 from slowapi.errors import RateLimitExceeded
+from slowapi import _rate_limit_exceeded_handler
 
 from app.security import limiter, verify_api_key, API_KEY_HEADER
-from app.security import _rate_limit_exceeded_handler
 from app.routers import admin_review
 from app.routers import db_api
 from app.auth.routes import router as auth_router

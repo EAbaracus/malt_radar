@@ -1,7 +1,6 @@
 import csv
 import re
 import os
-import json
 from thefuzz import fuzz
 
 def normalize_name(name):
