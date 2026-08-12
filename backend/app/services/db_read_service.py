@@ -459,13 +459,12 @@ class DbReadService:
         return result
 
     def get_tasting_notes(self, whisky_id: str) -> List[Dict[str, Any]]:
-        # Faz B2: adapter.query → universal price redaction.
-        # NOT: tasting_notes'de created_at kolonu yok (source_entry_number var);
-        # order_by kaldırıldı.
+        # Faz B2: adapter.query → universal price redaction (tasting_notes'de yok ama defans)
         return self._adapter.query(
             "tasting_notes",
             where="whisky_id = ?",
             params=(whisky_id,),
+            order_by="created_at ASC",
         )
 
     def get_price_history(self, whisky_id: str) -> List[Dict[str, Any]]:
