@@ -40,11 +40,17 @@ maltradar.com {
         file_server
         try_files {path} /index.html
         header Cache-Control "no-cache"
+        # Google Sign-In popup iletişimi (window.closed + postMessage) için şart:
+        # accounts.google.com COOP header'ı gönderir; parent'ın COOP'u katıysa
+        # token parent'a ulaşamaz (google_sign_in_web bilinen sorun). Google'ın
+        # resmi önerisi: same-origin-allow-popups.
+        header Cross-Origin-Opener-Policy "same-origin-allow-popups"
     }
     handle {
         file_server
         try_files {path} /index.html
         header Cache-Control "public, max-age=31536000"
+        header Cross-Origin-Opener-Policy "same-origin-allow-popups"
     }
 
     # Crawlers: catalog is served only via the API layer.
