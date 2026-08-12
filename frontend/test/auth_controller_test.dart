@@ -16,6 +16,8 @@ import 'package:malt_radar/features/whisky/presentation/controllers/whisky_provi
 
 class FakeAuthApi extends AuthApi {
   String? serverToken;
+  int signInWithGoogleCallCount = 0;
+  Duration? signInDelay;
   Map<String, dynamic> _user() => {
         'id': 1,
         'email': 'user@example.com',
@@ -38,6 +40,8 @@ class FakeAuthApi extends AuthApi {
 
   @override
   Future<Map<String, dynamic>> signInWithGoogle(String idToken) async {
+    signInWithGoogleCallCount++;
+    if (signInDelay != null) await Future<void>.delayed(signInDelay!);
     if (idToken != 'good-google-token') {
       // Mirrors the backend contract: 401 for an invalid/expired token.
       throw AuthApiException('Gecersiz Google kimlik dogrulamasi');
@@ -447,6 +451,82 @@ void main() {
       final state = container.read(authControllerProvider);
       expect(state.isLoggedIn, isTrue);
       expect(state.user?.email, 'user@example.com');
+    });
+  });
+
+  // F5: web GSI `renderButton` credential-exchange path (AuthController
+  // .signInWithGoogleFromCredential). This is the web counterpart of
+  // signInWithGoogle(): it takes the id token Google delivers via the
+  // authenticationEvents stream and performs the SAME backend exchange. It does
+  // not touch the GoogleAuth seam, so it runs on the non-web test VM.
+  group('google web renderButton credential exchange', () {
+    test('successful credential logs in and persists the session', () async {
+      final db = AppDatabase.forTesting(NativeDatabase.memory());
+      addTearDown(() => db.close());
+      final api = FakeAuthApi();
+      final container = await buildContainer(db, api);
+      final auth = container.read(authControllerProvider.notifier);
+
+      final err = await auth.signInWithGoogleFromCredential('good-google-token');
+      expect(err, isNull);
+      final state = container.read(authControllerProvider);
+      expect(state.isLoggedIn, isTrue);
+      expect(state.user?.email, 'user@example.com');
+      expect(state.error, isNull);
+      // Same persistence path as the mobile/email login.
+      final repo = container.read(authRepositoryProvider);
+      expect(await repo.loadToken(), 'tok-google');
+      expect((await repo.loadUser())?.email, 'user@example.com');
+      expect(api.signInWithGoogleCallCount, 1);
+    });
+
+    test('empty credential reads as google_popup_closed (no raw leak)',
+        () async {
+      final db = AppDatabase.forTesting(NativeDatabase.memory());
+      addTearDown(() => db.close());
+      final container = await buildContainer(db, FakeAuthApi());
+      final auth = container.read(authControllerProvider.notifier);
+
+      final err = await auth.signInWithGoogleFromCredential('');
+      expect(err, 'google_popup_closed');
+      final state = container.read(authControllerProvider);
+      expect(state.isLoggedIn, isFalse);
+      expect(state.error, 'google_popup_closed');
+    });
+
+    test('backend rejection keeps loggedOut and sets the server message',
+        () async {
+      final db = AppDatabase.forTesting(NativeDatabase.memory());
+      addTearDown(() => db.close());
+      final container = await buildContainer(db, FakeAuthApi());
+      final auth = container.read(authControllerProvider.notifier);
+
+      // Server-provided messages pass through unlocalized (same as mobile).
+      final err = await auth.signInWithGoogleFromCredential('expired-token');
+      expect(err, 'Gecersiz Google kimlik dogrulamasi');
+      final state = container.read(authControllerProvider);
+      expect(state.isLoggedIn, isFalse);
+      expect(state.error, 'Gecersiz Google kimlik dogrulamasi');
+    });
+
+    test('re-entry guard: concurrent deliveries run only one backend exchange',
+        () async {
+      final db = AppDatabase.forTesting(NativeDatabase.memory());
+      addTearDown(() => db.close());
+      final api = FakeAuthApi()..signInDelay = const Duration(milliseconds: 50);
+      final container = await buildContainer(db, api);
+      final auth = container.read(authControllerProvider.notifier);
+
+      // Two GSI credential deliveries race while the first is in flight; the
+      // shared guard must let only ONE backend exchange through.
+      await Future.wait([
+        auth.signInWithGoogleFromCredential('good-google-token'),
+        auth.signInWithGoogleFromCredential('good-google-token'),
+      ]);
+      final state = container.read(authControllerProvider);
+      expect(state.isLoggedIn, isTrue);
+      expect(api.signInWithGoogleCallCount, 1,
+          reason: 'only one backend exchange despite two deliveries');
     });
   });
 

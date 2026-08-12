@@ -106,16 +106,40 @@ class AuthController extends StateNotifier<AuthState> {
     }
   }
 
-  /// Google sign-in: interactive OAuth flow -> id token -> backend
-  /// `POST /api/auth/google` -> session persisted through the SAME
-  /// [AuthRepository.saveSession] path as email login.
+  /// Exchanges a Google id token with the backend and persists the resulting
+  /// session. Shared by the mobile `authenticate()` path ([signInWithGoogle])
+  /// and the web GSI `renderButton` path ([signInWithGoogleFromCredential]) so
+  /// both funnel through the SAME [AuthRepository.saveSession] write path as
+  /// email login.
+  ///
+  /// Returns `null` on success; a semantic error code otherwise
+  /// (`google_unknown`, or the backend's `AuthApiException` message passed
+  /// through unchanged, same as email login). The UI layer localizes codes to
+  /// user-facing text and [AuthState.error] carries the same code.
+  Future<String?> _completeGoogleSignIn(String idToken) async {
+    try {
+      final res = await api.signInWithGoogle(idToken);
+      final user = AuthUser.fromJson(res['user'] as Map<String, dynamic>);
+      final token = res['token'] as String;
+      await repo.saveSession(token, user);
+      state = AuthState(AuthStatus.loggedIn, user: user);
+      return null;
+    } on AuthApiException catch (e) {
+      state = AuthState(AuthStatus.loggedOut, error: e.message);
+      return e.message;
+    } catch (_) {
+      state = const AuthState(AuthStatus.loggedOut, error: 'google_unknown');
+      return 'google_unknown';
+    }
+  }
+
+  /// Mobile Google sign-in: interactive OAuth flow (`authenticate()`) -> id
+  /// token -> backend exchange via [_completeGoogleSignIn].
   ///
   /// Returns `null` on success; a semantic error code otherwise
   /// (`google_popup_closed` / `google_sign_in_failed` / `google_unknown`).
-  /// The UI layer localizes codes to user-facing text and [AuthState.error]
-  /// carries the same code. Backend `AuthApiException` messages pass
-  /// through unchanged (same as email login). Duplicate calls while a flow
-  /// is already running are ignored.
+  /// Duplicate calls while a flow is already running are ignored (re-entry
+  /// guard shared with [signInWithGoogleFromCredential]).
   Future<String?> signInWithGoogle() async {
     if (_googleSignInInProgress) {
       // Re-entry guard: a second tap while the popup is open must not start
@@ -133,12 +157,7 @@ class AuthController extends StateNotifier<AuthState> {
         );
         return 'google_popup_closed';
       }
-      final res = await api.signInWithGoogle(idToken);
-      final user = AuthUser.fromJson(res['user'] as Map<String, dynamic>);
-      final token = res['token'] as String;
-      await repo.saveSession(token, user);
-      state = AuthState(AuthStatus.loggedIn, user: user);
-      return null;
+      return await _completeGoogleSignIn(idToken);
     } on AuthApiException catch (e) {
       state = AuthState(AuthStatus.loggedOut, error: e.message);
       return e.message;
@@ -160,6 +179,42 @@ class AuthController extends StateNotifier<AuthState> {
           : 'google_sign_in_failed';
       state = AuthState(AuthStatus.loggedOut, error: code);
       return code;
+    } catch (_) {
+      state = const AuthState(AuthStatus.loggedOut, error: 'google_unknown');
+      return 'google_unknown';
+    } finally {
+      _googleSignInInProgress = false;
+    }
+  }
+
+  /// Web GSI `renderButton` path. The id token is delivered by Google's
+  /// `authenticationEvents` stream after the user completes the native GSI
+  /// button flow (see `GoogleSignInWebButton`). It performs only the backend
+  /// exchange via [_completeGoogleSignIn] — no `authenticate()` popup, so no
+  /// COOP header is required on web.
+  ///
+  /// Returns `null` on success; a semantic error code otherwise
+  /// (`google_popup_closed` for an empty/missing token, `google_unknown` on an
+  /// unexpected failure, or the backend's message passed through). Duplicate
+  /// deliveries while a flow is in flight are ignored (re-entry guard shared
+  /// with [signInWithGoogle]).
+  Future<String?> signInWithGoogleFromCredential(String idToken) async {
+    if (_googleSignInInProgress) {
+      // Re-entry guard: a second GSI credential delivery while the first is
+      // still being exchanged must not start a parallel flow.
+      return null;
+    }
+    _googleSignInInProgress = true;
+    try {
+      if (idToken.isEmpty) {
+        // GSI delivered a sign-in event without a usable token.
+        state = const AuthState(
+          AuthStatus.loggedOut,
+          error: 'google_popup_closed',
+        );
+        return 'google_popup_closed';
+      }
+      return await _completeGoogleSignIn(idToken);
     } catch (_) {
       state = const AuthState(AuthStatus.loggedOut, error: 'google_unknown');
       return 'google_unknown';
