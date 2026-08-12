@@ -184,6 +184,36 @@ def test_me_requires_token(client):
     assert client.get("/api/auth/me").status_code == 401
 
 
+def test_sync_pull_mocked(client, monkeypatch):
+    reg = client.post(
+        "/api/auth/register",
+        json={
+            "email": "mockpull@example.com",
+            "password": "s3curePass",
+            "age_country": "TR",
+            "age_min": 18,
+            "privacy_consent": True,
+        },
+    ).json()
+    token = reg["token"]
+
+    mocked_data = {
+        "favorites": [{"whisky_id": "w_mock", "updated_at": "2026-01-02T00:00:00Z"}],
+        "scores": [{"whisky_id": "w_mock", "score": 90, "updated_at": "2026-01-02T00:00:00Z"}],
+        "lists": [],
+        "items": []
+    }
+
+    def mock_sync_pull_all(self, uid):
+        return mocked_data
+
+    monkeypatch.setattr(UserStore, "sync_pull_all", mock_sync_pull_all)
+
+    pull = client.get("/api/auth/sync/pull", headers=_auth(token))
+    assert pull.status_code == 200
+    assert pull.json() == mocked_data
+
+
 def test_sync_push_pull(client):
     reg = client.post(
         "/api/auth/register",
