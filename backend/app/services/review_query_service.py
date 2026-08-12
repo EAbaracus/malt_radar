@@ -6,6 +6,10 @@ from typing import List, Dict, Any
 from app.utils.source_guard import SourceGuard
 
 class ReviewQueryService:
+    # Class-level cache for table columns to avoid repeated PRAGMA queries
+    # Format: { db_path: { table_name: [columns] } }
+    _schema_cache: Dict[str, Dict[str, List[str]]] = {}
+
     def __init__(self, db_path: str = None):
         if db_path is None:
             db_path = os.getenv("MALT_RADAR_DB_PATH", "output/import/production.db")
@@ -18,6 +22,20 @@ class ReviewQueryService:
         self._write_path = abs_db_path
         self.db_path = f"file:{abs_db_path}?mode=ro"
         
+    def _get_table_columns(self, table_name: str, cursor: sqlite3.Cursor) -> List[str]:
+        if self.db_path not in self._schema_cache:
+            self._schema_cache[self.db_path] = {}
+
+        if table_name not in self._schema_cache[self.db_path]:
+            try:
+                cursor.execute(f"PRAGMA table_info({table_name})")
+                cols = [row['name'] for row in cursor.fetchall()]
+                self._schema_cache[self.db_path][table_name] = cols
+            except sqlite3.OperationalError:
+                self._schema_cache[self.db_path][table_name] = []
+
+        return self._schema_cache[self.db_path][table_name]
+
     def _get_connection(self):
         conn = sqlite3.connect(self.db_path, uri=True)
         conn.execute("PRAGMA foreign_keys = ON")
@@ -36,11 +54,7 @@ class ReviewQueryService:
         
         selects = []
         for t in tables:
-            try:
-                cursor.execute(f"PRAGMA table_info({t})")
-                cols = [row['name'] for row in cursor.fetchall()]
-            except sqlite3.OperationalError:
-                continue
+            cols = self._get_table_columns(t, cursor)
             if not cols:
                 continue
                 
@@ -124,8 +138,7 @@ class ReviewQueryService:
         cursor = conn.cursor()
         
         # Check column using safe_table
-        cursor.execute(f"PRAGMA table_info({safe_table})")
-        cols = [r['name'] for r in cursor.fetchall()]
+        cols = self._get_table_columns(safe_table, cursor)
         key_col = "queue_id" if safe_table == 'staging_manual_review_queue' else "source_record_key"
         if key_col not in cols:
             conn.close()
