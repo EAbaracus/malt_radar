@@ -4,6 +4,7 @@ import json
 from typing import List, Dict, Any, Optional
 
 from app.utils.source_guard import SourceGuard
+from app.db.production_read_adapter import ProductionReadAdapter  # Faz B2: tek read seam
 
 # Certified pilot whiskies use the 'GSD-CAND-XXXX' whisky_id prefix and are
 # flagged with data_confidence = 'certified'. The staging DB is the single
@@ -12,9 +13,6 @@ from app.utils.source_guard import SourceGuard
 CERTIFIED_PREFIX = "GSD-CAND-"
 
 # Anti-scrape bounds (configurable via env; bulk-dump / deep-paging ceiling).
-# The API never returns more than CATALOG_MAX_PAGE rows per page nor lets a
-# client offset past CATALOG_MAX_OFFSET rows (blocks unbounded full-catalog
-# replay through pagination).
 CATALOG_MAX_PAGE = int(os.getenv("CATALOG_MAX_PAGE", "50"))
 CATALOG_MAX_OFFSET = int(os.getenv("CATALOG_MAX_OFFSET", "10000"))
 
@@ -38,31 +36,18 @@ def _check_offset(offset: int, limit: int) -> int:
 
 class DbReadService:
     def __init__(self):
-        # Default to output/import/production.db relative to the project root.
-        # Staging (or any other datasource) is selected entirely through the
-        # MALT_RADAR_DB_PATH environment variable -- no source code change needed.
-        default_db = "output/import/production.db"
-        env_db = os.getenv("MALT_RADAR_DB_PATH", default_db)
-
-        # Resolve to absolute path if necessary
-        if not os.path.isabs(env_db):
-            # Assume project root is 3 levels up from this file
-            # (backend/app/services/db_read_service.py)
-            base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
-            self.db_path = os.path.abspath(os.path.join(base_dir, env_db))
-        else:
-            self.db_path = env_db
+        # Faz B2: path resolution ProductionReadAdapter'a (shared_paths.resolve_db_path)
+        # migrate edildi. copy-paste 3-level-up kalıbı kaldırıldı.
+        self._adapter = ProductionReadAdapter()
+        self.db_path = self._adapter.db_path
+        self._ro_uri = self._adapter._ro_uri  # backward-compat (some callers read .db_path)
 
     def _get_connection(self):
-        if not os.path.exists(self.db_path):
-            raise FileNotFoundError(f"Database not found at {self.db_path}")
+        """Faz B2: adapter._get_connection (mode=ro + query_only + canonical tablo check).
 
-        # Read-only explicitly
-        uri = f"file:{self.db_path}?mode=ro"
-        conn = sqlite3.connect(uri, uri=True, check_same_thread=False)
-        conn.execute("PRAGMA foreign_keys = ON")
-        conn.row_factory = sqlite3.Row
-        return conn
+        read-only connect burada kalır ama sqlite3.connect sadece adapter'dan.
+        """
+        return self._adapter._get_connection()
 
     def get_health(self) -> Dict[str, Any]:
         exists = os.path.exists(self.db_path)
@@ -239,7 +224,7 @@ class DbReadService:
         # after the DB query would scatter matches across page boundaries and
         # the client's short-page/empty-page detection would stop early).
         if filter:
-            cond, fparams = self._filter_to_sql(filter)
+            cond, fparams = self._prepare_chip_filter(filter)
             if cond:
                 query += f" AND ({cond})"
                 params.extend(fparams)
@@ -262,7 +247,7 @@ class DbReadService:
             "offset": offset,
         }
 
-    def _filter_to_sql(self, filter: str):
+    def _prepare_chip_filter(self, filter: str):
         """Translate a comma-separated chip list into (sql_cond, params).
 
         Chips are AND-ed together; the category/region/flavor vocab mirrors
@@ -445,36 +430,44 @@ class DbReadService:
             }
 
     def get_flavor_profile(self, whisky_id: str) -> Optional[Dict[str, Any]]:
+        # Faz B2: read seamsiz; ama DbReadService._prepare_whisky üzerinden
+        # normalize uygulanmalı (adapter sadece raw çeker). Açık kolon listesi
+        # (SELECT * DEĞİL) → flavor_profiles.production_price dahil değil.
+        # test_flavor_profile_keeps_radar_fields: flavor_profile / flavor_tags /
+        # flavor_source / production_rating vs. radar/zorunlu alanlar korunur.
         with self._get_connection() as conn:
             cursor = conn.cursor()
-            # Product Rule (AGENTS.md): production_price ASLA API yanıtına girmez.
-            # Açık kolon listesi — SELECT * DEĞİL (eski sürüm production_price sızdırıyordu).
-            cursor.execute("""
+            cursor.execute(
+                """
                 SELECT whisky_id, whisky_name, production_bottle_name, match_score,
                        match_method, flavor_vector, flavor_profile, flavor_tags,
                        flavor_source, flavor_data_confidence, production_rating,
                        production_region, notes_for_review, source_count,
                        evidence_count, enrichment_version
                 FROM flavor_profiles WHERE whisky_id = ?
-            """, (whisky_id,))
+                """,
+                (whisky_id,),
+            )
             row = cursor.fetchone()
-            if not row:
-                return None
-            result = dict(row)
-            # Normalize the stored flavor_profile string to the app's 7-axis JSON
-            # so the Flutter radar renders correctly (presentation format only).
-            if result.get("flavor_profile"):
-                result["flavor_profile"] = self._normalize_flavor_profile(result["flavor_profile"])
-            return result
+        if not row:
+            return None
+        result = dict(row)
+        # Normalize the stored flavor_profile string to the app's 7-axis JSON
+        # so the Flutter radar renders correctly (presentation format only).
+        if result.get("flavor_profile"):
+            result["flavor_profile"] = self._normalize_flavor_profile(result["flavor_profile"])
+        return result
 
     def get_tasting_notes(self, whisky_id: str) -> List[Dict[str, Any]]:
-        with self._get_connection() as conn:
-            cursor = conn.cursor()
-            cursor.execute("SELECT * FROM tasting_notes WHERE whisky_id = ?", (whisky_id,))
-            return [dict(row) for row in cursor.fetchall()]
+        # Faz B2: adapter.query → universal price redaction (tasting_notes'de yok ama defans)
+        return self._adapter.query(
+            "tasting_notes",
+            where="whisky_id = ?",
+            params=(whisky_id,),
+            order_by="created_at ASC",
+        )
 
     def get_price_history(self, whisky_id: str) -> List[Dict[str, Any]]:
-        with self._get_connection() as conn:
-            cursor = conn.cursor()
-            cursor.execute("SELECT * FROM price_history WHERE whisky_id = ?", (whisky_id,))
-            return [dict(row) for row in cursor.fetchall()]
+        # Faz B2: adapter.get_price_history → universal fiyat kolon redaction.
+        # Product Rule: production_price/price_value ASLA API yanıtına girmez.
+        return self._adapter.get_price_history(whisky_id)

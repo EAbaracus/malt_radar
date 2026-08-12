@@ -26,17 +26,18 @@ from __future__ import annotations
 import contextlib
 import hashlib
 import os
+import re
 import secrets
 import sqlite3
 import subprocess
 import sys
-from typing import Iterator, List, Optional
+from typing import Any, Iterable, Iterator, List, Optional, Tuple
 
 # ---------------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------------
 DB_PATH = os.path.normpath(
-    os.path.join(os.path.dirname(__file__), "..", "..",
+    os.path.join(os.path.dirname(__file__), "..", "..", "..",
                  "output", "import", "production.db")
 )
 # The owning principal that holds Full control in this environment. The deny
@@ -60,6 +61,101 @@ class WriteGuardReassertError(RuntimeError):
     An un-reasserted DENY ACE is a LIVE production-safety gap (P0): the file
     would be left writable. Raise loudly — do not swallow.
     """
+
+
+# ── Faz C1: restrict_tables enforcement ──────────────────────────────
+# INSERT/UPDATE/DELETE/REPLACE sadece listedeki tablolarda.
+# MATCH/SELECT (read) hiçbir zaman bloklanır.
+# CREATE/DROP/ALTER izinli (schema migrations ayrı güvenlik etki alanında).
+_MUTATION_RE = re.compile(
+    r"\b(INSERT|UPDATE|DELETE|REPLACE)\b", re.IGNORECASE | re.DOTALL
+)
+
+
+def _extract_target_table(stmt: str) -> Optional[str]:
+    """Mutasyon statement'ından hedef tablo adını çıkar.
+
+    INSERT/REPLACE: INTO'yu atla (INSERT OR IGNORE INTO / INSERT OR REPLACE INTO).
+    UPDATE/DELETE: tablo ilk token'da (UPDATE t SET... / DELETE FROM t).
+    """
+    m = _MUTATION_RE.search(stmt)
+    if not m:
+        return None
+    kind = m.group(1).upper()
+    rest = stmt[m.end():].strip()
+    if kind == "DELETE":
+        tm = re.search(r"FROM\s+([A-Za-z_][\w]*)", rest, re.IGNORECASE)
+        return tm.group(1) if tm else None
+    if kind in ("INSERT", "REPLACE"):
+        # INSERT [OR ...] INTO table (cols)...  → INTO'yu atla.
+        tm = re.search(r"INTO\s+([A-Za-z_][\w]*)", rest, re.IGNORECASE)
+        return tm.group(1) if tm else None
+    if kind == "UPDATE":
+        tm = re.match(r"([A-Za-z_][\w]*)", rest, re.IGNORECASE)
+        return tm.group(1) if tm else None
+    return None
+
+
+class _RestrictedConnection:
+    """WriteGate connection wrapper: restrict_tables dışındaki tabloya mutation
+    statement'ı → RuntimeError. Production DB'ye yazma yalnızca listedeki tablolarda.
+
+    Composition (delegate-wrapped), NOT a sqlite3.Connection subclass — SQLite's
+    Connection.__init__ C-level bir DB handle açar; biz zaten açtık (WriteGate),
+    sadece statement intercept ediyoruz.
+    """
+
+    def __init__(self, conn: sqlite3.Connection, ctx: str, tables: List[str]) -> None:
+        self._delegate = conn
+        self._ctx = ctx
+        self._allowed = set(t.lower() for t in tables)
+        # Mirror attrs consumers sometimes read directly.
+        self.row_factory = conn.row_factory
+        self.text_factory = conn.text_factory
+        self.isolation_level = conn.isolation_level
+        self.in_transaction = False
+
+    # ── delegation ──
+    def __getattr__(self, name: str):
+        return getattr(self._delegate, name)
+
+    def _check(self, stmt: str) -> None:
+        table = _extract_target_table(stmt)
+        if table is None:
+            return  # SELECT/CREATE/ALTER/DROP — allow
+        if table.lower() not in self._allowed:
+            raise RuntimeError(
+                f"restrict_tables ENFORCEMENT: {table!r} mutation on "
+                f"WriteGate({self._ctx}) REJECTED. "
+                f"Allowed: {sorted(self._allowed)}. "
+                f"Statement: {stmt.strip()[:120]!r}"
+            )
+
+    # ── intercepted write paths ──
+    def execute(self, sql: str, parameters=()) -> sqlite3.Cursor:
+        self._check(sql)
+        return self._delegate.execute(sql, parameters)
+
+    def executescript(self, sql_script: str) -> sqlite3.Cursor:
+        for stmt in re.split(r";\s*", sql_script):
+            if stmt.strip():
+                self._check(stmt)
+        return self._delegate.executescript(sql_script)
+
+    def executemany(self, sql: str, parameters: Iterable[Any]) -> sqlite3.Cursor:
+        self._check(sql)
+        return self._delegate.executemany(sql, parameters)
+
+    # ── passthrough (transaction + lifecycle) ──
+    def commit(self) -> None:
+        return self._delegate.commit()
+
+    def rollback(self) -> None:
+        self.in_transaction = False
+        return self._delegate.rollback()
+
+    def close(self) -> None:
+        return self._delegate.close()
 
 
 def _run(args: List[str]) -> subprocess.CompletedProcess:
@@ -175,10 +271,13 @@ def _assert_write_access(db_path: Optional[str] = None) -> None:
 
 def _post_validate(conn: sqlite3.Connection) -> None:
     """Run integrity + FK checks. Raise RuntimeError on any problem."""
-    integrity = conn.execute("PRAGMA integrity_check").fetchall()
+    # row_factory=sqlite3.Row olabilir → Row('ok') tuple'a çevir.
+    def _row(t):
+        return tuple(t) if not isinstance(t, tuple) and hasattr(t, "__iter__") else t
+    integrity = [_row(r) for r in conn.execute("PRAGMA integrity_check").fetchall()]
     if integrity != [("ok",)]:
         raise RuntimeError(f"integrity_check FAILED: {integrity}")
-    fk = conn.execute("PRAGMA foreign_key_check").fetchall()
+    fk = [_row(r) for r in conn.execute("PRAGMA foreign_key_check").fetchall()]
     if fk:
         raise RuntimeError(f"foreign_key_check FAILED: {fk}")
 
@@ -189,6 +288,11 @@ class WriteGate:
     Enter: lift OS lock, open RW connection, BEGIN IMMEDIATE.
     Exit (success): post-validate -> COMMIT -> re-assert lock.
     Exit (exception): ROLLBACK -> re-assert lock -> propagate.
+
+    Faz C1: restrict_tables runtime enforcement. restrict_tables verilirse,
+    sadece listedeki tablolara INSERT/UPDATE/DELETE/REPLACE yapılabilir;
+    diğer tablolarda mutation → RuntimeError. (Faz B'de ReviewActionWriter
+    [safe_table, review_actions] geçiyor; PromotionGate [promotion tabloları].)
     """
 
     def __init__(self, authorized_context: str, restrict_tables: Optional[List[str]] = None, db_path: Optional[str] = None):
@@ -198,12 +302,12 @@ class WriteGate:
                 "Refusing to lift the OS write lock without an audit label."
             )
         self.authorized_context = str(authorized_context).strip()
-        self.restrict_tables = restrict_tables or []
+        self.restrict_tables = list(restrict_tables) if restrict_tables else []
         self.db_path = db_path
-        self.conn: Optional[sqlite3.Connection] = None
+        self.conn: Any = None
         self._lifted = False
 
-    def __enter__(self) -> sqlite3.Connection:
+    def __enter__(self) -> Any:
         self._proof, self._verification_token = _generate_proof()
         _lift_write_access(
             proof=self._proof,
@@ -211,20 +315,21 @@ class WriteGate:
             db_path=self.db_path,
         )
         self._lifted = True
-        if hasattr(self, '_file_only_mode') and self._file_only_mode:
-            # File-only mode: no SQLite connection needed
-            self.conn = None
-            return None  # type: ignore
-        self.conn = sqlite3.connect(self.db_path or DB_PATH)
-        self.conn.execute("BEGIN IMMEDIATE TRANSACTION;")
+        raw_conn = sqlite3.connect(self.db_path or DB_PATH)
+        raw_conn.row_factory = sqlite3.Row
+        raw_conn.execute("BEGIN IMMEDIATE TRANSACTION;")
+        # Faz C1: restrict_tables runtime enforcement wrapper.
+        # Listedeki tablolar dışındaki INSERT/UPDATE/DELETE/REPLACE → RuntimeError.
+        # (CREATE/DROP/ALTER is allowed — schema migrations separate write gate'dan.)
+        if self.restrict_tables:
+            self.conn = _RestrictedConnection(raw_conn, self.authorized_context, self.restrict_tables)
+        else:
+            self.conn = raw_conn
         return self.conn
 
     def __exit__(self, exc_type, exc, tb) -> bool:
         conn = self.conn
         try:
-            if conn is None:
-                # File-only mode: skip SQLite operations
-                return False if exc_type is not None else False
             if exc_type is not None:
                 conn.rollback()
                 return False  # propagate
@@ -258,10 +363,9 @@ def get_write_connection(authorized_context: str,
         with get_write_connection(authorized_context="book_import_pX") as conn:
             conn.execute("UPDATE whiskies SET ... WHERE ...")
 
-    restrict_tables is accepted and logged for audit; table-level enforcement
-    (blocking writes to non-listed tables) is deferred to a later enhancement.
-    For minimum viable, the hard guarantee is: OS lock lifted only inside this
-    gate, transaction + post-validation mandatory, lock always re-asserted.
+    restrict_tables: Faz C1'de runtime-enforced. Verilirse yalnızca listedeki
+    tablolarda INSERT/UPDATE/DELETE/REPLACE yapılabilir; diğerleri → RuntimeError.
+    None ise (legacy) restriction yoktur.
     """
     return WriteGate(authorized_context, restrict_tables, db_path)
 

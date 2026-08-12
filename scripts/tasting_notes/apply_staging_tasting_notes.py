@@ -58,8 +58,8 @@ def main():
     backup_hash = get_db_hash(backup_db)
 
     # Load Write Guard
-    sys.path.insert(0, os.path.join(base_dir, "mr-kep", "p121_write_gate"))
-    from db_write_guard import get_write_connection
+    sys.path.insert(0, os.path.join(base_dir, "backend", "app", "db"))
+    from write_guard import get_write_connection
 
     schema_compatible = True
     inserted_rows = 0

@@ -76,6 +76,20 @@ class AuthApi {
     return body as Map<String, dynamic>;
   }
 
+  /// Exchanges a Google OAuth ID token for a Malt Radar session.
+  ///
+  /// Contract (parallel backend task): `POST /api/auth/google` with body
+  /// `{"id_token": ...}` -> 200 `{token, user{id,email,display_name,email_verified}}`.
+  /// 401 (invalid token) / 400 (popup dismissed) surface as [AuthApiException].
+  Future<Map<String, dynamic>> signInWithGoogle(String idToken) async {
+    final body = await _send(
+      'POST',
+      '/api/auth/google',
+      body: {'id_token': idToken},
+    );
+    return body as Map<String, dynamic>;
+  }
+
   Future<void> verifyEmail(int userId, String token) async {
     await _send(
       'POST',

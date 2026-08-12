@@ -40,7 +40,7 @@ jobs:
 
       - name: Run widget smoke test (isolated)
         # Isolated so a hang there cannot block the whole suite or the 15-min job
-        # limit. NOTE: widget_test.dart is currently SKIPPED (skip: true) because
+        # limit. NOTE: widget_test.dart is currently SKIPPED (skip: false) because
         # it hangs on Flutter's 10-minute per-test timeout. Root cause is NOT a
         # perpetual animation (no Timer.periodic / AnimationController / Ticker in
         # the app) but an unresolved async provider in the test harness: with

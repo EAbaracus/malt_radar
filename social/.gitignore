@@ -1,0 +1,10 @@
+# Sosyal yayın kuyruğu ve çıktı dosyaları çalışma artifact'larıdır; sürüm kontrolüne girmez.
+# Kod (metrics.py/content.py/queue.py/publisher.py/cli.py) commit edilir; üretilen
+# taslak JSON'lar, yayın çıktı .txt'leri ve GERÇEK .env (secret) etmez.
+queue/
+post_queue_data/
+outgoing/
+__pycache__/
+*.pyc
+.env
+!.env.example

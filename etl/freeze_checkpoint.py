@@ -2,7 +2,6 @@ import os
 import shutil
 import csv
 import sqlite3
-import datetime
 
 def safe_mkdir(path):
     if not os.path.exists(path):

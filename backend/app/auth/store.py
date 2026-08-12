@@ -82,12 +82,31 @@ CREATE TABLE IF NOT EXISTS sync_list_items (
   updated_at TEXT NOT NULL,
   PRIMARY KEY (user_id, list_id, whisky_id)
 );
+CREATE TABLE IF NOT EXISTS user_identities (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  provider TEXT NOT NULL,
+  provider_sub TEXT NOT NULL,
+  email TEXT,
+  created_at TEXT NOT NULL,
+  UNIQUE(provider, provider_sub)
+);
+CREATE INDEX IF NOT EXISTS idx_identities_user ON user_identities(user_id);
 CREATE INDEX IF NOT EXISTS idx_sessions_user ON sessions(user_id);
 """
 
 
 class DuplicateEmailError(Exception):
     pass
+
+
+class DuplicateIdentityError(Exception):
+    """Raised when a (provider, provider_sub) pair is already registered."""
+
+    def __init__(self, provider: str, provider_sub: str):
+        self.provider = provider
+        self.provider_sub = provider_sub
+        super().__init__(f"identity already exists: {provider}:{provider_sub}")
 
 
 class UserStore:
@@ -185,6 +204,83 @@ class UserStore:
             "SELECT * FROM users WHERE email = ?", (email.strip().lower(),)
         )
 
+    def create_oauth_user(
+        self,
+        email: str,
+        provider: str,
+        provider_sub: str,
+        display_name: Optional[str] = None,
+        age_country: str = "",
+        age_min: int = 0,
+        privacy_consent: bool = True,
+    ) -> Dict[str, Any]:
+        """Create a user authenticated via an external identity provider.
+
+        Social login users never authenticate with a password; the
+        `password_hash` is a non-cryptographic "oauth:" placeholder that only
+        satisfies the NOT NULL constraint. `email_verified` starts at 1
+        because the provider already verified ownership of the email. The
+        identity row is inserted in the same transaction as the user row so
+        the two can never diverge.
+        """
+        email = email.strip().lower()
+        now = self._now()
+        oauth_hash = "oauth:" + secrets.token_urlsafe(16)  # NOT NULL placeholder only
+        try:
+            with self._connect() as conn:
+                cur = conn.execute(
+                    """INSERT INTO users
+                       (email, password_hash, display_name, age_country, age_min,
+                        privacy_consent, consent_at, email_verified, created_at)
+                       VALUES (?,?,?,?,?,?,?,1,?)""",
+                    (
+                        email,
+                        oauth_hash,
+                        display_name,
+                        age_country,
+                        age_min,
+                        1 if privacy_consent else 0,
+                        now if privacy_consent else None,
+                        now,
+                    ),
+                )
+                assert cur.lastrowid is not None
+                uid = int(cur.lastrowid)
+                try:
+                    conn.execute(
+                        """INSERT INTO user_identities
+                           (user_id, provider, provider_sub, email, created_at)
+                           VALUES (?,?,?,?,?)""",
+                        (uid, provider, provider_sub, email, now),
+                    )
+                    conn.commit()
+                except sqlite3.IntegrityError as exc:
+                    # The users row inserted fine; a UNIQUE violation here can
+                    # only be the (provider, provider_sub) pairing, which means
+                    # this identity already exists — not a duplicate email.
+                    if (
+                        "UNIQUE" in str(exc).upper()
+                        and "user_identities" in str(exc)
+                    ):
+                        raise DuplicateIdentityError(provider, provider_sub) from exc
+                    raise
+        except sqlite3.IntegrityError as exc:
+            if "UNIQUE" in str(exc).upper() and "users" in str(exc):
+                raise DuplicateEmailError(email) from exc
+            raise
+        return {
+            "id": uid,
+            "email": email,
+            "password_hash": oauth_hash,
+            "display_name": display_name,
+            "age_country": age_country,
+            "age_min": age_min,
+            "privacy_consent": 1 if privacy_consent else 0,
+            "consent_at": now if privacy_consent else None,
+            "email_verified": 1,
+            "created_at": now,
+        }
+
     def get_user_by_id(self, uid: int) -> Optional[Dict[str, Any]]:
         return self._fetch_one("SELECT * FROM users WHERE id = ?", (uid,))
 
@@ -196,14 +292,25 @@ class UserStore:
             conn.commit()
         return cur.rowcount > 0
 
-    def update_profile(self, uid: int, display_name: Optional[str] = None) -> None:
+    def update_profile(self, uid: int, display_name: Optional[str] = None, **kwargs: Any) -> None:
+        allowed_cols = {"display_name", "age_country", "age_min"}
         sets: List[str] = []
         vals: List[Any] = []
+
         if display_name is not None:
-            sets.append("display_name = ?")
-            vals.append(display_name.strip() or None)
+            kwargs["display_name"] = display_name
+
+        for key, value in kwargs.items():
+            if key in allowed_cols:
+                sets.append(f"{key} = ?")
+                if isinstance(value, str):
+                    vals.append(value.strip() or None)
+                else:
+                    vals.append(value)
+
         if not sets:
             return
+
         vals.append(uid)
         with self._connect() as conn:
             conn.execute(f"UPDATE users SET {', '.join(sets)} WHERE id = ?", vals)
@@ -213,6 +320,72 @@ class UserStore:
         with self._connect() as conn:
             row = conn.execute(sql, params).fetchone()
         return dict(row) if row else None
+
+    # --- identities -----------------------------------------------------
+    def create_identity(
+        self,
+        user_id: int,
+        provider: str,
+        provider_sub: str,
+        email: Optional[str] = None,
+    ) -> Dict[str, Any]:
+        """Attach an external identity (e.g. google sub) to an existing user."""
+        now = self._now()
+        try:
+            with self._connect() as conn:
+                cur = conn.execute(
+                    """INSERT INTO user_identities
+                       (user_id, provider, provider_sub, email, created_at)
+                       VALUES (?,?,?,?,?)""",
+                    (user_id, provider, provider_sub, email, now),
+                )
+                conn.commit()
+                assert cur.lastrowid is not None
+                ident_id = int(cur.lastrowid)
+        except sqlite3.IntegrityError as exc:
+            # Only the UNIQUE(provider, provider_sub) constraint means this
+            # identity already exists. ANY other IntegrityError — e.g. the FK
+            # on user_identities.user_id when the user does not exist — is a
+            # data-integrity failure and must surface raw.
+            if (
+                "UNIQUE" in str(exc).upper()
+                and "user_identities" in str(exc)
+            ):
+                raise DuplicateIdentityError(provider, provider_sub) from exc
+            raise
+        return {
+            "id": ident_id,
+            "user_id": user_id,
+            "provider": provider,
+            "provider_sub": provider_sub,
+            "email": email,
+            "created_at": now,
+        }
+
+    def get_user_by_identity(
+        self, provider: str, provider_sub: str
+    ) -> Optional[Dict[str, Any]]:
+        return self._fetch_one(
+            """SELECT u.* FROM user_identities i JOIN users u ON u.id = i.user_id
+               WHERE i.provider = ? AND i.provider_sub = ?""",
+            (provider, provider_sub),
+        )
+
+    def get_identities(self, user_id: int) -> List[Dict[str, Any]]:
+        with self._connect() as conn:
+            rows = conn.execute(
+                """SELECT id, user_id, provider, provider_sub, email, created_at
+                   FROM user_identities WHERE user_id = ? ORDER BY id""",
+                (user_id,),
+            ).fetchall()
+        return [dict(r) for r in rows]
+
+    def delete_identities_for_user(self, user_id: int) -> None:
+        with self._connect() as conn:
+            conn.execute(
+                "DELETE FROM user_identities WHERE user_id = ?", (user_id,)
+            )
+            conn.commit()
 
     # --- sessions ------------------------------------------------------
     def create_session(self, uid: int) -> str:
@@ -360,11 +533,15 @@ class UserStore:
         """Remove a user and all of their data (account closure / KVKK erasure).
 
         `sessions` and `email_verifications` cascade via FK ON DELETE CASCADE;
-        the sync tables have no FK so they are removed explicitly.
+        the sync tables and `user_identities` have no FK so they are removed
+        explicitly.
         """
         with self._connect() as conn:
             for _kind, (table, _keys, _cols) in self._SYNC_TABLES.items():
                 conn.execute(f"DELETE FROM {table} WHERE user_id = ?", (uid,))
+            conn.execute(
+                "DELETE FROM user_identities WHERE user_id = ?", (uid,)
+            )
             conn.execute("DELETE FROM sessions WHERE user_id = ?", (uid,))
             conn.execute("DELETE FROM email_verifications WHERE user_id = ?", (uid,))
             cur = conn.execute("DELETE FROM users WHERE id = ?", (uid,))

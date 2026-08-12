@@ -21,6 +21,10 @@ app = FastAPI(
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
+# OAuth verifier DI hook: defaults to None -> routes fall back to the
+# provider registry (GoogleIdentityVerifier). Tests override with a fake.
+app.state.google_verifier = None
+
 # Include Admin Review router (protected by feature flag logic inside the router)
 app.include_router(admin_review.router)
 
@@ -30,7 +34,7 @@ app.include_router(db_api.router)
 # Include auth + per-user sync router (separate from the whisky production DB)
 app.include_router(auth_router)
 
-# Fix CORS: don't use * with allow_credentials=True
+# Security: Enforce strict CORS policy.
 allowed_origins_env = os.getenv("MALT_RADAR_ALLOWED_ORIGINS", "")
 if allowed_origins_env:
     allowed_origins = [o.strip() for o in allowed_origins_env.split(",")]
@@ -42,10 +46,14 @@ else:
         "http://localhost:8888",
     ]
 
+allow_creds = True
+if "*" in allowed_origins:
+    allow_creds = False
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,
-    allow_credentials=False if "*" in allowed_origins else True,
+    allow_credentials=allow_creds,
     allow_methods=["*"],
     allow_headers=["*"],
 )

@@ -2,6 +2,7 @@ import os
 import sys
 import argparse
 import subprocess
+import shlex
 import re
 from pathlib import Path
 
@@ -16,7 +17,9 @@ FORBIDDEN_FILES = ['.env', 'output/production.db']
 def run_command(cmd, cwd=None, capture_output=True):
     """Komutu çalıştırır ve çıktıyı döndürür."""
     try:
-        result = subprocess.run(cmd, shell=True, capture_output=capture_output, text=True, cwd=cwd)
+        if isinstance(cmd, str):
+            cmd = shlex.split(cmd)
+        result = subprocess.run(cmd, shell=False, capture_output=capture_output, text=True, cwd=cwd)
         return result.returncode, result.stdout + result.stderr
     except Exception as e:
         return -1, str(e)

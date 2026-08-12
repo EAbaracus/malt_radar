@@ -20,13 +20,20 @@ from fastapi import APIRouter, Depends, HTTPException, Request
 from app.security import limiter
 from app.auth.passwords import hash_password, verify_password
 from app.auth.schemas import (
+    AuthGoogleRequest,
     AuthLoginRequest,
     AuthRegisterRequest,
     AuthUpdateProfileRequest,
     AuthVerifyEmailRequest,
     SyncRequest,
 )
-from app.auth.store import DuplicateEmailError, UserStore
+from app.auth.store import DuplicateEmailError, DuplicateIdentityError, UserStore
+from app.auth.providers import (
+    InvalidTokenError,
+    OAuthIdentityVerifier,
+    PROVIDER_VERIFIERS,
+    TokenVerificationUnavailableError,
+)
 
 logger = logging.getLogger("malt_radar.auth")
 router = APIRouter(prefix="/api/auth", tags=["auth"])
@@ -166,6 +173,138 @@ async def login(
         raise HTTPException(
             status_code=401, detail="Invalid email or password"
         )
+    token = store.create_session(user["id"])
+    return {"token": token, "user": _public_user(user)}
+
+
+# --- social login -------------------------------------------------------
+def _get_verifier(request: Request) -> OAuthIdentityVerifier:
+    """Resolve the provider verifier with DI override support.
+
+    Tests set ``app.state.google_verifier`` to a fake; production falls back
+    to the registered provider verifier. The registry holds verifier CLASSES
+    (importing them is free); instantiate on demand so google-auth is only
+    imported when a token is actually verified.
+    """
+    override = getattr(request.app.state, "google_verifier", None)
+    if override is not None:
+        return override
+    return PROVIDER_VERIFIERS["google"]()
+
+
+@router.post("/google")
+@limiter.limit("8/minute")
+async def google_login(
+    request: Request,
+    body: AuthGoogleRequest,
+    store: UserStore = Depends(get_store),
+):
+    """Sign in (or sign up) with a Google id-token.
+
+    Find-or-create + link:
+      1. identity (google, sub) exists            -> reuse that user
+      2. else email already registered            -> link identity to it
+      3. else                                     -> create OAuth user
+    Google only signs accounts with a verified email, but we still refuse
+    tokens that claim otherwise. A single 401 (no enumeration) is returned
+    for both invalid tokens and unverified emails.
+    """
+    verifier = _get_verifier(request)
+    try:
+        claims = verifier.verify_id_token(body.id_token)
+    except InvalidTokenError:
+        raise HTTPException(status_code=401, detail="Invalid Google token")
+    except TokenVerificationUnavailableError:
+        # Provider unreachable (network/JWKS): not the client's fault.
+        raise HTTPException(
+            status_code=503, detail="verification_unavailable"
+        )
+
+    sub: Optional[str] = claims.get("sub")
+    email: Optional[str] = claims.get("email")
+    email_verified: Optional[Any] = claims.get("email_verified")
+    if not sub or not email or not email_verified:
+        raise HTTPException(status_code=401, detail="Invalid Google token")
+    # Normalize before any lookup/insert so "User@Example.COM" can never
+    # create a second account or a mismatched identity row.
+    email = email.strip().lower()
+
+    user = store.get_user_by_identity("google", sub)
+    if user is None:
+        user = store.get_user_by_email(email)
+        if user is not None:
+            # Merge: link the Google identity to the existing account. The
+            # identity insert may itself lose a race (a concurrent request
+            # linked this sub first) — then re-resolve by identity.
+            try:
+                store.create_identity(user["id"], "google", sub, email=email)
+            except DuplicateIdentityError:
+                logger.info(
+                    "google identity %s:%s raced while linking; reusing existing user",
+                    "google",
+                    sub,
+                )
+                user = store.get_user_by_identity("google", sub)
+                if user is None:
+                    raise HTTPException(
+                        status_code=409,
+                        detail="Identity already exists but its user could not be resolved",
+                    )
+        else:
+            try:
+                user = store.create_oauth_user(
+                    email=email,
+                    provider="google",
+                    provider_sub=sub,
+                    display_name=claims.get("name"),
+                    age_country="",
+                    age_min=0,
+                    privacy_consent=True,
+                )
+            except DuplicateIdentityError:
+                # Race: a concurrent request with the same brand-new (google,
+                # sub) already created the identity+user between our
+                # get_user_by_identity check and this insert. That user IS the
+                # authenticated principal — log in as them (idempotent), not
+                # 409/500.
+                logger.info(
+                    "google identity %s:%s raced; reusing existing user", "google", sub
+                )
+                user = store.get_user_by_identity("google", sub)
+                if user is None:
+                    raise HTTPException(
+                        status_code=409,
+                        detail="Identity already exists but its user could not be resolved",
+                    )
+            except DuplicateEmailError:
+                # Race: a concurrent request with the same email (but a
+                # different sub) created the user between our
+                # get_user_by_email check and this insert. That account IS the
+                # authenticated principal — link this identity to it and log
+                # in as them (idempotent), never 500.
+                logger.info(
+                    "google email %s raced; linking identity to existing user", email
+                )
+                existing = store.get_user_by_email(email)
+                if existing is None:
+                    raise HTTPException(
+                        status_code=409,
+                        detail="Email already registered but its user could not be resolved",
+                    )
+                try:
+                    store.create_identity(
+                        existing["id"], "google", sub, email=email
+                    )
+                except DuplicateIdentityError:
+                    # A third concurrent request linked this sub first —
+                    # resolve by identity; the user is the same either way.
+                    existing = store.get_user_by_identity("google", sub)
+                    if existing is None:
+                        raise HTTPException(
+                            status_code=409,
+                            detail="Identity already exists but its user could not be resolved",
+                        )
+                user = existing
     token = store.create_session(user["id"])
     return {"token": token, "user": _public_user(user)}
 
