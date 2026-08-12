@@ -92,6 +92,16 @@ class ProductionReadAdapter:
         conn.execute("PRAGMA query_only = ON")
         return conn
 
+    def raw_connection(self) -> sqlite3.Connection:
+        """Public read-only connection seam.
+
+        Prefer this over the private `_get_connection` for direct read access
+        (e.g. one-off build scripts that need raw SQL against production.db).
+        Returns a read-only URI connection with PRAGMA query_only ON; use it
+        as a context manager: `with adapter.raw_connection() as conn:`.
+        """
+        return self._get_connection()
+
     # -- redaction -----------------------------------------------------------
     @staticmethod
     def _extract_price_columns(conn: sqlite3.Connection, table: str) -> set[str]:
