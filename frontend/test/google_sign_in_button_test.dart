@@ -13,6 +13,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:drift/native.dart';
 
 import 'package:malt_radar/core/branding/brand_medallion_widget.dart';
+import 'package:malt_radar/core/config/feature_flags.dart';
 import 'package:malt_radar/core/database/database.dart';
 import 'package:malt_radar/features/auth/data/google_auth.dart';
 import 'package:malt_radar/features/auth/presentation/auth_controller.dart';
@@ -119,6 +120,7 @@ void main() {
     Future<ProviderContainer> pumpAuthScreen(
       WidgetTester tester, {
       required GoogleAuth googleAuth,
+      bool googleSignInEnabled = true,
     }) async {
       final db = AppDatabase.forTesting(NativeDatabase.memory());
       addTearDown(db.close);
@@ -128,6 +130,9 @@ void main() {
             appDatabaseProvider.overrideWithValue(db),
             authApiProvider.overrideWithValue(FakeAuthApi()),
             googleAuthProvider.overrideWithValue(googleAuth),
+            // Compile-time flag defaults to false; tests opt in so the
+            // existing Google button flows stay exercisable.
+            googleSignInEnabledProvider.overrideWithValue(googleSignInEnabled),
           ],
           child: const MaterialApp(home: AuthScreen()),
         ),
@@ -144,6 +149,20 @@ void main() {
       await tester.pumpAndSettle();
       return container;
     }
+
+    testWidgets(
+        'hides Google button and divider when feature flag is disabled',
+        (tester) async {
+      final googleAuth = FakeGoogleAuth(idToken: 'good-google-token');
+      await pumpAuthScreen(tester,
+          googleAuth: googleAuth, googleSignInEnabled: false);
+
+      expect(find.byType(GoogleSignInButton), findsNothing);
+      expect(find.byKey(const Key('google-sign-in-button')), findsNothing);
+      // The "veya"/"or" divider row must also be gone (clean email/password UI).
+      expect(find.text('veya'), findsNothing);
+      expect(find.text('or'), findsNothing);
+    });
 
     testWidgets('shows the button and logs in on tap (success)',
         (tester) async {

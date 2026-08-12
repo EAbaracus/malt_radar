@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart'; // kIsWeb
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:malt_radar/core/config/feature_flags.dart';
 import 'package:malt_radar/core/localization/localization_provider.dart';
 import 'package:malt_radar/core/theme/app_theme.dart';
 import 'package:malt_radar/core/theme/app_theme_colors.dart';
@@ -199,48 +200,51 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
               // TODO(i18n): move the Google button label and the Google
               // error strings (_googleErrorMessage) into the app's
               // translation table (trProvider) once it exists.
-              // Web uses Google's native GSI `renderButton` (no popup, no COOP
-              // header); mobile keeps our styled button driving `authenticate()`.
-              // `kIsWeb` is false in the unit-test VM, so the existing integration
-              // tests still exercise the mobile path.
-              if (kIsWeb)
-                const GoogleSignInWebButton()
-              else
-                GoogleSignInButton(
-                  label: isTr ? 'Google ile devam et' : 'Continue with Google',
-                  isLoading: _googleBusy,
-                  onPressed: _signInWithGoogle,
-                ),
-              const SizedBox(height: 16),
-              Row(
-                children: [
-                  const Expanded(
-                    child: Divider(
-                      color: AppTheme.textSecondary,
-                      thickness: 1,
-                      height: 1,
-                    ),
+              // Web uses Google's native GSI `renderButton`; mobile keeps our
+              // styled button driving `authenticate()`. Both are gated behind
+              // the compile-time feature flag (default OFF in production —
+              // GSI script is not loaded and no Google button/divider renders
+              // until `--dart-define=ENABLE_GOOGLE_SIGN_IN=true`).
+              if (ref.watch(googleSignInEnabledProvider)) ...[
+                if (kIsWeb)
+                  const GoogleSignInWebButton()
+                else
+                  GoogleSignInButton(
+                    label: isTr ? 'Google ile devam et' : 'Continue with Google',
+                    isLoading: _googleBusy,
+                    onPressed: _signInWithGoogle,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: Text(
-                      isTr ? 'veya' : 'or',
-                      style: const TextStyle(
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    const Expanded(
+                      child: Divider(
                         color: AppTheme.textSecondary,
-                        fontSize: 13,
+                        thickness: 1,
+                        height: 1,
                       ),
                     ),
-                  ),
-                  const Expanded(
-                    child: Divider(
-                      color: AppTheme.textSecondary,
-                      thickness: 1,
-                      height: 1,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: Text(
+                        isTr ? 'veya' : 'or',
+                        style: const TextStyle(
+                          color: AppTheme.textSecondary,
+                          fontSize: 13,
+                        ),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
+                    const Expanded(
+                      child: Divider(
+                        color: AppTheme.textSecondary,
+                        thickness: 1,
+                        height: 1,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+              ],
               if (_mode == AuthMode.register) ...[
                 TextField(
                   controller: _displayName,
