@@ -28,12 +28,24 @@ def inspect_db(db_path):
         "entity_sources", "rejected_matches", "review_needed"
     ]
     report["table_counts"] = {}
-    for t in tables:
-        try:
-            cursor.execute(f"SELECT count(*) as c FROM {t}")
-            report["table_counts"][t] = cursor.fetchone()['c']
-        except sqlite3.OperationalError:
-            report["table_counts"][t] = "Table not found"
+
+    # Query sqlite_master to find existing tables
+    cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
+    existing_tables = {row['name'] for row in cursor.fetchall()}
+
+    valid_tables = [t for t in tables if t in existing_tables]
+    missing_tables = [t for t in tables if t not in existing_tables]
+
+    # Execute a single query to get all counts
+    if valid_tables:
+        query = "SELECT " + ", ".join(f"(SELECT count(*) FROM {t}) as {t}" for t in valid_tables)
+        cursor.execute(query)
+        row = cursor.fetchone()
+        for t in valid_tables:
+            report["table_counts"][t] = row[t]
+
+    for t in missing_tables:
+        report["table_counts"][t] = "Table not found"
 
     # 2. PRAGMA foreign_key_check
     cursor.execute("PRAGMA foreign_key_check;")
