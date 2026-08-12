@@ -163,6 +163,30 @@ def test_login_rejects_bad_password_and_unknown_email(client):
     assert r1.json()["detail"] == r2.json()["detail"]  # no user enumeration
 
 
+def test_login_verify_password_mocked_failure(client, monkeypatch):
+    client.post(
+        "/api/auth/register",
+        json={
+            "email": "c@example.com",
+            "password": "s3curePass",
+            "age_country": "US",
+            "age_min": 21,
+            "privacy_consent": True,
+        },
+    )
+
+    # Force verify_password to return False regardless of inputs
+    monkeypatch.setattr("app.auth.routes.verify_password", lambda pw, hash: False)
+
+    r = client.post(
+        "/api/auth/login",
+        json={"email": "c@example.com", "password": "s3curePass"},
+    )
+
+    assert r.status_code == 401
+    assert r.json()["detail"] == "Invalid email or password"
+
+
 def test_logout_invalidates_session(client):
     reg = client.post(
         "/api/auth/register",
