@@ -5,7 +5,7 @@ AST-based scan (Python AST daha güvenilir grep — string match yanıltıcı):
 - Tüm .py dosyalarını backend/app içinde dolaş.
 - sqlite3.connect(...) call'ını bul; production.db'ye targetlı (DB_PATH /
   output/import/production.db literal veya MALT_RADAR_DB_PATH env) VE
-  write statement (INSERT/UPDATE/DELETE) varsa → REJECT.
+  write statement (INSERT/UPDATE/DELETE) varsa -> REJECT.
 - EXCEPT: backend/app/db/write_guard.py (canonical write) +
           backend/app/db/production_read_adapter.py (mode=ro read).
 - archive/ dizini skip (dead code, C kapsam dışı).
@@ -80,13 +80,13 @@ def _scan_call(node: ast.Call, src_file: str, src_lines: list, violations: list)
         if isinstance(a, ast.Constant):
             target_arg = a.value
             break
-    # variable path (DB_PATH) → check name via parent scope (conservative: flag)
+    # variable path (DB_PATH) -> check name via parent scope (conservative: flag)
     # Check for production.db target via Constant arg OR a Name matching prod vars.
     is_prod = False
     if target_arg and isinstance(target_arg, str):
         is_prod = _looks_production(target_arg)
     else:
-        # Name arg (e.g., DB_PATH) → resolve name against module globals
+        # Name arg (e.g., DB_PATH) -> resolve name against module globals
         for a in node.args:
             if isinstance(a, ast.Name):
                 is_prod = _looks_production(a.id)  # e.g. "DB_PATH" — false unless matched
@@ -127,7 +127,7 @@ def check_file(path: Path, violations: list):
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(description="G4: sqlite3.connect → write_guard only")
+    parser = argparse.ArgumentParser(description="G4: sqlite3.connect -> write_guard only")
     parser.add_argument("--path", default="backend/app", help="root to scan (default: backend/app)")
     args = parser.parse_args(argv)
 
@@ -148,7 +148,7 @@ def main(argv=None):
         print(f"\nAllowed: {sorted(ALLOWED_DIRS)}", file=sys.stderr)
         print("Only write_guard.py (write) and production_read_adapter.py (mode=ro read) may connect to production.db.", file=sys.stderr)
         return 1
-    print(f"G4 OK: scanned {len(py_files)} files; sqlite3.connect → only write_guard + production_read_adapter.")
+    print(f"G4 OK: scanned {len(py_files)} files; sqlite3.connect -> only write_guard + production_read_adapter.")
     return 0
 
 
