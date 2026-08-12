@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, Query, Depends, Request
-from typing import Optional, List, Dict, Any
+from typing import Optional, Dict, Any
 import os
 import sqlite3
 from app.services.db_read_service import DbReadService, CatalogBoundsError
