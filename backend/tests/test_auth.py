@@ -78,6 +78,55 @@ def test_register_rejects_without_consent(client):
     assert r.status_code == 422
 
 
+def test_register_rejects_omitted_consent(client):
+    r = client.post(
+        "/api/auth/register",
+        json={
+            "email": "omitted@b.com",
+            "password": "s3curePass",
+            "age_country": "US",
+            "age_min": 21,
+        },
+    )
+    assert r.status_code == 422
+
+
+def test_register_rejects_missing_age_gate(client):
+    r1 = client.post(
+        "/api/auth/register",
+        json={
+            "email": "age1@b.com",
+            "password": "s3curePass",
+            "privacy_consent": True,
+            "age_min": 21,
+        },
+    )
+    assert r1.status_code == 422
+
+    r2 = client.post(
+        "/api/auth/register",
+        json={
+            "email": "age2@b.com",
+            "password": "s3curePass",
+            "privacy_consent": True,
+            "age_country": "",
+            "age_min": 21,
+        },
+    )
+    assert r2.status_code == 422
+
+    r3 = client.post(
+        "/api/auth/register",
+        json={
+            "email": "age3@b.com",
+            "password": "s3curePass",
+            "privacy_consent": True,
+            "age_country": "US",
+        },
+    )
+    assert r3.status_code == 422
+
+
 def test_register_duplicate_email(client):
     payload = {
         "email": "dup@example.com",
