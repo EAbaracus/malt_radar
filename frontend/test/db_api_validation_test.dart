@@ -22,8 +22,9 @@ void main() {
       };
 
       final flavorProfile = {
-        'flavor_vector_json': '[0.1, 0.2, 0.3]',
-        'flavor_tags_json': '["peat", "smoke"]',
+        'flavor_profile': '{"fruity": 5.0, "sweet": 6.0}',
+        'flavor_vector': '[0.1, 0.2, 0.3]',
+        'flavor_tags': '["peat", "smoke"]',
         'source': 'Internal'
       };
 
