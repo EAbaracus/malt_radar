@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show PlatformException;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:malt_radar/core/api/auth_api.dart';
 import 'package:malt_radar/features/whisky/presentation/controllers/whisky_providers.dart';
 import '../data/auth_repository.dart';
@@ -145,6 +146,16 @@ class AuthController extends StateNotifier<AuthState> {
       // Should not normally reach here (seam maps cancels to null), but
       // classify defensively so no raw platform error leaks to the user.
       final code = _googleCancelCodes.contains(e.code)
+          ? 'google_popup_closed'
+          : 'google_sign_in_failed';
+      state = AuthState(AuthStatus.loggedOut, error: code);
+      return code;
+    } on GoogleSignInException catch (e) {
+      // 7.x path: the seam normalises cancels to null, so a
+      // GoogleSignInException reaching here is a non-cancel failure (or a
+      // cancel on a path the seam didn't get to normalise). Classify
+      // defensively so no raw exception leaks to the user.
+      final code = e.code == GoogleSignInExceptionCode.canceled
           ? 'google_popup_closed'
           : 'google_sign_in_failed';
       state = AuthState(AuthStatus.loggedOut, error: code);

@@ -5,6 +5,8 @@ import 'package:flutter/services.dart' show PlatformException;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:drift/native.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:google_sign_in_platform_interface/google_sign_in_platform_interface.dart';
 
 import 'package:malt_radar/core/api/auth_api.dart';
 import 'package:malt_radar/core/database/database.dart';
@@ -337,6 +339,54 @@ void main() {
       expect(state.error, isNot(contains('Error 500')));
     });
 
+    test('7.x GoogleSignInException (canceled) maps to google_popup_closed '
+        'code, no raw exception leak', () async {
+      final db = AppDatabase.forTesting(NativeDatabase.memory());
+      addTearDown(() => db.close());
+      final container = await buildContainer(
+        db,
+        FakeAuthApi(),
+        googleAuth: FakeGoogleAuth(
+          error: const GoogleSignInException(
+            code: GoogleSignInExceptionCode.canceled,
+          ),
+        ),
+      );
+      final auth = container.read(authControllerProvider.notifier);
+
+      final err = await auth.signInWithGoogle();
+      expect(err, 'google_popup_closed');
+      final state = container.read(authControllerProvider);
+      expect(state.isLoggedIn, isFalse);
+      expect(state.error, 'google_popup_closed');
+      // The raw platform exception must never reach the UI.
+      expect(state.error, isNot(contains('canceled')));
+    });
+
+    test('7.x GoogleSignInException (non-cancel) maps to google_sign_in_failed '
+        'code, no raw exception leak', () async {
+      final db = AppDatabase.forTesting(NativeDatabase.memory());
+      addTearDown(() => db.close());
+      final container = await buildContainer(
+        db,
+        FakeAuthApi(),
+        googleAuth: FakeGoogleAuth(
+          error: const GoogleSignInException(
+            code: GoogleSignInExceptionCode.unknownError,
+            description: 'misconfigured client',
+          ),
+        ),
+      );
+      final auth = container.read(authControllerProvider.notifier);
+
+      final err = await auth.signInWithGoogle();
+      expect(err, 'google_sign_in_failed');
+      final state = container.read(authControllerProvider);
+      expect(state.isLoggedIn, isFalse);
+      expect(state.error, 'google_sign_in_failed');
+      expect(state.error, isNot(contains('misconfigured')));
+    });
+
     test('logout calls Google signOut (best effort) and clears session',
         () async {
       final db = AppDatabase.forTesting(NativeDatabase.memory());
@@ -399,4 +449,112 @@ void main() {
       expect(state.user?.email, 'user@example.com');
     });
   });
+
+  // Genuine seam test: drive the REAL GoogleAuth.fetchIdToken() through a fake
+  // GoogleSignInPlatform so we exercise the actual 7.x initialize() +
+  // authenticate() calls (NOT the removed 6.x signIn()), and confirm a canceled
+  // flow maps to null. This is the only test that proves the migration swapped
+  // the underlying API rather than just the FakeGoogleAuth contract.
+  group('GoogleAuth 7.x seam (real authenticate() path)', () {
+    late _FakeGsPlatform fakePlatform;
+
+    setUp(() {
+      fakePlatform = _FakeGsPlatform()..idTokenToReturn = 'real-7x-id-token';
+      GoogleSignInPlatform.instance = fakePlatform;
+      // Reset the seam's memoized init future so initialize() is re-invoked per
+      // test (the singleton is shared across the test process).
+      GoogleAuth.resetInitializationForTest();
+    });
+
+    test('fetchIdToken calls initialize() + authenticate() and returns idToken',
+        () async {
+      final googleAuth = GoogleAuth(clientId: 'web-client-id');
+      final token = await googleAuth.fetchIdToken();
+      expect(token, 'real-7x-id-token');
+      expect(fakePlatform.authenticateCalls, 1,
+          reason: 'must call the 7.x authenticate() API, not signIn()');
+      expect(fakePlatform.initCalls, 1,
+          reason: 'initialize() must run exactly once before authenticate()');
+      expect(fakePlatform.lastScopeHint, contains('email'));
+    });
+
+    test('canceled authenticate() (GoogleSignInException.canceled) maps to null',
+        () async {
+      fakePlatform.exceptionToThrow = const GoogleSignInException(
+        code: GoogleSignInExceptionCode.canceled,
+      );
+      final googleAuth = GoogleAuth(clientId: 'web-client-id');
+      final token = await googleAuth.fetchIdToken();
+      expect(token, isNull,
+          reason: 'a dismissed popup must read as null, never throw');
+      expect(fakePlatform.authenticateCalls, 1);
+    });
+
+    test('non-web GoogleAuth with no clientId still runs the flow (mobile '
+        'fallback, clientId absent is allowed off-web)', () async {
+      final googleAuth = GoogleAuth(); // no clientId, non-web test VM
+      final token = await googleAuth.fetchIdToken();
+      expect(token, 'real-7x-id-token');
+      expect(fakePlatform.authenticateCalls, 1);
+    });
+  });
+}
+
+/// Fake [GoogleSignInPlatform] that records initialize()/authenticate() calls
+/// and optionally returns a token or throws, so the real [GoogleAuth] seam can
+/// be driven without a browser or the GSI script.
+class _FakeGsPlatform extends GoogleSignInPlatform {
+  _FakeGsPlatform() : super();
+
+  int initCalls = 0;
+  int authenticateCalls = 0;
+  List<String>? lastScopeHint;
+  String? idTokenToReturn;
+  GoogleSignInException? exceptionToThrow;
+
+  @override
+  Future<void> init(InitParameters params) async {
+    initCalls++;
+  }
+
+  @override
+  Future<AuthenticationResults> authenticate(AuthenticateParameters params) async {
+    authenticateCalls++;
+    lastScopeHint = params.scopeHint;
+    if (exceptionToThrow != null) throw exceptionToThrow!;
+    return AuthenticationResults(
+      user: const GoogleSignInUserData(email: 'seam@g.com', id: 'seam-1'),
+      authenticationTokens: AuthenticationTokenData(idToken: idTokenToReturn),
+    );
+  }
+
+  @override
+  bool supportsAuthenticate() => true;
+
+  @override
+  bool authorizationRequiresUserInteraction() => false;
+
+  @override
+  Future<AuthenticationResults?>? attemptLightweightAuthentication(
+    AttemptLightweightAuthenticationParameters params,
+  ) =>
+      null;
+
+  @override
+  Future<ClientAuthorizationTokenData?> clientAuthorizationTokensForScopes(
+    ClientAuthorizationTokensForScopesParameters params,
+  ) async =>
+      null;
+
+  @override
+  Future<ServerAuthorizationTokenData?> serverAuthorizationTokensForScopes(
+    ServerAuthorizationTokensForScopesParameters params,
+  ) async =>
+      null;
+
+  @override
+  Future<void> disconnect(DisconnectParams params) async {}
+
+  @override
+  Future<void> signOut(SignOutParams params) async {}
 }
