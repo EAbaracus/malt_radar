@@ -26,3 +26,6 @@ jobs:
 
       - name: Git diff check
         run: git diff --check
+
+      - name: G4 Write-Path Guard (C2 — sqlite3.connect AST scan)
+        run: python scripts/gates/check_write_guard.py --path backend/app
