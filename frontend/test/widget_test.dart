@@ -15,6 +15,7 @@ import 'package:malt_radar/core/database/database.dart';
 import 'package:malt_radar/core/localization/localization_provider.dart';
 import 'package:malt_radar/features/whisky/presentation/controllers/whisky_providers.dart';
 import 'package:malt_radar/features/lists/presentation/controllers/user_lists_providers.dart';
+import 'package:malt_radar/features/flavor/presentation/providers/similar_flavor_provider.dart';
 
 void main() {
   // Disable GoogleFonts runtime font fetching so the test never hangs on
@@ -62,6 +63,11 @@ void main() {
           // Settings tab — no reference whisky model
           referenceWhiskyModelProvider.overrideWith(
             (ref) => Stream.value(null),
+          ),
+
+          // Detail/Flavor tab - unresolved async similar whiskies provider
+          similarFlavorWhiskiesProvider.overrideWith(
+            (ref, id) => Future.value([]),
           ),
         ],
         child: const MaltRadarApp(),
