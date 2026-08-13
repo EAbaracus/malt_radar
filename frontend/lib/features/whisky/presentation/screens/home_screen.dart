@@ -23,9 +23,29 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
+  final ScrollController _scrollController = ScrollController();
+  TextEditingController? _searchFieldController;
+
   @override
   void dispose() {
+    _scrollController.dispose();
     super.dispose();
+  }
+
+  /// Header ("MALT RADAR") tap: return to the pristine home state —
+  /// clear search, filters and favorites-only, and scroll back to the top.
+  void _resetToHome() {
+    _searchFieldController?.clear();
+    ref.read(searchQueryProvider.notifier).state = '';
+    ref.read(selectedFiltersProvider.notifier).state = [];
+    ref.read(favoritesOnlyProvider.notifier).state = false;
+    if (_scrollController.hasClients) {
+      _scrollController.animateTo(
+        0,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOutCubic,
+      );
+    }
   }
 
   Future<Iterable<Whisky>> _searchOnlineAutocomplete(String query) async {
@@ -104,24 +124,30 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'MALT RADAR',
-                          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                                color: AppTheme.primary,
-                                letterSpacing: 3.0,
-                              ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          tr('whisky_library'),
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color: AppTheme.textSecondary,
-                              ),
-                        ),
-                      ],
+                    // Brand header: tapping it resets to the pristine home
+                    // state (clear search/filters/favorites, scroll to top).
+                    GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: _resetToHome,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'MALT RADAR',
+                            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                                  color: AppTheme.primary,
+                                  letterSpacing: 3.0,
+                                ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            tr('whisky_library'),
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                  color: AppTheme.textSecondary,
+                                ),
+                          ),
+                        ],
+                      ),
                     ),
                     Row(
                       children: [
@@ -155,6 +181,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     _showWhiskyPreview(context, selection);
                   },
                   fieldViewBuilder: (context, controller, focusNode, onEditingComplete) {
+                    _searchFieldController = controller;
                     return GlassContainer(
                       padding: EdgeInsets.zero,
                       blur: 15,
@@ -319,6 +346,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         return false;
                       },
                       child: ListView.builder(
+                        controller: _scrollController,
                         physics: const BouncingScrollPhysics(),
                         padding: EdgeInsets.fromLTRB(
                           24,

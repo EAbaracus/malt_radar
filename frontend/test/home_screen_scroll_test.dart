@@ -197,6 +197,44 @@ void main() {
     });
   });
 
+  group('HomeScreen brand header tap resets to home state', () {
+    testWidgets('clears search, filters and favorites, and scrolls to top',
+        (tester) async {
+      final repo = _FakeCatalogRepository(totalItems: 200);
+      final container = _makeContainer(repo);
+      addTearDown(container.dispose);
+
+      // Dirty state: search query, filters and favorites-only all active.
+      container.read(searchQueryProvider.notifier).state = 'Bourbon';
+      container.read(selectedFiltersProvider.notifier).state = ['Bourbon'];
+      container.read(favoritesOnlyProvider.notifier).state = true;
+
+      await tester.pumpWidget(
+        UncontrolledProviderScope(
+          container: container,
+          child: const MaterialApp(home: HomeScreen()),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      // Type into the search field so the TextField controller is live too.
+      await tester.enterText(find.byType(TextField), 'Bourbon');
+      await tester.pumpAndSettle();
+
+      // Tap the brand header.
+      await tester.tap(find.text('MALT RADAR'));
+      await tester.pumpAndSettle();
+
+      expect(container.read(searchQueryProvider), '');
+      expect(container.read(selectedFiltersProvider), isEmpty);
+      expect(container.read(favoritesOnlyProvider), isFalse);
+      expect(
+        tester.widget<TextField>(find.byType(TextField)).controller?.text,
+        isEmpty,
+      );
+    });
+  });
+
   group('HomeScreen near-bottom scroll trigger', () {
     testWidgets(
         'scrolling to the bottom fires catalog loadMore; a small scroll does not',
