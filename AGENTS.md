@@ -242,20 +242,22 @@ What remains canonical from the Classic era:
 
 ---
 
-## Current Production Baseline (post-P500-O, updated 2026-08-11)
+## Current Production Baseline (post-AL-MD-01 external repair, updated 2026-08-14)
 
 | Metric | Value |
 |--------|-------|
-| SHA256 | `a9960053da30cc8da0897919c5e25392a7fc1c0f5ffed46a0d4325df7eaab6b4` |
+| SHA256 | `70fa9cf001c981af991c7382485378ac9caa607b98a7168f54fc9bcfb0f208e3` |
 | Tables | 37 |
 | Whiskies | 4,750 (active 4,598 · superseded 152) |
 | flavor_evidence | 6,367 |
 | flavor_profiles | 4,409 |
 | staging_tasting_notes remaining | 7 (staging_hold) |
+| Phase 1 identity updates | 4,143 cells (country 3,310 · region 833) |
 
-> Baseline SHA, 2026-08-11 Faz 0 (guard taşıma + `execute_action` write-path fix) sonrası
-> yeniden ölçüldü: `a9960053…` (önceki kayıt `40b7f71e…` P500-O dönemindendi; aradaki
-> promotion'lar SHA'ı ilerletti — örn. identity backfill 223, editorial promotions).
+> Baseline SHA, 2026-08-14 AL-MD-01 Phase 1 external repair correction sonrası
+> bağımsız doğrulandı: `70fa9cf0…`. Pre-state `a9960053…` ve 4,143 cell delta
+> (`country=3,310`, `region=833`) `docs/superpowers/specs/2026-08-13-phase1-repair-closure-correction.md`
+> addendum'ında kayıtlıdır. Original closure historical record olarak değiştirilmedi.
 > SHA, Production Baseline olarak immutably korunur; yeni mutation ancak yeni closure ile
 > bu satırı günceller.
 
