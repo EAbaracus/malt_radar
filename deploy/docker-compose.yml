@@ -16,6 +16,9 @@ services:
       MALT_RADAR_DB_PATH: /srv/data/production.db
     volumes:
       - ./data:/srv/data
+      # Anonymous catalog allowlist (build artifact, read-only). Script'teki
+      # ARTIFACT_PATH=ROOT/artifacts -> container'da /artifacts.
+      - ./artifacts:/artifacts:ro
     expose:
       - "8080"
 
