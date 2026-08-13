@@ -12,7 +12,7 @@ import os
 import secrets
 import sqlite3
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 #: Session lifetime (30 days; sliding refresh on each authenticated call).
 SESSION_TTL_DAYS = 30
