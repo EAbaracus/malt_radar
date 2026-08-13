@@ -33,12 +33,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   /// Header ("MALT RADAR") tap: return to the pristine home state —
-  /// clear search, filters and favorites-only, and scroll back to the top.
+  /// clear search, filters and favorites-only, scroll back to the top, and
+  /// pop any pushed screens (detail etc.) above the home tab.
   void _resetToHome() {
     _searchFieldController?.clear();
     ref.read(searchQueryProvider.notifier).state = '';
     ref.read(selectedFiltersProvider.notifier).state = [];
     ref.read(favoritesOnlyProvider.notifier).state = false;
+    // If a detail/setup screen was pushed on top of the tab shell, close it
+    // so the user lands back on the searchable home catalog.
+    Navigator.of(context).popUntil((route) => route.isFirst);
     if (_scrollController.hasClients) {
       _scrollController.animateTo(
         0,

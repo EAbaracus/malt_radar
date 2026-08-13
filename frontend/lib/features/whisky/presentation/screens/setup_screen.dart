@@ -7,6 +7,7 @@ import 'package:malt_radar/core/branding/brand_medallion.dart';
 import 'package:malt_radar/core/branding/brand_medallion_widget.dart';
 import 'package:malt_radar/core/theme/app_theme_colors.dart';
 import 'package:malt_radar/features/whisky/domain/models/whisky.dart';
+import 'package:malt_radar/core/presentation/screens/main_navigation_screen.dart';
 import '../controllers/whisky_providers.dart';
 import 'home_screen.dart';
 import '../../../../core/localization/localization_provider.dart';
@@ -145,36 +146,48 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 24),
-              // App Logo / Header
+              // App Logo / Header — tapping it skips straight to the main
+              // tab shell (home) instead of staying in the setup flow.
               Center(
-                child: Column(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: AppTheme.primary.withValues(alpha: 0.08),
-                        shape: BoxShape.circle,
-                        border: Border.all(color: AppTheme.primary.withValues(alpha: 0.2), width: 2),
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const MainNavigationScreen(),
                       ),
-                      child: const Medallion(size: 48, level: MedallionLevel.icon),
-                    ),
-                    const SizedBox(height: 16),
-                    Text(
-                      'MALT RADAR',
-                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                            color: AppTheme.primary,
-                            fontWeight: FontWeight.w900,
-                            letterSpacing: 2.0,
-                          ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      tr('setup_subtitle'),
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: AppTheme.textSecondary,
-                          ),
-                    ),
-                  ],
+                    );
+                  },
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: AppTheme.primary.withValues(alpha: 0.08),
+                          shape: BoxShape.circle,
+                          border: Border.all(color: AppTheme.primary.withValues(alpha: 0.2), width: 2),
+                        ),
+                        child: const Medallion(size: 48, level: MedallionLevel.icon),
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        'MALT RADAR',
+                        style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                              color: AppTheme.primary,
+                              fontWeight: FontWeight.w900,
+                              letterSpacing: 2.0,
+                            ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        tr('setup_subtitle'),
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: AppTheme.textSecondary,
+                            ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(height: 32),
