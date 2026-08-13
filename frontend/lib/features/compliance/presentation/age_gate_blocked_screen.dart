@@ -37,7 +37,7 @@ class AgeGateBlockedScreen extends ConsumerWidget {
                   ),
                   child: const Icon(
                     Icons.block,
-                    color: AppTheme.error,
+                    color: AppTheme.errorOnDark,
                     size: 44,
                   ),
                 ),

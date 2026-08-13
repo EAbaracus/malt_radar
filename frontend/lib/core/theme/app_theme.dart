@@ -15,8 +15,12 @@ class AppTheme {
   static const Color accent = AppThemeColors.copperDim; // Alt vurgu
 
   // Bildirim
-  static const Color error = AppThemeColors.oxblood; // uyarı/hata (nadir)
-  static const Color success = Color(0xFF81C784);
+  static const Color error =
+      AppThemeColors.oxblood; // uyarı/hata zemini (rozet/nadir)
+  static const Color errorOnDark =
+      AppThemeColors.oxbloodLt; // koyu zeminde ikon/metin (4.99:1)
+  static const Color success = AppThemeColors
+      .verdigris; // pozitif durum — verdigris ailesi (Material green yok)
 
   // Metin (koyu zeminde)
   static const Color textPrimary = AppThemeColors.parchment; // #EDE1C8
@@ -97,7 +101,10 @@ class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: const Color(0xFF1F170E),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 16,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(
@@ -147,9 +154,19 @@ class AppTheme {
         ),
       ),
       textTheme: base.copyWith(
-        displayLarge: MarkaFonts.fraunces(textPrimary, 48, FontWeight.w700, -0.96),
+        displayLarge: MarkaFonts.fraunces(
+          textPrimary,
+          48,
+          FontWeight.w700,
+          -0.96,
+        ),
         headlineLarge: MarkaFonts.fraunces(textPrimary, 32, FontWeight.w600, 0),
-        headlineMedium: MarkaFonts.fraunces(textPrimary, 24, FontWeight.w500, 0),
+        headlineMedium: MarkaFonts.fraunces(
+          textPrimary,
+          24,
+          FontWeight.w500,
+          0,
+        ),
         titleLarge: MarkaFonts.fraunces(textPrimary, 20, FontWeight.w600, 0),
         titleMedium: MarkaFonts.inter(textPrimary, 16, FontWeight.w500, 0),
         bodyLarge: MarkaFonts.serif(textPrimary, 18, FontWeight.w400, 0),
@@ -167,9 +184,27 @@ class MarkaFonts {
   const MarkaFonts._();
 
   static TextStyle fraunces(Color c, double s, FontWeight w, double ls) =>
-      TextStyle(fontFamily: 'Fraunces', color: c, fontSize: s, fontWeight: w, letterSpacing: ls);
+      TextStyle(
+        fontFamily: 'Fraunces',
+        color: c,
+        fontSize: s,
+        fontWeight: w,
+        letterSpacing: ls,
+      );
   static TextStyle serif(Color c, double s, FontWeight w, double ls) =>
-      TextStyle(fontFamily: 'SourceSerif4', color: c, fontSize: s, fontWeight: w, letterSpacing: ls);
+      TextStyle(
+        fontFamily: 'SourceSerif4',
+        color: c,
+        fontSize: s,
+        fontWeight: w,
+        letterSpacing: ls,
+      );
   static TextStyle inter(Color c, double s, FontWeight w, double ls) =>
-      TextStyle(fontFamily: 'Inter', color: c, fontSize: s, fontWeight: w, letterSpacing: ls);
+      TextStyle(
+        fontFamily: 'Inter',
+        color: c,
+        fontSize: s,
+        fontWeight: w,
+        letterSpacing: ls,
+      );
 }

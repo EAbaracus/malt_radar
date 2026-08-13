@@ -13,9 +13,11 @@ colors:
   copperDim: '#8A5424'
   verdigris: '#5C7A6E'          # SECONDARY accent / badge (replaces old amber #B8860B)
   brass: '#C9A227'              # amblem (medallion seal ring + needle) ONLY — never general UI
-  oxblood: '#6B1E23'            # rare warning / special badge
+  oxblood: '#6B1E23'            # rare warning / special badge ground
+  oxbloodLt: '#D6645C'          # oxblood light shade — icon/text on dark grounds (4.99:1 on caskChar)
+  success: '#5C7A6E'            # positive state = verdigris family (NO Material green)
   textPrimary: '#EDE1C8'
-  textSecondary: '#B8A98E'
+  textSecondary: '#BDB2A0'
   textMuted: '#8C8071'
 typography:
   display:
@@ -80,7 +82,10 @@ Strictly dark-mode (low-light tasting-room feel).
 - **verdigris `#5C7A6E`** — SECONDARY: badges, certification, supporting accents.
 - **brass `#C9A227`** — amblem/medallion seal ring + needle ONLY. Grep-guard:
   `grep -rn "C9A227" frontend/lib` must match only `app_theme_colors.dart`.
-- **oxblood `#6B1E23`** — rare warning/special badge.
+- **oxblood `#6B1E23`** — rare warning/special badge **ground only**. As TEXT
+  or icon color on dark grounds it fails WCAG (1.62:1) — use `oxbloodLt`
+  `#D6645C` (4.99:1) for on-dark error glyphs/text. `success` lives in the
+  verdigris family, never a Material green.
 - **Neutral text ramp:** parchment → textSecondary → textMuted for hierarchy.
 
 Gradient wash used by home/detail/lists:
@@ -141,7 +146,9 @@ imagery high-contrast with a subtle bottom dark gradient so light text stays
 legible.
 
 ### Inputs
-`surfaceElevated`/`#121212` ground, hairline border, focused state = copper
+`#1F170E` ground (caskChar-family inset step: caskChar `#1A120B` → input
+`#1F170E` → surface `#241A10`; NOT generic `#121212`), hairline border,
+focused state = copper
 border + subtle glow; prefix icon copper.
 
 ### Tasting Chips
