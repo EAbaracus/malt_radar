@@ -351,9 +351,21 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
   Widget build(BuildContext context) {
     final tr = ref.watch(trProvider);
     final langCode = ref.watch(localizationProvider);
-    final AsyncValue<Whisky?> whiskyAsync = widget.backendId != null
-        ? ref.watch(backendWhiskyDetailProvider(widget.backendId!))
-        : ref.watch(whiskyDetailProvider(widget.whiskyId));
+    // Detay kaynağı: backend (anonim katalog, allowlist sınırlı) → yoksa
+    // (404/allowlist dışı) lokal Drift kaydına düş. Böylece kullanıcının
+    // favoriler/listeler/geçmişinde olup anonim katalogda bulunmayan bir
+    // viski "Viski bulunamadı" ile ölmez. Backend yüklenirken flash yok.
+    late final AsyncValue<Whisky?> whiskyAsync;
+    if (widget.backendId != null) {
+      final backend = ref.watch(backendWhiskyDetailProvider(widget.backendId!));
+      if (backend.valueOrNull != null || backend.isLoading) {
+        whiskyAsync = backend;
+      } else {
+        whiskyAsync = ref.watch(whiskyDetailProvider(widget.whiskyId));
+      }
+    } else {
+      whiskyAsync = ref.watch(whiskyDetailProvider(widget.whiskyId));
+    }
     final settingsAsync = ref.watch(referenceSettingsStreamProvider);
     final refWhiskyAsync = ref.watch(referenceWhiskyModelProvider);
 
