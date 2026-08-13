@@ -138,23 +138,19 @@ def run():
                             })
 
         # --- APPLY HEURISTICS ---
-        dist_id = p.get('distillery_id', '').strip()
         
         # Check specific rules
         if "timorous beastie" in pname or "sheep dip" in pname:
             p['type'] = 'Blended Malt'
             p['distillery_id'] = ''
-            dist_id = ''
         elif pname.startswith("ledaig"):
             p['brand'] = 'Ledaig'
             new_id = add_distillery_patch("Tobermory")
             p['distillery_id'] = new_id
-            dist_id = new_id
             p['notes_for_review'] = "Ledaig peated expression of Tobermory Distillery"
         elif pname.startswith("redbreast"):
             new_id = add_distillery_patch("Midleton", "Ireland")
             p['distillery_id'] = new_id
-            dist_id = new_id
         else:
             # Check major distilleries
             matched = False
@@ -162,7 +158,6 @@ def run():
                 if pname.startswith(major.lower()):
                     new_id = add_distillery_patch(major)
                     p['distillery_id'] = new_id
-                    dist_id = new_id
                     matched = True
                     break
             
@@ -171,7 +166,6 @@ def run():
                     if pname.startswith(k):
                         new_id = add_distillery_patch(v[0], v[1])
                         p['distillery_id'] = new_id
-                        dist_id = new_id
                         matched = True
                         break
 
