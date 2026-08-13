@@ -53,6 +53,7 @@ const Map<String, Map<String, String>> appTranslations = {
     // Detail Screen
     'detail_title': 'Viski Detayı',
     'whisky_not_found': 'Viski bulunamadı.',
+    'whisky_login_required': 'Bu içeriği görmek için giriş yapın.',
     'evaluation_saved': 'Değerlendirme başarıyla kaydedildi.',
     'add_price_record': 'Fiyat Kaydı Ekle',
     'price': 'Fiyat',
@@ -230,6 +231,7 @@ const Map<String, Map<String, String>> appTranslations = {
     // Detail Screen
     'detail_title': 'Whisky Detail',
     'whisky_not_found': 'Whisky not found.',
+    'whisky_login_required': 'Sign in to view this content.',
     'evaluation_saved': 'Evaluation saved successfully.',
     // Detail & Home Screens
     'region': 'Region',

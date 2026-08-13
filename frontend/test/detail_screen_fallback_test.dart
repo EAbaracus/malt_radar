@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:malt_radar/core/api/db_whisky_api_client.dart';
 import 'package:malt_radar/core/localization/localization_provider.dart';
 import 'package:malt_radar/features/whisky/domain/models/whisky.dart';
 import 'package:malt_radar/features/whisky/domain/repositories/whisky_repository.dart';
@@ -169,5 +170,37 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('whisky_not_found'), findsOneWidget);
+  });
+
+  testWidgets('backend 401 (auth gerekli) → giriş yap state, bulunamadı değil',
+      (tester) async {
+    final container = ProviderContainer(overrides: [
+      whiskyRepositoryProvider.overrideWithValue(_FakeRepo()),
+      backendWhiskyDetailProvider.overrideWith(
+        (ref, id) => Stream<Whisky?>.error(
+          DbApiAuthRequiredException('getWhiskyById'),
+        ),
+      ),
+      // Lokal kayıt da yok — yine de 401 "bulunamadı" olarak gösterilmemeli.
+      whiskyDetailProvider.overrideWith((ref, id) => Stream.value(null)),
+      referenceSettingsStreamProvider
+          .overrideWith((ref) => Stream.value(<String, dynamic>{})),
+      referenceWhiskyModelProvider.overrideWith((ref) => Stream.value(null)),
+      trProvider.overrideWithValue((String key, [List<dynamic>? args]) => key),
+    ]);
+    addTearDown(container.dispose);
+
+    await tester.pumpWidget(
+      UncontrolledProviderScope(
+        container: container,
+        child: MaterialApp(
+          home: DetailScreen(whiskyId: 1, backendId: 'W-ALLOWLIST-DISI'),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('whisky_login_required'), findsOneWidget);
+    expect(find.text('whisky_not_found'), findsNothing);
   });
 }
