@@ -10,6 +10,8 @@
 // stash) and once against the working tree — same test, same pump, same
 // viewports. Goldens live in test/features/auth/goldens/.
 
+import 'dart:io' show Platform;
+
 import 'package:drift/native.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -80,6 +82,13 @@ Future<void> _pumpAuth(WidgetTester tester,
   await tester.pumpAndSettle();
 }
 
+/// Auth goldens are Linux-CI truth (issue #81): real-font rasterization
+/// (fontconfig vs DirectWrite) drifts cross-platform, and flutter_test's
+/// golden comparator is exact. On non-Linux hosts the comparison would
+/// produce a false failure — skip it there. Regenerate with
+/// `flutter test --update-goldens` on the CI runner (Linux).
+final bool _skipGolden = !Platform.isLinux;
+
 Future<void> _setViewport(WidgetTester tester, Size size) async {
   tester.view.physicalSize = size;
   tester.view.devicePixelRatio = 1.0;
@@ -89,7 +98,8 @@ Future<void> _setViewport(WidgetTester tester, Size size) async {
 void main() {
   setUpAll(_loadFonts);
 
-  testWidgets('login renders at 390x844 (mobile)', (tester) async {
+  testWidgets('login renders at 390x844 (mobile)', skip: _skipGolden,
+      (tester) async {
     await _setViewport(tester, const Size(390, 844));
     await _pumpAuth(tester);
     await expectLater(
@@ -98,7 +108,8 @@ void main() {
     );
   });
 
-  testWidgets('register renders at 390x844 (mobile)', (tester) async {
+  testWidgets('register renders at 390x844 (mobile)', skip: _skipGolden,
+      (tester) async {
     await _setViewport(tester, const Size(390, 844));
     await _pumpAuth(tester, mode: AuthMode.register);
     await expectLater(
@@ -107,7 +118,8 @@ void main() {
     );
   });
 
-  testWidgets('login renders at 1280x800 (web/desktop)', (tester) async {
+  testWidgets('login renders at 1280x800 (web/desktop)', skip: _skipGolden,
+      (tester) async {
     await _setViewport(tester, const Size(1280, 800));
     await _pumpAuth(tester);
     await expectLater(
@@ -117,7 +129,7 @@ void main() {
   });
 
   testWidgets('empty submit shows error SnackBar at 390x844',
-      (tester) async {
+      skip: _skipGolden, (tester) async {
     await _setViewport(tester, const Size(390, 844));
     await _pumpAuth(tester);
 
