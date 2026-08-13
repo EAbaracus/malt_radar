@@ -36,7 +36,12 @@ class MaltRadarApp extends ConsumerWidget {
   /// Routes the entry screen through the compliance age gate. None of the
   /// product content renders until the user confirms they are of legal
   /// drinking age in their country.
-  Widget _homeFor(AgeGateDecision age, AuthState auth, bool isGuest, WidgetRef ref) {
+  Widget _homeFor(
+    AgeGateDecision age,
+    AuthState auth,
+    bool isGuest,
+    WidgetRef ref,
+  ) {
     switch (age.status) {
       case AgeGateStatus.unknown:
         return const _GateLoadingScaffold();
@@ -59,11 +64,7 @@ class MaltRadarApp extends ConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Medallion(
-                size: 96,
-                level: MedallionLevel.master,
-                animate: true,
-              ),
+              Medallion(size: 96, level: MedallionLevel.master, animate: true),
               SizedBox(height: 16),
               Text(
                 'Veritabanı hazırlanıyor...',
@@ -83,7 +84,10 @@ class MaltRadarApp extends ConsumerWidget {
               padding: const EdgeInsets.all(16.0),
               child: Text(
                 'Veritabanı başlatılamadı:\\n${initAsync.error}\\n\\nStack:\\n${initAsync.stackTrace}',
-                style: const TextStyle(color: AppTheme.error, fontSize: 12),
+                style: const TextStyle(
+                  color: AppTheme.errorOnDark,
+                  fontSize: 12,
+                ),
               ),
             ),
           ),
@@ -122,19 +126,15 @@ class _GateLoadingScaffold extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Medallion(
-              size: 96,
-              level: MedallionLevel.master,
-              spin: true,
-            ),
+            const Medallion(size: 96, level: MedallionLevel.master, spin: true),
             const SizedBox(height: 16),
             Text(
               'MALT RADAR',
               style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    color: AppTheme.primary,
-                    fontWeight: FontWeight.w900,
-                    letterSpacing: 2.0,
-                  ),
+                color: AppTheme.primary,
+                fontWeight: FontWeight.w900,
+                letterSpacing: 2.0,
+              ),
             ),
           ],
         ),

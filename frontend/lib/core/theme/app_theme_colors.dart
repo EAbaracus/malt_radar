@@ -13,8 +13,13 @@ class AppThemeColors {
   static const Color copper = Color(0xFFA6672C); // birincil vurgu
   static const Color copperDim = Color(0xFF8A5424);
   static const Color verdigris = Color(0xFF5C7A6E); // ikincil vurgu / rozet
-  static const Color brass = Color(0xFFC9A227); // SADECE amblem mühür halkası + ibre
+  static const Color brass = Color(
+    0xFFC9A227,
+  ); // SADECE amblem mühür halkası + ibre
   static const Color oxblood = Color(0xFF6B1E23); // nadir — uyarı/özel rozet
+  static const Color oxbloodLt = Color(
+    0xFFD6645C,
+  ); // oxblood açık shade — koyu zeminde ikon/metin (4.99:1 caskChar üstünde)
 }
 
 /// Medallion renk paketi. `brass` yalnızca burada (rim/needle) yaşar.

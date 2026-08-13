@@ -10,6 +10,7 @@ import 'auth_controller.dart';
 import 'google_sign_in_button.dart';
 import 'google_sign_in_web_button.dart';
 import 'google_sign_in_messages.dart';
+import 'package:malt_radar/core/branding/brand_medallion.dart';
 import 'package:malt_radar/core/branding/brand_medallion_widget.dart';
 
 /// Login / Register form. Uses the already-passed age gate decision to fill the
@@ -59,6 +60,12 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
 
     if (email.isEmpty || password.isEmpty) {
       _toast(isTr ? 'Tüm alanları doldurun' : 'Please fill in all fields');
+      return;
+    }
+    // Basic email shape check before any network call.
+    final emailRe = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
+    if (!emailRe.hasMatch(email)) {
+      _toast(isTr ? 'Geçerli bir e-posta girin' : 'Please enter a valid email');
       return;
     }
     setState(() => _busy = true);
@@ -131,9 +138,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
 
     String? err;
     try {
-      err = await ref
-          .read(authControllerProvider.notifier)
-          .signInWithGoogle();
+      err = await ref.read(authControllerProvider.notifier).signInWithGoogle();
     } catch (e) {
       // Catch any unexpected exception (timeout, parse error, etc.)
       err = isTr ? 'Beklenmeyen hata: $e' : 'Unexpected error: $e';
@@ -165,20 +170,35 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
 
     return Scaffold(
       backgroundColor: AppTheme.background,
-      appBar: AppBar(title: Text(isTr ? 'Hesap' : 'Account')),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              // Brand header — first-viewport product signal (matches the
+              // splash wordmark; static medallion, no spin).
+              const Center(
+                child: Medallion(size: 72, level: MedallionLevel.master),
+              ),
+              const SizedBox(height: 12),
+              Center(
+                child: Text(
+                  'MALT RADAR',
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    color: AppTheme.primary,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 2.0,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 32),
               Text(
                 _mode == AuthMode.login
                     ? (isTr ? 'Giriş Yap' : 'Sign in')
                     : (isTr ? 'Kayıt Ol' : 'Create account'),
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  color: AppTheme.primary,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
               const SizedBox(height: 8),
@@ -190,180 +210,199 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                     : (isTr
                           ? 'Kayıt ile favoriler, listeler ve puanlar sunucuya senkronize olur.'
                           : 'Create an account to sync favorites, lists and scores.'),
-                style: const TextStyle(
-                  color: AppTheme.textSecondary,
-                  fontSize: 13,
-                  height: 1.4,
-                ),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodySmall?.copyWith(height: 1.4),
               ),
               const SizedBox(height: 24),
-              // TODO(i18n): move the Google button label and the Google
-              // error strings (_googleErrorMessage) into the app's
-              // translation table (trProvider) once it exists.
-              // Web uses Google's native GSI `renderButton`; mobile keeps our
-              // styled button driving `authenticate()`. Both are gated behind
-              // the compile-time feature flag (default OFF in production —
-              // GSI script is not loaded and no Google button/divider renders
-              // until `--dart-define=ENABLE_GOOGLE_SIGN_IN=true`).
-              if (ref.watch(googleSignInEnabledProvider)) ...[
-                if (kIsWeb)
-                  const GoogleSignInWebButton()
-                else
-                  GoogleSignInButton(
-                    label: isTr ? 'Google ile devam et' : 'Continue with Google',
-                    isLoading: _googleBusy,
-                    onPressed: _signInWithGoogle,
+              // The form is a framed tool (sheet-like surface) per the
+              // DESIGN.md overlay/sheet family — not a repeated list card.
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: AppTheme.surface,
+                  borderRadius: BorderRadius.circular(24),
+                  border: Border.all(
+                    color: AppThemeColors.parchment.withValues(alpha: 0.08),
                   ),
-                const SizedBox(height: 16),
-                Row(
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const Expanded(
-                      child: Divider(
-                        color: AppTheme.textSecondary,
-                        thickness: 1,
-                        height: 1,
+                    // TODO(i18n): move the Google button label and the Google
+                    // error strings (_googleErrorMessage) into the app's
+                    // translation table (trProvider) once it exists.
+                    // Web uses Google's native GSI `renderButton`; mobile keeps our
+                    // styled button driving `authenticate()`. Both are gated behind
+                    // the compile-time feature flag (default OFF in production —
+                    // GSI script is not loaded and no Google button/divider renders
+                    // until `--dart-define=ENABLE_GOOGLE_SIGN_IN=true`).
+                    if (ref.watch(googleSignInEnabledProvider)) ...[
+                      if (kIsWeb)
+                        const GoogleSignInWebButton()
+                      else
+                        GoogleSignInButton(
+                          label: isTr
+                              ? 'Google ile devam et'
+                              : 'Continue with Google',
+                          isLoading: _googleBusy,
+                          onPressed: _signInWithGoogle,
+                        ),
+                      const SizedBox(height: 16),
+                      Row(
+                        children: [
+                          const Expanded(
+                            child: Divider(
+                              color: AppTheme.textSecondary,
+                              thickness: 1,
+                              height: 1,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                            child: Text(
+                              isTr ? 'veya' : 'or',
+                              style: const TextStyle(
+                                color: AppTheme.textSecondary,
+                                fontSize: 13,
+                              ),
+                            ),
+                          ),
+                          const Expanded(
+                            child: Divider(
+                              color: AppTheme.textSecondary,
+                              thickness: 1,
+                              height: 1,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: Text(
-                        isTr ? 'veya' : 'or',
-                        style: const TextStyle(
-                          color: AppTheme.textSecondary,
-                          fontSize: 13,
+                      const SizedBox(height: 16),
+                    ],
+                    if (_mode == AuthMode.register) ...[
+                      TextField(
+                        controller: _displayName,
+                        style: const TextStyle(color: AppThemeColors.parchment),
+                        decoration: InputDecoration(
+                          labelText: isTr
+                              ? 'Görünen ad (opsiyonel)'
+                              : 'Display name (optional)',
+                          prefixIcon: const Icon(
+                            Icons.person_outline,
+                            color: AppTheme.primary,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                    ],
+                    TextField(
+                      controller: _email,
+                      keyboardType: TextInputType.emailAddress,
+                      autocorrect: false,
+                      style: const TextStyle(color: AppThemeColors.parchment),
+                      decoration: InputDecoration(
+                        labelText: 'E-posta',
+                        prefixIcon: const Icon(
+                          Icons.mail_outline,
+                          color: AppTheme.primary,
                         ),
                       ),
                     ),
-                    const Expanded(
-                      child: Divider(
-                        color: AppTheme.textSecondary,
-                        thickness: 1,
-                        height: 1,
+                    const SizedBox(height: 16),
+                    TextField(
+                      controller: _password,
+                      obscureText: true,
+                      style: const TextStyle(color: AppThemeColors.parchment),
+                      decoration: InputDecoration(
+                        labelText: isTr ? 'Şifre' : 'Password',
+                        prefixIcon: const Icon(
+                          Icons.lock_outline,
+                          color: AppTheme.primary,
+                        ),
+                      ),
+                    ),
+                    if (_mode == AuthMode.register) ...[
+                      const SizedBox(height: 16),
+                      TextField(
+                        controller: _confirm,
+                        obscureText: true,
+                        style: const TextStyle(color: AppThemeColors.parchment),
+                        decoration: InputDecoration(
+                          labelText: isTr
+                              ? 'Şifre (tekrar)'
+                              : 'Confirm password',
+                          prefixIcon: const Icon(
+                            Icons.lock_outline,
+                            color: AppTheme.primary,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      _ConsentRow(
+                        value: _privacyConsent,
+                        text: isTr
+                            ? 'Kişisel veri işleme aydınlatma metnini okudum ve kabul ediyorum (KVKK).'
+                            : 'I have read and accept the privacy notice / KVKK data-processing consent.',
+                        onChanged: (v) => setState(() => _privacyConsent = v),
+                      ),
+                      const SizedBox(height: 8),
+                      _ConsentRow(
+                        value: _ageAffirm,
+                        text: isTr
+                            ? 'Ülkemin yasal içki yaşını doldurduğumu onaylıyorum.'
+                            : 'I confirm I am of legal drinking age in my country.',
+                        onChanged: (v) => setState(() => _ageAffirm = v),
+                      ),
+                    ],
+                    const SizedBox(height: 24),
+                    ElevatedButton(
+                      onPressed: _busy ? null : _submit,
+                      child: _busy
+                          ? const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: BrandSpinner(),
+                            )
+                          : Text(
+                              _mode == AuthMode.login
+                                  ? (isTr ? 'GİRİŞ YAP' : 'SIGN IN')
+                                  : (isTr ? 'KAYIT OL' : 'SIGN UP'),
+                            ),
+                    ),
+                    const SizedBox(height: 12),
+                    TextButton(
+                      onPressed: () {
+                        setState(() {
+                          _mode = _mode == AuthMode.login
+                              ? AuthMode.register
+                              : AuthMode.login;
+                        });
+                      },
+                      child: Text(
+                        _mode == AuthMode.login
+                            ? (isTr
+                                  ? 'Hesabın yok mu? Kaydol'
+                                  : "Don't have an account? Sign up")
+                            : (isTr
+                                  ? 'Zaten hesabın var? Giriş yap'
+                                  : 'Already have an account? Sign in'),
+                        style: const TextStyle(color: AppTheme.textSecondary),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    TextButton(
+                      onPressed: () {
+                        ref.read(guestModeProvider.notifier).state = true;
+                      },
+                      child: Text(
+                        isTr ? 'Misafir Olarak İncele' : 'Explore as Guest',
+                        style: const TextStyle(
+                          color: AppTheme.textSecondary,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ],
-                ),
-                const SizedBox(height: 16),
-              ],
-              if (_mode == AuthMode.register) ...[
-                TextField(
-                  controller: _displayName,
-                  style: const TextStyle(color: AppThemeColors.parchment),
-                  decoration: InputDecoration(
-                    labelText: isTr
-                        ? 'Görünen ad (opsiyonel)'
-                        : 'Display name (optional)',
-                    prefixIcon: const Icon(
-                      Icons.person_outline,
-                      color: AppTheme.primary,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-              ],
-              TextField(
-                controller: _email,
-                keyboardType: TextInputType.emailAddress,
-                autocorrect: false,
-                style: const TextStyle(color: AppThemeColors.parchment),
-                decoration: InputDecoration(
-                  labelText: 'E-posta',
-                  prefixIcon: const Icon(
-                    Icons.mail_outline,
-                    color: AppTheme.primary,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              TextField(
-                controller: _password,
-                obscureText: true,
-                style: const TextStyle(color: AppThemeColors.parchment),
-                decoration: InputDecoration(
-                  labelText: isTr ? 'Şifre' : 'Password',
-                  prefixIcon: const Icon(
-                    Icons.lock_outline,
-                    color: AppTheme.primary,
-                  ),
-                ),
-              ),
-              if (_mode == AuthMode.register) ...[
-                const SizedBox(height: 16),
-                TextField(
-                  controller: _confirm,
-                  obscureText: true,
-                  style: const TextStyle(color: AppThemeColors.parchment),
-                  decoration: InputDecoration(
-                    labelText: isTr ? 'Şifre (tekrar)' : 'Confirm password',
-                    prefixIcon: const Icon(
-                      Icons.lock_outline,
-                      color: AppTheme.primary,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                _ConsentRow(
-                  value: _privacyConsent,
-                  text: isTr
-                      ? 'Kişisel veri işleme aydınlatma metnini okudum ve kabul ediyorum (KVKK).'
-                      : 'I have read and accept the privacy notice / KVKK data-processing consent.',
-                  onChanged: (v) => setState(() => _privacyConsent = v),
-                ),
-                const SizedBox(height: 8),
-                _ConsentRow(
-                  value: _ageAffirm,
-                  text: isTr
-                      ? 'Ülkemin yasal içki yaşını doldurduğumu onaylıyorum.'
-                      : 'I confirm I am of legal drinking age in my country.',
-                  onChanged: (v) => setState(() => _ageAffirm = v),
-                ),
-              ],
-              const SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: _busy ? null : _submit,
-                child: _busy
-                    ? const SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: BrandSpinner(),
-                      )
-                    : Text(
-                        _mode == AuthMode.login
-                            ? (isTr ? 'GİRİŞ YAP' : 'SIGN IN')
-                            : (isTr ? 'KAYIT OL' : 'SIGN UP'),
-                      ),
-              ),
-              const SizedBox(height: 12),
-              TextButton(
-                onPressed: () {
-                  setState(() {
-                    _mode = _mode == AuthMode.login
-                        ? AuthMode.register
-                        : AuthMode.login;
-                  });
-                },
-                child: Text(
-                  _mode == AuthMode.login
-                      ? (isTr
-                          ? 'Hesabın yok mu? Kaydol'
-                          : "Don't have an account? Sign up")
-                      : (isTr
-                          ? 'Zaten hesabın var? Giriş yap'
-                          : 'Already have an account? Sign in'),
-                  style: const TextStyle(color: AppTheme.textSecondary),
-                ),
-              ),
-              const SizedBox(height: 8),
-              TextButton(
-                onPressed: () {
-                  ref.read(guestModeProvider.notifier).state = true;
-                },
-                child: Text(
-                  isTr ? 'Misafir Olarak İncele' : 'Explore as Guest',
-                  style: const TextStyle(
-                    color: AppTheme.primary,
-                    fontWeight: FontWeight.w600,
-                  ),
                 ),
               ),
             ],
