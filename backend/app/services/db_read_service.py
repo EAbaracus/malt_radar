@@ -272,39 +272,36 @@ class DbReadService:
                 return parts[0]
             return "MAX(" + ", ".join(parts) + ")"
 
+        static_conds = {
+            "single malt": (
+                "(LOWER(w.type) IN ('malt','single malt')"
+                " OR LOWER(w.name) LIKE '%single malt%'"
+                " OR LOWER(COALESCE(w.region,'')) IN ('islay','speyside','highland','campbeltown','lowland','islands'))"
+            ),
+            "blended": "(LOWER(w.type) IN ('blend','blended'))",
+            "bourbon": "(LOWER(w.type) = 'bourbon')",
+            "rye": "(LOWER(w.type) = 'rye')"
+        }
+        regions = {"speyside", "islay", "highland", "campbeltown", "lowland", "islands"}
+        flavors = {
+            "peated": ("smoky", "peaty", "peat", "smoky_peaty"),
+            "smoky": ("smoky", "peaty", "peat", "smoky_peaty"),
+            "sherry": ("sherry", "oak", "cask", "woody", "oak_cask"),
+            "sweet": ("sweet",),
+            "fruity": ("fruity", "fruit"),
+        }
+
         for f in wanted:
             fl = f.lower()
-            if fl == "single malt":
-                conds.append(
-                    "(LOWER(w.type) IN ('malt','single malt')"
-                    " OR LOWER(w.name) LIKE '%single malt%'"
-                    " OR LOWER(COALESCE(w.region,'')) IN ('islay','speyside','highland','campbeltown','lowland','islands'))"
-                )
+            if fl in static_conds:
+                conds.append(static_conds[fl])
                 recognized = True
-            elif fl == "blended":
-                conds.append("(LOWER(w.type) IN ('blend','blended'))")
-                recognized = True
-            elif fl == "bourbon":
-                conds.append("(LOWER(w.type) = 'bourbon')")
-                recognized = True
-            elif fl == "rye":
-                conds.append("(LOWER(w.type) = 'rye')")
-                recognized = True
-            elif fl in ("speyside", "islay", "highland", "campbeltown", "lowland", "islands"):
+            elif fl in regions:
                 conds.append("(LOWER(COALESCE(w.region,'')) = ?)")
                 params.append(fl)
                 recognized = True
-            elif fl in ("peated", "smoky"):
-                conds.append(f"({json_axis('smoky', 'peaty', 'peat', 'smoky_peaty')} > 1.0)")
-                recognized = True
-            elif fl == "sherry":
-                conds.append(f"({json_axis('sherry', 'oak', 'cask', 'woody', 'oak_cask')} > 1.0)")
-                recognized = True
-            elif fl == "sweet":
-                conds.append(f"({json_axis('sweet')} > 1.0)")
-                recognized = True
-            elif fl == "fruity":
-                conds.append(f"({json_axis('fruity', 'fruit')} > 1.0)")
+            elif fl in flavors:
+                conds.append(f"({json_axis(*flavors[fl])} > 1.0)")
                 recognized = True
 
         if not recognized:

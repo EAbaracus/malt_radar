@@ -14,16 +14,9 @@ from __future__ import annotations
 import os, sys, json, shutil, sqlite3, hashlib, importlib.util
 import pytest
 
-# Windows-only file-locking: EditorialPromotionWriter opens sqlite connections
-# against a temp copy of production.db and, although it closes them, the OS does
-# not always release the lock immediately. On Windows the fixture teardown
-# (unlink of the temp copy) then raises PermissionError. This is not a logic
-# bug — the writer closes its handles correctly — but the test cannot run
-# reliably on Windows. It passes on Linux CI; skip here to keep the local suite
-# green. Tracked in docs/KNOWN_ISSUES_pre-existing-test-failures.md.
-pytestmark = pytest.mark.skip(
-    reason="Windows file-lock on temp production.db copy; passes on Linux CI"
-)
+# Windows file-locking previously skipped this test due to lingering handles.
+# EditorialPromotionWriter.execute and test fixtures now close connections explicitly.
+# See docs/KNOWN_ISSUES_pre-existing-test-failures.md (fixed).
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 COMMON = os.path.join(ROOT, "mr-kep", "common", "flavor_scale_utils.py")
