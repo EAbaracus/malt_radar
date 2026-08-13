@@ -10,7 +10,6 @@ from typing import Optional
 from fastapi import HTTPException, Header
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
-from slowapi.errors import RateLimitExceeded
 
 # Configure rate limiter (default: 60 requests per minute per IP)
 limiter = Limiter(key_func=get_remote_address)
