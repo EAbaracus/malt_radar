@@ -259,6 +259,7 @@ class EditorialPromotionWriter:
             shutil.copy2(self.prod_db, bak)
 
         conn = sqlite3.connect(self.prod_db)
+        promotion_error = None
         try:
             cur = conn.cursor()
             new_ev = 0
@@ -286,11 +287,14 @@ class EditorialPromotionWriter:
             conn.commit()
         except Exception as e:
             conn.rollback()
-            if backup and os.path.exists(bak):
-                shutil.copy2(bak, self.prod_db)  # restore pre-promotion state
-            raise PromotionError(f"promotion aborted, rolled back + restored backup: {e}")
+            promotion_error = e
         finally:
             conn.close()
+
+        if promotion_error is not None:
+            if backup and os.path.exists(bak):
+                shutil.copy2(bak, self.prod_db)  # restore pre-promotion state
+            raise PromotionError(f"promotion aborted, rolled back + restored backup: {promotion_error}")
 
         return {
             "executed": True,
