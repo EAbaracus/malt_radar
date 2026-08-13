@@ -25,34 +25,56 @@ class AnonymousCatalogService:
     def get_whiskies(self, limit: int = 50, offset: int = 0, q: Optional[str] = None, filter: Optional[str] = None) -> Dict[str, Any]:
         offset = max(0, offset)
         limit = min(max(1, limit), 50)
-        
-        if offset >= len(self._allowlist_ids):
-            return {"items": [], "total_count": len(self._allowlist_ids), "limit": limit, "offset": offset}
-            
-        sliced_ids = self._allowlist_ids[offset:offset + limit]
-        
+
+        ids = self._allowlist_ids
+        if not ids:
+            return {"items": [], "total_count": 0, "limit": limit, "offset": offset}
+
+        placeholders = ",".join(["?"] * len(ids))
+        where = [f"w.whisky_id IN ({placeholders})", "w.superseded_by IS NULL"]
+        params: list[Any] = list(ids)
+
+        if q and len(q.strip()) >= 2:
+            where.append("w.name LIKE ?")
+            params.append(f"%{q.strip()}%")
+
+        # Chip filters (Bourbon/Single Malt/Blended/region/flavor) — reuse the
+        # governed auth-path vocabulary so anonymous and per-user catalogs
+        # filter identically. Unknown chips match nothing ("0").
+        if filter:
+            cond, fparams = self._db_service._prepare_chip_filter(filter)
+            where.append(cond)
+            params.extend(fparams)
+
+        where_sql = " AND ".join(where)
+
         with self._adapter.raw_connection() as conn:
             cursor = conn.cursor()
-            placeholders = ",".join(["?"] * len(sliced_ids))
+            # Total over the FILTERED set (BEFORE limit/offset) so pagination
+            # slices the filtered result, mirroring db_read_service.
+            count_sql = (
+                "SELECT COUNT(DISTINCT w.whisky_id) FROM whiskies w "
+                "LEFT JOIN flavor_profiles fp ON w.whisky_id = fp.whisky_id "
+                f"WHERE {where_sql}"
+            )
+            total = cursor.execute(count_sql, params).fetchone()[0]
+
             query = f"""
                 SELECT w.*, d.name as distillery_name, fp.flavor_profile as flavor_profile
                 FROM whiskies w
                 LEFT JOIN distilleries d ON w.distillery_id = d.distillery_id
                 LEFT JOIN flavor_profiles fp ON w.whisky_id = fp.whisky_id
-                WHERE w.whisky_id IN ({placeholders}) AND w.superseded_by IS NULL
+                WHERE {where_sql}
+                GROUP BY w.whisky_id ORDER BY w.name ASC LIMIT ? OFFSET ?
             """
-            params: list[Any] = list(sliced_ids)
-            if q and len(q.strip()) >= 2:
-                query += " AND w.name LIKE ?"
-                params.append(f"%{q.strip()}%")
-            
-            query += " GROUP BY w.whisky_id ORDER BY w.name ASC"
-            cursor.execute(query, params)
-            rows = [self._shape_whisky(dict(row)) for row in cursor.fetchall()]
+            rows = [
+                self._shape_whisky(dict(row))
+                for row in cursor.execute(query, params + [limit, offset]).fetchall()
+            ]
 
         return {
             "items": rows,
-            "total_count": len(self._allowlist_ids),
+            "total_count": total,
             "limit": limit,
             "offset": offset,
         }

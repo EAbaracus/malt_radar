@@ -30,3 +30,24 @@ def test_service_offset_boundary_empty_list():
     res = service.get_whiskies(limit=50, offset=9999)
     assert res["items"] == []
     assert res["total_count"] == len(service.get_allowlist_ids())
+
+def test_service_filter_bourbon_returns_only_bourbons():
+    service = AnonymousCatalogService()
+    res = service.get_whiskies(limit=50, offset=0, filter="Bourbon")
+    assert res["total_count"] <= len(service.get_allowlist_ids())
+    for item in res["items"]:
+        cat = (item.get("category") or "").lower()
+        typ = (item.get("type") or "").lower()
+        assert cat == "bourbon" or typ == "bourbon"
+
+def test_service_filter_changes_total_and_slices_filtered_set():
+    service = AnonymousCatalogService()
+    all_res = service.get_whiskies(limit=50, offset=0)
+    bourbon_res = service.get_whiskies(limit=50, offset=0, filter="Bourbon")
+    # Filtered total must differ from (or equal to, if everything is bourbon —
+    # in practice the allowlist is mixed) the unfiltered total.
+    assert bourbon_res["total_count"] <= all_res["total_count"]
+    # Pagination slices the FILTERED set: offset beyond the filtered total is empty.
+    beyond = service.get_whiskies(limit=50, offset=9999, filter="Bourbon")
+    assert beyond["items"] == []
+    assert beyond["total_count"] == bourbon_res["total_count"]

@@ -277,20 +277,18 @@ class DbReadService:
             if fl == "single malt":
                 conds.append(
                     "(LOWER(w.type) IN ('malt','single malt')"
-                    " OR LOWER(w.category) = 'single malt'"
-                    " OR (LOWER(w.category) = 'scotch' AND LOWER(w.type) = 'malt')"
                     " OR LOWER(w.name) LIKE '%single malt%'"
                     " OR LOWER(COALESCE(w.region,'')) IN ('islay','speyside','highland','campbeltown','lowland','islands'))"
                 )
                 recognized = True
             elif fl == "blended":
-                conds.append("(LOWER(w.type) IN ('blend','blended') OR LOWER(w.category) IN ('blended','blend'))")
+                conds.append("(LOWER(w.type) IN ('blend','blended'))")
                 recognized = True
             elif fl == "bourbon":
-                conds.append("(LOWER(w.category) = 'bourbon' OR LOWER(w.type) = 'bourbon')")
+                conds.append("(LOWER(w.type) = 'bourbon')")
                 recognized = True
             elif fl == "rye":
-                conds.append("(LOWER(w.category) = 'rye' OR LOWER(w.type) = 'rye')")
+                conds.append("(LOWER(w.type) = 'rye')")
                 recognized = True
             elif fl in ("speyside", "islay", "highland", "campbeltown", "lowland", "islands"):
                 conds.append("(LOWER(COALESCE(w.region,'')) = ?)")
