@@ -207,13 +207,16 @@ class DbReadService:
             FROM whiskies w
             LEFT JOIN distilleries d ON w.distillery_id = d.distillery_id
             LEFT JOIN flavor_profiles fp ON w.whisky_id = fp.whisky_id
-            WHERE w.superseded_by IS NULL
         """
         params = []
 
         if q and len(q.strip()) >= 2:
-            query += " AND w.name LIKE ?"
-            params.append(f"%{q.strip()}%")
+            # Case-insensitive search across name and original_name (if present)
+            query += " WHERE (LOWER(w.name) LIKE LOWER(?) OR LOWER(COALESCE(w.original_name, '')) LIKE LOWER(?))"
+            term = f"%{q.strip()}%"
+            params.extend([term, term])
+        else:
+            query += " WHERE 1=1"
 
         if distillery_id:
             query += " AND w.distillery_id = ?"
@@ -387,7 +390,8 @@ class DbReadService:
             FROM whiskies w
             LEFT JOIN distilleries d ON w.distillery_id = d.distillery_id
             LEFT JOIN flavor_profiles fp ON w.whisky_id = fp.whisky_id
-            WHERE (w.name LIKE ? OR d.name LIKE ?) AND w.superseded_by IS NULL
+            WHERE (LOWER(w.name) LIKE LOWER(?) OR LOWER(COALESCE(w.original_name, '')) LIKE LOWER(?)
+                   OR d.name LIKE ?)
             GROUP BY w.whisky_id
             ORDER BY CASE WHEN w.whisky_id LIKE 'GSD-CAND-%' THEN 0 ELSE 1 END, w.name ASC
             LIMIT 50
@@ -395,7 +399,7 @@ class DbReadService:
         term = f"%{q.strip()}%"
         with self._get_connection() as conn:
             cursor = conn.cursor()
-            cursor.execute(query, (term, term))
+            cursor.execute(query, (term, term, term))
             rows = [self._prepare_whisky(dict(r)) for r in cursor.fetchall()]
 
         # Deduplicate by canonical name so a certified + legacy duplicate are
