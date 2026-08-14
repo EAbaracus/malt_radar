@@ -103,7 +103,7 @@ def cmd_publish(args) -> int:
     from social.queue import publish_due
     from social.publisher import PublishError, load_env
     load_env()  # social/.env -> os.environ (gerçek secret'lar diskten)
-    due = publish_due(args.queue)
+    due = publish_due(args.queue, lang=args.lang, limit=args.limit)
     if not due:
         print("Zamanı gelmiş onaylı post yok (önce approve + schedule).")
         return 0
@@ -179,6 +179,10 @@ def build_parser() -> argparse.ArgumentParser:
     pub = sub.choices["publish"]
     pub.add_argument("--ids", default=None)
     pub.add_argument("--dry-run", action="store_true")
+    pub.add_argument("--lang", choices=["tr", "en"], default=None,
+                     help="slot dili; cron bunu açıkça set eder")
+    pub.add_argument("--limit", type=int, default=None,
+                     help="tek tick'te yayınlanacak maksimum post")
     return ap
 
 

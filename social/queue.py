@@ -143,16 +143,27 @@ def schedule(listing: dict, path: str | None = None) -> dict:
     return {"scheduled": len(ids)}
 
 
-def publish_due(path: str | None = None, now_utc: str | None = None) -> list:
-    """Zamanı gelmiş, approved durumdaki postları döndürür (yayın çıktısı üretir)."""
+def publish_due(path: str | None = None, now_utc: str | None = None,
+                lang: str | None = None, limit: int | None = None) -> list:
+    """Return due approved posts, optionally filtered by language and capped.
+
+    Legacy posts without ``lang`` are TR. A cron slot must pass its language
+    explicitly and a limit of one; otherwise a missed slot can publish an old
+    backlog or consume an EN slot with a TR post.
+    """
     q = _load(path or str(_default_queue_path()))
     now = now_utc or _now()
     due = []
     for post in q["posts"]:
-        if post["status"] == "approved" and post.get("scheduled_utc"):
-            if post["scheduled_utc"] <= now:
-                due.append(post)
-    return due
+        if post["status"] != "approved" or not post.get("scheduled_utc"):
+            continue
+        if post["scheduled_utc"] > now:
+            continue
+        if lang is not None and post.get("lang", "tr") != lang:
+            continue
+        due.append(post)
+    due.sort(key=lambda post: post.get("scheduled_utc", ""))
+    return due[:limit] if limit is not None else due
 
 
 def status(path: str | None = None) -> dict:

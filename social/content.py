@@ -134,13 +134,17 @@ def _tags(row) -> str:
 
 
 def _rot(rows: list[dict], day: int, k: int | None = None) -> list[dict]:
-    """day indeksine gore doner: day adim kayarak ilk k öğeyi seç.
-    Boş liste -> bos. k None -> hepsi (adim yine kayar)."""
+    """day indeksine gore doner: `day * stride` adim kayarak ilk k öğeyi seç.
+
+    Stride = pencere boyutu (k): bitişik günlerin pencereleri ÖRTÜŞMEZ —
+    day 0 -> [0..k), day 1 -> [k..2k), ... Böylece "hep aynı 3 ülke/bölge"
+    hissi doğmaz (eski stride=1 pencere günlerce aynı görünüyordu).
+    """
     if not rows:
         return []
     k = k if k is not None else len(rows)
     n = len(rows)
-    return [rows[(day + i) % n] for i in range(k)]
+    return [rows[(day * k + i) % n] for i in range(k)]
 
 
 # --- Template'ler: hepsi editoryal / app-bilgi odaklı, içki teşviki yok ---
@@ -199,25 +203,31 @@ def _coverage_en(m, day):
 def _flavor_tr(m, day):
     s = m["totals"]
     src_count = len(m["evidence_sources"])
+    regions = _rot(m["regions"], day, 3)
+    highlights = ", ".join(_tags(r) for r in regions)
     # KAYNAK ADLARI gizli: sadece jenerik sayı. Tedarikçi/dergi/OCR adı paylaşılmaz.
     return (
         "Malt Radar, {evidence} flavor kanıtını {src_count} farklı kamuya açık "
         "kaynaktan derleyip\n{profiles} viski için flavor profili oluşturuyor.\n"
-        "Her kanıt kaynak menşeiyle birlikte izlenebilir.\n"
-        "Bir viskinin karakterini veriyle okumak üzerine bir proje."
-    ).format(evidence=s["flavor_evidence"], src_count=src_count, profiles=s["flavor_profiles"])
+        "Bu turda veri görünümü: {highlights}.\n"
+        "Her kanıt kaynak menşeiyle birlikte izlenebilir."
+    ).format(evidence=s["flavor_evidence"], src_count=src_count,
+             profiles=s["flavor_profiles"], highlights=highlights)
 
 
 def _flavor_en(m, day):
     s = m["totals"]
     src_count = len(m["evidence_sources"])
+    regions = _rot(m["regions"], day, 3)
+    highlights = ", ".join(_tags(r) for r in regions)
     # KAYNAK ADLARI gizli: sadece jenerik sayı. Tedarikçi/dergi/OCR adı paylaşılmaz.
     return (
         "Malt Radar compiles {evidence} flavor evidence entries from {src_count} "
         "public sources to build\nflavor profiles for {profiles} whiskies.\n"
-        "Every piece of evidence is traceable to its source.\n"
-        "A project about reading a whisky's character through data."
-    ).format(evidence=s["flavor_evidence"], src_count=src_count, profiles=s["flavor_profiles"])
+        "This rotation highlights: {highlights}.\n"
+        "Every piece of evidence is traceable to its source."
+    ).format(evidence=s["flavor_evidence"], src_count=src_count,
+             profiles=s["flavor_profiles"], highlights=highlights)
 
 
 def _origins_tr(m, day):
