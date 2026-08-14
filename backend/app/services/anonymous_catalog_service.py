@@ -31,7 +31,10 @@ class AnonymousCatalogService:
             return {"items": [], "total_count": 0, "limit": limit, "offset": offset}
 
         placeholders = ",".join(["?"] * len(ids))
-        where = [f"w.whisky_id IN ({placeholders})", "w.superseded_by IS NULL"]
+        # Allowlist build (build_anonymous_allowlist.py) explicitly filters out
+        # superseded whiskies at build time. Runtime queries are bounded strictly
+        # to allowlist_ids, making runtime supersession filtering redundant.
+        where = [f"w.whisky_id IN ({placeholders})"]
         params: list[Any] = list(ids)
 
         if q and len(q.strip()) >= 2:

@@ -102,12 +102,27 @@ class SqliteReadAdapter:
         with self._get_connection() as conn:
             cursor = conn.cursor()
             if q and len(q.strip()) > 0:
-                count_query = "SELECT COUNT(*) as c FROM whiskies WHERE name LIKE ? AND superseded_by IS NULL"
-                cursor.execute(count_query, (f"%{q.strip()}%",))
+                # Keep search restricted to active canonical products while making
+                # both stored name fields case-insensitive.
+                search = q.strip()
+                pattern = f"%{search}%"
+                active = "(superseded_by IS NULL OR superseded_by='')"
+                count_query = (
+                    "SELECT COUNT(*) as c FROM whiskies "
+                    "WHERE " + active + " AND ("
+                    "LOWER(name) LIKE LOWER(?) OR "
+                    "LOWER(COALESCE(original_name, '')) LIKE LOWER(?))"
+                )
+                cursor.execute(count_query, (pattern, pattern))
                 total = cursor.fetchone()["c"]
-                
-                query = "SELECT * FROM whiskies WHERE name LIKE ? AND superseded_by IS NULL LIMIT ? OFFSET ?"
-                cursor.execute(query, (f"%{q.strip()}%", limit, offset))
+
+                query = (
+                    "SELECT * FROM whiskies WHERE " + active + " AND ("
+                    "LOWER(name) LIKE LOWER(?) OR "
+                    "LOWER(COALESCE(original_name, '')) LIKE LOWER(?) ) "
+                    "LIMIT ? OFFSET ?"
+                )
+                cursor.execute(query, (pattern, pattern, limit, offset))
             else:
                 count_query = "SELECT COUNT(*) as c FROM whiskies WHERE superseded_by IS NULL"
                 cursor.execute(count_query)
