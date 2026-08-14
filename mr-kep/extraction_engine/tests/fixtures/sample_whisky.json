@@ -1,0 +1,11 @@
+{
+  "whisky": "Ardbeg 10 Year Old",
+  "distillery": "Ardbeg",
+  "region": "Islay",
+  "rating": 88,
+  "notes": "Peaty, smoky, maritime with citrus notes",
+  "source": {
+    "name": "Whisky Advocate",
+    "issue": "2024-03"
+  }
+}

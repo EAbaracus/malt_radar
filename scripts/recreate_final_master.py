@@ -1,8 +1,9 @@
+from pathlib import Path
 import os
 import pandas as pd
 
 def check_files():
-    base_dir = r"C:\Users\eltun\Documents\malt radar"
+    base_dir = Path(__file__).resolve().parent.parent
     
     file_54 = os.path.join(base_dir, "54_FINAL_import_ready_whiskies.csv")
     file_39 = os.path.join(base_dir, "39_corrected_import_ready_whiskies.csv")

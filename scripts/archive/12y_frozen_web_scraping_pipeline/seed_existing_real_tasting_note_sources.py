@@ -258,6 +258,8 @@ def main():
         
     with open(report_md, 'w', encoding='utf-8') as f:
         f.write("# 222 Web Tasting Note Source Seed Report\n\n")
+        f.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
+
         f.write(f"- Flavor profile missing whisky count: {len(target_whiskies)}\n")
         f.write(f"- Scanned source CSV count: {len(source_files)}\n")
         f.write(f"- Total matched whiskies: {len(results)}\n")

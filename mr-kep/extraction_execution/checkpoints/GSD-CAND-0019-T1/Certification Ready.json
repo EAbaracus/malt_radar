@@ -1,0 +1,171 @@
+{
+  "_checksum": "b3647515dd4b28e0384c5fc67b7dce4f82d5301c2621d5c5cca6342a7edf94a9",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-c6e437f2e26a3eef",
+      "fact_id": "EV-ea840c3917d6",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "Caol Ila",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Caol Ila Distillery",
+          "source_key": "DiageoMalts",
+          "source_url": "https://www.malts.com/en-gb/products/single-malt-whisky/caol-ila-12-year-old",
+          "won": true
+        }
+      ],
+      "value": "Caol Ila"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-40f777d192948eb8",
+      "fact_id": "EV-938964b2ecc0",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "Scotland",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Product of Scotland",
+          "source_key": "DiageoMalts",
+          "source_url": "https://www.malts.com/en-gb/products/single-malt-whisky/caol-ila-12-year-old",
+          "won": true
+        }
+      ],
+      "value": "Scotland"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-6d5e3f6f628403b2",
+      "fact_id": "EV-2019a6b0dbfa",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "Islay",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Islay single malt",
+          "source_key": "DiageoMalts",
+          "source_url": "https://www.malts.com/en-gb/products/single-malt-whisky/caol-ila-12-year-old",
+          "won": true
+        }
+      ],
+      "value": "Islay"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-43b8854cb95b7fed",
+      "fact_id": "EV-058b393a593d",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 43.0,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "43% ABV",
+          "source_key": "DiageoMalts",
+          "source_url": "https://www.malts.com/en-gb/products/single-malt-whisky/caol-ila-12-year-old",
+          "won": true
+        }
+      ],
+      "value": 43.0
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-5797447a9ff86c89",
+      "fact_id": "EV-5c820d51fce1",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Bourbon",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "ex-bourbon casks",
+          "source_key": "DiageoMalts",
+          "source_url": "https://www.malts.com/en-gb/products/single-malt-whisky/caol-ila-12-year-old",
+          "won": true
+        }
+      ],
+      "value": "Bourbon"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-be9924e2c955dd86",
+      "fact_id": "EV-8eda49de58a2",
+      "field": "age_statement",
+      "field_name": "age_statement",
+      "field_value": 12,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "12 Years Old",
+          "source_key": "DiageoMalts",
+          "source_url": "https://www.malts.com/en-gb/products/single-malt-whisky/caol-ila-12-year-old",
+          "won": true
+        }
+      ],
+      "value": 12
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DiageoMalts",
+    "url": "https://www.malts.com/en-gb/products/single-malt-whisky/caol-ila-12-year-old"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "43% ABV",
+      "value": 43.0
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "12 Years Old",
+      "value": 12
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "ex-bourbon casks",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Scotland",
+      "value": "Scotland"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Caol Ila Distillery",
+      "value": "Caol Ila"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Islay single malt",
+      "value": "Islay"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0019",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:48.126535+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

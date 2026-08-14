@@ -1,2 +1,0 @@
-GATE: GO
-All lineage checks passed. Stale output is not the cause, or counts are consistent.

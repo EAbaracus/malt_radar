@@ -2,6 +2,7 @@ import os
 import sys
 import argparse
 import subprocess
+import shlex
 import re
 from pathlib import Path
 
@@ -16,7 +17,9 @@ FORBIDDEN_FILES = ['.env', 'output/production.db']
 def run_command(cmd, cwd=None, capture_output=True):
     """Komutu çalıştırır ve çıktıyı döndürür."""
     try:
-        result = subprocess.run(cmd, shell=True, capture_output=capture_output, text=True, cwd=cwd)
+        if isinstance(cmd, str):
+            cmd = shlex.split(cmd)
+        result = subprocess.run(cmd, shell=False, capture_output=capture_output, text=True, cwd=cwd)
         return result.returncode, result.stdout + result.stderr
     except Exception as e:
         return -1, str(e)
@@ -170,18 +173,30 @@ def is_allowed_to_modify(filepath):
     """Dosyanın değiştirilmesine izin verilip verilmediğini kontrol eder."""
     if not filepath: return False
     
-    filepath_normalized = filepath.replace("\\", "/")
+    try:
+        # Resolve the absolute path of the file and the current working directory
+        abs_filepath = os.path.abspath(filepath)
+        abs_cwd = os.path.abspath(os.getcwd())
+
+        # Ensure the file is within the current working directory to prevent path traversal
+        if not abs_filepath.startswith(abs_cwd + os.sep):
+            return False
+
+        # Get the relative path for directory/file checks
+        rel_filepath = os.path.relpath(abs_filepath, abs_cwd).replace("\\", "/")
+    except ValueError:
+        return False
     
     for forbidden in FORBIDDEN_DIRS:
-        if forbidden in filepath_normalized.split('/'):
+        if forbidden in rel_filepath.split('/'):
             return False
             
     for forbidden_file in FORBIDDEN_FILES:
-        if filepath_normalized.endswith(forbidden_file):
+        if rel_filepath.endswith(forbidden_file):
             return False
             
     for allowed in ALLOWED_DIRS:
-        if filepath_normalized.startswith(allowed):
+        if rel_filepath.startswith(allowed):
             return True
             
     return False

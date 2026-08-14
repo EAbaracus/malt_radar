@@ -1,4 +1,0 @@
-ScotchGit preview whitelist: GO
-ScotchGit production import: NO-GO until 11E-WM-IMPORT is closed
-accepted_preview_rows=123
-production_db_changed=NO

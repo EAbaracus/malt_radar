@@ -1,2 +1,0 @@
-GATE: GO
-REASON: Safe cleanup executed successfully without touching protected files.

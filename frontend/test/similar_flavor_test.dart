@@ -13,12 +13,17 @@ void main() {
 
   test('Similar Flavor calculates successfully', () async {
     final db = AppDatabase.forTesting(NativeDatabase.memory());
-    
-    // Read the actual CSV file
-    final file = File('assets/data/whisky_database_merged_max.csv');
+
+    // Read the schema-accurate fixture CSVs (NOT the real backend data dir —
+    // real catalog CSVs are gitignored and never shipped to clients. Fixtures
+    // are synthetic, schema-accurate rows so logic is verified against a
+    // representative parse surface without shipping catalog data).
+    final file = File('test/fixtures/whisky_database_merged_max.csv');
     final csvString = await file.readAsString();
-    
-    await DataSeedService.seedDatabaseIfEmpty(db, testCsvString: csvString);
+    final flavorFile = File('test/fixtures/flavor_profiles.csv');
+    final flavorCsv = await flavorFile.readAsString();
+
+    await DataSeedService.seedDatabaseIfEmpty(db, testCsvString: csvString, flavorCsvString: flavorCsv);
     
     final whiskiesWithFlavor = await (db.select(db.whiskies)..where((t) => t.flavorProfile.isNotNull())).get();
     

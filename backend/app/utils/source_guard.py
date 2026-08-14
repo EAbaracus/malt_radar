@@ -9,6 +9,7 @@ class SourceGuard:
         "source_id",
         "source_name",
         "source_url",
+        "source_domain",
         "source_system",
         "source_reference",
         "internal_source_url",

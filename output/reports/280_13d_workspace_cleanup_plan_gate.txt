@@ -1,2 +1,0 @@
-GATE: GO
-REASON: Safe cleanup plan generated successfully. No files deleted.

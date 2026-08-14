@@ -97,6 +97,7 @@ class DataSeedService {
       final finishNotesIdx = headers.indexOf('finish_notes');
       final userScoreIdx = headers.indexOf('user_score_100');
       final metaCriticIdx = headers.indexOf('meta_critic');
+      final styleSimilarityIdx = headers.indexOf('style_similarity');
 
       final companions = <WhiskiesCompanion>[];
 
@@ -145,7 +146,7 @@ class DataSeedService {
         
         final userScoreStr = getStr(userScoreIdx);
         final metaCriticStr = getStr(metaCriticIdx);
-
+        
         double? globalScore;
         final userScore = double.tryParse(userScoreStr);
         final metaCritic = double.tryParse(metaCriticStr);
@@ -206,6 +207,8 @@ class DataSeedService {
           flavorTags: Value(flavorTags?.isNotEmpty == true ? flavorTags : null),
           flavorSource: Value(flavorSource?.isNotEmpty == true ? flavorSource : null),
           flavorMatchScore: Value(flavorMatchScore),
+          type: Value(getStr(typeIdx).isNotEmpty ? getStr(typeIdx) : null),
+          styleSimilarity: Value(styleSimilarityIdx >= 0 && getStr(styleSimilarityIdx).isNotEmpty ? getStr(styleSimilarityIdx) : null),
         ));
       }
 

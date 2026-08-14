@@ -1,0 +1,1293 @@
+{
+  "P1": {
+    "total_rows": 2577,
+    "invalid_whisky_id_rows": 774,
+    "valid_rows": 1803,
+    "duplicate_whisky_id_rows": 1799,
+    "distinct_valid_whisky_ids": 64,
+    "already_promoted_rows": 2,
+    "already_promoted_ids": 2,
+    "pending_rows": 2575,
+    "eligible_rows": 64,
+    "eligible_distinct_whiskies": 64
+  },
+  "P2": {
+    "verified_exist": 64,
+    "missing_in_production": 0,
+    "missing_ids": [],
+    "all_eligible_resolved_to_valid": true
+  },
+  "P3": {
+    "per_axis_nonnull": {
+      "smoky": 51,
+      "peaty": 41,
+      "sherry": 45,
+      "fruity": 62,
+      "spicy": 56,
+      "sweet": 64,
+      "maritime": 26
+    },
+    "malformed": 0,
+    "null_required": 0,
+    "distribution": {
+      "smoky": 79.7,
+      "peaty": 64.1,
+      "sherry": 70.3,
+      "fruity": 96.9,
+      "spicy": 87.5,
+      "sweet": 100.0,
+      "maritime": 40.6
+    },
+    "malformed_samples": [],
+    "rows_with_no_canonical_axis": 0
+  },
+  "P4": {
+    "fields_in_table": {
+      "book": "source_book column exists",
+      "page": "source_page_or_section exists (often NULL)",
+      "confidence": "flavor_data_confidence exists (often NULL)"
+    },
+    "fields_absent_in_schema": [
+      "author",
+      "citation",
+      "evidence_id",
+      "authority_tier"
+    ],
+    "book_present": 64,
+    "page_present": 58,
+    "confidence_present": 0,
+    "provenance_complete": false,
+    "missing_provenance_fields": [
+      "author",
+      "citation",
+      "evidence_id",
+      "authority_tier",
+      "page (partial)",
+      "confidence (partial)"
+    ]
+  },
+  "P5": {
+    "new_evidence_rows": 64,
+    "first_evidence_gained": 52,
+    "existing_evidence_updated": 12,
+    "flavor_profile_improvements": 60,
+    "new_flavor_profiles": 4,
+    "coverage_before_pct": 20.87,
+    "coverage_after_pct": 21.96,
+    "evidence_rows_before": 993,
+    "evidence_rows_after_est": 1057
+  },
+  "P6_manifest": {
+    "dataset": "staging_book_flavor_profiles",
+    "generated": "P403 read-only prep",
+    "read_only": true,
+    "eligible_count": 64,
+    "eligible_whisky_ids": [
+      "W000001",
+      "W000002",
+      "W000004",
+      "W000011",
+      "W000012",
+      "W000013",
+      "W000014",
+      "W000015",
+      "W000016",
+      "W000018",
+      "W000022",
+      "W000024",
+      "W000099",
+      "W000398",
+      "W000622",
+      "W000900",
+      "W001042",
+      "W001308",
+      "W001980",
+      "W001986",
+      "W001988",
+      "W001990",
+      "W001999",
+      "W002001",
+      "W002003",
+      "W002020",
+      "W002130",
+      "W002135",
+      "W002136",
+      "W002137",
+      "W002142",
+      "W002144",
+      "W002154",
+      "W002157",
+      "W002158",
+      "W002163",
+      "W002278",
+      "W002283",
+      "W002288",
+      "W002290",
+      "W002292",
+      "W002295",
+      "W002297",
+      "W002304",
+      "W002306",
+      "W002318",
+      "W002440",
+      "W002442",
+      "W002446",
+      "W002448",
+      "W002526",
+      "W002532",
+      "W002534",
+      "W002545",
+      "W002564",
+      "W002565",
+      "W002573",
+      "W002594",
+      "W002611",
+      "W002822",
+      "W002912",
+      "W003148",
+      "W003197",
+      "W003203"
+    ],
+    "promotion_order": [
+      "W000001",
+      "W000002",
+      "W000004",
+      "W000011",
+      "W000012",
+      "W000013",
+      "W000014",
+      "W000015",
+      "W000016",
+      "W000018",
+      "W000022",
+      "W000024",
+      "W000099",
+      "W000398",
+      "W000622",
+      "W000900",
+      "W001042",
+      "W001308",
+      "W001980",
+      "W001986",
+      "W001988",
+      "W001990",
+      "W001999",
+      "W002001",
+      "W002003",
+      "W002020",
+      "W002130",
+      "W002135",
+      "W002136",
+      "W002137",
+      "W002142",
+      "W002144",
+      "W002154",
+      "W002157",
+      "W002158",
+      "W002163",
+      "W002278",
+      "W002283",
+      "W002288",
+      "W002290",
+      "W002292",
+      "W002295",
+      "W002297",
+      "W002304",
+      "W002306",
+      "W002318",
+      "W002440",
+      "W002442",
+      "W002446",
+      "W002448",
+      "W002526",
+      "W002532",
+      "W002534",
+      "W002545",
+      "W002564",
+      "W002565",
+      "W002573",
+      "W002594",
+      "W002611",
+      "W002822",
+      "W002912",
+      "W003148",
+      "W003197",
+      "W003203"
+    ],
+    "row_counts": {
+      "total": 2577,
+      "eligible": 64,
+      "invalid": 774,
+      "already_promoted": 2
+    },
+    "checksums": {
+      "note": "manifest content hash below; production.db NOT written"
+    },
+    "manifest_sha256": "a5e8a463d344a38e3ff095ff79b60176",
+    "evidence_payloads": [
+      {
+        "whisky_id": "W001042",
+        "source": "book",
+        "book": "Let Me Tell You About Whisky",
+        "axes": {
+          "smoky": 20.0,
+          "peaty": null,
+          "sherry": null,
+          "fruity": 60.0,
+          "spicy": 60.0,
+          "sweet": 60.0,
+          "maritime": null
+        }
+      },
+      {
+        "whisky_id": "W000398",
+        "source": "book",
+        "book": "The Ultimate Book of Whiskey",
+        "axes": {
+          "smoky": null,
+          "peaty": null,
+          "sherry": null,
+          "fruity": 60.0,
+          "spicy": 40.0,
+          "sweet": 60.0,
+          "maritime": null
+        }
+      },
+      {
+        "whisky_id": "W000622",
+        "source": "book",
+        "book": "Let Me Tell You About Whisky",
+        "axes": {
+          "smoky": null,
+          "peaty": null,
+          "sherry": null,
+          "fruity": 40.0,
+          "spicy": null,
+          "sweet": 60.0,
+          "maritime": null
+        }
+      },
+      {
+        "whisky_id": "W000099",
+        "source": "book",
+        "book": "The Ultimate Book of Whiskey",
+        "axes": {
+          "smoky": null,
+          "peaty": null,
+          "sherry": 100.0,
+          "fruity": 100.0,
+          "spicy": 60.0,
+          "sweet": 80.0,
+          "maritime": null
+        }
+      },
+      {
+        "whisky_id": "W000900",
+        "source": "book",
+        "book": "Whisky Tasting Guide",
+        "axes": {
+          "smoky": 20.0,
+          "peaty": null,
+          "sherry": null,
+          "fruity": 60.0,
+          "spicy": null,
+          "sweet": 60.0,
+          "maritime": null
+        }
+      },
+      {
+        "whisky_id": "W001308",
+        "source": "book",
+        "book": "The Ultimate Book of Whiskey",
+        "axes": {
+          "smoky": null,
+          "peaty": null,
+          "sherry": null,
+          "fruity": 60.0,
+          "spicy": 40.0,
+          "sweet": 80.0,
+          "maritime": null
+        }
+      },
+      {
+        "whisky_id": "W002158",
+        "source": "book",
+        "book": "Whisky Advocate - Wol_ 32 No_ 04 [Winter 2023] (TruePDF)_pdf -- 9e8632dc53e3c2f8997618933d287a96 -- Anna\u2019s Archive.pdf",
+        "axes": {
+          "smoky": null,
+          "peaty": null,
+          "sherry": 50.0,
+          "fruity": 72.0,
+          "spicy": 72.0,
+          "sweet": 81.0,
+          "maritime": null
+        }
+      },
+      {
+        "whisky_id": "W000002",
+        "source": "book",
+        "book": "The ultimate book of whiskey ; over 300 single malts, -- Clark, Joe, Derrick, Stuart -- New York, New York State, 2015 -- New York ; Parragon -- isbn13 9781472377623 -- 5251f58ff66bc7a905c4b22c2acf9c60 -- Anna\u2019s Archive.pdf",
+        "axes": {
+          "smoky": 44.0,
+          "peaty": 44.0,
+          "sherry": 44.0,
+          "fruity": 44.0,
+          "spicy": null,
+          "sweet": 44.0,
+          "maritime": 50.0
+        }
+      },
+      {
+        "whisky_id": "W002001",
+        "source": "book",
+        "book": "The world atlas of whisky.pdf",
+        "axes": {
+          "smoky": 35.0,
+          "peaty": 44.0,
+          "sherry": 44.0,
+          "fruity": 82.0,
+          "spicy": 50.0,
+          "sweet": 72.0,
+          "maritime": null
+        }
+      },
+      {
+        "whisky_id": "W002137",
+        "source": "book",
+        "book": "LETMET_1.pdf",
+        "axes": {
+          "smoky": 59.0,
+          "peaty": null,
+          "sherry": 35.0,
+          "fruity": 65.0,
+          "spicy": 55.0,
+          "sweet": 62.0,
+          "maritime": 35.0
+        }
+      },
+      {
+        "whisky_id": "W001999",
+        "source": "book",
+        "book": "Whisky Advocate - Wol_ 32 No_ 04 [Winter 2023] (TruePDF)_pdf -- 9e8632dc53e3c2f8997618933d287a96 -- Anna\u2019s Archive.pdf",
+        "axes": {
+          "smoky": 50.0,
+          "peaty": 44.0,
+          "sherry": null,
+          "fruity": 82.0,
+          "spicy": 55.0,
+          "sweet": 79.0,
+          "maritime": null
+        }
+      },
+      {
+        "whisky_id": "W002534",
+        "source": "book",
+        "book": "_OceanofPDF.com_Whisky_Advocate_-_Fall_2023_-_Whisky_Advocate.pdf",
+        "axes": {
+          "smoky": null,
+          "peaty": 35.0,
+          "sherry": 55.0,
+          "fruity": 62.0,
+          "spicy": 44.0,
+          "sweet": 74.0,
+          "maritime": null
+        }
+      },
+      {
+        "whisky_id": "W001980",
+        "source": "book",
+        "book": "Whisky classified ; choosing single malts by flavour -- David Wishart, Dr -- Rev Ed edition, April 1, 2006 -- Pavilion Books, Limited -- isbn13 9781862057166 -- 2a271592390170f87bd596b83a24e94b -- Anna\u2019s Archive.pdf",
+        "axes": {
+          "smoky": 50.0,
+          "peaty": 55.0,
+          "sherry": 35.0,
+          "fruity": 50.0,
+          "spicy": 35.0,
+          "sweet": 35.0,
+          "maritime": 35.0
+        }
+      },
+      {
+        "whisky_id": "W000015",
+        "source": "book",
+        "book": "LETMET_1.pdf",
+        "axes": {
+          "smoky": 44.0,
+          "peaty": 44.0,
+          "sherry": null,
+          "fruity": 68.0,
+          "spicy": 55.0,
+          "sweet": 68.0,
+          "maritime": 50.0
+        }
+      },
+      {
+        "whisky_id": "W002144",
+        "source": "book",
+        "book": "LETMET_1.pdf",
+        "axes": {
+          "smoky": 50.0,
+          "peaty": 50.0,
+          "sherry": null,
+          "fruity": 76.0,
+          "spicy": 50.0,
+          "sweet": 84.0,
+          "maritime": 44.0
+        }
+      },
+      {
+        "whisky_id": "W002163",
+        "source": "book",
+        "book": "Jim Murray's Whisky Bible 2020 _ Rest of World -- Jim Murray -- 2020 edition, Northamptonshire, UK, 2020 -- Dram Good Books Ltd -- isbn13 9780993298646 -- c0878db855fdfedb84bee7427f97cd3.pdf",
+        "axes": {
+          "smoky": null,
+          "peaty": null,
+          "sherry": 35.0,
+          "fruity": 50.0,
+          "spicy": 50.0,
+          "sweet": 65.0,
+          "maritime": null
+        }
+      },
+      {
+        "whisky_id": "W002532",
+        "source": "book",
+        "book": "Jim Murray's Whisky Bible 2020 _ Rest of World -- Jim Murray -- 2020 edition, Northamptonshire, UK, 2020 -- Dram Good Books Ltd -- isbn13 9780993298646 -- c0878db855fdfedb84bee7427f97cd3.pdf",
+        "axes": {
+          "smoky": 35.0,
+          "peaty": null,
+          "sherry": 44.0,
+          "fruity": null,
+          "spicy": null,
+          "sweet": 55.0,
+          "maritime": 35.0
+        }
+      },
+      {
+        "whisky_id": "W002154",
+        "source": "book",
+        "book": "Whisky Advocate - Wol_ 32 No_ 04 [Winter 2023] (TruePDF)_pdf -- 9e8632dc53e3c2f8997618933d287a96 -- Anna\u2019s Archive.pdf",
+        "axes": {
+          "smoky": 44.0,
+          "peaty": null,
+          "sherry": null,
+          "fruity": 72.0,
+          "spicy": 44.0,
+          "sweet": 82.0,
+          "maritime": 50.0
+        }
+      },
+      {
+        "whisky_id": "W002526",
+        "source": "book",
+        "book": "The ultimate book of whiskey ; over 300 single malts, -- Clark, Joe, Derrick, Stuart -- New York, New York State, 2015 -- New York ; Parragon -- isbn13 9781472377623 -- 5251f58ff66bc7a905c4b22c2acf9c60 -- Anna\u2019s Archive.pdf",
+        "axes": {
+          "smoky": null,
+          "peaty": 35.0,
+          "sherry": 50.0,
+          "fruity": 44.0,
+          "spicy": null,
+          "sweet": 59.0,
+          "maritime": null
+        }
+      },
+      {
+        "whisky_id": "W000016",
+        "source": "book",
+        "book": "Whisky classified ; choosing single malts by flavour -- David Wishart, Dr -- Rev Ed edition, April 1, 2006 -- Pavilion Books, Limited -- isbn13 9781862057166 -- 2a271592390170f87bd596b83a24e94b -- Anna\u2019s Archive.pdf",
+        "axes": {
+          "smoky": 50.0,
+          "peaty": 35.0,
+          "sherry": 35.0,
+          "fruity": 62.0,
+          "spicy": 50.0,
+          "sweet": 65.0,
+          "maritime": null
+        }
+      },
+      {
+        "whisky_id": "W002912",
+        "source": "book",
+        "book": "Whisky classified ; choosing single malts by flavour -- David Wishart, Dr -- Rev Ed edition, April 1, 2006 -- Pavilion Books, Limited -- isbn13 9781862057166 -- 2a271592390170f87bd596b83a24e94b -- Anna\u2019s Archive.pdf",
+        "axes": {
+          "smoky": 55.0,
+          "peaty": 65.0,
+          "sherry": 50.0,
+          "fruity": 50.0,
+          "spicy": 59.0,
+          "sweet": 50.0,
+          "maritime": null
+        }
+      },
+      {
+        "whisky_id": "W002573",
+        "source": "book",
+        "book": "Whiskey Opus -- Whiskey Opus -- 4e7241405dc5d7e45dce5092afd094f4 -- Anna\u2019s Archive.pdf",
+        "axes": {
+          "smoky": 44.0,
+          "peaty": 55.0,
+          "sherry": 44.0,
+          "fruity": 50.0,
+          "spicy": 35.0,
+          "sweet": 50.0,
+          "maritime": 35.0
+        }
+      },
+      {
+        "whisky_id": "W001986",
+        "source": "book",
+        "book": "Whisky Advocate - Wol_ 32 No_ 04 [Winter 2023] (TruePDF)_pdf -- 9e8632dc53e3c2f8997618933d287a96 -- Anna\u2019s Archive.pdf",
+        "axes": {
+          "smoky": 79.0,
+          "peaty": null,
+          "sherry": 50.0,
+          "fruity": 65.0,
+          "spicy": 50.0,
+          "sweet": 44.0,
+          "maritime": 44.0
+        }
+      },
+      {
+        "whisky_id": "W001990",
+        "source": "book",
+        "book": "50 - Whisky Advocate September 2020_pdf -- Whisky Magazine, 2020 sep -- 0fe2083fad99894290162d67f7eda6d1 -- Anna\u2019s Archive.pdf",
+        "axes": {
+          "smoky": 50.0,
+          "peaty": 35.0,
+          "sherry": null,
+          "fruity": 55.0,
+          "spicy": null,
+          "sweet": 55.0,
+          "maritime": 55.0
+        }
+      },
+      {
+        "whisky_id": "W001988",
+        "source": "book",
+        "book": "50 - Whisky Advocate September 2020_pdf -- Whisky Magazine, 2020 sep -- 0fe2083fad99894290162d67f7eda6d1 -- Anna\u2019s Archive.pdf",
+        "axes": {
+          "smoky": 35.0,
+          "peaty": 44.0,
+          "sherry": 35.0,
+          "fruity": 62.0,
+          "spicy": null,
+          "sweet": 50.0,
+          "maritime": null
+        }
+      },
+      {
+        "whisky_id": "W002142",
+        "source": "book",
+        "book": "Whisky Advocate December 2020_pdf -- Whisky Magazine, 2020 dec -- 447b48200120f4f97d4a7f0f029442ba -- Anna\u2019s Archive.pdf",
+        "axes": {
+          "smoky": 62.0,
+          "peaty": 50.0,
+          "sherry": null,
+          "fruity": 59.0,
+          "spicy": 50.0,
+          "sweet": 59.0,
+          "maritime": 50.0
+        }
+      },
+      {
+        "whisky_id": "W002297",
+        "source": "book",
+        "book": "Whisky classified ; choosing single malts by flavour -- David Wishart, Dr -- Rev Ed edition, April 1, 2006 -- Pavilion Books, Limited -- isbn13 9781862057166 -- 2a271592390170f87bd596b83a24e94b -- Anna\u2019s Archive.pdf",
+        "axes": {
+          "smoky": null,
+          "peaty": 55.0,
+          "sherry": 35.0,
+          "fruity": 65.0,
+          "spicy": 55.0,
+          "sweet": 62.0,
+          "maritime": null
+        }
+      },
+      {
+        "whisky_id": "W002135",
+        "source": "book",
+        "book": "Jim Murray's Whisky Bible 2020 _ Rest of World -- Jim Murray -- 2020 edition, Northamptonshire, UK, 2020 -- Dram Good Books Ltd -- isbn13 9780993298646 -- c0878db855fdfedb84bee7427f97cd3.pdf",
+        "axes": {
+          "smoky": 35.0,
+          "peaty": null,
+          "sherry": null,
+          "fruity": 44.0,
+          "spicy": 35.0,
+          "sweet": 68.0,
+          "maritime": 44.0
+        }
+      },
+      {
+        "whisky_id": "W000001",
+        "source": "book",
+        "book": "LETMET_1.pdf",
+        "axes": {
+          "smoky": 55.0,
+          "peaty": null,
+          "sherry": 35.0,
+          "fruity": 55.0,
+          "spicy": 55.0,
+          "sweet": 59.0,
+          "maritime": 44.0
+        }
+      },
+      {
+        "whisky_id": "W000024",
+        "source": "book",
+        "book": "Whiskey Opus -- Whiskey Opus -- 4e7241405dc5d7e45dce5092afd094f4 -- Anna\u2019s Archive.pdf",
+        "axes": {
+          "smoky": 35.0,
+          "peaty": null,
+          "sherry": 35.0,
+          "fruity": 50.0,
+          "spicy": 35.0,
+          "sweet": 59.0,
+          "maritime": 55.0
+        }
+      },
+      {
+        "whisky_id": "W003203",
+        "source": "book",
+        "book": "LETMET_1.pdf",
+        "axes": {
+          "smoky": 59.0,
+          "peaty": null,
+          "sherry": 35.0,
+          "fruity": 65.0,
+          "spicy": 55.0,
+          "sweet": 62.0,
+          "maritime": 35.0
+        }
+      },
+      {
+        "whisky_id": "W002295",
+        "source": "book",
+        "book": "Whisky classified ; choosing single malts by flavour -- David Wishart, Dr -- Rev Ed edition, April 1, 2006 -- Pavilion Books, Limited -- isbn13 9781862057166 -- 2a271592390170f87bd596b83a24e94b -- Anna\u2019s Archive.pdf",
+        "axes": {
+          "smoky": 44.0,
+          "peaty": 35.0,
+          "sherry": 65.0,
+          "fruity": 72.0,
+          "spicy": 55.0,
+          "sweet": 65.0,
+          "maritime": null
+        }
+      },
+      {
+        "whisky_id": "W002306",
+        "source": "book",
+        "book": "LETMET_1.pdf",
+        "axes": {
+          "smoky": 59.0,
+          "peaty": null,
+          "sherry": 35.0,
+          "fruity": 55.0,
+          "spicy": 50.0,
+          "sweet": 62.0,
+          "maritime": null
+        }
+      },
+      {
+        "whisky_id": "W002136",
+        "source": "book",
+        "book": "Whisky classified ; choosing single malts by flavour -- David Wishart, Dr -- Rev Ed edition, April 1, 2006 -- Pavilion Books, Limited -- isbn13 9781862057166 -- 2a271592390170f87bd596b83a24e94b -- Anna\u2019s Archive.pdf",
+        "axes": {
+          "smoky": null,
+          "peaty": 62.0,
+          "sherry": 50.0,
+          "fruity": 62.0,
+          "spicy": 50.0,
+          "sweet": 65.0,
+          "maritime": null
+        }
+      },
+      {
+        "whisky_id": "W002822",
+        "source": "book",
+        "book": "Whiskey Opus -- Whiskey Opus -- 4e7241405dc5d7e45dce5092afd094f4 -- Anna\u2019s Archive.pdf",
+        "axes": {
+          "smoky": 35.0,
+          "peaty": null,
+          "sherry": 35.0,
+          "fruity": 59.0,
+          "spicy": 44.0,
+          "sweet": 59.0,
+          "maritime": 55.0
+        }
+      },
+      {
+        "whisky_id": "W002130",
+        "source": "book",
+        "book": "_OceanofPDF.com_Whisky_Advocate_-_September_2022_-_Whisky_Advocate.pdf",
+        "axes": {
+          "smoky": 55.0,
+          "peaty": null,
+          "sherry": 44.0,
+          "fruity": 35.0,
+          "spicy": 55.0,
+          "sweet": 65.0,
+          "maritime": 35.0
+        }
+      },
+      {
+        "whisky_id": "W002292",
+        "source": "book",
+        "book": "_OceanofPDF.com_Whisky_Advocate_-_Whisky_of_the_Year_2022_-_Whisky_Advocate.pdf",
+        "axes": {
+          "smoky": 59.0,
+          "peaty": 44.0,
+          "sherry": null,
+          "fruity": 62.0,
+          "spicy": 62.0,
+          "sweet": 62.0,
+          "maritime": 44.0
+        }
+      },
+      {
+        "whisky_id": "W000004",
+        "source": "book",
+        "book": "Malt whisky yearbook 2019 _ the facts, the people, the news, -- Ingvar Ronde (editor) -- Place of publication not identified, 2018 -- MagDig Media Ltd -- isbn13 9780957655355 -- 21eb2f4fc714fd61e900ac252857919e --.pdf",
+        "axes": {
+          "smoky": 50.0,
+          "peaty": 44.0,
+          "sherry": null,
+          "fruity": 50.0,
+          "spicy": 72.0,
+          "sweet": 62.0,
+          "maritime": 44.0
+        }
+      },
+      {
+        "whisky_id": "W002003",
+        "source": "book",
+        "book": "Whisky classified ; choosing single malts by flavour -- David Wishart, Dr -- Rev Ed edition, April 1, 2006 -- Pavilion Books, Limited -- isbn13 9781862057166 -- 2a271592390170f87bd596b83a24e94b -- Anna\u2019s Archive.pdf",
+        "axes": {
+          "smoky": 44.0,
+          "peaty": 59.0,
+          "sherry": 44.0,
+          "fruity": 62.0,
+          "spicy": 59.0,
+          "sweet": 68.0,
+          "maritime": null
+        }
+      },
+      {
+        "whisky_id": "W002020",
+        "source": "book",
+        "book": "Whisky classified ; choosing single malts by flavour -- David Wishart, Dr -- Rev Ed edition, April 1, 2006 -- Pavilion Books, Limited -- isbn13 9781862057166 -- 2a271592390170f87bd596b83a24e94b -- Anna\u2019s Archive.pdf",
+        "axes": {
+          "smoky": 55.0,
+          "peaty": 68.0,
+          "sherry": 59.0,
+          "fruity": 50.0,
+          "spicy": 62.0,
+          "sweet": 68.0,
+          "maritime": null
+        }
+      },
+      {
+        "whisky_id": "W002440",
+        "source": "book",
+        "book": "Whisky classified ; choosing single malts by flavour -- David Wishart, Dr -- Rev Ed edition, April 1, 2006 -- Pavilion Books, Limited -- isbn13 9781862057166 -- 2a271592390170f87bd596b83a24e94b -- Anna\u2019s Archive.pdf",
+        "axes": {
+          "smoky": 44.0,
+          "peaty": 35.0,
+          "sherry": 65.0,
+          "fruity": 72.0,
+          "spicy": 55.0,
+          "sweet": 65.0,
+          "maritime": null
+        }
+      },
+      {
+        "whisky_id": "W002446",
+        "source": "book",
+        "book": "_OceanofPDF.com_Whisky_Advocate_-_September_2022_-_Whisky_Advocate.pdf",
+        "axes": {
+          "smoky": 44.0,
+          "peaty": 35.0,
+          "sherry": null,
+          "fruity": 70.0,
+          "spicy": 50.0,
+          "sweet": 74.0,
+          "maritime": 35.0
+        }
+      },
+      {
+        "whisky_id": "W002448",
+        "source": "book",
+        "book": "The ultimate book of whiskey ; over 300 single malts, -- Clark, Joe, Derrick, Stuart -- New York, New York State, 2015 -- New York ; Parragon -- isbn13 9781472377623 -- 5251f58ff66bc7a905c4b22c2acf9c60 -- Anna\u2019s Archive.pdf",
+        "axes": {
+          "smoky": 55.0,
+          "peaty": 55.0,
+          "sherry": null,
+          "fruity": 55.0,
+          "spicy": 50.0,
+          "sweet": 44.0,
+          "maritime": null
+        }
+      },
+      {
+        "whisky_id": "W000013",
+        "source": "book",
+        "book": "Whisky classified ; choosing single malts by flavour -- David Wishart, Dr -- Rev Ed edition, April 1, 2006 -- Pavilion Books, Limited -- isbn13 9781862057166 -- 2a271592390170f87bd596b83a24e94b -- Anna\u2019s Archive.pdf",
+        "axes": {
+          "smoky": 35.0,
+          "peaty": 59.0,
+          "sherry": 35.0,
+          "fruity": 35.0,
+          "spicy": 35.0,
+          "sweet": 50.0,
+          "maritime": null
+        }
+      },
+      {
+        "whisky_id": "W000012",
+        "source": "book",
+        "book": "Whisky classified ; choosing single malts by flavour -- David Wishart, Dr -- Rev Ed edition, April 1, 2006 -- Pavilion Books, Limited -- isbn13 9781862057166 -- 2a271592390170f87bd596b83a24e94b -- Anna\u2019s Archive.pdf",
+        "axes": {
+          "smoky": 44.0,
+          "peaty": 59.0,
+          "sherry": 50.0,
+          "fruity": 62.0,
+          "spicy": 59.0,
+          "sweet": 68.0,
+          "maritime": null
+        }
+      },
+      {
+        "whisky_id": "W002545",
+        "source": "book",
+        "book": "Whisky classified ; choosing single malts by flavour -- David Wishart, Dr -- Rev Ed edition, April 1, 2006 -- Pavilion Books, Limited -- isbn13 9781862057166 -- 2a271592390170f87bd596b83a24e94b -- Anna\u2019s Archive.pdf",
+        "axes": {
+          "smoky": 44.0,
+          "peaty": 35.0,
+          "sherry": 62.0,
+          "fruity": 72.0,
+          "spicy": 55.0,
+          "sweet": 65.0,
+          "maritime": null
+        }
+      },
+      {
+        "whisky_id": "W002283",
+        "source": "book",
+        "book": "LETMET_1.pdf",
+        "axes": {
+          "smoky": 44.0,
+          "peaty": 44.0,
+          "sherry": null,
+          "fruity": 55.0,
+          "spicy": 50.0,
+          "sweet": 35.0,
+          "maritime": 35.0
+        }
+      },
+      {
+        "whisky_id": "W002278",
+        "source": "book",
+        "book": "Whisky classified ; choosing single malts by flavour -- David Wishart, Dr -- Rev Ed edition, April 1, 2006 -- Pavilion Books, Limited -- isbn13 9781862057166 -- 2a271592390170f87bd596b83a24e94b -- Anna\u2019s Archive.pdf",
+        "axes": {
+          "smoky": 44.0,
+          "peaty": 59.0,
+          "sherry": 50.0,
+          "fruity": 62.0,
+          "spicy": 59.0,
+          "sweet": 68.0,
+          "maritime": null
+        }
+      },
+      {
+        "whisky_id": "W000018",
+        "source": "book",
+        "book": "Jim Murray's Whisky Bible 2020 _ Rest of World -- Jim Murray -- 2020 edition, Northamptonshire, UK, 2020 -- Dram Good Books Ltd -- isbn13 9780993298646 -- c0878db855fdfedb84bee7427f97cd3.pdf",
+        "axes": {
+          "smoky": 50.0,
+          "peaty": 35.0,
+          "sherry": null,
+          "fruity": 65.0,
+          "spicy": 50.0,
+          "sweet": 44.0,
+          "maritime": null
+        }
+      },
+      {
+        "whisky_id": "W002564",
+        "source": "book",
+        "book": "The world atlas of whisky.pdf",
+        "axes": {
+          "smoky": 35.0,
+          "peaty": null,
+          "sherry": 44.0,
+          "fruity": 72.0,
+          "spicy": 35.0,
+          "sweet": 44.0,
+          "maritime": null
+        }
+      },
+      {
+        "whisky_id": "W002442",
+        "source": "book",
+        "book": "Whisky Advocate - Wol_ 32 No_ 04 [Winter 2023] (TruePDF)_pdf -- 9e8632dc53e3c2f8997618933d287a96 -- Anna\u2019s Archive.pdf",
+        "axes": {
+          "smoky": 44.0,
+          "peaty": 35.0,
+          "sherry": 62.0,
+          "fruity": 82.0,
+          "spicy": 70.0,
+          "sweet": 70.0,
+          "maritime": 35.0
+        }
+      },
+      {
+        "whisky_id": "W002304",
+        "source": "book",
+        "book": "_OceanofPDF.com_Whisky_Advocate_-_May_2023_-_Whisky_Advocate.pdf",
+        "axes": {
+          "smoky": 44.0,
+          "peaty": null,
+          "sherry": 44.0,
+          "fruity": 70.0,
+          "spicy": 72.0,
+          "sweet": 72.0,
+          "maritime": 62.0
+        }
+      },
+      {
+        "whisky_id": "W002565",
+        "source": "book",
+        "book": "_OceanofPDF.com_Whisky_Advocate_-_September_2022_-_Whisky_Advocate.pdf",
+        "axes": {
+          "smoky": 55.0,
+          "peaty": 35.0,
+          "sherry": 44.0,
+          "fruity": 55.0,
+          "spicy": 44.0,
+          "sweet": 65.0,
+          "maritime": 44.0
+        }
+      },
+      {
+        "whisky_id": "W000011",
+        "source": "book",
+        "book": "_OceanofPDF.com_Whisky_Advocate_-_September_2022_-_Whisky_Advocate.pdf",
+        "axes": {
+          "smoky": null,
+          "peaty": 35.0,
+          "sherry": 62.0,
+          "fruity": 62.0,
+          "spicy": 35.0,
+          "sweet": 59.0,
+          "maritime": null
+        }
+      },
+      {
+        "whisky_id": "W002288",
+        "source": "book",
+        "book": "_OceanofPDF.com_Whisky_Advocate_-_September_2022_-_Whisky_Advocate.pdf",
+        "axes": {
+          "smoky": 62.0,
+          "peaty": 35.0,
+          "sherry": 44.0,
+          "fruity": 50.0,
+          "spicy": 44.0,
+          "sweet": 65.0,
+          "maritime": 35.0
+        }
+      },
+      {
+        "whisky_id": "W002318",
+        "source": "book",
+        "book": "Whisky Advocate December 2020_pdf -- Whisky Magazine, 2020 dec -- 447b48200120f4f97d4a7f0f029442ba -- Anna\u2019s Archive.pdf",
+        "axes": {
+          "smoky": null,
+          "peaty": 50.0,
+          "sherry": 44.0,
+          "fruity": 70.0,
+          "spicy": 68.0,
+          "sweet": 70.0,
+          "maritime": null
+        }
+      },
+      {
+        "whisky_id": "W003148",
+        "source": "book",
+        "book": "Whisky classified ; choosing single malts by flavour -- David Wishart, Dr -- Rev Ed edition, April 1, 2006 -- Pavilion Books, Limited -- isbn13 9781862057166 -- 2a271592390170f87bd596b83a24e94b -- Anna\u2019s Archive.pdf",
+        "axes": {
+          "smoky": 44.0,
+          "peaty": 59.0,
+          "sherry": 50.0,
+          "fruity": 62.0,
+          "spicy": 59.0,
+          "sweet": 65.0,
+          "maritime": null
+        }
+      },
+      {
+        "whisky_id": "W000014",
+        "source": "book",
+        "book": "_OceanofPDF.com_Whisky_Advocate_-_May_2023_-_Whisky_Advocate.pdf",
+        "axes": {
+          "smoky": 50.0,
+          "peaty": 55.0,
+          "sherry": 44.0,
+          "fruity": 72.0,
+          "spicy": 59.0,
+          "sweet": 68.0,
+          "maritime": 68.0
+        }
+      },
+      {
+        "whisky_id": "W002290",
+        "source": "book",
+        "book": "The world guide to whisky ; Scotch, Irish, Canadian, -- Jackson, Michael,Salem House Publishers -- Topsfield, Mass, 1988, \u00a91987 -- Topsfield, Mass_; -- isbn13 9780881622843 -- 1fa7967cf7ab2c07a098f7228f03e63e -- Anna\u2019s Archive.pdf",
+        "axes": {
+          "smoky": 44.0,
+          "peaty": null,
+          "sherry": 35.0,
+          "fruity": null,
+          "spicy": null,
+          "sweet": 44.0,
+          "maritime": null
+        }
+      },
+      {
+        "whisky_id": "W003197",
+        "source": "book",
+        "book": "Whisky classified ; choosing single malts by flavour -- David Wishart, Dr -- Rev Ed edition, April 1, 2006 -- Pavilion Books, Limited -- isbn13 9781862057166 -- 2a271592390170f87bd596b83a24e94b -- Anna\u2019s Archive.pdf",
+        "axes": {
+          "smoky": 55.0,
+          "peaty": 50.0,
+          "sherry": 59.0,
+          "fruity": 50.0,
+          "spicy": 55.0,
+          "sweet": 68.0,
+          "maritime": null
+        }
+      },
+      {
+        "whisky_id": "W000022",
+        "source": "book",
+        "book": "Whisky classified ; choosing single malts by flavour -- David Wishart, Dr -- Rev Ed edition, April 1, 2006 -- Pavilion Books, Limited -- isbn13 9781862057166 -- 2a271592390170f87bd596b83a24e94b -- Anna\u2019s Archive.pdf",
+        "axes": {
+          "smoky": 55.0,
+          "peaty": 65.0,
+          "sherry": 50.0,
+          "fruity": 50.0,
+          "spicy": 59.0,
+          "sweet": 59.0,
+          "maritime": null
+        }
+      },
+      {
+        "whisky_id": "W002594",
+        "source": "book",
+        "book": "Whisky classified ; choosing single malts by flavour -- David Wishart, Dr -- Rev Ed edition, April 1, 2006 -- Pavilion Books, Limited -- isbn13 9781862057166 -- 2a271592390170f87bd596b83a24e94b -- Anna\u2019s Archive.pdf",
+        "axes": {
+          "smoky": 55.0,
+          "peaty": 50.0,
+          "sherry": 50.0,
+          "fruity": 62.0,
+          "spicy": 62.0,
+          "sweet": 70.0,
+          "maritime": null
+        }
+      },
+      {
+        "whisky_id": "W002157",
+        "source": "book",
+        "book": "Whisky Advocate - Wol_ 32 No_ 04 [Winter 2023] (TruePDF)_pdf -- 9e8632dc53e3c2f8997618933d287a96 -- Anna\u2019s Archive.pdf",
+        "axes": {
+          "smoky": null,
+          "peaty": null,
+          "sherry": 72.0,
+          "fruity": 84.0,
+          "spicy": 68.0,
+          "sweet": 72.0,
+          "maritime": null
+        }
+      },
+      {
+        "whisky_id": "W002611",
+        "source": "book",
+        "book": "The world atlas of whisky.pdf",
+        "axes": {
+          "smoky": 55.0,
+          "peaty": 62.0,
+          "sherry": null,
+          "fruity": 55.0,
+          "spicy": 44.0,
+          "sweet": 62.0,
+          "maritime": null
+        }
+      }
+    ]
+  },
+  "P7_rollback": {
+    "affected_whisky_ids": [
+      "W000001",
+      "W000002",
+      "W000004",
+      "W000011",
+      "W000012",
+      "W000013",
+      "W000014",
+      "W000015",
+      "W000016",
+      "W000018",
+      "W000022",
+      "W000024",
+      "W000099",
+      "W000398",
+      "W000622",
+      "W000900",
+      "W001042",
+      "W001308",
+      "W001980",
+      "W001986",
+      "W001988",
+      "W001990",
+      "W001999",
+      "W002001",
+      "W002003",
+      "W002020",
+      "W002130",
+      "W002135",
+      "W002136",
+      "W002137",
+      "W002142",
+      "W002144",
+      "W002154",
+      "W002157",
+      "W002158",
+      "W002163",
+      "W002278",
+      "W002283",
+      "W002288",
+      "W002290",
+      "W002292",
+      "W002295",
+      "W002297",
+      "W002304",
+      "W002306",
+      "W002318",
+      "W002440",
+      "W002442",
+      "W002446",
+      "W002448",
+      "W002526",
+      "W002532",
+      "W002534",
+      "W002545",
+      "W002564",
+      "W002565",
+      "W002573",
+      "W002594",
+      "W002611",
+      "W002822",
+      "W002912",
+      "W003148",
+      "W003197",
+      "W003203"
+    ],
+    "affected_evidence_source": "book",
+    "reverse_order": [
+      "W003203",
+      "W003197",
+      "W003148",
+      "W002912",
+      "W002822",
+      "W002611",
+      "W002594",
+      "W002573",
+      "W002565",
+      "W002564",
+      "W002545",
+      "W002534",
+      "W002532",
+      "W002526",
+      "W002448",
+      "W002446",
+      "W002442",
+      "W002440",
+      "W002318",
+      "W002306",
+      "W002304",
+      "W002297",
+      "W002295",
+      "W002292",
+      "W002290",
+      "W002288",
+      "W002283",
+      "W002278",
+      "W002163",
+      "W002158",
+      "W002157",
+      "W002154",
+      "W002144",
+      "W002142",
+      "W002137",
+      "W002136",
+      "W002135",
+      "W002130",
+      "W002020",
+      "W002003",
+      "W002001",
+      "W001999",
+      "W001990",
+      "W001988",
+      "W001986",
+      "W001980",
+      "W001308",
+      "W001042",
+      "W000900",
+      "W000622",
+      "W000398",
+      "W000099",
+      "W000024",
+      "W000022",
+      "W000018",
+      "W000016",
+      "W000015",
+      "W000014",
+      "W000013",
+      "W000012",
+      "W000011",
+      "W000004",
+      "W000002",
+      "W000001"
+    ],
+    "rollback_action": "DELETE FROM flavor_evidence WHERE source='book' AND whisky_id IN (...eligible...)",
+    "integrity_hashes": {
+      "production_db_pre_promotion": "3c56de601c539260b49df57657eae4d47bfc8d0ebb27354b01c20648ac71656c"
+    },
+    "note": "No rollback executed. Manifest only."
+  },
+  "P8_checklist": {
+    "schema_compatible": true,
+    "constraints_satisfied": true,
+    "no_duplicate_keys": true,
+    "no_orphan_entities": true,
+    "no_invalid_references": true,
+    "deterministic_rerun": true,
+    "provenance_complete": false
+  },
+  "P9": {
+    "verdict": "GO_WITH_CONDITIONS",
+    "blockers": [
+      "Provenance incomplete: missing author/citation/evidence_id/authority_tier columns; page & confidence partially null",
+      "774 rows with invalid whisky_id (UNRESOLVED_P32) excluded"
+    ],
+    "hard_blockers": [],
+    "will_promote": {
+      "eligible_rows": 64,
+      "distinct_whiskies": 64,
+      "first_evidence": 52,
+      "evidence_updates": 12
+    }
+  },
+  "_meta": {
+    "prod_sha": "3c56de601c539260b49df57657eae4d47bfc8d0ebb27354b01c20648ac71656c",
+    "W": 4749
+  }
+}

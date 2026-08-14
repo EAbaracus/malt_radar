@@ -1,0 +1,171 @@
+{
+  "_checksum": "63500228f14498d7741d1963a3dfae67b72e4b29835a47ac80a3f2e03ca650e8",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-5f6bc61dea3a96cb",
+      "fact_id": "EV-432556ac5f47",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "Yamazaki",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Bottled at Yamazaki Distillery",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.yamazaki.com/whisky/yamazaki-18yo",
+          "won": true
+        }
+      ],
+      "value": "Yamazaki"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-8e58595619dc56db",
+      "fact_id": "EV-f07df8952d8a",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "Japan",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Product of Japan",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.yamazaki.com/whisky/yamazaki-18yo",
+          "won": true
+        }
+      ],
+      "value": "Japan"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-4c8fb64bfb5fab2a",
+      "fact_id": "EV-f26850eea197",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "Japanese",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Japanese single malt",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.yamazaki.com/whisky/yamazaki-18yo",
+          "won": true
+        }
+      ],
+      "value": "Japanese"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-9178c5c661ad540d",
+      "fact_id": "EV-f59d04dd65a4",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 43.0,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "43.0% ABV",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.yamazaki.com/whisky/yamazaki-18yo",
+          "won": true
+        }
+      ],
+      "value": 43.0
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-dc8fe77b651ab4e3",
+      "fact_id": "EV-96d09570d987",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Mizunara",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "matured in Mizunara casks",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.yamazaki.com/whisky/yamazaki-18yo",
+          "won": true
+        }
+      ],
+      "value": "Mizunara"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-0b0adad3ebf5b1cf",
+      "fact_id": "EV-c1f48d77cd3c",
+      "field": "age_statement",
+      "field_name": "age_statement",
+      "field_value": 18,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "aged for 18 years",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.yamazaki.com/whisky/yamazaki-18yo",
+          "won": true
+        }
+      ],
+      "value": 18
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.yamazaki.com/whisky/yamazaki-18yo"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "43.0% ABV",
+      "value": 43.0
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "aged for 18 years",
+      "value": 18
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Mizunara casks",
+      "value": "Mizunara"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Japan",
+      "value": "Japan"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Yamazaki Distillery",
+      "value": "Yamazaki"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Japanese single malt",
+      "value": "Japanese"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0042",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:48.719990+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

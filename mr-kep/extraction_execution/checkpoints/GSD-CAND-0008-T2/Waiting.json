@@ -1,0 +1,39 @@
+{
+  "_checksum": "675558ac370b46808fcaec1d0b8d7e41bc113c2a35a322a9ab5e39ae19723f91",
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "expert_quote",
+    "source_key": "whiskyfun",
+    "url": "https://www.whiskyfun.com/archivejanuary19.html"
+  },
+  "extraction_result": {
+    "finish": {
+      "confidence": 1.0,
+      "quote": "Finish: warm, sweet, slightly spicy",
+      "value": "Long, warm, sweet spice finish"
+    },
+    "nose": {
+      "confidence": 1.0,
+      "quote": "Nose: honey, vanilla, sherry notes, orange peel",
+      "value": "Sweet fruit, Oloroso sherry notes, honey, vanilla"
+    },
+    "palate": {
+      "confidence": 1.0,
+      "quote": "Palate: mellow, sweet, cinnamon, sherry, nuttiness",
+      "value": "Smooth, mellow, nuttiness, cinnamon, sherry sweetness"
+    },
+    "score": {
+      "confidence": 1.0,
+      "quote": "84 points",
+      "value": 84
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0008",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:47.870709+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

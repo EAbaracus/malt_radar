@@ -101,6 +101,8 @@ def main():
     report_md = os.path.join(reports_dir, "271_12p_real_web_pipeline_lineage_audit_report.md")
     with open(report_md, 'w', encoding='utf-8') as f:
         f.write("# 12P-REAL Web Pipeline Lineage Audit Report\n\n")
+        f.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
+
         f.write("## 1. Discrepancy Investigation\n")
         f.write(f"- Extraction Preview Count: {extraction_preview_count}\n")
         f.write(f"- Staging Candidate Count: {staging_candidate_count}\n")

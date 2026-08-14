@@ -1,15 +1,18 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../domain/flavor_profile_normalizer.dart';
+import '../../../../core/localization/localization_provider.dart';
 
-class FlavorRadarChart extends StatelessWidget {
+class FlavorRadarChart extends ConsumerWidget {
   final String flavorProfileJson;
 
   const FlavorRadarChart({super.key, required this.flavorProfileJson});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final tr = ref.watch(trProvider);
     Map<String, double> profile = {};
     try {
       profile = normalizeFlavorProfileJson(flavorProfileJson);
@@ -20,13 +23,13 @@ class FlavorRadarChart extends StatelessWidget {
     final categories = maltRadarFlavorAxes;
 
     final displayNames = [
-      'Fruity',
-      'Sweet',
-      'Spicy',
-      'Smoky',
-      'Oak/Cask',
-      'Malty',
-      'Floral'
+      tr('fruity'),
+      tr('sweet'),
+      tr('spicy'),
+      tr('smoky'),
+      tr('oak_cask'),
+      tr('malty'),
+      tr('floral')
     ];
 
     List<RadarDataSet> dataSets = [
@@ -56,11 +59,11 @@ class FlavorRadarChart extends StatelessWidget {
         RadarChartData(
           radarShape: RadarShape.polygon,
           radarBackgroundColor: Colors.transparent,
-          radarBorderData: BorderSide(color: const Color(0xFFA0A0A0).withValues(alpha: 0.2), width: 1.5),
+          radarBorderData: BorderSide(color: AppTheme.secondary.withValues(alpha: 0.2), width: 1.5),
           tickCount: 3,
           ticksTextStyle: const TextStyle(color: Colors.transparent, fontSize: 10),
-          tickBorderData: BorderSide(color: const Color(0xFFA0A0A0).withValues(alpha: 0.1)),
-          gridBorderData: BorderSide(color: const Color(0xFFA0A0A0).withValues(alpha: 0.2), width: 1.5),
+          tickBorderData: BorderSide(color: AppTheme.secondary.withValues(alpha: 0.1)),
+          gridBorderData: BorderSide(color: AppTheme.secondary.withValues(alpha: 0.2), width: 1.5),
           getTitle: (index, angle) {
             return RadarChartTitle(
               text: displayNames[index],

@@ -1,0 +1,59 @@
+# =============================================================================
+# templates/source_profile.yaml
+# -----------------------------------------------------------------------------
+# Template for a SOURCE PROFILE. Describes one external source the pipeline may
+# consume. Declares its tier, extraction methods, and per-field capability.
+# Copy to sources/<key>/source_profile.yaml and fill. No scraper code here —
+# only declarative metadata the AOUS agents read.
+# =============================================================================
+
+schema_version: "1.0.0"
+
+source_key: "example_source"
+display_name: "Example Source"
+
+# Authority tier from authority/authority_matrix.yaml.
+tier: T2_expert
+
+# Used as tie-breaker (see authority/source_priority.yaml).
+priority: 10
+
+# Where the source lives and how it is retrieved (declarative only).
+access:
+  type: "web"                 # web | api | file
+  base_url: "https://example.com"
+  rate_limit_per_min: 0       # 0 = not specified in foundation
+  requires_auth: false
+
+# Qualification: deterministic rules that decide which units are in scope.
+qualification:
+  unit_granularity: "review_page"   # review_page | product_page | row
+  in_scope_if:
+    - "contains_whisky_name: true"
+  out_of_scope_if:
+    - "is_advertisement: true"
+
+# Extraction: named methods the Extraction Agent may use. Methods are
+# implemented by future extraction code; this file only declares them.
+extraction_methods:
+  - name: "trigger_scan"
+    applies_to: [nose, palate, finish]
+    description: "Scan for labeled sections and capture text between markers."
+  - name: "structured_parse"
+    applies_to: [abv, age_statement, score]
+    description: "Parse structured fields from known page positions."
+
+# Per-field capability: which fields this source can evidence, and the
+# evidence_type (must match confidence.yaml evidence_type_base keys).
+field_capability:
+  nose: { evidence_type: "expert_quote", enabled: true }
+  palate: { evidence_type: "expert_quote", enabled: true }
+  finish: { evidence_type: "expert_quote", enabled: true }
+  flavor_axes: { evidence_type: "expert_quote", enabled: true }
+  score: { evidence_type: "expert_quote", enabled: true }
+
+# Per-stage retry policy (deterministic; see HERMES.md retry history).
+retry:
+  max_attempts: 3
+  backoff_seconds: 5
+  record_history: true

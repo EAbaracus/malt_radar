@@ -4,20 +4,33 @@ import '../../../../core/theme/app_theme.dart';
 import '../../../../core/localization/localization_provider.dart';
 import '../providers/similar_flavor_provider.dart';
 import '../../../whisky/domain/models/whisky.dart';
+import '../../../whisky/presentation/controllers/whisky_providers.dart';
+import 'package:malt_radar/core/branding/brand_medallion_widget.dart';
+import 'package:malt_radar/core/theme/app_theme_colors.dart';
 
 class SimilarFlavorWhiskies extends ConsumerWidget {
   final int whiskyId;
+  /// Backend whisky_id (DbApi mode). When non-null, similar whiskies are
+  /// computed against the backend (single source of truth) instead of the
+  /// local Drift DB.
+  final String? backendId;
   final Function(Whisky) onWhiskyTap;
 
   const SimilarFlavorWhiskies({
-    super.key, 
+    super.key,
     required this.whiskyId,
+    this.backendId,
     required this.onWhiskyTap,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final similarAsync = ref.watch(similarFlavorWhiskiesProvider(whiskyId));
+    final AsyncValue<List<Whisky>> similarAsync;
+    if (backendId != null) {
+      similarAsync = ref.watch(backendSimilarWhiskiesProvider(backendId!));
+    } else {
+      similarAsync = ref.watch(similarFlavorWhiskiesProvider(whiskyId));
+    }
     final tr = ref.watch(trProvider);
 
     return similarAsync.when(
@@ -27,7 +40,7 @@ class SimilarFlavorWhiskies extends ConsumerWidget {
             margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.05),
+              color: AppThemeColors.parchment.withValues(alpha: 0.05),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Row(
@@ -72,7 +85,7 @@ class SimilarFlavorWhiskies extends ConsumerWidget {
                     margin: const EdgeInsets.symmetric(horizontal: 4),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
-                      side: const BorderSide(color: Colors.white10),
+                      side: const BorderSide(color: AppThemeColors.parchment),
                     ),
                     clipBehavior: Clip.antiAlias,
                     child: InkWell(
@@ -120,7 +133,7 @@ class SimilarFlavorWhiskies extends ConsumerWidget {
           ],
         );
       },
-      loading: () => const Center(child: CircularProgressIndicator(strokeWidth: 2)),
+      loading: () => BrandSpinner(size: 24),
       error: (e, st) => const SizedBox(),
     );
   }

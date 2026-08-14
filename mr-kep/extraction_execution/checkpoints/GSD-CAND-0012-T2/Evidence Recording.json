@@ -1,0 +1,39 @@
+{
+  "_checksum": "3b05c5b0a65b66155cf380a1ad55d99200ab3e63b0543c95e1df0cbab563adb6",
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "expert_quote",
+    "source_key": "whiskyfun",
+    "url": "https://www.whiskyfun.com/archivemarch18.html"
+  },
+  "extraction_result": {
+    "finish": {
+      "confidence": 1.0,
+      "quote": "Finish: medium, sweet oak, spice",
+      "value": "Long, warm, distinguished finish"
+    },
+    "nose": {
+      "confidence": 1.0,
+      "quote": "Nose: honey, vanilla, dark red fruits, baking spices",
+      "value": "Baked apple, cinnamon, dried fruit, rich oak"
+    },
+    "palate": {
+      "confidence": 1.0,
+      "quote": "Palate: silky smooth, marzipan, cinnamon, ginger",
+      "value": "Dried fruit, candy peel, dates, elegant oak wood"
+    },
+    "score": {
+      "confidence": 1.0,
+      "quote": "82 points",
+      "value": 82
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0012",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:47.966110+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

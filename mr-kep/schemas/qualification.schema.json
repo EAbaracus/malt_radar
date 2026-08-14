@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://malt-radar.local/mr-kep/schemas/qualification.schema.json",
+  "title": "MR-KEP Qualification Record",
+  "description": "Output of the Qualification Agent: which source units are IN/OUT of scope and why. Deterministic filter only — no content extraction.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "source_key", "qualified_at", "units"],
+  "properties": {
+    "schema_version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "source_key": { "type": "string" },
+    "qualified_at": { "type": "string", "format": "date-time" },
+    "criteria": {
+      "type": "object",
+      "description": "Deterministic rules applied to decide qualification.",
+      "additionalProperties": true
+    },
+    "units": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["unit_id", "decision", "reason"],
+        "properties": {
+          "unit_id": { "type": "string", "description": "Stable ID for the source unit (e.g. page URL + anchor)." },
+          "decision": { "enum": ["in_scope", "out_of_scope", "deferred"] },
+          "reason": { "type": "string" },
+          "whisky_hint": { "type": "string", "description": "Optional normalized candidate name used for later matching." }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["in_scope", "out_of_scope", "deferred"],
+      "properties": {
+        "in_scope": { "type": "integer", "minimum": 0 },
+        "out_of_scope": { "type": "integer", "minimum": 0 },
+        "deferred": { "type": "integer", "minimum": 0 }
+      }
+    }
+  }
+}

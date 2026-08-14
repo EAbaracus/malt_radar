@@ -1,0 +1,82 @@
+{
+  "distillery_name": {
+    "value": "Clynelish",
+    "source": "https://www.malts.com/en-gb/products/single-malt-whisky/clynelish-14-year-old",
+    "exact_quote": "Bottled at Clynelish Distillery",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "country": {
+    "value": "Scotland",
+    "source": "https://www.malts.com/en-gb/products/single-malt-whisky/clynelish-14-year-old",
+    "exact_quote": "Product of Scotland",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "region": {
+    "value": "Highland",
+    "source": "https://www.malts.com/en-gb/products/single-malt-whisky/clynelish-14-year-old",
+    "exact_quote": "Highland single malt",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "abv": {
+    "value": 46.0,
+    "source": "https://www.malts.com/en-gb/products/single-malt-whisky/clynelish-14-year-old",
+    "exact_quote": "46.0% ABV",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "cask_type": {
+    "value": "Bourbon",
+    "source": "https://www.malts.com/en-gb/products/single-malt-whisky/clynelish-14-year-old",
+    "exact_quote": "matured in Bourbon casks",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "age_statement": {
+    "value": 14,
+    "source": "https://www.malts.com/en-gb/products/single-malt-whisky/clynelish-14-year-old",
+    "exact_quote": "aged for 14 years",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "nose": {
+    "value": "Sweet honey, fresh pear, green apple, vanilla, light floral",
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0028",
+    "exact_quote": "Nose: sweet honey, fresh pear, green apple, vanilla, light floral",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "palate": {
+    "value": "Mellow malt, vanilla cream, butterscotch, orchard fruit",
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0028",
+    "exact_quote": "Palate: mellow malt, vanilla cream, butterscotch, orchard fruit",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "finish": {
+    "value": "Medium, clean, soft oak and sweet barley warmth",
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0028",
+    "exact_quote": "Finish: medium, clean, soft oak and sweet barley warmth",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "score": {
+    "value": 83,
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0028",
+    "exact_quote": "83 points",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  }
+}

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:malt_radar/core/theme/app_theme.dart';
+import 'package:malt_radar/core/theme/app_theme_colors.dart';
 import 'package:malt_radar/core/localization/localization_provider.dart';
 import 'package:malt_radar/features/lists/presentation/controllers/user_lists_providers.dart';
 import 'package:malt_radar/features/lists/domain/models/user_list.dart';
 import 'package:malt_radar/features/lists/presentation/screens/list_detail_screen.dart';
+import 'package:malt_radar/core/branding/brand_medallion_widget.dart';
 
 class ListsScreen extends ConsumerStatefulWidget {
   const ListsScreen({super.key});
@@ -30,8 +32,8 @@ class _ListsScreenState extends ConsumerState<ListsScreen> {
     return list.name;
   }
 
-  String _getItemCountString(int count, String Function(String) tr) {
-    final isEn = tr('whisky_library') == 'Whisky library';
+  String _getItemCountString(int count) {
+    final isEn = ref.read(localizationProvider) == 'en';
     if (isEn) {
       return count == 1 ? '1 whisky' : '$count whiskies';
     } else {
@@ -175,7 +177,7 @@ class _ListsScreenState extends ConsumerState<ListsScreen> {
     );
   }
 
-  void _showDeleteConfirmationDialog(BuildContext context, UserList list, String Function(String) tr) {
+  void _showDeleteConfirmationDialog(BuildContext context, UserList list, String Function(String, [List<dynamic>?]) tr) {
     showDialog(
       context: context,
       builder: (context) {
@@ -184,9 +186,7 @@ class _ListsScreenState extends ConsumerState<ListsScreen> {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           title: Text(tr('delete_list'), style: const TextStyle(color: AppTheme.error)),
           content: Text(
-            tr('whisky_library') == 'Whisky library'
-                ? 'Are you sure you want to delete "${list.name}"? Whiskies inside the list will not be deleted.'
-                : '"${list.name}" listesini silmek istediğinize emin misiniz? Viskileriniz silinmeyecektir.',
+            tr('delete_list_confirm', [list.name]),
             style: const TextStyle(color: AppTheme.textPrimary),
           ),
           actions: [
@@ -222,10 +222,13 @@ class _ListsScreenState extends ConsumerState<ListsScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _showCreateListDialog(context, tr),
-        backgroundColor: AppTheme.primary,
-        child: const Icon(Icons.add, color: AppTheme.background),
+      floatingActionButton: Padding(
+        padding: EdgeInsets.only(bottom: MediaQuery.paddingOf(context).bottom + 48),
+        child: FloatingActionButton(
+          onPressed: () => _showCreateListDialog(context, tr),
+          backgroundColor: AppTheme.primary,
+          child: const Icon(Icons.add, color: AppTheme.background),
+        ),
       ),
       body: Container(
         decoration: const BoxDecoration(
@@ -233,9 +236,9 @@ class _ListsScreenState extends ConsumerState<ListsScreen> {
             center: Alignment(0, -0.8),
             radius: 1.5,
             colors: [
-              Color(0xFF1E1E2C),
+              AppTheme.surfaceElevated,
               AppTheme.background,
-              Color(0xFF040406),
+              AppTheme.surface,
             ],
           ),
         ),
@@ -275,19 +278,19 @@ class _ListsScreenState extends ConsumerState<ListsScreen> {
               }
 
               return ListView.separated(
-                padding: const EdgeInsets.all(24),
+                padding: EdgeInsets.fromLTRB(24, 24, 24, MediaQuery.paddingOf(context).bottom + 96),
                 itemCount: lists.length,
                 separatorBuilder: (context, index) => const SizedBox(height: 16),
                 itemBuilder: (context, index) {
                   final list = lists[index];
                   final displayName = _getLocalizedListName(list, tr);
-                  final itemText = _getItemCountString(list.itemCount, tr);
+                  final itemText = _getItemCountString(list.itemCount);
 
                   return Container(
                     decoration: BoxDecoration(
                       color: AppTheme.surfaceElevated.withValues(alpha: 0.4),
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
+                      border: Border.all(color: AppThemeColors.parchment.withValues(alpha: 0.05)),
                     ),
                     child: ListTile(
                       contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
@@ -376,7 +379,7 @@ class _ListsScreenState extends ConsumerState<ListsScreen> {
               );
             },
             loading: () => const Center(
-              child: CircularProgressIndicator(color: AppTheme.primary),
+              child: BrandSpinner(),
             ),
             error: (err, _) => Center(
               child: Text(

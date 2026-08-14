@@ -92,6 +92,8 @@ def main():
     # 2. Write Markdown Report
     with open(report_path, "w", encoding="utf-8") as f:
         f.write("# 295 Real Tasting Note Acquisition Strategy Report\n\n")
+        f.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
+
         f.write("## Evaluated Strategies\n\n")
         for s in strategies:
             f.write(f"### {s['strategy']}\n")

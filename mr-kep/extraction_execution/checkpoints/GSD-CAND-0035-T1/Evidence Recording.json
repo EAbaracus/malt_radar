@@ -1,0 +1,44 @@
+{
+  "_checksum": "3303e3b5f3d42ae4235f32e3f960b613fe86fe8ac73ab724723e93db802eb28e",
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.auchentoshan.com/whisky/auchentoshan-three-wood"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "43.0% ABV",
+      "value": 43.0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Bourbon+Sherry+Pedro Ximenez casks",
+      "value": "Bourbon+Sherry+Pedro Ximenez"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Scotland",
+      "value": "Scotland"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Auchentoshan Distillery",
+      "value": "Auchentoshan"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Lowland single malt",
+      "value": "Lowland"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0035",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:48.527016+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

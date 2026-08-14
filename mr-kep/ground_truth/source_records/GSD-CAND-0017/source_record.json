@@ -1,0 +1,74 @@
+{
+  "distillery_name": {
+    "value": "Ardbeg",
+    "source": "https://www.ardbeg.com/en-int/whisky/ultimate-range/uigeadail",
+    "exact_quote": "Ardbeg Distillery",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "country": {
+    "value": "Scotland",
+    "source": "https://www.ardbeg.com/en-int/whisky/ultimate-range/uigeadail",
+    "exact_quote": "Product of Scotland",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "region": {
+    "value": "Islay",
+    "source": "https://www.ardbeg.com/en-int/whisky/ultimate-range/uigeadail",
+    "exact_quote": "Islay Single Malt",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "abv": {
+    "value": 54.2,
+    "source": "https://www.ardbeg.com/en-int/whisky/ultimate-range/uigeadail",
+    "exact_quote": "54.2% ABV",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "cask_type": {
+    "value": "Sherry+Bourbon",
+    "source": "https://www.ardbeg.com/en-int/whisky/ultimate-range/uigeadail",
+    "exact_quote": "sherry and bourbon casks",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "nose": {
+    "value": "Rich sherry peat smoke, leather, dark chocolate",
+    "source": "https://www.whiskyfun.com/archiveoctober19.html",
+    "exact_quote": "Nose: heavy sherry peat, dark chocolate, coffee, brine",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "palate": {
+    "value": "Intense peat smoke, sweet Oloroso sherry, pepper",
+    "source": "https://www.whiskyfun.com/archiveoctober19.html",
+    "exact_quote": "Palate: intense peat, sweet sherry, leather, black pepper",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "finish": {
+    "value": "Long, dry, warm peat and sherry spice",
+    "source": "https://www.whiskyfun.com/archiveoctober19.html",
+    "exact_quote": "Finish: long, dry, warm sherried peat",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "score": {
+    "value": 92,
+    "source": "https://www.whiskyfun.com/archiveoctober19.html",
+    "exact_quote": "92 points",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  }
+}

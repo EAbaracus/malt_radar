@@ -1,0 +1,82 @@
+{
+  "distillery_name": {
+    "value": "Glenmorangie",
+    "source": "https://www.glenmorangie.com/whisky/glenmorangie-lasanta-12yo",
+    "exact_quote": "Bottled at Glenmorangie Distillery",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "country": {
+    "value": "Scotland",
+    "source": "https://www.glenmorangie.com/whisky/glenmorangie-lasanta-12yo",
+    "exact_quote": "Product of Scotland",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "region": {
+    "value": "Highland",
+    "source": "https://www.glenmorangie.com/whisky/glenmorangie-lasanta-12yo",
+    "exact_quote": "Highland single malt",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "abv": {
+    "value": 46.0,
+    "source": "https://www.glenmorangie.com/whisky/glenmorangie-lasanta-12yo",
+    "exact_quote": "46.0% ABV",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "cask_type": {
+    "value": "Sherry Finish",
+    "source": "https://www.glenmorangie.com/whisky/glenmorangie-lasanta-12yo",
+    "exact_quote": "matured in Sherry Finish casks",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "age_statement": {
+    "value": 12,
+    "source": "https://www.glenmorangie.com/whisky/glenmorangie-lasanta-12yo",
+    "exact_quote": "aged for 12 years",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "nose": {
+    "value": "Rich sherry sweetness, dark plums, raisins, dark cocoa",
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0025",
+    "exact_quote": "Nose: rich sherry sweetness, dark plums, raisins, dark cocoa",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "palate": {
+    "value": "Sweet fruit cake, orange peel, cinnamon, nutmeg, ginger",
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0025",
+    "exact_quote": "Palate: sweet fruit cake, orange peel, cinnamon, nutmeg, ginger",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "finish": {
+    "value": "Long, warm, sweet oak and spicy dark chocolate",
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0025",
+    "exact_quote": "Finish: long, warm, sweet oak and spicy dark chocolate",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "score": {
+    "value": 86,
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0025",
+    "exact_quote": "86 points",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  }
+}

@@ -1,0 +1,171 @@
+{
+  "_checksum": "6bff2ee42b1df76174aee3092eccc73eafcbf9d320f14070a969c889765bfd5a",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-5997043f0cce8b60",
+      "fact_id": "EV-e9102a5532bc",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "Glenmorangie",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Bottled at Glenmorangie Distillery",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.glenmorangie.com/whisky/glenmorangie-lasanta-12yo",
+          "won": true
+        }
+      ],
+      "value": "Glenmorangie"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-76dc38a239d0241f",
+      "fact_id": "EV-994e34e3bc4a",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "Scotland",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Product of Scotland",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.glenmorangie.com/whisky/glenmorangie-lasanta-12yo",
+          "won": true
+        }
+      ],
+      "value": "Scotland"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-51366669d51156f2",
+      "fact_id": "EV-8c037df02b15",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "Highland",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Highland single malt",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.glenmorangie.com/whisky/glenmorangie-lasanta-12yo",
+          "won": true
+        }
+      ],
+      "value": "Highland"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-c214a431b8a4ac74",
+      "fact_id": "EV-118024b12778",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 46.0,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "46.0% ABV",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.glenmorangie.com/whisky/glenmorangie-lasanta-12yo",
+          "won": true
+        }
+      ],
+      "value": 46.0
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-4408865a38c30f4e",
+      "fact_id": "EV-8ce7bdbf64f4",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Sherry Finish",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "matured in Sherry Finish casks",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.glenmorangie.com/whisky/glenmorangie-lasanta-12yo",
+          "won": true
+        }
+      ],
+      "value": "Sherry Finish"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-7f1b5c785b402849",
+      "fact_id": "EV-3f920057c19e",
+      "field": "age_statement",
+      "field_name": "age_statement",
+      "field_value": 12,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "aged for 12 years",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.glenmorangie.com/whisky/glenmorangie-lasanta-12yo",
+          "won": true
+        }
+      ],
+      "value": 12
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.glenmorangie.com/whisky/glenmorangie-lasanta-12yo"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "46.0% ABV",
+      "value": 46.0
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "aged for 12 years",
+      "value": 12
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Sherry Finish casks",
+      "value": "Sherry Finish"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Scotland",
+      "value": "Scotland"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Glenmorangie Distillery",
+      "value": "Glenmorangie"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Highland single malt",
+      "value": "Highland"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0025",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:48.275229+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "_checksum": "463aadd578bb6dccc336a4e4c0bcd90179258fecfaa19680bcbe2fc458397b86",
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "expert_quote",
+    "source_key": "whiskyfun",
+    "url": "https://www.whiskyfun.com/archivemarch20.html"
+  },
+  "extraction_result": {
+    "finish": {
+      "confidence": 1.0,
+      "quote": "Finish: long, tarry, medicinal",
+      "value": "Long, tarry, medicinal with lingering ash"
+    },
+    "nose": {
+      "confidence": 1.0,
+      "quote": "Nose: medicinal peat, TCP, seaweed",
+      "value": "Medicinal peat smoke, bandages, seaweed, salt"
+    },
+    "palate": {
+      "confidence": 1.0,
+      "quote": "Palate: sweet peat TCP, salt",
+      "value": "Peat smoke, TCP, vanilla sweetness, sea salt"
+    },
+    "score": {
+      "confidence": 1.0,
+      "quote": "88 points",
+      "value": 88
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0003",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:47.753063+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

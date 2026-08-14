@@ -1,2 +1,0 @@
-GATE: GO
-REASON: Web scraping pipeline safely frozen and archived.

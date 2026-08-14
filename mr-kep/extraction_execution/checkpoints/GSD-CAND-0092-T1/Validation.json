@@ -1,0 +1,146 @@
+{
+  "_checksum": "d36fb1bd728f103bbce51e41d17e8bbd2952035a4deab4768d12caa244bd20ee",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-c8dd3a69ff10e2a7",
+      "fact_id": "EV-5dee8d658b64",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "Penderyn",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Bottled at Penderyn Distillery",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.penderyn.com/whisky/penderyn-icon-of-wales",
+          "won": true
+        }
+      ],
+      "value": "Penderyn"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-3d35a62a047e92c4",
+      "fact_id": "EV-9ac9741f913f",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "Wales",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Product of Wales",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.penderyn.com/whisky/penderyn-icon-of-wales",
+          "won": true
+        }
+      ],
+      "value": "Wales"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-f703109f8d8022df",
+      "fact_id": "EV-8dc0c3c429a8",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "Brecon Beacons",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Brecon Beacons single malt",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.penderyn.com/whisky/penderyn-icon-of-wales",
+          "won": true
+        }
+      ],
+      "value": "Brecon Beacons"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-d56101341f89d1d2",
+      "fact_id": "EV-09a9d2c660a5",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 41.0,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "41.0% ABV",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.penderyn.com/whisky/penderyn-icon-of-wales",
+          "won": true
+        }
+      ],
+      "value": 41.0
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-631c2d8a5d8d66bd",
+      "fact_id": "EV-71d2209e4109",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Bourbon+Madeira",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "matured in Bourbon+Madeira casks",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.penderyn.com/whisky/penderyn-icon-of-wales",
+          "won": true
+        }
+      ],
+      "value": "Bourbon+Madeira"
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.penderyn.com/whisky/penderyn-icon-of-wales"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "41.0% ABV",
+      "value": 41.0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Bourbon+Madeira casks",
+      "value": "Bourbon+Madeira"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Wales",
+      "value": "Wales"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Penderyn Distillery",
+      "value": "Penderyn"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Brecon Beacons single malt",
+      "value": "Brecon Beacons"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0092",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:49.947123+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

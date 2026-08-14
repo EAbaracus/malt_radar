@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:malt_radar/core/theme/app_theme.dart';
+import 'package:malt_radar/core/theme/app_theme_colors.dart';
 import 'package:malt_radar/core/localization/localization_provider.dart';
 import 'package:malt_radar/features/lists/presentation/controllers/user_lists_providers.dart';
 import 'package:malt_radar/features/whisky/presentation/screens/detail_screen.dart';
 import 'package:malt_radar/features/whisky/presentation/controllers/whisky_providers.dart';
+import 'package:malt_radar/core/branding/brand_medallion_widget.dart';
 
 class ListDetailScreen extends ConsumerWidget {
   final int listId;
@@ -33,9 +35,9 @@ class ListDetailScreen extends ConsumerWidget {
             center: Alignment(0, -0.8),
             radius: 1.5,
             colors: [
-              Color(0xFF1E1E2C),
+              AppTheme.surfaceElevated,
               AppTheme.background,
-              Color(0xFF040406),
+              AppTheme.surface,
             ],
           ),
         ),
@@ -90,7 +92,7 @@ class ListDetailScreen extends ConsumerWidget {
                     decoration: BoxDecoration(
                       color: AppTheme.surfaceElevated.withValues(alpha: 0.4),
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
+                      border: Border.all(color: AppThemeColors.parchment.withValues(alpha: 0.05)),
                     ),
                     child: ListTile(
                       contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
@@ -178,7 +180,7 @@ class ListDetailScreen extends ConsumerWidget {
               );
             },
             loading: () => const Center(
-              child: CircularProgressIndicator(color: AppTheme.primary),
+              child: BrandSpinner(),
             ),
             error: (err, _) => Center(
               child: Text(

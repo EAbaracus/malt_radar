@@ -1,6 +1,6 @@
 $ErrorActionPreference = "Stop"
 
-$RepoRoot = "C:\Users\eltun\Documents\malt radar"
+$RepoRoot = (Resolve-Path "$PSScriptRoot\..").Path
 $FrontendRoot = Join-Path $RepoRoot "frontend"
 
 $DriveRemote = "maltgdrive:MaltRadar Beta"

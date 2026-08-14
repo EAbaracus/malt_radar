@@ -1,0 +1,21 @@
+{
+  "report": "P403 Books Promotion Readiness",
+  "read_only": true,
+  "production_db_sha256": "3c56de601c539260b49df57657eae4d47bfc8d0ebb27354b01c20648ac71656c",
+  "verdict": "GO_WITH_CONDITIONS",
+  "promotable_rows": 64,
+  "distinct_whiskies": 64,
+  "first_evidence_gains": 52,
+  "evidence_updates": 12,
+  "invalid_excluded": 774,
+  "duplicate_excluded": 1799,
+  "provenance_condition": true,
+  "manifest_sha256": "a5e8a463d344a38e3ff095ff79b60176",
+  "rollback_affected": 64,
+  "will_promote_exactly": {
+    "rows": 64,
+    "whiskies": 64,
+    "first_evidence": 52,
+    "updates": 12
+  }
+}

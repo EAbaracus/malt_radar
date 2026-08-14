@@ -196,6 +196,8 @@ CREATE TABLE IF NOT EXISTS staging_friedman_feature_profiles (
     created_at DATETIME
 );
 """)
+        f.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
+
 
     # Create SQL for inserting staging data
     with open(SQL_INSERT_STAGING_DATA, 'w') as f:

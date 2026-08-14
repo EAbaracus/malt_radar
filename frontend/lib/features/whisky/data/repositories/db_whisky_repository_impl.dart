@@ -1,21 +1,23 @@
 import 'package:drift/drift.dart';
-import 'package:malt_radar/core/api/api_client.dart';
 import 'package:malt_radar/core/api/db_whisky_api_client.dart';
 import 'package:malt_radar/core/database/database.dart';
+import 'package:malt_radar/features/flavor/domain/flavor_profile_normalizer.dart';
 import '../../domain/models/whisky.dart';
 import '../../domain/repositories/whisky_repository.dart';
 import '../dto/db_whisky_dto.dart';
 
 class DbWhiskyRepositoryImpl implements WhiskyRepository {
   final AppDatabase _db;
-  // ignore: unused_field
-  final ApiClient _apiClient;
   final DbWhiskyApiClient _dbClient;
 
-  DbWhiskyRepositoryImpl(this._db, this._apiClient, this._dbClient);
+  DbWhiskyRepositoryImpl(this._db, this._dbClient);
 
   @override
-  Stream<List<Whisky>> watchLocalWhiskies({String query = '', bool favoritesOnly = false}) {
+  Stream<List<Whisky>> watchLocalWhiskies({
+    String query = '',
+    bool favoritesOnly = false,
+    List<String> filters = const [],
+  }) {
     final selectQuery = _db.select(_db.whiskies).join([
       leftOuterJoin(_db.userWhiskyScores, _db.userWhiskyScores.whiskyId.equalsExp(_db.whiskies.id)),
       leftOuterJoin(_db.userNotes, _db.userNotes.whiskyId.equalsExp(_db.whiskies.id)),
@@ -33,7 +35,7 @@ class DbWhiskyRepositoryImpl implements WhiskyRepository {
     selectQuery.orderBy([OrderingTerm.asc(_db.whiskies.name)]);
 
     return selectQuery.watch().map((rows) {
-      return rows.map((row) {
+      final list = rows.map((row) {
         final whisky = row.readTable(_db.whiskies);
         final score = row.readTableOrNull(_db.userWhiskyScores)?.score;
         final notes = row.readTableOrNull(_db.userNotes)?.note;
@@ -45,17 +47,189 @@ class DbWhiskyRepositoryImpl implements WhiskyRepository {
           favorite: favorite,
         );
       }).toList();
+
+      if (filters.isEmpty) return list;
+
+      return list.where((w) {
+        for (final filter in filters) {
+          if (!_matchesFilter(w, filter)) return false;
+        }
+        return true;
+      }).toList();
     });
+  }
+
+  bool _matchesFilter(Whisky w, String filter) {
+    final f = filter.toLowerCase();
+
+    // Category / Type match
+    if (f == 'single malt') {
+      return (w.type?.toLowerCase() == 'malt' || w.category?.toLowerCase() == 'single malt' || w.category?.toLowerCase() == 'scotch' && w.type?.toLowerCase() == 'malt');
+    }
+    if (f == 'blended') {
+      return (w.type?.toLowerCase() == 'blend' || w.category?.toLowerCase() == 'blended' || w.category?.toLowerCase() == 'blend');
+    }
+    if (f == 'bourbon') {
+      return (w.category?.toLowerCase() == 'bourbon' || w.type?.toLowerCase() == 'bourbon');
+    }
+    if (f == 'rye') {
+      return (w.category?.toLowerCase() == 'rye' || w.type?.toLowerCase() == 'rye');
+    }
+
+    // Region match
+    if (w.region != null && w.region!.toLowerCase() == f) {
+      return true;
+    }
+
+    // Flavor character match
+    if (w.flavorProfile != null) {
+      try {
+        final profile = normalizeFlavorProfileJson(w.flavorProfile!);
+        const double threshold = 1.0;
+
+        if (f == 'peated') {
+          return (profile['smoky_peaty'] ?? 0.0) > threshold || (profile['peaty'] ?? 0.0) > threshold;
+        }
+        if (f == 'smoky') {
+          return (profile['smoky_peaty'] ?? 0.0) > threshold || (profile['smoky'] ?? 0.0) > threshold;
+        }
+        if (f == 'sherry' || f == 'sherry cask') {
+          return (profile['sherry'] ?? 0.0) > threshold || (profile['oak_cask'] ?? 0.0) > threshold || (w.caskType?.toLowerCase().contains('sherry') ?? false);
+        }
+        if (f == 'sweet') {
+          return (profile['sweet'] ?? 0.0) > threshold;
+        }
+        if (f == 'fruity') {
+          return (profile['fruity'] ?? 0.0) > threshold;
+        }
+      } catch (_) {}
+    } else {
+      if ((f == 'sherry' || f == 'sherry cask') && (w.caskType?.toLowerCase().contains('sherry') ?? false)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   @override
   Future<List<Whisky>> searchExternalWhiskies(String query) async {
+    return searchBackend(query);
+  }
+
+  @override
+  Future<List<Whisky>> searchBackend(String query) async {
     try {
-      final response = await _dbClient.getWhiskies(q: query, limit: 50);
-      return response.items.map((map) {
-        final legacyMap = DbWhiskyMapper.toLegacyMap(map);
-        return Whisky.fromMap(legacyMap);
-      }).toList();
+      final maps = await _dbClient.search(query);
+      return maps.map((map) => Whisky.fromMap(DbWhiskyMapper.toLegacyMap(map))).toList();
+    } catch (_) {
+      return [];
+    }
+  }
+
+  @override
+  Future<List<Whisky>> getAllWhiskies({int limit = 100, int offset = 0, String? filter}) async {
+    // Bounded: a SINGLE page fetch (no eager multi-page cascade). The backend
+    // clamps to CATALOG_MAX_PAGE (50) and rejects limit>100 (422); callers
+    // needing more use the paginated catalog state (CatalogPaginationNotifier).
+    try {
+      return await getWhiskiesPage(offset: offset, limit: limit, filter: filter);
+    } catch (_) {
+      return [];
+    }
+  }
+
+  @override
+  Future<List<Whisky>> getWhiskiesPage(
+      {required int offset, int limit = 50, String? filter}) async {
+    final resp =
+        await _dbClient.getWhiskies(limit: limit, offset: offset, filter: filter);
+    return resp.items
+        .map((map) => Whisky.fromMap(DbWhiskyMapper.toLegacyMap(map)))
+        .toList();
+  }
+
+  @override
+  Future<Whisky?> getWhiskyByBackendId(String backendId) async {
+    try {
+      final map = await _dbClient.getWhiskyById(backendId);
+      if (map == null) return null;
+      final flavorProfile = await _dbClient.getFlavorProfile(backendId);
+      final tastingNotes = await _dbClient.getTastingNotes(backendId);
+      final legacyMap = DbWhiskyMapper.toLegacyMap(
+        map,
+        flavorProfile: flavorProfile,
+        tastingNotes: tastingNotes,
+      );
+      return Whisky.fromMap(legacyMap);
+    } on DbApiAuthRequiredException {
+      // 401 = "login required", NOT "whisky not found". Propagate so the UI
+      // can render a sign-in state instead of a bogus not-found message.
+      rethrow;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  @override
+  Future<List<Map<String, dynamic>>> getEvidence(String backendId) async {
+    try {
+      return await _dbClient.getEvidence(backendId);
+    } catch (_) {
+      return [];
+    }
+  }
+
+  @override
+  Future<List<Whisky>> getSimilarWhiskies(String backendId, {int limit = 5}) async {
+    try {
+      // Fetch the target whisky's normalized 7-axis profile first.
+      final target = await getWhiskyByBackendId(backendId);
+      if (target?.flavorProfile == null) return [];
+
+      Map<String, double> targetProfile;
+      try {
+        targetProfile = normalizeFlavorProfileJson(target!.flavorProfile!);
+      } catch (_) {
+        return [];
+      }
+      if (targetProfile.isEmpty) return [];
+
+      // BOUNDED 5-page fetch (250 rows max) — similarity degrades gracefully
+      // with a smaller candidate pool, but avoids the 100-request eager
+      // cascade that flooded the backend rate limit (429 -> empty list).
+      final all = <Whisky>[];
+      for (var p = 0; p < 5; p++) {
+        final page = await getWhiskiesPage(offset: p * 50, limit: 50);
+        if (page.isEmpty) break;
+        all.addAll(page);
+      }
+      if (all.isEmpty) return [];
+
+      final scored = <Map<String, dynamic>>[];
+      for (final other in all) {
+        if (other.externalId == backendId) continue;
+        if (other.flavorProfile == null) continue;
+        Map<String, double> otherProfile;
+        try {
+          otherProfile = normalizeFlavorProfileJson(other.flavorProfile!);
+        } catch (_) {
+          continue;
+        }
+        double sumSquares = 0.0;
+        bool hasData = false;
+        for (final entry in targetProfile.entries) {
+          final v = otherProfile[entry.key] ?? 0.0;
+          final diff = entry.value - v;
+          sumSquares += diff * diff;
+          hasData = true;
+        }
+        if (hasData) scored.add({'whisky': other, 'distance': sumSquares});
+      }
+
+      scored.sort((a, b) =>
+          (a['distance'] as double).compareTo(b['distance'] as double));
+      return scored.take(limit).map((e) => e['whisky'] as Whisky).toList();
     } catch (_) {
       return [];
     }

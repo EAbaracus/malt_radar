@@ -2,6 +2,7 @@ import os
 import csv
 import json
 import argparse
+import re
 from collections import defaultdict
 
 # Setup directories
@@ -36,6 +37,13 @@ CUSTOM_DISTILLERIES = {
     "parker": ("Heaven Hill", "United States"),
     "stagg": ("Buffalo Trace", "United States")
 }
+
+# Optimization: Pre-compile regex for faster matching
+MAJOR_DICT = {m.lower(): m for m in MAJOR_DISTILLERIES}
+CUSTOM_DICT = {k: v for k, v in CUSTOM_DISTILLERIES.items()}
+_combined_pattern = "^(" + "|".join(re.escape(m) for m in MAJOR_DICT.keys()) + "|" + "|".join(re.escape(k) for k in CUSTOM_DICT.keys()) + ")"
+DISTILLERY_MATCH_REGEX = re.compile(_combined_pattern)
+
 
 def safe_mkdir(path):
     if not os.path.exists(path):
@@ -138,42 +146,31 @@ def run():
                             })
 
         # --- APPLY HEURISTICS ---
-        dist_id = p.get('distillery_id', '').strip()
         
         # Check specific rules
         if "timorous beastie" in pname or "sheep dip" in pname:
             p['type'] = 'Blended Malt'
             p['distillery_id'] = ''
-            dist_id = ''
         elif pname.startswith("ledaig"):
             p['brand'] = 'Ledaig'
             new_id = add_distillery_patch("Tobermory")
             p['distillery_id'] = new_id
-            dist_id = new_id
             p['notes_for_review'] = "Ledaig peated expression of Tobermory Distillery"
         elif pname.startswith("redbreast"):
             new_id = add_distillery_patch("Midleton", "Ireland")
             p['distillery_id'] = new_id
-            dist_id = new_id
         else:
             # Check major distilleries
-            matched = False
-            for major in MAJOR_DISTILLERIES:
-                if pname.startswith(major.lower()):
-                    new_id = add_distillery_patch(major)
+            m = DISTILLERY_MATCH_REGEX.match(pname)
+            if m:
+                prefix = m.group(1)
+                if prefix in MAJOR_DICT:
+                    new_id = add_distillery_patch(MAJOR_DICT[prefix])
                     p['distillery_id'] = new_id
-                    dist_id = new_id
-                    matched = True
-                    break
-            
-            if not matched:
-                for k, v in CUSTOM_DISTILLERIES.items():
-                    if pname.startswith(k):
-                        new_id = add_distillery_patch(v[0], v[1])
-                        p['distillery_id'] = new_id
-                        dist_id = new_id
-                        matched = True
-                        break
+                else:
+                    dist_name, dist_country = CUSTOM_DICT[prefix]
+                    new_id = add_distillery_patch(dist_name, dist_country)
+                    p['distillery_id'] = new_id
 
         # Collect source urls
         s_url = p.get('source_urls')

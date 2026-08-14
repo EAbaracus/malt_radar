@@ -1,0 +1,49 @@
+{
+  "_checksum": "e71f9d6515731025a669b643783c074edb7f0ac05575d869a42a55a69d5b58f5",
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.buffalotrace.com/whisky/eagle-rare-10yo"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "45.0% ABV",
+      "value": 45.0
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "aged for 10 years",
+      "value": 10
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Bourbon casks",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of USA",
+      "value": "USA"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Buffalo Trace Distillery",
+      "value": "Buffalo Trace"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "American single malt",
+      "value": "American"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0055",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:49.037072+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

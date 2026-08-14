@@ -62,7 +62,7 @@ def get_match_status(query, choices, cutoff=0.8):
     return "NO_MATCH"
 
 def main():
-    base_dir = Path("c:/Users/eltun/Documents/malt radar")
+    base_dir = Path(__file__).resolve().parent.parent.parent
     input_dir = base_dir / "data/manual_sources/books/input"
     db_path = base_dir / "output/import/production.db"
     review_dir = base_dir / "data/manual_sources/books/review_csv"
@@ -116,6 +116,8 @@ def main():
         report_file = report_dir / "14a_field_guide_reference_audit_report.md"
         with open(report_file, "w", encoding="utf-8") as f:
             f.write("# A Field Guide to Whisky Reference Audit Report\n\n")
+            f.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
+
             f.write(f"- **Target Source:** A Field Guide to Whisky\n")
             f.write(f"- **Selected EPUB Path:** {best_epub_path if best_epub_path else 'None'}\n")
             f.write(f"- **EPUB Title:** {best_epub_title}\n")

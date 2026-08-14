@@ -1,0 +1,49 @@
+{
+  "_checksum": "bd37e69aca951ef269c24b8095ae0af99eea99d52e7dda49e36633e92defdc63",
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "structured_data",
+    "source_key": "MR-KEP-GSD-V1",
+    "url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "[approx_abv] 47.0",
+      "value": 47.0
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "[age_statement_years] 0",
+      "value": 0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "[cask_type_primary] Bourbon",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "[country] Japan",
+      "value": "Japan"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "[distillery] Nagahama",
+      "value": "Nagahama"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "[region] Japanese",
+      "value": "Japanese"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0053",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:14:58.739325+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

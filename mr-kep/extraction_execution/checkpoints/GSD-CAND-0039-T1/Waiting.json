@@ -1,0 +1,49 @@
+{
+  "_checksum": "bed70619fc36e39fcd13bb712cb2aceebefdaf6ba099d26fd19e4aca490db54f",
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.springbank.com/whisky/springbank-15yo"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "46.0% ABV",
+      "value": 46.0
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "aged for 15 years",
+      "value": 15
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Sherry+Bourbon casks",
+      "value": "Sherry+Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Scotland",
+      "value": "Scotland"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Springbank Distillery",
+      "value": "Springbank"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Campbeltown single malt",
+      "value": "Campbeltown"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0039",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:48.622897+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

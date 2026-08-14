@@ -1,0 +1,230 @@
+{
+  "sources": {
+    "thewhiskyphiles": {
+      "listing_url": "https://thewhiskyphiles.com/category/tasting-notes/",
+      "articles": [],
+      "listing_status": 404,
+      "listing_error": "HTTP Error 404: Not Found"
+    },
+    "whiskymonster": {
+      "listing_url": "https://www.whiskymonster.com/whisky/whisky-reviews/list-of-whisky-reviews/",
+      "articles": [],
+      "listing_status": 403,
+      "listing_error": "HTTP Error 403: Forbidden"
+    },
+    "thedramble": {
+      "listing_url": "https://www.thedramble.com/tastings/",
+      "articles": [
+        {
+          "url": "https://www.thedramble.com/tastings/",
+          "status": 200,
+          "evidence_id": "EDR-1ddf88599a90ae7f",
+          "raw_name": "Tastings",
+          "schema_valid": false,
+          "distillery_raw": "tastings",
+          "canonical_distillery_id": null,
+          "review_required": true,
+          "match_status": "unmatched",
+          "score_detected": false
+        },
+        {
+          "url": "https://www.thedramble.com/tastings/undisclosed-speyside/a-good-old-fashioned-christmas-whisky-2024/",
+          "status": 200,
+          "evidence_id": "EDR-283cbf4d9190a2da",
+          "raw_name": "Bottle Name:A Good Old Fashioned Christmas Whisky 2024",
+          "schema_valid": false,
+          "distillery_raw": "bottle",
+          "canonical_distillery_id": null,
+          "review_required": true,
+          "match_status": "unmatched",
+          "score_detected": false
+        },
+        {
+          "url": "https://www.thedramble.com/tastings/undisclosed-speyside",
+          "status": 200,
+          "evidence_id": "EDR-36c34a8fa10095ab",
+          "raw_name": "Undisclosed Speyside",
+          "schema_valid": false,
+          "distillery_raw": "speyside",
+          "canonical_distillery_id": "D1902",
+          "review_required": false,
+          "match_status": "unmatched",
+          "score_detected": false
+        },
+        {
+          "url": "https://www.thedramble.com/tastings/undisclosed-speyside/a-good-old-fashioned-christmas-whisky-2023-edition/",
+          "status": 200,
+          "evidence_id": "EDR-aa49fe78e0962110",
+          "raw_name": "Bottle Name:A Good Old Fashioned Christmas Whisky 2023 Edition",
+          "schema_valid": false,
+          "distillery_raw": "bottle",
+          "canonical_distillery_id": null,
+          "review_required": true,
+          "match_status": "unmatched",
+          "score_detected": false
+        },
+        {
+          "url": "https://www.thedramble.com/tastings/glenkinchie/black-friday-2023-edition/",
+          "status": 200,
+          "evidence_id": "EDR-ea6e7be0eb093410",
+          "raw_name": "Bottle Name:Black Friday 2023 Edition",
+          "schema_valid": false,
+          "distillery_raw": "bottle",
+          "canonical_distillery_id": null,
+          "review_required": true,
+          "match_status": "unmatched",
+          "score_detected": false
+        }
+      ],
+      "listing_status": 200
+    },
+    "whiskynotes_be": {
+      "listing_url": "https://www.whiskynotes.be/",
+      "articles": [
+        {
+          "url": "https://www.whiskynotes.be/2026/clynelish/5-decadent-drinks-glenburgie-clynelish-jura-ben-nevis/",
+          "status": 200,
+          "evidence_id": "EDR-07e268777003aaa4",
+          "raw_name": "WhiskyNotes",
+          "schema_valid": true,
+          "distillery_raw": "whiskynotes",
+          "canonical_distillery_id": null,
+          "review_required": true,
+          "match_status": "unmatched",
+          "score_detected": true
+        },
+        {
+          "url": "https://www.whiskynotes.be/2026/mortlach/mortlach-dufftown-oban-casks-of-distinction/",
+          "status": 200,
+          "evidence_id": "EDR-be5c47f7a12b98f6",
+          "raw_name": "WhiskyNotes",
+          "schema_valid": true,
+          "distillery_raw": "whiskynotes",
+          "canonical_distillery_id": null,
+          "review_required": true,
+          "match_status": "unmatched",
+          "score_detected": true
+        },
+        {
+          "url": "https://www.whiskynotes.be/2026/macallan/speyside-m-2009-100-proof-exceptional-cask/",
+          "status": 200,
+          "evidence_id": "EDR-2d0c72ff9be9eae2",
+          "raw_name": "WhiskyNotes",
+          "schema_valid": false,
+          "distillery_raw": "whiskynotes",
+          "canonical_distillery_id": null,
+          "review_required": true,
+          "match_status": "unmatched",
+          "score_detected": false
+        },
+        {
+          "url": "https://www.whiskynotes.be/2026/talisker/talisker-39-years-gm-connoisseurs-choice-heritage/",
+          "status": 200,
+          "evidence_id": "EDR-c6bddcb014f9a013",
+          "raw_name": "WhiskyNotes",
+          "schema_valid": false,
+          "distillery_raw": "whiskynotes",
+          "canonical_distillery_id": null,
+          "review_required": true,
+          "match_status": "unmatched",
+          "score_detected": false
+        },
+        {
+          "url": "https://www.whiskynotes.be/2026/world/kwun-cheung-chinese-single-malt-whisky/",
+          "status": 200,
+          "evidence_id": "EDR-a192af96f1f14dce",
+          "raw_name": "WhiskyNotes",
+          "schema_valid": true,
+          "distillery_raw": "whiskynotes",
+          "canonical_distillery_id": null,
+          "review_required": true,
+          "match_status": "unmatched",
+          "score_detected": true
+        }
+      ],
+      "listing_status": 200
+    },
+    "thewhiskeywash": {
+      "listing_url": "https://thewhiskeywash.com/whiskey-reviews/",
+      "articles": [
+        {
+          "url": "https://thewhiskeywash.com/whiskey-reviews/",
+          "status": 200,
+          "evidence_id": "EDR-c17ee65de4ccad8c",
+          "raw_name": "Whiskey Reviews",
+          "schema_valid": false,
+          "distillery_raw": "whiskey",
+          "canonical_distillery_id": null,
+          "review_required": true,
+          "match_status": "unmatched",
+          "score_detected": false
+        },
+        {
+          "url": "https://thewhiskeywash.com/whiskey-reviews/american-whiskey-reviews/",
+          "status": 200,
+          "evidence_id": "EDR-0b693cf2cf97eda6",
+          "raw_name": "American WhiskeyReviews",
+          "schema_valid": false,
+          "distillery_raw": "american",
+          "canonical_distillery_id": null,
+          "review_required": true,
+          "match_status": "unmatched",
+          "score_detected": false
+        },
+        {
+          "url": "https://thewhiskeywash.com/whiskey-reviews/scotch-reviews/",
+          "status": 200,
+          "evidence_id": "EDR-683b0f556383887d",
+          "raw_name": "Scotch WhiskyReviews",
+          "schema_valid": false,
+          "distillery_raw": "scotch",
+          "canonical_distillery_id": null,
+          "review_required": true,
+          "match_status": "unmatched",
+          "score_detected": false
+        },
+        {
+          "url": "https://thewhiskeywash.com/whiskey-reviews/world-whisky-reviews/",
+          "status": 200,
+          "evidence_id": "EDR-a6393ed66fe7c5b7",
+          "raw_name": "World WhiskeyReviews",
+          "schema_valid": false,
+          "distillery_raw": "world",
+          "canonical_distillery_id": null,
+          "review_required": true,
+          "match_status": "unmatched",
+          "score_detected": false
+        },
+        {
+          "url": "https://thewhiskeywash.com/whiskey-reviews/bourbon-reviews/",
+          "status": 200,
+          "evidence_id": "EDR-c6e0d505715f00f3",
+          "raw_name": "Bourbon Reviews",
+          "schema_valid": false,
+          "distillery_raw": "bourbon",
+          "canonical_distillery_id": null,
+          "review_required": true,
+          "match_status": "unmatched",
+          "score_detected": false
+        }
+      ],
+      "listing_status": 200
+    },
+    "wordsofwhisky": {
+      "listing_url": "https://wordsofwhisky.com/",
+      "articles": [],
+      "listing_status": 200
+    }
+  },
+  "totals": {
+    "sources_crawled": 6,
+    "articles_captured": 15,
+    "staging_rows": 15,
+    "schema_valid": 3,
+    "with_score": 3,
+    "crosswalk_resolved": 1,
+    "unknown_distilleries": 14,
+    "idempotent": true,
+    "duplicate_prevention": true
+  }
+}

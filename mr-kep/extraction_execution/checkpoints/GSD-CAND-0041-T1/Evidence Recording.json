@@ -1,0 +1,49 @@
+{
+  "_checksum": "5d394cf8bf380d87114a3d190b28091cd7b29aa1de9fd27bee345ec4092f6ea5",
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.yamazaki.com/whisky/yamazaki-12yo"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "43.0% ABV",
+      "value": 43.0
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "aged for 12 years",
+      "value": 12
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Mizunara+Bourbon+Sherry casks",
+      "value": "Mizunara+Bourbon+Sherry"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Japan",
+      "value": "Japan"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Yamazaki Distillery",
+      "value": "Yamazaki"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Japanese single malt",
+      "value": "Japanese"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0041",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:48.695800+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

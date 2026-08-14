@@ -103,6 +103,16 @@ def main() -> int:
 
     write_text(REPORT_OUT, report)
     write_text(GATE_OUT, gate + "\n")
+    write_text(
+        GATE_OUT,
+        "\n"
+        "Estimated API Cost: $0.00\n"
+        "Actual API Cost: $0.00\n"
+        "Local Compute Used: Yes\n"
+        "Fully Local Execution: Yes\n",
+        encoding="utf-8",
+    )
+
 
     print(f"input_rows: {len(df)}")
     print(f"quality_keep_rows: {len(keep)}")

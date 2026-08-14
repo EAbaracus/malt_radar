@@ -1,0 +1,146 @@
+{
+  "_checksum": "7a1e40e6cd16127fb83ddffc35d613d010b272330887937161b4b6a75a65f91b",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-a783b2942b2a5bef",
+      "fact_id": "EV-ac9252fec243",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "Buffalo Trace",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Bottled at Buffalo Trace Distillery",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.buffalotrace.com/whisky/george-t-stagg",
+          "won": true
+        }
+      ],
+      "value": "Buffalo Trace"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-2bdf2a33e86db068",
+      "fact_id": "EV-90352cfbdbc4",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "USA",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Product of USA",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.buffalotrace.com/whisky/george-t-stagg",
+          "won": true
+        }
+      ],
+      "value": "USA"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-152f2ad709f3bcd7",
+      "fact_id": "EV-f0cd1ded1a66",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "American",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "American single malt",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.buffalotrace.com/whisky/george-t-stagg",
+          "won": true
+        }
+      ],
+      "value": "American"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-68dbffa21e8b55a4",
+      "fact_id": "EV-16b70ff3d623",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 64.1,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "64.1% ABV",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.buffalotrace.com/whisky/george-t-stagg",
+          "won": true
+        }
+      ],
+      "value": 64.1
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-f85e0bb5eda39666",
+      "fact_id": "EV-66e669b68c57",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Bourbon",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "matured in Bourbon casks",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.buffalotrace.com/whisky/george-t-stagg",
+          "won": true
+        }
+      ],
+      "value": "Bourbon"
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.buffalotrace.com/whisky/george-t-stagg"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "64.1% ABV",
+      "value": 64.1
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Bourbon casks",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of USA",
+      "value": "USA"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Buffalo Trace Distillery",
+      "value": "Buffalo Trace"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "American single malt",
+      "value": "American"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0058",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:49.116099+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

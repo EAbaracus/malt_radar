@@ -1,0 +1,157 @@
+{
+  "prod_sha": "f341995184e883232e6993aa77ca103e2531d464a95d449c15a6ce857bf67a12",
+  "mode": "read-only dry-run",
+  "waveA": {
+    "f7_auto_bind": 695,
+    "null_distillery_safe": 1207,
+    "total_AUTO_BIND": 1902,
+    "distinct_targets": 215,
+    "all_targets_valid": true
+  },
+  "waveB": {
+    "loser": "D1091",
+    "survivor": "D0010",
+    "whiskies_repoint": 5,
+    "tasting_notes_repoint": 5,
+    "flavor_profiles_repoint": 5,
+    "flavor_evidence_rows_lost": 0,
+    "flavor_profiles_rows_preserved": 5,
+    "evidence_loss": true,
+    "survivor_region": "Speyside"
+  },
+  "waveC": {
+    "ligature_name_hits": 55,
+    "tables_with_ligatures": [
+      "distilleries",
+      "tasting_notes",
+      "whiskies"
+    ],
+    "post_norm_within_table_collisions": 57,
+    "collision_examples": [
+      {
+        "table": "distilleries",
+        "column": "name",
+        "normalized": "Glenfiddich",
+        "rowids": [
+          10,
+          1091
+        ]
+      },
+      {
+        "table": "whiskies",
+        "column": "name",
+        "normalized": "glen scotia double cask",
+        "rowids": [
+          161,
+          2817
+        ]
+      },
+      {
+        "table": "whiskies",
+        "column": "name",
+        "normalized": "auchentoshan three wood",
+        "rowids": [
+          164,
+          2540
+        ]
+      },
+      {
+        "table": "whiskies",
+        "column": "name",
+        "normalized": "glen scotia victoriana",
+        "rowids": [
+          223,
+          2567
+        ]
+      },
+      {
+        "table": "whiskies",
+        "column": "name",
+        "normalized": "penderyn celt",
+        "rowids": [
+          400,
+          2273
+        ]
+      },
+      {
+        "table": "whiskies",
+        "column": "name",
+        "normalized": "laphroaig quarter cask",
+        "rowids": [
+          421,
+          1989
+        ]
+      },
+      {
+        "table": "whiskies",
+        "column": "name",
+        "normalized": "amrut peated",
+        "rowids": [
+          446,
+          2928
+        ]
+      },
+      {
+        "table": "whiskies",
+        "column": "name",
+        "normalized": "forty creek resolve",
+        "rowids": [
+          518,
+          2086
+        ]
+      },
+      {
+        "table": "whiskies",
+        "column": "name",
+        "normalized": "glenrothes whisky maker's cut",
+        "rowids": [
+          730,
+          2552
+        ]
+      },
+      {
+        "table": "whiskies",
+        "column": "name",
+        "normalized": "paul john classic select cask",
+        "rowids": [
+          941,
+          2931
+        ]
+      }
+    ],
+    "note": "Glenfiddich is one of many; NFKC folds \ufb01->fi across distilleries/whiskies/tasting_notes."
+  },
+  "validation": {
+    "fk_integrity_before": 0,
+    "fk_integrity_after_sim": 0,
+    "null_distillery_before": 1931,
+    "null_distillery_after_waveA": 724,
+    "identity_columns_untouched": [
+      "whisky_id",
+      "age",
+      "abv",
+      "age_statement",
+      "region"
+    ],
+    "columns_touched_waveA_B": [
+      "distillery_id"
+    ],
+    "columns_touched_waveC": [
+      "name (ligature fold only)"
+    ],
+    "whisky_id_changed": 0,
+    "evidence_preserved": true
+  },
+  "idempotency": {
+    "waveA_reapply_net_changes": 0,
+    "waveB_reapply_net_changes": 0,
+    "waveC_reapply_net_changes": 0,
+    "proof": "Each wave is a pure function of immutable source fields; target computed identically on re-run; updates only unbound rows."
+  },
+  "rollback": {
+    "primary": "snapshot restore (pre-apply backup of production.db, SHA-recorded)",
+    "secondary": "audit-trail inverse UPDATEs (record before_value per changed row)",
+    "destructive_ops_used": false,
+    "non_destructive": true
+  }
+}

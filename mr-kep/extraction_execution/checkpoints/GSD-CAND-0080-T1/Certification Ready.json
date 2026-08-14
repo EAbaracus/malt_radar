@@ -1,0 +1,146 @@
+{
+  "_checksum": "328f33e367d15875e400e84dd8c7678ffc496b04cc7c1ba751165c0f32a485c9",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-e557755d06d2cd16",
+      "fact_id": "EV-da7e6f467e33",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "Paul John",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Bottled at Paul John Distillery",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.pauljohn.com/whisky/paul-john-classic-select-cask",
+          "won": true
+        }
+      ],
+      "value": "Paul John"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-f807e7ae6c33c8dc",
+      "fact_id": "EV-1c80a80f2501",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "India",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Product of India",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.pauljohn.com/whisky/paul-john-classic-select-cask",
+          "won": true
+        }
+      ],
+      "value": "India"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-00d1de29a996f339",
+      "fact_id": "EV-0e7588bfb812",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "Karnataka",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Karnataka single malt",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.pauljohn.com/whisky/paul-john-classic-select-cask",
+          "won": true
+        }
+      ],
+      "value": "Karnataka"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-e4607c5ef7114cb1",
+      "fact_id": "EV-c0f1d4076621",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 55.2,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "55.2% ABV",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.pauljohn.com/whisky/paul-john-classic-select-cask",
+          "won": true
+        }
+      ],
+      "value": 55.2
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-11a60d135c9ffdfb",
+      "fact_id": "EV-800ceef7a731",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Bourbon",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "matured in Bourbon casks",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.pauljohn.com/whisky/paul-john-classic-select-cask",
+          "won": true
+        }
+      ],
+      "value": "Bourbon"
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.pauljohn.com/whisky/paul-john-classic-select-cask"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "55.2% ABV",
+      "value": 55.2
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Bourbon casks",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of India",
+      "value": "India"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Paul John Distillery",
+      "value": "Paul John"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Karnataka single malt",
+      "value": "Karnataka"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0080",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:49.659530+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

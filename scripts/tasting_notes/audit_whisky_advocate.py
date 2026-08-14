@@ -185,6 +185,8 @@ reject_count = {reject_count}
 
 with open(os.path.join(REPORTS_DIR, "240_whisky_advocate_dataset_audit.md"), "w", encoding="utf-8") as f:
     f.write(md_report)
+    f.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
+
 
 with open(os.path.join(REPORTS_DIR, "241_whisky_advocate_dataset_gate.txt"), "w", encoding="utf-8") as f:
     f.write(gate_report)

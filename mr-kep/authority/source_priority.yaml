@@ -1,0 +1,48 @@
+# =============================================================================
+# source_priority.yaml
+# -----------------------------------------------------------------------------
+# Purpose : Within a tier, defines a deterministic PRIORITY ordering used as the
+#           tie-breaker for conflict resolution (see authority_matrix.yaml
+#           conflict_resolution.tie_breaker).
+# Scope   : MR-KEP Sprint 1 (FOUNDATION). Standards only. Deterministic.
+# Reuse   : AOUS merge stage consumes `priority` (lower number = higher
+#           precedence) when two equal-tier sources disagree.
+# =============================================================================
+
+schema_version: "1.0.0"
+deterministic: true
+
+# Priority is numeric and monotonically increasing. Lower = more precedent.
+# Two sources with the same tier AND same priority are merged per policy,
+# never silently dropped.
+rules:
+  - source_key: "whiskyfun"
+    tier: T2_expert
+    priority: 10
+    rationale: "Long-running, high-volume professional reviewer; consistent methodology."
+  - source_key: "producer_technical_sheet"
+    tier: T1_authoritative
+    priority: 1
+    rationale: "Official producer data; always wins identity/regulatory conflicts."
+  - source_key: "regulatory_register"
+    tier: T1_authoritative
+    priority: 2
+    rationale: "Appellation / regulator register; official but secondary to producer."
+  - source_key: "community_aggregate"
+    tier: T3_community
+    priority: 50
+    rationale: "Crowd-sourced; supporting evidence only, lowest precedence."
+  - source_key: "whiskymag"
+    tier: T2_expert
+    priority: 12
+    rationale: "Whisky Magazine (SRC_013) professional periodical review; expert_review class, comparable to whiskyfun (priority 10). Matches sources/whiskymag/source_profile.yaml (priority 12, tier T2_expert)."
+  - source_key: "meleklerinpayi"
+    tier: T2_expert
+    priority: 18
+    rationale: "Meleklerin Payı (Burkay Adalığ) Turkish-language expert whisky blog; single-author editorial tasting notes. After whiskyfun(10)/whiskymag(12)/breakingbourbon(14)/lawhiskeysociety(16). Matches sources/meleklerinpayi/source_profile.yaml (priority 18, tier T2_expert)."
+
+# Unlisted sources default to the lowest precedence of their tier, or T3 if
+# the tier is unknown (fail-safe: never let an unknown source override known ones).
+default_for_unknown_source:
+  tier: T3_community
+  priority: 99

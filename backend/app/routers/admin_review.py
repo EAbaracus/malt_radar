@@ -6,8 +6,10 @@ from app.models.schemas import (
     AllowedAction, ReviewActionRequest, ReviewActionResponse
 )
 from app.services.review_query_service import ReviewQueryService
+from app.security import verify_api_key
 
-router = APIRouter(prefix="/admin/review", tags=["Admin Review"])
+router = APIRouter(prefix="/admin/review", tags=["Admin Review"],
+                    dependencies=[Depends(verify_api_key)])
 
 def get_query_service():
     return ReviewQueryService()
@@ -62,11 +64,7 @@ async def get_actions(
     actions = service.get_allowed_actions(current_status)
     return [AllowedAction(**a) for a in actions]
 
-@router.post("/action", response_model=ReviewActionResponse, dependencies=[Depends(check_feature_flag)])
-async def post_action(
-    req: ReviewActionRequest,
-    service: ReviewQueryService = Depends(get_query_service)
-):
+def _check_environment_permissions(req: ReviewActionRequest):
     if not req.dry_run:
         write_enabled = os.getenv("ADMIN_REVIEW_WRITE_ENABLED", "false").lower() == "true"
         if not write_enabled:
@@ -76,12 +74,8 @@ async def post_action(
         promo_enabled = os.getenv("ADMIN_REVIEW_PROMOTION_ENABLED", "false").lower() == "true"
         if not promo_enabled:
             raise HTTPException(status_code=400, detail="Promotion action is not allowed. ADMIN_REVIEW_PROMOTION_ENABLED is false.")
-        
-    item = service.get_item_details(req.source_table, req.source_record_key)
-    if not item:
-        raise HTTPException(status_code=404, detail="Source record not found")
-        
-    status = item.get("approval_status", "pending_review")
+
+def _validate_action_allowed(service: ReviewQueryService, req: ReviewActionRequest, status: str):
     actions = service.get_allowed_actions(status)
     
     allowed = False
@@ -98,6 +92,25 @@ async def post_action(
     if requires_note and not req.reviewer_note:
         raise HTTPException(status_code=400, detail="Reviewer note is required for this action.")
 
+@router.post("/action", response_model=ReviewActionResponse, dependencies=[Depends(check_feature_flag)])
+async def post_action(
+    req: ReviewActionRequest,
+    api_key: str = Depends(verify_api_key),
+    service: ReviewQueryService = Depends(get_query_service)
+):
+    # The audit-trail reviewer is the VERIFIED API-key identity, never the
+    # client-supplied req.reviewer field (which is untrusted/deprecated).
+    reviewer_identity = api_key
+
+    _check_environment_permissions(req)
+
+    item = service.get_item_details(req.source_table, req.source_record_key)
+    if not item:
+        raise HTTPException(status_code=404, detail="Source record not found")
+
+    status = item.get("approval_status", "pending_review")
+    _validate_action_allowed(service, req, status)
+
     if not req.dry_run:
         try:
             service.execute_action(
@@ -105,7 +118,7 @@ async def post_action(
                 source_record_key=req.source_record_key,
                 target_status=req.target_status,
                 action_type=req.action_type,
-                reviewer=req.reviewer,
+                reviewer=reviewer_identity,
                 reviewer_note=req.reviewer_note,
                 previous_status=status
             )

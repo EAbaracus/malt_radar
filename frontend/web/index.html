@@ -18,19 +18,23 @@
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta name="description" content="Viski lezzet radarları, notlar ve kişisel koleksiyon yönetimi.">
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="malt_radar">
+  <meta name="apple-mobile-web-app-title" content="Malt Radar">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
+  <!-- Favicon (cache-busted: forces browsers off any stale favicon) -->
+  <link rel="icon" type="image/png" href="favicon.png?v=brand1"/>
 
   <title>Malt Radar</title>
   <link rel="manifest" href="manifest.json">
+
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4569028808710145"
+     crossorigin="anonymous"></script>
 </head>
 <body>
   <!--
@@ -41,6 +45,24 @@
     For more details:
     * https://docs.flutter.dev/platform-integration/web/initialization
   -->
+  <script>
+    // Kill any stale Flutter service worker + its caches on every load.
+    // The SW was serving an old main.dart.js (2-page pagination) even after redeploys,
+    // which manifested as an empty whisky list. Unregister + purge caches so the
+    // fresh build is always fetched.
+    (function () {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function (regs) {
+          regs.forEach(function (r) { r.unregister(); });
+        });
+      }
+      if (window.caches && window.caches.keys) {
+        caches.keys().then(function (keys) {
+          keys.forEach(function (k) { caches.delete(k); });
+        });
+      }
+    })();
+  </script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>

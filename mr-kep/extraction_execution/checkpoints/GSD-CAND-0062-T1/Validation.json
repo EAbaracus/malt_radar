@@ -1,0 +1,146 @@
+{
+  "_checksum": "d75515658b16ba3a754639e867904c514c98c500766f2cdf0e80d7a2d14a08a5",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-66c96dc6a70483e5",
+      "fact_id": "EV-765483618500",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "Maker's Mark",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Bottled at Maker's Mark Distillery",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.maker'smark.com/whisky/makers-mark",
+          "won": true
+        }
+      ],
+      "value": "Maker's Mark"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-6f17d49c7c3808bd",
+      "fact_id": "EV-c82ae8c27767",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "USA",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Product of USA",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.maker'smark.com/whisky/makers-mark",
+          "won": true
+        }
+      ],
+      "value": "USA"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-94e1b07e7a771d89",
+      "fact_id": "EV-566604749159",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "Kentucky",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Kentucky single malt",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.maker'smark.com/whisky/makers-mark",
+          "won": true
+        }
+      ],
+      "value": "Kentucky"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-ec821e0838e8135c",
+      "fact_id": "EV-334d2c826bc1",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 45.0,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "45.0% ABV",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.maker'smark.com/whisky/makers-mark",
+          "won": true
+        }
+      ],
+      "value": 45.0
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-2b7bde58b1775dbf",
+      "fact_id": "EV-9467c8e9727a",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Bourbon",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "matured in Bourbon casks",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.maker'smark.com/whisky/makers-mark",
+          "won": true
+        }
+      ],
+      "value": "Bourbon"
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.maker'smark.com/whisky/makers-mark"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "45.0% ABV",
+      "value": 45.0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Bourbon casks",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of USA",
+      "value": "USA"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Maker's Mark Distillery",
+      "value": "Maker's Mark"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Kentucky single malt",
+      "value": "Kentucky"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0062",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:49.224202+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "distillery_name": {
+    "value": "Laphroaig",
+    "source": "https://www.laphroaig.com/en/quarter-cask",
+    "exact_quote": "Laphroaig Distillery",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "country": {
+    "value": "Scotland",
+    "source": "https://www.laphroaig.com/en/quarter-cask",
+    "exact_quote": "Product of Scotland",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "region": {
+    "value": "Islay",
+    "source": "https://www.laphroaig.com/en/quarter-cask",
+    "exact_quote": "Islay Single Malt",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "abv": {
+    "value": 48.0,
+    "source": "https://www.laphroaig.com/en/quarter-cask",
+    "exact_quote": "48% ABV",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "cask_type": {
+    "value": "Bourbon (Quarter)",
+    "source": "https://www.laphroaig.com/en/quarter-cask",
+    "exact_quote": "double matured in quarter casks",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "nose": {
+    "value": "Burning embers, peat smoke, coconut, sweet vanilla",
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html",
+    "exact_quote": "Nose: ash, peat smoke, vanilla, sweet oak",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "palate": {
+    "value": "Deep peat smoke, sweet oak, coconut, sea salt",
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html",
+    "exact_quote": "Palate: sweet peat, pepper, salt, vanilla",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "finish": {
+    "value": "Long, dry, smoky with lingering vanilla sweetness",
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html",
+    "exact_quote": "Finish: long, sweet peat, ash",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "score": {
+    "value": 86,
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html",
+    "exact_quote": "86 points",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  }
+}

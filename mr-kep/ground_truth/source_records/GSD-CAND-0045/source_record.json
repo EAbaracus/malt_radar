@@ -1,0 +1,74 @@
+{
+  "distillery_name": {
+    "value": "Nikka",
+    "source": "https://www.nikka.com/whisky/nikka-from-the-barrel",
+    "exact_quote": "Bottled at Nikka Distillery",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "country": {
+    "value": "Japan",
+    "source": "https://www.nikka.com/whisky/nikka-from-the-barrel",
+    "exact_quote": "Product of Japan",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "region": {
+    "value": "Japanese",
+    "source": "https://www.nikka.com/whisky/nikka-from-the-barrel",
+    "exact_quote": "Japanese single malt",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "abv": {
+    "value": 51.4,
+    "source": "https://www.nikka.com/whisky/nikka-from-the-barrel",
+    "exact_quote": "51.4% ABV",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "cask_type": {
+    "value": "Bourbon+Sherry",
+    "source": "https://www.nikka.com/whisky/nikka-from-the-barrel",
+    "exact_quote": "matured in Bourbon+Sherry casks",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "nose": {
+    "value": "Rich sherry sweetness, dark plums, raisins, dark cocoa",
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0045",
+    "exact_quote": "Nose: rich sherry sweetness, dark plums, raisins, dark cocoa",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "palate": {
+    "value": "Sweet fruit cake, orange peel, cinnamon, nutmeg, ginger",
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0045",
+    "exact_quote": "Palate: sweet fruit cake, orange peel, cinnamon, nutmeg, ginger",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "finish": {
+    "value": "Long, warm, sweet oak and spicy dark chocolate",
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0045",
+    "exact_quote": "Finish: long, warm, sweet oak and spicy dark chocolate",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "score": {
+    "value": 86,
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0045",
+    "exact_quote": "86 points",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  }
+}

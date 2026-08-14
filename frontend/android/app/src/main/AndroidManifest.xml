@@ -1,11 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Release networking: Flutter only grants INTERNET in debug/profile
+         manifests by default; the release build needs it in main or the app
+         cannot reach the backend. ACCESS_NETWORK_STATE required by AdMob. -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
     <application
-        android:label="malt_radar"
+        android:label="Malt Radar"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:allowBackup="false"
         android:usesCleartextTraffic="false"
         android:networkSecurityConfig="@xml/network_security_config">
+        <!-- AdMob production App ID (not a secret — embedded in every client;
+             exact value required for the SDK to initialize). -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-4569028808710145~3740329219" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

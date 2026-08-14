@@ -1,0 +1,82 @@
+{
+  "distillery_name": {
+    "value": "Macallan",
+    "source": "https://www.themacallan.com/en/whisky/single-malts/double-cask/double-cask-12-years-old",
+    "exact_quote": "The Macallan Distillery",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "country": {
+    "value": "Scotland",
+    "source": "https://www.themacallan.com/en/whisky/single-malts/double-cask/double-cask-12-years-old",
+    "exact_quote": "Product of Scotland",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "region": {
+    "value": "Speyside",
+    "source": "https://www.themacallan.com/en/whisky/single-malts/double-cask/double-cask-12-years-old",
+    "exact_quote": "Speyside Single Malt",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "abv": {
+    "value": 40.0,
+    "source": "https://www.themacallan.com/en/whisky/single-malts/double-cask/double-cask-12-years-old",
+    "exact_quote": "40% ABV",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "cask_type": {
+    "value": "Sherry+Bourbon",
+    "source": "https://www.themacallan.com/en/whisky/single-malts/double-cask/double-cask-12-years-old",
+    "exact_quote": "sherry seasoned American and European oak casks",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "age_statement": {
+    "value": 12,
+    "source": "https://www.themacallan.com/en/whisky/single-malts/double-cask/double-cask-12-years-old",
+    "exact_quote": "12 Years Old",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "nose": {
+    "value": "Creamy butterscotch, toffee apple, candied orange",
+    "source": "https://www.whiskyfun.com/archivejuly16-2.html",
+    "exact_quote": "Nose: fudge, honey, citrus, vanilla",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "palate": {
+    "value": "Wood spices, ginger, honey, sweet sherry",
+    "source": "https://www.whiskyfun.com/archivejuly16-2.html",
+    "exact_quote": "Palate: spicy sherry, wood, honey",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "finish": {
+    "value": "Medium, warm wood spice, sweet oak",
+    "source": "https://www.whiskyfun.com/archivejuly16-2.html",
+    "exact_quote": "Finish: medium, sweet oak",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "score": {
+    "value": 82,
+    "source": "https://www.whiskyfun.com/archivejuly16-2.html",
+    "exact_quote": "82 points",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0.0",
+  "bundle_type": "certification",
+  "run_id": "MRKEP-20260713-000000",
+  "generated_at": "2026-07-13T12:00:00Z",
+  "deterministic": true,
+  "seed": 42,
+  "checksum": "0000000000000000000000000000000000000000000000000000000000000000",
+  "payload": {
+    "certifications": [
+      {
+        "schema_version": "1.0.0",
+        "certified_at": "2026-07-13T12:00:00Z",
+        "whisky_key": "ardbeg-uigeadail|nas|54.2",
+        "confidence_min": 0.9,
+        "fields": { "abv": 54.2, "score": 88, "region": "Islay" },
+        "evidence_index": [
+          { "field": "score", "evidence_id": "EV-0a1b2c3d4e5f6071", "authority_tier": "T2_expert", "certification_path": "A" }
+        ],
+        "audit_status": "pending_audit"
+      }
+    ]
+  }
+}

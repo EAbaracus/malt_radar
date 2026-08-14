@@ -1,14 +1,13 @@
 import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:malt_radar/core/api/api_client.dart';
 import 'package:malt_radar/core/api/db_whisky_api_client.dart';
-import 'package:malt_radar/core/config/app_config.dart';
 import 'package:malt_radar/core/database/database.dart';
-import '../../data/repositories/whisky_repository_impl.dart';
+import 'package:malt_radar/features/auth/data/auth_repository.dart';
+import 'package:malt_radar/features/auth/presentation/auth_controller.dart';
 import '../../data/repositories/db_whisky_repository_impl.dart';
 import '../../domain/models/whisky.dart';
 import '../../domain/repositories/whisky_repository.dart';
-import 'package:malt_radar/core/database/data_seed_service.dart';
+import 'catalog_pagination.dart';
 
 // Provider for the local Drift database
 final appDatabaseProvider = Provider<AppDatabase>((ref) {
@@ -17,33 +16,48 @@ final appDatabaseProvider = Provider<AppDatabase>((ref) {
   return db;
 });
 
-// Provider for the API client
-final apiClientProvider = Provider<ApiClient>((ref) {
-  return ApiClient();
-});
-
-// Provider for the new DB API client
+// Provider for the backend (/api/db) API client. The bearer token is synced
+// from the auth session so gated /api/db reads succeed (anti-scrape).
+// The token is restored on login/start and cleared on logout (keeps the shared
+// client ready for catalog reads whenever a session exists).
 final dbWhiskyApiClientProvider = Provider<DbWhiskyApiClient>((ref) {
-  return DbWhiskyApiClient();
+  final client = DbWhiskyApiClient();
+  // Lazy token source: any request that finds no in-memory token loads it from
+  // the persisted session first. This removes the login/restore race where an
+  // early catalog fetch would 401 (=> empty list / empty search).
+  final db = ref.read(appDatabaseProvider);
+  final authRepo = AuthRepository(db);
+  client.setTokenLoader(() => authRepo.loadToken());
+  // Keep the in-memory token in sync with the auth session too.
+  ref.listen(authControllerProvider, (prev, next) {
+    if (next.user != null && next.status == AuthStatus.loggedIn) {
+      authRepo.loadToken().then(client.setToken);
+    } else if (next.status == AuthStatus.loggedOut) {
+      client.setToken(null);
+    }
+  });
+  return client;
 });
 
-// Provider for app initialization (seed data)
+// Provider for app initialization. Opens the local DB, then loads any stored
+// auth token into the /api/db client so gated reads succeed (anti-scrape:
+// no catalog data ships to the client; the backend is the single source).
 final appInitializationProvider = FutureProvider<void>((ref) async {
-  final db = ref.watch(appDatabaseProvider);
-  await DataSeedService.seedDatabaseIfEmpty(db);
+  ref.watch(appDatabaseProvider);
+  // Restore the bearer token for the /api/db client (login persists token in
+  // local UserSettings). AuthController also restores it; wire here too so the
+  // client is ready before any UI triggers catalog reads.
+  final repo = AuthRepository(ref.read(appDatabaseProvider));
+  final token = await repo.loadToken();
+  ref.read(dbWhiskyApiClientProvider).setToken(token);
 });
 
-// Provider for the repository (Feature flag switch)
+// Provider for the repository — backend (/api/db) is the single source of
+// truth. Legacy local CSV repository removed with /api/whiskies/* closure.
 final whiskyRepositoryProvider = Provider<WhiskyRepository>((ref) {
   final db = ref.watch(appDatabaseProvider);
-  final client = ref.watch(apiClientProvider);
-  
-  if (AppConfig.useDbApi) {
-    final dbClient = ref.watch(dbWhiskyApiClientProvider);
-    return DbWhiskyRepositoryImpl(db, client, dbClient);
-  }
-  
-  return WhiskyRepositoryImpl(db, client);
+  final dbClient = ref.watch(dbWhiskyApiClientProvider);
+  return DbWhiskyRepositoryImpl(db, dbClient);
 });
 
 // State provider for the search query
@@ -52,14 +66,55 @@ final searchQueryProvider = StateProvider<String>((ref) => '');
 // State provider for filtering favorites only
 final favoritesOnlyProvider = StateProvider<bool>((ref) => false);
 
-// Stream provider for the list of whiskies
+// State provider for selected search filters/chips
+final selectedFiltersProvider = StateProvider<List<String>>((ref) => []);
+
+// Stream provider for the filtered list of whiskies.
+// Consumes the PAGINATED catalog state (CatalogPaginationNotifier) — pages
+// loaded so far, not the whole catalog. Query text and favorites are applied
+// CLIENT-SIDE on the loaded pages; server-side chips filter at fetch time.
 final whiskiesStreamProvider = StreamProvider<List<Whisky>>((ref) {
-  final repository = ref.watch(whiskyRepositoryProvider);
+  // Watch the paginated catalog so the stream rebuilds when pages load.
+  ref.watch(catalogPaginationProvider);
   final query = ref.watch(searchQueryProvider);
   final favoritesOnly = ref.watch(favoritesOnlyProvider);
-  
-  return repository.watchLocalWhiskies(query: query, favoritesOnly: favoritesOnly);
+
+  return Stream<List<Whisky>>.multi((controller) async {
+    final list = await ref.read(catalogPaginationProvider.future);
+    controller.add(_filterWhiskies(list, query, favoritesOnly));
+    controller.close();
+  });
 });
+
+List<Whisky> _filterWhiskies(
+  List<Whisky> list,
+  String query,
+  bool favoritesOnly,
+) {
+  var filtered = list;
+  if (query.isNotEmpty) {
+    final q = query.toLowerCase();
+    filtered = filtered
+        .where((w) => (w.name).toLowerCase().contains(q))
+        .toList();
+  }
+
+  final seen = <String>{};
+  final unique = <Whisky>[];
+  for (final w in filtered) {
+    final name = w.name.trim().toLowerCase();
+    if (!seen.contains(name)) {
+      seen.add(name);
+      unique.add(w);
+    }
+  }
+  filtered = unique;
+
+  if (favoritesOnly) {
+    filtered = filtered.where((w) => w.isFavorite).toList();
+  }
+  return filtered;
+}
 
 // Stream provider for a single whisky (for detail screen real-time updates)
 final whiskyDetailProvider = StreamProvider.family<Whisky?, int>((ref, id) {
@@ -79,6 +134,34 @@ final whiskyDetailProvider = StreamProvider.family<Whisky?, int>((ref, id) {
       favorite: row.readTableOrNull(db.favorites) != null,
     );
   });
+});
+
+// ---------------------------------------------------------------------------
+// DbApi-mode providers (backend = single source of truth).
+// These mirror the local providers but key on the backend whisky_id and read
+// through the repository, which talks to FastAPI -> SQLite. No Drift sync, no
+// cache duplication.
+// ---------------------------------------------------------------------------
+
+// All whiskies from the backend (certified rows first).
+final backendWhiskiesProvider = FutureProvider<List<Whisky>>((ref) async {
+  final repository = ref.watch(whiskyRepositoryProvider);
+  return repository.getAllWhiskies(limit: 50, offset: 0);
+});
+
+// A single whisky by its backend whisky_id (used by the detail screen in DbApi
+// mode). Keys on whisky_id, not the local integer id.
+final backendWhiskyDetailProvider =
+    StreamProvider.family<Whisky?, String>((ref, whiskyId) async* {
+  final repository = ref.watch(whiskyRepositoryProvider);
+  yield await repository.getWhiskyByBackendId(whiskyId);
+});
+
+// Similar whiskies by flavor profile (backend-driven).
+final backendSimilarWhiskiesProvider =
+    FutureProvider.family<List<Whisky>, String>((ref, whiskyId) async {
+  final repository = ref.watch(whiskyRepositoryProvider);
+  return repository.getSimilarWhiskies(whiskyId, limit: 5);
 });
 
 // Stream provider for reference settings (100pt whisky configuration)

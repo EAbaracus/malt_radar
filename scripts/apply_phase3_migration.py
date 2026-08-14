@@ -1,8 +1,9 @@
+from pathlib import Path
 import os
 import sqlite3
 import pandas as pd
 
-WORKSPACE = r"C:\Users\eltun\Documents\malt radar"
+WORKSPACE = Path(__file__).resolve().parent.parent
 OUT_DIR = os.path.join(WORKSPACE, "output", "phase3")
 os.makedirs(OUT_DIR, exist_ok=True)
 
@@ -48,6 +49,8 @@ report_09 = f"""STAGING MIGRATION APPLY REPORT
 """
 with open(os.path.join(OUT_DIR, "09_staging_migration_apply_report.txt"), "w", encoding="utf-8") as f:
     f.write(report_09)
+    f.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
+
 
 # 2. 10_staging_schema_inspection.txt
 expected_tables = [

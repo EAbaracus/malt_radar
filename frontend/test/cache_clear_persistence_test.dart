@@ -1,20 +1,20 @@
+import 'package:malt_radar/core/api/db_whisky_api_client.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:malt_radar/core/database/database.dart';
-import 'package:malt_radar/features/whisky/data/repositories/whisky_repository_impl.dart';
-import 'package:malt_radar/core/api/api_client.dart';
+import 'package:malt_radar/features/whisky/data/repositories/db_whisky_repository_impl.dart';
 import 'package:flutter/widgets.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   late AppDatabase db;
-  late WhiskyRepositoryImpl repository;
+  late DbWhiskyRepositoryImpl repository;
 
   setUp(() {
     db = AppDatabase.forTesting(NativeDatabase.memory());
-    repository = WhiskyRepositoryImpl(db, ApiClient());
+    repository = DbWhiskyRepositoryImpl(db, DbWhiskyApiClient());
   });
 
   tearDown(() async {

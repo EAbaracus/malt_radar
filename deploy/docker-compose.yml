@@ -1,0 +1,43 @@
+# Malt Radar — single-box deploy: FastAPI (SQLite) + Caddy (static web, same-origin /api).
+# Expected layout (created by deploy/README):
+#   deploy/data/production.db   <- read-only copy of the governed whisky DB
+#   deploy/data/users.db        <- created at runtime (rw)
+#   deploy/web-build/           <- `flutter build web` output
+services:
+  api:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      # users.db + production.db live on the mounted volume; production.db is RO.
+      MALT_RADAR_USERS_DB_PATH: /srv/data/users.db
+      MALT_RADAR_DB_PATH: /srv/data/production.db
+    volumes:
+      - ./data:/srv/data
+      # Anonymous catalog allowlist (build artifact, read-only). Script'teki
+      # ARTIFACT_PATH=ROOT/artifacts -> container'da /artifacts.
+      - ./artifacts:/artifacts:ro
+    expose:
+      - "8080"
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./web-build:/srv/web:ro
+      - ./web-seo:/srv/web-seo:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - api
+
+volumes:
+  caddy_data:
+  caddy_config:

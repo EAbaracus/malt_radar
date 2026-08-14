@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import List, Optional, Dict
+from typing import List, Optional, Dict, Union
 
 class WhiskySearchItem(BaseModel):
     external_id: str = Field(..., description="Unique identifier for the whisky from the external source")
@@ -25,6 +25,7 @@ class WhiskySearchItem(BaseModel):
     flavor_tags: Optional[List[str]] = Field(None, description="Top 5 flavor tags")
     flavor_source: Optional[str] = Field(None, description="Source of the flavor profile")
     flavor_match_score: Optional[float] = Field(None, description="Confidence score of the flavor match")
+    style_similarity: Optional[Dict[str, Union[str, float]]] = Field(None, description="Style similarity details")
 
 class WhiskyPriceItem(BaseModel):
     source_name: str
@@ -42,7 +43,7 @@ class ReviewQueueItem(BaseModel):
     source_table: str
     source_record_key: str
     display_name: str
-    source_name: str
+    source_name: Optional[str] = ""
     approval_status: str
     dedupe_action: Optional[str]
     import_recommendation: Optional[str]
@@ -76,7 +77,10 @@ class ReviewActionRequest(BaseModel):
     source_record_key: str
     action_type: str
     target_status: str
-    reviewer: str
+    # DEPRECATED / UNTRUSTED: the audit-trail reviewer is now derived from the
+    # verified API-key identity in the router, never from this client-supplied
+    # field. Kept optional only for backward-compatible request parsing.
+    reviewer: Optional[str] = None
     reviewer_note: Optional[str] = None
     dry_run: bool = False
 

@@ -1,0 +1,49 @@
+{
+  "_checksum": "7b5e5fbba3c7803ec80f0ab071b1b871fc98652877f5216e060dd108c081596a",
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.theglenallachie.com/whisky/12-year-old"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "46% ABV",
+      "value": 46.0
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "12 Year Old",
+      "value": 12
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "virgin oak, Oloroso, and PX sherry casks",
+      "value": "Sherry"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Scotland",
+      "value": "Scotland"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "The GlenAllachie Distillery",
+      "value": "GlenAllachie"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Speyside Single Malt",
+      "value": "Speyside"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0014",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:48.009831+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

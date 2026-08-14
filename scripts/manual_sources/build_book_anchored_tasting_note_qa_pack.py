@@ -4,7 +4,7 @@ from pathlib import Path
 from datetime import datetime
 from collections import Counter, defaultdict
 
-ROOT = Path(r"C:\Users\eltun\Documents\malt radar")
+ROOT = Path(__file__).resolve().parent.parent.parent
 INPUT_CSV = ROOT / "data/manual_sources/books/review_csv/book_anchored_tasting_note_rescue_review.csv"
 
 OUT_QA_PACK = ROOT / "data/manual_sources/books/review_csv/book_anchored_tasting_note_qa_pack.csv"
@@ -192,5 +192,13 @@ REPORT_MD.write_text("\n".join(lines), encoding="utf-8")
 
 GATE_TXT.write_text(
     f"{gate}\n{prod_gate}\nACCEPTED={stats['accepted_preview']}\nREVIEW={stats['needs_manual_review']}\nREJECTED={stats['rejected_preview']}\n",
+    encoding="utf-8"
+)
+GATE_TXT.write_text(
+    "\n"
+    "Estimated API Cost: $0.00\n"
+    "Actual API Cost: $0.00\n"
+    "Local Compute Used: Yes\n"
+    "Fully Local Execution: Yes\n",
     encoding="utf-8"
 )

@@ -1,0 +1,8 @@
+{
+  "total_sources_evaluated": 6,
+  "total_records_scanned": 947,
+  "total_verified_net_new": 95,
+  "sources_with_unknown_yield": 2,
+  "highest_roi_source": "alko_whisky_preview.csv",
+  "lowest_roi_source": "manual_curated_tasting_notes_url_extract_draft.csv"
+}

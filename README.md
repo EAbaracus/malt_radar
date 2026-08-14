@@ -1,198 +1,146 @@
 # Malt Radar
 
-Malt Radar is an offline-first whisky discovery and personal tasting companion app built with Flutter, local SQLite/Drift storage, and a guarded FastAPI backend layer.
+Whisky discovery platform combining flavor intelligence with a structured
+whisky database. Browse distilleries, search the catalog, inspect detailed
+whisky profiles, and visualize each expression on a Flavor Radar with
+similar-whisky recommendations.
 
-The current beta focuses on stable local usage, whisky discovery, custom lists, flavor-based comparison, reference whisky setup, and safe Android beta distribution.
+---
 
-## Current Beta Status
+## Features
 
-**Status:** Beta candidate
-**Android package:** `com.example.malt_radar`
-**Current release tag:** `v0.1.0-beta`
-**Default data mode:** Local/offline database
-**DB API mode:** Disabled by default behind feature flags
+- **Whisky discovery** — browse and surface whiskies from a structured catalog.
+- **Distillery exploration** — inspect distilleries and their expressions.
+- **Search** — find whiskies by name, distillery, or attribute.
+- **Whisky profiles** — detailed per-expression data and metadata.
+- **Flavor Radar** — visualize a whisky's flavor signature across seven axes.
+- **Similar whisky recommendations** — find expressions that taste alike.
 
-*Stitch premium UI milestone completed!*
+### Flavor Radar axes
 
-The app is currently intended for manual APK beta testing before wider public distribution. "Production-ready" label is withheld until external data pipelines and database encryption are complete.
+| Axis | Description |
+|------|-------------|
+| Fruity | Stone fruit, tropical, orchard |
+| Sweet | Honey, vanilla, toffee |
+| Spicy | Pepper, ginger, spice |
+| Smoky / Peaty | Peat, smoke, medicinal |
+| Oak / Cask | Wood, tannin, cask influence |
+| Malty / Cereal | Grain, biscuit, malt |
+| Floral / Herbal | Floral, grassy, herbal |
 
-## Key Features & Screens
+---
 
-### Premium UI
+## Technology Stack
 
-* Premium dark “Obsidian & Amber” UI theme.
-* Polished Home, Search, Detail, Radar, Lists, and Settings layouts.
-* Beautiful empty states for Wishlist, Collection, and other custom lists.
+| Layer | Technology |
+|-------|------------|
+| Frontend | Flutter (Riverpod + Drift/SQLite) |
+| Backend API | FastAPI (Python) |
+| Data pipeline | **MR-KEP** + **KEP Runtime** |
+| Production DB | SQLite (`output/import/production.db`) |
 
-### Whisky Database & Search
+---
 
-* Local whisky database bundled with the app.
-* Search and browse whisky products.
-* Whisky detail pages with tasting information, flavor data, and metadata.
-* Offline-first behavior for stable beta testing.
+## Architecture Overview
 
-### Reference Whisky Flow
+The MR-KEP + KEP Runtime canonical pipeline processes data from ingestion to closure through the following stages:
 
-* Users can select a reference whisky during setup.
-* Reference whisky is used as a comparison anchor for later recommendations and scoring behavior.
-* Users can remove the selected reference whisky from Settings and select a new one.
+* **INGEST & EXTRACT:** Raw whisky data is collected from external sources and parsed to extract key information.
+* **NORMALIZE & CANONICALIZE:** The extracted data is cleaned, standardized, and resolved into canonical database records.
+* **EVIDENCE:** Flavor profiles and supporting factual data are gathered and attached to the canonical records.
+* **QA & Human GO:** Automated quality assurance invariants are checked, followed by a mandatory human review and GO/NO-GO decision.
+* **PromotionGate:** The KEP Runtime safely handles the execution and promotion of validated data into the production database.
+* **VERIFY & CLOSURE:** Post-promotion validation ensures data integrity, followed by formal pipeline closure.
 
-### Custom Lists (Wishlist / Collection)
+## Canonical Pipeline — MR-KEP + KEP Runtime
 
-Built-in local user lists:
+**MR-KEP** (domain pipeline) and **KEP Runtime** (execution / safety layer)
+are the canonical production data path. The full stage flow is:
 
-* Wishlist
-* Favorites
-* Tried
-* Collection
+```
+INGEST → EXTRACT → NORMALIZE → CANONICALIZE → EVIDENCE → QA
+     → HUMAN GO/NO-GO → PromotionGate → VERIFY → CLOSURE
+```
 
-Users can save whiskies into personal lists without requiring a backend account. Empty states are gracefully handled with premium UI illustrations.
+All future production promotion **MUST** pass through **KEP Runtime PromotionGate**.
+The classic P32–P42 pipeline is **RETIRED** (historical only — see
+`docs/ARCHITECTURE.md` Historical section).
 
-### Flavor Radar
+---
 
-Whiskies with flavor profile data can display a radar-style flavor chart.
+## Current Status
 
-Flavor comparison currently supports core flavor dimensions such as:
+| Metric | Value |
+|--------|-------|
+| Production DB SHA | `40b7f71e84f0b5eec750deb0832f197f4eddc51c023bcdc2dde25fde93476ec0` |
+| Tables | 37 |
+| Whiskies | 4,749 |
+| flavor_evidence rows | 3,180 |
+| P500-O | **CLOSED** (299 promoted, 72-row queue remaining) |
+| Remaining active queue | **72** (60 QR HOLD + 8 unresolved + 4 duplicate/overlap skips) |
+| Evidence coverage | 2,924 / 4,749 whiskies (61.6%) |
 
-* Fruity
-* Sweet
-* Smoky
-* Spicy
-* Woody
+**P500 canonicalization is COMPLETE** — published on branch
+`p500-canonicalization`. Repository documentation is the canonical source
+of truth for all operational detail.
 
-### Similar Whiskies Navigation
+---
 
-The app supports flavor-based similar whisky recommendations natively on the detail screen.
-Similarity is based primarily on flavor profile distance. Users can directly navigate through similar whiskies via premium horizontal carousel cards.
+## Development — Quick Start
 
-### Tasting Notes Localization
-
-Tasting note labels and common Turkish tasting note phrases are localized at the presentation layer.
-
-Example behavior:
-
-* Turkish locale: `Burun`, `Damak`, `Bitiş`
-* English locale: `Nose`, `Palate`, `Finish`
-
-Raw database content is not overwritten. Unknown phrases fall back safely to the original text.
-
-### Safe Cache Clearing
-
-Cache clearing no longer deletes the local whisky database.
-
-Protected local data includes:
-
-* Whisky database rows
-* User scores
-* Favorites
-* Custom lists
-* Reference whisky settings unless explicitly removed by the user
-
-## Architecture
-
-### Frontend
-
-* Flutter / Dart
-* Drift SQLite
-* Riverpod
-* Local-first app state
-* Android release build support
-
-### Backend & Data Pipeline
-
-* FastAPI (Read-only database API layer)
-* SQLite read-path hardening
-* DB API feature flags
-* Python scripts for database ingestion, reconciliation, and flavor generation
-
-## Important Safety & Security Rules
-
-The following files must not be modified accidentally:
-
-* `output/import/production.db` (Included but controlled)
-* `frontend/lib/core/config/app_config.dart`
-
-Current security / beta notes:
-
-* Backend/API feature flag is disabled by default (`AppConfig.useDbApi = false`).
-* Release HTTP hardening is applied.
-* SQLCipher (local database encryption) is not yet implemented (planned).
-
-## Validation & Quality
-
-Current validation status:
-
-* `flutter analyze` PASS
-* `db_api_validation_test` PASS
-* Release APK build PASS
-
-## Local Development
-
-### Frontend Setup
-
-```powershell
-# From the repository root
-cd frontend
+### Flutter (frontend)
+```bash
 flutter pub get
-flutter analyze
 flutter test
+flutter build apk --release
 ```
 
-### Common Beta Test Command
+### Backend (FastAPI)
+```bash
+cd backend
+pip install -r requirements.txt
+python run.py
+```
+Backend serves on port `8080` by default (override with `PORT` env var).
 
-```powershell
-# From the repository root
-cd frontend
-flutter analyze
+### MR-KEP / KEP Runtime (data pipeline)
+```bash
+# KEP Runtime dry-run (read-only, no production writes)
+cd kep_review_runtime
+python run.py --dry-run
 
-flutter test test/user_lists_schema_test.dart test/user_lists_repository_test.dart test/db_api_validation_test.dart test/real_csv_seed_test.dart test/db_seed_test.dart test/similar_flavor_test.dart test/cache_clear_persistence_test.dart test/reference_whisky_clear_test.dart test/tasting_notes_i18n_test.dart
+# MR-KEP tests
+cd mr-kep
+python -m pytest tests/ -v
 
-flutter build apk --release --obfuscate --split-debug-info=build/symbols
+# KEP Runtime tests
+cd kep_review_runtime
+python -m pytest tests/ -v
 ```
 
-### Backend Tests
+---
 
-```powershell
-# From the repository root
-$env:PYTHONPATH = "backend"
+## Testing
 
-python -m pytest tests/ backend/tests/ -v
+- To run backend tests, activate the virtual environment: `source backend/.venv/bin/activate`
+- Run pytest without PYTHONPATH: `env -u PYTHONPATH pytest`
+- To run frontend tests: `cd frontend && flutter test`
 
-Remove-Item Env:\PYTHONPATH
-```
+---
 
-## Android Beta Build
+## Documentation
 
-Generate an obfuscated release APK:
+| Doc | Scope |
+|-----|-------|
+| `docs/ARCHITECTURE.md` | Canonical system architecture, responsibilities, production write path |
+| `docs/PIPELINE.md` | Canonical pipeline stages (INGEST→…→CLOSURE), PromotionGate, staging-first |
+| `AGENTS.md` | Governance rules, NO-GO gates, production DB protection, human GO/NO-GO |
+| `ROADMAP.md` | Roadmap — P500-A…O CLOSED, P500-P/Q done, remaining 72-row queue |
+| `CHANGELOG.md` | Production-level change history (P500-A…O) |
+| `mr-kep/CHANGELOG.md` | MR-KEP pipeline change history |
+| `mr-kep/archive/ARCHIVE_MANIFEST.md` | Archived / historical retired phases |
+| `mr-kep/common/invariant_registry.yaml` | Canonical QA invariants |
 
-```powershell
-# From the repository root
-cd frontend
-flutter build apk --release --obfuscate --split-debug-info=build/symbols
-```
-
-APK output is stored locally at: `frontend/build/app/outputs/flutter-apk/app-release.apk`
-
-## Google Drive Beta Distribution
-
-Beta APKs are distributed through a shared Google Drive folder: `MaltRadar Beta`
-
-The upload script copies the latest APK, generates a SHA256 checksum, uploads it to Drive, and removes old versioned APKs.
-
-Upload script: `scripts/upload_beta_apk_to_drive.ps1`
-
-Run after a successful release build:
-
-```powershell
-# From the repository root
-powershell -ExecutionPolicy Bypass -File scripts\upload_beta_apk_to_drive.ps1
-```
-
-## Known Limitations & Holds
-
-* This is a beta build, not production-ready.
-* Local database encryption (SQLCipher) is not yet implemented.
-* External tasting data pipeline is still staged/controlled.
-* LYX/import scripts are not part of this UI release.
-* Public store release workflow is pending.
-* Automated beta notification channel is pending.
+> **Production DB is immutable by policy.** No direct writes. Evidence is
+> INSERT-only. Every mutation goes through authorized PromotionGate with
+> backup + SHA256 before/after. See `AGENTS.md` and `docs/ARCHITECTURE.md`.

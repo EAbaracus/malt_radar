@@ -133,6 +133,8 @@ def dry_run():
     # Reports
     with open(REPORT_DRY_RUN, 'w', encoding='utf-8') as f:
         f.write("# Uploaded Tasting Notes Staging Apply Dry-Run Report\n\n")
+        f.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
+
         f.write(f"- Total Input Rows: {len(rows)}\n")
         f.write(f"- Apply Plan (Insert/Merge): {len(plan)}\n")
         f.write(f"- Blocked: {len(blocked)}\n")

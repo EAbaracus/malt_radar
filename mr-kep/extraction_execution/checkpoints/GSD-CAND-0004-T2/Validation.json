@@ -1,0 +1,121 @@
+{
+  "_checksum": "f94f4159a2c872c691f8cef788de522c36a1eb323926b59616ce5f2b3ffbbad1",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-0b810e2395d55ff6",
+      "fact_id": "EV-0b57a6437aa8",
+      "field": "nose",
+      "field_name": "nose",
+      "field_value": "Rich sherry, dried fruits, honey, light oak",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Nose: sherry, dried fruits, oak, honey",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archivejanuary17-2.html",
+          "won": true
+        }
+      ],
+      "value": "Rich sherry, dried fruits, honey, light oak"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-5aa940849d0e92f2",
+      "fact_id": "EV-abb31dacbda3",
+      "field": "palate",
+      "field_name": "palate",
+      "field_value": "Sherry sweetness, Christmas cake, spices",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Palate: rich sherry, spices, fruitcake",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archivejanuary17-2.html",
+          "won": true
+        }
+      ],
+      "value": "Sherry sweetness, Christmas cake, spices"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-24a76bebbfd48a89",
+      "fact_id": "EV-d29f79890d6b",
+      "field": "finish",
+      "field_name": "finish",
+      "field_value": "Medium, warm, clean sherry notes",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Finish: medium, warm, clean sherry",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archivejanuary17-2.html",
+          "won": true
+        }
+      ],
+      "value": "Medium, warm, clean sherry notes"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-b2958e5fead261b8",
+      "fact_id": "EV-270ceace9260",
+      "field": "score",
+      "field_name": "score",
+      "field_value": 83,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "83 points",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archivejanuary17-2.html",
+          "won": true
+        }
+      ],
+      "value": 83
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "expert_quote",
+    "source_key": "whiskyfun",
+    "url": "https://www.whiskyfun.com/archivejanuary17-2.html"
+  },
+  "extraction_result": {
+    "finish": {
+      "confidence": 1.0,
+      "quote": "Finish: medium, warm, clean sherry",
+      "value": "Medium, warm, clean sherry notes"
+    },
+    "nose": {
+      "confidence": 1.0,
+      "quote": "Nose: sherry, dried fruits, oak, honey",
+      "value": "Rich sherry, dried fruits, honey, light oak"
+    },
+    "palate": {
+      "confidence": 1.0,
+      "quote": "Palate: rich sherry, spices, fruitcake",
+      "value": "Sherry sweetness, Christmas cake, spices"
+    },
+    "score": {
+      "confidence": 1.0,
+      "quote": "83 points",
+      "value": 83
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0004",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:47.776944+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

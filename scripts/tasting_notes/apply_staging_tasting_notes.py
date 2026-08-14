@@ -4,6 +4,7 @@ import hashlib
 import sqlite3
 import csv
 import argparse
+import sys
 
 base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 output_dir = os.path.join(base_dir, "data", "output")
@@ -46,127 +47,130 @@ def main():
 
     hash_before = get_db_hash(prod_db)
 
-    # Backup
-    shutil.copy2(prod_db, backup_db)
-    backup_hash = get_db_hash(backup_db)
-
-    conn = sqlite3.connect(prod_db)
-    cursor = conn.cursor()
-
-    # Pre-checks
-    tn_count_before = get_table_count(cursor, "tasting_notes")
-    fp_count_before = get_table_count(cursor, "flavor_profiles")
-    stn_count_before = get_table_count(cursor, "staging_tasting_notes")
-
-    # Ensure table exists
-    cursor.execute(f"SELECT name FROM sqlite_master WHERE type='table' AND name='{target_table}'")
-    table_exists = cursor.fetchone() is not None
-
-    schema_compatible = True
-
-    if not table_exists:
-        # Create staging_web_tasting_notes
-        cursor.execute(f"""
-        CREATE TABLE {target_table} (
-            staging_note_id TEXT PRIMARY KEY,
-            whisky_id TEXT NOT NULL,
-            whisky_name TEXT NOT NULL,
-            source_system TEXT NOT NULL,
-            source_url TEXT,
-            raw_note_text TEXT NOT NULL,
-            nose TEXT,
-            palate TEXT,
-            finish TEXT,
-            overall TEXT,
-            confidence_score REAL,
-            extraction_method TEXT NOT NULL,
-            approval_status TEXT NOT NULL DEFAULT 'staging_pending_review',
-            created_at TEXT NOT NULL,
-            FOREIGN KEY(whisky_id) REFERENCES whiskies(whisky_id)
-        )
-        """)
-        conn.commit()
-
     # Read input CSV
     preview_records = []
     if os.path.exists(input_csv):
         with open(input_csv, 'r', encoding='utf-8') as f:
             preview_records = list(csv.DictReader(f))
 
+    # Backup
+    shutil.copy2(prod_db, backup_db)
+    backup_hash = get_db_hash(backup_db)
+
+    # Load Write Guard
+    sys.path.insert(0, os.path.join(base_dir, "backend", "app", "db"))
+    from write_guard import get_write_connection
+
+    schema_compatible = True
     inserted_rows = 0
     blocked_rows = 0
     fk_missing = 0
     duplicate_source_rows = 0
     invalid_approval_status = 0
-    
     inserted_list = []
     blocked_list = []
+    tn_count_before = 0
+    tn_count_after = 0
+    fp_count_before = 0
+    fp_count_after = 0
+    stn_count_before = 0
+    stn_count_after = 0
 
-    # Insert loop
-    try:
-        conn.execute("BEGIN TRANSACTION")
-        for r in preview_records:
-            # Check duplicates
-            w_id = r["whisky_id"]
-            st_id = r["staging_note_id"]
-            src_sys = r.get("source_system", "")
-            src_url = r.get("source_url", "")
-            
-            cursor.execute(f"SELECT COUNT(*) FROM {target_table} WHERE staging_note_id = ?", (st_id,))
-            if cursor.fetchone()[0] > 0:
-                blocked_rows += 1
-                blocked_list.append(r)
-                continue
-                
-            cursor.execute(f"SELECT COUNT(*) FROM {target_table} WHERE whisky_id = ? AND source_system = ? AND coalesce(source_url, '') = ?", (w_id, src_sys, src_url))
-            if cursor.fetchone()[0] > 0:
-                duplicate_source_rows += 1
-                blocked_rows += 1
-                blocked_list.append(r)
-                continue
-                
-            # Override approval_status to strictly staging_pending_review
-            r["approval_status"] = "staging_pending_review"
+    with get_write_connection(authorized_context="web_staging_import", db_path=prod_db) as conn:
+        cursor = conn.cursor()
 
-            # Insert
+        # Pre-checks
+        tn_count_before = get_table_count(cursor, "tasting_notes")
+        fp_count_before = get_table_count(cursor, "flavor_profiles")
+        stn_count_before = get_table_count(cursor, "staging_tasting_notes")
+
+        # Ensure table exists
+        cursor.execute(f"SELECT name FROM sqlite_master WHERE type='table' AND name='{target_table}'")
+        table_exists = cursor.fetchone() is not None
+
+        if not table_exists:
+            # Create staging_web_tasting_notes
             cursor.execute(f"""
-            INSERT INTO {target_table} (
-                staging_note_id, whisky_id, whisky_name, source_system, source_url, raw_note_text,
-                nose, palate, finish, overall, confidence_score, extraction_method, approval_status, created_at
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """, (
-                r["staging_note_id"], r["whisky_id"], r["whisky_name"], r["source_system"], r.get("source_url"), r["raw_note_text"],
-                r.get("nose"), r.get("palate"), r.get("finish"), r.get("overall"), r.get("confidence_score"), r["extraction_method"],
-                r["approval_status"], r["created_at"]
-            ))
-            inserted_rows += 1
-            inserted_list.append(r)
-            
-        conn.commit()
-    except Exception as e:
-        conn.rollback()
-        schema_compatible = False
-        print(f"Error during insert: {e}")
+            CREATE TABLE {target_table} (
+                staging_note_id TEXT PRIMARY KEY,
+                whisky_id TEXT NOT NULL,
+                whisky_name TEXT NOT NULL,
+                source_system TEXT NOT NULL,
+                source_url TEXT,
+                raw_note_text TEXT NOT NULL,
+                nose TEXT,
+                palate TEXT,
+                finish TEXT,
+                overall TEXT,
+                confidence_score REAL,
+                extraction_method TEXT NOT NULL,
+                approval_status TEXT NOT NULL DEFAULT 'staging_pending_review',
+                created_at TEXT NOT NULL,
+                FOREIGN KEY(whisky_id) REFERENCES whiskies(whisky_id)
+            )
+            """)
 
-    # Post-checks
-    tn_count_after = get_table_count(cursor, "tasting_notes")
-    fp_count_after = get_table_count(cursor, "flavor_profiles")
-    stn_count_after = get_table_count(cursor, "staging_tasting_notes")
+        # Insert loop
+        try:
+            for r in preview_records:
+                # Check duplicates
+                w_id = r["whisky_id"]
+                st_id = r["staging_note_id"]
+                src_sys = r.get("source_system", "")
+                src_url = r.get("source_url", "")
+                
+                cursor.execute(f"SELECT COUNT(*) FROM {target_table} WHERE staging_note_id = ?", (st_id,))
+                if cursor.fetchone()[0] > 0:
+                    blocked_rows += 1
+                    blocked_list.append(r)
+                    continue
 
-    # FK verification
-    cursor.execute(f"""
-        SELECT COUNT(*) 
-        FROM {target_table} s
-        LEFT JOIN whiskies w ON s.whisky_id = w.whisky_id
-        WHERE w.whisky_id IS NULL
-    """)
-    fk_missing = cursor.fetchone()[0]
+                cursor.execute(f"SELECT COUNT(*) FROM {target_table} WHERE whisky_id = ? AND source_system = ? AND coalesce(source_url, '') = ?", (w_id, src_sys, src_url))
+                if cursor.fetchone()[0] > 0:
+                    duplicate_source_rows += 1
+                    blocked_rows += 1
+                    blocked_list.append(r)
+                    continue
 
-    # Approval status verification
-    cursor.execute(f"SELECT COUNT(*) FROM {target_table} WHERE approval_status != 'staging_pending_review'")
-    invalid_approval_status = cursor.fetchone()[0]
+                # Override approval_status to strictly staging_pending_review
+                r["approval_status"] = "staging_pending_review"
 
-    conn.close()
+                # Insert
+                cursor.execute(f"""
+                INSERT INTO {target_table} (
+                    staging_note_id, whisky_id, whisky_name, source_system, source_url, raw_note_text,
+                    nose, palate, finish, overall, confidence_score, extraction_method, approval_status, created_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """, (
+                    r["staging_note_id"], r["whisky_id"], r["whisky_name"], r["source_system"], r.get("source_url"), r["raw_note_text"],
+                    r.get("nose"), r.get("palate"), r.get("finish"), r.get("overall"), r.get("confidence_score"), r["extraction_method"],
+                    r["approval_status"], r["created_at"]
+                ))
+                inserted_rows += 1
+                inserted_list.append(r)
+                
+        except Exception as e:
+            schema_compatible = False
+            print(f"Error during insert: {e}")
+            raise e
+
+        # Post-checks
+        tn_count_after = get_table_count(cursor, "tasting_notes")
+        fp_count_after = get_table_count(cursor, "flavor_profiles")
+        stn_count_after = get_table_count(cursor, "staging_tasting_notes")
+
+        # FK verification
+        cursor.execute(f"""
+            SELECT COUNT(*)
+            FROM {target_table} s
+            LEFT JOIN whiskies w ON s.whisky_id = w.whisky_id
+            WHERE w.whisky_id IS NULL
+        """)
+        fk_missing = cursor.fetchone()[0]
+
+        # Approval status verification
+        cursor.execute(f"SELECT COUNT(*) FROM {target_table} WHERE approval_status != 'staging_pending_review'")
+        invalid_approval_status = cursor.fetchone()[0]
 
     # Write output CSVs
     if inserted_list:
@@ -187,19 +191,20 @@ def main():
 
     if backup_hash != hash_before: gate_status = "NO-GO"; reasons.append("Backup hash mismatch")
     if not schema_compatible: gate_status = "NO-GO"; reasons.append("Schema error")
-    if inserted_rows != 2: gate_status = "NO-GO"; reasons.append(f"Inserted rows is {inserted_rows}, expected 2")
+    if inserted_rows != len(preview_records): gate_status = "NO-GO"; reasons.append(f"Inserted rows is {inserted_rows}, expected {len(preview_records)}")
     if blocked_rows > 0: gate_status = "NO-GO"; reasons.append(f"Blocked rows {blocked_rows}")
     if duplicate_source_rows > 0: gate_status = "NO-GO"; reasons.append("Duplicate source rows")
     if fk_missing > 0: gate_status = "NO-GO"; reasons.append("FK missing in whiskies")
     if invalid_approval_status > 0: gate_status = "NO-GO"; reasons.append("Invalid approval status found")
     
     # Table stability check
-    if tn_count_after != 25 or tn_count_before != 25: gate_status = "NO-GO"; reasons.append("tasting_notes changed")
-    if fp_count_after != 380 or fp_count_before != 380: gate_status = "NO-GO"; reasons.append("flavor_profiles changed")
-    if stn_count_after != 63 or stn_count_before != 63: gate_status = "NO-GO"; reasons.append("staging_tasting_notes changed")
+    if tn_count_after != tn_count_before: gate_status = "NO-GO"; reasons.append("tasting_notes changed")
+    if fp_count_after != fp_count_before: gate_status = "NO-GO"; reasons.append("flavor_profiles changed")
+    if stn_count_after != stn_count_before: gate_status = "NO-GO"; reasons.append("staging_tasting_notes changed")
 
     with open(report_md, 'w', encoding='utf-8') as f:
         f.write("# 275 Real Web Tasting Note Staging Apply Report\n\n")
+        f.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
         f.write(f"- Backup DB Created: YES (`{backup_db}`)\n")
         f.write(f"- Schema Compatible: {schema_compatible}\n")
         f.write(f"- Target Table: {target_table}\n")

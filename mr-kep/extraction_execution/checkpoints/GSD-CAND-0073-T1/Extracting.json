@@ -1,0 +1,44 @@
+{
+  "_checksum": "9c62ac5a28f198eb4aa33d25ebef1e321fd381877f7539dab6c27d8742c6ee58",
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.dingle.com/whisky/dingle-single-malt-batch-5"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "46.5% ABV",
+      "value": 46.5
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Bourbon+Sherry+Port casks",
+      "value": "Bourbon+Sherry+Port"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Ireland",
+      "value": "Ireland"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Dingle Distillery",
+      "value": "Dingle"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Cork single malt",
+      "value": "Cork"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0073",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:49.497079+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

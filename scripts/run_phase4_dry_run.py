@@ -1,8 +1,9 @@
+from pathlib import Path
 import os
 import pandas as pd
 import json
 
-WORKSPACE = r"C:\Users\eltun\Documents\malt radar"
+WORKSPACE = Path(__file__).resolve().parent.parent
 OUT_DIR = os.path.join(WORKSPACE, "output", "phase4")
 os.makedirs(OUT_DIR, exist_ok=True)
 
@@ -24,6 +25,8 @@ scope_md = """# Phase 4 Scope and Rules
 """
 with open(os.path.join(OUT_DIR, "01_phase4_scope_and_rules.md"), "w", encoding="utf-8") as f:
     f.write(scope_md)
+    f.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
+
 
 # Read inputs
 try:

@@ -1,0 +1,30 @@
+# =============================================================================
+# templates/merge_strategy.yaml
+# -----------------------------------------------------------------------------
+# Template for a MERGE STRATEGY override. Normally merge policies come from
+# authority/merge_policies.yaml; this file lets a source or run override the
+# policy for specific fields. Consumed by the AOUS Merge Agent.
+# =============================================================================
+
+schema_version: "1.0.0"
+
+strategy_name: "example-merge-strategy"
+
+# Scope this override applies to.
+applies_to:
+  source_keys: ["example_source"]
+  fields: []
+
+# Map field -> policy name (must exist in merge_policies.yaml).
+field_policy_overrides:
+  score: "latest_expert_wins"
+  flavor_axes: "consensus_additive"
+
+# IoU (Intersection-over-Union) threshold for deciding two extracted units
+# refer to the SAME whisky before merging (see HERMES.md).
+match:
+  iou_threshold: 0.85
+  match_on: [normalized_name, vintage, abv]
+
+# When conflict cannot be resolved deterministically, route to audit.
+on_unresolved: "route_to_audit"

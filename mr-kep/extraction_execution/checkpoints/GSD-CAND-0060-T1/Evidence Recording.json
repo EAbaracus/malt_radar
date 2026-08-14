@@ -1,0 +1,44 @@
+{
+  "_checksum": "d4c46011e65f60f0ffefb54bade262bf2eec3b2f79d78a218cf510b1be0e0f3f",
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.woodfordreserve.com/whisky/woodford-reserve-distillers-select"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "45.2% ABV",
+      "value": 45.2
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Bourbon casks",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of USA",
+      "value": "USA"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Woodford Reserve Distillery",
+      "value": "Woodford Reserve"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Kentucky single malt",
+      "value": "Kentucky"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0060",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:49.170072+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

@@ -1,0 +1,80 @@
+# =============================================================================
+# authority_matrix.yaml
+# -----------------------------------------------------------------------------
+# Purpose : Maps every source KIND to an authority TIER and declares which
+#           stage/agent is permitted to certify knowledge extracted from it.
+# Scope   : MR-KEP Sprint 1 (FOUNDATION). Standards only — no scrapers,
+#           parsers, or extraction code. Deterministic, evidence-first.
+# Reuse   : AOUS reads this file to decide which sources may override which
+#           when merging conflicting extractions.
+# =============================================================================
+
+schema_version: "1.0.0"
+generated_by: "mr-kep/sprint-1-foundation"
+deterministic: true
+
+# An authority tier is an ordered ranking. Higher tier WINS on conflict unless
+# a field-specific rule (field_rules.yaml) overrides it.
+tiers:
+  T1_authoritative:
+    rank: 1                      # 1 = most authoritative
+    label: "Authoritative / Primary"
+    description: >
+      Official producer, regulator, or canonical reference data. Single source
+      of truth for identity-level facts (distillery, official bottling, ABV as
+      printed on the bottle, official age statement).
+    examples:
+      - "official distillery website"
+      - "producer technical sheet"
+      - "regulatory / appellation register"
+    may_certify:
+      - identity            # distillery name, region, country
+      - official_bottling   # ABV, age statement, cask, volume
+      - regulatory_facts
+    forbidden_to_certify:
+      - subjective_flavor   # flavor is never authoritative from a producer
+
+  T2_expert:
+    rank: 2
+    label: "Expert / Professional Reviewer"
+    description: >
+      Recognized expert reviewers and professional tasting panels. Authoritative
+      for sensory evaluation, tasting notes, and scored assessment, but NOT for
+      identity facts that conflict with T1.
+    examples:
+      - "WhiskyFun (Serge Valentin)"
+      - "professional tasting panel"
+      - "accredited whisky journalist"
+    may_certify:
+      - sensory_evaluation
+      - tasting_notes
+      - scored_assessment
+      - expert_opinion
+    forbidden_to_certify:
+      - identity            # defer to T1 on identity conflicts
+      - regulatory_facts
+
+  T3_community:
+    rank: 3
+    label: "Community / User-Generated"
+    description: >
+      User reviews, forums, and crowd-sourced aggregations. Used only as
+      supporting evidence or to break ties among equal-tier expert sources.
+      Never the sole certifier of a fact.
+    examples:
+      - "user review aggregation"
+      - "forum discussion"
+      - "crowd-sourced rating"
+    may_certify:
+      - supporting_evidence_only
+    forbidden_to_certify:
+      - identity
+      - regulatory_facts
+      - sole_source_facts
+
+# Default resolution order when two extractions conflict and no field rule
+# overrides: highest tier wins; ties broken by source_priority.yaml.
+conflict_resolution:
+  default_rule: "highest_tier_wins"
+  tie_breaker: "source_priority"
+  same_tier_multiple: "merge_by_merge_policy"

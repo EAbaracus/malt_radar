@@ -1,0 +1,64 @@
+# =============================================================================
+# sources/whiskyfun/source_profile.yaml
+# -----------------------------------------------------------------------------
+# First concrete SOURCE PROFILE. WhiskyFun (Serge Valentin) is a long-running
+# professional reviewer — classified T2_expert. Declares declarative metadata
+# only; NO scraper/parser code (Sprint 1 foundation).
+# =============================================================================
+
+schema_version: "1.0.0"
+
+source_key: "whiskyfun"
+display_name: "WhiskyFun (Serge Valentin)"
+
+# Authority tier from authority/authority_matrix.yaml.
+tier: T2_expert
+
+# Tie-breaker priority (see authority/source_priority.yaml: whiskyfun = 10).
+priority: 10
+
+access:
+  type: "web"
+  base_url: "https://www.whiskyfun.com"
+  rate_limit_per_min: 0        # not specified in foundation
+  requires_auth: false
+
+# Qualification: a WhiskyFun "unit" is a single review post.
+qualification:
+  unit_granularity: "review_page"
+  in_scope_if:
+    - "contains_whisky_name: true"
+    - "has_tasting_note: true"
+  out_of_scope_if:
+    - "is_advertisement: true"
+    - "is_news_post: true"     # non-tasting posts excluded
+
+# Extraction methods the Extraction Agent MAY use (implemented in Sprint 2+).
+extraction_methods:
+  - name: "trigger_scan"
+    applies_to: [nose, palate, finish]
+    description: >
+      Scan the review body for labeled sections (Nose:/Palate:/Finish:) and
+      capture the text between the marker and the next section or end.
+  - name: "structured_parse"
+    applies_to: [abv, age_statement, score]
+    description: >
+      Parse the score line (e.g. '89 pt'), the ABV (e.g. '46%'), and any age
+      statement from the post header/body. ABV uses strip-percent-then-cast.
+
+# Per-field capability. WhiskyFun is an expert source: sensory + score only.
+# It does NOT certify identity or official-bottling (those are T1 ceilings).
+field_capability:
+  nose:        { evidence_type: "expert_quote", enabled: true }
+  palate:      { evidence_type: "expert_quote", enabled: true }
+  finish:      { evidence_type: "expert_quote", enabled: true }
+  flavor_axes: { evidence_type: "expert_quote", enabled: true }
+  score:       { evidence_type: "expert_quote", enabled: true }
+
+# WhiskyFun reviews carry a post date -> enables latest_expert_wins.
+source_date_available: true
+
+retry:
+  max_attempts: 3
+  backoff_seconds: 5
+  record_history: true

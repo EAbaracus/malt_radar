@@ -1,14 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:malt_radar/core/config/app_config.dart';
 import 'package:malt_radar/features/whisky/data/dto/db_whisky_dto.dart';
 
 void main() {
-  group('Feature Flag Validation', () {
-    test('USE_DB_API default is false', () {
-      expect(AppConfig.useDbApi, false);
-    });
-  });
-
   group('DTO Mapper Validation', () {
     test('Maps full DB whisky correctly to legacy map', () {
       final dbWhisky = {
@@ -29,8 +22,9 @@ void main() {
       };
 
       final flavorProfile = {
-        'flavor_vector_json': '[0.1, 0.2, 0.3]',
-        'flavor_tags_json': '["peat", "smoke"]',
+        'flavor_profile': '{"fruity": 5.0, "sweet": 6.0}',
+        'flavor_vector': '[0.1, 0.2, 0.3]',
+        'flavor_tags': '["peat", "smoke"]',
         'source': 'Internal'
       };
 

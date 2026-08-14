@@ -1,0 +1,56 @@
+[
+  {
+    "filename": "whiskybase_export_sample.csv",
+    "type": "CSV",
+    "records": 5,
+    "existing": 1,
+    "net_new": 4,
+    "confidence": "HIGH",
+    "effort": "LOW"
+  },
+  {
+    "filename": "manual_curated_tasting_notes_url_extract_draft.csv",
+    "type": "CSV",
+    "records": 1,
+    "existing": 0,
+    "net_new": 1,
+    "confidence": "HIGH",
+    "effort": "LOW"
+  },
+  {
+    "filename": "SMWS USA TASTING NOTES ARCHIVE (803 files)",
+    "type": "PDF Archive",
+    "records": 803,
+    "existing": "UNKNOWN",
+    "net_new": "UNKNOWN",
+    "confidence": "LOW",
+    "effort": "HIGH"
+  },
+  {
+    "filename": "45 PDF/EPUB Books (e.g. Whisky Advocate)",
+    "type": "PDF/EPUB Collection",
+    "records": 45,
+    "existing": "UNKNOWN",
+    "net_new": "UNKNOWN",
+    "confidence": "LOW",
+    "effort": "VERY HIGH"
+  },
+  {
+    "filename": "alko_whisky_preview.csv",
+    "type": "CSV (Retailer)",
+    "records": 50,
+    "existing": 0,
+    "net_new": 50,
+    "confidence": "HIGH",
+    "effort": "LOW"
+  },
+  {
+    "filename": "low_risk_retail_probe_v11.csv",
+    "type": "CSV (Retailer)",
+    "records": 40,
+    "existing": 0,
+    "net_new": 40,
+    "confidence": "HIGH",
+    "effort": "LOW"
+  }
+]

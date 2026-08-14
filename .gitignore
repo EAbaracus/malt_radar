@@ -82,6 +82,10 @@ CHANGELOG_FIXES.md
 # Local external source checkouts
 external_repos/
 
+# Local MCP server checkout (separate repo; was accidentally staged as a gitlink
+# with no .gitmodules entry, which broke CI submodule cleanup)
+mcp-servers/
+
 # AI Data Safety Gates
 output/import/*.db
 output/import/*.sqlite
@@ -89,3 +93,188 @@ output/import/*.sqlite3
 output/import/*.db-wal
 output/import/*.db-shm
 output/import/production_before_*.db
+
+
+# P30 Hardened Rules
+frontend/build/
+.gradle/
+android/.gradle/
+*.apk
+*.aab
+*.so
+artifacts/
+scratch/
+reports/
+*.zip
+*.7z
+*.rar
+*.env
+keystore*
+*.p12
+credentials*
+secrets*
+
+# P103 KEP Cleanup
+mr-kep/**/output/
+*.db-wal
+*.db-shm
+*.sqlite-wal
+*.sqlite-shm
+
+# P204A — temporary / generated / backup / local-DB / machine-specific hardening
+# stray legacy DBs (e.g. knowledge.db.p149_old); *.db alone does NOT match *.db.p149_old
+knowledge.db.*
+# ACL-DENY scratch artifact written by the DEATHSTAR isolation guard
+nul
+# local safety state (last_backup_path, pre_change_hash, pre_isolation_*)
+backups/*.txt
+# generated P203d scratch compute output
+_p203d_compute.json
+# unrelated skill-infra lockfile (NVIDIA deepstream skill)
+skills-lock.json
+# unrelated external skill packages (untracked, separate commit)
+.agents/skills/
+
+# ============================================================
+# P204B — Data Hygiene Hardening (2026-07-20)
+# Policy: NO production/staging data, NO generated pipeline
+# outputs, NO backups, NO runtime artifacts, NO mr-kep
+# execution data in Git.
+# PRESERVED: source, tests, schemas, intentional design
+# docs, reusable config (never ignored below).
+# ============================================================
+
+## --- Databases (production / staging / local) ---
+*.db
+*.sqlite
+*.sqlite3
+*.db-wal
+*.db-shm
+*.sqlite-wal
+*.sqlite-shm
+production*.db
+staging*.db
+*_staging*.db
+knowledge.db
+knowledge.db.*
+
+## --- Backups & archives ---
+backups/
+**/backups/
+output/backups/
+*.bak
+*.bak_*
+*.zip
+*.7z
+*.rar
+*.tar
+*.tar.gz
+*.tgz
+# Backup-named artifacts (anchored; NOT "backup" anywhere in a filename,
+# which would swallow source like *_back_up_copy.py).
+backup_*
+*_backup.db
+*_backup.sqlite
+*_backup.sql
+production_before_*
+*_production_pre*.db
+*_staging_pre*.db
+*_pre_*.db
+
+## --- Runtime state ---
+## --- Runtime state (root-only; never swallow nested source/runtime/ dirs) ---
+*.state
+**/runtime/*.db
+## --- Generated outputs (repo-root dirs only; anchored with /) ---
+data/output/
+data/input/
+data/templates/
+/output/
+/artifacts/
+/reports/
+/scratch/
+/archive/
+frontend/assets/data/
+backend/data/
+mr-kep/structured_source_intake/
+mr-kep/csv_intelligence_sprint*/
+mr-kep/extraction_execution/checkpoints/
+**/checkpoints/
+
+## --- mr-kep book_ingestion: data/reports only (keep .py source) ---
+mr-kep/book_ingestion/**/*.csv
+mr-kep/book_ingestion/**/*.jsonl
+mr-kep/book_ingestion/**/*.json
+mr-kep/book_ingestion/**/*.md
+
+## --- mr-kep phase-execution generated artifacts ---
+mr-kep/p[0-9]*/**/*.csv
+mr-kep/p[0-9]*/**/*.jsonl
+mr-kep/p[0-9]*/**/*.json
+mr-kep/p[0-9]*/**/_*.json
+mr-kep/p[0-9]*/**/*_raw.json
+mr-kep/p[0-9]*/**/*_state.json
+# (keeps mr-kep/pNNN/*.py, *.sql, intentional design docs)
+
+## --- mr-kep local execution scratch / stray DBs ---
+mr-kep/book_pipeline/tmp_*.db
+mr-kep/book_pipeline/tmp_*.db-wal
+mr-kep/book_pipeline/tmp_*.db-shm
+mr-kep/**/_evidence/
+mr-kep/**/staging_*.db
+mr-kep/**/editorial_staging.db
+
+# KEP runtime source is tracked; only local runtime state/data is ignored.
+kep_review_runtime/runtime/*.db
+kep_review_runtime/runtime/*.db-wal
+kep_review_runtime/runtime/*.db-shm
+kep_review_runtime/runtime/*.sqlite
+kep_review_runtime/runtime/*.sqlite3
+kep_review_runtime/runtime/*.state
+
+# P204C — repo hygiene 2026-08-05: execution scratch / temp dirs (root-anchored)
+/tmp_scripts/
+/.tmp_fici/
+/.worktrees/
+/%TEMP%/
+/tmp*.py
+
+# P204C — mr-kep/audit execution data (round manifests, ledgers, ZE sweep state)
+mr-kep/audit/*.csv
+mr-kep/audit/*.jsonl
+mr-kep/audit/*.json
+mr-kep/audit/tmp_*
+mr-kep/audit/orphan_webcrawl/
+mr-kep/audit/book_contribution/
+mr-kep/audit/zero_evidence_opportunity/
+mr-kep/audit/flavor_gap_audit/*.json
+mr-kep/audit/flavor_gap_audit/*.jsonl
+mr-kep/audit/flavor_gap_audit/*.sql
+
+# ---- git-data-hygiene (2026-08-07): temp/data strays (source stays tracked) ----
+# Temp working dirs / scraped HTML (never intended for VCS).
+/.tmp_connosr/
+/_connosr_*.html
+# Hermes desktop attachments (bulk data zips) — plans/*.md stay tracked.
+/.hermes/desktop-attachments/
+# Residual mr-kep audit GENERATED data (json/jsonl only; *.py source stays).
+/mr-kep/audit/zero_evidence_opportunity/
+/mr-kep/audit/book_contribution/
+/mr-kep/audit/flavor_gap_audit/*.json
+/mr-kep/audit/**/*.json
+
+# ---- git-data-hygiene purge (2026-08-09): generated data/artifacts, CSV-only catalog source ----
+# /api/whiskies/* closed (b6880bb); catalog served only via /api/db (production.db).
+# The CSV catalog files and generated preview/report artifacts are no longer read at
+# runtime. Removed from the index only (files stay on disk); never re-add.
+/output/
+/data/output/
+/backend/data/Distillery.csv
+/backend/data/The_Malt_List.pdf
+/backend/data/flavor_profiles.csv
+/backend/data/openapi.json
+/backend/data/production_data.csv
+/backend/data/whisky_database_merged_max.csv
+/mr-kep/p*/**/*.csv
+/mr-kep/p*/**/*.jsonl
+seo/build/

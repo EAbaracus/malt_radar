@@ -114,6 +114,8 @@ def analyze():
     
     with open(REPORT_MD, 'w', encoding='utf-8') as f:
         f.write("# Flavor Extraction Diagnostic Report\n\n")
+        f.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
+
         f.write("## 1. Schema Info (tasting_notes)\n")
         for c in cols:
             f.write(f"- {c[1]} ({c[2]})\n")

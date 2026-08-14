@@ -2,6 +2,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:malt_radar/core/theme/app_theme.dart';
+import 'package:malt_radar/core/theme/app_theme_colors.dart';
+import 'package:malt_radar/core/localization/localization_provider.dart';
 import 'package:malt_radar/features/whisky/presentation/screens/home_screen.dart';
 import 'package:malt_radar/features/lists/presentation/screens/lists_screen.dart';
 import 'package:malt_radar/features/whisky/presentation/screens/settings_screen.dart';
@@ -24,10 +26,14 @@ class _MainNavigationScreenState extends ConsumerState<MainNavigationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final tr = ref.watch(trProvider);
     return Scaffold(
       body: Stack(
         children: [
-          _screens[_selectedIndex],
+          IndexedStack(
+            index: _selectedIndex,
+            children: _screens,
+          ),
           Positioned(
             left: 0,
             right: 0,
@@ -40,38 +46,34 @@ class _MainNavigationScreenState extends ConsumerState<MainNavigationScreen> {
                     color: AppTheme.background.withValues(alpha: 0.8),
                     border: Border(
                       top: BorderSide(
-                        color: Colors.white.withValues(alpha: 0.1),
+                        color: AppThemeColors.parchment.withValues(alpha: 0.1),
                         width: 1,
                       ),
                     ),
                   ),
                   child: SafeArea(
-                    child: BottomNavigationBar(
-                      backgroundColor: Colors.transparent,
-                      elevation: 0,
-                      selectedItemColor: AppTheme.primary,
-                      unselectedItemColor: AppTheme.textMuted,
-                      currentIndex: _selectedIndex,
-                      onTap: (index) {
+                    child: NavigationBar(
+                      selectedIndex: _selectedIndex,
+                      onDestinationSelected: (index) {
                         setState(() {
                           _selectedIndex = index;
                         });
                       },
-                      items: const [
-                        BottomNavigationBarItem(
-                          icon: Icon(Icons.explore_outlined),
-                          activeIcon: Icon(Icons.explore),
-                          label: 'Keşfet',
+                      destinations: [
+                        NavigationDestination(
+                          icon: const Icon(Icons.explore_outlined),
+                          selectedIcon: const Icon(Icons.explore),
+                          label: tr('explore'),
                         ),
-                        BottomNavigationBarItem(
-                          icon: Icon(Icons.bookmark_outline),
-                          activeIcon: Icon(Icons.bookmark),
-                          label: 'Listeler',
+                        NavigationDestination(
+                          icon: const Icon(Icons.bookmark_outline),
+                          selectedIcon: const Icon(Icons.bookmark),
+                          label: tr('lists'),
                         ),
-                        BottomNavigationBarItem(
-                          icon: Icon(Icons.settings_outlined),
-                          activeIcon: Icon(Icons.settings),
-                          label: 'Ayarlar',
+                        NavigationDestination(
+                          icon: const Icon(Icons.settings_outlined),
+                          selectedIcon: const Icon(Icons.settings),
+                          label: tr('settings'),
                         ),
                       ],
                     ),

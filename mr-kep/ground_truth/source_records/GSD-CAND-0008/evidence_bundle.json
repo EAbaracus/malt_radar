@@ -1,0 +1,202 @@
+[
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-14b25d351bd343fa",
+    "fact_id": "EV-f8cf75bcd125",
+    "field": "distillery_name",
+    "field_name": "distillery_name",
+    "value": "Balvenie",
+    "field_value": "Balvenie",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.thebalvenie.com/our-whisky-range/doublewood-12-year-old",
+        "quote": "The Balvenie Distillery",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-3bd89e0805da5634",
+    "fact_id": "EV-d26b54b01f2d",
+    "field": "country",
+    "field_name": "country",
+    "value": "Scotland",
+    "field_value": "Scotland",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.thebalvenie.com/our-whisky-range/doublewood-12-year-old",
+        "quote": "Product of Scotland",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-47fcb71674b9c83b",
+    "fact_id": "EV-6df0a00a0236",
+    "field": "region",
+    "field_name": "region",
+    "value": "Speyside",
+    "field_value": "Speyside",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.thebalvenie.com/our-whisky-range/doublewood-12-year-old",
+        "quote": "Speyside Single Malt",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-6ce6796b5d6e3787",
+    "fact_id": "EV-c1d242a68298",
+    "field": "abv",
+    "field_name": "abv",
+    "value": 40.0,
+    "field_value": 40.0,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.thebalvenie.com/our-whisky-range/doublewood-12-year-old",
+        "quote": "40% ABV",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-1876f0ea606d8044",
+    "fact_id": "EV-f292461b1d0c",
+    "field": "cask_type",
+    "field_name": "cask_type",
+    "value": "Bourbon+Sherry",
+    "field_value": "Bourbon+Sherry",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.thebalvenie.com/our-whisky-range/doublewood-12-year-old",
+        "quote": "ex-bourbon and sherry casks",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-b13c2534ba3e1180",
+    "fact_id": "EV-f67ae1d19125",
+    "field": "age_statement",
+    "field_name": "age_statement",
+    "value": 12,
+    "field_value": 12,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.thebalvenie.com/our-whisky-range/doublewood-12-year-old",
+        "quote": "12 Year Old",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-fd71c1811370f8c7",
+    "fact_id": "EV-a1248d998c79",
+    "field": "nose",
+    "field_name": "nose",
+    "value": "Sweet fruit, Oloroso sherry notes, honey, vanilla",
+    "field_value": "Sweet fruit, Oloroso sherry notes, honey, vanilla",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archivejanuary19.html",
+        "quote": "Nose: honey, vanilla, sherry notes, orange peel",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-4b2d071e906b2df6",
+    "fact_id": "EV-9fed6f958d80",
+    "field": "palate",
+    "field_name": "palate",
+    "value": "Smooth, mellow, nuttiness, cinnamon, sherry sweetness",
+    "field_value": "Smooth, mellow, nuttiness, cinnamon, sherry sweetness",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archivejanuary19.html",
+        "quote": "Palate: mellow, sweet, cinnamon, sherry, nuttiness",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-0d7c5119599bb32e",
+    "fact_id": "EV-acd794b84888",
+    "field": "finish",
+    "field_name": "finish",
+    "value": "Long, warm, sweet spice finish",
+    "field_value": "Long, warm, sweet spice finish",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archivejanuary19.html",
+        "quote": "Finish: warm, sweet, slightly spicy",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-87b42fc27fc8aea8",
+    "fact_id": "EV-5684470f656b",
+    "field": "score",
+    "field_name": "score",
+    "value": 84,
+    "field_value": 84,
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archivejanuary19.html",
+        "quote": "84 points",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  }
+]

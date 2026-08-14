@@ -1,0 +1,14 @@
+{
+  "status": "GO WITH PRE-EXISTING WARNINGS",
+  "row_counts": {
+    "whiskies_before": 3557,
+    "whiskies_after": 3876,
+    "distilleries_before": 1913,
+    "distilleries_after": 2131,
+    "brands_before": 0,
+    "brands_after": 250
+  },
+  "fk_violations_total": 0,
+  "fk_violations_new": 0,
+  "integrity_check": "OK"
+}

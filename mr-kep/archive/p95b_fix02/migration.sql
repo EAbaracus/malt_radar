@@ -1,0 +1,64 @@
+-- ============================================================================
+-- P95B-FIX-02 — migration.sql  (PRODUCTION SCHEMA MIGRATION)
+-- ============================================================================
+-- STATUS: WRITTEN BUT **NOT EXECUTED**. This is a gated, human-GO mutation.
+-- Per promotion_rulebook.md §6, executing this REQUIRES:
+--   1. Explicit human GO for Phase 12 production promotion.
+--   2. Backup: cp output/import/production.db output/import/production.db.pre_p95b_fix02_<timestamp>.bak
+--   3. sha256 of production.db recorded pre/post.
+--   4. Single transaction, rollback-on-error, one promotion_audit_log row,
+--      post-apply row-count assert.
+--
+-- DO NOT run this from the implementation task. It is staged for the authorized
+-- promotion window only.
+-- ============================================================================
+
+-- ----------------------------------------------------------------------------
+-- FIX 1 (REQUIRED): add the missing canonical axis `vector_maritime`
+-- ----------------------------------------------------------------------------
+-- Closes the only canonical-axis gap in production.flavor_evidence.
+-- maritime is produced by the canonical reducer (canonical_vectors.json),
+-- P96 book pipeline, and the editorial extractor, and is present in
+-- 1754 raw / 1942 app flavor_profiles rows — but flavor_evidence has no column.
+ALTER TABLE flavor_evidence ADD COLUMN vector_maritime REAL;
+
+-- IMPORTANT: No backfill is possible from existing data.
+--   - vector_maritime was never stored (column did not exist).
+--   - Per CANONICAL_SCHEMA.md §5, `rich` is NOT the maritime axis (rich maps to
+--     sweet-side); vector_rich MUST NOT be used to derive vector_maritime.
+-- Historical rows remain NULL until a re-extraction / promotion pass is authorized.
+
+-- ----------------------------------------------------------------------------
+-- FIX 2 (DISPOSITION): vector_rich retained as deprecated legacy evidence
+-- ----------------------------------------------------------------------------
+-- vector_rich is in AmbiguityHandler.unmappable (cannot map to a canonical axis)
+-- and is non-canonical. It is preserved (NOT dropped) as provenance. Mark
+-- deprecated; NEVER promote as canonical; NEVER derive vector_maritime from it.
+-- (No SQL needed — column retained as-is.)
+
+-- ----------------------------------------------------------------------------
+-- OPTIONAL, COMMENTED (separate review, higher risk): 0-1 -> 0-100 scale
+-- ----------------------------------------------------------------------------
+-- Canonical contract mandates axis_scale='0-100' (0-1 inputs x100).
+-- Current flavor_evidence.vector_* are on a 0-1 scale (verified 0.0-1.0).
+-- Uncomment ONLY after explicit approval + backup.
+--
+-- UPDATE flavor_evidence
+--    SET vector_smoky  = vector_smoky  * 100,
+--        vector_peaty  = vector_peaty  * 100,
+--        vector_sherry = vector_sherry * 100,
+--        vector_fruity = vector_fruity * 100,
+--        vector_spicy  = vector_spicy  * 100,
+--        vector_sweet  = vector_sweet  * 100,
+--        vector_rich   = vector_rich   * 100,
+--        vector_maritime = vector_maritime * 100;  -- NULL-safe (NULL*100 = NULL)
+
+-- ----------------------------------------------------------------------------
+-- VERIFICATION (read-only; run AFTER the authorized execution)
+-- ----------------------------------------------------------------------------
+-- SELECT name FROM pragma_table_info('flavor_evidence') WHERE name='vector_maritime';
+--   -- expect: vector_maritime
+-- SELECT COUNT(*) FROM flavor_evidence WHERE vector_maritime IS NOT NULL;
+--   -- expect: 0 (historical rows NULL until re-extraction)
+-- SELECT MIN(vector_smoky), MAX(vector_smoky) FROM flavor_evidence;
+--   -- expect: 0.0 .. 1.0  (or 0..100 if optional scale block applied)

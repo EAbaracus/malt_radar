@@ -1,0 +1,121 @@
+{
+  "_checksum": "5308889d26927c5763c5a30a5c980f4b876bef1e40a7e97abaf7e808fd3b6996",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-d1aa31d774fe3c0c",
+      "fact_id": "EV-cd07737d90c4",
+      "field": "nose",
+      "field_name": "nose",
+      "field_value": "Fresh pear, green apple, light oak, floral",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Nose: fresh pear, green apple, light oak",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archivefebruary18.html",
+          "won": true
+        }
+      ],
+      "value": "Fresh pear, green apple, light oak, floral"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-7dab2cdfb8c59b4c",
+      "fact_id": "EV-76d54ebb69cd",
+      "field": "palate",
+      "field_name": "palate",
+      "field_value": "Sweet, fresh fruit, butterscotch, malt",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Palate: sweet, fruity, butterscotch, malt",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archivefebruary18.html",
+          "won": true
+        }
+      ],
+      "value": "Sweet, fresh fruit, butterscotch, malt"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-6859ec5d9101cdec",
+      "fact_id": "EV-80bd1b9c8145",
+      "field": "finish",
+      "field_name": "finish",
+      "field_value": "Short, clean, smooth finish",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Finish: short, clean, smooth",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archivefebruary18.html",
+          "won": true
+        }
+      ],
+      "value": "Short, clean, smooth finish"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-d4317792650e182c",
+      "fact_id": "EV-06d0ece98ae6",
+      "field": "score",
+      "field_name": "score",
+      "field_value": 79,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "79 points",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archivefebruary18.html",
+          "won": true
+        }
+      ],
+      "value": 79
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "expert_quote",
+    "source_key": "whiskyfun",
+    "url": "https://www.whiskyfun.com/archivefebruary18.html"
+  },
+  "extraction_result": {
+    "finish": {
+      "confidence": 1.0,
+      "quote": "Finish: short, clean, smooth",
+      "value": "Short, clean, smooth finish"
+    },
+    "nose": {
+      "confidence": 1.0,
+      "quote": "Nose: fresh pear, green apple, light oak",
+      "value": "Fresh pear, green apple, light oak, floral"
+    },
+    "palate": {
+      "confidence": 1.0,
+      "quote": "Palate: sweet, fruity, butterscotch, malt",
+      "value": "Sweet, fresh fruit, butterscotch, malt"
+    },
+    "score": {
+      "confidence": 1.0,
+      "quote": "79 points",
+      "value": 79
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0005",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:47.799817+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

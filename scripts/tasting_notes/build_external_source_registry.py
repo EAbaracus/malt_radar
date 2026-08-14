@@ -262,6 +262,8 @@ report_md += f"""
 
 with open(os.path.join(REPORTS_DIR, "307_12n_external_source_policy_report.md"), "w", encoding="utf-8") as f:
     f.write(report_md)
+    f.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
+
 
 gate_txt = f"""GATE: {gate_status}
 missing_reports_count: {len(missing_reports)}

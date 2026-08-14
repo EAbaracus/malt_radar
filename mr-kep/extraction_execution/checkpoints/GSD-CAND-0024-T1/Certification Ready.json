@@ -1,0 +1,171 @@
+{
+  "_checksum": "dd6eb1536ad02800b18d7857737176f219a02aa3edd6b86dfdd2667cb1c1a718",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-5c12c5c56bc8d857",
+      "fact_id": "EV-5337419e9f39",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "GlenDronach",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Bottled at GlenDronach Distillery",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.glendronach.com/whisky/glendronach-12yo",
+          "won": true
+        }
+      ],
+      "value": "GlenDronach"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-7e05f4075c253c1f",
+      "fact_id": "EV-d5c89d9a89f1",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "Scotland",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Product of Scotland",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.glendronach.com/whisky/glendronach-12yo",
+          "won": true
+        }
+      ],
+      "value": "Scotland"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-44ec5271ddf37acb",
+      "fact_id": "EV-a2dd9b3159bf",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "Highland",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Highland single malt",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.glendronach.com/whisky/glendronach-12yo",
+          "won": true
+        }
+      ],
+      "value": "Highland"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-5a51883743c06438",
+      "fact_id": "EV-ff9380945fd4",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 43.0,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "43.0% ABV",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.glendronach.com/whisky/glendronach-12yo",
+          "won": true
+        }
+      ],
+      "value": 43.0
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-41f84239fc3fe346",
+      "fact_id": "EV-427309baae59",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Sherry",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "matured in Sherry casks",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.glendronach.com/whisky/glendronach-12yo",
+          "won": true
+        }
+      ],
+      "value": "Sherry"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-16fc1c9269a02da0",
+      "fact_id": "EV-0f3bf32cca43",
+      "field": "age_statement",
+      "field_name": "age_statement",
+      "field_value": 12,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "aged for 12 years",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.glendronach.com/whisky/glendronach-12yo",
+          "won": true
+        }
+      ],
+      "value": 12
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.glendronach.com/whisky/glendronach-12yo"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "43.0% ABV",
+      "value": 43.0
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "aged for 12 years",
+      "value": 12
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Sherry casks",
+      "value": "Sherry"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Scotland",
+      "value": "Scotland"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at GlenDronach Distillery",
+      "value": "GlenDronach"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Highland single malt",
+      "value": "Highland"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0024",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:48.252255+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

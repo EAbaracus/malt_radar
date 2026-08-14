@@ -1,2 +1,0 @@
-GATE: PARTIAL-GO
-REASON: pass_count is 0 (all were rejected or reviewed, e.g. placeholders)

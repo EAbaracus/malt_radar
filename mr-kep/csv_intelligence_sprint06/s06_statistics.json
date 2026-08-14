@@ -1,0 +1,31 @@
+{
+  "sprint": "Sprint 06 \u2014 Legacy CSV Candidate Resolution",
+  "mode": "READ-ONLY (no DB writes, no schema changes, no promotion)",
+  "total_candidate_names": 1160,
+  "matched_to_production": 672,
+  "unmatched_candidates": 488,
+  "classification": {
+    "Distillery": 253,
+    "Whisky": 810,
+    "Brand": 96,
+    "Unknown": 1
+  },
+  "match_methods": {
+    "exact": 402,
+    "alias_collapse": 249,
+    "normalized": 21
+  },
+  "true_net_new_whiskies": 213,
+  "distillery_candidates": 178,
+  "metadata_only_records_brand": 96,
+  "unknown_unresolved": 1,
+  "alias_candidates": 0,
+  "duplicate_records_multi_source": 343,
+  "ingestion_ready_records": 391,
+  "outputs": {
+    "confirmed_new_whiskies.csv": 213,
+    "distillery_candidates.csv": 178,
+    "alias_candidates.csv": 0,
+    "unresolved_candidates.csv": 97
+  }
+}

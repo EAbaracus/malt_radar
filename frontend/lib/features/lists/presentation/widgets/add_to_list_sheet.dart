@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:malt_radar/core/theme/app_theme.dart';
+import 'package:malt_radar/core/theme/app_theme_colors.dart';
 import 'package:malt_radar/core/localization/localization_provider.dart';
 import 'package:malt_radar/features/lists/presentation/controllers/user_lists_providers.dart';
 import 'package:malt_radar/features/lists/domain/models/user_list.dart';
 import 'package:malt_radar/features/whisky/presentation/controllers/whisky_providers.dart';
+import 'package:malt_radar/core/branding/brand_medallion_widget.dart';
 
 class AddToListSheet extends ConsumerStatefulWidget {
   final int whiskyId;
@@ -158,17 +160,13 @@ class _AddToListSheetState extends ConsumerState<AddToListSheet> {
                       controller: _newListNameController,
                       style: const TextStyle(color: AppTheme.textPrimary),
                       decoration: InputDecoration(
-                        hintText: tr('search_whisky') == 'Search whisky' 
-                            ? 'Create new list...' 
-                            : 'Yeni liste oluştur...',
+                        hintText: tr('create_new_list'),
                         hintStyle: const TextStyle(color: AppTheme.textMuted),
                         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                       ),
                       validator: (value) {
                         if (value == null || value.trim().isEmpty) {
-                          return tr('search_whisky') == 'Search whisky'
-                              ? 'Enter list name'
-                              : 'Liste adı girin';
+                          return tr('enter_list_name');
                         }
                         return null;
                       },
@@ -181,10 +179,7 @@ class _AddToListSheetState extends ConsumerState<AddToListSheet> {
                           height: 48,
                           child: Padding(
                             padding: EdgeInsets.all(12),
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: AppTheme.primary,
-                            ),
+                            child: BrandSpinner(),
                           ),
                         )
                       : ElevatedButton(
@@ -239,7 +234,7 @@ class _AddToListSheetState extends ConsumerState<AddToListSheet> {
                               border: Border.all(
                                 color: isSelected 
                                     ? AppTheme.primary.withValues(alpha: 0.3)
-                                    : Colors.white.withValues(alpha: 0.05),
+                                    : AppThemeColors.parchment.withValues(alpha: 0.05),
                               ),
                             ),
                             child: CheckboxListTile(
@@ -308,7 +303,7 @@ class _AddToListSheetState extends ConsumerState<AddToListSheet> {
                       );
                     },
                     loading: () => const Center(
-                      child: CircularProgressIndicator(color: AppTheme.primary),
+                      child: BrandSpinner(),
                     ),
                     error: (err, _) => Center(
                       child: Text(
@@ -319,7 +314,7 @@ class _AddToListSheetState extends ConsumerState<AddToListSheet> {
                   );
                 },
                 loading: () => const Center(
-                  child: CircularProgressIndicator(color: AppTheme.primary),
+                  child: BrandSpinner(),
                 ),
                 error: (err, _) => Center(
                   child: Text(

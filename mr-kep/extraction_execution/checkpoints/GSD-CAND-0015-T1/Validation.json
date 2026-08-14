@@ -1,0 +1,171 @@
+{
+  "_checksum": "6a240b6d996497ce127fe70dcff1c155f9df9cb6bc9f713cbc8b6d93f137bf83",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-0f1945911e637d35",
+      "fact_id": "EV-ce246c70d4f8",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "Cragganmore",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Cragganmore Distillery",
+          "source_key": "DiageoMalts",
+          "source_url": "https://www.malts.com/en-gb/products/single-malt-whisky/cragganmore-12-year-old",
+          "won": true
+        }
+      ],
+      "value": "Cragganmore"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-a452925a116a4c16",
+      "fact_id": "EV-0c9c15376e48",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "Scotland",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Product of Scotland",
+          "source_key": "DiageoMalts",
+          "source_url": "https://www.malts.com/en-gb/products/single-malt-whisky/cragganmore-12-year-old",
+          "won": true
+        }
+      ],
+      "value": "Scotland"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-62c06e639a9717f3",
+      "fact_id": "EV-8e86dfe13224",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "Speyside",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Speyside single malt",
+          "source_key": "DiageoMalts",
+          "source_url": "https://www.malts.com/en-gb/products/single-malt-whisky/cragganmore-12-year-old",
+          "won": true
+        }
+      ],
+      "value": "Speyside"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-5902cfe05ff8d48f",
+      "fact_id": "EV-b5b7aaecbb79",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 40.0,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "40% ABV",
+          "source_key": "DiageoMalts",
+          "source_url": "https://www.malts.com/en-gb/products/single-malt-whisky/cragganmore-12-year-old",
+          "won": true
+        }
+      ],
+      "value": 40.0
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-a8ed2f9577fd6ac4",
+      "fact_id": "EV-f6f429697801",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Bourbon",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "refill American oak casks",
+          "source_key": "DiageoMalts",
+          "source_url": "https://www.malts.com/en-gb/products/single-malt-whisky/cragganmore-12-year-old",
+          "won": true
+        }
+      ],
+      "value": "Bourbon"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-e8106ee0ed84dfec",
+      "fact_id": "EV-fe06fbb3514f",
+      "field": "age_statement",
+      "field_name": "age_statement",
+      "field_value": 12,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "12 Years Old",
+          "source_key": "DiageoMalts",
+          "source_url": "https://www.malts.com/en-gb/products/single-malt-whisky/cragganmore-12-year-old",
+          "won": true
+        }
+      ],
+      "value": 12
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DiageoMalts",
+    "url": "https://www.malts.com/en-gb/products/single-malt-whisky/cragganmore-12-year-old"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "40% ABV",
+      "value": 40.0
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "12 Years Old",
+      "value": 12
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "refill American oak casks",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Scotland",
+      "value": "Scotland"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Cragganmore Distillery",
+      "value": "Cragganmore"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Speyside single malt",
+      "value": "Speyside"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0015",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:48.032597+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

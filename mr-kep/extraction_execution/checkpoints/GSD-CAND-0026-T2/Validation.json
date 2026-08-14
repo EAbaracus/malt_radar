@@ -1,0 +1,121 @@
+{
+  "_checksum": "4d03c0a65954686559894134fa3d8526911fe76794064fb0833409fc1a9b1aee",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-8bc492fed89baf10",
+      "fact_id": "EV-2b915197e1a8",
+      "field": "nose",
+      "field_name": "nose",
+      "field_value": "Rich sherry sweetness, dark plums, raisins, dark cocoa",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Nose: rich sherry sweetness, dark plums, raisins, dark cocoa",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0026",
+          "won": true
+        }
+      ],
+      "value": "Rich sherry sweetness, dark plums, raisins, dark cocoa"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-8993b6ed41e5a94b",
+      "fact_id": "EV-6e0c77a6cabd",
+      "field": "palate",
+      "field_name": "palate",
+      "field_value": "Sweet fruit cake, orange peel, cinnamon, nutmeg, ginger",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Palate: sweet fruit cake, orange peel, cinnamon, nutmeg, ginger",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0026",
+          "won": true
+        }
+      ],
+      "value": "Sweet fruit cake, orange peel, cinnamon, nutmeg, ginger"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-bf7eb67c95fddcd4",
+      "fact_id": "EV-bb06d3eb0260",
+      "field": "finish",
+      "field_name": "finish",
+      "field_value": "Long, warm, sweet oak and spicy dark chocolate",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Finish: long, warm, sweet oak and spicy dark chocolate",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0026",
+          "won": true
+        }
+      ],
+      "value": "Long, warm, sweet oak and spicy dark chocolate"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-e64d98ab5f32860d",
+      "fact_id": "EV-23ec8851eb4d",
+      "field": "score",
+      "field_name": "score",
+      "field_value": 86,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "86 points",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0026",
+          "won": true
+        }
+      ],
+      "value": 86
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "expert_quote",
+    "source_key": "whiskyfun",
+    "url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0026"
+  },
+  "extraction_result": {
+    "finish": {
+      "confidence": 1.0,
+      "quote": "Finish: long, warm, sweet oak and spicy dark chocolate",
+      "value": "Long, warm, sweet oak and spicy dark chocolate"
+    },
+    "nose": {
+      "confidence": 1.0,
+      "quote": "Nose: rich sherry sweetness, dark plums, raisins, dark cocoa",
+      "value": "Rich sherry sweetness, dark plums, raisins, dark cocoa"
+    },
+    "palate": {
+      "confidence": 1.0,
+      "quote": "Palate: sweet fruit cake, orange peel, cinnamon, nutmeg, ginger",
+      "value": "Sweet fruit cake, orange peel, cinnamon, nutmeg, ginger"
+    },
+    "score": {
+      "confidence": 1.0,
+      "quote": "86 points",
+      "value": 86
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0026",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:48.309546+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

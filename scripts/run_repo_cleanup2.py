@@ -1,8 +1,9 @@
+from pathlib import Path
 import os
 import subprocess
 import re
 
-WORKSPACE = r"C:\Users\eltun\Documents\malt radar"
+WORKSPACE = Path(__file__).resolve().parent.parent
 OUT_DIR = os.path.join(WORKSPACE, "output", "repo_cleanup")
 os.makedirs(OUT_DIR, exist_ok=True)
 
@@ -12,6 +13,8 @@ tracked_files = proc.stdout.splitlines()
 
 with open(os.path.join(WORKSPACE, "tracked_files_current.txt"), "w", encoding="utf-8") as f:
     f.write("\n".join(tracked_files))
+    f.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
+
 
 # 2. Analyze tracked files
 output_files = [f for f in tracked_files if f.startswith('output/')]

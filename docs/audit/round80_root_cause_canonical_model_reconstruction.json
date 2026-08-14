@@ -1,0 +1,123 @@
+{
+  "round": 80,
+  "title": "Independent Root-Cause & Canonical Data-Model Reconstruction",
+  "mode": "STRICT_READ_ONLY",
+  "db_path": "C:\\Users\\eltun\\Documents\\malt radar CLEAN\\output\\import\\production.db",
+  "db_sha256": "298b6f08e1b81625eeb2fa4cf60f4fa120d2d216b2141cfa82680a66821e1a0e",
+  "evidence_sha": {
+    "status": "UNCHANGED",
+    "matches_round71_signature": true
+  },
+  "integrity": {
+    "integrity_check": "ok",
+    "foreign_key_violations": 0
+  },
+  "schema": {
+    "flavor_profiles": {
+      "primary_key": "NONE",
+      "indexes": [],
+      "foreign_keys": [],
+      "without_rowid": false,
+      "rowid": true,
+      "total_rows": 4204,
+      "distinct_whisky_id": 3377,
+      "duplicate_whisky_id_groups": 436,
+      "max_rows_per_whisky_id": 40,
+      "identity": "sqlite_rowid (only unique key)",
+      "logical_entity": "whisky_id (not unique; batch/source variants)"
+    },
+    "flavor_evidence": {
+      "primary_key": "evidence_id",
+      "axis_columns": ["vector_smoky","vector_peaty","vector_sherry","vector_fruity","vector_spicy","vector_sweet","vector_rich","vector_maritime"],
+      "total_rows": 5724,
+      "r4_violations": 0,
+      "scale": "0.0-1.0"
+    }
+  },
+  "column_population": {
+    "flavor_vector": {"non_null": 3450, "null_empty": 754},
+    "flavor_profile": {"non_null": 4202, "null_empty": 2},
+    "flavor_tags": {"non_null": 3445, "null_empty": 759},
+    "flavor_source": {"non_null": 3445, "null_empty": 759}
+  },
+  "authoritative_model": {
+    "app_consumed_column": "flavor_profile",
+    "legacy_non_consumed_column": "flavor_vector",
+    "app_presentation_axes": ["fruity","sweet","spicy","smoky_peaty","oak_cask","malty_cereal","floral_herbal"],
+    "storage_evidence_axes": ["smoky","peaty","fruity","sweet","spicy","maritime","sherry"],
+    "two_vocabulary": true
+  },
+  "round71_profiles": {
+    "rowid_range": [4065, 4204],
+    "count": 140,
+    "flavor_vector_present": 0,
+    "flavor_profile_present": 140,
+    "round79_claim_falsified": true,
+    "claimed_vector_present": {
+      "exactly_matching": 121,
+      "vector": {"fruity": 60.0, "sweet": 60.0, "spicy": 40.0, "smoky": 0, "peaty": 0, "maritime": 0, "sherry": 0}
+    },
+    "remaining_scale_variants": 19,
+    "semantic_note": "Round-71 profiles store backend canonical-7 keys (0-100); app presentation axes (smoky_peaty/oak_cask) absent so radar renders fruity/sweet/spicy only"
+  },
+  "reducer_formula": {
+    "verified": true,
+    "source": "mr-kep/d4_reducer/axis_reducer.py:22-44",
+    "formula": "vectors[axis] = min(100, vectors[axis] + intensity * 20)",
+    "intensity_scale": "1-5",
+    "unknown_descriptor_behavior": "routed to ambiguous_queue (not dropped)"
+  },
+  "legacy_axis_mappings": {
+    "smoke": {"mapped": true, "target": "smoky"},
+    "smoky": {"mapped": true, "target": "smoky"},
+    "medicinal": {"mapped": true, "target": "peaty"},
+    "vanilla": {"mapped": true, "target": "sweet"},
+    "oak": {"mapped": false, "target": null, "requires_review": true},
+    "woody": {"mapped": false, "target": null, "requires_review": true},
+    "floral": {"mapped": false, "target": null, "requires_review": true},
+    "oak_cask": {"app_axis": true, "presentation_only": true},
+    "malty_cereal": {"app_axis": true, "presentation_only": true},
+    "smoky_peaty": {"app_axis": true, "presentation_only": true},
+    "floral_herbal": {"app_axis": true, "presentation_only": true}
+  },
+  "round75_77_partition_falsified": {
+    "claimed": {"A": 1844, "B": 1978, "C": 157, "D": 225, "debt": 2360, "queue_b": 1867, "queue_c": 111, "queue_d": 225, "queue_f": 157},
+    "reproducible": false,
+    "cause": "analyzed flavor_vector (legacy non-app column); treated NULL as malformed; mislabeled app axes as non-canonical"
+  },
+  "true_authoritative_partition": {
+    "flavor_profile_renderable_dict": 3256,
+    "app_axes_have_values": 2782,
+    "whiskeymapper_components_only": 225,
+    "no_app_axis_value": 249,
+    "flavor_profile_empty_dict": 791,
+    "flavor_profile_null": 2,
+    "flavor_profile_non_json": 155,
+    "total": 4204,
+    "true_app_schema_debt": 1197
+  },
+  "root_cause": {
+    "identified": true,
+    "category": [
+      "wrong column analyzed",
+      "wrong serialization layer",
+      "treating NULL as malformed",
+      "confusing evidence/profile vectors",
+      "confusing logical whisky identity with physical profile identity",
+      "inverting the app-axis presentation contract"
+    ],
+    "primary": "Rounds 74-78 analyzed flavor_vector (a legacy, non-app-consumed column) as the flavor data model instead of flavor_profile (the authoritative app-read column), computing schema-debt from a column no shipped artifact consumes and labeling the app's actual render axes as non-canonical."
+  },
+  "final_verdict": "AUTHORITATIVE_MODEL_RECONSTRUCTED_WITH_PRIOR_AUDIT_INVALIDATED",
+  "safety": {
+    "production_writes": 0,
+    "staging_writes": 0,
+    "profile_mutation": 0,
+    "evidence_mutation": 0,
+    "deletion": 0,
+    "promotion": 0,
+    "repair_executed": false,
+    "db_sha_unchanged": true,
+    "clean_halt": true
+  }
+}

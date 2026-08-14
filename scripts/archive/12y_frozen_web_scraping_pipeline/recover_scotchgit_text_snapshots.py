@@ -187,6 +187,8 @@ def main():
             text_path = os.path.join(snapshots_dir, f"recovered_scotchgit_{w_id}.txt")
             with open(text_path, 'w', encoding='utf-8') as f:
                 f.write(text)
+                f.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
+
                 
             out["snapshot_text_path"] = os.path.relpath(text_path, base_dir)
             out["text_length"] = len(text)

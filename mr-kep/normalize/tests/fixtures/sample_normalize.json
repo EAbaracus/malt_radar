@@ -1,0 +1,16 @@
+{
+  "whisky": "Ardbeg 10 Year Old",
+  "distillery": "Ardbeg",
+  "region": "Islay",
+  "rating": 88,
+  "abv": "46%",
+  "age": "10 Year Old",
+  "country": "Scotland",
+  "nose": "Peaty, smoky, maritime with citrus notes",
+  "palate": "Rich, oily, full-bodied with brine and dark chocolate",
+  "finish": "Long, warming, with lingering peat smoke",
+  "source": {
+    "name": "Whisky Advocate",
+    "issue": "2024-03"
+  }
+}

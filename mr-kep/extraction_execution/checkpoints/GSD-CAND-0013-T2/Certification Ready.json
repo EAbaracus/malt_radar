@@ -1,0 +1,121 @@
+{
+  "_checksum": "12ebdffab0a36772a1ff848c93a3a3eb2256fedfd425ac26e30e04279e2e1f6a",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-a147bfb5b6bc51aa",
+      "fact_id": "EV-ae1eaa2a5591",
+      "field": "nose",
+      "field_name": "nose",
+      "field_value": "Sweet peat smoke, honey, orchard fruits, vanilla",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Nose: sweet peat smoke, honey, pear",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archiveoctober15.html",
+          "won": true
+        }
+      ],
+      "value": "Sweet peat smoke, honey, orchard fruits, vanilla"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-380351edcdeba2d4",
+      "fact_id": "EV-cf01172079b1",
+      "field": "palate",
+      "field_name": "palate",
+      "field_value": "Peaty malt, dry oak, vanilla, heather honey",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Palate: peaty, sweet malt, vanilla, oak",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archiveoctober15.html",
+          "won": true
+        }
+      ],
+      "value": "Peaty malt, dry oak, vanilla, heather honey"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-41e50d0a764825f9",
+      "fact_id": "EV-976ca83c5315",
+      "field": "finish",
+      "field_name": "finish",
+      "field_value": "Medium, dry peaty wood notes",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Finish: medium, dry peat, spice",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archiveoctober15.html",
+          "won": true
+        }
+      ],
+      "value": "Medium, dry peaty wood notes"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-910b071b9a8c413f",
+      "fact_id": "EV-9fc327b8f9b2",
+      "field": "score",
+      "field_name": "score",
+      "field_value": 81,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "81 points",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archiveoctober15.html",
+          "won": true
+        }
+      ],
+      "value": 81
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "expert_quote",
+    "source_key": "whiskyfun",
+    "url": "https://www.whiskyfun.com/archiveoctober15.html"
+  },
+  "extraction_result": {
+    "finish": {
+      "confidence": 1.0,
+      "quote": "Finish: medium, dry peat, spice",
+      "value": "Medium, dry peaty wood notes"
+    },
+    "nose": {
+      "confidence": 1.0,
+      "quote": "Nose: sweet peat smoke, honey, pear",
+      "value": "Sweet peat smoke, honey, orchard fruits, vanilla"
+    },
+    "palate": {
+      "confidence": 1.0,
+      "quote": "Palate: peaty, sweet malt, vanilla, oak",
+      "value": "Peaty malt, dry oak, vanilla, heather honey"
+    },
+    "score": {
+      "confidence": 1.0,
+      "quote": "81 points",
+      "value": 81
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0013",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:47.990857+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

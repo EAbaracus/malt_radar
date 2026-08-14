@@ -1,0 +1,74 @@
+{
+  "distillery_name": {
+    "value": "Amrut",
+    "source": "https://www.amrut.com/whisky/amrut-single-malt",
+    "exact_quote": "Bottled at Amrut Distillery",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "country": {
+    "value": "India",
+    "source": "https://www.amrut.com/whisky/amrut-single-malt",
+    "exact_quote": "Product of India",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "region": {
+    "value": "Karnataka",
+    "source": "https://www.amrut.com/whisky/amrut-single-malt",
+    "exact_quote": "Karnataka single malt",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "abv": {
+    "value": 46.0,
+    "source": "https://www.amrut.com/whisky/amrut-single-malt",
+    "exact_quote": "46.0% ABV",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "cask_type": {
+    "value": "Bourbon",
+    "source": "https://www.amrut.com/whisky/amrut-single-malt",
+    "exact_quote": "matured in Bourbon casks",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "nose": {
+    "value": "Sweet honey, fresh pear, green apple, vanilla, light floral",
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0078",
+    "exact_quote": "Nose: sweet honey, fresh pear, green apple, vanilla, light floral",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "palate": {
+    "value": "Mellow malt, vanilla cream, butterscotch, orchard fruit",
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0078",
+    "exact_quote": "Palate: mellow malt, vanilla cream, butterscotch, orchard fruit",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "finish": {
+    "value": "Medium, clean, soft oak and sweet barley warmth",
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0078",
+    "exact_quote": "Finish: medium, clean, soft oak and sweet barley warmth",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "score": {
+    "value": 83,
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0078",
+    "exact_quote": "83 points",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  }
+}

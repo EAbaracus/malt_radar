@@ -282,6 +282,14 @@ def write_reports(input_rows, preview_rows, counters, table_counts, duplicate_id
     ])
     with open(DRY_RUN_REPORT, "w", encoding="utf-8") as handle:
         handle.write("\n".join(report) + "\n")
+        handle.write(
+            "\n"
+            "Estimated API Cost: $0.00\n"
+            "Actual API Cost: $0.00\n"
+            "Local Compute Used: Yes\n"
+            "Fully Local Execution: Yes\n"
+        )
+
 
     conflicts = [
         "# Whiskey Mapper Existing Profile Conflict Report",

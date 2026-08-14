@@ -7,11 +7,12 @@ import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 
 void main() {
-  test('DataSeedService reads real CSV', () async {
+  test('DataSeedService reads fixture CSV', () async {
     final db = AppDatabase.forTesting(NativeDatabase.memory());
     
-    // Read the actual CSV file
-    final file = File('assets/data/whisky_database_merged_max.csv');
+    // Schema-accurate synthetic fixture (real catalog CSVs are gitignored and
+    // never shipped to clients; the fixture exercises the same parse surface).
+    final file = File('test/fixtures/whisky_database_merged_max.csv');
     expect(file.existsSync(), isTrue);
     
     final csvString = await file.readAsString();

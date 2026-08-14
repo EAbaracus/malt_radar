@@ -1,1 +1,0 @@
-whisky_id,whisky_name,source_url,source_domain,source_type,snapshot_path,http_status,fetch_status,extraction_status,match_score,mismatch_flags,nose_notes,palate_notes,finish_notes,aroma_tags,extracted_profile_vector,recommended_action,production_ready

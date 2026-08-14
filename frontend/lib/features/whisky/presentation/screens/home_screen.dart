@@ -2,9 +2,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:malt_radar/core/theme/app_theme.dart';
+import 'package:malt_radar/core/theme/app_theme_colors.dart';
 import '../controllers/whisky_providers.dart';
+import '../controllers/catalog_pagination.dart';
 import '../../domain/models/whisky.dart';
+import 'catalog_scroll_trigger.dart';
 import '../../../../core/localization/localization_provider.dart';
+import 'package:malt_radar/core/branding/brand_medallion.dart';
+import 'package:malt_radar/core/branding/brand_medallion_widget.dart';
 import 'detail_screen.dart';
 import '../widgets/glass_container.dart';
 import '../../../../core/presentation/widgets/cask_card.dart';
@@ -18,199 +23,76 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  bool _isAdding = false;
-  Timer? _debounce;
-  String _lastQuery = '';
-  Iterable<Whisky> _lastOptions = [];
+  final ScrollController _scrollController = ScrollController();
+  TextEditingController? _searchFieldController;
 
   @override
   void dispose() {
-    _debounce?.cancel();
+    _scrollController.dispose();
     super.dispose();
+  }
+
+  /// Header ("MALT RADAR") tap: return to the pristine home state —
+  /// clear search, filters and favorites-only, scroll back to the top, and
+  /// pop any pushed screens (detail etc.) above the home tab.
+  void _resetToHome() {
+    _searchFieldController?.clear();
+    ref.read(searchQueryProvider.notifier).state = '';
+    ref.read(selectedFiltersProvider.notifier).state = [];
+    ref.read(favoritesOnlyProvider.notifier).state = false;
+    // If a detail/setup screen was pushed on top of the tab shell, close it
+    // so the user lands back on the searchable home catalog.
+    Navigator.of(context).popUntil((route) => route.isFirst);
+    if (_scrollController.hasClients) {
+      _scrollController.animateTo(
+        0,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOutCubic,
+      );
+    }
   }
 
   Future<Iterable<Whisky>> _searchOnlineAutocomplete(String query) async {
     final trimmedQuery = query.trim();
     if (trimmedQuery.length < 2) return const Iterable<Whisky>.empty();
 
-    if (_debounce?.isActive ?? false) _debounce!.cancel();
-
-    final completer = Completer<Iterable<Whisky>>();
-
-    _debounce = Timer(const Duration(milliseconds: 500), () async {
-      if (trimmedQuery == _lastQuery) {
-        completer.complete(_lastOptions);
-        return;
-      }
-
-      final repository = ref.read(whiskyRepositoryProvider);
-      try {
-        final results = await repository.searchExternalWhiskies(trimmedQuery);
-        _lastQuery = trimmedQuery;
-        _lastOptions = results;
-        completer.complete(results);
-      } catch (e) {
-        completer.complete(const Iterable<Whisky>.empty());
-      }
-    });
-
-    return completer.future;
+    final repository = ref.read(whiskyRepositoryProvider);
+    try {
+      // Search backend (includes both library and external). No debounce:
+      // every keystroke gets a fresh future — Autocomplete drops stale
+      // futures itself, and a cancelled debounce would leave the dropdown
+      // stuck waiting on a completer that never completes.
+      return await repository.searchBackend(trimmedQuery);
+    } catch (e) {
+      debugPrint('search autocomplete failed: $e');
+      return const Iterable<Whisky>.empty();
+    }
   }
 
   void _showWhiskyPreview(BuildContext context, Whisky whisky) {
-    final tr = ref.read(trProvider);
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) {
-        return GlassContainer(
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
-          padding: EdgeInsets.only(
-            left: 24,
-            right: 24,
-            top: 28,
-            bottom: MediaQuery.of(context).padding.bottom + 24
-          ),
-          opacity: 0.8,
-          color: AppTheme.background,
-          blur: 20,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Text(
-                      whisky.name,
-                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        color: AppTheme.primary,
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.close, color: AppTheme.textSecondary),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              if (whisky.category != null || whisky.region != null)
-                Text(
-                  '${whisky.category ?? ''} ${whisky.region != null ? "• ${whisky.region}" : ""}',
-                  style: const TextStyle(color: AppTheme.accent),
-                ),
-              if (whisky.globalScore != null) ...[
-                const SizedBox(height: 12),
-                Row(
-                  children: [
-                    const Icon(Icons.star, color: AppTheme.primary, size: 20),
-                    const SizedBox(width: 6),
-                    Text(
-                      '${whisky.globalScore!.toStringAsFixed(0)} / 100',
-                      style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(width: 8),
-                    Text(tr('global_average_score'), style: const TextStyle(color: AppTheme.textSecondary, fontSize: 12)),
-                  ],
-                ),
-              ],
-              const SizedBox(height: 20),
-              Wrap(
-                spacing: 10,
-                runSpacing: 10,
-                children: [
-                  if (whisky.distillery != null) _buildPreviewTag(tr('preview_distillery'), whisky.distillery!),
-                  if (whisky.country != null) _buildPreviewTag(tr('preview_origin'), whisky.country!),
-                  if (whisky.age != null) _buildPreviewTag(tr('preview_age'), '${whisky.age}'),
-                  if (whisky.abv != null) _buildPreviewTag(tr('preview_abv'), '%${whisky.abv}'),
-                  if (whisky.caskType != null && whisky.caskType != "Unknown") _buildPreviewTag(tr('preview_cask'), whisky.caskType!),
-                ],
-              ),
-              if (whisky.tastingNotes.isNotEmpty) ...[
-                const SizedBox(height: 24),
-                Text(tr('tasting_notes'), style: Theme.of(context).textTheme.titleMedium),
-                const SizedBox(height: 12),
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: whisky.tastingNotes.take(4).map((n) => Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: AppTheme.primary.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: AppTheme.primary.withValues(alpha: 0.3)),
-                    ),
-                    child: Text(n, style: const TextStyle(color: AppTheme.textPrimary, fontSize: 13)),
-                  )).toList(),
-                ),
-              ],
-              const SizedBox(height: 36),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton.icon(
-                  onPressed: () => _addWhiskyToLibrary(context, whisky),
-                  icon: const Icon(Icons.add, size: 20),
-                  label: Text(tr('add_to_library')),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
+    // BUGFIX (2026-08-10): DbWhiskyMapper API sonuçlarına SENTEZ lokal id atar
+    // (whiskyId.hashCode % 1000000) — "id > 0" kontrolü her arama sonucunda
+    // true dönüp backendId'siz DetailScreen açıyordu; sentez id lokal DB'de
+    // olmadığından "whisky not found" üretiyordu.
+    // Gerçek lokal kayıt yalnızca externalId'sizdir (lokal DB kökenli).
+    if (whisky.id > 0 && whisky.externalId == null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => DetailScreen(whiskyId: whisky.id)),
+      );
+      return;
+    }
 
-  Widget _buildPreviewTag(String label, String value) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(
-        color: AppTheme.surfaceElevated.withValues(alpha: 0.6),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(label, style: const TextStyle(color: AppTheme.textSecondary, fontSize: 10)),
-          const SizedBox(height: 2),
-          Text(value, style: const TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.bold, fontSize: 13)),
-        ],
-      ),
-    );
-  }
-
-  void _addWhiskyToLibrary(BuildContext context, Whisky whisky) async {
-    final tr = ref.read(trProvider);
-    setState(() {
-      _isAdding = true;
-    });
-
-    final repository = ref.read(whiskyRepositoryProvider);
-    final localId = await repository.addWhiskyToLibrary(whisky);
-
-    setState(() {
-      _isAdding = false;
-    });
-
-    if (!context.mounted) return;
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(tr('added_to_library', [whisky.name])),
-        backgroundColor: AppTheme.primary,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        duration: const Duration(seconds: 2),
-      ),
-    );
-    Navigator.pop(context);
+    // API sonucu: backendId ile doğrudan detail — radar/evidence canlı API'den
+    // (kart yolundaki _buildWhiskyCard davranışıyla tutarlı).
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => DetailScreen(whiskyId: localId)),
+      MaterialPageRoute(
+        builder: (context) => DetailScreen(
+          whiskyId: whisky.id,
+          backendId: whisky.externalId,
+        ),
+      ),
     );
   }
 
@@ -231,9 +113,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             center: Alignment(-0.8, -0.6),
             radius: 1.5,
             colors: [
-              Color(0xFF1E1E2C),
+              AppTheme.surfaceElevated,
               AppTheme.background,
-              Color(0xFF040406),
+              AppTheme.surface,
             ],
           ),
         ),
@@ -246,24 +128,30 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'MALT RADAR',
-                          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                                color: AppTheme.primary,
-                                letterSpacing: 3.0,
-                              ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          tr('whisky_library'),
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color: AppTheme.textSecondary,
-                              ),
-                        ),
-                      ],
+                    // Brand header: tapping it resets to the pristine home
+                    // state (clear search/filters/favorites, scroll to top).
+                    GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: _resetToHome,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'MALT RADAR',
+                            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                                  color: AppTheme.primary,
+                                  letterSpacing: 3.0,
+                                ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            tr('whisky_library'),
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                  color: AppTheme.textSecondary,
+                                ),
+                          ),
+                        ],
+                      ),
                     ),
                     Row(
                       children: [
@@ -292,9 +180,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   },
                   displayStringForOption: (option) => option.name,
                   onSelected: (selection) {
+                    // Autocomplete returns external whiskies (not in library yet).
+                    // Show preview modal with "Add to Library" button.
                     _showWhiskyPreview(context, selection);
                   },
                   fieldViewBuilder: (context, controller, focusNode, onEditingComplete) {
+                    _searchFieldController = controller;
                     return GlassContainer(
                       padding: EdgeInsets.zero,
                       blur: 15,
@@ -306,7 +197,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         onChanged: (value) {
                           ref.read(searchQueryProvider.notifier).state = value;
                         },
-                        style: const TextStyle(color: Colors.white),
+                        style: const TextStyle(color: AppThemeColors.parchment),
                         decoration: InputDecoration(
                           hintText: tr('search_whisky'),
                           prefixIcon: const Icon(Icons.search, color: AppTheme.primary),
@@ -350,7 +241,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               shrinkWrap: true,
                               itemCount: options.length,
                               separatorBuilder: (context, index) => Divider(
-                                color: Colors.white.withValues(alpha: 0.05),
+                                color: AppThemeColors.parchment.withValues(alpha: 0.05),
                                 height: 1,
                               ),
                               itemBuilder: (BuildContext context, int index) {
@@ -384,29 +275,52 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               // Filter Chips UI
               SizedBox(
                 height: 40,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  children: const [
-                    TastingChip(label: 'Single Malt'),
-                    SizedBox(width: 8),
-                    TastingChip(label: 'Speyside'),
-                    SizedBox(width: 8),
-                    TastingChip(label: 'Peated'),
-                    SizedBox(width: 8),
-                    TastingChip(label: 'Highland'),
-                    SizedBox(width: 8),
-                    TastingChip(label: 'Sherry Cask'),
-                  ],
+                child: Consumer(
+                  builder: (context, ref, child) {
+                    final selectedFilters = ref.watch(selectedFiltersProvider);
+                    const supportedFilters = [
+                      'Single Malt',
+                      'Blended',
+                      'Bourbon',
+                      'Rye',
+                      'Speyside',
+                      'Islay',
+                      'Highland',
+                      'Campbeltown',
+                      'Peated',
+                      'Smoky',
+                      'Sherry',
+                      'Sweet',
+                      'Fruity',
+                    ];
+
+                    return ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      itemCount: supportedFilters.length,
+                      itemBuilder: (context, index) {
+                        final filter = supportedFilters[index];
+                        final isSelected = selectedFilters.contains(filter);
+                        return TastingChip(
+                          label: filter,
+                          isSelected: isSelected,
+                          onTap: () {
+                            final current = ref.read(selectedFiltersProvider);
+                            if (current.contains(filter)) {
+                              ref.read(selectedFiltersProvider.notifier).state =
+                                  current.where((x) => x != filter).toList();
+                            } else {
+                              ref.read(selectedFiltersProvider.notifier).state =
+                                  [...current, filter];
+                            }
+                          },
+                        );
+                      },
+                    );
+                  },
                 ),
               ),
               const SizedBox(height: 8),
-
-              if (_isAdding)
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24),
-                  child: LinearProgressIndicator(color: AppTheme.primary, backgroundColor: Colors.transparent),
-                ),
 
               Expanded(
                 child: whiskiesAsync.when(
@@ -415,30 +329,52 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       final query = ref.watch(searchQueryProvider);
                       return _buildEmptyState(context, isFavoritesOnly, query);
                     }
-                    return ListView.builder(
-                      physics: const BouncingScrollPhysics(),
-                      padding: EdgeInsets.fromLTRB(
-                        24,
-                        4,
-                        24,
-                        MediaQuery.viewInsetsOf(context).bottom +
-                        MediaQuery.paddingOf(context).bottom +
-                        (MediaQuery.viewInsetsOf(context).bottom > 0 ? 96.0 : 96.0)
-                      ),
-                      itemCount: whiskies.length,
-                      itemBuilder: (context, index) {
-                        final whisky = whiskies[index];
-                        return _buildWhiskyCard(context, ref, whisky, referenceScore);
+                    return NotificationListener<ScrollNotification>(
+                      onNotification: (notification) {
+                        // Near-bottom trigger (H1 Task 2): once the user
+                        // scrolls within ~400px of the end, ask the paginated
+                        // catalog for the next page. The notifier's own
+                        // guards (loadingMore / exhausted /
+                        // temporarilyUnavailable) make repeat notifications
+                        // cheap no-ops; hasValue keeps the very first scroll
+                        // (before page 0 finishes loading) from racing build.
+                        if (notification is ScrollUpdateNotification &&
+                            shouldLoadMoreCatalog(notification.metrics)) {
+                          final catalog = ref.read(catalogPaginationProvider);
+                          if (catalog.hasValue) {
+                            ref
+                                .read(catalogPaginationProvider.notifier)
+                                .loadMore();
+                          }
+                        }
+                        return false;
                       },
+                      child: ListView.builder(
+                        controller: _scrollController,
+                        physics: const BouncingScrollPhysics(),
+                        padding: EdgeInsets.fromLTRB(
+                          24,
+                          4,
+                          24,
+                          MediaQuery.viewInsetsOf(context).bottom +
+                          MediaQuery.paddingOf(context).bottom +
+                          (MediaQuery.viewInsetsOf(context).bottom > 0 ? 96.0 : 96.0)
+                        ),
+                        itemCount: whiskies.length,
+                        itemBuilder: (context, index) {
+                          final whisky = whiskies[index];
+                          return _buildWhiskyCard(context, ref, whisky, referenceScore);
+                        },
+                      ),
                     );
                   },
                   loading: () => const Center(
-                    child: CircularProgressIndicator(color: AppTheme.primary),
+                    child: BrandSpinner(),
                   ),
                   error: (error, stackTrace) => Center(
                       child: Text(
                         tr('db_error', [error]),
-                        style: const TextStyle(color: Colors.redAccent),
+                        style: const TextStyle(color: AppTheme.error),
                     ),
                   ),
                 ),
@@ -502,7 +438,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => DetailScreen(whiskyId: whisky.id),
+            builder: (context) => DetailScreen(
+              whiskyId: whisky.id,
+              // Web/mobile are force-backend: pass the backend id so the
+              // detail screen fetches radar/evidence from /api/db instead of
+              // the (anti-scrape-empty) local DB.
+              backendId: whisky.externalId,
+            ),
           ),
         );
       },
@@ -517,10 +459,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
           borderRadius: BorderRadius.circular(16),
         ),
-        child: const Icon(
-          Icons.local_bar,
-          color: AppTheme.background,
+        child: const Medallion(
           size: 32,
+          level: MedallionLevel.micro,
         ),
       ),
       tags: whisky.tastingNotes.take(3).map((note) => TastingChip(label: note)).toList(),

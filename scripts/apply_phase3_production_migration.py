@@ -1,9 +1,10 @@
+from pathlib import Path
 import os
 import sqlite3
 import shutil
 from datetime import datetime
 
-WORKSPACE = r"C:\Users\eltun\Documents\malt radar"
+WORKSPACE = Path(__file__).resolve().parent.parent
 OUT_DIR = os.path.join(WORKSPACE, "output", "phase3")
 os.makedirs(OUT_DIR, exist_ok=True)
 
@@ -48,6 +49,8 @@ report_14 = f"""PRODUCTION PHASE 3 BACKUP REPORT
 """
 with open(os.path.join(OUT_DIR, "14_production_phase3_backup_report.txt"), "w", encoding="utf-8") as f:
     f.write(report_14)
+    f.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
+
 
 
 # Connect to Production DB

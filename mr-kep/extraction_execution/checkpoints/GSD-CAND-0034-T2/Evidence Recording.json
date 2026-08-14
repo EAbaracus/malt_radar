@@ -1,0 +1,39 @@
+{
+  "_checksum": "a67152cac5b56f67c595fcc02e594af0ecadacfe7635f5f023eb271479bf6066",
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "expert_quote",
+    "source_key": "whiskyfun",
+    "url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0034"
+  },
+  "extraction_result": {
+    "finish": {
+      "confidence": 1.0,
+      "quote": "Finish: long, dry, smoky with brine and oak wood warmth",
+      "value": "Long, dry, smoky with brine and oak wood warmth"
+    },
+    "nose": {
+      "confidence": 1.0,
+      "quote": "Nose: intense peat smoke, seaweed, TCP, ocean breeze",
+      "value": "Intense peat smoke, seaweed, tcp, ocean breeze"
+    },
+    "palate": {
+      "confidence": 1.0,
+      "quote": "Palate: crisp peat, sea salt, black pepper, ash, lemon zest",
+      "value": "Crisp peat, sea salt, black pepper, ash, lemon zest"
+    },
+    "score": {
+      "confidence": 1.0,
+      "quote": "88 points",
+      "value": 88
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0034",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:48.507866+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

@@ -1,8 +1,13 @@
+import 'dart:async';
 import 'package:drift/drift.dart' hide Column;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:malt_radar/core/theme/app_theme.dart';
+import 'package:malt_radar/core/branding/brand_medallion.dart';
+import 'package:malt_radar/core/branding/brand_medallion_widget.dart';
+import 'package:malt_radar/core/theme/app_theme_colors.dart';
 import 'package:malt_radar/features/whisky/domain/models/whisky.dart';
+import 'package:malt_radar/core/presentation/screens/main_navigation_screen.dart';
 import '../controllers/whisky_providers.dart';
 import 'home_screen.dart';
 import '../../../../core/localization/localization_provider.dart';
@@ -20,6 +25,7 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
   List<Whisky> _searchResults = [];
   bool _isLoading = false;
   bool _searchedOnline = false;
+  Timer? _debounce;
 
   Whisky? _selectedWhisky;
   int _absoluteScore = 90; // Default absolute rating for reference
@@ -27,43 +33,73 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
   @override
   void dispose() {
     _searchController.dispose();
+    _debounce?.cancel();
     super.dispose();
   }
 
-  void _searchWhiskies(String query) async {
-    if (query.isEmpty) {
-      setState(() {
-        _searchResults = [];
-        _searchedOnline = false;
-      });
-      return;
-    }
+  void _searchWhiskies(String query) {
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
 
-    setState(() {
-      _isLoading = true;
+    _debounce = Timer(const Duration(milliseconds: 500), () async {
+      final trimmedQuery = query.trim();
+      if (trimmedQuery.isEmpty) {
+        if (mounted) {
+          setState(() {
+            _searchResults = [];
+            _searchedOnline = false;
+            _isLoading = false;
+          });
+        }
+        return;
+      }
+
+      if (mounted) {
+        setState(() {
+          _isLoading = true;
+        });
+      }
+
+      try {
+        final repository = ref.read(whiskyRepositoryProvider);
+        
+        // First query local database
+        final db = ref.read(appDatabaseProvider);
+        final localList = await (db.select(db.whiskies)..where((tbl) => tbl.name.like('%$trimmedQuery%'))).get();
+        
+        if (localList.isNotEmpty) {
+          if (mounted) {
+            setState(() {
+              _searchResults = localList.map((e) => Whisky.fromEntities(whisky: e)).toList();
+              _isLoading = false;
+              _searchedOnline = false;
+            });
+          }
+        } else {
+          // No local results, search backend online
+          final externalList = await repository.searchExternalWhiskies(trimmedQuery);
+          if (mounted) {
+            setState(() {
+              _searchResults = externalList;
+              _isLoading = false;
+              _searchedOnline = true;
+            });
+          }
+        }
+      } catch (e) {
+        if (mounted) {
+          setState(() {
+            _searchResults = [];
+            _isLoading = false;
+          });
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('${ref.read(trProvider)('error')}: $e'),
+              backgroundColor: AppTheme.error,
+            ),
+          );
+        }
+      }
     });
-
-    final repository = ref.read(whiskyRepositoryProvider);
-    
-    // First query local database
-    final db = ref.read(appDatabaseProvider);
-    final localList = await (db.select(db.whiskies)..where((tbl) => tbl.name.like('%$query%'))).get();
-    
-    if (localList.isNotEmpty) {
-      setState(() {
-        _searchResults = localList.map((e) => Whisky.fromEntities(whisky: e)).toList();
-        _isLoading = false;
-        _searchedOnline = false;
-      });
-    } else {
-      // No local results, search backend online
-      final externalList = await repository.searchExternalWhiskies(query);
-      setState(() {
-        _searchResults = externalList;
-        _isLoading = false;
-        _searchedOnline = true;
-      });
-    }
   }
 
   void _completeSetup() async {
@@ -110,36 +146,48 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 24),
-              // App Logo / Header
+              // App Logo / Header — tapping it skips straight to the main
+              // tab shell (home) instead of staying in the setup flow.
               Center(
-                child: Column(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: AppTheme.primary.withValues(alpha: 0.08),
-                        shape: BoxShape.circle,
-                        border: Border.all(color: AppTheme.primary.withValues(alpha: 0.2), width: 2),
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const MainNavigationScreen(),
                       ),
-                      child: const Icon(Icons.local_bar, color: AppTheme.primary, size: 48),
-                    ),
-                    const SizedBox(height: 16),
-                    Text(
-                      'MALT RADAR',
-                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                            color: AppTheme.primary,
-                            fontWeight: FontWeight.w900,
-                            letterSpacing: 2.0,
-                          ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      tr('setup_subtitle'),
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: AppTheme.textSecondary,
-                          ),
-                    ),
-                  ],
+                    );
+                  },
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: AppTheme.primary.withValues(alpha: 0.08),
+                          shape: BoxShape.circle,
+                          border: Border.all(color: AppTheme.primary.withValues(alpha: 0.2), width: 2),
+                        ),
+                        child: const Medallion(size: 48, level: MedallionLevel.icon),
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        'MALT RADAR',
+                        style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                              color: AppTheme.primary,
+                              fontWeight: FontWeight.w900,
+                              letterSpacing: 2.0,
+                            ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        tr('setup_subtitle'),
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: AppTheme.textSecondary,
+                            ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(height: 32),
@@ -162,7 +210,7 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
                   child: TextField(
                     controller: _searchController,
                     onChanged: _searchWhiskies,
-                    style: const TextStyle(color: Colors.white),
+                    style: const TextStyle(color: AppThemeColors.parchment),
                     decoration: InputDecoration(
                       hintText: tr('setup_search_hint'),
                       prefixIcon: const Icon(Icons.search, color: AppTheme.primary),
@@ -181,7 +229,7 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
                 // Search Results
                 Expanded(
                   child: _isLoading
-                      ? const Center(child: CircularProgressIndicator(color: AppTheme.primary))
+                      ? const Center(child: BrandSpinner())
                       : _searchResults.isEmpty
                           ? Center(
                               child: Text(
@@ -316,7 +364,7 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
                               ? const SizedBox(
                                   width: 20,
                                   height: 20,
-                                  child: CircularProgressIndicator(color: AppTheme.background, strokeWidth: 2),
+                                  child: BrandSpinner(),
                                 )
                               : Text(tr('setup_finish')),
                         ),

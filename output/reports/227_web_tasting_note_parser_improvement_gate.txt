@@ -1,5 +1,0 @@
-12F Parser Improvement Gate
-=================================
-Decision: GO
-
-All advanced extraction criteria met.

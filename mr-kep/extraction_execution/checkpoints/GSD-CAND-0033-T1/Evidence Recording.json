@@ -1,0 +1,49 @@
+{
+  "_checksum": "43e14e7ee5dbabc6f36bef079a9aaaf7496e03c388be8c47b4a481988e51ce55",
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.jura.com/whisky/jura-10yo-journey"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "40.0% ABV",
+      "value": 40.0
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "aged for 10 years",
+      "value": 10
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Bourbon casks",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Scotland",
+      "value": "Scotland"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Jura Distillery",
+      "value": "Jura"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Islands single malt",
+      "value": "Islands"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0033",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:48.474138+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

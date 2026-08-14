@@ -1,0 +1,182 @@
+[
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-43f0894be30f457f",
+    "fact_id": "EV-5f69c6d5a52c",
+    "field": "distillery_name",
+    "field_name": "distillery_name",
+    "value": "Aberlour",
+    "field_value": "Aberlour",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.aberlour.com/en/our-collection/aberlour-abunadh",
+        "quote": "Aberlour Distillery",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-b8271908fac457b1",
+    "fact_id": "EV-09fd2e32b3ae",
+    "field": "country",
+    "field_name": "country",
+    "value": "Scotland",
+    "field_value": "Scotland",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.aberlour.com/en/our-collection/aberlour-abunadh",
+        "quote": "Product of Scotland",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-34a1ec3bca6225d7",
+    "fact_id": "EV-0d32987405bc",
+    "field": "region",
+    "field_name": "region",
+    "value": "Speyside",
+    "field_value": "Speyside",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.aberlour.com/en/our-collection/aberlour-abunadh",
+        "quote": "Speyside Single Malt",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-3673917684147c91",
+    "fact_id": "EV-16812bfba61a",
+    "field": "abv",
+    "field_name": "abv",
+    "value": 61.2,
+    "field_value": 61.2,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.aberlour.com/en/our-collection/aberlour-abunadh",
+        "quote": "61.2% ABV",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-5386d1cff6a85574",
+    "fact_id": "EV-0994ad4d1dba",
+    "field": "cask_type",
+    "field_name": "cask_type",
+    "value": "Sherry",
+    "field_value": "Sherry",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.aberlour.com/en/our-collection/aberlour-abunadh",
+        "quote": "Oloroso sherry butts",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-bb9f5754d487f1e4",
+    "fact_id": "EV-e9ab30e351bb",
+    "field": "nose",
+    "field_name": "nose",
+    "value": "Mixed spices, praline, spiced orange, rich Oloroso",
+    "field_value": "Mixed spices, praline, spiced orange, rich Oloroso",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archivejanuary19-2.html",
+        "quote": "Nose: sherry, dried orange, cocoa, leather",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-767da4930b982bd3",
+    "fact_id": "EV-a920a02cb26c",
+    "field": "palate",
+    "field_name": "palate",
+    "value": "Orange, black cherry, dried fruit, ginger, chocolate",
+    "field_value": "Orange, black cherry, dried fruit, ginger, chocolate",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archivejanuary19-2.html",
+        "quote": "Palate: heavy sherry, cinnamon, ginger, pepper",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-946133ec10427f4f",
+    "fact_id": "EV-9e616836e586",
+    "field": "finish",
+    "field_name": "finish",
+    "value": "Robust, long, sweet orange, chocolate, spices",
+    "field_value": "Robust, long, sweet orange, chocolate, spices",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archivejanuary19-2.html",
+        "quote": "Finish: long, dry, warm spices, chocolate",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-a0b0f642be9dbc6a",
+    "fact_id": "EV-dc0a267fd76c",
+    "field": "score",
+    "field_name": "score",
+    "value": 85,
+    "field_value": 85,
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archivejanuary19-2.html",
+        "quote": "85 points",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  }
+]

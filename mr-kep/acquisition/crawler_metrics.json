@@ -1,0 +1,11 @@
+{
+  "discovered_pages": 3,
+  "changed_pages": 2,
+  "skipped_pages": 1,
+  "extracted_evidence": 5,
+  "duplicate_evidence": 0,
+  "cached_requests": 1,
+  "token_savings": 400,
+  "crawl_duration": 1.25,
+  "review_queue_additions": 0
+}

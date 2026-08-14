@@ -30,6 +30,8 @@ class Whiskies extends Table {
   TextColumn get flavorTags => text().nullable()();
   TextColumn get flavorSource => text().nullable()();
   RealColumn get flavorMatchScore => real().nullable()();
+  TextColumn get type => text().nullable()();
+  TextColumn get styleSimilarity => text().nullable()();
 }
 
 class UserSettings extends Table {
@@ -131,7 +133,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 5;
+  int get schemaVersion => 6;
 
   @override
   MigrationStrategy get migration {
@@ -170,6 +172,10 @@ class AppDatabase extends _$AppDatabase {
             SELECT (SELECT id FROM user_lists WHERE default_type = 'favorites'), whisky_id, 0, added_at
             FROM favorites;
           ''');
+        }
+        if (from < 6) {
+          await m.addColumn(whiskies, whiskies.type);
+          await m.addColumn(whiskies, whiskies.styleSimilarity);
         }
       },
     );

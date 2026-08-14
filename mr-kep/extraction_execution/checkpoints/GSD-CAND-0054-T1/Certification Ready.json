@@ -1,0 +1,146 @@
+{
+  "_checksum": "0ab7ac7073abfd0f1df8378b4dea324ff04384cd84ab039c0fa2e8e28159f3d1",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-2974143baa7c5c92",
+      "fact_id": "EV-0851e0b4b561",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "Buffalo Trace",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Bottled at Buffalo Trace Distillery",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.buffalotrace.com/whisky/buffalo-trace-bourbon",
+          "won": true
+        }
+      ],
+      "value": "Buffalo Trace"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-19b457946c56d1b6",
+      "fact_id": "EV-78981343082a",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "USA",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Product of USA",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.buffalotrace.com/whisky/buffalo-trace-bourbon",
+          "won": true
+        }
+      ],
+      "value": "USA"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-be87de98e67d5464",
+      "fact_id": "EV-6aac4f357844",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "American",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "American single malt",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.buffalotrace.com/whisky/buffalo-trace-bourbon",
+          "won": true
+        }
+      ],
+      "value": "American"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-28617ab0dcf81a73",
+      "fact_id": "EV-f221782b1628",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 45.0,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "45.0% ABV",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.buffalotrace.com/whisky/buffalo-trace-bourbon",
+          "won": true
+        }
+      ],
+      "value": 45.0
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-4f6a849360648255",
+      "fact_id": "EV-b5f3a71ed0b7",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Bourbon",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "matured in Bourbon casks",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.buffalotrace.com/whisky/buffalo-trace-bourbon",
+          "won": true
+        }
+      ],
+      "value": "Bourbon"
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.buffalotrace.com/whisky/buffalo-trace-bourbon"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "45.0% ABV",
+      "value": 45.0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Bourbon casks",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of USA",
+      "value": "USA"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Buffalo Trace Distillery",
+      "value": "Buffalo Trace"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "American single malt",
+      "value": "American"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0054",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:49.013731+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

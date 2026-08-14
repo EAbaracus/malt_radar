@@ -1,0 +1,182 @@
+[
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-be750d0f04279298",
+    "fact_id": "EV-5c2a8c4b1a04",
+    "field": "distillery_name",
+    "field_name": "distillery_name",
+    "value": "Akkeshi",
+    "field_value": "Akkeshi",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.akkeshi.com/whisky/akkeshi-sarorunkamuy-2023",
+        "quote": "Bottled at Akkeshi Distillery",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-3157012278b81396",
+    "fact_id": "EV-53b9f8993498",
+    "field": "country",
+    "field_name": "country",
+    "value": "Japan",
+    "field_value": "Japan",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.akkeshi.com/whisky/akkeshi-sarorunkamuy-2023",
+        "quote": "Product of Japan",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-8d3a7aba26c7400a",
+    "fact_id": "EV-aab85e3c5811",
+    "field": "region",
+    "field_name": "region",
+    "value": "Japanese",
+    "field_value": "Japanese",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.akkeshi.com/whisky/akkeshi-sarorunkamuy-2023",
+        "quote": "Japanese single malt",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-8cb7a2570793c05a",
+    "fact_id": "EV-fefb7ff93504",
+    "field": "abv",
+    "field_name": "abv",
+    "value": 55.0,
+    "field_value": 55.0,
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.akkeshi.com/whisky/akkeshi-sarorunkamuy-2023",
+        "quote": "55.0% ABV",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-4af7ba438097f134",
+    "fact_id": "EV-63642362ff48",
+    "field": "cask_type",
+    "field_name": "cask_type",
+    "value": "Bourbon",
+    "field_value": "Bourbon",
+    "confidence": 1.0,
+    "authority_tier": "T1_authoritative",
+    "sources": [
+      {
+        "source_key": "DistilleryOfficial",
+        "source_url": "https://www.akkeshi.com/whisky/akkeshi-sarorunkamuy-2023",
+        "quote": "matured in Bourbon casks",
+        "evidence_type": "official_bottling",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-c0665fcf675cbf4a",
+    "fact_id": "EV-b172b800fd29",
+    "field": "nose",
+    "field_name": "nose",
+    "value": "Intense peat smoke, seaweed, tcp, ocean breeze",
+    "field_value": "Intense peat smoke, seaweed, tcp, ocean breeze",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0051",
+        "quote": "Nose: intense peat smoke, seaweed, TCP, ocean breeze",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-1a512acfc04faa3b",
+    "fact_id": "EV-acbdd06cd498",
+    "field": "palate",
+    "field_name": "palate",
+    "value": "Crisp peat, sea salt, black pepper, ash, lemon zest",
+    "field_value": "Crisp peat, sea salt, black pepper, ash, lemon zest",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0051",
+        "quote": "Palate: crisp peat, sea salt, black pepper, ash, lemon zest",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-2bff9e640bcc03ce",
+    "fact_id": "EV-8cf4351b83d8",
+    "field": "finish",
+    "field_name": "finish",
+    "value": "Long, dry, smoky with brine and oak wood warmth",
+    "field_value": "Long, dry, smoky with brine and oak wood warmth",
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0051",
+        "quote": "Finish: long, dry, smoky with brine and oak wood warmth",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  },
+  {
+    "schema_version": "1.0.0",
+    "evidence_id": "EV-0bd451dda5c3cb6c",
+    "fact_id": "EV-92269bd4e1a4",
+    "field": "score",
+    "field_name": "score",
+    "value": 88,
+    "field_value": 88,
+    "confidence": 1.0,
+    "authority_tier": "T2_expert",
+    "sources": [
+      {
+        "source_key": "whiskyfun",
+        "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0051",
+        "quote": "88 points",
+        "evidence_type": "expert_quote",
+        "won": true
+      }
+    ]
+  }
+]

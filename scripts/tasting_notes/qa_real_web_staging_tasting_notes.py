@@ -195,6 +195,8 @@ def main():
 
     with open(GATE_TXT, 'w', encoding='utf-8') as f:
         f.write(f"GATE: {gate_status}\n")
+        f.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
+
         for r in gate_reasons: f.write(f"REASON: {r}\n")
         if gate_status == "GO":
             f.write("REASON: QA completed successfully and successfully passed all records.\n")

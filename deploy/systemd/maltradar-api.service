@@ -1,0 +1,21 @@
+# Non-Docker alternative: run FastAPI directly under systemd.
+# Assumes backend deps installed in /srv/maltradar/backend/.venv.
+[Unit]
+Description=Malt Radar FastAPI backend
+After=network.target
+
+[Service]
+Type=simple
+User=maltradar
+Group=maltradar
+WorkingDirectory=/srv/maltradar/backend
+EnvironmentFile=/srv/maltradar/deploy/.env
+Environment=MALT_RADAR_USERS_DB_PATH=/srv/maltradar/data/users.db
+Environment=MALT_RADAR_DB_PATH=/srv/maltradar/data/production.db
+Environment=DB_API_ENABLED=${DB_API_ENABLED}
+ExecStart=/srv/maltradar/backend/.venv/bin/python -m uvicorn app.main:app --host 0.0.0.0 --port 8080 --no-server-header
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

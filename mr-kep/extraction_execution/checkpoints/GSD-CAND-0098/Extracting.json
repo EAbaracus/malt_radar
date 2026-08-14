@@ -1,0 +1,49 @@
+{
+  "_checksum": "b4a9afa49ca594e0b8b511432a6627021c80204a028742bf22e2b6bbb931bf2c",
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "structured_data",
+    "source_key": "MR-KEP-GSD-V1",
+    "url": "file://C:/Users/eltun/Documents/malt radar CLEAN/mr-kep/ground_truth/candidate_list.csv"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "[approx_abv] 46.0",
+      "value": 46.0
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "[age_statement_years] 0",
+      "value": 0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "[cask_type_primary] Bourbon",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "[country] Denmark",
+      "value": "Denmark"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "[distillery] Stauning",
+      "value": "Stauning"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "[region] Danish",
+      "value": "Danish"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0098",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:14:58.908708+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

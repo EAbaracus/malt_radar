@@ -1,0 +1,121 @@
+{
+  "_checksum": "400638a7bff275076c91afdfe2a0955c377cd916e1a225bcc74d135f8c3a4697",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-57651b050f893bff",
+      "fact_id": "EV-f15eb42708c8",
+      "field": "nose",
+      "field_name": "nose",
+      "field_value": "Rich sweet toffee, tropical fruit, honey",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Nose: tropical fruits, brown sugar, honey",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archivejanuary19-2.html",
+          "won": true
+        }
+      ],
+      "value": "Rich sweet toffee, tropical fruit, honey"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-399a9f4dc9d4a57f",
+      "fact_id": "EV-2773d2d65dc2",
+      "field": "palate",
+      "field_name": "palate",
+      "field_value": "Vanilla, sweet oak notes, fruit character",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Palate: rum sweetness, vanilla, mango, spices",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archivejanuary19-2.html",
+          "won": true
+        }
+      ],
+      "value": "Vanilla, sweet oak notes, fruit character"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-c3b2d2465e1daaca",
+      "fact_id": "EV-d81024f79178",
+      "field": "finish",
+      "field_name": "finish",
+      "field_value": "Soft, lingering sweet finish",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Finish: medium, sweet warmth",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archivejanuary19-2.html",
+          "won": true
+        }
+      ],
+      "value": "Soft, lingering sweet finish"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-e7ab6d884ef5617f",
+      "fact_id": "EV-93d50eff2f07",
+      "field": "score",
+      "field_name": "score",
+      "field_value": 83,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "83 points",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archivejanuary19-2.html",
+          "won": true
+        }
+      ],
+      "value": 83
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "expert_quote",
+    "source_key": "whiskyfun",
+    "url": "https://www.whiskyfun.com/archivejanuary19-2.html"
+  },
+  "extraction_result": {
+    "finish": {
+      "confidence": 1.0,
+      "quote": "Finish: medium, sweet warmth",
+      "value": "Soft, lingering sweet finish"
+    },
+    "nose": {
+      "confidence": 1.0,
+      "quote": "Nose: tropical fruits, brown sugar, honey",
+      "value": "Rich sweet toffee, tropical fruit, honey"
+    },
+    "palate": {
+      "confidence": 1.0,
+      "quote": "Palate: rum sweetness, vanilla, mango, spices",
+      "value": "Vanilla, sweet oak notes, fruit character"
+    },
+    "score": {
+      "confidence": 1.0,
+      "quote": "83 points",
+      "value": 83
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0016",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:48.060480+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

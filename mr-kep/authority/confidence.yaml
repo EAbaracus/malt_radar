@@ -1,0 +1,53 @@
+# =============================================================================
+# confidence.yaml
+# -----------------------------------------------------------------------------
+# Purpose : Deterministic CONFIDENCE model. Every extracted/merged/certified
+#           fact carries a confidence score in [0.0, 1.0]. This file declares
+#           how each stage and evidence type contributes, so scoring is
+#           reproducible (no randomness, no LLM temperature).
+# Scope   : MR-KEP Sprint 1 (FOUNDATION). Standards only. Deterministic.
+# Reuse   : AOUS uses `base` + `modifiers` to compute confidence at each stage.
+# =============================================================================
+
+schema_version: "1.0.0"
+deterministic: true
+
+scale: { min: 0.0, max: 1.0 }
+
+# Base confidence by EVIDENCE TYPE (the strongest provenance signal).
+evidence_type_base:
+  primary_source_quote: 0.95
+  bottle_print:         0.98
+  expert_quote:         0.90
+  aggregated_link:      0.55
+  inferred:             0.20      # inference is never a certifier without evidence
+
+# Multi-source agreement bonus: add when N>=2 independent sources agree exactly.
+agreement:
+  enabled: true
+  method: "additive_cap"
+  per_agreeing_source: 0.03
+  max_bonus: 0.10           # confidence never exceeds 1.0
+  min_sources_to_count: 2
+  require_independent: true  # same publisher under different URLs does NOT count
+
+# Penalties (subtractive, floored at 0.0).
+penalties:
+  missing_evidence:        -0.50    # claim with no quote/URL
+  low_authority_tier:      -0.30    # T3 trying to certify a T1 field
+  normalization_failed:    -0.25    # could not normalize to canonical form
+  conflicting_unresolved:  -0.15    # sources disagree and no policy resolved it
+
+# Stage gate thresholds (a fact below `certify_min` is NOT certified).
+thresholds:
+  qualification_min: 0.00   # qualification only filters scope, not confidence
+  extraction_min:   0.20
+  validation_min:   0.40
+  merge_min:        0.50
+  certify_min:      0.70    # certified knowledge requires >= 0.70
+  audit_warn_below: 0.60    # audit flags certified facts < 0.60 for review
+
+# Deterministic rounding to avoid float drift across runs.
+rounding:
+  decimals: 4
+  rule: "round_half_even"

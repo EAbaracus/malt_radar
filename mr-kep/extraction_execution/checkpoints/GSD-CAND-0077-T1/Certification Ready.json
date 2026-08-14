@@ -1,0 +1,146 @@
+{
+  "_checksum": "a834464a5d0392403ea2fe1c813acf72f6cff8bccd0b9b54e1e8c00e7327a581",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-43f0df8156e3445a",
+      "fact_id": "EV-8702b7d438ed",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "Amrut",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Bottled at Amrut Distillery",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.amrut.com/whisky/amrut-fusion",
+          "won": true
+        }
+      ],
+      "value": "Amrut"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-098ec611b3c33a33",
+      "fact_id": "EV-0e578b0f131d",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "India",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Product of India",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.amrut.com/whisky/amrut-fusion",
+          "won": true
+        }
+      ],
+      "value": "India"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-927e85193678c105",
+      "fact_id": "EV-a2a3e104cab9",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "Karnataka",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Karnataka single malt",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.amrut.com/whisky/amrut-fusion",
+          "won": true
+        }
+      ],
+      "value": "Karnataka"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-f247276b74d26644",
+      "fact_id": "EV-1fb159d40091",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 50.0,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "50.0% ABV",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.amrut.com/whisky/amrut-fusion",
+          "won": true
+        }
+      ],
+      "value": 50.0
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-8ab7615edb7a7375",
+      "fact_id": "EV-f80d8fd7cc59",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Bourbon",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "matured in Bourbon casks",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.amrut.com/whisky/amrut-fusion",
+          "won": true
+        }
+      ],
+      "value": "Bourbon"
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.amrut.com/whisky/amrut-fusion"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "50.0% ABV",
+      "value": 50.0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Bourbon casks",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of India",
+      "value": "India"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Amrut Distillery",
+      "value": "Amrut"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Karnataka single malt",
+      "value": "Karnataka"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0077",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:49.589217+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

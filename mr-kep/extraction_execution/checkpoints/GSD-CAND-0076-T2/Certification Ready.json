@@ -1,0 +1,121 @@
+{
+  "_checksum": "db6d92a5fb20c00538b14b9f5e364d5b1ecba27a4c2bbf9a91d1917f26598163",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-cfd35a64cee94a55",
+      "fact_id": "EV-593d3f8d948c",
+      "field": "nose",
+      "field_name": "nose",
+      "field_value": "Sweet honey, fresh pear, green apple, vanilla, light floral",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Nose: sweet honey, fresh pear, green apple, vanilla, light floral",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0076",
+          "won": true
+        }
+      ],
+      "value": "Sweet honey, fresh pear, green apple, vanilla, light floral"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-de32304133a33d7a",
+      "fact_id": "EV-9b794bbf3b8a",
+      "field": "palate",
+      "field_name": "palate",
+      "field_value": "Mellow malt, vanilla cream, butterscotch, orchard fruit",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Palate: mellow malt, vanilla cream, butterscotch, orchard fruit",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0076",
+          "won": true
+        }
+      ],
+      "value": "Mellow malt, vanilla cream, butterscotch, orchard fruit"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-b6ce6d13d9cbe920",
+      "fact_id": "EV-912d6fe01fab",
+      "field": "finish",
+      "field_name": "finish",
+      "field_value": "Medium, clean, soft oak and sweet barley warmth",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "Finish: medium, clean, soft oak and sweet barley warmth",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0076",
+          "won": true
+        }
+      ],
+      "value": "Medium, clean, soft oak and sweet barley warmth"
+    },
+    {
+      "authority_tier": "T2_expert",
+      "confidence": 1.0,
+      "evidence_id": "EV-625e037b7b3388f1",
+      "fact_id": "EV-81c9005fac5e",
+      "field": "score",
+      "field_name": "score",
+      "field_value": 83,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "expert_quote",
+          "quote": "83 points",
+          "source_key": "whiskyfun",
+          "source_url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0076",
+          "won": true
+        }
+      ],
+      "value": 83
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "expert_quote",
+    "source_key": "whiskyfun",
+    "url": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0076"
+  },
+  "extraction_result": {
+    "finish": {
+      "confidence": 1.0,
+      "quote": "Finish: medium, clean, soft oak and sweet barley warmth",
+      "value": "Medium, clean, soft oak and sweet barley warmth"
+    },
+    "nose": {
+      "confidence": 1.0,
+      "quote": "Nose: sweet honey, fresh pear, green apple, vanilla, light floral",
+      "value": "Sweet honey, fresh pear, green apple, vanilla, light floral"
+    },
+    "palate": {
+      "confidence": 1.0,
+      "quote": "Palate: mellow malt, vanilla cream, butterscotch, orchard fruit",
+      "value": "Mellow malt, vanilla cream, butterscotch, orchard fruit"
+    },
+    "score": {
+      "confidence": 1.0,
+      "quote": "83 points",
+      "value": 83
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0076",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:49.570299+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

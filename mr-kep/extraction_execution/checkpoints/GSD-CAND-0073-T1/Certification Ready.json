@@ -1,0 +1,146 @@
+{
+  "_checksum": "915102bd6fcd2a3b9adb16220506ea78ee7919197bffc9133250aab5e69b14de",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-0c3cbce6a12ebc65",
+      "fact_id": "EV-6db462ab4d1f",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "Dingle",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Bottled at Dingle Distillery",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.dingle.com/whisky/dingle-single-malt-batch-5",
+          "won": true
+        }
+      ],
+      "value": "Dingle"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-ebbbdc5f56520549",
+      "fact_id": "EV-d245b5cafa1a",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "Ireland",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Product of Ireland",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.dingle.com/whisky/dingle-single-malt-batch-5",
+          "won": true
+        }
+      ],
+      "value": "Ireland"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-acd3ec42928904e2",
+      "fact_id": "EV-34318ed0d813",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "Cork",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Cork single malt",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.dingle.com/whisky/dingle-single-malt-batch-5",
+          "won": true
+        }
+      ],
+      "value": "Cork"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-129a384836f2f10b",
+      "fact_id": "EV-1914664be19c",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 46.5,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "46.5% ABV",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.dingle.com/whisky/dingle-single-malt-batch-5",
+          "won": true
+        }
+      ],
+      "value": 46.5
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-2e713f073cabd0b7",
+      "fact_id": "EV-0e5a32398769",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Bourbon+Sherry+Port",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "matured in Bourbon+Sherry+Port casks",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.dingle.com/whisky/dingle-single-malt-batch-5",
+          "won": true
+        }
+      ],
+      "value": "Bourbon+Sherry+Port"
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.dingle.com/whisky/dingle-single-malt-batch-5"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "46.5% ABV",
+      "value": 46.5
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Bourbon+Sherry+Port casks",
+      "value": "Bourbon+Sherry+Port"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Ireland",
+      "value": "Ireland"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Dingle Distillery",
+      "value": "Dingle"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Cork single malt",
+      "value": "Cork"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0073",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:49.497079+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

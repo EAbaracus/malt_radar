@@ -27,6 +27,8 @@ class Whisky {
   final String? flavorTags; // JSON
   final String? flavorSource;
   final double? flavorMatchScore;
+  final String? type;
+  final String? styleSimilarity;
   
   // User specific attributes
   final int personalScore; // absolute score (0-100)
@@ -60,6 +62,8 @@ class Whisky {
     this.flavorTags,
     this.flavorSource,
     this.flavorMatchScore,
+    this.type,
+    this.styleSimilarity,
   });
 
   Whisky copyWith({
@@ -89,6 +93,8 @@ class Whisky {
     String? flavorTags,
     String? flavorSource,
     double? flavorMatchScore,
+    String? type,
+    String? styleSimilarity,
   }) {
     return Whisky(
       id: id ?? this.id,
@@ -117,6 +123,8 @@ class Whisky {
       flavorTags: flavorTags ?? this.flavorTags,
       flavorSource: flavorSource ?? this.flavorSource,
       flavorMatchScore: flavorMatchScore ?? this.flavorMatchScore,
+      type: type ?? this.type,
+      styleSimilarity: styleSimilarity ?? this.styleSimilarity,
     );
   }
 
@@ -158,38 +166,65 @@ class Whisky {
       flavorTags: whisky.flavorTags,
       flavorSource: whisky.flavorSource,
       flavorMatchScore: whisky.flavorMatchScore,
+      type: whisky.type,
+      styleSimilarity: whisky.styleSimilarity,
     );
   }
 
   // Convert from backend REST API Map (JSON)
   factory Whisky.fromMap(Map<String, dynamic> map) {
+    final externalId = map['external_id'] as String?;
+    // Use external_id hash as local id (deterministic, non-zero for backend whiskies)
+    final localId = externalId != null && externalId.isNotEmpty
+        ? externalId.hashCode.abs() % 1000000 + 1 // +1 to ensure > 0
+        : 0;
+
+    // Safe numeric parse — the backend may send int, double or even String
+    // for numeric columns (SQLite stores everything, JSON serialization is
+    // inconsistent). Any TypeError here kills the ENTIRE search/list result,
+    // so parse defensively.
+    double? toDouble(dynamic v) {
+      if (v == null) return null;
+      if (v is num) return v.toDouble();
+      return double.tryParse(v.toString());
+    }
+
+    int? toInt(dynamic v) {
+      if (v == null) return null;
+      if (v is int) return v;
+      if (v is num) return v.toInt();
+      return int.tryParse(v.toString());
+    }
+
     return Whisky(
-      id: 0, // Unsaved
-      externalId: map['external_id'] as String?,
-      name: map['name'] as String,
-      country: map['country'] as String?,
-      region: map['region'] as String?,
-      category: map['category'] as String?,
-      distillery: map['distillery'] as String?,
-      age: map['age'] as int?,
-      abv: (map['abv'] as num?)?.toDouble(),
-      caskType: map['cask_type'] as String?,
-      defaultPrice: (map['default_price'] as num?)?.toDouble(),
-      currency: map['currency'] as String?,
-      sourceName: map['source_name'] as String?,
-      sourceUrl: map['source_url'] as String?,
-      fetchedAt: map['fetched_at'] as String? ?? DateTime.now().toIso8601String(),
+      id: localId,
+      externalId: externalId,
+      name: map['name']?.toString() ?? 'Unknown',
+      country: map['country']?.toString(),
+      region: map['region']?.toString(),
+      category: map['category']?.toString(),
+      distillery: map['distillery']?.toString(),
+      age: toInt(map['age']),
+      abv: toDouble(map['abv']),
+      caskType: map['cask_type']?.toString(),
+      defaultPrice: toDouble(map['default_price']),
+      currency: map['currency']?.toString(),
+      sourceName: map['source_name']?.toString(),
+      sourceUrl: map['source_url']?.toString(),
+      fetchedAt: map['fetched_at']?.toString() ?? DateTime.now().toIso8601String(),
       tastingNotes: (map['tasting_notes'] as List<dynamic>?)?.map((e) => e.toString()).toList() ?? [],
       companionSuggestions: (map['companion_suggestions'] as List<dynamic>?)?.map((e) => e.toString()).toList() ?? [],
-      globalScore: (map['global_rating'] as num?)?.toDouble(),
+      globalScore: toDouble(map['global_score']),
       personalScore: 0,
       personalNotes: '',
       isFavorite: false,
       flavorProfile: map['flavor_profile']?.toString(), // Handle JSON strings
       flavorVector: map['flavor_vector']?.toString(),
       flavorTags: map['flavor_tags']?.toString(),
-      flavorSource: map['flavor_source'] as String?,
-      flavorMatchScore: (map['flavor_match_score'] as num?)?.toDouble(),
+      flavorSource: map['flavor_source']?.toString(),
+      flavorMatchScore: toDouble(map['flavor_match_score']),
+      type: map['type']?.toString(),
+      styleSimilarity: map['style_similarity']?.toString(),
     );
   }
 
@@ -219,6 +254,8 @@ class Whisky {
       flavorTags: Value(flavorTags),
       flavorSource: Value(flavorSource),
       flavorMatchScore: Value(flavorMatchScore),
+      type: Value(type),
+      styleSimilarity: Value(styleSimilarity),
     );
   }
 }

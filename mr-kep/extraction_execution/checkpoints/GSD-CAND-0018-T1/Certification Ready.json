@@ -1,0 +1,146 @@
+{
+  "_checksum": "eec194d353b8a24aa091b50090096ef9ec43d8a9eb989e4486be258a190c072a",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-4abac2af2b1d12ca",
+      "fact_id": "EV-317432b250d5",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "Laphroaig",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Laphroaig Distillery",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.laphroaig.com/en/quarter-cask",
+          "won": true
+        }
+      ],
+      "value": "Laphroaig"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-5930928242c1f308",
+      "fact_id": "EV-afe2a353009a",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "Scotland",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Product of Scotland",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.laphroaig.com/en/quarter-cask",
+          "won": true
+        }
+      ],
+      "value": "Scotland"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-bc3e845dd139764f",
+      "fact_id": "EV-9b2607313e4e",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "Islay",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Islay Single Malt",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.laphroaig.com/en/quarter-cask",
+          "won": true
+        }
+      ],
+      "value": "Islay"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-435232818e9a0a34",
+      "fact_id": "EV-b22c8d6a4871",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 48.0,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "48% ABV",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.laphroaig.com/en/quarter-cask",
+          "won": true
+        }
+      ],
+      "value": 48.0
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-8dcf1b6d2e0c4f5c",
+      "fact_id": "EV-e9d75382fe9e",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Bourbon (Quarter)",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "double matured in quarter casks",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.laphroaig.com/en/quarter-cask",
+          "won": true
+        }
+      ],
+      "value": "Bourbon (Quarter)"
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.laphroaig.com/en/quarter-cask"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "48% ABV",
+      "value": 48.0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "double matured in quarter casks",
+      "value": "Bourbon (Quarter)"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Scotland",
+      "value": "Scotland"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Laphroaig Distillery",
+      "value": "Laphroaig"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Islay Single Malt",
+      "value": "Islay"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0018",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:48.103507+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

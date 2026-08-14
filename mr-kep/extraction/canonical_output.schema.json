@@ -1,0 +1,141 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://malt-radar.local/mr-kep/extraction/canonical_output.schema.json",
+  "title": "MR-KEP Canonical Output",
+  "description": "The single canonical shape EVERY future MR-KEP extractor must emit for one entity. Extractor-agnostic: source-specific parsing is upstream; this is the normalized, evidence-backed result. Compatible with P62 (source ids), P63 (source_class, certification paths), P64 (evidence ledger entries), and Sprint 1 (authority tiers, canonical fields). No fabrication: absent fields are null with an explicit reason.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "entity", "metadata", "evidence", "provenance", "confidence", "certification"],
+  "properties": {
+    "schema_version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+
+    "entity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entity_type", "entity_id", "entity_key"],
+      "properties": {
+        "entity_type": { "enum": ["distillery", "brand", "whisky", "bottling"] },
+        "entity_id": { "type": ["string", "null"], "description": "Stable Malt Radar id (e.g. W001997) or null if not yet resolved. Never fabricated." },
+        "entity_key": { "type": "string", "description": "Deterministic normalized key used for matching (norm name + vintage + abv)." },
+        "display_name": { "type": ["string", "null"] }
+      }
+    },
+
+    "metadata": {
+      "type": "object",
+      "description": "Canonical field values (already normalized). Keys are the Sprint 1 canonical fields only. Each value is null when no source stated it.",
+      "additionalProperties": false,
+      "properties": {
+        "distillery_name": { "type": ["string", "null"] },
+        "region": { "type": ["string", "null"] },
+        "country": { "type": ["string", "null"] },
+        "abv": { "type": ["number", "null"], "description": "percent_abv, normalized via strip_percent_cast_real." },
+        "age_statement": { "type": ["integer", "null"] },
+        "cask_type": { "type": ["string", "null"] },
+        "nose": { "type": ["string", "null"] },
+        "palate": { "type": ["string", "null"] },
+        "finish": { "type": ["string", "null"] },
+        "flavor_axes": {
+          "type": ["object", "null"],
+          "additionalProperties": false,
+          "description": "7 canonical axes, each 0.0-1.0 or absent.",
+          "properties": {
+            "smoky": { "type": ["number", "null"], "minimum": 0.0, "maximum": 1.0 },
+            "peaty": { "type": ["number", "null"], "minimum": 0.0, "maximum": 1.0 },
+            "fruity": { "type": ["number", "null"], "minimum": 0.0, "maximum": 1.0 },
+            "sweet": { "type": ["number", "null"], "minimum": 0.0, "maximum": 1.0 },
+            "spicy": { "type": ["number", "null"], "minimum": 0.0, "maximum": 1.0 },
+            "maritime": { "type": ["number", "null"], "minimum": 0.0, "maximum": 1.0 },
+            "sherry": { "type": ["number", "null"], "minimum": 0.0, "maximum": 1.0 }
+          }
+        },
+        "score": { "type": ["number", "null"], "minimum": 0, "maximum": 100 },
+        "community_rating": { "type": ["number", "null"], "minimum": 0, "maximum": 5 }
+      }
+    },
+
+    "evidence": {
+      "type": "array",
+      "description": "Evidence ledger entries backing each field (P64 evidence_schema.json shape, referenced by id). One or more per non-null field.",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["evidence_id", "field_name", "source_class", "source_name"],
+        "properties": {
+          "evidence_id": { "type": "string", "pattern": "^EV-[a-f0-9]{16}$" },
+          "field_name": { "type": "string" },
+          "source_class": { "enum": ["official", "regulatory", "official_wayback", "book", "expert_review", "structured_metadata", "community"] },
+          "source_name": { "type": "string" }
+        }
+      }
+    },
+
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["extractor_id", "extractor_version", "run_id", "generated_at", "deterministic"],
+      "properties": {
+        "extractor_id": { "type": "string", "description": "Which extractor produced this (e.g. 'whiskyfun-extractor')." },
+        "extractor_version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+        "run_id": { "type": "string", "description": "Manifest run id (MRKEP-...)." },
+        "generated_at": { "type": "string", "format": "date-time" },
+        "deterministic": { "type": "boolean", "const": true },
+        "seed": { "type": "integer" }
+      }
+    },
+
+    "confidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["overall", "per_field"],
+      "properties": {
+        "overall": { "type": "number", "minimum": 0.0, "maximum": 1.0, "description": "Min per-field confidence across non-null fields." },
+        "per_field": {
+          "type": "object",
+          "description": "field_name -> confidence [0,1] (authority/confidence.yaml).",
+          "additionalProperties": { "type": "number", "minimum": 0.0, "maximum": 1.0 }
+        }
+      }
+    },
+
+    "certification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["per_field"],
+      "properties": {
+        "per_field": {
+          "type": "object",
+          "description": "field_name -> certification state (P63 paths).",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["certification_level"],
+            "properties": {
+              "certification_level": { "enum": ["uncertified", "proposed", "certified", "rejected"] },
+              "certification_path": { "enum": ["A", "B", "C", "D", "E", "F", null] },
+              "authority_tier": { "enum": ["T1_authoritative", "T2_expert", "T3_community", null] }
+            }
+          }
+        }
+      }
+    },
+
+    "merge_candidates": {
+      "type": "array",
+      "description": "Alternative values not selected as the winner, retained (never dropped) for merge/audit. Empty if single source.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["field_name", "value", "source_class", "source_name", "evidence_id"],
+        "properties": {
+          "field_name": { "type": "string" },
+          "value": { "type": ["string", "number", "null"] },
+          "source_class": { "enum": ["official", "regulatory", "official_wayback", "book", "expert_review", "structured_metadata", "community"] },
+          "source_name": { "type": "string" },
+          "evidence_id": { "type": "string", "pattern": "^EV-[a-f0-9]{16}$" },
+          "reason_not_selected": { "type": "string" }
+        }
+      }
+    }
+  }
+}

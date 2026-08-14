@@ -1,0 +1,146 @@
+{
+  "_checksum": "3e32ab11bf0143d2cf684b762ca79219bb417324cc3e3409e187507754b6d095",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-c584489c27e29dc5",
+      "fact_id": "EV-7b2c562a4494",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "Starward",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Bottled at Starward Distillery",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.starward.com/whisky/starward-solera",
+          "won": true
+        }
+      ],
+      "value": "Starward"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-ffa9788a0c125b27",
+      "fact_id": "EV-9f47dd07a8b5",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "Australia",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Product of Australia",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.starward.com/whisky/starward-solera",
+          "won": true
+        }
+      ],
+      "value": "Australia"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-ebc7be2d74522c1b",
+      "fact_id": "EV-c1c8ef2a0446",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "Australian",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Australian single malt",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.starward.com/whisky/starward-solera",
+          "won": true
+        }
+      ],
+      "value": "Australian"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-6a378897752e6168",
+      "fact_id": "EV-7116e983868c",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 40.0,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "40.0% ABV",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.starward.com/whisky/starward-solera",
+          "won": true
+        }
+      ],
+      "value": 40.0
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-c6a5fc84e3936173",
+      "fact_id": "EV-7bbf33ce1c8c",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Apera (Australian Sherry)",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "matured in Apera (Australian Sherry) casks",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.starward.com/whisky/starward-solera",
+          "won": true
+        }
+      ],
+      "value": "Apera (Australian Sherry)"
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.starward.com/whisky/starward-solera"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "40.0% ABV",
+      "value": 40.0
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "matured in Apera (Australian Sherry) casks",
+      "value": "Apera (Australian Sherry)"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Australia",
+      "value": "Australia"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Bottled at Starward Distillery",
+      "value": "Starward"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Australian single malt",
+      "value": "Australian"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0100",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:50.157351+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

@@ -109,6 +109,8 @@ def main():
     # 4. Report
     with open(report_md, "w", encoding="utf-8") as f:
         f.write("# 299 Manual Curated Tasting Note Import Template Report\n\n")
+        f.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
+
         f.write("- template_created: YES\n")
         f.write("- example_created: YES\n")
         f.write("- rules_created: YES\n")

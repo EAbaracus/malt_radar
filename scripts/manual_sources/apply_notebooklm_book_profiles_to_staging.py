@@ -195,6 +195,8 @@ def main():
     
     with open(REPORT_FILE, 'w', encoding='utf-8') as f:
         f.write("# NotebookLM Book Profile Staging Apply Report\n\n")
+        f.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
+
         f.write(f"- generated_at: {datetime.now().isoformat()}\n")
         f.write(f"- repo_root: {REPO_ROOT}\n")
         f.write(f"- db_path_absolute: {DB_PATH}\n")

@@ -1,0 +1,171 @@
+{
+  "_checksum": "f4fcb35faa082356db50065322e6b49fd761263014e229eb45a71c2a1c349524",
+  "evidence_bundle": [
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-fcd6dc50e9805098",
+      "fact_id": "EV-f75f57199d97",
+      "field": "distillery_name",
+      "field_name": "distillery_name",
+      "field_value": "Ardbeg",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Ardbeg Distillery",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.ardbeg.com/en-int/whisky/ultimate-range/ten-years-old",
+          "won": true
+        }
+      ],
+      "value": "Ardbeg"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-c1d33e6034ce96c8",
+      "fact_id": "EV-4eae11163444",
+      "field": "country",
+      "field_name": "country",
+      "field_value": "Scotland",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Product of Scotland",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.ardbeg.com/en-int/whisky/ultimate-range/ten-years-old",
+          "won": true
+        }
+      ],
+      "value": "Scotland"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-48594b733f714b33",
+      "fact_id": "EV-25927779a2d6",
+      "field": "region",
+      "field_name": "region",
+      "field_value": "Islay",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Islay Single Malt",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.ardbeg.com/en-int/whisky/ultimate-range/ten-years-old",
+          "won": true
+        }
+      ],
+      "value": "Islay"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-f6eb0d50e0f7f450",
+      "fact_id": "EV-9a71a0411bf8",
+      "field": "abv",
+      "field_name": "abv",
+      "field_value": 46.0,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "46% ABV",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.ardbeg.com/en-int/whisky/ultimate-range/ten-years-old",
+          "won": true
+        }
+      ],
+      "value": 46.0
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-115fb1e2af611d1c",
+      "fact_id": "EV-1a0fe6a6b5a8",
+      "field": "cask_type",
+      "field_name": "cask_type",
+      "field_value": "Bourbon",
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "ex-bourbon casks",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.ardbeg.com/en-int/whisky/ultimate-range/ten-years-old",
+          "won": true
+        }
+      ],
+      "value": "Bourbon"
+    },
+    {
+      "authority_tier": "T1_authoritative",
+      "confidence": 1.0,
+      "evidence_id": "EV-6e2b0ba68608c90b",
+      "fact_id": "EV-db7a369c9fb6",
+      "field": "age_statement",
+      "field_name": "age_statement",
+      "field_value": 10,
+      "schema_version": "1.0.0",
+      "sources": [
+        {
+          "evidence_type": "official_bottling",
+          "quote": "Ten Years Old",
+          "source_key": "DistilleryOfficial",
+          "source_url": "https://www.ardbeg.com/en-int/whisky/ultimate-range/ten-years-old",
+          "won": true
+        }
+      ],
+      "value": 10
+    }
+  ],
+  "extraction_request": {
+    "authority_tier": "T1_authoritative",
+    "evidence_type": "official_bottling",
+    "source_key": "DistilleryOfficial",
+    "url": "https://www.ardbeg.com/en-int/whisky/ultimate-range/ten-years-old"
+  },
+  "extraction_result": {
+    "abv": {
+      "confidence": 1.0,
+      "quote": "46% ABV",
+      "value": 46.0
+    },
+    "age_statement": {
+      "confidence": 1.0,
+      "quote": "Ten Years Old",
+      "value": 10
+    },
+    "cask_type": {
+      "confidence": 1.0,
+      "quote": "ex-bourbon casks",
+      "value": "Bourbon"
+    },
+    "country": {
+      "confidence": 1.0,
+      "quote": "Product of Scotland",
+      "value": "Scotland"
+    },
+    "distillery_name": {
+      "confidence": 1.0,
+      "quote": "Ardbeg Distillery",
+      "value": "Ardbeg"
+    },
+    "region": {
+      "confidence": 1.0,
+      "quote": "Islay Single Malt",
+      "value": "Islay"
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0002",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:47.725424+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

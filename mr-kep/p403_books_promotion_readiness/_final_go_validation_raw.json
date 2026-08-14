@@ -1,0 +1,260 @@
+{
+  "schema_flavor_evidence": "CREATE TABLE flavor_evidence (\n            evidence_id TEXT PRIMARY KEY,\n            whisky_id TEXT NOT NULL,\n            source TEXT NOT NULL,\n            smws_code TEXT,\n            original_tasting_note TEXT,\n            source_pdf TEXT,\n            extraction_confidence REAL,\n            parser_confidence REAL,\n            extraction_timestamp TEXT,\n            vector_smoky REAL,\n            vector_peaty REAL,\n            vector_sherry REAL,\n            vector_fruity REAL,\n            vector_spicy REAL,\n            vector_sweet REAL,\n            vector_rich REAL\n        , vector_maritime REAL)",
+  "columns": [
+    [
+      "evidence_id",
+      "TEXT",
+      0,
+      1
+    ],
+    [
+      "whisky_id",
+      "TEXT",
+      1,
+      0
+    ],
+    [
+      "source",
+      "TEXT",
+      1,
+      0
+    ],
+    [
+      "smws_code",
+      "TEXT",
+      0,
+      0
+    ],
+    [
+      "original_tasting_note",
+      "TEXT",
+      0,
+      0
+    ],
+    [
+      "source_pdf",
+      "TEXT",
+      0,
+      0
+    ],
+    [
+      "extraction_confidence",
+      "REAL",
+      0,
+      0
+    ],
+    [
+      "parser_confidence",
+      "REAL",
+      0,
+      0
+    ],
+    [
+      "extraction_timestamp",
+      "TEXT",
+      0,
+      0
+    ],
+    [
+      "vector_smoky",
+      "REAL",
+      0,
+      0
+    ],
+    [
+      "vector_peaty",
+      "REAL",
+      0,
+      0
+    ],
+    [
+      "vector_sherry",
+      "REAL",
+      0,
+      0
+    ],
+    [
+      "vector_fruity",
+      "REAL",
+      0,
+      0
+    ],
+    [
+      "vector_spicy",
+      "REAL",
+      0,
+      0
+    ],
+    [
+      "vector_sweet",
+      "REAL",
+      0,
+      0
+    ],
+    [
+      "vector_rich",
+      "REAL",
+      0,
+      0
+    ],
+    [
+      "vector_maritime",
+      "REAL",
+      0,
+      0
+    ]
+  ],
+  "primary_key": [
+    "evidence_id"
+  ],
+  "unique_indexes": [
+    [
+      "sqlite_autoindex_flavor_evidence_1",
+      [
+        "evidence_id"
+      ]
+    ]
+  ],
+  "notnull_required": [
+    "whisky_id",
+    "source"
+  ],
+  "nullable_cols": [
+    "evidence_id",
+    "smws_code",
+    "original_tasting_note",
+    "source_pdf",
+    "extraction_confidence",
+    "parser_confidence",
+    "extraction_timestamp",
+    "vector_smoky",
+    "vector_peaty",
+    "vector_sherry",
+    "vector_fruity",
+    "vector_spicy",
+    "vector_sweet",
+    "vector_rich",
+    "vector_maritime"
+  ],
+  "manifest_check": {
+    "manifest_eligible_count": 64,
+    "len_eligible_ids": 64,
+    "distinct_eligible_ids": 64,
+    "duplicate_in_manifest": false,
+    "invalid_ids_in_manifest": [],
+    "deterministic_order_sorted": true,
+    "manifest_checksum": "a5e8a463d344a38e3ff095ff79b60176",
+    "recomputed_checksum": "a5e8a463d344a38e3ff095ff79b60176",
+    "checksum_match": true
+  },
+  "impact_summary": {
+    "inserts": 52,
+    "updates": 12,
+    "first_evidence": 52,
+    "additional": 12,
+    "dup_risk": 6
+  },
+  "per_whisky_sample": [
+    {
+      "whisky_id": "W000001",
+      "exists_in_prod": true,
+      "pre_ev": 0,
+      "post_ev": 1,
+      "action": "INSERT",
+      "first_evidence": true
+    },
+    {
+      "whisky_id": "W000002",
+      "exists_in_prod": true,
+      "pre_ev": 0,
+      "post_ev": 1,
+      "action": "INSERT",
+      "first_evidence": true
+    },
+    {
+      "whisky_id": "W000004",
+      "exists_in_prod": true,
+      "pre_ev": 0,
+      "post_ev": 1,
+      "action": "INSERT",
+      "first_evidence": true
+    },
+    {
+      "whisky_id": "W000011",
+      "exists_in_prod": true,
+      "pre_ev": 0,
+      "post_ev": 1,
+      "action": "INSERT",
+      "first_evidence": true
+    },
+    {
+      "whisky_id": "W000012",
+      "exists_in_prod": true,
+      "pre_ev": 0,
+      "post_ev": 1,
+      "action": "INSERT",
+      "first_evidence": true
+    }
+  ],
+  "provenance_classification": {
+    "author": "NOT USED (no column in flavor_evidence)",
+    "citation": "NOT USED (no column in flavor_evidence)",
+    "citation_id": "NOT USED (no column in flavor_evidence)",
+    "evidence_id": "NOT USED in flavor_evidence (note: editorial staging uses EDR-<sha16> but flavor_evidence has no evidence_id column)",
+    "authority tier": "NOT USED in flavor_evidence (no column; editorial staging has authority_tier, not propagated to flavor_evidence)",
+    "page reference": "NOT USED in flavor_evidence (no column)",
+    "confidence": "OPTIONAL \u2014 flavor_evidence has extraction_confidence / parser_confidence columns (nullable, no NOT NULL constraint)",
+    "source": "REQUIRED \u2014 flavor_evidence.source column exists, nullable by schema but semantically required (manifest sets source='book')",
+    "whisky_id": "REQUIRED \u2014 part of primary key"
+  },
+  "policy": [
+    [
+      "author/citation/evidence_id/authority_tier/page",
+      "PASS",
+      "No corresponding column in flavor_evidence; absence does not block INSERT. Promotion requires only existing columns."
+    ],
+    [
+      "confidence present",
+      "WARNING",
+      "flavor_data_confidence is null on all 64 rows, but flavor_evidence.confidence columns are nullable; promotion proceeds without it."
+    ],
+    [
+      "source='book' set",
+      "PASS",
+      "manifest assigns source explicitly; satisfies the semantically-required source column."
+    ],
+    [
+      "whisky_id valid & exists",
+      "PASS",
+      "all 64 ids exist in production.whiskies"
+    ],
+    [
+      "no duplicate keys",
+      "PASS",
+      "manifest deduped; 0 duplicate ids; 0 already have a 'book' source row in prod (dup_risk={dup_risk})"
+    ],
+    [
+      "schema compatible",
+      "PASS",
+      "all referenced columns (whisky_id, source, vector_*) exist in flavor_evidence"
+    ],
+    [
+      "provenance completeness",
+      "WARNING",
+      "Book-level provenance (book title + distillery) present; per-row citation/author absent by schema design. Policy decision, not a hard schema failure."
+    ]
+  ],
+  "verdict": "GO_WITH_CONDITIONS",
+  "warnings": [
+    "flavor_data_confidence is null on all 64 rows, but flavor_evidence.confidence columns are nullable; promotion proceeds without it.",
+    "Book-level provenance (book title + distillery) present; per-row citation/author absent by schema design. Policy decision, not a hard schema failure."
+  ],
+  "verification": {
+    "git_branch": "feature/editorial-crawl-phase",
+    "git_status_lines": 70,
+    "git_diff_stat": "mr-kep/authority/source_priority.yaml | 4 ++++\n 1 file changed, 4 insertions(+)",
+    "prod_sha": "3c56de601c539260b49df57657eae4d47bfc8d0ebb27354b01c20648ac71656c",
+    "knowledge_sha": "e4c0d8b42d2173c372278098b9b6df539c89fc1f8853062995b830313b00b682",
+    "knowledge_exists": true
+  }
+}

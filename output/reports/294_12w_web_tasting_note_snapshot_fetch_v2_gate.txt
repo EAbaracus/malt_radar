@@ -1,3 +1,0 @@
-GATE: PARTIAL-GO
-REASON: fetch_success_count is 0
-REASON: Strict snapshot fetch executed safely.

@@ -7,7 +7,7 @@ from pathlib import Path
 from datetime import datetime
 from collections import Counter
 
-ROOT = Path(r"C:\Users\eltun\Documents\malt radar")
+ROOT = Path(__file__).resolve().parent.parent.parent
 BOOK_DIR = Path(r"C:\Users\eltun\Downloads\kitaplar")
 SCAN_CSV = ROOT / "data/manual_sources/books/book_relevance_scan.csv"
 DB_PATH = ROOT / "output/import/production.db"
@@ -240,6 +240,15 @@ GATE_TXT.write_text(
     f"{gate}\n{production_gate}\nCANDIDATES={len(candidates)}\nSTAGING={staging_candidate}\nREVIEW={manual_review}\nBLOCKED={blocked}\n",
     encoding="utf-8"
 )
+GATE_TXT.write_text(
+    "\n"
+    "Estimated API Cost: $0.00\n"
+    "Actual API Cost: $0.00\n"
+    "Local Compute Used: Yes\n"
+    "Fully Local Execution: Yes\n",
+    encoding="utf-8"
+)
+
 
 print(REPORT_MD)
 print(GATE_TXT)

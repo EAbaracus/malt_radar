@@ -1,0 +1,39 @@
+{
+  "_checksum": "088bb279effbeaaf224b433da5ae5e40fe0b3517773886cff0609a7a41aa677b",
+  "extraction_request": {
+    "authority_tier": "T2_expert",
+    "evidence_type": "expert_quote",
+    "source_key": "whiskyfun",
+    "url": "https://www.whiskyfun.com/archivejuly16-2.html"
+  },
+  "extraction_result": {
+    "finish": {
+      "confidence": 1.0,
+      "quote": "Finish: medium, sweet oak",
+      "value": "Medium, warm wood spice, sweet oak"
+    },
+    "nose": {
+      "confidence": 1.0,
+      "quote": "Nose: fudge, honey, citrus, vanilla",
+      "value": "Creamy butterscotch, toffee apple, candied orange"
+    },
+    "palate": {
+      "confidence": 1.0,
+      "quote": "Palate: spicy sherry, wood, honey",
+      "value": "Wood spices, ginger, honey, sweet sherry"
+    },
+    "score": {
+      "confidence": 1.0,
+      "quote": "82 points",
+      "value": 82
+    }
+  },
+  "qualification_record": {
+    "candidate_id": "GSD-CAND-0006",
+    "priority_gate": "Extract Normally",
+    "qualified_at": "2026-07-13T21:30:47.823781+00:00"
+  },
+  "validation_report": {
+    "gate": "PASS"
+  }
+}

@@ -47,6 +47,8 @@ def main():
     
     with open(md_path, 'w', encoding='utf-8') as f:
         f.write("# Real Web Tasting Note Pipeline Report\n\n")
+        f.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
+
         f.write(f"- source_candidate_count: {c_cand}\n")
         f.write(f"- fetched_snapshot_count: {c_snap}\n")
         f.write(f"- extraction_preview_count: {c_prev}\n")

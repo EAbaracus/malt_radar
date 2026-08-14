@@ -3,5 +3,5 @@
     <!-- Flutter needs this to communicate with the running application to allow debugging. -->
     <uses-permission android:name="android.permission.INTERNET"/>
     
-    <application android:usesCleartextTraffic="true" android:networkSecurityConfig="@xml/network_security_config" />
+    <application android:networkSecurityConfig="@xml/network_security_config" />
 </manifest>

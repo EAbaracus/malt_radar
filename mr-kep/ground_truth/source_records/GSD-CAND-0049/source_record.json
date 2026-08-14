@@ -1,0 +1,74 @@
+{
+  "distillery_name": {
+    "value": "Mars Komagatake",
+    "source": "https://www.marskomagatake.com/whisky/mars-komagatake-limited-2018",
+    "exact_quote": "Bottled at Mars Komagatake Distillery",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "country": {
+    "value": "Japan",
+    "source": "https://www.marskomagatake.com/whisky/mars-komagatake-limited-2018",
+    "exact_quote": "Product of Japan",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "region": {
+    "value": "Japanese",
+    "source": "https://www.marskomagatake.com/whisky/mars-komagatake-limited-2018",
+    "exact_quote": "Japanese single malt",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "abv": {
+    "value": 59.0,
+    "source": "https://www.marskomagatake.com/whisky/mars-komagatake-limited-2018",
+    "exact_quote": "59.0% ABV",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "cask_type": {
+    "value": "Bourbon",
+    "source": "https://www.marskomagatake.com/whisky/mars-komagatake-limited-2018",
+    "exact_quote": "matured in Bourbon casks",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "nose": {
+    "value": "Sweet honey, fresh pear, green apple, vanilla, light floral",
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0049",
+    "exact_quote": "Nose: sweet honey, fresh pear, green apple, vanilla, light floral",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "palate": {
+    "value": "Mellow malt, vanilla cream, butterscotch, orchard fruit",
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0049",
+    "exact_quote": "Palate: mellow malt, vanilla cream, butterscotch, orchard fruit",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "finish": {
+    "value": "Medium, clean, soft oak and sweet barley warmth",
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0049",
+    "exact_quote": "Finish: medium, clean, soft oak and sweet barley warmth",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "score": {
+    "value": 83,
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0049",
+    "exact_quote": "83 points",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  }
+}

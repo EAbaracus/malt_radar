@@ -1,22 +1,30 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:malt_radar/core/api/db_whisky_api_client.dart';
 import 'package:malt_radar/core/theme/app_theme.dart';
+import 'package:malt_radar/core/theme/app_theme_colors.dart';
 import '../controllers/whisky_providers.dart';
 import '../../../../core/localization/localization_provider.dart';
 import '../widgets/glass_container.dart';
 import '../../../flavor/presentation/widgets/flavor_radar_chart.dart';
+import 'package:malt_radar/core/branding/brand_medallion.dart';
+import 'package:malt_radar/core/branding/brand_medallion_widget.dart';
 import '../../../flavor/presentation/widgets/similar_flavor_whiskies.dart';
-
+import '../../../../core/config/app_config.dart';
 import 'package:malt_radar/features/lists/presentation/widgets/add_to_list_sheet.dart';
 import 'package:malt_radar/features/lists/presentation/controllers/user_lists_providers.dart';
 import 'package:malt_radar/core/localization/flavor_tag_translator.dart';
 import '../../../../core/presentation/widgets/section_header.dart';
 import '../../../../core/presentation/widgets/tasting_chip.dart';
-
+import '../../domain/models/whisky.dart';
 class DetailScreen extends ConsumerStatefulWidget {
   final int whiskyId;
-  const DetailScreen({super.key, required this.whiskyId});
+  /// Backend whisky_id (e.g. 'GSD-CAND-0001' / 'W000441'). Used in DbApi mode,
+  /// where the backend is the single source of truth and local integer ids do
+  /// not apply. When non-null it takes precedence over [whiskyId].
+  final String? backendId;
+  const DetailScreen({super.key, required this.whiskyId, this.backendId});
 
   @override
   ConsumerState<DetailScreen> createState() => _DetailScreenState();
@@ -28,6 +36,8 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
   bool _initialized = false;
   List<Map<String, dynamic>> _prices = [];
   bool _isLoadingPrices = true;
+  List<Map<String, dynamic>> _evidence = [];
+  bool _isLoadingEvidence = true;
 
   @override
   void dispose() {
@@ -39,11 +49,21 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
   void initState() {
     super.initState();
     _loadPrices();
-  }
+    _loadEvidence();
+    }
 
   void _loadPrices() async {
     final repository = ref.read(whiskyRepositoryProvider);
-    final whisky = await repository.getWhiskyById(widget.whiskyId);
+    Whisky? whisky;
+    if (widget.backendId != null) {
+      // Backend mode has no local price repository. Stop the spinner instead of
+      // leaving it spinning forever. The price section is gated by
+      // AppConfig.showPriceData, so this only surfaces if that flag is enabled
+      // or later flipped to a runtime flag.
+      if (mounted) setState(() => _isLoadingPrices = false);
+      return;
+    }
+    whisky = await repository.getWhiskyById(widget.whiskyId);
     if (whisky != null) {
       final list = await repository.getWhiskyPrices(
         widget.whiskyId,
@@ -54,6 +74,66 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
         _isLoadingPrices = false;
       });
     }
+  }
+
+  void _loadEvidence() async {
+    final repository = ref.read(whiskyRepositoryProvider);
+    if (widget.backendId == null) {
+      setState(() => _isLoadingEvidence = false);
+      return;
+    }
+    try {
+      final list = await repository.getEvidence(widget.backendId!);
+      if (mounted) {
+        setState(() {
+          _evidence = list;
+          _isLoadingEvidence = false;
+        });
+      }
+    } catch (_) {
+      if (mounted) setState(() => _isLoadingEvidence = false);
+    }
+  }
+
+  /// Auth-gated detail (backend 401): "giriş yap" state — NOT "bulunamadı".
+  /// The whisky may exist; access is what's missing.
+  Widget _buildAuthRequired(String Function(String, [List<dynamic>?]) tr) {
+    return Scaffold(
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: RadialGradient(
+            center: Alignment(0, -0.8),
+            radius: 1.5,
+            colors: [
+              AppTheme.surfaceElevated,
+              AppTheme.background,
+              AppTheme.surface,
+            ],
+          ),
+        ),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(32),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.lock_outline,
+                    size: 48, color: AppTheme.textMuted),
+                const SizedBox(height: 16),
+                Text(
+                  tr('whisky_login_required'),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: AppTheme.textPrimary,
+                    fontSize: 15,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   void _saveNotesAndScore() async {
@@ -203,11 +283,136 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
     );
   }
 
+
+  Widget _buildCertificationSection(BuildContext context, String Function(String) tr, Whisky whisky) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              AppTheme.secondary.withValues(alpha: 0.18),
+              AppTheme.surface,
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: AppTheme.secondary.withValues(alpha: 0.45),
+            width: 1,
+          ),
+        ),
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const Icon(Icons.verified, color: AppTheme.secondary, size: 20),
+                const SizedBox(width: 8),
+                Text(
+                  tr('certified_whisky'),
+                  style: const TextStyle(
+                    color: AppTheme.secondary,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Text(
+              tr('certified_description'),
+              style: const TextStyle(color: AppTheme.textSecondary, fontSize: 13),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEvidenceSection(BuildContext context, String Function(String) tr, WidgetRef ref, Whisky whisky) {
+    if (_isLoadingEvidence) {
+      return const Padding(
+        padding: EdgeInsets.symmetric(vertical: 24),
+        child: Center(child: BrandSpinner()),
+      );
+    }
+    if (_evidence.isEmpty) return const SizedBox.shrink();
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: GlassContainer(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SectionHeader(
+              icon: Icons.source,
+              title: tr('official_sources'),
+              //subtitle: '${_evidence.length} ${tr('verified_fields')}',
+            ),
+            const SizedBox(height: 12),
+            ..._evidence.map((e) => Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Icon(Icons.check_circle_outline, size: 16, color: AppTheme.textMuted),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${e['field_name'] ?? ''}: ${e['field_value'] ?? ''}',
+                          style: const TextStyle(color: AppTheme.textPrimary, fontSize: 13),
+                        ),
+                        Text(
+                          'Source: ${e['source_name'] ?? '\u2014'}',
+                          style: const TextStyle(color: AppTheme.textMuted, fontSize: 11),
+                        ),
+                      ],
+                    ),
+                  ),
+                  if (e['source_url'] != null && (e['source_url'] as String).isNotEmpty)
+                    GestureDetector(
+                      onTap: () => {},
+                      child: const Icon(Icons.open_in_new, size: 14, color: AppTheme.accent),
+                    ),
+                ],
+              ),
+            )),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final tr = ref.watch(trProvider);
     final langCode = ref.watch(localizationProvider);
-    final whiskyAsync = ref.watch(whiskyDetailProvider(widget.whiskyId));
+    // Detay kaynağı: backend (anonim katalog, allowlist sınırlı) → yoksa
+    // (404/allowlist dışı) lokal Drift kaydına düş. Böylece kullanıcının
+    // favoriler/listeler/geçmişinde olup anonim katalogda bulunmayan bir
+    // viski "Viski bulunamadı" ile ölmez. Backend yüklenirken flash yok.
+    late final AsyncValue<Whisky?> whiskyAsync;
+    if (widget.backendId != null) {
+      final backend = ref.watch(backendWhiskyDetailProvider(widget.backendId!));
+      // 401 = auth-gated access denied → "giriş yap" state. Asla "bulunamadı"
+      // değil: viski var olabilir, erişim eksik. Lokal fallback'e düşme.
+      if (backend.hasError && backend.error is DbApiAuthRequiredException) {
+        return _buildAuthRequired(tr);
+      }
+      if (backend.valueOrNull != null || backend.isLoading) {
+        whiskyAsync = backend;
+      } else {
+        whiskyAsync = ref.watch(whiskyDetailProvider(widget.whiskyId));
+      }
+    } else {
+      whiskyAsync = ref.watch(whiskyDetailProvider(widget.whiskyId));
+    }
     final settingsAsync = ref.watch(referenceSettingsStreamProvider);
     final refWhiskyAsync = ref.watch(referenceWhiskyModelProvider);
 
@@ -223,7 +428,7 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
           gradient: RadialGradient(
             center: Alignment(0, -0.8),
             radius: 1.5,
-            colors: [Color(0xFF1E1E2C), AppTheme.background, Color(0xFF040406)],
+            colors: [AppTheme.surfaceElevated, AppTheme.background, AppTheme.surface],
           ),
         ),
         child: whiskyAsync.when(
@@ -281,13 +486,13 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                           whisky.name,
                           style: Theme.of(context).textTheme.headlineMedium
                               ?.copyWith(
-                                color: Colors.white,
+                                color: AppThemeColors.parchment,
                                 fontSize: 24,
                                 shadows: [
                                   Shadow(
                                     offset: const Offset(0, 2),
                                     blurRadius: 4.0,
-                                    color: Colors.black.withValues(alpha: 0.8),
+                                    color: AppTheme.background.withValues(alpha: 0.8),
                                   ),
                                 ],
                               ),
@@ -313,10 +518,9 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                           ),
                         ),
                         Center(
-                          child: Icon(
-                            Icons.local_bar,
+                          child: Medallion(
                             size: 120,
-                            color: AppTheme.primary.withValues(alpha: 0.15),
+                            level: MedallionLevel.master,
                           ),
                         ),
                         // Bottom gradient for text readability
@@ -337,7 +541,7 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                     IconButton(
                       icon: const Icon(
                         Icons.playlist_add,
-                        color: Colors.white,
+                        color: AppThemeColors.parchment,
                         size: 28,
                       ),
                       onPressed: () {
@@ -349,13 +553,13 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                         whisky.isFavorite ? Icons.star : Icons.star_border,
                         color: whisky.isFavorite
                             ? AppTheme.accent
-                            : Colors.white,
+                            : AppThemeColors.parchment,
                         size: 28,
                         shadows: [
                           Shadow(
                             offset: const Offset(0, 2),
                             blurRadius: 4.0,
-                            color: Colors.black.withValues(alpha: 0.5),
+                            color: AppTheme.background.withValues(alpha: 0.5),
                           ),
                         ],
                       ),
@@ -471,9 +675,10 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                             padding: const EdgeInsets.all(16),
                             child: Column(
                               children: [
-                                FlavorRadarChart(
-                                  flavorProfileJson: whisky.flavorProfile!,
-                                ),
+                                if (whisky.flavorProfile != null)
+                                  FlavorRadarChart(
+                                    flavorProfileJson: whisky.flavorProfile!,
+                                  ),
                                 if (whisky.flavorTags != null) ...[
                                   const SizedBox(height: 16),
                                   Wrap(
@@ -521,15 +726,21 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                           const SizedBox(height: 24),
                           SimilarFlavorWhiskies(
                             whiskyId: whisky.id,
+                            backendId: whisky.externalId,
                             onWhiskyTap: (w) {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => DetailScreen(whiskyId: w.id),
+                                  builder: (context) => DetailScreen(whiskyId: w.id, backendId: w.externalId),
                                 ),
                               );
                             },
                           ),
+
+                          if (whisky.externalId?.startsWith("GSD-") == true)
+                            _buildCertificationSection(context, tr, whisky),
+
+                          _buildEvidenceSection(context, tr, ref, whisky),
                         ] else ...[
                           GlassContainer(
                             padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 16),
@@ -550,124 +761,124 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                         ],
                         const SizedBox(height: 36),
 
-                        // Prices
-                        SectionHeader(
-                          title: tr('price_info'),
-                          icon: Icons.sell,
-                        ),
-                        const SizedBox(height: 16),
-                        _isLoadingPrices
-                            ? const Center(
-                                child: CircularProgressIndicator(
-                                  color: AppTheme.primary,
-                                ),
-                              )
-                            : GlassContainer(
-                                padding: const EdgeInsets.all(16),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    if (_prices.isEmpty)
-                                      Text(
-                                        tr('no_price_record'),
-                                        style: const TextStyle(
-                                          color: AppTheme.textMuted,
-                                        ),
-                                      )
-                                    else
-                                      ..._prices.map((priceItem) {
-                                        final isManual =
-                                            priceItem['is_manual'] as bool? ??
-                                            false;
-                                        return Container(
-                                          margin: const EdgeInsets.only(
-                                            bottom: 8,
+                        if (AppConfig.showPriceData) ...[
+                          // Prices
+                          SectionHeader(
+                            title: tr('price_info'),
+                            icon: Icons.sell,
+                          ),
+                          const SizedBox(height: 16),
+                          _isLoadingPrices
+                              ? const Center(
+                                  child: BrandSpinner(),
+                                )
+                              : GlassContainer(
+                                  padding: const EdgeInsets.all(16),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      if (_prices.isEmpty)
+                                        Text(
+                                          tr('no_price_record'),
+                                          style: const TextStyle(
+                                            color: AppTheme.textMuted,
                                           ),
-                                          padding: const EdgeInsets.all(12),
-                                          decoration: BoxDecoration(
-                                            color: Colors.white.withValues(
-                                              alpha: 0.05,
+                                        )
+                                      else
+                                        ..._prices.map((priceItem) {
+                                          final isManual =
+                                              priceItem['is_manual'] as bool? ??
+                                              false;
+                                          return Container(
+                                            margin: const EdgeInsets.only(
+                                              bottom: 8,
                                             ),
-                                            borderRadius: BorderRadius.circular(
-                                              12,
+                                            padding: const EdgeInsets.all(12),
+                                            decoration: BoxDecoration(
+                                              color: AppThemeColors.parchment.withValues(
+                                                alpha: 0.05,
+                                              ),
+                                              borderRadius: BorderRadius.circular(
+                                                12,
+                                              ),
                                             ),
-                                          ),
-                                          child: Row(
-                                            children: [
-                                              Icon(
-                                                isManual
-                                                    ? Icons.edit
-                                                    : Icons.sync,
-                                                color: isManual
-                                                    ? AppTheme.accent
-                                                    : AppTheme.primary,
-                                                size: 20,
-                                              ),
-                                              const SizedBox(width: 12),
-                                              Expanded(
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      '${priceItem['price']} ${priceItem['currency']}',
-                                                      style: const TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: AppTheme
-                                                            .textPrimary,
-                                                        fontSize: 16,
-                                                      ),
-                                                    ),
-                                                    const SizedBox(height: 2),
-                                                    Text(
-                                                      '${tr('price_source')}: ${priceItem['source_name']} (${priceItem['country']})',
-                                                      style: const TextStyle(
-                                                        fontSize: 12,
-                                                        color: AppTheme
-                                                            .textSecondary,
-                                                      ),
-                                                    ),
-                                                  ],
+                                            child: Row(
+                                              children: [
+                                                Icon(
+                                                  isManual
+                                                      ? Icons.edit
+                                                      : Icons.sync,
+                                                  color: isManual
+                                                      ? AppTheme.accent
+                                                      : AppTheme.primary,
+                                                  size: 20,
                                                 ),
-                                              ),
-                                              Text(
-                                                priceItem['fetched_at']
-                                                    .toString()
-                                                    .split('T')[0],
-                                                style: const TextStyle(
-                                                  color: AppTheme.textMuted,
-                                                  fontSize: 11,
+                                                const SizedBox(width: 12),
+                                                Expanded(
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        '${priceItem['price']} ${priceItem['currency']}',
+                                                        style: const TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: AppTheme
+                                                              .textPrimary,
+                                                          fontSize: 16,
+                                                        ),
+                                                      ),
+                                                      const SizedBox(height: 2),
+                                                      Text(
+                                                        '${tr('price_source')}: ${priceItem['source_name']} (${priceItem['country']})',
+                                                        style: const TextStyle(
+                                                          fontSize: 12,
+                                                          color: AppTheme
+                                                              .textSecondary,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
+                                                Text(
+                                                  priceItem['fetched_at']
+                                                      .toString()
+                                                      .split('T')[0],
+                                                  style: const TextStyle(
+                                                    color: AppTheme.textMuted,
+                                                    fontSize: 11,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        }),
+                                      const SizedBox(height: 12),
+                                      SizedBox(
+                                        width: double.infinity,
+                                        child: OutlinedButton.icon(
+                                          onPressed: _showAddPriceDialog,
+                                          icon: const Icon(Icons.add),
+                                          label: Text(tr('add_price_record')),
+                                          style: OutlinedButton.styleFrom(
+                                            foregroundColor: AppTheme.primary,
+                                            side: const BorderSide(
+                                              color: AppTheme.primary,
+                                            ),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(
+                                                12,
                                               ),
-                                            ],
-                                          ),
-                                        );
-                                      }),
-                                    const SizedBox(height: 12),
-                                    SizedBox(
-                                      width: double.infinity,
-                                      child: OutlinedButton.icon(
-                                        onPressed: _showAddPriceDialog,
-                                        icon: const Icon(Icons.add),
-                                        label: Text(tr('add_price_record')),
-                                        style: OutlinedButton.styleFrom(
-                                          foregroundColor: AppTheme.primary,
-                                          side: const BorderSide(
-                                            color: AppTheme.primary,
-                                          ),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                              12,
                                             ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                        const SizedBox(height: 36),
+                          const SizedBox(height: 36),
+                        ],
 
                         // Evaluation
                         SectionHeader(
@@ -722,7 +933,7 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                                       '${whisky.globalScore!.toStringAsFixed(0)} / 100',
                                       style: const TextStyle(
                                         fontSize: 22,
-                                        color: Colors.white,
+                                        color: AppThemeColors.parchment,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -730,7 +941,7 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                                 ),
                                 const SizedBox(height: 16),
                                 Divider(
-                                  color: Colors.white.withValues(alpha: 0.1),
+                                  color: AppThemeColors.parchment.withValues(alpha: 0.1),
                                 ),
                                 const SizedBox(height: 16),
                               ],
@@ -780,7 +991,7 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                                 Container(
                                   padding: const EdgeInsets.all(12),
                                   decoration: BoxDecoration(
-                                    color: Colors.black.withValues(alpha: 0.2),
+                                    color: AppTheme.background.withValues(alpha: 0.2),
                                     borderRadius: BorderRadius.circular(12),
                                   ),
                                   child: Row(
@@ -830,7 +1041,7 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                               TextField(
                                 controller: _notesController,
                                 maxLines: 4,
-                                style: const TextStyle(color: Colors.white),
+                                style: const TextStyle(color: AppThemeColors.parchment),
                                 decoration: InputDecoration(
                                   hintText: tr('notes_hint'),
                                 ),
@@ -856,7 +1067,7 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
             );
           },
           loading: () => const Center(
-            child: CircularProgressIndicator(color: AppTheme.primary),
+            child: BrandSpinner(),
           ),
           error: (error, stackTrace) => Center(
             child: Text(

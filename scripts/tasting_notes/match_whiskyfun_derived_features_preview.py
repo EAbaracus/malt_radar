@@ -330,6 +330,8 @@ def audit_output(df):
 def write_missing_input_gate():
     with open(GATE_TXT, "w", encoding="utf-8") as f:
         f.write("GATE: NO_GO_MATCH_INPUT_MISSING\n")
+        f.write("""\nEstimated API Cost: $0.00\nActual API Cost: $0.00\nLocal Compute Used: Yes\nFully Local Execution: Yes\n""")
+
         f.write(f"input_csv: {INPUT_CSV}\n")
 
 

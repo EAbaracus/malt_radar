@@ -1,8 +1,10 @@
-from fastapi import APIRouter, HTTPException, Query, Depends
-from typing import Optional, List, Dict, Any
+from fastapi import APIRouter, HTTPException, Query, Depends, Request
+from typing import Optional
 import os
 import sqlite3
-from app.services.db_read_service import DbReadService
+from app.services.db_read_service import DbReadService, CatalogBoundsError
+from app.security import limiter
+from app.auth.routes import get_current_user
 
 
 
@@ -13,36 +15,43 @@ def check_db_api_enabled():
 router = APIRouter(
     prefix="/api/db", 
     tags=["DB API Adapter"],
-    dependencies=[Depends(check_db_api_enabled)]
+    dependencies=[Depends(check_db_api_enabled), Depends(get_current_user)]
 )
 
 def get_service() -> DbReadService:
     return DbReadService()
 
 @router.get("/health")
-def get_health(service: DbReadService = Depends(get_service)):
+@limiter.limit("60/minute")
+def get_health(request: Request, service: DbReadService = Depends(get_service)):
     try:
         return service.get_health()
-    except Exception as e:
+    except Exception:
         raise HTTPException(status_code=503, detail="Database connection failed")
 
 @router.get("/whiskies")
+@limiter.limit("120/minute")
 def get_whiskies(
+    request: Request,
     limit: int = Query(50, ge=1, le=100),
     offset: int = Query(0, ge=0),
     q: Optional[str] = Query(None),
     distillery_id: Optional[str] = Query(None),
+    filter: Optional[str] = Query(None),
     service: DbReadService = Depends(get_service)
 ):
     try:
-        return service.get_whiskies(limit, offset, q, distillery_id)
+        return service.get_whiskies(limit, offset, q, distillery_id, filter)
+    except CatalogBoundsError:
+        raise HTTPException(status_code=400, detail="Offset beyond catalog browse limit")
     except FileNotFoundError:
         raise HTTPException(status_code=503, detail="Database file missing")
     except sqlite3.Error:
         raise HTTPException(status_code=500, detail="Database query failed")
 
 @router.get("/whiskies/{whisky_id}")
-def get_whisky(whisky_id: str, service: DbReadService = Depends(get_service)):
+@limiter.limit("120/minute")
+def get_whisky(request: Request, whisky_id: str, service: DbReadService = Depends(get_service)):
     try:
         result = service.get_whisky(whisky_id)
     except FileNotFoundError:
@@ -55,20 +64,25 @@ def get_whisky(whisky_id: str, service: DbReadService = Depends(get_service)):
     return result
 
 @router.get("/distilleries")
+@limiter.limit("120/minute")
 def get_distilleries(
+    request: Request,
     limit: int = Query(50, ge=1, le=100),
     offset: int = Query(0, ge=0),
     service: DbReadService = Depends(get_service)
 ):
     try:
         return service.get_distilleries(limit, offset)
+    except CatalogBoundsError:
+        raise HTTPException(status_code=400, detail="Offset beyond catalog browse limit")
     except FileNotFoundError:
         raise HTTPException(status_code=503, detail="Database file missing")
     except sqlite3.Error:
         raise HTTPException(status_code=500, detail="Database query failed")
 
 @router.get("/search")
-def search(q: str = Query(...), service: DbReadService = Depends(get_service)):
+@limiter.limit("120/minute")
+def search(request: Request, q: str = Query(...), service: DbReadService = Depends(get_service)):
     if not q or len(q.strip()) < 2:
         raise HTTPException(status_code=400, detail="Search query must be at least 2 characters")
     try:
@@ -79,7 +93,8 @@ def search(q: str = Query(...), service: DbReadService = Depends(get_service)):
         raise HTTPException(status_code=500, detail="Database query failed")
 
 @router.get("/filters")
-def get_filters(service: DbReadService = Depends(get_service)):
+@limiter.limit("120/minute")
+def get_filters(request: Request, service: DbReadService = Depends(get_service)):
     try:
         return service.get_filters()
     except FileNotFoundError:
@@ -88,7 +103,8 @@ def get_filters(service: DbReadService = Depends(get_service)):
         raise HTTPException(status_code=500, detail="Database query failed")
 
 @router.get("/whiskies/{id}/flavor-profile")
-def get_flavor_profile(id: str, service: DbReadService = Depends(get_service)):
+@limiter.limit("120/minute")
+def get_flavor_profile(request: Request, id: str, service: DbReadService = Depends(get_service)):
     try:
         result = service.get_flavor_profile(id)
         if not result:
@@ -100,7 +116,8 @@ def get_flavor_profile(id: str, service: DbReadService = Depends(get_service)):
         raise HTTPException(status_code=500, detail="Database query failed")
 
 @router.get("/whiskies/{id}/tasting-notes")
-def get_tasting_notes(id: str, service: DbReadService = Depends(get_service)):
+@limiter.limit("120/minute")
+def get_tasting_notes(request: Request, id: str, service: DbReadService = Depends(get_service)):
     try:
         return service.get_tasting_notes(id)
     except FileNotFoundError:
@@ -108,10 +125,12 @@ def get_tasting_notes(id: str, service: DbReadService = Depends(get_service)):
     except sqlite3.Error:
         raise HTTPException(status_code=500, detail="Database query failed")
 
-@router.get("/whiskies/{id}/price-history")
-def get_price_history(id: str, service: DbReadService = Depends(get_service)):
+@router.get("/whiskies/{id}/evidence")
+@limiter.limit("120/minute")
+def get_evidence(request: Request, id: str, service: DbReadService = Depends(get_service)):
+    """Return official_source_references for a whisky exactly as stored (read-only)."""
     try:
-        return service.get_price_history(id)
+        return service.get_official_source_references(id)
     except FileNotFoundError:
         raise HTTPException(status_code=503, detail="Database file missing")
     except sqlite3.Error:

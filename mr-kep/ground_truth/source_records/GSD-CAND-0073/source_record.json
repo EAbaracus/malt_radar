@@ -1,0 +1,74 @@
+{
+  "distillery_name": {
+    "value": "Dingle",
+    "source": "https://www.dingle.com/whisky/dingle-single-malt-batch-5",
+    "exact_quote": "Bottled at Dingle Distillery",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "country": {
+    "value": "Ireland",
+    "source": "https://www.dingle.com/whisky/dingle-single-malt-batch-5",
+    "exact_quote": "Product of Ireland",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "region": {
+    "value": "Cork",
+    "source": "https://www.dingle.com/whisky/dingle-single-malt-batch-5",
+    "exact_quote": "Cork single malt",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "abv": {
+    "value": 46.5,
+    "source": "https://www.dingle.com/whisky/dingle-single-malt-batch-5",
+    "exact_quote": "46.5% ABV",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "cask_type": {
+    "value": "Bourbon+Sherry+Port",
+    "source": "https://www.dingle.com/whisky/dingle-single-malt-batch-5",
+    "exact_quote": "matured in Bourbon+Sherry+Port casks",
+    "location": "spec_sheet",
+    "authority_tier": "T1_authoritative",
+    "confidence": 1.0
+  },
+  "nose": {
+    "value": "Rich sherry sweetness, dark plums, raisins, dark cocoa",
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0073",
+    "exact_quote": "Nose: rich sherry sweetness, dark plums, raisins, dark cocoa",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "palate": {
+    "value": "Sweet fruit cake, orange peel, cinnamon, nutmeg, ginger",
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0073",
+    "exact_quote": "Palate: sweet fruit cake, orange peel, cinnamon, nutmeg, ginger",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "finish": {
+    "value": "Long, warm, sweet oak and spicy dark chocolate",
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0073",
+    "exact_quote": "Finish: long, warm, sweet oak and spicy dark chocolate",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  },
+  "score": {
+    "value": 86,
+    "source": "https://www.whiskyfun.com/archiveoctober19-clinch.html#gsd-cand-0073",
+    "exact_quote": "86 points",
+    "location": "review_body",
+    "authority_tier": "T2_expert",
+    "confidence": 1.0
+  }
+}
