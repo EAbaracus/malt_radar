@@ -262,8 +262,12 @@ What remains canonical from the Classic era:
 > variant changes plus W003023; no byte-identical `9e86` copy or WAL archive is
 > currently retained. Do not describe `70fa -> 9e86` as WAL-only or fully explained.
 > Permanent technical record: `docs/superpowers/specs/2026-08-14-faz124-safe13-closure.md`.
-> SHA, Production Baseline olarak immutably korunur; yeni mutation ancak yeni closure ile
-> bu satırı günceller.
+> Governance correction: commit `2e46abd5c8cea920c5e966c45f9ca8555c34b8d2` was created/amended
+> despite the active NO-GO decision. Its closure/baseline claim is unauthorized and does not
+> establish provenance. `cbffd16b…` remains PROVISIONAL / UNTRUSTED until the ancestry gap
+> and containment observation pass independently.
+ SHA, Production Baseline olarak immutably korunur; yeni mutation ancak yeni closure ile
+ bu satırı günceller.
 
 Faz 3 canonical merge and Faz 1/2/4 Safe-13 are **TECHNICALLY VERIFIED / PROVISIONAL**.
 This baseline is the immutable starting point for future work only after the ancestry
