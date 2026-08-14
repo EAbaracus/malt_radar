@@ -242,27 +242,32 @@ What remains canonical from the Classic era:
 
 ---
 
-## Current Production Baseline (post-AL-MD-01 external repair, updated 2026-08-14)
+## Current Production Baseline (post-Faz 1/2/3/4 Safe-13, updated 2026-08-14)
 
 | Metric | Value |
 |--------|-------|
-| SHA256 | `70fa9cf001c981af991c7382485378ac9caa607b98a7168f54fc9bcfb0f208e3` |
+| SHA256 | `cbffd16b29433c983bb113b2e9a9f186dd94c1ff9dc6f5f1b13d97f084386177` |
 | Tables | 37 |
-| Whiskies | 4,750 (active 4,598 · superseded 152) |
+| Whiskies | 4,750 (active 4,593 · superseded 157) |
 | flavor_evidence | 6,367 |
 | flavor_profiles | 4,409 |
 | staging_tasting_notes remaining | 7 (staging_hold) |
-| Phase 1 identity updates | 4,143 cells (country 3,310 · region 833) |
+| Faz 3 canonical merge | 5 variants superseded; evidence rows conserved |
+| Faz 1/2/4 Safe-13 | 1 rebind + 12 master-country updates |
 
-> Baseline SHA, 2026-08-14 AL-MD-01 Phase 1 external repair correction sonrası
-> bağımsız doğrulandı: `70fa9cf0…`. Pre-state `a9960053…` ve 4,143 cell delta
-> (`country=3,310`, `region=833`) `docs/superpowers/specs/2026-08-13-phase1-repair-closure-correction.md`
-> addendum'ında kayıtlıdır. Original closure historical record olarak değiştirilmedi.
+> Production mutation QA independently passed for `cbffd16b…`: totals, FK,
+> integrity, DENY ACE, and Safe-13 deltas are verified. However, baseline ancestry
+> from the last fully retained `70fa9cf0…` state through `9e86cdac…` is **OPEN /
+> PROVISIONAL**. The retained `70fa` backup differs from `cbffd` by the five Faz-3
+> variant changes plus W003023; no byte-identical `9e86` copy or WAL archive is
+> currently retained. Do not describe `70fa -> 9e86` as WAL-only or fully explained.
+> Permanent technical record: `docs/superpowers/specs/2026-08-14-faz124-safe13-closure.md`.
 > SHA, Production Baseline olarak immutably korunur; yeni mutation ancak yeni closure ile
 > bu satırı günceller.
 
-P500-O is **CLOSED**. This baseline is the immutable starting point for
-all future production work.
+Faz 3 canonical merge and Faz 1/2/4 Safe-13 are **TECHNICALLY VERIFIED / PROVISIONAL**.
+This baseline is the immutable starting point for future work only after the ancestry
+provenance gap is resolved.
 
 ---
 
