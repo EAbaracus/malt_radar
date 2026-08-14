@@ -256,22 +256,23 @@ What remains canonical from the Classic era:
 | Faz 1/2/4 Safe-13 | 1 rebind + 12 master-country updates |
 
 > Production mutation QA independently passed for `cbffd16b…`: totals, FK,
-> integrity, DENY ACE, and Safe-13 deltas are verified. However, baseline ancestry
-> from the last fully retained `70fa9cf0…` state through `9e86cdac…` is **OPEN /
-> PROVISIONAL**. The retained `70fa` backup differs from `cbffd` by the five Faz-3
-> variant changes plus W003023; no byte-identical `9e86` copy or WAL archive is
-> currently retained. Do not describe `70fa -> 9e86` as WAL-only or fully explained.
-> Permanent technical record: `docs/superpowers/specs/2026-08-14-faz124-safe13-closure.md`.
+> integrity, DENY ACE, and Safe-13 deltas are verified. The `70fa -> 9e86` ancestry
+> is now resolved at the correct snapshot boundary: `production_prepromote_20260814_004512.db`
+> (`70fa`) to `production_pre_faz124_safe13.db` (`9e86`) has exactly five whisky rows
+> changed, each only `superseded_by` (the Faz-3 merge). `W003023` is unchanged at
+> `D1687` in both snapshots. The later `9e86 -> cbffd` diff contains the Safe-13
+> changes. Permanent technical record:
+> `docs/superpowers/specs/2026-08-14-faz124-safe13-closure.md`.
 > Governance correction: commit `2e46abd5c8cea920c5e966c45f9ca8555c34b8d2` was created/amended
-> despite the active NO-GO decision. Its closure/baseline claim is unauthorized and does not
-> establish provenance. `cbffd16b…` remains PROVISIONAL / UNTRUSTED until the ancestry gap
-> and containment observation pass independently.
+> despite the active NO-GO decision. Its original closure/baseline claim was unauthorized.
+> The ancestry issue is resolved now, but `cbffd16b…` remains PROVISIONAL / UNTRUSTED until
+> the independently required containment observation pass is completed.
  SHA, Production Baseline olarak immutably korunur; yeni mutation ancak yeni closure ile
  bu satırı günceller.
 
 Faz 3 canonical merge and Faz 1/2/4 Safe-13 are **TECHNICALLY VERIFIED / PROVISIONAL**.
-This baseline is the immutable starting point for future work only after the ancestry
-provenance gap is resolved.
+The ancestry provenance gap is resolved; containment observation remains open before final
+baseline trust is restored.
 
 ---
 

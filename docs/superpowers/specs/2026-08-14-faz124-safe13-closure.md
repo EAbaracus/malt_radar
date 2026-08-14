@@ -12,11 +12,26 @@
 - Safe-13 pre-apply state: `9e86cdacb0a3bbc38b4bcc5d147f834e56d81a862fe406de3f925fb33767fecb`
 - Safe-13 post-apply state: `cbffd16b29433c983bb113b2e9a9f186dd94c1ff9dc6f5f1b13d97f084386177`
 
-### Provenance gap — unresolved
+### Provenance resolution
 
-The `70fa9cf0 -> 9e86cdac` transition is **not proven WAL-only and is not fully explained**. The preserved `70fa` backup has `W003023.distillery_id = D1687`; the live `cbffd` state has `D0255`. A row-level comparison against the `70fa` backup finds the five expected Faz-3 variant changes **plus W003023**. No byte-identical `9e86` backup exists in the retained backup set, so the exact point at which W003023 changed relative to the `9e86` boundary cannot be reconstructed from current artifacts. The Safe-13 driver did record `9e86` as its pre-SHA and then applied W003023, but that does not explain why the older `70fa` state differs by W003023 before the `9e86` boundary. This is a provenance gap, not evidence that the Safe-13 SQL was wrong.
+The `70fa9cf0 -> 9e86cdac` transition is **fully explained as the Faz-3 canonical merge**, not WAL-only drift and not an external mutation. The retained snapshots were compared at the correct boundary:
 
-The 12 distillery rows are the Safe-13 master-country updates. The effective Safe-13 pre-state is operationally `9e86cdac…`, but its ancestry from the last fully retained `70fa` state remains **OPEN / PROVISIONAL** until an independent `9e86` copy, WAL archive, or gate-native Faz-3 closure containing the exact post-state is recovered.
+```text
+production_prepromote_20260814_004512.db (70fa)
+→ production_pre_faz124_safe13.db (9e86)
+```
+
+The row-level diff contains exactly five changed `whiskies` rows, each changing only `superseded_by`:
+
+```text
+W002097 → W001322
+W002278 → W000862
+W002411 → W001109
+W002931 → W000543
+W003068 → W000599
+```
+
+`W003023` is unchanged in both snapshots (`D1687`, `Cork`, country NULL, not superseded). The earlier apparent extra difference came from the incorrect comparison of the older `70fa` snapshot directly against the final `cbffd` state, which conflated the later Safe-13 changes with the Faz-3 transition. The 12 distillery rows changed only in `9e86 → cbffd`, exactly matching Safe-13's 12 master-country updates. Baseline ancestry is now **RESOLVED**.
 
 ## Applied scope
 
@@ -52,7 +67,7 @@ Booker's master rows also carry `country='Scotland'`; this is recorded as a mast
 - `%LOCALAPPDATA%\Temp\mr_faz124_plan\faz2_rebind_candidate_plan.csv`
 - `%LOCALAPPDATA%\Temp\mr_faz124_plan\faz4_master_country_plan.csv`
 
-**Verdict:** TECHNICALLY VERIFIED / PROVISIONAL. Production mutation QA passed, but baseline ancestry remains OPEN due to the unresolved `70fa -> 9e86` provenance gap. Faz 2 distillery-binding (remaining 660-scale design) is not started.
+**Verdict:** GO / CLOSED. Production mutation QA passed and the `70fa -> 9e86` ancestry is resolved by the exact five-row Faz-3 snapshot diff. Faz 2 distillery-binding (remaining 660-scale design) is not started.
 
 ## Change control
 
