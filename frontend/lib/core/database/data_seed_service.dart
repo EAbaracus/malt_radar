@@ -1,24 +1,14 @@
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
 import 'package:drift/drift.dart';
 import 'package:csv/csv.dart';
 import 'package:malt_radar/core/database/database.dart';
 
 class DataSeedService {
-  // NOTE (anti-scrape): the catalog CSV data is NOT bundled in the client. This
-  // seeder is therefore driven exclusively by explicitly-provided CSV strings
-  // (the backend is the single source of truth at runtime). The canonical CSV
-  // files live under backend/data and are read by tests directly.
-  static Future<void> seedDatabaseIfEmpty(
-    AppDatabase db, {
-    String? testCsvString,
-    String? flavorCsvString,
-  }) async {
-    // No client-bundled catalog exists; without an explicit source there is
-    // nothing to seed. This keeps the mobile/offline path honest: catalog data
-    // comes from the backend, not from a shipped asset.
-    if (testCsvString == null) {
-      return;
-    }
+  static const String _csvPath = 'assets/data/whisky_database_merged_max.csv';
+
+  static Future<void> seedDatabaseIfEmpty(AppDatabase db, {String? testCsvString}) async {
     try {
       final countExp = db.whiskies.id.count();
       final query = db.selectOnly(db.whiskies)..addColumns([countExp]);
@@ -29,7 +19,7 @@ class DataSeedService {
         return; // Already seeded
       }
 
-      // Load flavor profiles (optional companion data; keyed by whisky id).
+      // Load flavor profiles
       final Map<int, List<dynamic>> flavorMap = {};
       int fWhiskyIdIdx = -1;
       int fMatchScoreIdx = -1;
@@ -38,51 +28,59 @@ class DataSeedService {
       int fFlavorTagsIdx = -1;
       int fFlavorSourceIdx = -1;
 
-      if (flavorCsvString != null) {
-        try {
-          final flavorTable = const CsvToListConverter(eol: '\n', fieldDelimiter: ',')
-              .convert(flavorCsvString);
+      try {
+        final flavorByteData = await rootBundle.load('assets/data/flavor_profiles.csv');
+        final flavorBytes = flavorByteData.buffer.asUint8List(flavorByteData.offsetInBytes, flavorByteData.lengthInBytes);
+        final flavorCsvString = utf8.decode(flavorBytes, allowMalformed: true).replaceAll('\r\n', '\n');
+        final flavorTable = const CsvToListConverter(eol: '\n', fieldDelimiter: ',').convert(flavorCsvString);
+        
+        if (flavorTable.length > 1) {
+          final fHeaders = flavorTable[0].map((e) => e.toString().trim()).toList();
+          fWhiskyIdIdx = fHeaders.indexOf('whisky_id');
+          fMatchScoreIdx = fHeaders.indexOf('match_score');
+          fFlavorVectorIdx = fHeaders.indexOf('flavor_vector');
+          fFlavorProfileIdx = fHeaders.indexOf('flavor_profile');
+          fFlavorTagsIdx = fHeaders.indexOf('flavor_tags');
+          fFlavorSourceIdx = fHeaders.indexOf('flavor_source');
 
-          if (flavorTable.length > 1) {
-            final fHeaders = flavorTable[0].map((e) => e.toString().trim()).toList();
-            fWhiskyIdIdx = fHeaders.indexOf('whisky_id');
-            fMatchScoreIdx = fHeaders.indexOf('match_score');
-            fFlavorVectorIdx = fHeaders.indexOf('flavor_vector');
-            fFlavorProfileIdx = fHeaders.indexOf('flavor_profile');
-            fFlavorTagsIdx = fHeaders.indexOf('flavor_tags');
-            fFlavorSourceIdx = fHeaders.indexOf('flavor_source');
-
-            for (int i = 1; i < flavorTable.length; i++) {
-              final fRow = flavorTable[i];
-              if (fRow.isEmpty) continue;
-
-              if (fWhiskyIdIdx >= 0 && fWhiskyIdIdx < fRow.length) {
-                final idStr = fRow[fWhiskyIdIdx]?.toString().trim() ?? '';
-                final match = RegExp(r'\d+').firstMatch(idStr);
-                if (match != null) {
-                  final idNum = int.tryParse(match.group(0)!);
-                  if (idNum != null) {
-                    flavorMap[idNum] = fRow;
-                  }
+          for (int i = 1; i < flavorTable.length; i++) {
+            final fRow = flavorTable[i];
+            if (fRow.isEmpty) continue;
+            
+            if (fWhiskyIdIdx >= 0 && fWhiskyIdIdx < fRow.length) {
+              final idStr = fRow[fWhiskyIdIdx]?.toString().trim() ?? '';
+              final match = RegExp(r'\d+').firstMatch(idStr);
+              if (match != null) {
+                final idNum = int.tryParse(match.group(0)!);
+                if (idNum != null) {
+                  flavorMap[idNum] = fRow;
                 }
               }
             }
           }
-        } catch (e) {
-          debugPrint('Could not parse flavor_profiles CSV: $e');
         }
+      } catch (e) {
+        debugPrint('Could not load flavor_profiles.csv: $e');
       }
 
-      final csvString = testCsvString.replaceAll('\r\n', '\n');
-      final List<List<dynamic>> csvTable =
-          const CsvToListConverter(eol: '\n', fieldDelimiter: ',').convert(csvString);
+      String csvString;
+      if (testCsvString != null) {
+        csvString = testCsvString;
+      } else {
+        final byteData = await rootBundle.load(_csvPath);
+        final bytes = byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes);
+        csvString = utf8.decode(bytes, allowMalformed: true);
+      }
+      
+      csvString = csvString.replaceAll('\r\n', '\n');
+      final List<List<dynamic>> csvTable = const CsvToListConverter(eol: '\n', fieldDelimiter: ',').convert(csvString);
 
       if (csvTable.length <= 1) {
         return; // Empty or only header
       }
 
       final headers = csvTable[0].map((e) => e.toString().trim()).toList();
-
+      
       final recordIdIdx = headers.indexOf('record_id');
       final canonicalNameIdx = headers.indexOf('canonical_name');
       final whiskyNameIdx = headers.indexOf('whisky_name');
@@ -91,7 +89,6 @@ class DataSeedService {
       final regionIdx = headers.indexOf('region');
       final typeIdx = headers.indexOf('type');
       final classIdx = headers.indexOf('class');
-      final styleSimilarityIdx = headers.indexOf('style_similarity');
       final ageIdx = headers.indexOf('age_years');
       final abvIdx = headers.indexOf('abv_percent');
       final caskTypeIdx = headers.indexOf('cask_type');
@@ -100,13 +97,14 @@ class DataSeedService {
       final finishNotesIdx = headers.indexOf('finish_notes');
       final userScoreIdx = headers.indexOf('user_score_100');
       final metaCriticIdx = headers.indexOf('meta_critic');
+      final styleSimilarityIdx = headers.indexOf('style_similarity');
 
       final companions = <WhiskiesCompanion>[];
 
       for (int i = 1; i < csvTable.length; i++) {
         final row = csvTable[i];
         if (row.isEmpty) continue;
-
+        
         String getStr(int idx) {
           if (idx < 0 || idx >= row.length) return '';
           return row[idx]?.toString().trim() ?? '';
@@ -127,8 +125,10 @@ class DataSeedService {
         final recordId = getStr(recordIdIdx);
         final canonicalName = getStr(canonicalNameIdx);
         final whiskyName = getStr(whiskyNameIdx);
-        final name = canonicalName.isNotEmpty ? canonicalName : whiskyName;
-
+        // canonical_name is the display/source-of-truth field. whisky_name is
+        // a legacy normalized field and may be lowercase/lossy.
+        final name = (canonicalName.isNotEmpty ? canonicalName : whiskyName).trim();
+        
         if (name.isEmpty) continue; // Must have a name
 
         final typeStr = getStr(typeIdx);
@@ -138,19 +138,19 @@ class DataSeedService {
         final nose = getStr(noseNotesIdx);
         final palate = getStr(palateNotesIdx);
         final finish = getStr(finishNotesIdx);
-
+        
         final notesList = <String>[];
         if (nose.isNotEmpty) notesList.add('Burun: $nose');
         if (palate.isNotEmpty) notesList.add('Damak: $palate');
         if (finish.isNotEmpty) notesList.add('Bitiş: $finish');
-
+        
         final userScoreStr = getStr(userScoreIdx);
         final metaCriticStr = getStr(metaCriticIdx);
-
+        
         double? globalScore;
         final userScore = double.tryParse(userScoreStr);
         final metaCritic = double.tryParse(metaCriticStr);
-
+        
         if (userScore != null && userScore > 0) {
           globalScore = userScore;
         } else if (metaCritic != null && metaCritic > 0) {
@@ -159,10 +159,10 @@ class DataSeedService {
 
         int? idNum;
         if (recordId.isNotEmpty) {
-          final match = RegExp(r'\d+').firstMatch(recordId);
-          if (match != null) {
-            idNum = int.tryParse(match.group(0)!);
-          }
+           final match = RegExp(r'\d+').firstMatch(recordId);
+           if (match != null) {
+             idNum = int.tryParse(match.group(0)!);
+           }
         }
 
         String? flavorProfile;
@@ -173,7 +173,7 @@ class DataSeedService {
 
         if (idNum != null && flavorMap.containsKey(idNum)) {
           final fRow = flavorMap[idNum]!;
-
+          
           String getFStr(int idx) {
             if (idx < 0 || idx >= fRow.length) return '';
             return fRow[idx]?.toString().trim() ?? '';
@@ -183,7 +183,7 @@ class DataSeedService {
           flavorVector = getFStr(fFlavorVectorIdx);
           flavorTags = getFStr(fFlavorTagsIdx);
           flavorSource = getFStr(fFlavorSourceIdx);
-
+          
           final msStr = getFStr(fMatchScoreIdx);
           if (msStr.isNotEmpty) {
             flavorMatchScore = double.tryParse(msStr);
