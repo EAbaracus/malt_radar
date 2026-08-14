@@ -102,12 +102,16 @@ class SqliteReadAdapter:
         with self._get_connection() as conn:
             cursor = conn.cursor()
             if q and len(q.strip()) > 0:
-                count_query = "SELECT COUNT(*) as c FROM whiskies WHERE name LIKE ?"
-                cursor.execute(count_query, (f"%{q.strip()}%",))
+                # SQLite LIKE is case-insensitive for ASCII but not reliably for
+                # Unicode. Normalize only the comparison side; never mutate display data.
+                search = q.strip()
+                pattern = f"%{search}%"
+                count_query = "SELECT COUNT(*) as c FROM whiskies WHERE LOWER(name) LIKE LOWER(?) OR LOWER(COALESCE(original_name, '')) LIKE LOWER(?)"
+                cursor.execute(count_query, (pattern, pattern))
                 total = cursor.fetchone()["c"]
                 
-                query = "SELECT * FROM whiskies WHERE name LIKE ? LIMIT ? OFFSET ?"
-                cursor.execute(query, (f"%{q.strip()}%", limit, offset))
+                query = "SELECT * FROM whiskies WHERE LOWER(name) LIKE LOWER(?) OR LOWER(COALESCE(original_name, '')) LIKE LOWER(?) LIMIT ? OFFSET ?"
+                cursor.execute(query, (pattern, pattern, limit, offset))
             else:
                 count_query = "SELECT COUNT(*) as c FROM whiskies"
                 cursor.execute(count_query)

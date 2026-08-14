@@ -6,7 +6,9 @@ class DbWhiskyMapper {
   }) {
     final mapped = <String, dynamic>{};
     mapped['external_id'] = dbWhisky['whisky_id']?.toString();
-    mapped['name'] = dbWhisky['name'] ?? 'Unknown';
+    // Backend canonical response may expose original_name separately. Prefer it
+    // for display; name is a legacy normalized/lowercase fallback.
+    mapped['name'] = dbWhisky['original_name'] ?? dbWhisky['name'] ?? 'Unknown';
     mapped['country'] = dbWhisky['country'];
     mapped['region'] = dbWhisky['region'];
     mapped['category'] = dbWhisky['category'];

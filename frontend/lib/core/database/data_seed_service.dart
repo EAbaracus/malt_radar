@@ -124,7 +124,9 @@ class DataSeedService {
         final recordId = getStr(recordIdIdx);
         final canonicalName = getStr(canonicalNameIdx);
         final whiskyName = getStr(whiskyNameIdx);
-        final name = canonicalName.isNotEmpty ? canonicalName : whiskyName;
+        // canonical_name is the display/source-of-truth field. whisky_name is
+        // a legacy normalized field and may be lowercase/lossy.
+        final name = (canonicalName.isNotEmpty ? canonicalName : whiskyName).trim();
         
         if (name.isEmpty) continue; // Must have a name
 

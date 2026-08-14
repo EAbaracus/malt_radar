@@ -50,9 +50,13 @@ class CsvWhiskyProvider(WhiskyProvider):
                     
                     for idx, row in enumerate(reader):
                         # Required fields fallback mapping just in case
-                        name = row.get('whisky_name') or row.get('canonical_name') or row.get('Name') or row.get('Adı')
+                        # canonical_name is the display/source-of-truth field. whisky_name is
+                        # a legacy normalized field and is often lowercase (or otherwise lossy).
+                        # Using it first made the entire public catalog render lowercase names.
+                        name = row.get('canonical_name') or row.get('whisky_name') or row.get('Name') or row.get('Adı')
                         if not name:
                             continue
+                        name = name.strip()
                             
                         category = row.get('class') or row.get('type') or row.get('category') or "Single Malt"
                         if row.get('type') and row.get('type') != row.get('class') and row.get('type'):
