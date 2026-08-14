@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:malt_radar/core/api/db_whisky_api_client.dart';
 import 'package:malt_radar/core/theme/app_theme.dart';
 import 'package:malt_radar/core/theme/app_theme_colors.dart';
 import '../controllers/whisky_providers.dart';
@@ -92,6 +93,47 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
     } catch (_) {
       if (mounted) setState(() => _isLoadingEvidence = false);
     }
+  }
+
+  /// Auth-gated detail (backend 401): "giriş yap" state — NOT "bulunamadı".
+  /// The whisky may exist; access is what's missing.
+  Widget _buildAuthRequired(String Function(String, [List<dynamic>?]) tr) {
+    return Scaffold(
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: RadialGradient(
+            center: Alignment(0, -0.8),
+            radius: 1.5,
+            colors: [
+              AppTheme.surfaceElevated,
+              AppTheme.background,
+              AppTheme.surface,
+            ],
+          ),
+        ),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(32),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.lock_outline,
+                    size: 48, color: AppTheme.textMuted),
+                const SizedBox(height: 16),
+                Text(
+                  tr('whisky_login_required'),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: AppTheme.textPrimary,
+                    fontSize: 15,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   void _saveNotesAndScore() async {
@@ -358,6 +400,11 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
     late final AsyncValue<Whisky?> whiskyAsync;
     if (widget.backendId != null) {
       final backend = ref.watch(backendWhiskyDetailProvider(widget.backendId!));
+      // 401 = auth-gated access denied → "giriş yap" state. Asla "bulunamadı"
+      // değil: viski var olabilir, erişim eksik. Lokal fallback'e düşme.
+      if (backend.hasError && backend.error is DbApiAuthRequiredException) {
+        return _buildAuthRequired(tr);
+      }
       if (backend.valueOrNull != null || backend.isLoading) {
         whiskyAsync = backend;
       } else {

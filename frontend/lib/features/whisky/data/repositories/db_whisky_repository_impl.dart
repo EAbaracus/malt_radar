@@ -162,6 +162,10 @@ class DbWhiskyRepositoryImpl implements WhiskyRepository {
         tastingNotes: tastingNotes,
       );
       return Whisky.fromMap(legacyMap);
+    } on DbApiAuthRequiredException {
+      // 401 = "login required", NOT "whisky not found". Propagate so the UI
+      // can render a sign-in state instead of a bogus not-found message.
+      rethrow;
     } catch (_) {
       return null;
     }

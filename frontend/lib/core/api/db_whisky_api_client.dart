@@ -25,6 +25,26 @@ class DbPaginatedResponse<T> {
   }
 }
 
+/// A gated /api/db request was denied because authentication is required
+/// (HTTP 401). The UI must render this as "sign in required", NOT as "not
+/// found": a 401 is an access problem, a 404 is a data-absence problem.
+class DbApiAuthRequiredException implements Exception {
+  final String context;
+  const DbApiAuthRequiredException(this.context);
+
+  @override
+  String toString() => 'DbApiAuthRequiredException: $context';
+}
+
+/// 401 → [DbApiAuthRequiredException] (so callers can distinguish access
+/// denial from data absence); anything else → generic status error.
+Never _throwOnStatus(http.Response response, String context) {
+  if (response.statusCode == 401) {
+    throw DbApiAuthRequiredException(context);
+  }
+  throw Exception('$context: ${response.statusCode}');
+}
+
 class DbWhiskyApiClient {
   final http.Client _client;
   String? _token;
@@ -131,7 +151,7 @@ class DbWhiskyApiClient {
     } else if (response.statusCode == 404) {
       return null;
     }
-    throw Exception('API db/whiskies/id failed: ${response.statusCode}');
+    _throwOnStatus(response, 'API db/whiskies/id failed');
   }
 
   Future<DbPaginatedResponse<Map<String, dynamic>>> getDistilleries({int limit = 50, int offset = 0, String? q}) async {
@@ -182,7 +202,7 @@ class DbWhiskyApiClient {
     } else if (response.statusCode == 404) {
       return null; // DB spec explicitly returns 404 if no profile exists
     }
-    throw Exception('API flavor-profile failed: ${response.statusCode}');
+    _throwOnStatus(response, 'API flavor-profile failed');
   }
 
   Future<List<Map<String, dynamic>>> getTastingNotes(String whiskyId) async {
@@ -195,7 +215,7 @@ class DbWhiskyApiClient {
     } else if (response.statusCode == 404) {
       return []; // Fallback empty
     }
-    throw Exception('API tasting-notes failed: ${response.statusCode}');
+    _throwOnStatus(response, 'API tasting-notes failed');
   }
 
   /// Returns official_source_references for a whisky exactly as stored by the
