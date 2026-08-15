@@ -44,7 +44,7 @@ def build_allowlist(db_path: str, limit: int) -> list[str]:
         rows = conn.execute(
             "SELECT whisky_id, name FROM whiskies WHERE superseded_by IS NULL").fetchall()
         # Tier A is by construction sitemap-eligible (C_no can never be 'A').
-        eligible = [w["whisky_id"] for w in rows if tiers.get(w["whisky_id"]) == "A"]
+        eligible = [w["whisky_id"] for w in rows if tiers.get(w["whisky_id"]) == "A" and "smws" not in (w["name"] or "").lower()]
         # Stable sort: evidence_count DESC, name (case-insensitive), whisky_id tie-break
         name_of = {w["whisky_id"]: (w["name"] or "").lower() for w in rows}
         eligible.sort(key=lambda wid: (-counts.get(wid, 0), name_of.get(wid, ""), wid))

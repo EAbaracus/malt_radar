@@ -207,16 +207,17 @@ class DbReadService:
             FROM whiskies w
             LEFT JOIN distilleries d ON w.distillery_id = d.distillery_id
             LEFT JOIN flavor_profiles fp ON w.whisky_id = fp.whisky_id
+            WHERE LOWER(w.name) NOT LIKE '%smws%' AND LOWER(COALESCE(w.brand,'')) NOT LIKE '%smws%'
         """
         params = []
 
         if q and len(q.strip()) >= 2:
             # Case-insensitive search across name and original_name (if present)
-            query += " WHERE (LOWER(w.name) LIKE LOWER(?) OR LOWER(COALESCE(w.original_name, '')) LIKE LOWER(?))"
+            query += " AND (LOWER(w.name) LIKE LOWER(?) OR LOWER(COALESCE(w.original_name, '')) LIKE LOWER(?))"
             term = f"%{q.strip()}%"
             params.extend([term, term])
         else:
-            query += " WHERE 1=1"
+            query += " AND 1=1"
 
         if distillery_id:
             query += " AND w.distillery_id = ?"
@@ -392,6 +393,7 @@ class DbReadService:
             LEFT JOIN flavor_profiles fp ON w.whisky_id = fp.whisky_id
             WHERE (LOWER(w.name) LIKE LOWER(?) OR LOWER(COALESCE(w.original_name, '')) LIKE LOWER(?)
                    OR d.name LIKE ?)
+              AND LOWER(w.name) NOT LIKE '%smws%' AND LOWER(COALESCE(w.brand,'')) NOT LIKE '%smws%'
             GROUP BY w.whisky_id
             ORDER BY CASE WHEN w.whisky_id LIKE 'GSD-CAND-%' THEN 0 ELSE 1 END, w.name ASC
             LIMIT 50
