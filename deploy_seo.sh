@@ -11,14 +11,12 @@ DB="$REPO/deploy/data/production.db"   # HOST yolu (container /srv/data'ya mount
 WEB_SEO="$REPO/deploy/web-seo"
 TMP="$REPO/deploy/web-seo.tmp"
 
-echo "==> [1/7] sunucu: git pull + generator (canlı DB)"
+echo "==> [1/7] sunucu: git pull + generator + uyum denetimi (sıcak cache)"
 ssh -i "$SSH_KEY" "$VM" "cd $REPO && git pull --ff-only origin main && \
-  rm -rf $TMP && python3 -m seo.generator --db $DB --out $TMP" \
-  || { echo "FAIL: üretim başarısız — eski sürüm canlı kalır"; exit 1; }
-
-echo "==> [2/7] sunucu: uyum denetimi (seo.verify — TEMIZ şart)"
-ssh -i "$SSH_KEY" "$VM" "cd $REPO && python3 -m seo.verify --dir $TMP" \
-  || { echo "FAIL: uyum denetimi başarısız — eski sürüm canlı kalır"; exit 1; }
+  rm -rf $TMP && python3 -m seo.generator --db $DB --out $TMP >/dev/null 2>&1 && \
+  python3 -m seo.verify --dir $TMP" \
+  || { echo "FAIL: üretim/denetim başarısız — eski sürüm canlı kalır"; exit 1; }
+echo "==> [1b/7] uyum denetimi TEMIZ"
 
 echo "==> [3/7] no-op kontrolü (çıktı hash'i değişmediyse atla)"
 NEW_HASH=$(ssh -i "$SSH_KEY" "$VM" "find $TMP -type f | sort | xargs sha256sum | sha256sum | cut -d' ' -f1")
