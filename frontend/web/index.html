@@ -32,6 +32,31 @@
   <title>Malt Radar</title>
   <link rel="manifest" href="manifest.json">
 
+  <!-- Google Consent Mode v2 Default Bootstrap & gtag Initialization -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+
+    // Default consent state: HARD DENIED prior to explicit user choice
+    gtag('consent', 'default', {
+      'analytics_storage': 'denied',
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'wait_for_update': 500
+    });
+
+    // Helper for consent state updates via CMP UI
+    window.updateGoogleConsent = function(analyticsGranted, marketingGranted) {
+      gtag('consent', 'update', {
+        'analytics_storage': analyticsGranted ? 'granted' : 'denied',
+        'ad_storage': marketingGranted ? 'granted' : 'denied',
+        'ad_user_data': marketingGranted ? 'granted' : 'denied',
+        'ad_personalization': marketingGranted ? 'granted' : 'denied'
+      });
+    };
+  </script>
+
   <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4569028808710145"
      crossorigin="anonymous"></script>

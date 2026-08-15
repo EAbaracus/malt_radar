@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:malt_radar/core/analytics/analytics_service.dart';
 import 'package:malt_radar/core/theme/app_theme.dart';
 import 'package:malt_radar/core/theme/app_theme_colors.dart';
 import '../controllers/whisky_providers.dart';
@@ -25,6 +26,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   final ScrollController _scrollController = ScrollController();
   TextEditingController? _searchFieldController;
+  Iterable<Whisky> _lastSearchResults = const Iterable<Whisky>.empty();
 
   @override
   void dispose() {
@@ -62,9 +64,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       // every keystroke gets a fresh future — Autocomplete drops stale
       // futures itself, and a cancelled debounce would leave the dropdown
       // stuck waiting on a completer that never completes.
-      return await repository.searchBackend(trimmedQuery);
+      final results = await repository.searchBackend(trimmedQuery);
+      _lastSearchResults = results;
+      return results;
     } catch (e) {
       debugPrint('search autocomplete failed: $e');
+      _lastSearchResults = const Iterable<Whisky>.empty();
       return const Iterable<Whisky>.empty();
     }
   }
@@ -182,6 +187,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   onSelected: (selection) {
                     // Autocomplete returns external whiskies (not in library yet).
                     // Show preview modal with "Add to Library" button.
+                    final query = selection.name;
+                    final count = _lastSearchResults.length;
+                    if (query.length >= 2 && mounted) {
+                      ref.read(analyticsServiceProvider).trackSearch(
+                        queryText: query,
+                        resultsCount: count,
+                        sessionId: ref.read(sessionIdProvider),
+                      );
+                    }
                     _showWhiskyPreview(context, selection);
                   },
                   fieldViewBuilder: (context, controller, focusNode, onEditingComplete) {

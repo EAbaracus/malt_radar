@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:malt_radar/core/analytics/analytics_service.dart';
 import 'package:malt_radar/core/theme/app_theme.dart';
 import 'package:malt_radar/core/theme/app_theme_colors.dart';
 import 'package:malt_radar/core/localization/localization_provider.dart';
@@ -23,6 +24,26 @@ class _MainNavigationScreenState extends ConsumerState<MainNavigationScreen> {
     const ListsScreen(),
     const SettingsScreen(),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      _trackPageView(0);
+    });
+  }
+
+  void _trackPageView(int tabIndex) {
+    final analytics = ref.read(analyticsServiceProvider);
+    final sessionId = ref.read(sessionIdProvider);
+    final tabPaths = ['/', '/lists', '/settings'];
+    analytics.trackPageView(
+      urlPath: tabPaths[tabIndex],
+      pageTitle: tabIndex == 0 ? 'Explore' : tabIndex == 1 ? 'Lists' : 'Settings',
+      sessionId: sessionId,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +79,7 @@ class _MainNavigationScreenState extends ConsumerState<MainNavigationScreen> {
                         setState(() {
                           _selectedIndex = index;
                         });
+                        _trackPageView(index);
                       },
                       destinations: [
                         NavigationDestination(

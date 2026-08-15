@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart'; // kIsWeb
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:malt_radar/core/analytics/analytics_service.dart';
 import 'package:malt_radar/core/config/feature_flags.dart';
 import 'package:malt_radar/core/localization/localization_provider.dart';
 import 'package:malt_radar/core/theme/app_theme.dart';
@@ -70,6 +71,15 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     }
     setState(() => _busy = true);
 
+    // Track sign_up_start for register mode
+    if (_mode == AuthMode.register) {
+      ref.read(analyticsServiceProvider).trackSignUpStart(
+        entryPoint: 'auth_screen',
+        authProvider: 'email',
+        sessionId: ref.read(sessionIdProvider),
+      );
+    }
+
     String? err;
     try {
       if (_mode == AuthMode.login) {
@@ -124,7 +134,15 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     if (!mounted) return;
     setState(() => _busy = false);
     if (err == null) {
-      // Login succeeded. Force main.dart rebuild.
+      // Track sign_up_complete on successful registration
+      if (_mode == AuthMode.register) {
+        ref.read(analyticsServiceProvider).trackSignUpComplete(
+          userId: email,
+          authProvider: 'email',
+          sessionId: ref.read(sessionIdProvider),
+        );
+      }
+      // Login/register succeeded. Force main.dart rebuild.
       ref.invalidate(authControllerProvider);
     } else {
       _toast(err);

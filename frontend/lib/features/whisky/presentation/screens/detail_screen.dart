@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:malt_radar/core/analytics/analytics_service.dart';
 import 'package:malt_radar/core/api/db_whisky_api_client.dart';
 import 'package:malt_radar/core/theme/app_theme.dart';
 import 'package:malt_radar/core/theme/app_theme_colors.dart';
@@ -34,6 +35,7 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
   final _notesController = TextEditingController();
   int _score = 0;
   bool _initialized = false;
+  bool _trackedViewItem = false;
   List<Map<String, dynamic>> _prices = [];
   bool _isLoadingPrices = true;
   List<Map<String, dynamic>> _evidence = [];
@@ -50,7 +52,28 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
     super.initState();
     _loadPrices();
     _loadEvidence();
-    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      _trackViewItem();
+    });
+  }
+
+  void _trackViewItem() {
+    if (_trackedViewItem) return;
+    final analytics = ref.read(analyticsServiceProvider);
+    final sessionId = ref.read(sessionIdProvider);
+    // We track view_item as soon as the screen mounts even though the
+    // whisky data may not be loaded yet — it's the canonical "detail
+    // screen opened" event. The whisky_id is available from the widget.
+    final whiskyId = widget.backendId ?? widget.whiskyId.toString();
+    final res = analytics.trackViewItem(
+      whiskyId: whiskyId,
+      whiskyName: whiskyId, // name populated after data load; event fires on mount
+      sessionId: sessionId,
+    );
+    if (res.status == TelemetryEventStatus.deduplicated) return;
+    _trackedViewItem = true;
+  }
 
   void _loadPrices() async {
     final repository = ref.read(whiskyRepositoryProvider);
