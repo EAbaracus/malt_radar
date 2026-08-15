@@ -459,11 +459,12 @@ class DbReadService:
 
     def get_tasting_notes(self, whisky_id: str) -> List[Dict[str, Any]]:
         # Faz B2: adapter.query → universal price redaction (tasting_notes'de yok ama defans)
+        # Note: production tasting_notes schema has no created_at column.
         return self._adapter.query(
             "tasting_notes",
             where="whisky_id = ?",
             params=(whisky_id,),
-            order_by="created_at ASC",
+            order_by="whisky_id ASC",
         )
 
     def get_price_history(self, whisky_id: str) -> List[Dict[str, Any]]:
