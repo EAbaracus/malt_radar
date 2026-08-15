@@ -207,7 +207,12 @@ class DbWhiskyApiClient {
 
   Future<List<Map<String, dynamic>>> getTastingNotes(String whiskyId) async {
     await _ensureToken();
-    final uri = Uri.parse('${AppConfig.baseUrl}/api/db/whiskies/${Uri.encodeComponent(whiskyId)}/tasting-notes');
+    if (_token == null) {
+      // Tasting notes are authenticated-only (Option 2 / G4 spec).
+      // Return empty list in guest mode without hitting non-existent public endpoint or throwing.
+      return [];
+    }
+    final uri = Uri.parse('${_basePath('/whiskies')}/${Uri.encodeComponent(whiskyId)}/tasting-notes');
     final response = await _client.get(uri, headers: _headers());
     if (response.statusCode == 200) {
       final List<dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
