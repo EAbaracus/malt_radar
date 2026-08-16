@@ -255,6 +255,27 @@ class DbWhiskyApiClient {
     throw Exception('API search failed: ${response.statusCode}');
   }
 
+  /// Full-pool similar whiskies (public namespace — route yalnızca
+  /// /api/db/public altında tanımlı, G1 spec). 404 -> null (hedef yok);
+  /// diğer status -> throw (repo fallback'e düşer).
+  Future<List<Map<String, dynamic>>?> getSimilarWhiskies(
+      String whiskyId, {int limit = 5}) async {
+    await _ensureToken();
+    final uri = Uri.parse(
+        '${AppConfig.baseUrl}/api/db/public/whiskies/${Uri.encodeComponent(whiskyId)}/similar?limit=$limit');
+    final response = await _client.get(uri, headers: _headers());
+    if (response.statusCode == 200) {
+      final data = jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
+      return (data['similar'] as List?)
+              ?.map((e) => e as Map<String, dynamic>)
+              .toList() ??
+          [];
+    } else if (response.statusCode == 404) {
+      return null;
+    }
+    throw Exception('API db similar failed: ${response.statusCode}');
+  }
+
   Future<List<Map<String, dynamic>>> getPriceHistory(String whiskyId) async {
     await _ensureToken();
     final uri = Uri.parse('${AppConfig.baseUrl}/api/db/whiskies/${Uri.encodeComponent(whiskyId)}/price-history');

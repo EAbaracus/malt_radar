@@ -182,8 +182,29 @@ class DbWhiskyRepositoryImpl implements WhiskyRepository {
 
   @override
   Future<List<Whisky>> getSimilarWhiskies(String backendId, {int limit = 5}) async {
+    // Öncelik: server-side full-pool endpoint (spec G1/G6). Eski backend'de
+    // 404/network hatası olursa bounded-fetch fallback (eski davranış).
     try {
-      // Fetch the target whisky's normalized 7-axis profile first.
+      final maps = await _dbClient.getSimilarWhiskies(backendId, limit: limit);
+      if (maps == null) return []; // hedef yok -> "no similar flavors"
+      return maps
+          .map((m) {
+            final legacy = DbWhiskyMapper.toLegacyMap(m);
+            final sim = m['similarity'];
+            if (sim is num) legacy['style_similarity'] = sim.toString();
+            return Whisky.fromMap(legacy);
+          })
+          .toList();
+    } catch (_) {
+      return _boundedSimilarFallback(backendId, limit: limit);
+    }
+  }
+
+  /// Eski backend uyumluluğu: 5-page (250 satır) alfabetik bounded fetch.
+  /// Yeni backend'de yalnızca endpoint hatasında tetiklenir.
+  Future<List<Whisky>> _boundedSimilarFallback(String backendId,
+      {int limit = 5}) async {
+    try {
       final target = await getWhiskyByBackendId(backendId);
       if (target?.flavorProfile == null) return [];
 
@@ -195,9 +216,6 @@ class DbWhiskyRepositoryImpl implements WhiskyRepository {
       }
       if (targetProfile.isEmpty) return [];
 
-      // BOUNDED 5-page fetch (250 rows max) — similarity degrades gracefully
-      // with a smaller candidate pool, but avoids the 100-request eager
-      // cascade that flooded the backend rate limit (429 -> empty list).
       final all = <Whisky>[];
       for (var p = 0; p < 5; p++) {
         final page = await getWhiskiesPage(offset: p * 50, limit: 50);
@@ -227,8 +245,8 @@ class DbWhiskyRepositoryImpl implements WhiskyRepository {
         if (hasData) scored.add({'whisky': other, 'distance': sumSquares});
       }
 
-      scored.sort((a, b) =>
-          (a['distance'] as double).compareTo(b['distance'] as double));
+      scored.sort(
+          (a, b) => (a['distance'] as double).compareTo(b['distance'] as double));
       return scored.take(limit).map((e) => e['whisky'] as Whisky).toList();
     } catch (_) {
       return [];
