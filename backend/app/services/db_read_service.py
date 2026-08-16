@@ -208,6 +208,7 @@ class DbReadService:
             LEFT JOIN distilleries d ON w.distillery_id = d.distillery_id
             LEFT JOIN flavor_profiles fp ON w.whisky_id = fp.whisky_id
             WHERE LOWER(w.name) NOT LIKE '%smws%' AND LOWER(COALESCE(w.brand,'')) NOT LIKE '%smws%'
+              AND w.superseded_by IS NULL
         """
         params = []
 
@@ -334,6 +335,7 @@ class DbReadService:
             LEFT JOIN distilleries d ON w.distillery_id = d.distillery_id
             LEFT JOIN flavor_profiles fp ON w.whisky_id = fp.whisky_id
             WHERE w.whisky_id = ?
+              AND w.superseded_by IS NULL
         """
         with self._get_connection() as conn:
             cursor = conn.cursor()
@@ -366,6 +368,7 @@ class DbReadService:
             SELECT d.distillery_id, d.name, COUNT(w.whisky_id) as whisky_count
             FROM distilleries d
             LEFT JOIN whiskies w ON d.distillery_id = w.distillery_id
+                               AND w.superseded_by IS NULL
             GROUP BY d.distillery_id
             ORDER BY d.name ASC
             LIMIT ? OFFSET ?
@@ -394,6 +397,7 @@ class DbReadService:
             WHERE (LOWER(w.name) LIKE LOWER(?) OR LOWER(COALESCE(w.original_name, '')) LIKE LOWER(?)
                    OR d.name LIKE ?)
               AND LOWER(w.name) NOT LIKE '%smws%' AND LOWER(COALESCE(w.brand,'')) NOT LIKE '%smws%'
+              AND w.superseded_by IS NULL
             GROUP BY w.whisky_id
             ORDER BY CASE WHEN w.whisky_id LIKE 'GSD-CAND-%' THEN 0 ELSE 1 END, w.name ASC
             LIMIT 50
@@ -420,7 +424,18 @@ class DbReadService:
     def get_filters(self) -> Dict[str, Any]:
         with self._get_connection() as conn:
             cursor = conn.cursor()
-            cursor.execute("SELECT distillery_id, name FROM distilleries ORDER BY name ASC")
+            # Only distilleries that still have active (non-superseded) whiskies
+            # are offered as filters; otherwise quarantined/SMWS rows would
+            # surface via the distillery facet (SMWS/SYNTH mark-and-hide).
+            cursor.execute(
+                """
+                SELECT DISTINCT d.distillery_id, d.name
+                FROM distilleries d
+                JOIN whiskies w ON d.distillery_id = w.distillery_id
+                               AND w.superseded_by IS NULL
+                ORDER BY d.name ASC
+                """
+            )
             distilleries = [dict(row) for row in cursor.fetchall()]
 
             return {
