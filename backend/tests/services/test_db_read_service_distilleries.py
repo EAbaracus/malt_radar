@@ -19,6 +19,7 @@ def service(tmp_path, monkeypatch):
           whisky_id TEXT PRIMARY KEY,
           name TEXT,
           distillery_id TEXT,
+          superseded_by TEXT,
           FOREIGN KEY (distillery_id) REFERENCES distilleries(distillery_id)
         );
         """
@@ -33,14 +34,14 @@ def service(tmp_path, monkeypatch):
     conn.executemany("INSERT INTO distilleries VALUES (?, ?)", distilleries_data)
 
     whiskies_data = [
-        ("W1", "A-Whisky 1", "D1"),
-        ("W2", "A-Whisky 2", "D1"),
-        ("W3", "A-Whisky 3", "D1"),
-        ("W4", "B-Whisky 1", "D2"),
-        ("W5", "B-Whisky 2", "D2"),
-        ("W6", "C-Whisky 1", "D3"),
+        ("W1", "A-Whisky 1", "D1", None),
+        ("W2", "A-Whisky 2", "D1", None),
+        ("W3", "A-Whisky 3", "D1", None),
+        ("W4", "B-Whisky 1", "D2", None),
+        ("W5", "B-Whisky 2", "D2", None),
+        ("W6", "C-Whisky 1", "D3", None),
     ]
-    conn.executemany("INSERT INTO whiskies VALUES (?, ?, ?)", whiskies_data)
+    conn.executemany("INSERT INTO whiskies VALUES (?, ?, ?, ?)", whiskies_data)
 
     conn.commit()
     conn.close()
