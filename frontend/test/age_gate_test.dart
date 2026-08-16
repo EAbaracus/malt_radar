@@ -16,6 +16,7 @@ import 'package:malt_radar/core/presentation/screens/main_navigation_screen.dart
 import 'package:malt_radar/features/auth/presentation/auth_screen.dart';
 import 'package:malt_radar/features/compliance/presentation/age_gate_screen.dart';
 import 'package:malt_radar/features/compliance/presentation/age_gate_blocked_screen.dart';
+import 'package:malt_radar/features/compliance/presentation/pre_gate_discovery_shell.dart';
 import 'package:malt_radar/features/whisky/presentation/controllers/whisky_providers.dart';
 import 'package:malt_radar/features/lists/presentation/controllers/user_lists_providers.dart';
 
@@ -49,6 +50,21 @@ void main() {
           referenceWhiskyModelProvider.overrideWith(
             (ref) => Stream.value(null),
           ),
+          // Seed the pre-gate discovery provider with test data so the shell
+          // renders cards (each showing a lock_outline icon).
+          preGateWhiskiesProvider.overrideWith(
+            (ref) => Stream.value([
+              PreGateWhisky(
+                id: 1,
+                name: 'Test Malt',
+                country: 'Turkey',
+                region: 'Istanbul',
+                type: 'Single Malt',
+                distillery: 'Test Distillery',
+                age: 12,
+              ),
+            ]),
+          ),
         ],
         child: const MaltRadarApp(),
       ),
@@ -57,14 +73,18 @@ void main() {
     return db;
   }
 
-  testWidgets('fresh install shows the age gate, not product content', (
+  testWidgets('fresh install shows the age gate over a public preview shell', (
     tester,
   ) async {
     await pumpApp(tester);
     expect(find.byType(AgeGateScreen), findsOneWidget);
     expect(find.byType(MainNavigationScreen), findsNothing);
-    // Content must not render before the gate is passed.
-    expect(find.text('MALT RADAR'), findsOneWidget);
+    // Brand header appears (in both the preview shell and the gate).
+    expect(find.text('MALT RADAR'), findsWidgets);
+    // Pre-gate public discovery shell must be present beneath the overlay.
+    expect(find.byType(PreGateDiscoveryShell), findsOneWidget);
+    // No age-gated product content (detail screens, scores) pre-consent.
+    expect(find.byIcon(Icons.lock_outline), findsWidgets);
   });
 
   testWidgets('confirming the age gate persists consent and enters the app', (

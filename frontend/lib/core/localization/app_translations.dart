@@ -176,6 +176,8 @@ const Map<String, Map<String, String>> appTranslations = {
     'remove_reference_whisky_confirm_message': 'Referans viskiyi kaldırmak istiyor musun?',
     'reference_whisky_removed': 'Referans viski kaldırıldı',
     'remove': 'Kaldır',
+    'age_gate_preview_prompt': 'Yaş doğrulaması yapmak için aşağıdaki kutuyu işaretleyin.',
+    'age_gate_preview_title': 'Herkese Açık Önizleme',
   },
   'en': {
     // General
@@ -351,5 +353,7 @@ const Map<String, Map<String, String>> appTranslations = {
     'remove_reference_whisky_confirm_message': 'Remove reference whisky?',
     'reference_whisky_removed': 'Reference whisky removed',
     'remove': 'Remove',
+    'age_gate_preview_prompt': 'Confirm you are of legal drinking age by checking the box below.',
+    'age_gate_preview_title': 'Public Preview',
   }
 };

@@ -133,7 +133,6 @@ class AnalyticsService {
     required String eventName,
     required Map<String, dynamic> payload,
     required String sessionId,
-    String? userId,
     String envId = 'malt-radar-prod-1',
   }) {
     // 1. Consent Gate Check (essential auth events exempted when user-initiated)
@@ -245,7 +244,6 @@ class AnalyticsService {
       eventName: 'sign_up_complete',
       payload: {'user_id': userId, 'auth_provider': authProvider, 'age_verified': true},
       sessionId: sessionId,
-      userId: userId,
     );
   }
 

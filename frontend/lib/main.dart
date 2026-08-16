@@ -11,6 +11,7 @@ import 'features/auth/presentation/auth_controller.dart';
 import 'features/compliance/presentation/age_gate_providers.dart';
 import 'features/compliance/presentation/age_gate_screen.dart';
 import 'features/compliance/presentation/age_gate_blocked_screen.dart';
+import 'features/compliance/presentation/pre_gate_discovery_shell.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,9 +35,14 @@ class MaltRadarApp extends ConsumerWidget {
     );
   }
 
-  /// Routes the entry screen through the compliance age gate. None of the
-  /// product content renders until the user confirms they are of legal
-  /// drinking age in their country.
+  /// Routes the entry screen through the compliance age gate.
+  ///
+  /// Architecture (decided 2026-08-16, audit 359e028c): pre-gate users still
+  /// see browsable, age-gate-safe whisky identity content (brand, country,
+  /// region, type, age). The age gate renders as a non-blocking overlay on
+  /// top of that public shell, so free/discoverable content is never hidden
+  /// pre-consent. Only age-gated fields (tasting notes, abv, scores, prices)
+  /// remain behind the gate.
   Widget _homeFor(
     AgeGateDecision age,
     AuthState auth,
@@ -47,7 +53,8 @@ class MaltRadarApp extends ConsumerWidget {
       case AgeGateStatus.unknown:
         return const _GateLoadingScaffold();
       case AgeGateStatus.notConsented:
-        return const AgeGateScreen();
+        // Public discovery shell beneath the gate — age-gate-safe fields only.
+        return const _PreGateRoot();
       case AgeGateStatus.blocked:
         return const AgeGateBlockedScreen();
       case AgeGateStatus.consented:
@@ -152,6 +159,27 @@ class _GateLoadingScaffold extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+/// Pre-gate root: renders the public discovery shell with the age gate
+/// as a modal overlay. The shell beneath shows age-gate-safe whisky identity
+/// (brand/country/region/type/age); the gate floats on top until consent.
+class _PreGateRoot extends StatelessWidget {
+  const _PreGateRoot();
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        // Public discovery shell — whisky identity only, no tasting notes/
+        // abv/scores/prices.
+        const PreGateDiscoveryShell(),
+        // Age gate overlay — not a screen replacement. Once the user confirms,
+        // `_homeFor` transitions to the full app.
+        const AgeGateScreen(),
+      ],
     );
   }
 }
