@@ -100,4 +100,10 @@ teyitli). Bu closure `c031d2ea` üzerinden yazıldı.
 | **Yeni infra fix** (`5548a88`) | Caddyfile `@nocache` matcher'ına `/` eklendi — root `max-age=1y` idi (bayat index.html riski; doğrulama sırasında tespit edildi) |
 | Not | Cloudflare HTML injection tespit edildi (canlı index 5939 vs lokal 4704 bayt — analytics/rocket loader; önceden var olan, zararsız). VM'de `web-build.prev` rollback noktası bırakıldı. `deploy/data/production.db` **dokunulmadı** (ayrı gözetim süreci). |
 
-**Feature CANLI.** Kullanıcı görünür kanıt: detail ekranında "Benzer Lezzetler" artık A/B harfli alfabetik dilim değil, tam katalogdan gerçek benzer profiller gösteriyor.
+## 9. Deploy İncidenti (2026-08-16) — DİRTY-TREE BUILD
+
+- **Belirti:** Kullanıcı "ekran açılmıyor" — sayfa "MALT RADAR" başlığını yüzlerce kez render ediyordu (sonsuz layout döngüsü, tarayıcı capture ile doğrulandı).
+- **Kök neden:** İlk `flutter build web` **çalışma ağacından** yapıldı; o ağaçta paralel oturumun **uncommitted UI değişiklikleri** vardı (main.dart, home_screen.dart, detail_screen.dart, app_translations.dart — aktif UX debug'u). Yarım UI kodu canlıya sürüldü. Feature kodumuz bu hatanın kaynağı DEĞİL (home ekranına dokunmuyor).
+- **Kurtarma:** (1) `web-build.prev` rollback denemesi başarısız (önceki deploy'dan beri boştu) → site geçici 404. (2) `git worktree add` ile **committed HEAD'den temiz build** (`$LOCALAPPDATA/Temp/mr-clean-build`) → tar-pipe → VM swap. (3) Doğrulama: `flutter_bootstrap.js` + `main.dart.js` hash'leri canlıda == temiz build; `/` 200; `/similar` canlı (Talisker 57 North sim=1.0).
+- **Ders:** Canlıya Flutter web sürülürken build **TEMİZ worktree'den** (deploy edilecek commit) yapılmalı — main tree'de başka oturumun uncommitted değişiklikleri varsa ASLA doğrudan build edilmemeli.
+- **Not:** Paralel oturumun uncommitted dosyalarına dokunulmadı; `6c036b5` (superseded_by filtresi) aynı anda push edilmişti — frontend etkilenmedi (delta boş doğrulandı).
