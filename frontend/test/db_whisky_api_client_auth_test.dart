@@ -34,12 +34,24 @@ void main() {
   });
 
   test('getTastingNotes 401 → DbApiAuthRequiredException', () async {
-    final client = clientThatReturns(401);
+    // Tasting notes short-circuit to an empty list in true guest mode
+    // (_token == null, G4 spec). To exercise the 401 → DbApiAuthRequiredException
+    // path we must arm the client with a token so it actually calls the authed
+    // endpoint and receives the 401.
+    final client = clientThatReturns(401)..setToken('test-token');
 
     expect(
       () => client.getTastingNotes('W-1'),
       throwsA(isA<DbApiAuthRequiredException>()),
     );
+  });
+
+  test('getTastingNotes guest mode → empty list (no 401, G4 auth-gated contract)', () async {
+    // A tokenless client must NOT hit the authed endpoint; it returns [] without
+    // throwing (guest sees no tasting notes, not an auth error).
+    final client = clientThatReturns(401);
+
+    expect(await client.getTastingNotes('W-1'), isEmpty);
   });
 
   test('getWhiskyById 404 → null (not-found contract preserved)', () async {
