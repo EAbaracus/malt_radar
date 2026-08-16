@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:malt_radar/core/consent/consent_controller.dart';
 
 /// Provider-neutral Flutter AnalyticsService for Malt Radar.
 /// Enforces closed-schema taxonomy, Consent Mode v2 gating, PII filtering,
@@ -8,8 +9,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// 
 /// Real GA4 network dispatches are strictly NOT AUTHORIZED / NOT CONFIGURED.
 
+/// Builds an [AnalyticsService] whose Consent Mode v2 gate reflects the live
+/// CMP decision ([consentControllerProvider]). When consent changes the
+/// provider recomputes, so consumers always read the current gate state.
 final analyticsServiceProvider = Provider<AnalyticsService>((ref) {
-  return AnalyticsService();
+  final consent = ref.watch(consentControllerProvider);
+  return AnalyticsService(
+    consentState: TelemetryConsentState(
+      analyticsStorage: consent.isAnalyticsGranted ? 'granted' : 'denied',
+      adStorage: consent.isMarketingGranted ? 'granted' : 'denied',
+      adUserData: consent.isMarketingGranted ? 'granted' : 'denied',
+      adPersonalization: consent.isMarketingGranted ? 'granted' : 'denied',
+    ),
+  );
 });
 
 /// Anonymous session ID generated once per app lifetime.
