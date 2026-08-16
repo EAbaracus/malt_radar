@@ -35,7 +35,7 @@ maltradar.com {
     # NOT: header'lar AYRI terminal handle'larda — aynı blokta iki header yazmak
     # işe yaramaz (Caddy route sort'u match'siz generic route'u sona koyar, o da
     # no-cache'i ezer). handle'lar sırayla denenir, ilk eşleşen terminaldir.
-    @nocache path /index.html /main.dart.js /flutter_service_worker.js /flutter_bootstrap.js /drift_worker.js
+    @nocache path / /index.html /main.dart.js /flutter_service_worker.js /flutter_bootstrap.js /drift_worker.js
     handle @nocache {
         file_server
         try_files {path} /index.html
