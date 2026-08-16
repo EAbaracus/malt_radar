@@ -182,11 +182,15 @@ class DbWhiskyRepositoryImpl implements WhiskyRepository {
 
   @override
   Future<List<Whisky>> getSimilarWhiskies(String backendId, {int limit = 5}) async {
-    // Öncelik: server-side full-pool endpoint (spec G1/G6). Eski backend'de
-    // 404/network hatası olursa bounded-fetch fallback (eski davranış).
+    // Öncelik: server-side full-pool endpoint (spec G1/G6). null (404: hedef
+    // yok VEYA eski backend route'u yok) ve network/5xx hatası -> bounded-fetch
+    // fallback (eski davranış). Yeni backend'de hedef gerçekten yoksa fallback
+    // kendi içinde [] döner ("no similar flavors").
     try {
       final maps = await _dbClient.getSimilarWhiskies(backendId, limit: limit);
-      if (maps == null) return []; // hedef yok -> "no similar flavors"
+      if (maps == null) {
+        return _boundedSimilarFallback(backendId, limit: limit);
+      }
       return maps
           .map((m) {
             final legacy = DbWhiskyMapper.toLegacyMap(m);

@@ -64,7 +64,8 @@ void main() {
           jsonEncode(_similarJson), 200,
           headers: {'content-type': 'application/json; charset=utf-8'})),
     );
-    final repo = DbWhiskyRepositoryImpl(AppDatabase.forTesting(NativeDatabase.memory()), client);
+    final repo = DbWhiskyRepositoryImpl(
+        AppDatabase.forTesting(NativeDatabase.memory()), client);
     final result = await repo.getSimilarWhiskies('W000001', limit: 5);
     expect(result.length, 2);
     expect(result.first.externalId, 'W000002');
@@ -74,27 +75,56 @@ void main() {
   });
 
   test('repo falls back to bounded fetch when endpoint 404s', () async {
+    // Fallback zinciri GERÇEKTEN tetiklenmeli: /similar -> 404 -> null ->
+    // _boundedSimilarFallback -> getWhiskyByBackendId (tek) + getWhiskiesPage
+    // (liste) -> Euclidean hesap -> benzer sonuç. Boş liste false-positive
+    // olmamalı; sonuç hesaplanmış benzeri kanıtlar.
+    const profileJson =
+        '{"fruity":3.0,"sweet":4.0,"spicy":1.0,"smoky_peaty":0.0,'
+        '"oak_cask":2.0,"malty_cereal":5.0,"floral_herbal":2.0}';
     final client = DbWhiskyApiClient(
       client: MockClient((req) async {
-        if (req.url.path.endsWith('/similar')) {
+        final path = req.url.path;
+        if (path.endsWith('/similar')) {
           return http.Response('not found', 404);
         }
-        if (req.url.path.contains('/whiskies')) {
+        if (path.endsWith('/flavor-profile')) {
+          return http.Response('not found', 404);
+        }
+        if (path == '/api/db/public/whiskies/W000001') {
           return http.Response(
-              '{"items":[{"whisky_id":"W000009","name":"Glenfiddich 12",'
-              '"flavor_profile":"{\\"fruity\\":3.0,\\"sweet\\":4.0,'
-              '\\"spicy\\":1.0,\\"smoky_peaty\\":0.0,\\"oak_cask\\":2.0,'
-              '\\"malty_cereal\\":5.0,\\"floral_herbal\\":2.0}"}],'
-              '"total_count":1,"limit":50,"offset":0}', 200,
+              '{"whisky_id":"W000001","name":"Glenfiddich 12",'
+              '"flavor_profile":${jsonEncode(profileJson)}}',
+              200,
+              headers: {'content-type': 'application/json; charset=utf-8'});
+        }
+        if (path == '/api/db/public/whiskies') {
+          if (req.url.queryParameters['offset'] != '0') {
+            return http.Response(
+                '{"items":[],"total_count":0,"limit":50,"offset":50}',
+                200,
+                headers: {'content-type': 'application/json; charset=utf-8'});
+          }
+          return http.Response(
+              '{"items":['
+              '{"whisky_id":"W000001","name":"Glenfiddich 12",'
+              '"flavor_profile":${jsonEncode(profileJson)}},'
+              '{"whisky_id":"W000002","name":"Glenfiddich 15",'
+              '"flavor_profile":${jsonEncode(profileJson)}}],'
+              '"total_count":2,"limit":50,"offset":0}',
+              200,
               headers: {'content-type': 'application/json; charset=utf-8'});
         }
         return http.Response('{"similar":[]}', 200,
             headers: {'content-type': 'application/json; charset=utf-8'});
       }),
     );
-    final repo = DbWhiskyRepositoryImpl(AppDatabase.forTesting(NativeDatabase.memory()), client);
+    final repo = DbWhiskyRepositoryImpl(
+        AppDatabase.forTesting(NativeDatabase.memory()), client);
+    // Aynı profil -> distance 0 -> W000002 fallback ile hesaplanmış benzer.
     final result = await repo.getSimilarWhiskies('W000001', limit: 5);
-    expect(result, isA<List>());
+    expect(result.length, 1, reason: 'fallback benzerlik hesabı çalışmalı');
+    expect(result.first.externalId, 'W000002');
     await repo.clearCache();
   });
 }
