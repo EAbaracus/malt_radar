@@ -15,7 +15,7 @@
 3. **Allowlist (G1):** Hedef `whisky_id` allowlist'te değilse → 404. SONUÇLAR tam havuzdur (istisna yalnızca sonuçlar için).
 4. **Normalize parity (G4):** `json.loads(DbReadService._normalize_flavor_profile(raw) or "{}")` → sonra Dart `normalizeFlavorProfileMap` portu (7 eksen, `_scale` ≤1→×10, component fallback) — client'ın bugün gördüğü veriyle birebir aynı girdi.
 5. **Response shaping (G5):** Alanlar: `whisky_id, name, original_name, distillery_name, region, type, country, meta_critic_score, user_score, distance, similarity`. Fiyat/evidence/ham flavor_profile YOK.
-6. **Test runner:** Backend → repo kökünde `backend/.venv/Scripts/python.exe -m pytest backend/tests/<file> -v`. Flutter → `C:/Users/eltun/flutter/bin/flutter.bat test --no-pub`.
+6. **Test runner:** Backend → `PYTHONPATH="C:/Users/eltun/Documents/malt radar CLEAN/backend"` export'u + repo kökünden `backend/.venv/Scripts/python.exe -m pytest backend/tests/<file> -v` (root `tests/conftest.py` yalnızca root suite'te yüklenir; `backend/tests/*`'ı doğrudan koşarken `app` import'u için PYTHONPATH şart — doğrulandı 2026-08-16). Flutter → `C:/Users/eltun/flutter/bin/flutter.bat test --no-pub`.
 7. **DB yolu:** Worktree'de backend testleri için `MALT_RADAR_DB_PATH=C:/Users/eltun/Documents/malt radar CLEAN/output/import/production.db` export et (read-only, güvenli).
 8. **Commit:** Her task kendi commit'ini yapar; commit/push yalnızca insan GO'su ile (AGENTS.md kural 15).
 
@@ -84,7 +84,7 @@ def test_no_profile_target_returns_empty(service):
 
 - [ ] **Step 2: Testin fail olduğunu doğrula**
 
-Run: `MALT_RADAR_DB_PATH="C:/Users/eltun/Documents/malt radar CLEAN/output/import/production.db" backend/.venv/Scripts/python.exe -m pytest backend/tests/test_similarity_service.py -v`
+Run: `PYTHONPATH="C:/Users/eltun/Documents/malt radar CLEAN/backend" MALT_RADAR_DB_PATH="C:/Users/eltun/Documents/malt radar CLEAN/output/import/production.db" backend/.venv/Scripts/python.exe -m pytest backend/tests/test_similarity_service.py -v`
 Expected: FAIL — `ModuleNotFoundError: app.services.similarity_service`.
 
 - [ ] **Step 3: Minimal implementasyon** — `backend/app/services/similarity_service.py`:
@@ -238,7 +238,7 @@ class SimilarityService:
 
 - [ ] **Step 4: Testleri çalıştır — PASS beklenir**
 
-Run: `MALT_RADAR_DB_PATH="C:/Users/eltun/Documents/malt radar CLEAN/output/import/production.db" backend/.venv/Scripts/python.exe -m pytest backend/tests/test_similarity_service.py -v`
+Run: `PYTHONPATH="C:/Users/eltun/Documents/malt radar CLEAN/backend" MALT_RADAR_DB_PATH="C:/Users/eltun/Documents/malt radar CLEAN/output/import/production.db" backend/.venv/Scripts/python.exe -m pytest backend/tests/test_similarity_service.py -v`
 Expected: 4 passed. `test_full_pool_not_alphabetical_first_250` kanıttır: en az 1 sonuç alfabetik ilk 250 dışından.
 
 - [ ] **Step 5: Commit**
@@ -334,7 +334,7 @@ def test_similar_limit_bounds():
 
 - [ ] **Step 2: Testin fail olduğunu doğrula**
 
-Run: `backend/.venv/Scripts/python.exe -m pytest backend/tests/test_similar_endpoint.py -v`
+Run: `PYTHONPATH="C:/Users/eltun/Documents/malt radar CLEAN/backend" backend/.venv/Scripts/python.exe -m pytest backend/tests/test_similar_endpoint.py -v`
 Expected: FAIL — `AttributeError: 'AnonymousCatalogService' object has no attribute 'get_similar_whiskies'` (veya 404 route yok).
 
 - [ ] **Step 3: Delegate + route implementasyonu**
@@ -375,12 +375,12 @@ def get_similar_whiskies(
 
 - [ ] **Step 4: Testleri çalıştır — PASS beklenir**
 
-Run: `backend/.venv/Scripts/python.exe -m pytest backend/tests/test_similar_endpoint.py -v`
+Run: `PYTHONPATH="C:/Users/eltun/Documents/malt radar CLEAN/backend" backend/.venv/Scripts/python.exe -m pytest backend/tests/test_similar_endpoint.py -v`
 Expected: 5 passed.
 
 - [ ] **Step 5: Komşu regresyon — public API suite**
 
-Run: `backend/.venv/Scripts/python.exe -m pytest backend/tests/test_db_public_api.py backend/tests/test_anonymous_catalog_service.py -v`
+Run: `PYTHONPATH="C:/Users/eltun/Documents/malt radar CLEAN/backend" backend/.venv/Scripts/python.exe -m pytest backend/tests/test_db_public_api.py backend/tests/test_anonymous_catalog_service.py -v`
 Expected: PASS (allowlist davranışı bozulmadı).
 
 - [ ] **Step 6: Commit**
@@ -644,7 +644,7 @@ git commit -m "feat(frontend): similar-flavors via server-side endpoint with bou
 
 - [ ] **Step 1: Backend tam suite**
 
-Run: `backend/.venv/Scripts/python.exe -m pytest backend/tests/test_similarity_service.py backend/tests/test_similar_endpoint.py backend/tests/test_db_public_api.py backend/tests/test_anonymous_catalog_service.py -v`
+Run: `PYTHONPATH="C:/Users/eltun/Documents/malt radar CLEAN/backend" backend/.venv/Scripts/python.exe -m pytest backend/tests/test_similarity_service.py backend/tests/test_similar_endpoint.py backend/tests/test_db_public_api.py backend/tests/test_anonymous_catalog_service.py -v`
 Expected: ALL PASS.
 
 - [ ] **Step 2: Flutter tam suite (ilgili dosyalar)**
@@ -671,7 +671,7 @@ Kabul kriterleri:
 ```bash
 sha256sum "output/import/production.db"
 ```
-Expected: `cbffd16b29433c983bb113b2e9a9f186dd94c1ff9dc6f5f1b13d97f084386177` (AGENTS.md baseline) — endpoint yalnızca okur.
+Expected: `c031d2ea14a60ac44ced3397ba927018c361d16bb91bdc3f0c3536482820d1ed` — bu feature'ın çalışma baseline'ı (canlı DB, 2026-08-16; AGENTS.md'deki `cbffd16b…` 08-14 provisional baseline'ı, karantina pipeline'ının kendi closure'larıyla aşılınca güncelliğini yitirdi — Mnemosyne task-progress `production_sha: C031D2EA14A60AC4` ile teyitli). Closure'da önce/sonra aynı SHA = endpoint yalnızca okur.
 
 - [ ] **Step 5: Closure kanıtı yaz** — `docs/superpowers/specs/2026-08-16-similar-flavors-verification.md`:
 

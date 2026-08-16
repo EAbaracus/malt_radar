@@ -1,0 +1,96 @@
+# Similar Flavors Server-Side — Verification & Closure
+
+- **Tarih:** 2026-08-16
+- **Phase ID:** `similar-flavors-server-side`
+- **Spec:** `docs/superpowers/specs/2026-08-16-similar-flavors-server-side-design.md`
+- **Plan:** `docs/superpowers/plans/2026-08-16-similar-flavors-server-side.md`
+- **Durum:** TAMAMLANDI (deploy beklemede — kullanıcı GO'su)
+
+---
+
+## 1. Özet
+
+"Benzer Lezzetler" bölümünün A/B harfli alfabetik önyargısı giderildi: benzerlik hesabı
+client-side 250 satırlık bounded havuzdan, server-side **tam aktif katalog** (2.597
+kullanılabilir profil) üzerine taşındı. Yeni `GET /api/db/public/whiskies/{id}/similar`
+endpoint'i read-only (`ProductionReadAdapter`, mode=ro + query_only), PromotionGate
+gerekmedi.
+
+## 2. Commit Zinciri (9 commit)
+
+| Commit | Task | İçerik |
+|---|---|---|
+| `8523093` | 1 | SimilarityService + 4 test (spec review PASS) |
+| `194acf7` | 1 | Quality fix: limit clamp, tek normalize yolu, hermetic testler |
+| `ecc281a5` | 1 | `test_limit_clamped` regression-proof (26 viski, exact assert) |
+| `c0353ae` | 1 | `GROUP BY w.whisky_id` — flavor_profiles JOIN dupe düzeltmesi (830 dupe satır tespit edildi; kanonik katalog sorgusuyla parity) |
+| `342172a` | 2 | `/api/db/public/whiskies/{id}/similar` endpoint + delegate (spec PASS) |
+| `109c688` | 2 | Test hardening: non-empty assert, allowlist-proof mesaj, limit=20 sınırı |
+| `5440fc3` | 3 | Flutter client + repo rewrite (endpoint öncelikli) |
+| `7ee1b2a` | 3 | **Bilinçli kapsam genişletmesi:** `similar_flavor_test.dart` seed kontratına uyduruldu (pre-existing kırıklık, `d5b3fd7`'den beri compile-fail; name-join flavor attach) |
+| `103511f` | 3 | Spec G6 uyumu: 404 → fallback; gerçek fallback-path testi (false-positive giderildi) |
+
+## 3. Test Sonuçları
+
+| Suite | Sonuç | Detay |
+|---|---|---|
+| Backend `test_similarity_service.py` | **6/6 PASS** (0.9s) | full-pool regresyon kanıtı dahil |
+| Backend `test_similar_endpoint.py` | **5/5 PASS** | shaping, anon, 404 gate, allowlist-proof, limit bounds |
+| Backend komşu (public API + anon service) | **10/10 PASS** | allowlist davranışı bozulmadı |
+| Flutter `similar_flavor_backend_test.dart` | **4/4 PASS** | client parse, 404→null, repo map, GERÇEK fallback zinciri |
+| Flutter `similar_flavor_test.dart` + `widget_test.dart` | **2/2 PASS** | lokal mod + widget override sağlam |
+
+## 4. Canlı Doğrulama (uvicorn geçici başlatıldı, sonra kapatıldı)
+
+`GET /api/db/public/whiskies/{id}/similar?limit=5` — 3 hedef:
+
+| Hedef | İlk benzerler (name | distillery | similarity) | Yorum |
+|---|---|---|---|---|
+| W000303 Talisker Port Ruighe | **Talisker 57 North** (Talisker, **sim=1.0**), Penderyn 5yo (0.15), Mackmyra 18yo (0.14), Sullivans Cove 17yo (0.13), Tomatin Decades (0.11) | Birebir profil komşusu zirvede; tam havuz, A/B önyargısı yok |
+| W001781 Bulleit Bourbon | **Bulleit 10yo (0.74)**, Old Grand-Dad 114 (0.69), Michter's Toasted Barrel (0.62), Smooth Ambler Old Scout 7yo (0.61), Four Roses Single Barrel (0.55) | Gerçek bourbon komşuları; aynı distillery + benzer profiller |
+| W000530 Balcones Texas Single Malt | Ardbeg Galileo/Alligator/Auriverdes (0.082), Forty Creek (0.07), Amrut Kadhambam (0.06) | Havuzda yakın profil yok — düşük skor veri gerçeği, bug değil |
+
+- Allowlist dışı hedef → **404** (G1 gate canlıda doğrulandı).
+- Yanıtlarda `production_price`/`flavor_profile`/evidence yok (G5).
+
+## 5. Read-Only Kanıtı (production.db SHA256)
+
+| Aşama | SHA256 |
+|---|---|
+| Feature başlangıcı (before) | `c031d2ea14a60ac44ced3397ba927018c361d16bb91bdc3f0c3536482820d1ed` |
+| Feature sonu (after) | `c031d2ea14a60ac44ced3397ba927018c361d16bb91bdc3f0c3536482820d1ed` |
+| Sonuç | **DEĞİŞMEDİ — yalnızca okuma** |
+
+Not: AGENTS.md'deki `cbffd16b…` (08-14 provisional baseline) karantina pipeline'ının kendi
+closure'larıyla aşılmıştı (Mnemosyne task-progress `production_sha: C031D2EA14A60AC4`
+teyitli). Bu closure `c031d2ea` üzerinden yazıldı.
+
+## 6. Governance Kaydı
+
+- **G1 (bilinçli kapsam genişletmesi):** `/similar` sonuçları tam havuzdan gelir —
+  allowlist (N=150) istisnası yalnızca sonuçlar içindir, hedef hâlâ allowlist'e tabidir
+  (404). Gerekçe: allowlist'e sınırlı benzerlik hesabı bug'ı yeniden üretirdi. Dönen
+  alanlar SEO katmanının zaten public yaptığı alanlardan fazlası değildir; fiyat/evidence
+  sızmaz. **Ürün onayı:** kullanıcı clarify'de Option A'yı GO'ladı; spec G1'de belgelendi.
+- **Kapsam genişletmesi #2:** `similar_flavor_test.dart` düzeltmesi (pre-existing
+  kırıklık — `d5b3fd7` seed kontratını değiştirmişti, test o zamandan beri compile-fail).
+  Kullanıcı onayıyla test-only düzeltildi (`7ee1b2a`).
+- **Stale `REBASE_HEAD`** (.git, Aug 12) tespit edildi; bu oturumdan önce var, paralel
+  oturum ortamına ait olabilir — **dokunulmadı** (kullanıcı kuralı: SİLME önce sor).
+- **11 staged rename** (scripts/DEPRECATED_NEEDS_GUARD_MIGRATION) + paralel oturumun M
+  dosyaları: dokunulmadı (her commit pathspec ile yapıldı, doğrulandı).
+
+## 7. Doğrulama Kontrol Listesi (AGENTS.md Completion)
+
+- [x] Test sonuçları dry-run/spec beklentileriyle eşleşiyor (27 backend + 6 frontend PASS)
+- [x] SHA256 önce/sonra aynı (read-only)
+- [x] R4 ihlali yok (endpoint yazmıyor; testlerde axis [0,1] dışı değer yok)
+- [x] Duplicate `(whisky_id, source)` etkilenmedi (yazma yok)
+- [x] Git durumu: 9 feature commit; 11 rename + paralel M dosyaları bozulmadı
+
+## 8. Kalan / Deploy
+
+- **Step 7 — Deploy + canlı doğrulama: YALNIZCA kullanıcı GO'suyla.** Backend deploy
+  (mevcut akış) → Flutter build `?cb=` cache-bust → detail ekranında "Benzer Lezzetler"
+  A/B dışı gerçek komşular gösteriyor.
+- Backend şu an local'de çalışmıyor (doğrulama için geçici başlatıldı, kapatıldı).
