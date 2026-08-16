@@ -23,7 +23,7 @@ def test_similar_200_shaped_and_limited():
     assert res.status_code == 200
     body = res.json()
     assert body["whisky_id"] == target
-    assert len(body["similar"]) <= 5
+    assert 1 <= len(body["similar"]) <= 5  # vacuous-pass koruması: boş liste fail etmeli
     for item in body["similar"]:
         assert item["whisky_id"] != target
         assert "distance" in item and "similarity" in item
@@ -45,15 +45,22 @@ def test_similar_non_allowlist_target_404():
 
 
 def test_similar_regression_full_pool():
+    """Benzer sonuçlar allowlist'e hapsolmamış (G1 tam havuz) — bug regresyonu.
+
+    Public /whiskies allowlist (N=150) ile sınırlıdır; /similar sonuçları
+    allowlist dışı viskilerden geliyorsa tam havuz çalışıyor demektir.
+    (Eski client bug'ı: benzerlik yalnızca alfabetik ilk dilim/allowlist
+    içinde hesaplanıyordu -> yalnızca A/B harfli sonuçlar.)
+    """
     os.environ["DB_API_ENABLED"] = "true"
     target = _pick_target()
     res = client.get(f"/api/db/public/whiskies/{target}/similar?limit=5")
     similar_ids = {i["whisky_id"] for i in res.json()["similar"]}
-    first250 = set()
+    public_set = set()
     for p in range(5):
         page = client.get(f"/api/db/public/whiskies?limit=50&offset={p*50}").json()
-        first250 |= {i["whisky_id"] for i in page["items"]}
-    assert similar_ids - first250, "benzerlik yalnızca alfabetik ilk 250 havuzu (bug)"
+        public_set |= {i["whisky_id"] for i in page["items"]}
+    assert similar_ids - public_set, "benzerlik sonuçları allowlist'e hapsolmuş (bug)"
 
 
 def test_similar_limit_bounds():
@@ -61,3 +68,7 @@ def test_similar_limit_bounds():
     target = _pick_target()
     assert client.get(f"/api/db/public/whiskies/{target}/similar?limit=0").status_code == 422
     assert client.get(f"/api/db/public/whiskies/{target}/similar?limit=21").status_code == 422
+    # Geçerli sınır: limit=20 -> 200
+    res = client.get(f"/api/db/public/whiskies/{target}/similar?limit=20")
+    assert res.status_code == 200
+    assert len(res.json()["similar"]) <= 20
