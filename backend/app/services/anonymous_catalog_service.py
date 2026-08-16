@@ -113,3 +113,13 @@ class AnonymousCatalogService:
             norm_json = DbReadService._normalize_flavor_profile(raw_fp)
             item["flavor_profile"] = json.loads(norm_json) if norm_json else None
         return item
+
+    def get_similar_whiskies(self, whisky_id: str, limit: int = 5) -> Optional[Dict[str, Any]]:
+        """G1: hedef allowlist'e tabi; SONUÇLAR tam havuz (bilinçli istisna)."""
+        if whisky_id not in self._allowlist_set:
+            return None
+        from app.services.similarity_service import SimilarityService
+        similar = SimilarityService(self._adapter).get_similar(whisky_id, limit)
+        if similar is None:
+            return None
+        return {"similar": similar}

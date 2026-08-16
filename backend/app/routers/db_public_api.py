@@ -58,6 +58,22 @@ def get_flavor_profile(
     except FileNotFoundError:
         raise HTTPException(status_code=503, detail="Database file missing")
 
+@router.get("/whiskies/{whisky_id}/similar")
+@limiter.limit("120/minute")
+def get_similar_whiskies(
+    request: Request,
+    whisky_id: str,
+    limit: int = Query(5, ge=1, le=20),
+    service: AnonymousCatalogService = Depends(get_public_service),
+):
+    try:
+        result = service.get_similar_whiskies(whisky_id, limit)
+        if result is None:
+            raise HTTPException(status_code=404, detail="Whisky not found in public catalog")
+        return {"whisky_id": whisky_id, **result}
+    except FileNotFoundError:
+        raise HTTPException(status_code=503, detail="Database file missing")
+
 @router.get("/search")
 @limiter.limit("120/minute")
 def search(
