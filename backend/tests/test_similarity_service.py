@@ -1,4 +1,5 @@
 import contextlib
+import json
 import sqlite3
 
 import pytest
@@ -136,24 +137,50 @@ def test_no_profile_target_returns_empty(service):
 # New hermetic edge-case tests
 # ---------------------------------------------------------------------------
 
+def _make_profile(sweet: int) -> str:
+    """Build a distinct 7-axis app-profile JSON with a unique ``sweet`` value."""
+    return json.dumps({
+        "fruity": 5,
+        "sweet": sweet,
+        "spicy": 3,
+        "smoky_peaty": 2,
+        "oak_cask": 4,
+        "malty_cereal": 3,
+        "floral_herbal": 2,
+    })
+
+
 def test_limit_clamped():
+    # Hermetic pool: 1 target (W-T) + 25 candidates (W-01..W-25), every whisky
+    # on a distinct 7-axis profile so all 25 non-self candidates are present.
+    # Exact-count asserts make each branch fail if the clamp in get_similar()
+    # is removed:
+    #   limit=0  -> clamp->1  (no clamp: scored[:0]  == 0  items -> FAIL)
+    #   limit=-5 -> clamp->1  (no clamp: scored[:-5] == 20 items -> FAIL)
+    #   limit=50 -> clamp->20 (no clamp: scored[:50] == 25 items -> FAIL)
+    whisky_ids = ["W-T"] + [f"W-{i:02d}" for i in range(1, 26)]
     whiskies = [
-        ("w1", "Alpha", None, "BrandA", "Speyside", "Single Malt", "Scotland",
-         90.0, 88.0, None, None),
-        ("w2", "Beta", None, "BrandB", "Islay", "Single Malt", "Scotland",
-         88.0, 85.0, None, None),
-        ("w3", "Gamma", None, "BrandC", "Highland", "Single Malt", "Scotland",
-         87.0, 84.0, None, None),
+        (wid, f"Whisky {wid}", None, "BrandX", "Speyside", "Single Malt",
+         "Scotland", 90.0, 88.0, None, None)
+        for wid in whisky_ids
     ]
-    profiles = [("w1", _PROFILE_A), ("w2", _PROFILE_B)]
+    profiles = [
+        (wid, _make_profile(sweet)) for sweet, wid in enumerate(whisky_ids, start=1)
+    ]
     svc = _build_service(whiskies, profiles)
 
-    # limit=0 -> clamped to 1 (was a negative/zero slice bug before).
-    assert len(svc.get_similar("w1", limit=0)) <= 1
-    # limit=-5 -> clamped to 1 (negative slice previously reversed results).
-    assert len(svc.get_similar("w1", limit=-5)) <= 1
-    # limit=50 -> clamped to 20, but pool only has 3 whiskies -> <= 3.
-    assert len(svc.get_similar("w1", limit=50)) <= 3
+    # Pool sanity: 26 profiled whiskies -> 25 non-self candidates available
+    # (verified against the raw profile pool, independent of the clamp).
+    pool = svc._candidate_profiles()
+    assert len(pool) == 26
+    assert "W-T" in pool
+
+    # limit=0 -> clamped to 1.
+    assert len(svc.get_similar("W-T", limit=0)) == 1
+    # limit=-5 -> clamped to 1.
+    assert len(svc.get_similar("W-T", limit=-5)) == 1
+    # limit=50 -> clamped to 20.
+    assert len(svc.get_similar("W-T", limit=50)) == 20
 
 
 def test_twin_profiles_similarity_1():
