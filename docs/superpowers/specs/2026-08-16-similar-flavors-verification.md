@@ -88,9 +88,16 @@ teyitli). Bu closure `c031d2ea` üzerinden yazıldı.
 - [x] Duplicate `(whisky_id, source)` etkilenmedi (yazma yok)
 - [x] Git durumu: 9 feature commit; 11 rename + paralel M dosyaları bozulmadı
 
-## 8. Kalan / Deploy
+## 8. Deploy Sonucu (kullanıcı GO'su ile, 2026-08-16)
 
-- **Step 7 — Deploy + canlı doğrulama: YALNIZCA kullanıcı GO'suyla.** Backend deploy
-  (mevcut akış) → Flutter build `?cb=` cache-bust → detail ekranında "Benzer Lezzetler"
-  A/B dışı gerçek komşular gösteriyor.
-- Backend şu an local'de çalışmıyor (doğrulama için geçici başlatıldı, kapatıldı).
+| Adım | Sonuç |
+|---|---|
+| Push | `b217dd5..a4abff3` + `5548a88` → origin/main (13 commit) |
+| Backend (VM `/srv/maltradar`, docker compose) | `git pull` + `up -d --build api` → `deploy-api-1 Up` |
+| Canlı `/similar` (maltradar.com) | W000303 → **Talisker 57 North sim=1.0** + tam havuz komşuları; allowlist dışı → 404; anon katalog → 200 (regresyon yok) |
+| Flutter web build | Lokal `build/web` → tar-pipe → VM `deploy/web-build` (içerik swap, bind-mount inode korundu) |
+| Cache-bust doğrulama | `flutter_bootstrap.js?cb=simflav` hash == lokal ✓; `/` ve `/index.html` no-cache ✓; assets 1y ✓ |
+| **Yeni infra fix** (`5548a88`) | Caddyfile `@nocache` matcher'ına `/` eklendi — root `max-age=1y` idi (bayat index.html riski; doğrulama sırasında tespit edildi) |
+| Not | Cloudflare HTML injection tespit edildi (canlı index 5939 vs lokal 4704 bayt — analytics/rocket loader; önceden var olan, zararsız). VM'de `web-build.prev` rollback noktası bırakıldı. `deploy/data/production.db` **dokunulmadı** (ayrı gözetim süreci). |
+
+**Feature CANLI.** Kullanıcı görünür kanıt: detail ekranında "Benzer Lezzetler" artık A/B harfli alfabetik dilim değil, tam katalogdan gerçek benzer profiller gösteriyor.
