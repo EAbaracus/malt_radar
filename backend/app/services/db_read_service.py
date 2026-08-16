@@ -5,6 +5,7 @@ from typing import List, Dict, Any, Optional
 
 from app.utils.source_guard import SourceGuard
 from app.db.production_read_adapter import ProductionReadAdapter  # Faz B2: tek read seam
+from app.services.name_casing import title_case_name  # B1: serve-time isim casing
 
 # Certified pilot whiskies use the 'GSD-CAND-XXXX' whisky_id prefix and are
 # flagged with data_confidence = 'certified'. The staging DB is the single
@@ -319,11 +320,19 @@ class DbReadService:
 
         * Normalize the flavor profile into the 7-axis JSON the Flutter radar
           expects (JSON is passed through; key=val is mapped).
+        * Normalize name/original_name casing (B1: serve-time title-case so the
+          frontend never renders a lowercase `original_name` twin).
         * Surface certification state (read-only, no transformation of the
           stored value).
         """
         if "flavor_profile" in row and row.get("flavor_profile"):
             row["flavor_profile"] = self._normalize_flavor_profile(row["flavor_profile"])
+        # B1: title-case name + original_name. Stored values never mutated; this
+        # is a presentation-format normalization only (read-only).
+        if row.get("name"):
+            row["name"] = title_case_name(row["name"])
+        if row.get("original_name"):
+            row["original_name"] = title_case_name(row["original_name"])
         # Read-only passthrough of the stored certification flag.
         row["data_confidence"] = row.get("data_confidence")
         return row
