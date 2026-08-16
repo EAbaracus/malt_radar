@@ -107,3 +107,7 @@ teyitli). Bu closure `c031d2ea` üzerinden yazıldı.
 - **Kurtarma:** (1) `web-build.prev` rollback denemesi başarısız (önceki deploy'dan beri boştu) → site geçici 404. (2) `git worktree add` ile **committed HEAD'den temiz build** (`$LOCALAPPDATA/Temp/mr-clean-build`) → tar-pipe → VM swap. (3) Doğrulama: `flutter_bootstrap.js` + `main.dart.js` hash'leri canlıda == temiz build; `/` 200; `/similar` canlı (Talisker 57 North sim=1.0).
 - **Ders:** Canlıya Flutter web sürülürken build **TEMİZ worktree'den** (deploy edilecek commit) yapılmalı — main tree'de başka oturumun uncommitted değişiklikleri varsa ASLA doğrudan build edilmemeli.
 - **Not:** Paralel oturumun uncommitted dosyalarına dokunulmadı; `6c036b5` (superseded_by filtresi) aynı anda push edilmişti — frontend etkilenmedi (delta boş doğrulandı).
+
+## 10. Google Sign-In Restorasyonu (2026-08-16)
+
+İkinci temiz build define'sızdı → `ENABLE_GOOGLE_SIGN_IN` (default false) kapalı + `MALT_RADAR_API_BASE_URL` release'de ZORUNLU olduğundan app boot'ta çöküyordu. Kanonik deploy define'ları (`deploy/README.md:88`): `--dart-define=MALT_RADAR_API_BASE_URL=https://maltradar.com --dart-define=GOOGLE_CLIENT_ID_WEB=<deploy/.env GOOGLE_CLIENT_ID> --dart-define=ENABLE_GOOGLE_SIGN_IN=true`. Değerler `deploy/.env`'ten (key: `GOOGLE_CLIENT_ID`) alındı; define'lı temiz build (`mr-clean-build2` worktree) deploy edildi. Doğrulama: canlı `main.dart.js` == build; baseUrl + client id gömülü; sayfa render (katalog + radar grafiği) çalışıyor; `/similar` canlı. Google login butonu auth ekranında geri geldi.
