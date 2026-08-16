@@ -115,9 +115,13 @@ class AnonymousCatalogService:
         return item
 
     def get_similar_whiskies(self, whisky_id: str, limit: int = 5) -> Optional[Dict[str, Any]]:
-        """G1: hedef allowlist'e tabi; SONUÇLAR tam havuz (bilinçli istisna)."""
-        if whisky_id not in self._allowlist_set:
-            return None
+        """G1 REV (2026-08-16): hedef allowlist gate'i KALDIRILDI.
+
+        Gerekçe: sonuçlar zaten tam havuz (onaylı G1 istisnası) — gate hiçbir
+        koruma sağlamıyordu; yalnızca allowlist dışı 4.400+ viskide "Benzer
+        Lezzetler"i boş döndürüyordu (ürün regresyonu). 404 artık YALNIZCA
+        hedef yoksa/superseded ise (SimilarityService._all_active_whiskies).
+        """
         from app.services.similarity_service import SimilarityService
         similar = SimilarityService(self._adapter).get_similar(whisky_id, limit)
         if similar is None:

@@ -38,10 +38,29 @@ def test_similar_anon_no_auth():
     assert res.status_code == 200
 
 
-def test_similar_non_allowlist_target_404():
+def test_similar_unknown_target_404():
     os.environ["DB_API_ENABLED"] = "true"
-    res = client.get("/api/db/public/whiskies/NOT-IN-ALLOWLIST-1/similar")
+    res = client.get("/api/db/public/whiskies/DOES-NOT-EXIST-999/similar")
     assert res.status_code == 404
+
+
+def test_similar_non_allowlist_active_target_200():
+    """G1 REV: aktif (non-superseded) her hedef çalışır — allowlist dışı dahil."""
+    os.environ["DB_API_ENABLED"] = "true"
+    from app.services.similarity_service import SimilarityService
+    svc = SimilarityService()
+    rows = svc._all_active_whiskies()
+    non_allow = [
+        r["whisky_id"] for r in rows
+        if r["whisky_id"] not in ALLOWLIST and r.get("flavor_profile")
+    ]
+    assert non_allow, "allowlist dışı aktif profilli hedef bekleniyor (veri kontrolü)"
+    res = client.get(f"/api/db/public/whiskies/{non_allow[0]}/similar?limit=5")
+    assert res.status_code == 200
+    body = res.json()
+    assert len(body["similar"]) >= 1
+    for item in body["similar"]:
+        assert item["whisky_id"] != non_allow[0]
 
 
 def test_similar_regression_full_pool():
