@@ -5,8 +5,41 @@ import 'package:malt_radar/core/database/database.dart';
 import 'package:malt_radar/core/database/data_seed_service.dart';
 import 'package:malt_radar/features/flavor/presentation/providers/similar_flavor_provider.dart';
 import 'package:malt_radar/features/whisky/presentation/controllers/whisky_providers.dart';
+import 'package:csv/csv.dart';
+import 'package:drift/drift.dart' show Value;
 import 'package:drift/native.dart';
 import 'dart:io';
+
+/// Bilinçli kapsam genişletmesi (2026-08-16): seedDatabaseIfEmpty artık
+/// flavorCsvString kabul etmiyor (d5b3fd7, anti-scrape; flavor CSV asset'ten
+/// geliyor ama pubspec'te yorumlu). Flavor profilini fixture'tan name-join ile
+/// doğrudan lokal DB'ye bağlar — eski seed yolunun semantik eşdeğeri.
+Future<void> _attachFlavorProfilesByName(AppDatabase db, String flavorCsv) async {
+  final flavorTable =
+      const CsvToListConverter(eol: '\n', fieldDelimiter: ',').convert(flavorCsv);
+  if (flavorTable.length <= 1) return;
+  final fHeaders = flavorTable[0].map((e) => e.toString().trim()).toList();
+  final nameIdx = fHeaders.indexOf('whisky_name');
+  final profileIdx = fHeaders.indexOf('flavor_profile');
+  if (nameIdx < 0 || profileIdx < 0) return;
+
+  final byName = <String, String>{};
+  for (var i = 1; i < flavorTable.length; i++) {
+    final r = flavorTable[i];
+    if (r.isEmpty || nameIdx >= r.length || profileIdx >= r.length) continue;
+    final n = (r[nameIdx] ?? '').toString().trim();
+    if (n.isNotEmpty) byName[n] = (r[profileIdx] ?? '').toString();
+  }
+
+  final all = await (db.select(db.whiskies)).get();
+  for (final w in all) {
+    final profile = byName[w.name];
+    if (profile != null) {
+      await (db.update(db.whiskies)..where((t) => t.id.equals(w.id)))
+          .write(WhiskiesCompanion(flavorProfile: Value(profile)));
+    }
+  }
+}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +56,8 @@ void main() {
     final flavorFile = File('test/fixtures/flavor_profiles.csv');
     final flavorCsv = await flavorFile.readAsString();
 
-    await DataSeedService.seedDatabaseIfEmpty(db, testCsvString: csvString, flavorCsvString: flavorCsv);
+    await DataSeedService.seedDatabaseIfEmpty(db, testCsvString: csvString);
+    await _attachFlavorProfilesByName(db, flavorCsv);
     
     final whiskiesWithFlavor = await (db.select(db.whiskies)..where((t) => t.flavorProfile.isNotNull())).get();
     
