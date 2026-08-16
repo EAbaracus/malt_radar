@@ -28,6 +28,13 @@ class AuthController extends StateNotifier<AuthState> {
   final AuthRepository repo;
   final GoogleAuth googleAuth;
 
+  /// Invoked once when a stale/revoked persisted session is cleared during
+  /// restore (HTTP 401 from [AuthApi.me]). The provider wires this to flip
+  /// [guestModeProvider] so the user falls back to silent anonymous browsing
+  /// instead of being trapped on the login screen. Nullable so unit tests that
+  /// only care about state transitions can construct the controller directly.
+  final void Function()? onStaleSessionCleared;
+
   /// Error codes the platform plugins use when the user dismisses the Google
   /// flow (web popup closed / mobile cancel). The seam already normalises
   /// these to a null token; this set is a defensive backstop so a stray
@@ -44,6 +51,7 @@ class AuthController extends StateNotifier<AuthState> {
     required this.api,
     required this.repo,
     GoogleAuth? googleAuth,
+    this.onStaleSessionCleared,
   }) : googleAuth = googleAuth ?? GoogleAuth(),
        super(const AuthState.initial()) {
     _restore();
@@ -52,10 +60,35 @@ class AuthController extends StateNotifier<AuthState> {
   Future<void> _restore() async {
     final token = await repo.loadToken();
     final user = await repo.loadUser();
-    if (token != null && user != null) {
-      state = AuthState(AuthStatus.loggedIn, user: user);
-    } else {
+    if (token == null || user == null) {
       state = const AuthState(AuthStatus.loggedOut);
+      return;
+    }
+    try {
+      // Validate the restored token against the backend so a stale session
+      // (TTL expired / backend DB reset) never re-logs-in on a dead token.
+      final res = await api.me(token);
+      final freshUser = AuthUser.fromJson(res);
+      await repo.saveSession(token, freshUser);
+      state = AuthState(AuthStatus.loggedIn, user: freshUser);
+    } on AuthApiException catch (e) {
+      if (e.statusCode == 401) {
+        // Definitive rejection: clear the persisted session and fall back to
+        // silent anonymous browsing (anonymous catalog stays reachable). Do not
+        // trust the dead token and do not trap the user on the login screen.
+        await repo.clearSession();
+        onStaleSessionCleared?.call();
+        state = const AuthState(AuthStatus.loggedOut);
+      } else {
+        // Offline / transient server error: keep the cached session so a
+        // temporary network blip never logs the user out. Restore always
+        // resolves to a terminal state (never leaves the splash hanging).
+        state = AuthState(AuthStatus.loggedIn, user: user);
+      }
+    } catch (_) {
+      // Defensive: an unexpected shape/parse error keeps the cached session
+      // rather than stranding restore in `unknown`.
+      state = AuthState(AuthStatus.loggedIn, user: user);
     }
   }
 
@@ -300,7 +333,15 @@ final authControllerProvider = StateNotifierProvider<AuthController, AuthState>(
     final api = ref.watch(authApiProvider);
     final repo = ref.watch(authRepositoryProvider);
     final googleAuth = ref.watch(googleAuthProvider);
-    return AuthController(api: api, repo: repo, googleAuth: googleAuth);
+    return AuthController(
+      api: api,
+      repo: repo,
+      googleAuth: googleAuth,
+      // A stale/revoked session drops the user into silent guest browsing
+      // (anonymous catalog stays reachable) instead of the login screen.
+      onStaleSessionCleared: () =>
+          ref.read(guestModeProvider.notifier).state = true,
+    );
   },
 );
 
