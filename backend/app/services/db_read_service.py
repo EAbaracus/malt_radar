@@ -329,10 +329,17 @@ class DbReadService:
             row["flavor_profile"] = self._normalize_flavor_profile(row["flavor_profile"])
         # B1: title-case name + original_name. Stored values never mutated; this
         # is a presentation-format normalization only (read-only).
-        if row.get("name"):
-            row["name"] = title_case_name(row["name"])
-        if row.get("original_name"):
-            row["original_name"] = title_case_name(row["original_name"])
+        # KOŞULLU GATE (korpus kanıtı, review REQUEST_CHANGES): production'da
+        # name ZATEN kanonik (B1). Yalnızca TAMAMEN küçük harfli isimleri
+        # title-case yap (143 hedef satır); büyük harf içeren kanonik isimlere
+        # dokunma — aksi halde "(batch 1)"→"(Batch 1)", "(ob)"→"(Ob)" gibi
+        # 869 regresyon üretir. original_name ham ikizdir, daima normalize.
+        name = row.get("name")
+        if name:
+            row["name"] = title_case_name(name) if name == name.lower() else name
+        orig = row.get("original_name")
+        if orig:
+            row["original_name"] = title_case_name(orig)
         # Read-only passthrough of the stored certification flag.
         row["data_confidence"] = row.get("data_confidence")
         return row

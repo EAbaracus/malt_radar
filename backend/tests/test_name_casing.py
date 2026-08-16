@@ -110,24 +110,34 @@ def test_title_case_name_idempotent_on_canonical():
         assert title_case_name(title_case_name(raw)) == title_case_name(raw)
 
 
-def test_whisky_mapper_uses_canonical_name():
-    """_prepare_whisky çıktısında name KANONİK olmalı (original_name tercihi zararsız)."""
+def test_prepare_whisky_gate_preserves_canonical():
+    """KOŞULLU GATE: büyük harf içeren kanonik isimler `_prepare_whisky`'den
+    DEĞİŞMEDEN geçer (869 regresyonu önleyen davranış). Hermetic — DB yok."""
     from app.services.db_read_service import DbReadService
     svc = DbReadService()
-    with svc._get_connection() as conn:
-        cursor = conn.cursor()
-        # B1 lowercase-name satırı (original_name NULL) — production'da ham
-        # küçük biçimde durur; serve-time düzeltilmeli.
-        cursor.execute(
-            "SELECT w.whisky_id, w.name, w.original_name FROM whiskies w "
-            "WHERE w.name LIKE 'aberlour%' AND w.original_name IS NULL LIMIT 1"
-        )
-        raw = cursor.fetchone()
-    assert raw, "test verisi bekleniyor (lowercase-name + NULL original_name)"
-    row = dict(raw)
-    assert row["name"] != title_case_name(row["name"]), (
-        "test verisi lowercase olmalı; production name zaten kanonikse test anlamsız"
+    for canonical in [
+        "Laphroaig 27yo 57.4% 1980-2007 (ob, 5 Oloroso Casks, 972 Bts)",
+        "Amrut Spectrum (batch 1)",
+        "Yamazaki Sherry Cask (all Vintages)",
+        "Bowmore 10yo Devil's Cask",
+        "Glenfarclas SMWS 1.139 - Emporium of Sweets",
+        "Ichiro's Malt Chichibu The First",
+    ]:
+        out = svc._prepare_whisky({"name": canonical})
+        assert out["name"] == canonical, f"kanonik isim bozulmamalı: {canonical}"
+
+
+def test_prepare_whisky_gate_fixes_all_lowercase():
+    """KOŞULLU GATE: TÜMÜ KÜÇÜK isimler title-case olur; original_name ikizi
+    daima normalize edilir. Hermetic — DB yok."""
+    from app.services.db_read_service import DbReadService
+    svc = DbReadService()
+    out = svc._prepare_whisky({"name": "aberlour a'bunadh (batch 33)"})
+    assert out["name"] == "Aberlour A'Bunadh (Batch 33)"
+    # original_name ham ikizi normalize edilir, NULL korunur.
+    out2 = svc._prepare_whisky(
+        {"name": "66 gilead crimson rye", "original_name": "66 gilead crimson rye"}
     )
-    prepared = svc._prepare_whisky(row)
-    assert prepared["name"] == title_case_name(row["name"])
-    assert prepared["name"] == "Aberlour A'Bunadh (Batch 33)"
+    assert out2["original_name"] == "66 Gilead Crimson Rye"
+    out3 = svc._prepare_whisky({"name": "The Macallan 18", "original_name": None})
+    assert out3["original_name"] is None
