@@ -112,9 +112,11 @@ detail_screen → SimilarFlavorWhiskies (backendId) → backendSimilarWhiskiesPr
 
 | Durum | HTTP | UI davranışı |
 |---|---|---|
-| Hedef yok veya allowlist dışı | 404 | "Benzer lezzet eşleşmesi bulunamadı" (repo fallback: boş liste) |
+| Hedef yok veya superseded | 404 | "Benzer lezzet eşleşmesi bulunamadı" (repo fallback: boş liste) |
 | Hedef profilsiz / aday yok | 200 `{"similar": []}` | "Benzer lezzet eşleşmesi bulunamadı" |
 | DB/artifact yok | 503 | Mevcut kardeş endpoint'lerle aynı desen |
+
+> **G1 REV (2026-08-16, `6871ddb`):** Hedef allowlist gate'i kaldırıldı — sonuçlar zaten tam havuz olduğundan gate koruma sağlamıyordu ve allowlist dışı 4.400+ viskide "Benzer Lezzetler" boş dönüyordu (ürün regresyonu). 404 artık yalnızca hedef yoksa/superseded ise. Test: `test_similar_non_allowlist_active_target_200`.
 | Rate limit | 429 | Mevcut 120/min limiti |
 | Eski backend (endpoint yok) | 404 → fallback | Bounded-fetch eski davranış (G6) |
 
