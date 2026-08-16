@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'core/theme/app_theme.dart';
 import 'core/branding/brand_medallion.dart';
 import 'core/branding/brand_medallion_widget.dart';
+import 'core/consent/cmp_banner.dart';
 import 'features/whisky/presentation/controllers/whisky_providers.dart';
 import 'core/presentation/screens/main_navigation_screen.dart';
 import 'features/auth/presentation/auth_screen.dart';
@@ -50,7 +51,19 @@ class MaltRadarApp extends ConsumerWidget {
       case AgeGateStatus.blocked:
         return const AgeGateBlockedScreen();
       case AgeGateStatus.consented:
-        return _mainHome(auth, isGuest, ref);
+        // Overlay the CMP consent banner on the post-age-gate content. It
+        // collapses to nothing once the user records a decision.
+        return Stack(
+          children: [
+            _mainHome(auth, isGuest, ref),
+            const Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: CmpBanner(),
+            ),
+          ],
+        );
     }
   }
 
