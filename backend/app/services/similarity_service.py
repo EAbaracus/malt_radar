@@ -93,6 +93,7 @@ class SimilarityService:
             WHERE w.superseded_by IS NULL
               AND LOWER(w.name) NOT LIKE '%smws%'
               AND LOWER(COALESCE(w.brand, '')) NOT LIKE '%smws%'
+            GROUP BY w.whisky_id
         """
         with self._adapter.raw_connection() as conn:
             rows = [dict(r) for r in conn.execute(sql).fetchall()]
