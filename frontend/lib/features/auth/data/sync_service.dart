@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart' hide Column;
 import 'package:malt_radar/core/api/auth_api.dart';
 import 'package:malt_radar/core/database/database.dart';
+import 'package:malt_radar/features/lists/data/repositories/user_lists_repository_impl.dart';
 import 'auth_repository.dart';
 
 /// Uploads the device's local personal data (favorites, scores, notes, lists)
@@ -91,8 +92,9 @@ class SyncService {
     return await api.syncPush(token, payload);
   }
 
-  /// Pulls the server snapshot and applies favorites / scores / notes where the
-  /// whisky maps to a local row. Returns the raw server snapshot for the UI.
+  /// Pulls the server snapshot and applies favorites / scores / notes / lists /
+  /// list-items where the whisky maps to a local row. Returns the raw server
+  /// snapshot for the UI.
   Future<Map<String, dynamic>> pull() async {
     final token = await _token();
     final server = await api.syncPull(token);
@@ -112,6 +114,8 @@ class SyncService {
     }
 
     final now = DateTime.now().toIso8601String();
+
+    // --- favorites ---
     final favList = (server['favorites'] as List?) ?? const [];
     for (final raw in favList) {
       final m = raw as Map<String, dynamic>;
@@ -127,6 +131,7 @@ class SyncService {
           );
     }
 
+    // --- scores ---
     final scoreList = (server['scores'] as List?) ?? const [];
     for (final raw in scoreList) {
       final m = raw as Map<String, dynamic>;
@@ -143,6 +148,7 @@ class SyncService {
           );
     }
 
+    // --- notes ---
     final noteList = (server['notes'] as List?) ?? const [];
     for (final raw in noteList) {
       final m = raw as Map<String, dynamic>;
@@ -157,6 +163,123 @@ class SyncService {
               updatedAt: (m['updated_at'] as String?) ?? now,
             ),
           );
+    }
+
+    // --- lists (system + custom) ---
+    // Ensure default system lists exist locally (they are created lazily on
+    // first UI interaction, but pull may run before any list screen is shown).
+    final repo = UserListsRepositoryImpl(db);
+    await repo.ensureDefaultLists();
+
+    final serverLists = (server['lists'] as List?) ?? const [];
+    final localLists = await (db.select(db.userLists)).get();
+    final existingDefaultTypes = <String>{};
+    for (final l in localLists) {
+      if (l.defaultType != null) existingDefaultTypes.add(l.defaultType!);
+    }
+    for (final raw in serverLists) {
+      final m = raw as Map<String, dynamic>;
+      final defaultType = m['default_type'] as String?;
+      final name = m['name'] as String? ?? 'List';
+      final sortOrder = m['sort_order'] as int? ?? 0;
+      final updatedAt = (m['updated_at'] as String?) ?? now;
+
+      // System default lists are identified by default_type and already exist
+      // locally — only update their metadata. Custom lists are matched by
+      // the server list_id (L<n>). Since local ids are autoincrement and may
+      // differ across devices, we key custom lists by name to avoid dupes.
+      if (defaultType != null && existingDefaultTypes.contains(defaultType)) {
+        final localList = localLists.firstWhere(
+          (l) => l.defaultType == defaultType,
+          orElse: () => throw StateError('unreachable'),
+        );
+        await (db.update(db.userLists)..where((tbl) => tbl.id.equals(localList.id))).write(
+          UserListsCompanion(
+            name: Value(name),
+            description: const Value.absent(),
+            sortOrder: Value(sortOrder),
+            updatedAt: Value(updatedAt),
+            isSystemDefault: const Value(true),
+          ),
+        );
+      } else {
+        await db.into(db.userLists).insert(
+          UserListsCompanion.insert(
+            name: name,
+            defaultType: Value(defaultType),
+            sortOrder: Value(sortOrder),
+            createdAt: now,
+            updatedAt: updatedAt,
+            isSystemDefault: Value(defaultType != null),
+          ),
+          mode: InsertMode.insertOrIgnore,
+        );
+      }
+    }
+
+    // --- list items (sync_list_items -> user_list_items) ---
+    // The server stores list_id as 'L<n>' (the pushing device's local autoinc
+    // id), which is NOT reliable cross-device. We resolve the local list via the
+    // server-side list definition: for system defaults, match by default_type;
+    // for custom lists, match by name.
+    final serverItems = (server['items'] as List?) ?? const [];
+    final freshLocalLists = await (db.select(db.userLists)).get();
+
+    // Build server list_id -> server list row mapping (for default_type / name lookup)
+    final serverListRows = (server['lists'] as List?) ?? const [];
+    final serverListByServerId = <String, Map<String, dynamic>>{};
+    for (final raw in serverListRows) {
+      final m = raw as Map<String, dynamic>;
+      final sid = m['list_id']?.toString();
+      if (sid != null) serverListByServerId[sid] = m;
+    }
+
+    // Build default_type -> local id and name -> local id for resolution
+    final localByDefaultType = <String, int>{};
+    final localByName = <String, int>{};
+    for (final l in freshLocalLists) {
+      if (l.defaultType != null) localByDefaultType[l.defaultType!] = l.id;
+      localByName[l.name] = l.id;
+    }
+
+    for (final raw in serverItems) {
+      final m = raw as Map<String, dynamic>;
+      final serverListId = m['list_id']?.toString();
+      final whiskyKey = m['whisky_id']?.toString();
+      final localWhiskyId = localId(whiskyKey);
+      if (localWhiskyId == null) continue; // whisky not in local DB
+
+      int? listId;
+      // Try to resolve the server list_id to a local list
+      final serverListRow = serverListByServerId[serverListId];
+      if (serverListRow != null) {
+        final dt = serverListRow['default_type'] as String?;
+        if (dt != null && localByDefaultType.containsKey(dt)) {
+          listId = localByDefaultType[dt];
+        } else {
+          // Custom list: match by name
+          final nm = serverListRow['name'] as String?;
+          if (nm != null && localByName.containsKey(nm)) {
+            listId = localByName[nm];
+          }
+        }
+      }
+      if (listId == null) continue;
+
+      final sortOrderVal = m['sort_order'] as int? ?? 0;
+      final noteVal = m['note'] as String?;
+      final createdAt = (m['updated_at'] as String?) ?? now;
+
+      await db.into(db.userListItems).insert(
+        UserListItemsCompanion.insert(
+          listId: listId,
+          whiskyId: localWhiskyId,
+          note: Value(noteVal),
+          sortOrder: Value(sortOrderVal),
+          createdAt: createdAt,
+        ),
+        mode: InsertMode.insertOrIgnore,
+      );
     }
 
     return server;

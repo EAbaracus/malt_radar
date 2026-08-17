@@ -181,7 +181,7 @@ class UserListsRepositoryImpl implements UserListsRepository {
   @override
   Stream<List<UserListItem>> watchListItems(int listId) {
     final query = _db.select(_db.userListItems).join([
-      innerJoin(
+      leftOuterJoin(
         _db.whiskies,
         _db.whiskies.id.equalsExp(_db.userListItems.whiskyId),
       ),
@@ -192,10 +192,12 @@ class UserListsRepositoryImpl implements UserListsRepository {
     return query.watch().map((rows) {
       return rows.map((row) {
         final itemEntity = row.readTable(_db.userListItems);
-        final whiskyEntity = row.readTable(_db.whiskies);
+        final whiskyEntity = row.readTableOrNull(_db.whiskies);
         return UserListItem.fromEntity(
-          itemEntity, 
-          whisky: Whisky.fromEntities(whisky: whiskyEntity)
+          itemEntity,
+          whisky: whiskyEntity != null
+              ? Whisky.fromEntities(whisky: whiskyEntity)
+              : null,
         );
       }).toList();
     });
@@ -204,7 +206,7 @@ class UserListsRepositoryImpl implements UserListsRepository {
   @override
   Future<List<UserListItem>> getListItems(int listId) async {
     final query = _db.select(_db.userListItems).join([
-      innerJoin(
+      leftOuterJoin(
         _db.whiskies,
         _db.whiskies.id.equalsExp(_db.userListItems.whiskyId),
       ),
@@ -213,13 +215,15 @@ class UserListsRepositoryImpl implements UserListsRepository {
       ..orderBy([OrderingTerm.asc(_db.userListItems.sortOrder), OrderingTerm.desc(_db.userListItems.createdAt)]);
 
     final rows = await query.get();
-    
+
     return rows.map((row) {
       final itemEntity = row.readTable(_db.userListItems);
-      final whiskyEntity = row.readTable(_db.whiskies);
+      final whiskyEntity = row.readTableOrNull(_db.whiskies);
       return UserListItem.fromEntity(
-        itemEntity, 
-        whisky: Whisky.fromEntities(whisky: whiskyEntity)
+        itemEntity,
+        whisky: whiskyEntity != null
+            ? Whisky.fromEntities(whisky: whiskyEntity)
+            : null,
       );
     }).toList();
   }

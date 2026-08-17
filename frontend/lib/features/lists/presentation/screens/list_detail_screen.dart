@@ -84,10 +84,6 @@ class ListDetailScreen extends ConsumerWidget {
                   final item = items[index];
                   final whisky = item.whisky;
 
-                  if (whisky == null) {
-                    return const SizedBox.shrink();
-                  }
-
                   return Container(
                     decoration: BoxDecoration(
                       color: AppTheme.surfaceElevated.withValues(alpha: 0.4),
@@ -96,63 +92,75 @@ class ListDetailScreen extends ConsumerWidget {
                     ),
                     child: ListTile(
                       contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                      leading: CircleAvatar(
+                        backgroundColor: AppTheme.primary.withValues(alpha: 0.1),
+                        child: Text(
+                          '${item.whiskyId}',
+                          style: const TextStyle(color: AppTheme.primary, fontSize: 12),
+                        ),
+                      ),
                       title: Text(
-                        whisky.name,
-                        style: const TextStyle(
-                          color: AppTheme.textPrimary,
-                          fontWeight: FontWeight.bold,
+                        whisky?.name ?? 'Whisky #${item.whiskyId}',
+                        style: TextStyle(
+                          color: whisky != null ? AppTheme.textPrimary : AppTheme.textMuted,
+                          fontWeight: whisky != null ? FontWeight.bold : FontWeight.normal,
                           fontSize: 16,
                         ),
                       ),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 4),
-                          Text(
-                            [
-                              if (whisky.distillery != null) whisky.distillery,
-                              if (whisky.category != null) whisky.category!.replaceAll('SingleMalt-like', 'Single malt-like'),
-                            ].join(' • '),
-                            style: const TextStyle(color: AppTheme.textSecondary, fontSize: 13),
-                          ),
-                          if (whisky.globalScore != null && whisky.globalScore! > 0) ...[
-                            const SizedBox(height: 6),
-                            Row(
+                      subtitle: whisky != null
+                          ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Icon(Icons.star, color: AppTheme.primary, size: 14),
-                                const SizedBox(width: 4),
+                                const SizedBox(height: 4),
                                 Text(
-                                  '${whisky.globalScore!.toStringAsFixed(1)} ${tr('preview_global_score')}',
-                                  style: const TextStyle(color: AppTheme.primary, fontSize: 12, fontWeight: FontWeight.bold),
+                                  [
+                                    if (whisky.distillery != null) whisky.distillery,
+                                    if (whisky.category != null) whisky.category!.replaceAll('SingleMalt-like', 'Single malt-like'),
+                                  ].join(' • '),
+                                  style: const TextStyle(color: AppTheme.textSecondary, fontSize: 13),
                                 ),
+                                if (whisky.globalScore != null && whisky.globalScore! > 0) ...[
+                                  const SizedBox(height: 6),
+                                  Row(
+                                    children: [
+                                      const Icon(Icons.star, color: AppTheme.primary, size: 14),
+                                      const SizedBox(width: 4),
+                                      Text(
+                                        '${whisky.globalScore!.toStringAsFixed(1)} ${tr('preview_global_score')}',
+                                        style: const TextStyle(color: AppTheme.primary, fontSize: 12, fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ],
+                            )
+                          : Text(
+                              'whisky_id: ${item.whiskyId}',
+                              style: const TextStyle(color: AppTheme.textSecondary, fontSize: 13),
                             ),
-                          ],
-                        ],
-                      ),
                       trailing: IconButton(
                         icon: const Icon(Icons.remove_circle_outline, color: AppTheme.error),
                         onPressed: () async {
                           final repo = ref.read(userListsRepositoryProvider);
-                          await repo.removeWhiskyFromList(listId, whisky.id);
+                          await repo.removeWhiskyFromList(listId, item.whiskyId);
 
-                          // Sync legacy favorites if this is the favorites list
+                          // Sync legacy favorites table if this is the favorites list
                           try {
                             final lists = await repo.getLists();
                             final currentList = lists.firstWhere((l) => l.id == listId);
                             if (currentList.defaultType == 'favorites') {
                               final whiskyRepo = ref.read(whiskyRepositoryProvider);
-                              final w = await whiskyRepo.getWhiskyById(whisky.id);
+                              final w = await whiskyRepo.getWhiskyById(item.whiskyId);
                               if (w != null && w.isFavorite) {
-                                await whiskyRepo.toggleFavorite(whisky.id);
-                                ref.invalidate(whiskyDetailProvider(whisky.id));
+                                await whiskyRepo.toggleFavorite(item.whiskyId);
+                                ref.invalidate(whiskyDetailProvider(item.whiskyId));
                               }
                             }
                           } catch (_) {}
 
                           // Force update queries
-                          ref.invalidate(getListsForWhiskyProvider(whisky.id));
-                          
+                          ref.invalidate(getListsForWhiskyProvider(item.whiskyId));
+
                           if (context.mounted) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
@@ -166,14 +174,16 @@ class ListDetailScreen extends ConsumerWidget {
                           }
                         },
                       ),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => DetailScreen(whiskyId: whisky.id),
-                          ),
-                        );
-                      },
+                      onTap: whisky != null
+                          ? () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DetailScreen(whiskyId: whisky.id),
+                                ),
+                              );
+                            }
+                          : null,
                     ),
                   );
                 },

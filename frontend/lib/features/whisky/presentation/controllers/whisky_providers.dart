@@ -79,10 +79,24 @@ final whiskiesStreamProvider = StreamProvider<List<Whisky>>((ref) {
   final query = ref.watch(searchQueryProvider);
   final favoritesOnly = ref.watch(favoritesOnlyProvider);
 
-  return Stream<List<Whisky>>.multi((controller) async {
+  // Watch local favorites table to overlay isFavorite onto catalog items
+  final db = ref.watch(appDatabaseProvider);
+  final favoritesStream = db.select(db.favorites).watch();
+
+  return favoritesStream.asyncMap((favoritesRows) async {
+    // Build a set of local whisky IDs that are favorited
+    final favoriteWhiskyIds = favoritesRows.map((f) => f.whiskyId).toSet();
+
+    // Get the current catalog list
     final list = await ref.read(catalogPaginationProvider.future);
-    controller.add(_filterWhiskies(list, query, favoritesOnly));
-    controller.close();
+
+    // Overlay isFavorite onto each Whisky object based on local favorites table
+    final listWithFavorites = list.map((w) {
+      final isFav = favoriteWhiskyIds.contains(w.id);
+      return isFav ? w.copyWith(isFavorite: true) : w;
+    }).toList();
+
+    return _filterWhiskies(listWithFavorites, query, favoritesOnly);
   });
 });
 
