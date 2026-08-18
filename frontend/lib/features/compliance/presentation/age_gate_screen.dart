@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:malt_radar/core/localization/localization_provider.dart';
 import 'package:malt_radar/core/theme/app_theme.dart';
@@ -6,6 +7,10 @@ import 'package:malt_radar/core/branding/brand_medallion.dart';
 import 'package:malt_radar/core/branding/brand_medallion_widget.dart';
 import '../domain/legal_age.dart';
 import 'age_gate_providers.dart';
+
+// Web-only JS interop for GA4 consent
+// ignore: avoid_web_libraries_in_flutter
+import 'dart:js' as js;
 
 /// Age-verification gate shown at first launch and never again once the user
 /// confirms they are of legal drinking age for their selected country.
@@ -49,12 +54,31 @@ class _AgeGateScreenState extends ConsumerState<AgeGateScreen> {
   void _confirm() {
     if (_selected == null || !_confirmed) return;
     ref.read(ageGateProvider.notifier).consent(_selected!.code);
+    
+    // Grant analytics consent on web when user confirms age gate
+    // This triggers GA4 initialization (lazy-loaded after consent)
+    if (kIsWeb) {
+      try {
+        js.context.callMethod('updateGoogleConsent', [true, false]);
+      } catch (_) {
+        // GA4 consent update failed — non-critical, continue
+      }
+    }
     // No navigation is needed: main.dart rebuilds `home` from the stream once
     // the provider flips to `consented`.
   }
 
   void _declareUnderage() {
     ref.read(ageGateProvider.notifier).block();
+    
+    // Deny analytics consent on web when user declares underage
+    if (kIsWeb) {
+      try {
+        js.context.callMethod('updateGoogleConsent', [false, false]);
+      } catch (_) {
+        // GA4 consent update failed — non-critical, continue
+      }
+    }
   }
 
   @override

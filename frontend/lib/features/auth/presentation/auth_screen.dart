@@ -1,5 +1,5 @@
-import 'package:flutter/foundation.dart'; // kIsWeb
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:malt_radar/core/analytics/analytics_service.dart';
 import 'package:malt_radar/core/config/feature_flags.dart';
@@ -8,11 +8,16 @@ import 'package:malt_radar/core/theme/app_theme.dart';
 import 'package:malt_radar/core/theme/app_theme_colors.dart';
 import 'package:malt_radar/features/compliance/presentation/age_gate_providers.dart';
 import 'auth_controller.dart';
+import 'referral_utils.dart';
 import 'google_sign_in_button.dart';
 import 'google_sign_in_web_button.dart';
 import 'google_sign_in_messages.dart';
 import 'package:malt_radar/core/branding/brand_medallion.dart';
 import 'package:malt_radar/core/branding/brand_medallion_widget.dart';
+
+// Web-only JS interop for GA4 consent
+// ignore: avoid_web_libraries_in_flutter
+import 'dart:js' as js;
 
 /// Login / Register form. Uses the already-passed age gate decision to fill the
 /// required country + legal-minimum-age at registration (KVKK consent is
@@ -140,6 +145,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
           userId: email,
           authProvider: 'email',
           sessionId: ref.read(sessionIdProvider),
+          referralSource: extractReferralSource(),
         );
       }
       // Login/register succeeded. Force main.dart rebuild.
@@ -165,9 +171,13 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     if (!mounted) return;
     setState(() => _googleBusy = false);
     if (err == null) {
-      // Success: signInWithGoogle already set AuthStatus.loggedIn on the
-      // controller, so main.dart (which watches authControllerProvider)
-      // rebuilds and unmounts this screen — no extra invalidation needed.
+      // Track sign_up_complete for Google Sign-In
+      ref.read(analyticsServiceProvider).trackSignUpComplete(
+        userId: ref.read(authControllerProvider).user?.email ?? 'google_user',
+        authProvider: 'google',
+        sessionId: ref.read(sessionIdProvider),
+        referralSource: extractReferralSource(),
+      );
     } else {
       _toast(googleSignInErrorMessage(err, isTr: isTr));
     }
@@ -361,7 +371,18 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                         text: isTr
                             ? 'Kişisel veri işleme aydınlatma metnini okudum ve kabul ediyorum (KVKK).'
                             : 'I have read and accept the privacy notice / KVKK data-processing consent.',
-                        onChanged: (v) => setState(() => _privacyConsent = v),
+                        onChanged: (v) {
+                          setState(() => _privacyConsent = v);
+                          
+                          // Grant analytics consent on web when KVKK consent is given
+                          if (kIsWeb) {
+                            try {
+                              js.context.callMethod('updateGoogleConsent', [v, false]);
+                            } catch (_) {
+                              // GA4 consent update failed — non-critical, continue
+                            }
+                          }
+                        },
                       ),
                       const SizedBox(height: 8),
                       _ConsentRow(
