@@ -8,9 +8,11 @@ import 'package:malt_radar/core/branding/brand_medallion_widget.dart';
 import '../domain/legal_age.dart';
 import 'age_gate_providers.dart';
 
-// Web-only JS interop for GA4 consent
-// ignore: avoid_web_libraries_in_flutter
-import 'dart:js' as js;
+// GA4 consent interop: web gets the real dart:js bridge, every other
+// platform gets a no-op stub (dart:js is web-only and would break the
+// Android/iOS compile if imported unconditionally).
+import '../../../core/analytics/ga4_consent_interop_stub.dart'
+    if (dart.library.js) '../../../core/analytics/ga4_consent_interop_web.dart';
 
 /// Age-verification gate shown at first launch and never again once the user
 /// confirms they are of legal drinking age for their selected country.
@@ -56,14 +58,9 @@ class _AgeGateScreenState extends ConsumerState<AgeGateScreen> {
     ref.read(ageGateProvider.notifier).consent(_selected!.code);
     
     // Grant analytics consent on web when user confirms age gate
-    // This triggers GA4 initialization (lazy-loaded after consent)
-    if (kIsWeb) {
-      try {
-        js.context.callMethod('updateGoogleConsent', [true, false]);
-      } catch (_) {
-        // GA4 consent update failed — non-critical, continue
-      }
-    }
+    // This triggers GA4 initialization (lazy-loaded after consent).
+    // No-op on native (stub); web bridges to updateGoogleConsent().
+    syncGoogleConsent(true, secondary: false);
     // No navigation is needed: main.dart rebuilds `home` from the stream once
     // the provider flips to `consented`.
   }
@@ -71,14 +68,8 @@ class _AgeGateScreenState extends ConsumerState<AgeGateScreen> {
   void _declareUnderage() {
     ref.read(ageGateProvider.notifier).block();
     
-    // Deny analytics consent on web when user declares underage
-    if (kIsWeb) {
-      try {
-        js.context.callMethod('updateGoogleConsent', [false, false]);
-      } catch (_) {
-        // GA4 consent update failed — non-critical, continue
-      }
-    }
+    // Deny analytics consent on web when user declares underage.
+    syncGoogleConsent(false, secondary: false);
   }
 
   @override

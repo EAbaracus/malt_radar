@@ -15,9 +15,11 @@ import 'google_sign_in_messages.dart';
 import 'package:malt_radar/core/branding/brand_medallion.dart';
 import 'package:malt_radar/core/branding/brand_medallion_widget.dart';
 
-// Web-only JS interop for GA4 consent
-// ignore: avoid_web_libraries_in_flutter
-import 'dart:js' as js;
+// GA4 consent interop: web gets the real dart:js bridge, every other
+// platform gets a no-op stub (dart:js is web-only and would break the
+// Android/iOS compile if imported unconditionally).
+import '../../../core/analytics/ga4_consent_interop_stub.dart'
+    if (dart.library.js) '../../../core/analytics/ga4_consent_interop_web.dart';
 
 /// Login / Register form. Uses the already-passed age gate decision to fill the
 /// required country + legal-minimum-age at registration (KVKK consent is
@@ -374,14 +376,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                         onChanged: (v) {
                           setState(() => _privacyConsent = v);
                           
-                          // Grant analytics consent on web when KVKK consent is given
-                          if (kIsWeb) {
-                            try {
-                              js.context.callMethod('updateGoogleConsent', [v, false]);
-                            } catch (_) {
-                              // GA4 consent update failed — non-critical, continue
-                            }
-                          }
+                          // Grant analytics consent on web when KVKK consent is given.
+                          // No-op on native (stub); web bridges to updateGoogleConsent().
+                          syncGoogleConsent(v, secondary: false);
                         },
                       ),
                       const SizedBox(height: 8),
