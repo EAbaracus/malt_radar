@@ -48,58 +48,26 @@
     };
   </script>
 
+  <!-- Google tag (gtag.js) - Consent Mode v2 compliant -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4R0TX20FC8"></script>
+  <script>
+    gtag('js', new Date());
+    gtag('config', 'G-4R0TX20FC8', {
+      'debug_mode': false,
+      'cookie_domain': 'maltradar.com',
+      'cookie_expires': 63072000,
+      'custom_map': {
+        'share_channel': 'share_channel',
+        'anon_ref_id': 'anon_ref_id',
+        'referral_source': 'referral_source'
+      }
+    });
+  </script>
+
   <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4569028808710145"
      crossorigin="anonymous"></script>
-
-  <!-- Google Analytics 4 (Consent Mode v2 aware) -->
-  <!-- TODO: Replace G-XXXXXXX with real Measurement ID after GA4 property setup -->
-  <script>
-    // Load GA4 only after consent is updated (analytics_storage !== 'denied')
-    // GA4 Measurement Protocol: events sent when consent.granted
-    // If consent remains denied, no GA4 data is collected
-    window.dataLayer = window.dataLayer || [];
-    // gtag config will be initialized after consent update
-    window.initGA4 = function(measurementId) {
-      if (window.__ga4_initialized) return;
-      window.__ga4_initialized = true;
-      var gaScript = document.createElement('script');
-      gaScript.async = true;
-      gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=' + measurementId;
-      document.head.appendChild(gaScript);
-      gaScript.onload = function() {
-        gtag('js', new Date());
-        gtag('config', measurementId, {
-          'debug_mode': false,
-          'cookie_domain': 'maltradar.com',
-          'cookie_expires': 63072000,
-          'custom_map': {
-            'share_channel': 'share_channel',
-            'anon_ref_id': 'anon_ref_id',
-            'referral_source': 'referral_source'
-          }
-        });
-        // Dispatch buffered events
-        window.dataLayer.forEach(function(item) {
-          if (item[0] === 'event') {
-            gtag('event', item[1], item[2]);
-          }
-        });
-      };
-    };
-    // Initialize GA4 when analytics consent granted
-    window.updateGoogleConsent = function(analyticsGranted, marketingGranted) {
-      gtag('consent', 'update', {
-        'analytics_storage': analyticsGranted ? 'granted' : 'denied',
-        'ad_storage': marketingGranted ? 'granted' : 'denied',
-        'ad_user_data': marketingGranted ? 'granted' : 'denied',
-        'ad_personalization': marketingGranted ? 'granted' : 'denied'
-      });
-      if (analyticsGranted && !window.__ga4_initialized) {
-        window.initGA4('G-4R0TX20FC8');
-      }
-    };
-  </script></head>
+</head>
 <body>
   <!--
     Kill any stale Flutter service worker + its caches on every load.
