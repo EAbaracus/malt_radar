@@ -2,31 +2,25 @@
 <html>
 <head>
   <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
+    Malt Radar — Flutter Web entry point.
+    Custom index.html with CanvasKit-to-HTML fallback for WebGL-blocked browsers
+    (e.g. Brave strict fingerprint mode, some corporate proxies).
 
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
+    flutter_bootstrap.js (post-build patched) checks WebGL availability and
+    selects the HTML renderer when WebGL is unavailable.
   -->
   <base href="$FLUTTER_BASE_HREF">
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
   <meta name="description" content="Viski lezzet radarları, notlar ve kişisel koleksiyon yönetimi.">
-
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="Malt Radar">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
-  <!-- Favicon (cache-busted: forces browsers off any stale favicon) -->
+  <!-- Favicon (cache-busted) -->
   <link rel="icon" type="image/png" href="favicon.png?v=brand1"/>
 
   <title>Malt Radar</title>
@@ -36,7 +30,6 @@
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
-
     // Default consent state: HARD DENIED prior to explicit user choice
     gtag('consent', 'default', {
       'analytics_storage': 'denied',
@@ -45,8 +38,6 @@
       'ad_personalization': 'denied',
       'wait_for_update': 500
     });
-
-    // Helper for consent state updates via CMP UI
     window.updateGoogleConsent = function(analyticsGranted, marketingGranted) {
       gtag('consent', 'update', {
         'analytics_storage': analyticsGranted ? 'granted' : 'denied',
@@ -63,18 +54,12 @@
 </head>
 <body>
   <!--
-    You can customize the "flutter_bootstrap.js" script.
-    This is useful to provide a custom configuration to the Flutter loader
-    or to give the user feedback during the initialization process.
-
-    For more details:
-    * https://docs.flutter.dev/platform-integration/web/initialization
+    Kill any stale Flutter service worker + its caches on every load.
+    The SW was serving an old main.dart.js (2-page pagination) even after
+    redeploys, which manifested as an empty whisky list. Unregister +
+    purge caches so the fresh build is always fetched.
   -->
   <script>
-    // Kill any stale Flutter service worker + its caches on every load.
-    // The SW was serving an old main.dart.js (2-page pagination) even after redeploys,
-    // which manifested as an empty whisky list. Unregister + purge caches so the
-    // fresh build is always fetched.
     (function () {
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.getRegistrations().then(function (regs) {
@@ -88,6 +73,7 @@
       }
     })();
   </script>
+
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>
