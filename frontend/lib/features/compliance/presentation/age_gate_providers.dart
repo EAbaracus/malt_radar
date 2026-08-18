@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:malt_radar/core/database/database.dart';
 import 'package:malt_radar/features/whisky/presentation/controllers/whisky_providers.dart';
+import 'package:malt_radar/features/ads/ads_init.dart';
 import '../domain/legal_age.dart';
 
 /// Lifecycle of the compliance age gate.
@@ -64,14 +65,12 @@ class AgeGateNotifier extends StateNotifier<AgeGateDecision> {
         minAge: minAge,
       );
     } catch (_) {
-      // Drift init / read failure (Brave strict mode, etc.): fail open to
-      // notConsented so the pre-gate shell still renders beneath the gate.
-      // No PII is loaded from the DB here, so fail-safe to a neutral state.
       state = const AgeGateDecision(AgeGateStatus.notConsented);
     }
   }
 
   /// Records an affirmative age confirmation for [countryCode].
+  /// Triggers AdMob lazy-init only after consent is recorded.
   Future<void> consent(String countryCode) async {
     try {
       final minAge = legalAgeFor(countryCode);
@@ -89,9 +88,13 @@ class AgeGateNotifier extends StateNotifier<AgeGateDecision> {
         minAge: minAge,
       );
     } catch (_) {
-      // Persist failure must not crash the gate. Stay in notConsented so
-      // the user is re-prompted on next launch (fail-open UX).
+      // Persist failure: fail-open so user is re-prompted next launch.
       state = const AgeGateDecision(AgeGateStatus.notConsented);
+    } finally {
+      // Init AdMob only after a successful consent — never before.
+      if (state.status == AgeGateStatus.consented) {
+        initAdMobIfAllowed();
+      }
     }
   }
 
