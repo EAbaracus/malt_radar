@@ -17,7 +17,7 @@ const Map<String, Map<String, String>> appTranslations = {
     
     // Home Screen
     'home_title': 'Malt Radar',
-    'whisky_library': 'Viski kütüphanesi',
+    'whisky_library': 'Viski meraklıları için lezzet profilleri — veriyle okunur',
     'search_whisky': 'Viski ara',
     'search_library': 'Kütüphanede ara',
     'library': 'Kütüphane',
@@ -197,7 +197,7 @@ const Map<String, Map<String, String>> appTranslations = {
     
     // Home Screen
     'home_title': 'Malt Radar',
-    'whisky_library': 'Whisky library',
+    'whisky_library': 'Flavor profiles for whisky enthusiasts — read with data',
     'search_whisky': 'Search whisky',
     'search_library': 'Search library',
     'library': 'Library',
