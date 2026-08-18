@@ -78,18 +78,34 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Build APK (release)
-        # Default runtime path: Drift (local offline) repository.
-        # AppConfig.useDbApi defaults to false (no --dart-define supplied),
-        # so whiskyRepositoryProvider selects WhiskyRepositoryImpl (Drift).
+      - name: Build AAB (release)
+        # Required for Play Store (not APK). Also injects the production API
+        # base URL — without it AppConfig.useDbApi=true and WhiskyRepositoryImpl
+        # (Drift) is selected, producing an empty catalog on release builds.
+        # (Drift fallback was removed; main is backend-only. See plan Phase 0
+        # finding A4. The define is validated by the binary token check in
+        # Phase 3: libapp.so must contain "maltradar.com" ≥1 occurrence.)
+        run: flutter build appbundle --release --dart-define=MALT_RADAR_API_BASE_URL=https://maltradar.com
+
+      - name: Upload AAB artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: malt-radar-release-aab
+          path: frontend/build/app/outputs/bundle/release/app-release.aab
+          retention-days: 90
+          compression-level: 6
+
+      - name: Build APK (legacy, debug smoke only — replaced by AAB above for store)
+        if: false  # AAB is the Play Store deliverable; keep APK step for local dev only
         run: flutter build apk --release
 
       - name: Upload APK artifact
+        if: false
         uses: actions/upload-artifact@v4
         with:
           name: malt-radar-release-apk
           path: frontend/build/app/outputs/flutter-apk/app-release.apk
-          retention-days: 90
+          retention-days: 1
           compression-level: 6
 
   release:
