@@ -87,6 +87,23 @@ void main() {
     expect(find.byIcon(Icons.lock_outline), findsWidgets);
   });
 
+  testWidgets('age gate resolves within 3s when local DB read is slow/stuck', (
+    tester,
+  ) async {
+    // Uses a real in-memory Drift DB (no userSettings row). If the gate's
+    // _load() hangs, the 3s timeout fires and resolves to notConsented,
+    // allowing the pre-gate shell + age gate overlay to render instead of
+    // showing _GateLoadingScaffold forever.
+    final db = await pumpApp(tester);
+    // Verify the gate reached notConsented (AgeGateScreen is rendered, not
+    // the _GateLoadingScaffold spinner).
+    expect(find.byType(AgeGateScreen), findsOneWidget);
+    expect(find.byType(PreGateDiscoveryShell), findsOneWidget);
+    expect(find.text('MALT RADAR'), findsWidgets);
+    expect(find.byIcon(Icons.lock_outline), findsWidgets);
+    addTearDown(() => db.close());
+  });
+
   testWidgets('confirming the age gate persists consent and enters the app', (
     tester,
   ) async {

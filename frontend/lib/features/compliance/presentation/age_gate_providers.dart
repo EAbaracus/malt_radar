@@ -34,26 +34,41 @@ class AgeGateNotifier extends StateNotifier<AgeGateDecision> {
     _load();
   }
 
+  /// Loads the persisted age-gate decision from the local Drift database.
+  ///
+  /// Resolves to [AgeGateStatus.notConsented] if no saved decision exists OR
+  /// if the database read fails/times out. This prevents the `_GateLoadingScaffold`
+  /// spinner from hanging indefinitely when Drift cannot initialize (e.g. Brave
+  /// strict-shield mode blocks the sqlite3-wasm worker, which otherwise leaves
+  /// the gate stuck in [AgeGateStatus.unknown]).
   Future<void> _load() async {
-    final row = await (db.select(
-      db.userSettings,
-    )..where((t) => t.key.equals(_key))).getSingleOrNull();
-    if (row == null) {
+    try {
+      final row = await (db.select(db.userSettings)
+            ..where((t) => t.key.equals(_key)))
+          .getSingleOrNull()
+          .timeout(const Duration(seconds: 3));
+      if (row == null) {
+        state = const AgeGateDecision(AgeGateStatus.notConsented);
+        return;
+      }
+      if (row.value == _blockedValue) {
+        state = const AgeGateDecision(AgeGateStatus.blocked);
+        return;
+      }
+      final parts = row.value.split('|');
+      final country = parts.isNotEmpty ? parts[0] : null;
+      final minAge = parts.length > 1 ? int.tryParse(parts[1]) : null;
+      state = AgeGateDecision(
+        minAge != null ? AgeGateStatus.consented : AgeGateStatus.notConsented,
+        country: country,
+        minAge: minAge,
+      );
+    } catch (_) {
+      // Drift init / read failure (Brave strict mode, etc.): fail open to
+      // notConsented so the pre-gate shell still renders beneath the gate.
+      // No PII is loaded from the DB here, so fail-safe to a neutral state.
       state = const AgeGateDecision(AgeGateStatus.notConsented);
-      return;
     }
-    if (row.value == _blockedValue) {
-      state = const AgeGateDecision(AgeGateStatus.blocked);
-      return;
-    }
-    final parts = row.value.split('|');
-    final country = parts.isNotEmpty ? parts[0] : null;
-    final minAge = parts.length > 1 ? int.tryParse(parts[1]) : null;
-    state = AgeGateDecision(
-      minAge != null ? AgeGateStatus.consented : AgeGateStatus.notConsented,
-      country: country,
-      minAge: minAge,
-    );
   }
 
   /// Records an affirmative age confirmation for [countryCode].
