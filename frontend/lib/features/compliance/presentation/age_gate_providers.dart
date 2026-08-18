@@ -88,9 +88,15 @@ class AgeGateNotifier extends StateNotifier<AgeGateDecision> {
         minAge: minAge,
       );
     } catch (_) {
-      // Persist failure: fail-open so user is re-prompted next launch.
-      state = const AgeGateDecision(AgeGateStatus.notConsented);
-    } finally {
+        // Persist failure (e.g. Brave strict-shield blocks sqlite3-wasm):
+        // fail-open so the user can use the app this session. They'll be
+        // re-prompted on next launch since consent didn't persist.
+        state = AgeGateDecision(
+          AgeGateStatus.consented,
+          country: countryCode,
+          minAge: legalAgeFor(countryCode),
+        );
+      } finally {
       // Init AdMob only after a successful consent — never before.
       if (state.status == AgeGateStatus.consented) {
         initAdMobIfAllowed();
