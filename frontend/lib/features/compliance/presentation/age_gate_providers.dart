@@ -73,37 +73,53 @@ class AgeGateNotifier extends StateNotifier<AgeGateDecision> {
 
   /// Records an affirmative age confirmation for [countryCode].
   Future<void> consent(String countryCode) async {
-    final minAge = legalAgeFor(countryCode);
-    await db
-        .into(db.userSettings)
-        .insertOnConflictUpdate(
-          UserSettingsCompanion.insert(
-            key: _key,
-            value: '$countryCode|$minAge',
-          ),
-        );
-    state = AgeGateDecision(
-      AgeGateStatus.consented,
-      country: countryCode,
-      minAge: minAge,
-    );
+    try {
+      final minAge = legalAgeFor(countryCode);
+      await db
+          .into(db.userSettings)
+          .insertOnConflictUpdate(
+            UserSettingsCompanion.insert(
+              key: _key,
+              value: '$countryCode|$minAge',
+            ),
+          );
+      state = AgeGateDecision(
+        AgeGateStatus.consented,
+        country: countryCode,
+        minAge: minAge,
+      );
+    } catch (_) {
+      // Persist failure must not crash the gate. Stay in notConsented so
+      // the user is re-prompted on next launch (fail-open UX).
+      state = const AgeGateDecision(AgeGateStatus.notConsented);
+    }
   }
 
   /// Records an underage declaration (app becomes locked).
   Future<void> block() async {
-    await db
-        .into(db.userSettings)
-        .insertOnConflictUpdate(
-          UserSettingsCompanion.insert(key: _key, value: _blockedValue),
-        );
-    state = const AgeGateDecision(AgeGateStatus.blocked);
+    try {
+      await db
+          .into(db.userSettings)
+          .insertOnConflictUpdate(
+            UserSettingsCompanion.insert(key: _key, value: _blockedValue),
+          );
+      state = const AgeGateDecision(AgeGateStatus.blocked);
+    } catch (_) {
+      // If the block record can't persist, still lock the session in-memory
+      // so an underage user never reaches catalog content.
+      state = const AgeGateDecision(AgeGateStatus.blocked);
+    }
   }
 
   /// Clears the stored decision so the user is asked to re-verify on the next
   /// launch.
   Future<void> reset() async {
-    await (db.delete(db.userSettings)..where((t) => t.key.equals(_key))).go();
-    state = const AgeGateDecision(AgeGateStatus.notConsented);
+    try {
+      await (db.delete(db.userSettings)..where((t) => t.key.equals(_key))).go();
+      state = const AgeGateDecision(AgeGateStatus.notConsented);
+    } catch (_) {
+      state = const AgeGateDecision(AgeGateStatus.notConsented);
+    }
   }
 }
 
