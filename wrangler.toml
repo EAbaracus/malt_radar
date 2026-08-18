@@ -1,0 +1,9 @@
+name = "malt-radar"
+compatibility_date = "2024-01-01"
+
+[build]
+command = "cd frontend && flutter build web --release --dart-define=MALT_RADAR_API_BASE_URL=https://maltradar.com"
+output_dir = "frontend/build/web"
+
+[site]
+bucket = "frontend/build/web"
