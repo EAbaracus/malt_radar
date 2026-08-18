@@ -1,0 +1,418 @@
+vector,count,distinct_distilleries,dominant_match_method,example_ids,example_names
+"(60.0, 60.0, 40.0, 0.0, 0.0, 0.0, 0.0)",140,38,,"W001856,W001873,W001879,W001882,W001883,W001884,W001890,W001891",Bushmills NAS | Glendalough 12yo | Gooderham & Worts 10yo
+"(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",72,71,exact,"W002049,W002091,W002185,W002395,W002453,W002713,W002714,W002715","Bardstown Bourbon Co. Fusion Series Kentucky Straight (no. 2) | Grace O’Malley, 40%, $37 Satsuma Peel, Mandarin Segments, Butter Biscuits, Dry Oak, Bookbindings, And Hints Of Baking Spices On The Nose. Warm Orange Sweet Vanilla, Creamy Pudding, Sherbet, And A Mellow Pepperiness On The Palate, But As The Citrus Theme Swells, A Taste Of Grapefruit Bitterness Washes Over It, Making For A Sharp Bitter FInish. With Its | Blade And Bow 22 Year Old"
+"(60.0, 60.0, 60.0, 0.0, 0.0, 0.0, 0.0)",48,43,,"W003562,W003565,W003587,W003593,W003595,W003604,W003611,W003613",Aberlour 16 Double Cask | Amrut Indian Cask Strength | Balblair 15
+"(10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0)",46,9,,"W001097,W3408,W3444,W3548,W3548,W001570,W3393,W3429",Ardbeg 21yo | Indri | Mccormick
+"(0.0, 0.0, 0.0, 0.7, 0.75, 0.35, 0.0)",45,28,p4_source_only_retry_ready,"W000352,W000265,W000001,W001109,W001095,W000370,W001214,W000281",Aberlour 12yo Double Cask Matured | Aberlour 16yo Double Cask Matured | Aberlour A'Bunadh
+"(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",31,22,,"W001786,W001345,W001701,W001337,W000453,W001198,W3378,W3434",Balcones Baby Blue | Grant's Family Reserve Blended | Old Weller Antique 107
+"(0.0, 100.0, 0.0, 0.0, 0.0, 0.0, 0.0)",28,3,,"W003893,W3359,W3318,W3318,W3318,W3318,W3318,W3318",Ballechin 10 YO Heavily Peated | E.H. Taylor | Black Velvet
+"(0.0, 50.0, 50.0, 75.0, 100.0, 75.0, 0.0)",22,0,,"W3299,W3299,W3299,W3299,W3299,W3299,W3299,W3299",Alberta | Alberta | Alberta
+"(0.0, 1.0, 0.095, 0.095, 0.0, 0.0, 0.0)",20,3,,"W000001,W000001,W000001,W000001,W000001,W000001,W000001,W000001",Aberlour A'Bunadh | Aberlour A'Bunadh | Aberlour A'Bunadh
+"(0.0, 7.0, 100.0, 35.0, 7.0, 14.0, 0.0)",20,0,,"W3406,W3406,W3406,W3406,W3406,W3406,W3406,W3406",Hyde | Hyde | Hyde
+"(0.5, 0.5, 0.0, 0.5, 0.5, 0.0, 0.0)",19,7,,"W000422,W000443,W000477,W000492,W000520,W001916,W001918,W001920",macallan edition no. 6 | macallan edition no. 2 | macallan edition no. 1
+"(100.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",18,0,,"W001561,W001561,W001561,W001561,W3521,W3521,W3521,W3521",Alberta Premium | Alberta Premium | Alberta Premium
+"(0.0, 0.25, 0.5, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",15,15,exact,"W002041,W002113,W002118,W002175,W002343,W002437,W002521,W002583",Doc Swinson’s 15 Year Old Exploratory Cask Series Kentucky Straight (barrel No. 18) | Doc Swinson’s Alter Ego Solera Method Rum Cask Finished Rye | Two Stacks Single Pot Still Cabernet Franc Ice Wine Finish
+"(0.0, 0.0, 0.0, 0.0, 0.0, 100.0, 20.0)",15,0,,"W3335,W3335,W3335,W3335,W3335,W3335,W3335,W3335",Canadian Club | Canadian Club | Canadian Club
+"(0.0, 0.25, 0.75, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",11,11,exact,"W002171,W002201,W002344,W002516,W002867,W002879,W002921,W002966",Old Forester Birthday | Jack Daniel’s Bottled In Bond | Kooper Family Whiskey Sweetheart Of The Rodeo Straight
+"(0.0, 0.5, 0.25, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",10,9,exact,"W000875,W001290,W002182,W002534,W002540,W002547,W002709,W003020",Cardhu 12yo | Buchanan's Master Blended | Milam & Greene Unabridged Volume 2
+"(0.0, 0.5, 0.5, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",10,10,exact,"W002039,W002124,W002183,W002345,W002484,W002843,W002904,W002936",Sam Houston 14 Year Old Kentucky Straight (batch mkt-1) | Blackadder Black Snake Vat No. 2 Sixth Venom | Four Roses Limited Edition Small Batch 135th Anniversary (2023)
+"(0.0, 0.25, 0.5, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",10,10,exact,"W002055,W002200,W002291,W002303,W002633,W002635,W002901,W002987","Daviess County French Oak Cask-finished | Basil Hayden Malted | Gordon & Macphail 125th Anniversary 1975 (glencraig, Distilled At Glenburgie; Cask No. 9686)"
+"(0.0, 1.0, 0.75, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",10,10,exact,"W002107,W002120,W002127,W002229,W002595,W002664,W002849,W002896",Puni Gold | Glencadam 18 Year Old | Benromach Contrasts: Air Dried Oak
+"(0.0, 0.0, 0.0, 0.5, 0.6, 0.0, 0.0)",9,8,p4_manual_axis_user_approved,"W001095,W000033,W000459,W000449,W000136,W000455,W000671,W000126",Ardbeg Uigeadail | Highland Park 40yo | Glenmorangie Astar
+"(0.0, 1.0, 1.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",9,9,exact,"W001993,W002019,W002087,W002214,W002263,W002690,W003076,W003286",Compass Box Rogues’ Banquet | Glenmorangie Grand Vintage Malt 1996 | J.J. Corry The Hanson
+"(0.0, 1.0, 1.0, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",9,9,exact,"W001998,W002101,W002165,W002239,W002888,W002890,W003143,W003241",Mars Iwai 45 | Ichiro’s Malt & Grain (batch 17) | Claxton’s Dumbarton 22 Year Old Bourbon Hogshead
+"(0.0, 0.75, 0.5, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",9,9,exact,"W002045,W002189,W002339,W002426,W002673,W003005,W003170,W003251",Barrell (batch 024) | Mary Dowling Tequila Barrel Finished | Parker’s Heritage 10 Year Old Heavy Char Kentucky Straight
+"(0.0, 0.25, 0.75, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",9,9,exact,"W002080,W002210,W002510,W002623,W002647,W002668,W002956,W002959",Balcones 1 Texas (batch Sm 20-1) | Hard Truth Harvest Sweet Mash | Loco Tequila Ámbar Reposado
+"(0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0)",9,9,exact,"W002716,W002717,W002723,W002730,W002746,W002774,W002778,W002781",Charbay Doubled & Twisted Straight Malt Whiskey And Hop FLavored Whiskey (lot No. 3) | Old Potrero 6 Year Old Rye | Black Butte 5 Year Old Single Malt
+"(0.0, 0.0, 100.0, 0.0, 0.0, 0.0, 0.0)",9,5,,"W003912,W3520,W003864,W003866,W003588,W3314,W3479,W3479",Cutty Sark Aged 12 Years | Sullivans Cove | Wild Turkey 101
+"(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 100.0)",9,3,,"W003673,W003774,W3358,W3358,W3358,W3358,W3358,W3358",Glen Moray Elgin Classic Chardonnay Cask Finish | Kilchoman Loch Gorm 2024 Release | DYC
+"(11.0, 11.0, 55.0, 100.0, 77.0, 22.0, 0.0)",9,1,,"W3495,W3495,W3495,W3495,W3495,W3495,W3495,W3495",Sazerac | Sazerac | Sazerac
+"(0.0, 0.5, 0.5, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",8,8,exact,"W002004,W002250,W002294,W002298,W002533,W002653,W002657,W002854",Glenallachie 10 Year Old Cask Strength (batch 2) | Dalmore 21 Year Old (2023 Edition) | Gordon & Macphail 125th Anniversary 1979 (mosstowie Distilled At Miltonduff; Cask No. 20323)
+"(0.0, 0.75, 0.25, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",8,7,exact,"W002056,W002512,W002541,W002706,W002865,W003019,W003220,W003232",Widow Jane 13 Year Old Lucky Thirteen Straight (barrel No. 2007) | Laelia Blanco | Glenkinchie 12 Year Old
+"(0.0, 1.0, 0.75, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",8,8,exact,"W002166,W002187,W002241,W002372,W002463,W003015,W003100,W003201",Clydebuilt Riveter | Jefferson’s Tropics Aged In Humidity Finished In Singapore | Dalmore Cask Curation Series Sherry Edition 26 Year Old Vintage Gonzalez Byass Finish
+"(0.0, 0.5, 1.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",8,8,exact,"W002364,W002403,W002661,W002678,W002833,W003088,W003140,W003215",Little Book Chapter 4: Lessons Honored (2020 Release) | Fukano 10 Year Old (2020 Release) | Stellum Fibonacci Blend No. 1
+"(0.0, 0.0, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",8,7,exact,"W002555,W002562,W002708,W002909,W003032,W003164,W003179,W003183",Deanston 12 Year Old | Aberfeldy 21 Year Old | Penelope 17 Year Old
+"(0.0, 100.0, 0.0, 0.0, 0.0, 0.0, 100.0)",8,2,,"W003735,W3415,W3415,W3415,W3415,W3415,W3415,W3415",Highland Park 15 | Jim Beam | Jim Beam
+"(1.0, 0.059, 0.095, 0.095, 0.0, 0.0, 0.0)",7,5,,"W001022,W000279,W000977,W000618,W000955,W001043,W001217",Balvenie 14yo Peat Week | Balvenie 16yo Triple Cask | Glenlivet Nadurra Peated Cask Finish
+"(0.0, 0.75, 1.0, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",7,7,exact,"W001991,W002034,W002289,W002335,W002469,W002705,W002803",Amrut 10 Year Old Greedy Angels Bourbon Cask-finished Single Malt (2019 Release) | Compass Box Great King Street Artist's Blend | Gordon & Macphail 125th Anniversary 1972 (distilled At Coleburn; Cask No. 3511)
+"(0.0, 0.75, 0.5, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",7,7,exact,"W002003,W002042,W002514,W002517,W002651,W002939,W003163",Tomintoul 25 Year Old | Knob Creek 9 Year Old Kentucky Straight | Don Fulano French Limousin Cask Aged Reposado
+"(0.0, 0.25, 0.5, 0.75, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",7,7,exact,"W002005,W002024,W002112,W002378,W002480,W002848,W003155",Tomintoul 12 Year Old Kedem Port Cask-finished | Knob Creek 15 Year Old Kentucky Straight | Cedar Ridge The Quintessential American Single Malt (batch 001)
+"(0.0, 0.25, 0.0, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",7,7,exact,"W002007,W002115,W002910,W002914,W002925,W003033,W003041",Tomintoul 21 Year Old | Stranahan’s Blue Peak American Single Malt | Old Forester 2013 Birthday Bourbon (2025 Release)
+"(0.0, 0.5, 0.25, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",7,7,exact,"W002035,W002046,W002052,W002072,W002413,W002822,W003121",Syndicate 58/6 12 Year Old | Larceny Barrel Proof Kentucky Straight (batch b520) | The Clover 4 Year Old Single Barrel Straight (no. e-010)
+"(0.0, 0.75, 0.25, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",7,7,exact,"W002074,W002290,W002331,W002640,W002983,W002991,W003049",Old Overholt 11 Year Old Straight | Pittyvaich 30 Year Old (diageo Special Releases 2020) | Lucky Seven 12 Year Old The Proprietor Single Barrel Kentucky Straight (barrel No. 7)
+"(0.84, 1.08, 3.24, 0.56, 0.88, 2.7, 0.05, 2.46, 2.72)",6,1,p4_bulk_strong_candidate,"W000502,W000502,W000502,W000502,W000502,W000502",Glenmorangie 18yo | Glenmorangie 18yo | Glenmorangie 18yo
+"(1.15, 0.85, 2.31, 0.08, 2.54, 1.38, 0.92, 0.02, 1.49, 2.46)",6,1,p4_bulk_strong_candidate,"W000040,W000040,W000040,W000040,W000040,W000040",Laphroaig 25yo | Laphroaig 25yo | Laphroaig 25yo
+"(0.25, 0.0, 0.0, 0.0, 0.0, 0.125, 0.0)",6,2,,"W000015,W001161,W001102,W001132,W001142,W001163",Bowmore 12y | Laphroaig Cairdeas 2018 Fino | Laphroaig Cairdeas 2015
+"(0.33, 0.33, 1.33, 0.42, 0.23, 1.25, 2.0)",6,1,p4_bulk_strong_candidate,"W000008,W000008,W000008,W000008,W000008,W000008",Aberlour 14y | Aberlour 14y | Aberlour 14y
+"(0.0, 0.25, 0.25, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",6,6,exact,"W000762,W002111,W002272,W002515,W002592,W002922",Glencadam 15yo | Starward Solera Australian Single Malt | Journeyman Distillery Last Feather Rye
+"(0.25, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0)",6,6,exact,"W001067,W002432,W002718,W002734,W002736,W003207",Glenglassaugh Octaves Peated | Smokehead Rebel Rum Cask Finished | Sonoma Distilling Cherrywood Rye
+"(0.0, 0.0, 0.25, 0.25, 0.5, 0.25, 0.0)",6,3,p4_bulk_strong_candidate,"W000221,W000001,W000770,W000678,W000001,W000952",Glenrothes Whisky Maker's Cut | Aberlour A'Bunadh | Ancnoc 12yo
+"(0.0, 0.25, 0.75, 0.75, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",6,6,exact,"W002059,W002393,W002492,W002624,W002943,W003120",Old Elk Wheated Straight | The Whistler Calvados Cask-finished | Midleton Very Rare Vintage 2025
+"(0.0, 0.25, 0.25, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",6,6,exact,"W002070,W002368,W002898,W002916,W003224,W003230",Easy Rider 4 Year Old Kentucky Straight | Canadian Club Chronicles 43 Year Old The Speakeasy | RD1 Small Batch Brazilian Amburana Finished Straight Bourbon
+"(0.0, 0.0, 0.75, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",6,6,exact,"W002073,W002085,W002117,W002575,W002899,W003171",Laws Whiskey House 6 Year Old San Luis Valley Bottled In Bond Straight (batch 1) | Hooten Young 12 Year Old (batch 1) Whiskey | Still Austin Cask Strength
+"(0.0, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",6,6,exact,"W002090,W002461,W002586,W002644,W003024,W003186",J.J. Corry The Gael (batch 2) | Chattanooga Experimental Series Batch 043: Pre- Prohibition Style | Nor’easter Blended Bourbon
+"(0.0, 0.5, 0.75, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",6,6,exact,"W002149,W002179,W002317,W002354,W002464,W002553",The ImpEx Collection Benrinnes 2008 16 Year Old | Chattanooga Whiskey Vintage Series Bottled In Bond Fall 2019 (batch 23118f) | Angel’s Envy Cask Strength Port Barrel-finished (2020 Release)
+"(0.0, 1.0, 0.75, 0.75, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",6,6,exact,"W002240,W002264,W002402,W002636,W002972,W002986",Gordon & Macphail Private Collection The Recollection Series 46 Year Old Banff 1976 | Dewar’s Double Double 37 Year Old | Ohishi Tokubetsu Reserve
+"(0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0, 0.0, 0.25)",6,6,exact,"W002271,W002726,W002728,W002729,W002742,W002794",Drayman’s Highveld 5 Year Old French Oak Reserve • | Westland Outpost Range Garryana Single Malt (9th Edition) | Bainbridge Battle Point Two Islands Islay Cask Finished Wheat
+"(0.0, 0.5, 1.0, 0.75, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",6,6,exact,"W002347,W002422,W002446,W003165,W003209,W003245",Rabbit Hole Founder’s Collection Boxergrail Kentucky Straight | New Riff Bottled In Bond Balboa (2025 Release) | Tobermory 21 Year Old (2024 Release)
+"(0.0, 0.0, 0.0, 100.0, 0.0, 0.0, 0.0)",6,4,,"W003869,W001576,W001576,W001480,W001480,W003916",Wild Turkey Rare Breed Barrel Proof Kentucky Straight Bourbon Whiskey | Wayne Gretzky No. 99 Red Cask | Wayne Gretzky No. 99 Red Cask
+"(0.0, 0.0, 100.0, 66.0, 33.0, 66.0, 33.0)",6,0,,"W001562,W001562,W001562,W001562,W001562,W001562",Royal Canadian Small Batch | Royal Canadian Small Batch | Royal Canadian Small Batch
+"(0.0, 0.0, 0.0, 0.0, 0.0, 100.0, 0.0)",6,1,,"W3499,W3499,W001584,W001584,W3358,W3358",Seagram's | Seagram's | Old Overholt
+"(0.0, 0.75, 0.0, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",5,4,exact,"W000830,W002009,W002825,W002864,W003031",Tomintoul 16yo | Tomintoul 16 Year Old | Jura Bourbon Cask Matured
+"(0.08, 0.67, 0.33, 0.08, 0.08, 0.75, 3.33)",5,1,p4_bulk_strong_candidate,"W000311,W000311,W000311,W000311,W000311",Dalmore 18yo | Dalmore 18yo | Dalmore 18yo
+"(0.0, 0.0, 0.0, 0.25, 0.5, 0.25, 0.0)",5,3,p4_bulk_strong_candidate,"W000812,W000632,W000832,W000496,W000952",Tomintoul 25yo | Deveron 18yo | Deveron 10yo
+"(0.0, 0.0, 0.0, 0.25, 0.5, 0.0, 0.0)",5,5,p4_review_calibrated_candidate,"W000119,W000782,W000787,W001040,W001339",Highland Park 21yo | Balblair 2000 | BenRiach 10yo
+"(0.0, 0.0, 0.0, 0.25, 0.25, 0.0, 0.0)",5,5,p4_review_calibrated_candidate,"W000084,W000485,W000636,W000807,W000657",Timorous Beastie 40yo Cask Strength | Mortlach Special Strength | Glenrothes Elders' Reserve
+"(0.0, 0.75, 1.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",5,5,exact,"W002031,W002047,W002128,W002632,W002685",Balblair 12 Year Old | Remus Repeal Reserve Straight (series Iv) | The ImpEx Collection 15 Year Old Linkwood 2008
+"(0.0, 0.0, 0.25, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",5,5,exact,"W002044,W003022,W003029,W003141,W003181",Sweetens Cove 13 Year Old Tennessee Straight (batch 1) | Method And Madness Amburana Cask Finished | Keeper’s Heart 10 Year Old Malaga Wine Cask Finished
+"(0.0, 0.5, 0.75, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",5,5,exact,"W002071,W002315,W002386,W002509,W003173",Frey Ranch Bottled In Bond (batch 1) | King Of Kentucky 14 Year Old Single Barrel Kentucky Straight 2020 Release (barrel No. 3) | The Busker Triple Cask Triple Smooth
+"(0.0, 1.0, 0.5, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",5,5,exact,"W002089,W002638,W002942,W003025,W003256",The Irishman Vintage Cask (2020 Release) | American Highway Reserve | Compass Box Orchard House
+"(0.0, 0.75, 0.5, 0.75, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",5,5,exact,"W002095,W002314,W002508,W003078,W003288",Mars Komagatake Limited Edition (2019 Release) | George T. Stagg Kentucky Straight (buffalo Trace Antique Collection 2020) | Suavecito Founder’s Reserve Single Barrel Añejo (barrel 004)
+"(0.0, 0.25, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",5,5,exact,"W002099,W002688,W002908,W002918,W002953",Kujira Ryukyu | Proof And Wood Good Day 21 Year Old Blended | Dalmore 2009 Select Edition Highland Single Malt
+"(0.0, 1.0, 0.5, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",5,5,exact,"W002106,W002233,W002642,W002696,W003149",Puni Vina | Starward Solera Single Malt | Garrison Brothers Laguna Madre (2022 Release)
+"(0.25, 1.0, 0.5, 0.5, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0)",5,5,exact,"W002138,W002217,W002388,W002842,W003234",Roseisle 12 Year Old The Origami Kite (diageo Special Releases 2023) | Westward Milestone Edition No. 1 | REI Pure Malt
+"(0.0, 0.25, 0.5, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",5,5,exact,"W002285,W002380,W002518,W002694,W003174","Hudson Bright Lights, Big Bourbon New York Straight | Waterford Single Farm Origin Dunmore Edition 1.1 | Tequila Corralejo Añejo"
+"(0.0, 1.0, 0.25, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",5,4,exact,"W002336,W002394,W002884,W002887,W003261",Puncher’s Chance Kentucky Straight | The Legendary Silkie | Gordon & Macphail Recollection Series No. 3 Imperial 1990
+"(0.0, 0.25, 0.25, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0)",5,5,exact,"W002564,W002578,W002915,W002932,W003193",Glen Garioch 12 Year Old | Dewar’s 21 Year Old Double Double • | Kentucky Peerless Double Oak Bourbon
+"(0.0, 0.0, 100.0, 100.0, 0.0, 0.0, 0.0)",5,2,,"W003686,W3406,W3406,W3406,W003674",Glenallachie 12 | Hyde | Hyde
+"(1.0, 0.88, 1.75, 0.19, 1.12, 1.09, 0.31, 0.01, 1.77, 3.62)",4,1,p4_bulk_strong_candidate,"W000018,W000018,W000018,W000018",Auchentoshan 12yo | Auchentoshan 12yo | Auchentoshan 12yo
+"(0.0, 0.059, 0.095, 0.095, 0.0, 0.0, 1.0)",4,3,,"W000512,W000579,W000187,W000654",Macallan 18yo Fine Oak | Macallan 21yo Fine Oak | Balvenie 21yo Port Wood
+"(0.0, 1.0, 0.088, 0.088, 0.0, 0.0, 0.0)",4,1,,"W000001,W000001,W000001,W000539",Aberlour A'Bunadh | Aberlour A'Bunadh | Aberlour A'Bunadh
+"(2.0, 0.88, 1.38, 0.62, 0.88, 1.7, 0.25, 0.06, 3.17, 2.62)",4,1,p4_bulk_strong_candidate,"W000009,W000009,W000009,W000009",Aberlour 12y | Aberlour 12y | Aberlour 12y
+"(0.0, 6.6, 0.0, 0.0, 1.7, 0.0, 2.0)",4,3,tasting_note_extraction,"W000313,W000753,W001339,W000632",Glenmorangie Duthac | Tullibardine 20yo | Highland Queen
+"(0.0, 0.0, 0.0, 0.25, 0.75, 0.25, 0.0)",4,4,p4_bulk_strong_candidate,"W000459,W000533,W001346,W000546",Glenmorangie Astar | Timorous Beastie 18yo | Chivas Regal 12yo
+"(0.0, 0.0, 0.25, 0.25, 0.25, 0.0, 0.0)",4,2,p4_bulk_strong_candidate,"W000827,W000580,W000721,W000735",Tamdhu 10yo | Singleton Of Glendullan 18yo | Glencadam 30yo
+"(0.25, 0.5, 0.25, 0.5, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0)",4,4,exact,"W002000,W002676,W002870,W002946",Gordon & Macphail Private Collection 1979 (distilled At Glenlivet; Cask No. 19237) | Whiskey Del Bac Frontera Spanish Sherry Cask Finished | Austin 101 Light Whiskey
+"(0.0, 0.5, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",4,4,exact,"W002011,W002088,W002840,W003131",Tomintoul 10 Year Old | J.J. Corry The Vatting No. 1 | Penelope 9 Year Old Estate Collection Private Select Blend Of Straights (2024 Release)
+"(0.0, 0.0, 0.5, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",4,4,exact,"W002029,W002699,W003040,W003129",Bardstown Bourbon Co. Discovery Series Kentucky Straight (no. 2) | Starward Octave Barrels Single Malt | Dunbrody Small Batch Bourbon Cask Matured Single Grain
+"(0.25, 0.0, 0.25, 0.25, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0)",4,4,exact,"W002058,W002513,W002589,W003252",Borough Armagnac Cask- Finished (batch 03) | Lost Explorer Blanco | Litchﬁeld Distillery Batchers’ Straight Bourbon
+"(0.0, 1.0, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",4,4,exact,"W002079,W002361,W002687,W002851","Balcones Lineage Texas (batch Sml 20-1) | Stranahan’s 10 Year Old Mountain Angel Colorado (batch 001) | Barrell Gold Label Seagrass 20 Year Old Rye Finished In Martinique Rum, Madeira, And Apricot Brandy Barrels"
+"(0.0, 0.75, 0.5, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0)",4,4,exact,"W002094,W002170,W003139,W003287",Mars Komagatake Double Cellars (2019 Release) | The ImpEx Collection Invergordon 1974 49 Year Old | Jameson Triple Triple Marsala Cask Edition
+"(0.0, 1.0, 0.25, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",4,4,exact,"W002123,W002501,W002809,W003233",Angel’s Envy Cask Strength Sauternes And Toasted Oak Barrel Finished (batch rc1) | Aberfeldy 26 Year Old Languedoc Red Wine Cask Finished | Drumshanbo Marsala Cask
+"(0.25, 0.25, 0.25, 0.5, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0)",4,4,exact,"W002155,W002641,W002941,W003012",Deanston Virgin Oak Cask Finished | Garrison Brothers Balmorhea | Jack Daniel’s Special Reserve T Anyard Hill Single Barrel
+"(0.0, 1.0, 1.0, 0.75, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",4,4,exact,"W002169,W002602,W003002,W003013",Claxton’s Strathclyde 28 Year Old Oloroso Hogshead | Prima & Ultima The Singleton 94 Of Glen Ord 34 Year Old 1987 | ImpEx Collection Spirit Of Y Orkshire 2018 Cask No. 3152
+"(0.0, 0.0, 0.5, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",4,4,exact,"W002193,W002281,W002654,W002800",Elijah Craig Small Batch | WhistlePig 17 Year Old The Boss Hog Vii: Magellan's Atlantic (barrel No. 13) | Semper Fi Big Stick Oak Stave Finished
+"(0.0, 0.75, 1.0, 0.75, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",4,4,exact,"W002330,W002374,W002650,W003142",Larceny Barrel Proof Kentucky Straight (batch c920) | The Busker Single Grain | Dragon’s Milk 5 Year Old Origin Small Batch
+"(0.0, 0.25, 0.75, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0)",4,4,exact,"W002333,W002551,W003048,W003231",Kentucky Owl Dry State | Glenlivet 14 Year Old Cognac Cask Selection • | Lochlea Fallow Edition First-fill Oloroso Sherry Butt Matured (third Crop)
+"(0.25, 0.25, 0.25, 0.25, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0)",4,4,exact,"W002351,W002560,W002646,W003085",Oak & Eden Round Prairie Jamestown Revival Riff | Glenmorangie Quinta Ruban 14 Year Old • | Laws Whiskey House 8 Year Old Bottled In Bond Four Grain
+"(0.25, 0.25, 0.75, 0.25, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0)",4,4,exact,"W002366,W002824,W002834,W003180",Jacob’s Pardon 8 Year Old Small Batch American Whiskey (batch 01) | Loch Lomond Original | William Larue Weller (buffalo Trace Antique Collection 2024)
+"(0.0, 0.75, 0.75, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",4,4,exact,"W002407,W002957,W002968,W003199",Ohishi 10 Year Old Brandy Cask- Finished (2020 Release) | Still Austin 7 Year Old Bottled In Bond (fall 2025) | King Of Kentucky 12 Year Old Small Batch (batch 2)
+"(0.0, 0.0, 1.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",4,4,exact,"W002435,W002503,W002891,W003108",Dalmore 17 Year Old Luminary No. 3 (2025 Edition) | The Last Drop Buffalo Trace 27 Year Old | House Of Hazelwood The Legacy Collection 33 Year Old The Transatlantic
+"(0.0, 0.5, 0.0, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",4,4,exact,"W002695,W003005,W003190,W003191","The Irishman Cask Strength (2022 Release) | Cambio French Oak, Chardonnay, & Cognac Barrel Aged Añejo | Colkegan American Single Malt"
+"(0.0, 0.0, 100.0, 100.0, 100.0, 0.0, 33.0)",4,3,,"W003697,W3488,W3553,W3554",Glenfarclas 15 | Redbreast | Yamazaki
+"(50.0, 16.0, 50.0, 100.0, 33.0, 0.0, 0.0)",4,0,,"W3440,W3440,W3440,W3440",Mars | Mars | Mars
+"(100.0, 100.0, 0.0, 0.0, 0.0, 0.0, 0.0)",4,0,,"W3485,W3485,W3485,W000674",Rebel | Rebel | Rebel
+"(0.0, 60.0, 0.0, 60.0, 0.0, 0.0, 0.0)",4,3,,"26e0f93d-7602-42a9-951f-bd756cecc0a2,W003685,W3530,W3537",Fettercairn Rare Vintage 40 Year Old | GlenAllachie 11 Palo Cortado Sherry Cask Matured | Titanic
+"(2.0, 19.0, 4.0, 2.0, 13.0, 2.0, 29.0)",3,1,exact,"W001112,W001164,W000251",Ardbeg Alligator | Ardbeg Auriverdes | Ardbeg Galileo
+"(1.5, 2.5, 1.5, 0.49, 0.24, 0.7, 2.75)",3,1,p4_bulk_strong_candidate,"W000031,W000031,W000031",Glengoyne 25yo | Glengoyne 25yo | Glengoyne 25yo
+"(2.25, 2.75, 0.5, 0.12, 0.4, 1.75)",3,1,whiskeymapper_remap,"W000920,W000920,W000920",Talisker 30yo | Talisker 30yo | Talisker 30yo
+"(10.0, 10.0, 0.0, 0.0, 0.0, 0.0, 3.0)",3,1,tasting_note_extraction,"W000790,W001236,W000856",Sheep Dip Blended Malt | Compass Box Juveniles | Stronachie 12yo
+"(0.0, 6.6, 0.0, 0.0, 3.3, 0.0, 2.0)",3,3,tasting_note_extraction,"W000493,W000893,W000296",Old Pulteney 15yo | Tomintoul 10yo | Ben Nevis 10yo Cask Strength
+"(0.0, 3.3, 3.3, 0.0, 3.3, 0.0, 1.0)",3,3,tasting_note_extraction,"W000257,W000857,W000427",Balblair 1989 | Auchentoshan Virgin Oak | Aultmore 25yo
+"(3.3, 3.3, 0.0, 0.0, 1.7, 0.0, 1.0)",3,3,tasting_note_extraction,"W000596,W000049,W000868",Tullibardine 25yo | Compass Box Last Vatted Malt | Cardhu Amber Rock
+"(3.3, 0.0, 0.0, 0.0, 1.7, 0.0, 0.0)",3,3,tasting_note_extraction,"W000210,W000541,W000647",Highland Park Valknut | Glen Scotia Victoriana | Glenfiddich Select Cask
+"(0.33, 1.78, 2.33, 0.33, 0.33, 1.57, 2.92, 0.67)",3,1,tasting_note_extraction,"W000113,W000113,W000113",Glengoyne 40yo | Glengoyne 40yo | Glengoyne 40yo
+"(1.5, 0.17, 3.5, 0.5, 0.35, 0.38)",3,1,tasting_note_extraction,"W000976,W000976,W000976",Talisker 10yo | Talisker 10yo | Talisker 10yo
+"(6.6, 9.9, 0.0, 0.0, 0.0, 0.0, 3.0)",3,2,tasting_note_extraction,"W000434,W000787,W000432",Bruichladdich The Organic 2010 | BenRiach 10yo | Arran Malt 18yo
+"(3.3, 6.6, 0.0, 0.0, 0.0, 0.0, 2.0)",3,2,tasting_note_extraction,"W000395,W000119,W000458",Bladnoch Samsara | Highland Park 21yo | Arran Malt 17yo
+"(0.6, 0.6, 2.0, 0.4, 1.8, 0.45, 1.8, 0.09, 1.07, 3.6)",3,1,p4_bulk_strong_candidate,"W000014,W000014,W000014",Glen Scotia 10y | Glen Scotia 10y | Glen Scotia 10y
+"(0.63, 0.58, 2.11, 0.26, 0.74, 1.25, 0.11, 0.05, 1.07, 2.53)",3,1,p4_bulk_strong_candidate,"W000410,W000410,W000410",Glenfiddich 30yo | Glenfiddich 30yo | Glenfiddich 30yo
+"(0.0, 0.5, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",3,2,exact,"W000403,W002614,W003037",Jura Turas Mara | Dalmore 14 Year Old American White Oak And Pedro Ximenez Sherry Cask Matured | Portmagee
+"(0.0, 0.0, 0.25, 0.25, 0.25, 0.25, 0.0)",3,3,p4_bulk_strong_candidate,"W000007,W000547,W000019",Macallan 12yo Double Cask | Old Pulteney 18yo | Auchentoshan American Oak
+"(0.25, 0.0, 0.25, 0.0, 0.25, 0.25, 0.0)",3,2,p4_bulk_strong_candidate,"W001009,W000004,W000004",Compass Box Lady Luck | Talisker 10y | Talisker 10y
+"(0.0, 0.0, 0.5, 0.25, 0.5, 0.25, 0.0)",3,3,p4_bulk_strong_candidate,"W000464,W000260,W000493",BenRiach 25yo | Benromach 15yo | Old Pulteney 15yo
+"(0.25, 0.25, 0.0, 0.5, 0.5, 0.0, 0.0)",3,2,p4_bulk_strong_candidate,"W001084,W000260,W000260",Highland Park Einar | Benromach 15yo | Benromach 15yo
+"(0.0, 0.0, 0.0, 0.25, 0.25, 0.25, 0.0)",3,3,p4_bulk_strong_candidate,"W000097,W000544,W000772",Glenmorangie Signet | Compass Box Oak Cross | Timorous Beastie 10yo
+"(0.93, 0.0, 0.0, 0.97, 0.79, 0.0, 0.0)",3,1,p4_bulk_strong_candidate,"W000569,W000170,W000624",Royal Brackla 16yo | Royal Brackla 21yo | Royal Brackla 12yo
+"(0.0, 0.0, 0.5, 0.25, 0.25, 0.0, 0.0)",3,2,p4_bulk_strong_candidate,"W000351,W000667,W001097",Aberfeldy 16yo | Singleton Of Glendullan 12yo | Ardbeg 21yo
+"(0.0, 0.0, 0.0, 0.5, 0.5, 0.0, 0.0)",3,2,p4_review_calibrated_candidate,"W000197,W000432,W000893",Glenfarclas 17yo | Arran Malt 18yo | Tomintoul 10yo
+"(0.0, 0.25, 0.25, 0.0, 0.0, 0.0, 0.0)",3,2,p4_review_calibrated_candidate,"W001219,W001206,W000368",Kilchoman Winter 2010 Release | Laphroaig Lore | Laphroaig Select
+"(0.0, 0.0, 0.5, 0.0, 0.25, 0.0, 0.0)",3,3,p4_review_calibrated_candidate,"W000300,W000303,W000327",Glenmorangie A Midwinter Night’s Dram | Talisker Port Ruighe | Highland Park Dark Origins
+"(1.0,)",3,2,universal_book_nlp_extraction,"W001909,W001943,W001945",Jim Beam 15yo | Midleton 10yo | Midleton 15yo
+"(0.25, 0.75, 1.0, 0.25, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0)",3,3,exact,"W001999,W002144,W002692",Glenlivet 12 Year Old Double Oak | Kilchoman 100% Islay 13th Edition | Redbreast Kentucky Oak Edition
+"(0.0, 0.75, 0.75, 0.75, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",3,3,exact,"W002001,W002419,W002691",Macallan 18 Year Old Double Cask | Elijah Craig 10 Year 7 Month Old Barrel Proof (batch a125) | Method & Madness Japanese Cedarwood Finish
+"(0.25, 0.75, 0.75, 0.25, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0)",3,3,exact,"W002010,W002700,W002832",Glenlivet Caribbean Reserve | Maison Benjamin Kuentz Végétal Musette Single Malt | Compass Box Hedonism 2025 Release
+"(0.0, 1.0, 0.5, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0)",3,3,exact,"W002023,W002608,W003248",Four Gate The Kelvin Collaboration Ii Cognac And Rum Cask-finished | Prima & Ultima cragganmore88 48 Year Old 1973 | Copperworks FarmSmith Single Origin Washington Barley (2024 Release)
+"(0.0, 1.0, 0.25, 0.75, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",3,3,exact,"W002033,W002444,W002504",Chivas Extra 13 Year Old Tequila Cask | Glendronach Ode To The Valley Sherry & Port Cask Matured | The Last Drop 22 Year Old
+"(0.0, 0.25, 0.0, 0.75, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",3,3,exact,"W002053,W003001,W003115",Old Elk Blended Straight | Ampersand Malus American Rye Whiskey And Apple Brandy Blend | Chattanooga Experimental Series Batch 042: German-style Amaro Barrel Finished
+"(0.0, 0.5, 1.0, 0.75, 0.0, 0.25, 0.0, 0.0, 0.0, 0.0, 0.25)",3,3,exact,"W002061,W002135,W003126",Doc Swinson’s 13 Year Old Flagship Series Sherry Cask-finished (barrel No. 005) | Clynelish 10 Year Old The Jazz Crescendo (diageo Special Releases 2023) | Rare Perfection 15 Year Old Cask Strength
+"(0.25, 1.0, 0.25, 0.5, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0)",3,3,exact,"W002066,W002297,W002476",Four Gate River Kelvin Straight | Cardhu 11 Year Old (diageo Special Releases 2020) | Hard Truth Sweet Mash Barrel Strength (batch 11)
+"(0.0, 0.75, 0.75, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0)",3,3,exact,"W002083,W002332,W002590",Stranahan’s Diamond Peak (batch 014) | Old Forester 150th Anniversary Batch Proof Kentucky Straight (batch 03/03) | Method & Madness 33 Year Old Mizunara Oak Cask Finish
+"(0.0, 1.0, 0.75, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0)",3,3,exact,"W002086,W002399,W003097",Forty Creek Resolve | M&H Elements Red Wine Cask- Finished Single Malt | Dewar’s Double Double 26 Year Old Palo Cortado Sherry Cask Finished
+"(0.0, 1.0, 0.75, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0)",3,3,exact,"W002125,W002609,W002615",Compass Box Art & Decadence | Glasgow 1770 The Original | Tomintoul 30 Year Old 93 Robert Fleming 30th Anniversary 2nd Edition
+"(0.0, 1.0, 1.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0)",3,3,exact,"W002132,W002199,W003229",Mortlach The Katana’s Edge (diageo Special Releases 2023) | Rossville Union 6 Year Old Bottled In Bond (2023) | Peerless Toasted Barrel Finished (batch 2)
+"(0.0, 0.75, 0.75, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",3,3,exact,"W002133,W002666,W002993",The Singleton Of Glendullan 14 Year Old The Silken Gown (diageo Special Releases 2023) | Chicken Cock Island Rooster Rum Barrel Finished | Stranahan’s Diamond Peak Local Brewer's Cask Finished
+"(0.5, 0.25, 0.25, 0.5, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0)",3,3,exact,"W002152,W002964,W003027",Octomore 14.2 Edition 5 Year Old | Garrison Brothers Guadalupe Port Cask Finished | Teeling Blackpitts
+"(0.0, 1.0, 1.0, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0)",3,3,exact,"W002163,W002861,W002952",Claxton’s Cameronbridge 30 Year Old Brandy Quarter Cask | The Ghost Series 23c Kanosuke Double Distillery Single Marriage Cask (no. pl04) | Chivas Brothers 12 Year Old
+"(0.0, 0.5, 0.25, 0.75, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",3,3,exact,"W002173,W002387,W003221",Blue Note Special Reserve Cask Finished Series Blend Of Straights | Meiyo 15 Year Old Pure Malt (2020 Edition) | Remus Babe Ruth Reserve
+"(0.25, 1.0, 1.0, 0.5, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0)",3,3,exact,"W002178,W002591,W003280",Elijah Craig Ryder Cup Limited Edition European Toasted Oak Barrel Finished | Dewar’s 12 Year Old | Dewar’s Double Double 38 Year Old
+"(0.25, 0.25, 0.5, 0.25, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0)",3,3,exact,"W002181,W002862,W002873",Frey Ranch Farmers + Distillers Cask Strength Small Batch (batch 9) | Stranahan’s 12 Year Old Mountain Angel Port Wine Cask Aged | RY3 14 Year Old Private Reserve Cask Strength Single Barrel Light Whiskey
+"(0.0, 0.75, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",3,3,exact,"W002184,W002836,W003227",Bardstown Bourbon Company Collaborative Series Goose Island Bourbon County Stout Barrel Finished | Barrell 13 Year Old Grey Label Blend Of Straights (2024 Release) | Bardstown Bourbon Co. Collaborative Series Silver Oak Cabernet Cask Finished
+"(0.0, 0.0, 0.75, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",3,3,exact,"W002206,W002373,W002684",Barrell Cask Strength Blend 5 Year 6 Month Old (batch 004) | Method & Madness French Limousin Oak-finished | Bardstown Bourbon Company Distillery Collection Triple Blended Stave Finished
+"(0.0, 0.0, 0.25, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",3,3,exact,"W002207,W002588,W002707",Redwood Empire Rocket Top 5 Year Old Bottled In Bond (batch 003) | Eau De Musc Castoreum-fla- Vored Whiskey | King’s Family Distillery 17 Year Old Single Barrel Select
+"(0.25, 0.5, 0.75, 0.5, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0)",3,3,exact,"W002222,W002065,W002582",Eifel Whisky 10 Year Old Triple Malt | Chattanooga Straight Rye Malt (batch 20g05r2) | Johnnie Walker 18 Year Old
+"(0.25, 1.0, 0.5, 0.75, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0)",3,3,exact,"W002225,W003272,W003283",Redbreast Tawny Port Cask Edition | Glenﬁddich Grand Château 31 Year Old Bordeaux Wine Cask Finish | Royal Salute 62 Gun Salute The American Oak Reserve
+"(0.25, 1.0, 0.75, 0.5, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0)",3,3,exact,"W002232,W002990,W003264",Rampur Sangam | Whiskey Del Bac Normandie French Calvados Cask Finished | Mars The Y.A. Double Cask Bakemono Zukushi Emaki No. 6 Nobusuma Bourbon Barrel Matured
+"(0.25, 0.5, 0.25, 0.25, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0)",3,3,exact,"W002273,W002546,W003187",Penderyn Celt | Glen Grant 15 Year Old Batch Strength • | World Whiskey Society Double Barrel Japanese Single Malt By Chip Tate
+"(0.0, 0.75, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",3,3,exact,"W002277,W002886,W003039",Gentleman Jack | Gordon & Macphail Recollection Series No. 3 Glenlochy 1979 | Lost Irish
+"(0.0, 0.25, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",3,3,exact,"W002295,W002917,W002981",Cragganmore 20 Year Old (diageo Special Releases 2020) | W .l. Weller Full Proof Bourbon | Hard Truth Barrel Finish Reserve Mizunara Oak Finished
+"(0.25, 0.25, 0.5, 0.5, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0)",3,3,exact,"W002306,W002472,W002973",Dalwhinnie 30 Year Old (diageo Special Releases 2020) | Sagamore Spirit 7 Year Old Bottled In Bond (batch 4a) | Bobby Garg Family Reserve
+"(0.25, 0.25, 0.5, 0.5, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0)",3,3,exact,"W002350,W002669,W003188",Journeyman Distillery Last Feather | Jack Daniel’s Triple Mash Blend Of Straights | Macaloney’s Signature Selection Siol Dugall Canadian Island Peated Single Malt (batch 2)
+"(0.25, 0.5, 0.5, 0.75, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0)",3,3,exact,"W002385,W002850,W003122",Kanosuke New Born | Baker’s 7 Year Old High Rye (barrel No. 000047341) | Middle West Spirits Cask Strength (batch 001)
+"(0.25, 0.75, 0.25, 0.75, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0)",3,3,exact,"W002391,W002488,W003263",The Whistler Imperial Stout Cask-finished | Fox & Oden (batch 11) | Mars Komagatake Bakemono Zukushi Emaki No. 4 Sarahebi Single Cask American White Oak Hogshead Matured
+"(0.25, 0.25, 0.25, 0.0, 0.0, 0.0, 0.0, 0.25, 0.25, 0.0, 0.0)",3,3,exact,"W002416,W002569,W002869",Lagavulin 12 Year Old Ink Of Legends | Kilchoman Loch Gorm 2021 Edition • | Penelope 17 Year Old Light Whiskey (2025 Release)
+"(0.25, 0.5, 0.5, 0.5, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0)",3,3,exact,"W002460,W002475,W003104",Middle West Spirits Cask Strength Wheated (batch 001) | Templeton | Three Chord Strange Collaboration Pinot Noir Barrel Finished Cask Strength
+"(0.0, 0.5, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0)",3,3,exact,"W002505,W003269,W003273",Rampur Select | Ichiro’s Malt & Grain 111 Proof | Macallan Time:Space Mastery
+"(0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",3,3,exact,"W002522,W002799,W002802","Laelia Reposado | Joseph Magnus Cigar Blend Armag- Nac, Sherry, & Cognac Cask Finished Straight Bourbon | Starlight 5 Year Old Carl T. Huber's Cigar Batch Bourbon (2024 Release)"
+"(0.0, 0.0, 1.0, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",3,3,exact,"W002523,W002820,W002969",Maestro Dobel Diamante Cristalino Reposado | Glenmorangie A Tale Of Ice Cream | King Of Kentucky 12 Year Old Small Batch (batch 3)
+"(0.0, 0.25, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",3,3,exact,"W002593,W002679,W003159",Elijah Craig 12 Year Oldbarrel Proof (b522) | Cascade Moon Mellow As Moonlight 15 Year Old | Maestro Dobel Añejo
+"(0.25, 1.0, 1.0, 0.25, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0)",3,3,exact,"W002630,W002951,W003265",Compass Box The Circle Edition No. 2 | Carlyle 12 Year Old Master Blender's Selection | Mars The Y.A. Double Cask Bakemono Zukushi Emaki No. 3 Do-mo Ko-mo Bourbon Barrel Matured
+"(0.0, 1.0, 0.5, 0.75, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",3,3,exact,"W002634,W003225,W003276",Frank August Small Batch | Bardstown Bourbon Co. 6 Year Old Origin Series Wheated (distilled In 2018) | Glenmorangie Pursuit Of Passion 29 Year Old Margaux Wine Cask Finish
+"(0.25, 0.75, 0.75, 0.5, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0)",3,3,exact,"W002671,W002962,W003205","Virginia Distillery Co. Courage & Conviction Cuvée Single Cask (cask 1266) | Three Chord Hard Pressed Bottled In Bond | The ImpEx Collection Strathmill 14 Year Old Single Cask (no. 802952; Distilled In 2009), $140"
+"(0.0, 0.25, 0.5, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0)",3,3,exact,"W002812,W002846,W003091","Tamnavulin Red Wine Cask Edition American Cabernet Sauvignon Cask Finished | Old Grand-Dad 16 Year Old | Lochlea Harvest Edition Bourbon, Port, & Sherry Cask Matured (third Crop)"
+"(0.0, 1.0, 0.25, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0)",3,3,exact,"W002821,W002868,W002995",Nc’Nean Quiet Rebels Amy | Old Elk Cigar Cut Punch Cut Blend Of Armagnac And Sherry Barrel Finished Bourbon And Wine And Port Barrel Finished Wheat (vol. 1) | Hinterhaus Singularity Port Cask Finish Cask Strength (batch 1)
+"(0.0, 0.5, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",3,3,exact,"W002845,W002920,W002923",Maker’s Mark Cellar Aged (2024 Release) | Dewar’s 8 Year Old Japanese Smooth | Cutty Sark 12 Year Old
+"(0.0, 0.0, 100.0, 100.0, 100.0, 0.0, 0.0)",3,3,,"W003558,W003599,W3399",Aberfeldy 12 | Balvenie 14 Caribbean Cask | Hibiki
+"(0.0, 0.0, 100.0, 100.0, 33.0, 0.0, 0.0)",3,2,,"W3531,W003701,W3476",Togouchi | Glenfiddich 12 | Powers
+"(0.0, 0.0, 100.0, 100.0, 100.0, 0.0, 100.0)",3,3,,"W003651,W003678,W3488",Dalmore 12 | Glen Moray Sherry Cask Finish | Redbreast
+"(0.0, 0.0, 0.0, 100.0, 12.0, 0.0, 0.0)",3,1,,"W003781,W003782,W3425",Knob Creek Bourbon 9Y | Knob Creek Rye - Small Batch | Knob Creek
+"(100.0, 33.0, 33.0, 33.0, 33.0, 67.0, 0.0)",3,1,,"W003785,W003786,W003787",Lagavulin 12 - Diageo Special Releases 2022 | Lagavulin 12 Fireside Tales - Diageo Special Releases 2024 | Lagavulin 12 The Ink of Legends - Diageo Special Releases 2023
+"(0.0, 0.0, 0.0, 25.0, 100.0, 0.0, 0.0)",3,0,,"W001506,W001506,W001506",Caribou Crossing Single Barrel | Caribou Crossing Single Barrel | Caribou Crossing Single Barrel
+"(0.0, 33.0, 0.0, 100.0, 33.0, 100.0, 0.0)",3,0,,"W001586,W001586,W001586",Schenley Golden Wedding | Schenley Golden Wedding | Schenley Golden Wedding
+"(100.0, 0.0, 0.0, 50.0, 0.0, 0.0, 0.0)",3,1,,"W3375,W3375,W3375",Fuji | Fuji | Fuji
+"(33.0, 100.0, 66.0, 33.0, 66.0, 0.0, 0.0)",3,0,,"W3449,W3449,W3449",Morris | Morris | Morris
+"(100.0, 100.0, 80.0, 0.0, 0.0, 0.0, 0.0)",3,2,,"W000058,W000600,W000788",glendronach cask strength (batch 2) | Glenlivet Captain's Reserve | Game Of Thrones House Stark Dalwhinnie Winter’s Frost
+"(0.0, 7.0, 3.0, 0.0, 0.0, 0.0, 4.0)",2,2,fuzzy,"W001384,W000225",High West Midwinter Night’s Dram Rye | Macallan Sienna
+"(2.0, 3.0, 0.0, 0.0, 8.0, 2.0, 24.0)",2,1,exact,"W000954,W000303",Talisker 57 North | Talisker Port Ruighe
+"(15.0, 21.0, 9.0, 0.0, 12.0, 1.0, 16.0)",2,2,exact,"W001695,W001714",Wild Turkey Rare Breed | Woodford Reserve Double Oaked
+"(0.25, 0.09, 2.25, 0.25, 0.17, 0.19, 1.0)",2,1,whiskeymapper_remap,"W000379,W000379",Aberlour 10yo | Aberlour 10yo
+"(1.87, 1.33, 0.38, 3.31, 1.46, 1.29, 0.08, 3.15, 4.31)",2,1,whiskeymapper_remap,"W000195,W000195",Aberlour 18yo | Aberlour 18yo
+"(0.07, 1.93, 0.61, 3.29, 0.43, 1.14, 1.32, 0.43, 1.43, 2.0)",2,1,whiskeymapper_remap,"W001038,W001038",Bowmore 18yo | Bowmore 18yo
+"(1.83, 0.42, 2.33, 0.33, 2.0, 0.42, 1.92, 2.33)",2,1,whiskeymapper_remap,"W000608,W000608",Dalmore 12yo | Dalmore 12yo
+"(0.75, 1.5, 0.5, 2.0, 1.62, 1.0)",2,1,whiskeymapper_remap,"W000347,W000347",Dalmore 15yo | Dalmore 15yo
+"(0.92, 0.92, 3.15, 0.54, 0.69, 1.11, 0.23, 0.06, 2.41, 2.69)",2,1,whiskeymapper_remap,"W000017,W000017",Glen Grant 10yo | Glen Grant 10yo
+"(0.02, 1.32, 0.86, 3.82, 0.09, 1.09, 0.84, 0.2, 0.05, 1.52, 3.18)",2,1,whiskeymapper_remap,"W000490,W000490",Glen Scotia 15yo | Glen Scotia 15yo
+"(2.2, 1.2, 2.2, 1.4, 2.0, 1.9, 0.05, 2.85, 2.2)",2,1,whiskeymapper_remap,"W000872,W000872",Glenfiddich 12yo | Glenfiddich 12yo
+"(0.12, 0.12, 1.0, 0.5, 1.5, 1.62, 2.0)",2,1,whiskeymapper_remap,"W000833,W000833",Glengoyne 10yo | Glengoyne 10yo
+"(0.25, 0.62, 0.12, 0.88, 1.0)",2,1,whiskeymapper_remap,"W000318,W000318",Glengoyne 15yo | Glengoyne 15yo
+"(1.5, 0.5, 0.5, 0.34, 0.25, 1.98, 0.5)",2,1,whiskeymapper_remap,"W000559,W000559",Glengoyne 17yo | Glengoyne 17yo
+"(0.5, 1.33, 1.67, 0.33, 1.33, 4.75, 2.08, 1.0)",2,1,whiskeymapper_remap,"W000268,W000268",Glengoyne 18yo | Glengoyne 18yo
+"(2.0, 3.62, 3.0, 2.0, 3.75, 2.0)",2,1,whiskeymapper_remap,"W000118,W000118",Glengoyne 21yo | Glengoyne 21yo
+"(0.07, 0.71, 0.75, 2.43, 3.0, 0.75, 0.25, 0.07, 1.25, 3.14)",2,1,whiskeymapper_remap,"W001177,W001177",Laphroaig 10yo | Laphroaig 10yo
+"(0.12, 3.0, 1.25, 1.06, 1.19, 0.12, 0.44, 2.5)",2,1,whiskeymapper_remap,"W001122,W001122",Laphroaig 18yo | Laphroaig 18yo
+"(0.62, 1.25, 1.38, 1.0, 4.12, 1.71, 1.5, 0.1, 1.22, 1.38)",2,1,whiskeymapper_remap,"W000927,W000927",Talisker 18yo | Talisker 18yo
+"(0.67, 0.33, 2.0, 0.67, 0.33, 0.04, 1.94, 1.0)",2,1,whiskeymapper_remap,"W000946,W000946",Talisker 25yo | Talisker 25yo
+"(0.64, 1.27, 2.27, 0.45, 0.55, 3.5, 0.09, 0.03, 2.77, 3.09)",2,1,whiskeymapper_remap,"W000043,W000043",Yamazaki 18yo | Yamazaki 18yo
+"(0.075, 0.0, 0.0, 0.0, 0.0, 0.225, 0.0)",2,1,,"W000004,W000802",Talisker 10y | Talisker Skye
+"(0.5, 2.0, 0.5, 0.5, 1.5, 0.99, 0.43, 3.94, 2.0)",2,1,,"W000093,W000093",aberlour a'bunadh (batch 30) | aberlour a'bunadh (batch 30)
+"(0.167, 1.0, 0.0, 0.0, 0.0, 0.083, 0.0)",2,1,,"W000048,W000640",Bruichladdich 21yo Cuvée 407 Px | Bruichladdich Sherry Classic
+"(1.0, 0.0, 0.0, 0.0, 0.0, 0.083, 0.0)",2,1,,"W001041,W001173","Elements Of Islay ""peat"" | Bruichladdich Port Charlotte Islay Barley Heavily Peated"
+"(0.71, 0.84, 2.41, 0.65, 0.53, 1.19, 0.07, 3.35, 2.53)",2,1,tasting_note_extraction,"W000631,W000631",Deanston 12yo | Deanston 12yo
+"(6.6, 9.9, 3.3, 0.0, 5.0, 0.0, 3.0)",2,2,tasting_note_extraction,"W000371,W000260",Dalmore Cigar Malt Reserve | Benromach 15yo
+"(3.3, 6.6, 9.9, 0.0, 3.3, 0.0, 2.0)",2,2,tasting_note_extraction,"W000755,W000023",Bruichladdich Classic Laddie Scottish Barley | Tamnavulin Double Cask
+"(3.3, 9.9, 6.6, 0.0, 1.7, 0.0, 3.0)",2,2,tasting_note_extraction,"W000903,W000529",Tullibardine Sovereign | Balblair 18yo
+"(1.25, 0.5, 0.5, 1.5, 1.12, 0.5, 1.88)",2,1,tasting_note_extraction,"W000798,W000798",Glen Scotia 18yo | Glen Scotia 18yo
+"(0.0, 3.3, 3.3, 0.0, 5.0, 0.0, 1.0)",2,1,tasting_note_extraction,"W000547,W000735",Old Pulteney 18yo | Arran Malt 14yo
+"(0.0, 10.0, 0.0, 0.0, 3.3, 0.0, 3.0)",2,2,tasting_note_extraction,"W000150,W000812",Glendronach Cask Strength (batch 6) | Tomintoul 25yo
+"(0.01, 0.49, 0.74, 0.26, 3.05, 1.84, 1.07, 0.88, 0.01, 2.29, 2.11)",2,1,tasting_note_extraction,"W000166,W000166",Bowmore 25yo | Bowmore 25yo
+"(1.5, 0.25, 0.62, 0.12, 0.38, 3.0)",2,1,tasting_note_extraction,"W001062,W001062",Bowmore 12yo | Bowmore 12yo
+"(3.3, 0.0, 3.3, 0.0, 3.3, 0.0, 0.0)",2,1,tasting_note_extraction,"W000309,W000138",Tomatin Oloroso Sherry 1995 | Scallywag 13yo
+"(0.0, 9.9, 3.3, 0.0, 3.3, 0.0, 3.0)",2,0,tasting_note_extraction,"W000324,W000621",Jura 16yo Diurach's Own | Singleton Of Glen Ord 12yo
+"(0.0, 6.6, 3.3, 0.0, 5.0, 0.0, 2.0)",2,2,tasting_note_extraction,"W000783,W000659",Glen Scotia 21yo | Glen Garioch Virgin Oak
+"(0.17, 1.33, 0.33, 0.83, 0.33, 1.08, 2.33)",2,1,tasting_note_extraction,"W000597,W000597",Auchentoshan 18yo | Auchentoshan 18yo
+"(3.3, 6.6, 0.0, 0.0, 3.3, 0.0, 2.0)",2,1,tasting_note_extraction,"W000151,W000580",Glenlivet Nadurra 16yo | Singleton Of Glendullan 18yo
+"(0.0, 3.3, 3.3, 0.0, 1.7, 0.0, 1.0)",2,2,tasting_note_extraction,"W000952,W000451",Oban 21yo | Macallan Edition No. 4
+"(0.5, 1.5, 1.5, 0.25, 0.12, 0.5)",2,1,tasting_note_extraction,"W000823,W000823",Glen Grant 12yo | Glen Grant 12yo
+"(6.6, 0.0, 0.0, 0.0, 1.7, 0.0, 0.0)",2,2,tasting_note_extraction,"W000838,W000877",Highland Park Svein | Glenturret 10yo
+"(0.0, 3.3, 0.0, 0.0, 1.7, 0.0, 1.0)",2,2,tasting_note_extraction,"W000448,W000300",Bruichladdich Black Art 5.x 1992 | Glenmorangie A Midwinter Night’s Dram
+"(2.0, 2.0, 1.0, 0.12, 0.38, 0.5)",2,1,tasting_note_extraction,"W000475,W000475",Auchentoshan 21yo | Auchentoshan 21yo
+"(0.33, 0.08, 0.67, 0.5, 0.08, 0.75, 2.33)",2,1,tasting_note_extraction,"W000573,W000573",Glen Grant 16yo | Glen Grant 16yo
+"(0.0, 9.9, 3.3, 0.0, 1.7, 0.0, 3.0)",2,1,tasting_note_extraction,"W000854,W000321",Tomatin Legacy | Singleton Of Glen Ord 18yo
+"(3.3, 3.3, 0.0, 0.0, 0.0, 0.0, 1.0)",2,2,tasting_note_extraction,"W000351,W000372",Aberfeldy 16yo | Glenfiddich Reserve Cask
+"(3.3, 3.3, 3.3, 0.0, 1.7, 0.0, 1.0)",2,2,tasting_note_extraction,"W000675,W000644",Scapa Skiren | Glenrothes 12yo
+"(0.0, 3.3, 3.3, 3.3, 0.0, 0.0, 1.0)",2,2,tasting_note_extraction,"W001119,W000949",Ardbeg Supernova 2015 | Glen Garioch 1991
+"(3.3, 6.6, 0.0, 0.0, 5.0, 0.0, 2.0)",2,2,tasting_note_extraction,"W000084,W000721",Timorous Beastie 40yo Cask Strength | Glencadam 30yo
+"(0.06, 0.06, 3.75, 0.25, 0.75, 1.62, 0.88, 0.19, 1.0, 3.25)",2,1,tasting_note_extraction,"W000690,W000690",Glen Scotia 25yo | Glen Scotia 25yo
+"(6.6, 0.0, 0.0, 0.0, 3.3, 0.0, 0.0)",2,2,tasting_note_extraction,"W000498,W000871",Glenfiddich Cask Of Dreams | Tormore 14yo
+"(2.5, 0.5, 3.25, 0.75, 4.38, 3.12, 1.75)",2,1,tasting_note_extraction,"W000899,W000899",Auchentoshan 10yo | Auchentoshan 10yo
+"(0.5, 1.5, 1.0, 1.0, 3.0, 1.01, 1.0, 0.15, 1.61, 3.0)",2,1,tasting_note_extraction,"W001068,W001068",Glen Scotia 12yo | Glen Scotia 12yo
+"(0.0, 1.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0)",2,2,manual_curation,"W001271,W000591",Compass Box Delilah's | Balblair 16yo
+"(0.0, 0.0, 0.0, 0.75, 0.8, 0.3, 0.0)",2,1,p3_new_traceable_source,"W000173,W000121",Glengoyne Teapot Dram (all Batches) | Glengoyne Cask Strength (batch 7)
+"(0.25, 0.25, 0.0, 0.75, 0.5, 0.25, 0.0)",2,2,p4_bulk_strong_candidate,"W001258,W000079",Johnnie Walker Blue Label | Bunnahabhain 18yo
+"(0.25, 0.25, 0.25, 0.25, 0.5, 0.0, 0.0)",2,2,p4_bulk_strong_candidate,"W001065,W000781",Fettercairn Fior | Old Pulteney Huddart
+"(0.0, 0.25, 0.5, 0.25, 0.25, 0.0, 0.25)",2,2,p4_bulk_strong_candidate,"W000706,W001075",Kilkerran 12yo | Springbank Cv
+"(0.0, 0.25, 0.25, 0.25, 0.5, 0.25, 0.0)",2,2,p4_bulk_strong_candidate,"W000821,W000260",Glenglassaugh Octaves Classic | Benromach 15yo
+"(0.0, 0.0, 0.5, 0.25, 0.25, 0.5, 0.0)",2,2,p4_bulk_strong_candidate,"W000181,W000029",Glendronach 21yo Parliament | Glenfarclas 40yo
+"(0.25, 0.0, 0.0, 0.25, 0.75, 0.25, 0.0)",2,1,p4_bulk_strong_candidate,"W001231,W000614",Black Bull 40yo | Glenfiddich 14yo Bourbon Barrel Reserve
+"(0.0, 0.0, 0.5, 0.25, 0.25, 0.0, 0.25)",2,2,p4_bulk_strong_candidate,"W000451,W000616",Macallan Edition No. 4 | Old Pulteney Navigator
+"(0.25, 0.25, 0.0, 0.25, 0.75, 0.0, 0.0)",2,1,p4_bulk_strong_candidate,"W001167,W001238",Wemyss Malts Kiln Embers | Ballantine’S 17yo
+"(0.0, 0.0, 0.25, 0.25, 0.25, 0.5, 0.0)",2,2,p4_bulk_strong_candidate,"W000282,W000903",Aberfeldy 18yo | Tullibardine Sovereign
+"(0.25, 0.25, 0.0, 0.0, 0.25, 0.25, 0.0)",2,1,p4_bulk_strong_candidate,"W001097,W001097",Ardbeg 21yo | Ardbeg 21yo
+"(0.25, 0.0, 0.25, 0.0, 0.5, 0.5, 0.0)",2,1,p4_bulk_strong_candidate,"W000423,W000423",Cragganmore 25yo | Cragganmore 25yo
+"(0.0, 0.0, 0.5, 0.75, 0.5, 0.0, 0.25)",2,1,p4_bulk_strong_candidate,"W000004,W000004",Talisker 10y | Talisker 10y
+"(0.0, 0.0, 0.5, 0.5, 0.25, 0.0, 0.0)",2,1,p4_bulk_strong_candidate,"W000039,W000458",Highland Park 30yo | Arran Malt 17yo
+"(0.0, 0.0, 0.25, 0.5, 0.0, 0.5, 0.0)",2,2,p4_bulk_strong_candidate,"W000033,W000263",Highland Park 40yo | Glenrothes 18yo
+"(0.0, 0.25, 0.25, 0.25, 0.0, 0.0, 0.0)",2,1,p4_bulk_strong_candidate,"W000514,W000589",Mortlach 18yo | Mortlach Rare Old
+"(0.0, 0.25, 0.0, 0.25, 0.25, 0.0, 0.0)",2,2,p4_bulk_strong_candidate,"W001169,W000429",Ardbeg An Oa | Compass Box 3yo Deluxe
+"(0.0, 0.0, 0.25, 0.0, 0.75, 0.25, 0.0)",2,1,p4_bulk_strong_candidate,"W001307,W000621",Chivas Regal 18yo | Singleton Of Glen Ord 12yo
+"(0.25, 0.0, 0.0, 0.0, 0.25, 0.25, 0.0)",2,2,p4_bulk_strong_candidate,"W001119,W000004",Ardbeg Supernova 2015 | Talisker 10y
+"(0.0, 0.0, 0.0, 0.5, 0.75, 0.25, 0.0)",2,1,p4_bulk_strong_candidate,"W000790,W001300",Sheep Dip Blended Malt | Compass Box Asyla
+"(0.0, 0.0, 0.0, 0.5, 0.25, 0.0, 0.25)",2,2,p4_bulk_strong_candidate,"W000214,W000434",Highland Park 15yo | Bruichladdich The Organic 2010
+"(0.0, 0.0, 0.0, 0.75, 0.75, 0.5, 0.0)",2,2,p4_bulk_strong_candidate,"W001236,W000843",Compass Box Juveniles | Balblair 12yo
+"(0.25, 0.0, 0.0, 0.25, 0.5, 0.0, 0.0)",2,1,p4_bulk_strong_candidate,"W001250,W000633",Black Bull 12yo | Edradour 10yo
+"(0.0, 0.0, 0.5, 0.25, 0.0, 0.0, 0.25)",2,2,p4_bulk_strong_candidate,"W000330,W000210",Glenmorangie Milsean | Highland Park Valknut
+"(0.0, 0.0, 0.25, 0.0, 0.5, 0.5, 0.0)",2,2,p4_bulk_strong_candidate,"W000274,W000815",Dalmore Port Wood Reserve | Auchentoshan Valinch
+"(0.0, 0.0, 0.25, 0.0, 0.5, 0.25, 0.0)",2,2,p4_bulk_strong_candidate,"W000395,W000854",Bladnoch Samsara | Tomatin Legacy
+"(0.25, 0.0, 0.0, 0.5, 0.25, 0.0, 0.0)",2,2,p4_bulk_strong_candidate,"W000199,W000032",Glenfarclas 105 | Highland Park 25yo
+"(0.0, 0.0, 0.25, 0.5, 0.25, 0.0, 0.0)",2,1,p4_bulk_strong_candidate,"W000312,W000584",Glenlivet Nadurra Oloroso | Singleton Of Glen Ord 15yo
+"(0.0, 0.0, 0.25, 0.0, 0.25, 0.25, 0.0)",2,1,p4_bulk_strong_candidate,"W000909,W000909",Caol Ila 35yo | Caol Ila 35yo
+"(0.25, 0.0, 0.0, 0.25, 0.25, 0.0, 0.0)",2,1,p4_bulk_strong_candidate,"W001100,W001100",Lagavulin 16yo | Lagavulin 16yo
+"(0.0, 0.0, 0.0, 0.0, 0.25, 0.25, 0.0)",2,2,p4_review_calibrated_candidate,"W000025,W000783",Gladstone Axe American Oak | Glen Scotia 21yo
+"(0.0, 0.0, 0.25, 0.25, 0.0, 0.0, 0.0)",2,2,p4_review_calibrated_candidate,"W000126,W000448",Compass Box This Is Not A Luxury Whisky | Bruichladdich Black Art 5.x 1992
+"(0.25, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0)",2,2,p4_review_calibrated_candidate,"W000427,W000874",Aultmore 25yo | Speyburn 10yo
+"(0.0, 0.0, 0.0, 0.0, 0.5, 0.25, 0.0)",2,2,p4_review_calibrated_candidate,"W000296,W000753",Ben Nevis 10yo Cask Strength | Tullibardine 20yo
+"(0.0, 0.0, 0.0, 0.5, 0.25, 0.0, 0.0)",2,2,p4_review_calibrated_candidate,"W000810,W000868",Wemyss Malts The Hive | Cardhu Amber Rock
+"(1.0, 2.0, 3.0)",2,2,universal_book_nlp_extraction,"W001843,W001966",Ardmore 19yo | Potter 33yo
+"(1.0, 2.0, 2.0)",2,2,universal_book_nlp_extraction,"W001844,W001858",Ardmore 20yo | Bushmills 10yo
+"(1.0, 2.0, 1.0, 1.0)",2,2,universal_book_nlp_extraction,"W001851,W001948",Bernheim NAS | Midleton 21yo
+"(1.0, 1.0, 1.0)",2,2,universal_book_nlp_extraction,"W001854,W001864",Bernheim 13yo | Bushmills 18yo
+"(2.0, 1.0, 2.0)",2,2,universal_book_nlp_extraction,"W001855,W001958",Bernheim 16yo | Penderyn 10yo
+"(1.0, 1.0, 2.0)",2,2,universal_book_nlp_extraction,"W001868,W001912",Bushmills 25yo | Jim Beam 25yo (50.0%)
+"(1.0, 2.0)",2,2,universal_book_nlp_extraction,"W001906,W001967",Jim Beam NAS | Sullivans Cove 14yo
+"(0.0, 0.5, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",2,2,exact,"W001994,W003182",Wild Turkey Rare Breed Barrel- Proof Kentucky Straight | Kentucky Owl The Wiseman Kentucky Straight Bourbon
+"(0.5, 0.75, 1.0, 0.75, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0)",2,2,exact,"W001996,W003282",M&H Classic Single Malt | Royal Salute 62 Gun Salute The Peated Reserve
+"(0.0, 0.5, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",2,2,exact,"W001997,W003157",Old Overholt Bottled In Bond (2020 Edition) | El Tesoro Añejo
+"(0.25, 0.75, 0.5, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0)",2,2,exact,"W002006,W002963",Tomintoul 14 Year Old | Ampersand Opimus 15 Year Old T Okaji Wine Cask Finished
+"(0.0, 0.75, 0.75, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0)",2,2,exact,"W002022,W003132",Balblair 18 Year Old | Teeling 15 Year Old Px Sherry Single Cask (no. 29594)
+"(0.0, 0.5, 0.75, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",2,2,exact,"W002028,W003095",Scotchdale 8 Year Old | Dewar’s Double Double 21 Year Old Stone Toasted French Oak Cask With Magma
+"(0.0, 0.75, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0)",2,2,exact,"W002038,W002198",Old Dominick Huling Station Very Small Batch | Remus Repeal Reserve Series Vii
+"(0.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",2,2,exact,"W002060,W002585","Booker’s 2020-02 ""boston Batch"" Kentucky Straight | Tidewalker Bourbon"
+"(0.25, 0.25, 0.75, 0.5, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0)",2,2,exact,"W002062,W003198",Hirsch The Horizon Straight (batch ahh0320) | Barrell Cask Finish Series: Ice Wine (batch 001)
+"(0.25, 0.5, 0.25, 0.25, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0)",2,2,exact,"W002063,W000543",Daviess County Kentucky Straight | Paul John Classic Select Cask
+"(0.0, 0.0, 0.25, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",2,2,exact,"W002075,W002443",Basil Hayden’s 10 Year Old Kentucky Straight | Ardnamurchan Mezcal Cask Finished
+"(0.0, 0.5, 0.0, 0.75, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",2,2,exact,"W002076,W003101",Chicken Cock Kentucky Straight | Dewar’s 19 Year Old The Champions Edition
+"(0.0, 1.0, 0.75, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0)",2,2,exact,"W002077,W002627",George Dickel 11 Year Old Bottled In Bond (distilled In Fall 2008) | Hardin’s Creek Colonel James B. Beam 2 Year Old
+"(0.0, 0.5, 0.25, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0)",2,2,exact,"W002092,W002494",J.J. Corry The Vatting No. 2 | Rampur Asava
+"(0.0, 1.0, 0.5, 0.75, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0)",2,2,exact,"W002096,W003154",Akashi 5 Year Old Sherry Cask | Indri Founder’s Reserve 11 Year Old
+"(0.25, 1.0, 0.5, 0.5, 0.0, 0.0, 0.0, 0.25, 0.0, 0.5, 0.0)",2,2,exact,"W002105,W002392",M&H Elements Sherry Cask Single Malt | The Whistler Oloroso Sherry Cask-finished
+"(0.25, 0.25, 0.75, 0.5, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0)",2,2,exact,"W002119,W002234",Michter’s US*1 Barrel Strength Toasted Barrel Finish (barrel No. 23g2641) | Amrut Rye (2nd Release)
+"(0.0, 0.25, 1.0, 0.75, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",2,2,exact,"W002136,W002980",Glenkinchie 27 Year Old The Floral Treasure (diageo Special Releases 2023) | Jack Daniel’s Distillery Series Barrel Proof T Able Syrup Barrel Finished (winter 2025 Selection No. 16)
+"(0.25, 0.5, 0.5, 0.25, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0)",2,2,exact,"W002146,W002813",Ardbeg Anthology: The Harpy's Tale 13 Year Old | Tamnavulin White Wine Cask Edition Sauvignon Blanc Cask Aged
+"(0.25, 1.0, 0.5, 1.0, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0)",2,2,exact,"W002148,W002237",Claxton’s Tomintoul 8 Year Old Tawny Port Cask | Mars Komagatake 2023 Edition
+"(0.0, 0.25, 0.25, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0)",2,2,exact,"W002158,W002177",Claxton’s Royal Brackla 12 Year Old Tawny Port Cask | Barrell Foundation 5 Year Old Blend Of Straights
+"(0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",2,2,exact,"W002174,W002622",Charles Goodnight 6 Year Old Small Batch | Ben Holladay 6 Year Old Bottled In Bond
+"(0.0, 0.5, 0.5, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",2,2,exact,"W002180,W002197",Four Gate 7 Year Old Majestic Wood Series Brazilian Amburana Oak | Mayor Pingree 5 Year Old Bosco Batch (2023 Release)
+"(0.0, 1.0, 0.75, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",2,2,exact,"W002186,W002974",Yellowstone Limited Edition Tokaji Cask Finished (2023 Release) | Castle & Key Small Batch 6 Year Old
+"(0.25, 0.25, 0.75, 0.5, 0.0, 0.0, 0.0, 0.25, 0.25, 0.0, 0.0)",2,2,exact,"W002188,W002839",Jimmy Red Bottled In Bond | Old Fitzgerald 11 Year Old Bottled In Bond (fall 2024 Release)
+"(0.0, 0.75, 0.5, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",2,2,exact,"W002191,W002404",Redwood Empire Grizzly Beast 5 Year Old Bottled In Bond (batch 003) | Ohishi Port Cask-Finished (2020 Release)
+"(0.25, 0.25, 1.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0)",2,2,exact,"W002194,W002978",Hardin’s Creek 17 Year Old Kentucky Series Boston | Widow Jane Decadence Maple Syrup Barrel Finished Blend Of Straights
+"(0.0, 0.5, 0.75, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0)",2,2,exact,"W002196,W003244",Kentucky Owl Maighstir Edition | True Story Vol. 2 Amburana And Sherry Cask Finished
+"(0.0, 0.25, 1.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",2,2,exact,"W002204,W002841",Parker’s Heritage 10 Year Old Cask Strength (2023 Release) | Russell’s Reserve Single Rickhouse Collection Camp Nelson B (2024 Release)
+"(0.0, 0.75, 0.75, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",2,2,exact,"W002208,W002977",Eight Settlers Devil’s Gate Small Batch (batch 19) | Remus Gatsby Reserve 15 Year Old Cask Strength (2025 Edition)
+"(0.5, 0.5, 0.5, 1.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0)",2,2,exact,"W002212,W003119",Sentinel Finished In Whiskey Del Bac Mesquite Casks (batch 02) | Hard Truth Barrel Finish Reserve Double Oaked New Charred Oak Barrel Finished
+"(0.0, 1.0, 0.25, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",2,2,exact,"W002213,W002693",Waterford Cuvée Kofﬁ Edition | Gold Spot 9 Year Old
+"(0.0, 0.75, 0.5, 0.25, 0.0, 0.25, 0.0, 0.0, 0.0, 0.0, 0.25)",2,2,exact,"W002223,W003253",Eifel Whisky 10 Year Old Single Malt | Proof And Wood 22 Year Old Curated Collection Blame Canada! (barrel No. 3)
+"(0.0, 1.0, 0.75, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0)",2,2,exact,"W002228,W002268",Amrut Triparva (2nd Release) | Gordon & Macphail Private Collection 74 Year Old 1949 From Glenlivet Distillery
+"(0.0, 0.25, 1.0, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",2,2,exact,"W002231,W002362",Four Walls Irish American | Wood’s Dawn Patrol Colorado (batch 1)
+"(0.0, 0.75, 0.75, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0)",2,2,exact,"W002256,W003137",Prima & Ultima Singleton Of Dufftown 1985 37 Year Old | Bushmills 12 Year Old Px Sherry Cask Reserve
+"(0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",2,2,exact,"W002259,W002610",Yamazaki 18 Year Old Mizunara 100th Anniversary Limited Edition | Glasgow 1770 Triple Distilled
+"(0.25, 0.5, 0.5, 0.25, 0.0, 0.0, 0.0, 0.25, 0.25, 0.0, 0.0)",2,2,exact,"W002260,W002924",Hakushu 18 Year Old Peated Malt 100th Anniversary Limited Edition | Isle Of Skye 8 Year Old
+"(0.0, 0.5, 0.5, 0.75, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0)",2,2,exact,"W002266,W003054",The Last Drop Signature Edition 32 Year Old By Louise Mcguane | Aberlour Suthainn Double Sherry Cask Solera
+"(0.5, 0.75, 1.0, 0.25, 0.0, 0.0, 0.0, 0.5, 0.25, 0.0, 0.0)",2,2,exact,"W002267,W003062",Duncan Taylor Octave Premium 17 Year Old Laphroaig 2004 | Kilchoman 13 Year Old
+"(0.0, 0.5, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0)",2,2,exact,"W002274,W002872",M&H Elements Sherry Cask | Jacob’s Pardon 18 Year Old Recipe No. 3 Small Batch American
+"(0.0, 0.375, 0.125, 0.375, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",2,2,exact,"W002276,W002531",Koval Single Barrel (no. zt3w42) | Mortlach Midnight Malt 30 Year Old
+"(0.25, 1.0, 0.25, 0.75, 0.0, 0.0, 0.0, 0.25, 0.0, 0.25, 0.0)",2,2,exact,"W002279,W003281",Bushmills 28 Year Old The Rare Casks Cognac Cask (release No. 1) | Royal Salute 62 Gun Salute The Original Reserve
+"(0.0, 0.5, 0.25, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0)",2,2,exact,"W002293,W002550",Benriach The Original 12 | Glen Moray 15 Year Old
+"(0.0, 0.25, 0.5, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0)",2,2,exact,"W002305,W002496",Dalmore 12 Year Old Sherry Cask Select | Gordon & Macphail Mr George Legacy Series 1954 From Glen Grant
+"(0.0, 1.0, 0.75, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",2,2,exact,"W002316,W002852",William Larue Weller Kentucky Straight (buffalo Trace Antique Collection 2020) | New York Distilling Co. Jaywalk Bonded
+"(0.25, 0.75, 0.5, 0.25, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0)",2,2,exact,"W002327,W002487",Elijah Craig Barrel Proof Kentucky Straight (batch c920) | Wolves 5 Year Old
+"(0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",2,2,exact,"W002334,W003113",Maker’s Mark 2020 Limited Release Stave Proﬁle se4 X pr5 Kentucky Straight | Penelope Cooper Series: Havana Maple Syrup & Rum Barrel Double Cask Finished
+"(0.0, 0.75, 0.25, 0.75, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",2,2,exact,"W002356,W003112",Kirkland Signature Sour Mash | Three Chord Backstage Series: Allman Brothers Band Toasted Peach Wood Finished Blend Of Straights
+"(0.5, 0.75, 0.5, 0.25, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0)",2,2,exact,"W002357,W003197",Balcones Rum Cask-Finished Texas (batch r20-1) | Speyburn Bourbon Cask
+"(0.5, 1.0, 0.5, 0.25, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0)",2,2,exact,"W002358,W002892",Dogﬁsh Head Let’s Get Lost | House Of Hazelwood The Charles Gordon Collection 58 Year Old The Last Trace
+"(0.25, 0.75, 0.5, 0.75, 0.0, 0.0, 0.0, 0.25, 0.25, 0.0, 0.0)",2,2,exact,"W002371,W002384",Teeling Blackpitts (batch 1) | The Akkeshi Sarorunkamuy
+"(0.5, 1.0, 1.0, 0.75, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0)",2,2,exact,"W002381,W002680",Miyagikyo Apple Brandy Barrel-finished | Talnua Bourbon Cask & Stave
+"(0.0, 0.5, 0.75, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0)",2,2,exact,"W002389,W003072",Mars Komagatake Limited Edition (2020 Release) | Glengoyne Oak Masters’ 24 Year Old White Oak
+"(0.0, 1.0, 0.25, 0.75, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0)",2,2,exact,"W002400,W003047",Ohishi 8 Year Old Sherry Cask- Finished (2020 Release) | Lux Row PX Sherry Cask Finished
+"(0.0, 1.0, 0.0, 0.25, 0.0, 0.25, 0.0, 0.0, 0.0, 0.0, 0.25)",2,2,exact,"W002408,W002934",Ohishi 11 Year Old Mizunara Cask-finished | Godawan 02 Fruit And Spice
+"(0.25, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0)",2,2,exact,"W002409,W002954",FEW | Still Austin 6 Year Old Bottled In Bond Blue Corn (winter 2025)
+"(0.25, 0.25, 0.25, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0, 0.25, 0.0)",2,2,exact,"W002410,W002471",Ardnahoe 5 Year Old Inaugural Release | Middle West Spirits Dark Pumpernickel Cask Strength (batch 001)
+"(0.25, 0.0, 0.25, 0.5, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0)",2,2,exact,"W001109,W002857",Ardbeg Corryvreckan | Sazerac 18 Year Old (buffalo Trace Antique Collection 2024)
+"(0.25, 0.5, 0.75, 0.25, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0)",2,2,exact,"W002418,W003009",Port Ellen Gemini 44 Year Old Remnant Cask Finish | T Equila Ocho Limited Edition Barrel Select Old Fitzgerald Bourbon Barrel Aged Añejo
+"(0.5, 1.0, 1.0, 0.5, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0)",2,2,exact,"W002421,W002677",Jefferson’s Reserve Limited Edition Cask Strength | Balcones ZZ Top Tres Hombres
+"(0.5, 0.75, 0.25, 0.5, 0.0, 0.0, 0.0, 0.5, 0.25, 0.0, 0.0)",2,2,exact,"W002429,W003242",Port Charlotte 18 Year Old (2025 Release) | Elijah Craig Toasted Rye Toasted New Oak Barrel Finished
+"(0.25, 0.25, 0.25, 0.0, 0.0, 0.0, 0.0, 0.25, 0.25, 0.25, 0.0)",2,2,exact,"W002431,W002529",Smokehead | Benriach The Thirty
+"(0.0, 0.75, 0.75, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0)",2,2,exact,"W002438,W003151",Glendronach Ode To The Dark Px Sherry Cask Matured | Crown Royal 31 Year Old Extra Rare Blend
+"(0.25, 1.0, 0.5, 0.5, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0)",2,2,exact,"W002455,W002655",Annandale Man O’Words 10 Year Old Single Cask No. 121 | Brush Creek Railroad (boxcar #1)
+"(0.0, 0.0, 0.75, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",2,2,exact,"W002458,W002524",Barrell 11 Year Old Full Proof Blend Of Straights | G4 Añejo
+"(0.5, 0.25, 0.75, 0.75, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0)",2,2,exact,"W002462,W002967",Old Fitzgerald 9 Year Old Bottled In Bond (spring 2025 Release) | King Of Kentucky 12 Year Old Small Batch (batch 1)
+"(0.25, 0.75, 0.5, 0.5, 0.0, 0.0, 0.0, 0.25, 0.0, 0.25, 0.0)",2,2,exact,"W002467,W003138",Michter’s Limited Release us*1 Barrel Strength (barrel 25b0605; 2025 Release) | Dingle Bealtaine
+"(0.25, 0.0, 0.5, 0.25, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0)",2,2,exact,"W002485,W003184",New Riff Sour Mash (2025 Vatting) | Rare Character Single Barrel Series Amburana Cask Finished Bourbon (barrel No. amb-b-09)
+"(0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",2,2,exact,"W002491,W002997",Garavogue 20 Year Old Release no.1 | T Enmile Distillery Revolutionary Whisky Series Battle Of Stony Point
+"(0.25, 0.25, 0.5, 0.25, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0)",2,2,exact,"W002511,W002665",El Tesoro Reposado | Four Gate Rye Downunder Finished In Australian Apera Sherry Casks (batch 16)
+"(0.0, 0.5, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0)",2,2,exact,"W002543,W003016",aberlour a'bunadh alba cask strength • | T Ears Of Llorona Ode To Agave Extra Añejo
+"(0.0, 0.25, 0.5, 0.25, 0.0, 0.25, 0.0, 0.0, 0.0, 0.0, 0.25)",2,2,exact,"W002559,W003196",Glencadam 15 Year Old | Jack Daniel’s Distillery Series Twice Barreled (selection No. 13)
+"(0.75, 0.25, 0.5, 0.0, 0.0, 0.0, 0.0, 0.75, 0.0, 0.0, 0.0)",2,2,exact,"W002581,W003017",Buchanan’s Red Seal | Arette Gran Clase Single Cask Extra Añejo
+"(0.5, 0.5, 0.5, 0.5, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0)",2,2,exact,"W002597,W003074",Balvenie Rare Marriages 30 Year Old | Deanston 2002 20 Year Old Organic American Oak
+"(0.0, 0.5, 1.0, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",2,2,exact,"W002601,W002979",Prima & Ultima Royal 94 Lochnagar 40 Year Old 1981 | Willett Family Estate Small Batch 4 Year Old Cask Strength
+"(0.0, 0.5, 0.5, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.75, 0.0)",2,2,exact,"W002607,W002930",Prima & Ultima mannochmore92 31 Year Old 1990 | Paul John Oloroso Select Cask
+"(0.0, 1.0, 0.75, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0)",2,2,exact,"W002617,W003258",Tomintoul 30 Year Old 92 Robert Fleming 30th Anniversary 1st Edition | Boann P.X. Cask
+"(0.0, 0.25, 0.5, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0)",2,2,exact,"W002618,W002856",Larceny Barrel Proof (batch b522) | Minden Mill 4 Year Old
+"(0.25, 0.25, 0.75, 0.5, 0.0, 0.0, 0.0, 0.25, 0.0, 0.25, 0.0)",2,2,exact,"W002619,W002975",Stellum Equinox Blend No. 1 | High Wire Distilling Co. Jimmy Red Double Oak
+"(0.25, 0.75, 0.75, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0)",2,2,exact,"W002621,W002859",American Highway Reserve Route 2 Blend Of Straights | The Ghost Series 23b Kanosuke Hioki Pot Still Single Cask (no. hg0287)
+"(0.25, 0.25, 0.75, 0.25, 0.0, 0.0, 0.0, 0.25, 0.25, 0.0, 0.0)",2,2,exact,"W002625,W002838",Lucky Seven The Frenchman French Oak Barrel Finished | George T. Stagg (buffalo Trace Antique Collection 2024)
+"(0.0, 0.5, 0.5, 0.75, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",2,2,exact,"W002629,W003090",Dewar’s 8 Year Old French Smooth | Lochlea Small Batch American Oak Str Cask Matured
+"(0.0, 0.5, 0.5, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0)",2,2,exact,"W002637,W003079",Wyoming Whiskey 5 Year Old National Parks No. 2 | Glenmorangie The Lasanta 15 Year Old
+"(0.0, 0.5, 1.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0, 0.0, 0.25)",2,2,exact,"W002639,W003222",Barrell Cask Strength Blend Of Straights (batch 033) | Buzzard’s Roost Bottled In Bond (batch 1)
+"(0.25, 0.75, 0.5, 1.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0)",2,2,exact,"W002643,W003235",Hardin’s Creek Jacob’s Well | Rabbit Hole Founder’s Collection Boxergrail 8 Year Old
+"(0.0, 0.25, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",2,2,exact,"W002649,W003176",Bluegrass Distillers Limited Release Toasted Oak | Kentucky Peerless Small Batch Rye
+"(0.0, 1.0, 0.75, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0)",2,2,exact,"W002659,W003237",Middle West Spirits | WhistlePig Beyond Bonded Farmstock Single Barrel (2024 Release; Barrel No. 87720)
+"(0.25, 0.5, 0.25, 0.25, 0.0, 0.0, 0.0, 0.25, 0.25, 0.0, 0.0)",2,2,exact,"W002660,W003290",Alias | Yamazaki Islay Peated Malt (2024 Tsukuriwake Edition)
+"(0.25, 0.75, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0)",2,2,exact,"W002674,W003146",ASM Whiskey Sherry Cask Finished | Bunnahabhain 40 Year Old
+"(0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.25, 0.0, 0.0)",2,2,exact,"W002733,W003145",Whiskey Del Bac Normandie Single Malt | Bowmore Appellations Collection 22 Year Old Sauternes Cask Finish
+"(0.25, 0.25, 0.0, 0.5, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0)",2,2,exact,"W002797,W003169",Buzzard’s Roost Cigar Rye (batch 3) | Patrón Cristalino Añejo
+"(0.0, 1.0, 0.5, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.75, 0.0)",2,2,exact,"W002817,W003096",Glen Scotia Double Cask | Dewar’s Double Double 20 Year Old Oloroso Sherry Cask Finished
+"(0.0, 0.5, 0.75, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",2,2,exact,"W002819,W003105",Lady Of The Glen Blair Athol 2013 10 Year Old Reﬁll Barrique (cask No. 319876) | Barrell 5 Year Old Foundation Double Barrel Blend Of Straights
+"(0.25, 1.0, 0.25, 0.25, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0)",2,2,exact,"W002860,W003203",The Ghost Series 23a Kanosuke Hioki Pot Still Single Cask (no. hg088) | Benrinnes 21 Year Old Grand Crescendo (diageo Special Releases 2024)
+"(0.0, 1.0, 0.0, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",2,2,exact,"W002866,W002878",Backbone Bourbon Prime Blended Bourbon (batch 15) | Drumshanbo Tawny Port Cask
+"(0.0, 1.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",2,2,exact,"W002876,W003021",Waterford Biodynamic Cuvée Luna | Drumshanbo Marsala Cask Finished
+"(0.25, 0.25, 0.25, 0.25, 0.0, 0.0, 0.0, 0.25, 0.25, 0.0, 0.0)",2,2,exact,"W002928,W003028",Amrut Peated | Shortcross 5 Year Old Peated
+"(0.0, 0.0, 1.0, 0.75, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",2,2,exact,"W002970,W003268",Three Chord Flipside Triple Wood T Oasted French Oak And American Oak Barrel Finished | Single Malts Of India Marudham
+"(0.0, 0.0, 0.5, 0.75, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",2,2,exact,"W002971,W003125",Three Chord Strange Collab Finished In Pinot Noir Barrels | Barrell 33 Year Old French Oak & Olororo Sherry Cask Finished Cask Strength
+"(0.25, 0.0, 0.75, 0.25, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0)",2,2,exact,"W002976,W003044",New Riff Winter Whiskey Bottled In Bond Malted Oat And Chocolate Malt | Penelope Wheated Four Grain
+"(0.25, 1.0, 0.75, 0.25, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0)",2,2,exact,"W003000,W003270",Calistoga Depot Prosperous & Penniless Buena Vista Cabernet Sauvignon Wine Finished Malted Rye Malt (batch no.1) | Kuju Distillery Green Dram
+"(0.0, 1.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)",2,2,exact,"W003070,W003266",Deanston 18 Year Old | Kanosuke Hioki Pot Still
+"(0.25, 0.75, 0.5, 1.0, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0)",2,2,exact,"W003086,W003204","Loch Lomond Remarkable Ingenuity 13 Year Old | The ImpEx Collection Benrinnes 12 Year Old Single Cask (no. 306532; Distilled In 2011), $120"
+"(0.0, 1.0, 0.25, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0)",2,2,exact,"W003130,W003275",Bushmills 2012 Private Reserve Series 12 Year Old Bordeaux Cask | Glenmorangie Pursuit Of Passion 27 Year Old Barbaresco Wine Cask Finish
+"(0.25, 0.25, 0.25, 1.0, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0)",2,2,exact,"W003175,W003271",Hard Truth Sweet Mash Barrel Strength Rye (batch 005) | Ki-One Batch 4 Peated
+"(0.0, 0.0, 100.0, 67.0, 100.0, 0.0, 0.0)",2,1,,"W003583,W003584",Auchentoshan 12 | Auchentoshan Blood Oak
+"(0.0, 0.0, 100.0, 100.0, 67.0, 0.0, 0.0)",2,2,,"W003601,W003698",Balvenie 21 Port Wood | Glenfarclas 18
+"(33.0, 0.0, 100.0, 100.0, 67.0, 0.0, 0.0)",2,1,,"W003640,W003805",Chivas Regal 18 Gold Signature | Monkey Shoulder Batch 27
+"(67.0, 0.0, 100.0, 100.0, 33.0, 0.0, 0.0)",2,2,,"W003654,W3389",Dalwhinnie 15 | Hakushu
+"(0.0, 0.0, 100.0, 100.0, 67.0, 0.0, 33.0)",2,2,,"W003658,W3399",Deanston 18 | Hibiki
+"(100.0, 100.0, 100.0, 100.0, 33.0, 100.0, 0.0)",2,1,,"W003791,W003827",Laphroaig 10 | Port Askaig 8
+"(0.0, 0.0, 100.0, 100.0, 67.0, 0.0, 100.0)",2,2,,"W3533,W003704",Tullamore Dew | Glenfiddich 18
+"(0.0, 0.0, 0.0, 33.0, 0.0, 0.0, 0.0)",2,2,,"W003559,W003719",Aberfeldy 16 | Glenmorangie 10
+"(0.0, 0.0, 67.0, 100.0, 33.0, 0.0, 100.0)",2,1,,"W003694,W003763",Glendronach 15 Revival | Jura 12
+"(0.0, 0.0, 50.0, 100.0, 100.0, 0.0, 0.0)",2,1,,"W3374,W003668",Four Roses | Four Roses Small Batch
+"(0.0, 0.0, 0.0, 50.0, 100.0, 0.0, 0.0)",2,1,,"W3550,W003810",Woodford Reserve | Nikka Whisky From The Barrel
+"(0.0, 0.0, 0.0, 100.0, 0.0, 0.0, 100.0)",2,1,,"W003895,W003920",The Macallan Rare Cask Single Malt | The Macallan A Night on Earth in Jerez De La Frontera Single Malt
+"(0.0, 20.0, 40.0, 40.0, 0.0, 0.0, 100.0)",2,2,,"W003798,W003952",Macallan 15 Double Cask | The Macallan Double Cask 15 yr
+"(0.0, 0.0, 0.0, 100.0, 0.0, 20.0, 0.0)",2,1,,"W001541,W001541",Wayne Gretzky No. 99 Ice Cask | Wayne Gretzky No. 99 Ice Cask
+"(0.0, 0.0, 0.0, 0.0, 66.0, 0.0, 100.0)",2,1,,"W001455,W001455",Forty Creek Double Barrel Reserve | Forty Creek Double Barrel Reserve
+"(0.0, 0.0, 0.0, 0.0, 100.0, 0.0, 0.0)",2,1,,"W3548,W3548",Wild Turkey | Wild Turkey
+"(0.0, 0.0, 20.0, 80.0, 100.0, 0.0, 0.0)",2,1,,"W001539,W001539",Crown Royal Black | Crown Royal Black
+"(0.0, 0.0, 75.0, 25.0, 100.0, 0.0, 0.0)",2,0,,"W000885,W000885",Lohin Mckinnon Single Malt | Lohin Mckinnon Single Malt
+"(0.0, 0.0, 0.0, 0.0, 0.0, 100.0, 40.0)",2,0,,"W3499,W3499",Seagram's | Seagram's
+"(0.0, 100.0, 0.0, 33.0, 0.0, 0.0, 33.0)",2,1,,"W3472,W3472",Penderyn | Penderyn
+"(20.0, 80.0, 40.0, 0.0, 0.0, 0.0, 0.0)",2,1,,"W001831,W000374",Jack Daniel's Single Barrel Select | Game Of Thrones House Baratheon Royal Lochnagar 12 Ans
+"(20.0, 60.0, 40.0, 20.0, 0.0, 0.0, 0.0)",2,0,,"W000993,W001585",Nikka Pure Malt Black | Pendleton Midnight
+"(20.0, 20.0, 40.0, 20.0, 0.0, 0.0, 0.0)",2,2,,"W003846,W001357",The Deacon Blended Scotch Whisky | White Oak Akashi Blended
+"(40.0, 0.0, 20.0, 0.0, 0.0, 0.0, 0.0)",2,0,,"W003921,W001361",Kamiki Sakura Wood Whisky | Passport Blended Scotch
+"(100.0, 60.0, 60.0, 0.0, 0.0, 0.0, 0.0)",2,2,,"W003888,W000666",Tamnavulin Sherry Cask Single Malt | Dalmore Valour
+"(100.0, 100.0, 20.0, 0.0, 0.0, 0.0, 0.0)",2,1,,"W003784,W003581",Label 5 Classic Black | Arran Sauternes Cask Finish
+"(100.0, 100.0, 60.0, 0.0, 0.0, 0.0, 0.0)",2,1,,"W000572,W000876",Yamazaki Distiller's Reserve | Game Of Thrones House Targaryen Cardhu Gold Reserve
+"(0.0, 80.0, 60.0, 40.0, 0.0, 0.0, 0.0)",2,2,,"W000990,W001472",Game Of Thrones House Greyjoy Talisker Select Reserve | Michter's Single Barrel Straight Rye
+"(0.0, 0.0, 0.0, 40.0, 0.0, 0.0, 0.0)",2,2,,"W001411,W001788",Forty Creek Unity | Basil Hayden’s Kentucky Bourbon
+"(0.0, 20.0, 0.0, 60.0, 0.0, 0.0, 0.0)",2,2,,"W003836,W000425",Speyburn Bradan Orach | Amrut Double Cask
+"(20.0, 20.0, 0.0, 0.0, 0.0, 0.0, 0.0)",2,2,,"W001758,W000285",Smooth Ambler Contradiction Bourbon | Glenmorangie Dornoch
