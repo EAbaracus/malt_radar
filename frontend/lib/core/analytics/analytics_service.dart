@@ -135,8 +135,8 @@ class AnalyticsService {
     required String sessionId,
     String envId = 'malt-radar-prod-1',
   }) {
-    // 1. Consent Gate Check (essential auth events exempted when user-initiated)
-    if (eventName != 'sign_up_start' && eventName != 'sign_up_complete' && !_consentState.isAnalyticsGranted) {
+    // 1. Consent Gate Check (all events require consent)
+    if (!_consentState.isAnalyticsGranted) {
       return const TelemetryValidationResult(
         valid: false,
         status: TelemetryEventStatus.blocked,
@@ -239,10 +239,20 @@ class AnalyticsService {
     );
   }
 
-  TelemetryValidationResult trackSignUpComplete({required String userId, required String authProvider, required String sessionId}) {
+  TelemetryValidationResult trackSignUpComplete({
+    required String userId,
+    required String authProvider,
+    required String sessionId,
+    String? referralSource,
+  }) {
     return dispatchEvent(
       eventName: 'sign_up_complete',
-      payload: {'user_id': userId, 'auth_provider': authProvider, 'age_verified': true},
+      payload: {
+        'user_id': userId,
+        'auth_provider': authProvider,
+        'age_verified': true,
+        'referral_source': referralSource ?? 'none',
+      },
       sessionId: sessionId,
     );
   }

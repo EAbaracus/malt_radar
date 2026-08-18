@@ -8,6 +8,7 @@ import 'package:malt_radar/core/theme/app_theme.dart';
 import 'package:malt_radar/core/theme/app_theme_colors.dart';
 import 'package:malt_radar/features/compliance/presentation/age_gate_providers.dart';
 import 'auth_controller.dart';
+import 'referral_utils.dart';
 import 'google_sign_in_button.dart';
 import 'google_sign_in_web_button.dart';
 import 'google_sign_in_messages.dart';
@@ -140,6 +141,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
           userId: email,
           authProvider: 'email',
           sessionId: ref.read(sessionIdProvider),
+          referralSource: extractReferralSource(),
         );
       }
       // Login/register succeeded. Force main.dart rebuild.
@@ -165,9 +167,13 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     if (!mounted) return;
     setState(() => _googleBusy = false);
     if (err == null) {
-      // Success: signInWithGoogle already set AuthStatus.loggedIn on the
-      // controller, so main.dart (which watches authControllerProvider)
-      // rebuilds and unmounts this screen — no extra invalidation needed.
+      // Track sign_up_complete for Google Sign-In
+      ref.read(analyticsServiceProvider).trackSignUpComplete(
+        userId: ref.read(authControllerProvider).user?.email ?? 'google_user',
+        authProvider: 'google',
+        sessionId: ref.read(sessionIdProvider),
+        referralSource: extractReferralSource(),
+      );
     } else {
       _toast(googleSignInErrorMessage(err, isTr: isTr));
     }
