@@ -48,6 +48,14 @@ final similarFlavorWhiskiesProvider = FutureProvider.family<List<Whisky>, int>((
       });
       
       if (hasData) {
+        // Audit #92 / #99 (HYBRID): drop sentinel-10 / constant-axis profiles
+        // (every axis equal and > 0). These are unfilled bulk fallbacks that
+        // would otherwise score uniformly → random cards.
+        final vals = parsed.values.toList();
+        final allEqual = vals.every((v) => v == vals.first);
+        if (allEqual && vals.first > 0) {
+          continue;
+        }
         scoredList.add({
           'whisky': Whisky.fromEntities(whisky: other),
           'distance': sumSquares,

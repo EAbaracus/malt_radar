@@ -119,6 +119,13 @@ class SimilarityService:
             if not isinstance(app_axes, dict):
                 continue
             norm = _dart_normalize(app_axes)
+            # Audit #92 / #99 (HYBRID): ignore sentinel-10 profiles where every
+            # axis equals 10 (canonical 7-axis) or every axis equals the same
+            # non-zero constant. These are unfilled bulk-pipeline fallbacks, not
+            # real flavor data, and produce uniform distances → random cards.
+            vals = list(norm.values())
+            if len(set(vals)) == 1 and vals[0] > 0:
+                continue
             if any(v > 0 for v in norm.values()):
                 profiles[row["whisky_id"]] = norm
         return profiles

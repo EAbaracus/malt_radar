@@ -204,3 +204,65 @@ def test_twin_profiles_similarity_1():
         assert top["distance"] == 0.0
         # The different-profile whisky must sort last (largest distance).
         assert result[-1]["whisky_id"] == "w3"
+
+
+# ---------------------------------------------------------------------------
+# Audit #92 / #99 (HYBRID): sentinel-10 and constant-axis profiles ignored
+# ---------------------------------------------------------------------------
+
+def test_sentinel10_profile_ignored():
+    """Every axis == 10 (sentinel fallback) must NOT enter the candidate pool."""
+    whiskies = [
+        ("w1", "Real One", None, "BrandA", "Speyside", "Single Malt",
+         "Scotland", 90.0, 88.0, None, None),
+        ("w2", "Real Two", None, "BrandB", "Islay", "Single Malt",
+         "Scotland", 88.0, 85.0, None, None),
+        # sentinel-10: bulk pipeline unfilled fallback
+        ("w3", "Sentinel Ten", None, "BrandC", "Highland", "Single Malt",
+         "Scotland", 80.0, 80.0, None, None),
+    ]
+    sentinel = json.dumps({a: 10 for a in
+        ["fruity", "sweet", "spicy", "smoky_peaty", "oak_cask", "malty_cereal", "floral_herbal"]})
+    profiles = [("w1", _PROFILE_A), ("w2", _PROFILE_B), ("w3", sentinel)]
+    svc = _build_service(whiskies, profiles)
+
+    pool = svc._candidate_profiles()
+    assert "w3" not in pool, "sentinel-10 profil havuzdan çıkarıldı"
+    assert len(pool) == 2
+
+    # w1's similar list must not contain the sentinel whisky
+    result = svc.get_similar("w1", limit=5)
+    assert all(r["whisky_id"] != "w3" for r in result)
+
+
+def test_constant_axis_profile_ignored():
+    """Every axis == same non-zero constant must also be ignored."""
+    whiskies = [
+        ("w1", "Real One", None, "BrandA", "Speyside", "Single Malt",
+         "Scotland", 90.0, 88.0, None, None),
+        ("w2", "Constant Axes", None, "BrandB", "Islay", "Single Malt",
+         "Scotland", 88.0, 85.0, None, None),
+    ]
+    const = json.dumps({a: 3 for a in
+        ["fruity", "sweet", "spicy", "smoky_peaty", "oak_cask", "malty_cereal", "floral_herbal"]})
+    profiles = [("w1", _PROFILE_A), ("w2", const)]
+    svc = _build_service(whiskies, profiles)
+
+    pool = svc._candidate_profiles()
+    assert "w2" not in pool, "sabit-eksen profil havuzdan çıkarıldı"
+
+
+def test_parsefail_list_profile_skipped():
+    """flavor_profile stored as a JSON *list* (not dict) must be skipped."""
+    whiskies = [
+        ("w1", "Real One", None, "BrandA", "Speyside", "Single Malt",
+         "Scotland", 90.0, 88.0, None, None),
+        ("w2", "Tag List", None, "BrandB", "Islay", "Single Malt",
+         "Scotland", 88.0, 85.0, None, None),
+    ]
+    profiles = [("w1", _PROFILE_A), ("w2", '["fruity", "sherry", "sweet"]')]
+    svc = _build_service(whiskies, profiles)
+
+    pool = svc._candidate_profiles()
+    assert "w2" not in pool, "list-format profil havuzdan çıkarıldı"
+
