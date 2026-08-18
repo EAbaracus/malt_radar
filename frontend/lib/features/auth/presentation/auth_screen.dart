@@ -1,5 +1,5 @@
-import 'package:flutter/foundation.dart'; // kIsWeb
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:malt_radar/core/analytics/analytics_service.dart';
 import 'package:malt_radar/core/config/feature_flags.dart';
@@ -14,6 +14,10 @@ import 'google_sign_in_web_button.dart';
 import 'google_sign_in_messages.dart';
 import 'package:malt_radar/core/branding/brand_medallion.dart';
 import 'package:malt_radar/core/branding/brand_medallion_widget.dart';
+
+// Web-only JS interop for GA4 consent
+// ignore: avoid_web_libraries_in_flutter
+import 'dart:js' as js;
 
 /// Login / Register form. Uses the already-passed age gate decision to fill the
 /// required country + legal-minimum-age at registration (KVKK consent is
@@ -367,7 +371,18 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                         text: isTr
                             ? 'Kişisel veri işleme aydınlatma metnini okudum ve kabul ediyorum (KVKK).'
                             : 'I have read and accept the privacy notice / KVKK data-processing consent.',
-                        onChanged: (v) => setState(() => _privacyConsent = v),
+                        onChanged: (v) {
+                          setState(() => _privacyConsent = v);
+                          
+                          // Grant analytics consent on web when KVKK consent is given
+                          if (kIsWeb) {
+                            try {
+                              js.context.callMethod('updateGoogleConsent', [v, false]);
+                            } catch (_) {
+                              // GA4 consent update failed — non-critical, continue
+                            }
+                          }
+                        },
                       ),
                       const SizedBox(height: 8),
                       _ConsentRow(
