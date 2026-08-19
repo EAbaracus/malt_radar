@@ -111,6 +111,24 @@ class SimilarityService:
             raw = row.get("flavor_profile")
             if not raw:
                 continue
+            # Audit #92 / #99 (HYBRID): catch sentinel profiles on the RAW JSON
+            # before normalization. The canonical sentinel is every axis == 10
+            # (e.g. {"smoky":10,...,"sherry":10}); after _normalize_flavor_profile
+            # maps smoky->smoky_peaty etc. the uniform-10 pattern is lost, so a
+            # post-normalize check alone misses it. Parse defensively.
+            try:
+                raw_obj = json.loads(raw) if isinstance(raw, str) else raw
+            except (json.JSONDecodeError, TypeError):
+                raw_obj = None
+            if isinstance(raw_obj, dict):
+                _raw_vals: List[float] = []
+                for v in raw_obj.values():
+                    if isinstance(v, (int, float)):
+                        _raw_vals.append(float(v))
+                    elif isinstance(v, str) and v.replace(".", "", 1).isdigit():
+                        _raw_vals.append(float(v))
+                if _raw_vals and len(set(_raw_vals)) == 1 and _raw_vals[0] > 0:
+                    continue  # sentinel / constant-axis fallback → skip
             try:
                 app_axes = json.loads(
                     DbReadService._normalize_flavor_profile(raw) or "{}")
@@ -119,10 +137,10 @@ class SimilarityService:
             if not isinstance(app_axes, dict):
                 continue
             norm = _dart_normalize(app_axes)
-            # Audit #92 / #99 (HYBRID): ignore sentinel-10 profiles where every
-            # axis equals 10 (canonical 7-axis) or every axis equals the same
-            # non-zero constant. These are unfilled bulk-pipeline fallbacks, not
-            # real flavor data, and produce uniform distances → random cards.
+            # Audit #92 / #99 (HYBRID): ignore sentinel/constant-axis profiles
+            # that survive normalization (every axis equal and > 0). These are
+            # unfilled bulk-pipeline fallbacks, not real flavor data, and
+            # produce uniform distances → random cards.
             vals = list(norm.values())
             if len(set(vals)) == 1 and vals[0] > 0:
                 continue

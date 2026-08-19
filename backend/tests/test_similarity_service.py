@@ -222,7 +222,7 @@ def test_sentinel10_profile_ignored():
          "Scotland", 80.0, 80.0, None, None),
     ]
     sentinel = json.dumps({a: 10 for a in
-        ["fruity", "sweet", "spicy", "smoky_peaty", "oak_cask", "malty_cereal", "floral_herbal"]})
+        ["smoky", "peaty", "fruity", "sweet", "spicy", "maritime", "sherry"]})
     profiles = [("w1", _PROFILE_A), ("w2", _PROFILE_B), ("w3", sentinel)]
     svc = _build_service(whiskies, profiles)
 
@@ -233,6 +233,35 @@ def test_sentinel10_profile_ignored():
     # w1's similar list must not contain the sentinel whisky
     result = svc.get_similar("w1", limit=5)
     assert all(r["whisky_id"] != "w3" for r in result)
+
+
+def test_sentinel10_raw_canonical_ignored():
+    """Raw canonical-7-axis sentinel (smoky/peaty/...==10) is caught pre-normalize.
+
+    Regression test: the first guard only checked post-normalize 7-axis
+    (MALT_RADAR_AXES = smoky_peaty/oak_cask/...); canonical smoky/peaty maps to
+    smoky_peaty so the uniform-10 pattern is lost and W000796-style sentinels
+    slipped through.
+    """
+    whiskies = [
+        ("w1", "Real One", None, "BrandA", "Speyside", "Single Malt",
+         "Scotland", 90.0, 88.0, None, None),
+        ("w2", "Real Two", None, "BrandB", "Islay", "Single Malt",
+         "Scotland", 88.0, 85.0, None, None),
+        ("w0", "Few Single Malt", None, "BrandC", "Highland", "Single Malt",
+         "Scotland", 80.0, 80.0, None, None),
+    ]
+    # Exact W000796 payload from production
+    raw_sentinel = json.dumps({
+        "smoky": 10, "peaty": 10, "fruity": 10, "sweet": 10,
+        "spicy": 10, "maritime": 10, "sherry": 10})
+    profiles = [("w1", _PROFILE_A), ("w2", _PROFILE_B), ("w0", raw_sentinel)]
+    svc = _build_service(whiskies, profiles)
+
+    pool = svc._candidate_profiles()
+    assert "w0" not in pool, "W000796-style raw sentinel havuzdan çıkarıldı"
+    result = svc.get_similar("w1", limit=5)
+    assert all(r["whisky_id"] != "w0" for r in result)
 
 
 def test_constant_axis_profile_ignored():
