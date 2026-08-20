@@ -1,0 +1,61 @@
+name: Deploy webapp-next to Cloudflare Pages (staging)
+
+# Builds the Next.js 16 app in webapp-next/ and deploys to a SEPARATE
+# Cloudflare Pages project. This is intentionally isolated from
+# deploy-pages.yml (which deploys the Flutter frontend/ app to the
+# 'malt-radar' project on push to main). Do not merge the two.
+#
+# PREREQUISITES (set in GitHub repo/organization secrets):
+#   CLOUDFLARE_API_TOKEN   - Pages deploy token (wrangler)
+#   CLOUDFLARE_ACCOUNT_ID  - Cloudflare account id
+# Also create the Pages project 'malt-radar-next' once:
+#   npx wrangler pages project create malt-radar-next --production-branch=webapp
+
+on:
+  push:
+    branches:
+      - webapp
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  deployments: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: webapp-next
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: webapp-next/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Build (next build)
+        run: npm run build
+        env:
+          MALT_RADAR_API_BASE_URL: https://maltradar.com
+
+      - name: Adapt build for Cloudflare Pages
+        # next-on-pages is reliable on Linux CI (only Windows localhost spawn is buggy).
+        # --skip-build reuses the .next produced above.
+        run: npx @cloudflare/next-on-pages --skip-build
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: webapp-next
+          command: pages deploy .cloudflare/output --project-name=malt-radar-next --branch=webapp
