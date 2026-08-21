@@ -61,7 +61,9 @@ class _GoogleSignInWebButtonState extends ConsumerState<GoogleSignInWebButton> {
   /// [GoogleAuthScriptLoader] for flag gating + safe (no-retry) failure.
   Future<void> _init() async {
     final clientId = ref.read(googleAuthProvider).clientId;
-    final ok = await GoogleAuthScriptLoader.instance.loadScript(clientId: clientId);
+    final ok = await GoogleAuthScriptLoader.instance.loadScript(
+      clientId: clientId,
+    );
     if (!mounted) return;
     setState(() => _gsiReady = ok);
   }
@@ -122,10 +124,7 @@ class _GoogleSignInWebButtonState extends ConsumerState<GoogleSignInWebButton> {
   Widget build(BuildContext context) {
     if (_busy) {
       // Mirror the mobile button's loading affordance.
-      return const SizedBox(
-        height: 48,
-        child: Center(child: BrandSpinner()),
-      );
+      return const SizedBox(height: 48, child: Center(child: BrandSpinner()));
     }
     if (!_gsiReady) {
       // GSI client not initialized (script blocked, flag off, or failure).

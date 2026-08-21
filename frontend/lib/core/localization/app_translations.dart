@@ -1,5 +1,11 @@
 const Map<String, Map<String, String>> appTranslations = {
   'tr': {
+    // Auth
+    'continue_with_google': 'Google ile devam et',
+    'google_popup_closed': 'Popup kapatıldı. Tekrar deneyin.',
+    'google_sign_in_failed': 'Google ile giriş yapılamadı. Tekrar deneyin.',
+    'google_unknown': 'Bir şeyler ters gitti. Tekrar deneyin.',
+
     // General
     'cancel': 'İPTAL',
     'save': 'KAYDET',
@@ -14,10 +20,11 @@ const Map<String, Map<String, String>> appTranslations = {
     'oak_cask': 'Meşe/Fıçı',
     'malty': 'Malt',
     'floral': 'Çiçeksi',
-    
+
     // Home Screen
     'home_title': 'Malt Radar',
-    'whisky_library': 'Viski meraklıları için lezzet profilleri — veriyle okunur',
+    'whisky_library':
+        'Viski meraklıları için lezzet profilleri — veriyle okunur',
     'search_whisky': 'Viski ara',
     'search_library': 'Kütüphanede ara',
     'library': 'Kütüphane',
@@ -28,16 +35,19 @@ const Map<String, Map<String, String>> appTranslations = {
     'clear_search': 'Aramayı Temizle',
     'searching': 'Aranıyor...',
     'no_whisky_found': 'Kütüphanenizde eşleşen viski bulunamadı.',
-    'search_web_prompt': 'İnternette aramak için yukarıdaki arama kutusuna yazmaya devam edin.',
+    'search_web_prompt':
+        'İnternette aramak için yukarıdaki arama kutusuna yazmaya devam edin.',
     'empty_library': 'Kütüphaneniz boş.',
-    'empty_library_hint': 'Yukarıdaki arama çubuğunu kullanarak ilk viskinizi bulun ve ekleyin.',
+    'empty_library_hint':
+        'Yukarıdaki arama çubuğunu kullanarak ilk viskinizi bulun ve ekleyin.',
     'added_to_library': '{0} kütüphaneye eklendi.',
     'favorites_only': 'Sadece Favoriler',
     'db_error': 'Veritabanı hatası: {0}',
     'no_favorites': 'Favori viskiniz bulunmuyor.',
-    'search_web_prompt_multiline': 'Lütfen aramaya devam edin.\nİnternet arama sonuçları üstteki menüde belirecektir.',
+    'search_web_prompt_multiline':
+        'Lütfen aramaya devam edin.\nİnternet arama sonuçları üstteki menüde belirecektir.',
     'not_scored': 'Puanlanmadı',
-    
+
     // Preview
     'preview_origin': 'Köken',
     'preview_age': 'Yaş',
@@ -49,7 +59,7 @@ const Map<String, Map<String, String>> appTranslations = {
     'preview_price': 'Fiyat',
     'tasting_notes': 'Tadım Notları',
     'add_to_library': 'KÜTÜPHANEME EKLE',
-    
+
     // Detail Screen
     'detail_title': 'Viski Detayı',
     'whisky_not_found': 'Viski bulunamadı.',
@@ -74,12 +84,14 @@ const Map<String, Map<String, String>> appTranslations = {
     'no_price_history': 'Kayıtlı fiyat bulunmuyor.',
     'price_disclaimer': '* Fiyatlar tahmini veya internet kaynaklıdır.',
     'if_you_liked_this': 'Bunu Sevdiyseniz...',
-    'similar_whiskies_hint': 'Kütüphanenizdeki benzer kategorideki/bölgedeki viskiler:',
+    'similar_whiskies_hint':
+        'Kütüphanenizdeki benzer kategorideki/bölgedeki viskiler:',
     'personal_evaluation': 'Kişisel Değerlendirmeniz',
     'reference_whisky_msg': 'Bu viski sizin 100 puanlık referans viskinizdir.',
     'absolute_score': 'Mutlak Puanınız:',
     'not_rated': 'Puanlanmadı',
-    'auto_relative_calculation': 'Hesaplama: (Bu Viski Genel Puanı: {0} / Referans: {1} Genel Puanı: {2}) * {3}',
+    'auto_relative_calculation':
+        'Hesaplama: (Bu Viski Genel Puanı: {0} / Referans: {1} Genel Puanı: {2}) * {3}',
     'no_data': 'Veri Yok',
     'no_data_desc': 'Bu viskinin veya referansın genel puan verisi bulunmuyor.',
     'tasting_and_personal_notes': 'Tadım ve Kişisel Notlar:',
@@ -91,25 +103,28 @@ const Map<String, Map<String, String>> appTranslations = {
     'tasting_note': 'Tadım notu',
     'save_note': 'Notu kaydet',
     'delete_note': 'Notu sil',
-    
+
     // Setup Screen
     'setup_welcome': 'Malt Radar\'a Hoş Geldiniz!',
-    'setup_desc': 'En sevdiğiniz viskiyi arayın, kişisel notlarınızı ekleyin ve koleksiyonunuzu yönetin.',
+    'setup_desc':
+        'En sevdiğiniz viskiyi arayın, kişisel notlarınızı ekleyin ve koleksiyonunuzu yönetin.',
     'setup_search_hint': 'Referans viski arayın...',
     'setup_start': 'BAŞLA',
     'setup_subtitle': 'İlk Kurulum ve Referans Seçimi',
-    'setup_reference_desc': '100 puan kabul edeceğiniz referans viskinizi seçin. Diğer tüm viskiler bu viskiye kıyasla puanlanacaktır.',
+    'setup_reference_desc':
+        '100 puan kabul edeceğiniz referans viskinizi seçin. Diğer tüm viskiler bu viskiye kıyasla puanlanacaktır.',
     'setup_type_to_search': 'Aramaya başlamak için yazın...',
     'setup_no_results': 'Sonuç bulunamadı.',
     'setup_internet': 'İnternet',
     'setup_local': 'Yerel',
     'setup_selected_ref': 'Seçilen Referans Viski:',
     'setup_absolute_score_q': 'Bu viskinin gerçek/mutlak puanı nedir?',
-    'setup_absolute_score_desc': 'Bu puan referans alınarak 100 kabul edilecektir. Örneğin 90 puan verirseniz, gelecekte 81 puan vereceğiniz bir viski referansınıza göre %90 kalitede (yani 90 puan) görünecektir.',
+    'setup_absolute_score_desc':
+        'Bu puan referans alınarak 100 kabul edilecektir. Örneğin 90 puan verirseniz, gelecekte 81 puan vereceğiniz bir viski referansınıza göre %90 kalitede (yani 90 puan) görünecektir.',
     'setup_absolute_score': 'Mutlak Puan:',
     'setup_change': 'DEĞİŞTİR',
     'setup_finish': 'KURULUMU BİTİR',
-    
+
     // Detail & Home Screens
     'region': 'Bölge',
     'category': 'Kategori',
@@ -143,7 +158,8 @@ const Map<String, Map<String, String>> appTranslations = {
     'change_reference_whisky': 'Referans viskiyi değiştir',
     'active': 'Aktif',
     'cache_management': 'Önbellek yönetimi',
-    'cache_desc': 'Uygulama içi önbelleği temizleyerek internetten en güncel verileri çekmeyi zorlayabilirsiniz.',
+    'cache_desc':
+        'Uygulama içi önbelleği temizleyerek internetten en güncel verileri çekmeyi zorlayabilirsiniz.',
     'clear_cache': 'ÖNBELLEĞİ TEMİZLE',
     'cache_clear': 'Önbelleği temizle',
     'cache_status': 'Önbellek durumu',
@@ -164,7 +180,8 @@ const Map<String, Map<String, String>> appTranslations = {
     'create_list': 'Liste oluştur',
     'create_new_list': 'Yeni liste oluştur...',
     'enter_list_name': 'Liste adı girin',
-    'delete_list_confirm': '"{0}" listesini silmek istediğinize emin misiniz? Viskileriniz silinmeyecektir.',
+    'delete_list_confirm':
+        '"{0}" listesini silmek istediğinize emin misiniz? Viskileriniz silinmeyecektir.',
     'edit_list': 'Listeyi düzenle',
     'delete_list': 'Listeyi sil',
     'list_name': 'Liste adı',
@@ -173,19 +190,21 @@ const Map<String, Map<String, String>> appTranslations = {
     'system_list_cannot_be_deleted': 'Sistem listeleri silinemez.',
     'remove_reference_whisky': 'Referans Viskiyi Kaldır',
     'remove_reference_whisky_confirm_title': 'Referansı Kaldır',
-    'remove_reference_whisky_confirm_message': 'Referans viskiyi kaldırmak istiyor musun?',
+    'remove_reference_whisky_confirm_message':
+        'Referans viskiyi kaldırmak istiyor musun?',
     'reference_whisky_removed': 'Referans viski kaldırıldı',
     'remove': 'Kaldır',
-    'age_gate_preview_prompt': 'Yaş doğrulaması yapmak için aşağıdaki kutuyu işaretleyin.',
+    'age_gate_preview_prompt':
+        'Yaş doğrulaması yapmak için aşağıdaki kutuyu işaretleyin.',
     'age_gate_preview_title': 'Herkese Açık Önizleme',
-
-    // Google Sign-In
-    'continue_with_google': 'Google ile devam et',
-    'google_popup_closed': 'Popup kapatıldı. Tekrar deneyin.',
-    'google_sign_in_failed': 'Google ile giriş yapılamadı. Tekrar deneyin.',
-    'google_unknown': 'Bir şeyler ters gitti. Tekrar deneyin.',
   },
   'en': {
+    // Auth
+    'continue_with_google': 'Continue with Google',
+    'google_popup_closed': 'Sign-in popup closed. Please try again.',
+    'google_sign_in_failed': 'Google sign-in failed. Please try again.',
+    'google_unknown': 'Something went wrong. Please try again.',
+
     // General
     'cancel': 'CANCEL',
     'save': 'SAVE',
@@ -200,7 +219,7 @@ const Map<String, Map<String, String>> appTranslations = {
     'oak_cask': 'Oak/Cask',
     'malty': 'Malty',
     'floral': 'Floral',
-    
+
     // Home Screen
     'home_title': 'Malt Radar',
     'whisky_library': 'Flavor profiles for whisky enthusiasts — read with data',
@@ -214,16 +233,19 @@ const Map<String, Map<String, String>> appTranslations = {
     'clear_search': 'Clear Search',
     'searching': 'Searching...',
     'no_whisky_found': 'No matching whisky found in your library.',
-    'search_web_prompt': 'Continue typing in the search box above to search the web.',
+    'search_web_prompt':
+        'Continue typing in the search box above to search the web.',
     'empty_library': 'Your library is empty.',
-    'empty_library_hint': 'Use the search bar above to find and add your first whisky.',
+    'empty_library_hint':
+        'Use the search bar above to find and add your first whisky.',
     'added_to_library': '{0} added to library.',
     'favorites_only': 'Favorites Only',
     'db_error': 'Database error: {0}',
     'no_favorites': 'No favorite whisky found.',
-    'search_web_prompt_multiline': 'Please continue typing.\nWeb search results will appear in the menu above.',
+    'search_web_prompt_multiline':
+        'Please continue typing.\nWeb search results will appear in the menu above.',
     'not_scored': 'Not scored',
-    
+
     // Preview
     'preview_origin': 'Origin',
     'preview_age': 'Age',
@@ -235,7 +257,7 @@ const Map<String, Map<String, String>> appTranslations = {
     'preview_price': 'Price',
     'tasting_notes': 'Tasting Notes',
     'add_to_library': 'ADD TO MY LIBRARY',
-    
+
     // Detail Screen
     'detail_title': 'Whisky Detail',
     'whisky_not_found': 'Whisky not found.',
@@ -273,16 +295,19 @@ const Map<String, Map<String, String>> appTranslations = {
     'no_price_history': 'No saved prices found.',
     'price_disclaimer': '* Prices are estimated or sourced from the web.',
     'if_you_liked_this': 'If You Liked This...',
-    'similar_whiskies_hint': 'Similar whiskies in your library from the same category/region:',
+    'similar_whiskies_hint':
+        'Similar whiskies in your library from the same category/region:',
     'personal_evaluation': 'Your Personal Evaluation',
     'is_reference_whisky': 'This is your 100-point reference whisky.',
     'personal_score': 'Your Score',
     'auto_relative_score': 'Automated Relative Score',
     'personal_notes': 'Personal Notes',
     'notes_hint': 'Nose, palate, finish...',
-    'auto_relative_calculation': 'Calculation: (This Whisky Global Score: {0} / Reference: {1} Global Score: {2}) * {3}',
+    'auto_relative_calculation':
+        'Calculation: (This Whisky Global Score: {0} / Reference: {1} Global Score: {2}) * {3}',
     'no_data': 'No Data',
-    'no_data_desc': 'No global score data found for this whisky or the reference.',
+    'no_data_desc':
+        'No global score data found for this whisky or the reference.',
     'tasting_and_personal_notes': 'Tasting and Personal Notes:',
     'save_evaluation': 'SAVE EVALUATION',
     'add_personal_note': 'Add personal note',
@@ -292,25 +317,28 @@ const Map<String, Map<String, String>> appTranslations = {
     'tasting_note': 'Tasting note',
     'save_note': 'Save note',
     'delete_note': 'Delete note',
-    
+
     // Setup Screen
     'setup_welcome': 'Welcome to Malt Radar!',
-    'setup_desc': 'Search your favorite whisky, add personal notes, and manage your collection.',
+    'setup_desc':
+        'Search your favorite whisky, add personal notes, and manage your collection.',
     'setup_search_hint': 'Search for a reference whisky...',
     'setup_start': 'START',
     'setup_subtitle': 'Initial Setup and Reference Selection',
-    'setup_reference_desc': 'Select your 100-point reference whisky. All other whiskies will be scored relative to this.',
+    'setup_reference_desc':
+        'Select your 100-point reference whisky. All other whiskies will be scored relative to this.',
     'setup_type_to_search': 'Type to start searching...',
     'setup_no_results': 'No results found.',
     'setup_internet': 'Internet',
     'setup_local': 'Local',
     'setup_selected_ref': 'Selected Reference Whisky:',
     'setup_absolute_score_q': 'What is the absolute score of this whisky?',
-    'setup_absolute_score_desc': 'This score will be considered 100. For example, if you give 90, a future whisky you score 81 will appear as 90% quality relative to your reference (i.e. 90 points).',
+    'setup_absolute_score_desc':
+        'This score will be considered 100. For example, if you give 90, a future whisky you score 81 will appear as 90% quality relative to your reference (i.e. 90 points).',
     'setup_absolute_score': 'Absolute Score:',
     'setup_change': 'CHANGE',
     'setup_finish': 'COMPLETE SETUP',
-    
+
     // Settings Screen
     'cache_cleared': 'Cache cleared successfully.',
     'clear_cache_confirm': 'Are you sure you want to clear the cache?',
@@ -325,11 +353,12 @@ const Map<String, Map<String, String>> appTranslations = {
     'change_reference_whisky': 'Change reference whisky',
     'active': 'Active',
     'cache_management': 'Cache management',
-    'cache_desc': 'By clearing the in-app cache, you can force fetching the latest data from the internet.',
+    'cache_desc':
+        'By clearing the in-app cache, you can force fetching the latest data from the internet.',
     'clear_cache': 'CLEAR CACHE',
     'cache_clear': 'Clear cache',
     'cache_status': 'Cache status',
-    
+
     // Localization
     'language': 'Dil / Language',
     'turkish': 'Türkçe',
@@ -347,7 +376,8 @@ const Map<String, Map<String, String>> appTranslations = {
     'create_list': 'Create list',
     'create_new_list': 'Create new list...',
     'enter_list_name': 'Enter list name',
-    'delete_list_confirm': 'Are you sure you want to delete "{0}"? Whiskies inside the list will not be deleted.',
+    'delete_list_confirm':
+        'Are you sure you want to delete "{0}"? Whiskies inside the list will not be deleted.',
     'edit_list': 'Edit list',
     'delete_list': 'Delete list',
     'list_name': 'List name',
@@ -359,13 +389,8 @@ const Map<String, Map<String, String>> appTranslations = {
     'remove_reference_whisky_confirm_message': 'Remove reference whisky?',
     'reference_whisky_removed': 'Reference whisky removed',
     'remove': 'Remove',
-    'age_gate_preview_prompt': 'Confirm you are of legal drinking age by checking the box below.',
+    'age_gate_preview_prompt':
+        'Confirm you are of legal drinking age by checking the box below.',
     'age_gate_preview_title': 'Public Preview',
-
-    // Google Sign-In
-    'continue_with_google': 'Continue with Google',
-    'google_popup_closed': 'Sign-in popup closed. Please try again.',
-    'google_sign_in_failed': 'Google sign-in failed. Please try again.',
-    'google_unknown': 'Something went wrong. Please try again.',
-  }
+  },
 };

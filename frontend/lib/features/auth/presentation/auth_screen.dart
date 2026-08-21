@@ -80,11 +80,13 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
 
     // Track sign_up_start for register mode
     if (_mode == AuthMode.register) {
-      ref.read(analyticsServiceProvider).trackSignUpStart(
-        entryPoint: 'auth_screen',
-        authProvider: 'email',
-        sessionId: ref.read(sessionIdProvider),
-      );
+      ref
+          .read(analyticsServiceProvider)
+          .trackSignUpStart(
+            entryPoint: 'auth_screen',
+            authProvider: 'email',
+            sessionId: ref.read(sessionIdProvider),
+          );
     }
 
     String? err;
@@ -143,12 +145,14 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     if (err == null) {
       // Track sign_up_complete on successful registration
       if (_mode == AuthMode.register) {
-        ref.read(analyticsServiceProvider).trackSignUpComplete(
-          userId: email,
-          authProvider: 'email',
-          sessionId: ref.read(sessionIdProvider),
-          referralSource: extractReferralSource(),
-        );
+        ref
+            .read(analyticsServiceProvider)
+            .trackSignUpComplete(
+              userId: email,
+              authProvider: 'email',
+              sessionId: ref.read(sessionIdProvider),
+              referralSource: extractReferralSource(),
+            );
       }
       // Login/register succeeded. Force main.dart rebuild.
       ref.invalidate(authControllerProvider);
@@ -160,6 +164,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
   Future<void> _signInWithGoogle() async {
     if (_googleBusy) return;
     final isTr = ref.read(localizationProvider) == 'tr';
+    final tr = ref.read(trProvider);
     setState(() => _googleBusy = true);
 
     String? err;
@@ -174,14 +179,16 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     setState(() => _googleBusy = false);
     if (err == null) {
       // Track sign_up_complete for Google Sign-In
-      ref.read(analyticsServiceProvider).trackSignUpComplete(
-        userId: ref.read(authControllerProvider).user?.email ?? 'google_user',
-        authProvider: 'google',
-        sessionId: ref.read(sessionIdProvider),
-        referralSource: extractReferralSource(),
-      );
+      ref
+          .read(analyticsServiceProvider)
+          .trackSignUpComplete(
+            userId:
+                ref.read(authControllerProvider).user?.email ?? 'google_user',
+            authProvider: 'google',
+            sessionId: ref.read(sessionIdProvider),
+            referralSource: extractReferralSource(),
+          );
     } else {
-      final tr = ref.read(trProvider);
       _toast(googleSignInErrorMessage(err, tr: tr));
     }
   }
@@ -372,7 +379,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                             : 'I have read and accept the privacy notice / KVKK data-processing consent.',
                         onChanged: (v) {
                           setState(() => _privacyConsent = v);
-                          
+
                           // Grant analytics consent on web when KVKK consent is given.
                           // No-op on native (stub); web bridges to updateGoogleConsent().
                           syncGoogleConsent(v, secondary: false);

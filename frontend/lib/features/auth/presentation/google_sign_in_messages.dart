@@ -5,7 +5,10 @@
 /// Non-code errors (backend `AuthApiException` messages) pass through unchanged
 /// — the same contract the email login path uses, so the backend stays the
 /// single source of truth for server-side messages.
-String googleSignInErrorMessage(String code, {required String Function(String) tr}) {
+String googleSignInErrorMessage(
+  String code, {
+  required String Function(String, [List<dynamic>?]) tr,
+}) {
   switch (code) {
     case 'google_popup_closed':
       return tr('google_popup_closed');
