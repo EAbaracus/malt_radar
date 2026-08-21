@@ -5,20 +5,14 @@
 /// Non-code errors (backend `AuthApiException` messages) pass through unchanged
 /// — the same contract the email login path uses, so the backend stays the
 /// single source of truth for server-side messages.
-String googleSignInErrorMessage(String code, {required bool isTr}) {
+String googleSignInErrorMessage(String code, {required String Function(String) tr}) {
   switch (code) {
     case 'google_popup_closed':
-      return isTr
-          ? 'Popup kapatıldı. Tekrar deneyin.'
-          : 'Sign-in popup closed. Please try again.';
+      return tr('google_popup_closed');
     case 'google_sign_in_failed':
-      return isTr
-          ? 'Google ile giriş yapılamadı. Tekrar deneyin.'
-          : 'Google sign-in failed. Please try again.';
+      return tr('google_sign_in_failed');
     case 'google_unknown':
-      return isTr
-          ? 'Bir şeyler ters gitti. Tekrar deneyin.'
-          : 'Something went wrong. Please try again.';
+      return tr('google_unknown');
     default:
       return code;
   }
