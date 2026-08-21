@@ -60,14 +60,26 @@ class DbReadService:
             try:
                 with self._get_connection() as conn:
                     cursor = conn.cursor()
-                    for t in tables:
-                        if t not in VALID_TABLES:
-                            continue
+
+                    # Filter valid tables
+                    valid_list = [t for t in tables if t in VALID_TABLES]
+
+                    if valid_list:
                         try:
-                            cursor.execute(f"SELECT COUNT(*) as c FROM {t}")
-                            counts[t] = cursor.fetchone()["c"]
+                            # Single query with subqueries to avoid N+1 problem
+                            query = "SELECT " + ", ".join([f"(SELECT COUNT(*) FROM {t}) as {t}" for t in valid_list])
+                            cursor.execute(query)
+                            row = cursor.fetchone()
+                            for t in valid_list:
+                                counts[t] = row[t]
                         except sqlite3.OperationalError:
-                            counts[t] = 0
+                            # Fallback if a table is missing or query fails
+                            for t in valid_list:
+                                try:
+                                    cursor.execute(f"SELECT COUNT(*) as c FROM {t}")
+                                    counts[t] = cursor.fetchone()["c"]
+                                except sqlite3.OperationalError:
+                                    counts[t] = 0
             except FileNotFoundError:
                 exists = False
 
