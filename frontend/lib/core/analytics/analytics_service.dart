@@ -135,8 +135,14 @@ class AnalyticsService {
     required String sessionId,
     String envId = 'malt-radar-prod-1',
   }) {
-    // 1. Consent Gate Check (all events require consent)
-    if (!_consentState.isAnalyticsGranted) {
+    // 1. Consent Gate Check (behavioral events require consent).
+    // sign_up_start / sign_up_complete are exempt: account creation is a
+    // functional/conversion event, not behavioral analytics, and must not be
+    // gated behind analytics_storage consent (would block legitimate sign-up
+    // under KVKK / GDPR). See consent_cmp_test.dart (d).
+    const exemptFromConsent = {'sign_up_start', 'sign_up_complete'};
+    if (!_consentState.isAnalyticsGranted &&
+        !exemptFromConsent.contains(eventName)) {
       return const TelemetryValidationResult(
         valid: false,
         status: TelemetryEventStatus.blocked,
