@@ -1,5 +1,5 @@
 import os
-from typing import List, Dict, Any
+from typing import Any
 
 from app.utils.source_guard import SourceGuard
 from app.db.production_read_adapter import ProductionReadAdapter  # Faz B: tek read seam
@@ -9,7 +9,7 @@ from app.utils.shared_paths import ALLOWED_TABLES as ALLOWED_TABLES_REVIEW  # re
 class ReviewQueryService:
     # Class-level cache for table columns to avoid repeated PRAGMA queries
     # Format: { db_path: { table_name: [columns] } }
-    _schema_cache: Dict[str, Dict[str, List[str]]] = {}
+    _schema_cache: dict[str, dict[str, list[str]]] = {}
 
     def __init__(self, db_path: str = None):
         if db_path is None:
@@ -24,10 +24,10 @@ class ReviewQueryService:
         """
         raise DeprecationWarning("Faz B: read okunuyor, bu metod kullanımdan kalkıyor.")
 
-    def get_unified_queue(self, status: str = None, source_table: str = None, limit: int = 50, offset: int = 0) -> List[Dict[str, Any]]:
+    def get_unified_queue(self, status: str = None, source_table: str = None, limit: int = 50, offset: int = 0) -> list[dict[str, Any]]:
         return self._adapter.get_unified_queue(status=status, source_table=source_table, limit=limit, offset=offset)
 
-    def get_item_details(self, source_table: str, source_record_key: str) -> Dict[str, Any]:
+    def get_item_details(self, source_table: str, source_record_key: str) -> dict[str, Any]:
         """Admin review read — source fields retained (is_manual=True)."""
         safe_table = ALLOWED_TABLES_REVIEW.get(source_table)
         if not safe_table:
@@ -46,7 +46,7 @@ class ReviewQueryService:
             return SourceGuard.sanitize_response(item, is_manual=True)
         return None
 
-    def get_allowed_actions(self, current_status: str) -> List[Dict[str, Any]]:
+    def get_allowed_actions(self, current_status: str) -> list[dict[str, Any]]:
         return self._adapter.query("review_status_transitions", where="from_status = ? AND allowed = 1", params=(current_status,), select="from_status, to_status, action_type, requires_note, allowed")
 
     def execute_action(self, source_table: str, source_record_key: str, target_status: str, action_type: str, reviewer: str, reviewer_note: str, previous_status: str):
