@@ -1,11 +1,13 @@
+import json
 import os
 import sqlite3
-import json
-from typing import List, Dict, Any, Optional
+from typing import Any, ClassVar
 
-from app.utils.source_guard import SourceGuard
-from app.db.production_read_adapter import ProductionReadAdapter  # Faz B2: tek read seam
+from app.db.production_read_adapter import (
+    ProductionReadAdapter,  # Faz B2: tek read seam
+)
 from app.services.name_casing import title_case_name  # B1: serve-time isim casing
+from app.utils.source_guard import SourceGuard
 
 # Certified pilot whiskies use the 'GSD-CAND-XXXX' whisky_id prefix and are
 # flagged with data_confidence = 'certified'. The staging DB is the single
@@ -50,7 +52,7 @@ class DbReadService:
         """
         return self._adapter._get_connection()
 
-    def get_health(self) -> Dict[str, Any]:
+    def get_health(self) -> dict[str, Any]:
         exists = os.path.exists(self.db_path)
         tables = ["distilleries", "whiskies", "tasting_notes", "flavor_profiles", "price_history"]
         VALID_TABLES = set(tables)
@@ -97,10 +99,10 @@ class DbReadService:
     # clients; it is no longer dropped. smoky_peaty / oak_cask / malty_cereal /
     # floral_herbal are presentation merges/projections of canonical axes; maritime
     # is passed through directly. Stored values are never modified.
-    APP_AXES = ["fruity", "sweet", "spicy", "smoky_peaty", "oak_cask", "malty_cereal", "floral_herbal", "maritime"]
+    APP_AXES: ClassVar = ["fruity", "sweet", "spicy", "smoky_peaty", "oak_cask", "malty_cereal", "floral_herbal", "maritime"]
 
     @staticmethod
-    def _normalize_flavor_profile(raw: Any) -> Optional[str]:
+    def _normalize_flavor_profile(raw: Any) -> str | None:
         if not raw:
             return None
 
@@ -127,7 +129,7 @@ class DbReadService:
                 return DbReadService._map_canonical_to_app_axes(obj)
 
         # key=val, key=val, ... form (certified pilot rows).
-        axes: Dict[str, float] = {}
+        axes: dict[str, float] = {}
         for part in text.split(","):
             if "=" not in part:
                 continue
@@ -139,7 +141,7 @@ class DbReadService:
         return DbReadService._map_canonical_to_app_axes(axes)
 
     @staticmethod
-    def _map_canonical_to_app_axes(axes: Dict[str, float]) -> str:
+    def _map_canonical_to_app_axes(axes: dict[str, float]) -> str:
         """Map a canonical/raw axis dict onto the app's 7-axis vocabulary.
 
         Stored values are never modified; this is a presentation-format
@@ -186,7 +188,7 @@ class DbReadService:
         }
         return json.dumps(mapped)
 
-    def _flavor_profile_for(self, whisky_id: str) -> Optional[str]:
+    def _flavor_profile_for(self, whisky_id: str) -> str | None:
         """Return the normalized 7-axis flavor profile JSON for a whisky, or None."""
         with self._get_connection() as conn:
             cursor = conn.cursor()
@@ -199,7 +201,7 @@ class DbReadService:
                 return None
             return self._normalize_flavor_profile(row["flavor_profile"])
 
-    def get_whiskies(self, limit: int = 50, offset: int = 0, q: Optional[str] = None, distillery_id: Optional[str] = None, filter: Optional[str] = None) -> Dict[str, Any]:
+    def get_whiskies(self, limit: int = 50, offset: int = 0, q: str | None = None, distillery_id: str | None = None, filter: str | None = None) -> dict[str, Any]:
         limit = _clamp_page(limit)
         offset = _check_offset(offset, limit)
 
@@ -265,7 +267,7 @@ class DbReadService:
         """
         wanted = [f.strip() for f in filter.split(",") if f.strip()]
         conds = []
-        params: List[Any] = []
+        params: list[Any] = []
         recognized = False
 
         def json_axis(*keys: str) -> str:
@@ -315,7 +317,7 @@ class DbReadService:
             return "0", []
         return " AND ".join(conds), params
 
-    def _prepare_whisky(self, row: Dict[str, Any]) -> Dict[str, Any]:
+    def _prepare_whisky(self, row: dict[str, Any]) -> dict[str, Any]:
         """Post-process a whisky row for the app.
 
         * Normalize the flavor profile into the 7-axis JSON the Flutter radar
@@ -344,7 +346,7 @@ class DbReadService:
         row["data_confidence"] = row.get("data_confidence")
         return row
 
-    def get_whisky(self, whisky_id: str) -> Optional[Dict[str, Any]]:
+    def get_whisky(self, whisky_id: str) -> dict[str, Any] | None:
         query = """
             SELECT w.*, d.name as distillery_name, fp.flavor_profile as flavor_profile
             FROM whiskies w
@@ -359,7 +361,7 @@ class DbReadService:
             row = cursor.fetchone()
             return self._prepare_whisky(dict(row)) if row else None
 
-    def get_official_source_references(self, whisky_id: str) -> List[Dict[str, Any]]:
+    def get_official_source_references(self, whisky_id: str) -> list[dict[str, Any]]:
         """Return official_source_references for a whisky.
 
         Read-only. Public responses are passed through SourceGuard so internal
@@ -376,7 +378,7 @@ class DbReadService:
             rows = [dict(row) for row in cursor.fetchall()]
         return SourceGuard.sanitize_collection(rows, is_manual=False)
 
-    def get_distilleries(self, limit: int = 50, offset: int = 0) -> Dict[str, Any]:
+    def get_distilleries(self, limit: int = 50, offset: int = 0) -> dict[str, Any]:
         limit = _clamp_page(limit)
         offset = _check_offset(offset, limit)
 
@@ -401,7 +403,7 @@ class DbReadService:
             "offset": offset,
         }
 
-    def search(self, q: str) -> List[Dict[str, Any]]:
+    def search(self, q: str) -> list[dict[str, Any]]:
         if not q or len(q.strip()) < 2:
             return []
 
@@ -437,7 +439,7 @@ class DbReadService:
             unique.append(r)
         return unique
 
-    def get_filters(self) -> Dict[str, Any]:
+    def get_filters(self) -> dict[str, Any]:
         with self._get_connection() as conn:
             cursor = conn.cursor()
             # Only distilleries that still have active (non-superseded) whiskies
@@ -461,7 +463,7 @@ class DbReadService:
                 "categories": "not_available",
             }
 
-    def get_flavor_profile(self, whisky_id: str) -> Optional[Dict[str, Any]]:
+    def get_flavor_profile(self, whisky_id: str) -> dict[str, Any] | None:
         # Faz B2: read seamsiz; ama DbReadService._prepare_whisky üzerinden
         # normalize uygulanmalı (adapter sadece raw çeker). Açık kolon listesi
         # (SELECT * DEĞİL) → flavor_profiles.production_price dahil değil.
@@ -490,7 +492,7 @@ class DbReadService:
             result["flavor_profile"] = self._normalize_flavor_profile(result["flavor_profile"])
         return result
 
-    def get_tasting_notes(self, whisky_id: str) -> List[Dict[str, Any]]:
+    def get_tasting_notes(self, whisky_id: str) -> list[dict[str, Any]]:
         # Faz B2: adapter.query → universal price redaction (tasting_notes'de yok ama defans)
         # Note: production tasting_notes schema has no created_at column.
         return self._adapter.query(
@@ -500,7 +502,7 @@ class DbReadService:
             order_by="whisky_id ASC",
         )
 
-    def get_price_history(self, whisky_id: str) -> List[Dict[str, Any]]:
+    def get_price_history(self, whisky_id: str) -> list[dict[str, Any]]:
         # Faz B2: adapter.get_price_history → universal fiyat kolon redaction.
         # Product Rule: production_price/price_value ASLA API yanıtına girmez.
         return self._adapter.get_price_history(whisky_id)
