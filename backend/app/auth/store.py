@@ -524,10 +524,13 @@ class UserStore:
         return result
 
     def delete_sync_all(self, uid: int) -> None:
+        _uid = int(uid)
         with self._connect() as conn:
+            script = "BEGIN;\n"
             for _kind, (table, _keys, _cols) in self._SYNC_TABLES.items():
-                conn.execute(f"DELETE FROM {table} WHERE user_id = ?", (uid,))
-            conn.commit()
+                script += f"DELETE FROM {table} WHERE user_id = {_uid};\n"
+            script += "COMMIT;"
+            conn.executescript(script)
 
     def delete_user(self, uid: int) -> bool:
         """Remove a user and all of their data (account closure / KVKK erasure).
@@ -536,14 +539,15 @@ class UserStore:
         the sync tables and `user_identities` have no FK so they are removed
         explicitly.
         """
+        _uid = int(uid)
         with self._connect() as conn:
+            script = "BEGIN;\n"
             for _kind, (table, _keys, _cols) in self._SYNC_TABLES.items():
-                conn.execute(f"DELETE FROM {table} WHERE user_id = ?", (uid,))
-            conn.execute(
-                "DELETE FROM user_identities WHERE user_id = ?", (uid,)
-            )
-            conn.execute("DELETE FROM sessions WHERE user_id = ?", (uid,))
-            conn.execute("DELETE FROM email_verifications WHERE user_id = ?", (uid,))
-            cur = conn.execute("DELETE FROM users WHERE id = ?", (uid,))
+                script += f"DELETE FROM {table} WHERE user_id = {_uid};\n"
+            script += f"DELETE FROM user_identities WHERE user_id = {_uid};\n"
+            script += f"DELETE FROM sessions WHERE user_id = {_uid};\n"
+            script += f"DELETE FROM email_verifications WHERE user_id = {_uid};\n"
+            conn.executescript(script)
+            cur = conn.execute("DELETE FROM users WHERE id = ?", (_uid,))
             conn.commit()
         return cur.rowcount > 0
