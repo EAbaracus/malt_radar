@@ -54,7 +54,7 @@ jobs:
         run: flutter test --reporter expanded test/widget_test.dart
 
   build:
-    name: Build APK
+    name: Build AAB
     needs: test
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -79,12 +79,11 @@ jobs:
         run: flutter pub get
 
       - name: Build AAB (release)
-        # Required for Play Store (not APK). Also injects the production API
-        # base URL — without it AppConfig.useDbApi=true and WhiskyRepositoryImpl
-        # (Drift) is selected, producing an empty catalog on release builds.
-        # (Drift fallback was removed; main is backend-only. See plan Phase 0
-        # finding A4. The define is validated by the binary token check in
-        # Phase 3: libapp.so must contain "maltradar.com" ≥1 occurrence.)
+        # Play Store deliverable is AAB (not APK). Injects the production API
+        # base URL — required: in release mode AppConfig.baseUrl throws StateError
+        # if MALT_RADAR_API_BASE_URL is empty, which would empty the catalog.
+        # The define is validated by the binary token check (libapp.so must
+        # contain "maltradar.com" ≥1 occurrence).
         run: flutter build appbundle --release --dart-define=MALT_RADAR_API_BASE_URL=https://maltradar.com
 
       - name: Upload AAB artifact
@@ -95,19 +94,6 @@ jobs:
           retention-days: 90
           compression-level: 6
 
-      - name: Build APK (legacy, debug smoke only — replaced by AAB above for store)
-        if: false  # AAB is the Play Store deliverable; keep APK step for local dev only
-        run: flutter build apk --release
-
-      - name: Upload APK artifact
-        if: false
-        uses: actions/upload-artifact@v4
-        with:
-          name: malt-radar-release-apk
-          path: frontend/build/app/outputs/flutter-apk/app-release.apk
-          retention-days: 1
-          compression-level: 6
-
   release:
     name: GitHub Release + Drive Upload
     needs: build
@@ -115,24 +101,24 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Download APK artifact
+      - name: Download AAB artifact
         uses: actions/download-artifact@v4
         with:
-          name: malt-radar-release-apk
+          name: malt-radar-release-aab
           path: artifacts
 
-      - name: Get APK path
-        id: apk
+      - name: Get AAB path
+        id: aab
         run: |
-          APK="$(find artifacts -name '*.apk' -print -quit)"
-          echo "path=${APK}" >> "${GITHUB_OUTPUT}"
+          AAB="$(find artifacts -name '*.aab' -print -quit)"
+          echo "path=${AAB}" >> "${GITHUB_OUTPUT}"
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           name: "${{ github.ref_name }}"
           generate_release_notes: true
-          files: ${{ steps.apk.outputs.path }}
+          files: ${{ steps.aab.outputs.path }}
           fail_on_unmatched_files: true
 
       - name: Install Python deps
@@ -140,7 +126,7 @@ jobs:
 
       - name: Upload to Google Drive
         env:
-          APK_PATH: ${{ steps.apk.outputs.path }}
+          AAB_PATH: ${{ steps.aab.outputs.path }}
           TAG_NAME: ${{ github.ref_name }}
         run: |
           # ------------------------------------------------------------------
@@ -154,8 +140,8 @@ jobs:
             exit 0
           fi
 
-          APK_NAME="malt-radar-${TAG_NAME}.apk"
-          cp "${APK_PATH}" "${APK_NAME}"
+          AAB_NAME="malt-radar-${TAG_NAME}.aab"
+          cp "${AAB_PATH}" "${AAB_NAME}"
 
           # Upload via service-account JWT → REST multipart upload.
           # (Goes through Python so credentials never appear in bash logs.)
@@ -165,7 +151,7 @@ jobs:
 
           creds_raw = os.environ["GOOGLE_DRIVE_CREDENTIALS"]
           folder_id = os.environ["GOOGLE_DRIVE_FOLDER_ID"]
-          apk_name  = os.environ["APK_NAME"]
+          aab_name  = os.environ["AAB_NAME"]
 
           fd, creds_path = tempfile.mkstemp(suffix=".json", text=True)
           with os.fdopen(fd, "w") as f:
@@ -194,22 +180,22 @@ jobs:
               r.raise_for_status()
               access_token = r.json()["access_token"]
 
-              metadata = json.dumps({"name": apk_name, "parents": [folder_id]})
-              with open(apk_name, "rb") as apk_f:
+              metadata = json.dumps({"name": aab_name, "parents": [folder_id]})
+              with open(aab_name, "rb") as apk_f:
                   r = requests.post(
                       "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",
                       headers={"Authorization": "Bearer " + access_token},
                       files={
                           "metadata": (None, metadata, "application/json"),
-                          "file": (apk_name, apk_f, "application/vnd.android.package-archive"),
+                          "file": (aab_name, apk_f, "application/octet-stream"),
                       },
                       timeout=120,
                   )
               r.raise_for_status()
-              print("::notice::APK uploaded to Google Drive: id={}".format(r.json()["id"]))
+              print("::notice::AAB uploaded to Google Drive: id={}".format(r.json()["id"]))
           finally:
               os.unlink(creds_path)
           PYEOF
 
           python3 /tmp/drive_upload.py
-          shred -u "${APK_NAME}" /tmp/drive_upload.py 2>/dev/null || rm -f "${APK_NAME}" /tmp/drive_upload.py
+          shred -u "${AAB_NAME}" /tmp/drive_upload.py 2>/dev/null || rm -f "${AAB_NAME}" /tmp/drive_upload.py
