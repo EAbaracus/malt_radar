@@ -1,0 +1,9 @@
+-r requirements.txt
+
+# Test dependencies. Pinned (not >=) because fastapi's TestClient depends
+# on Starlette's test client, whose required companion package has changed
+# names across versions (httpx -> httpx2) — an unpinned resolve can silently
+# pull a Starlette version whose test-client dependency isn't installed,
+# breaking `pytest` collection for every test that imports TestClient.
+pytest==8.3.4
+httpx2==2.12.0

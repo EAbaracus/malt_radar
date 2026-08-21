@@ -29,3 +29,23 @@ jobs:
 
       - name: G4 Write-Path Guard (C2 — sqlite3.connect AST scan)
         run: python scripts/gates/check_write_guard.py --path backend/app
+
+      - name: G5 Data Hygiene Guard (tracked-vs-gitignored scan)
+        run: python scripts/gates/check_data_hygiene.py
+
+  backend-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install backend dependencies (pinned)
+        run: pip install -r backend/requirements.lock
+
+      - name: Run backend test suite
+        run: python -m pytest backend/tests -q

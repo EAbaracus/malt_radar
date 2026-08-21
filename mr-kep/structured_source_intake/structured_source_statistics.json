@@ -1,8 +1,0 @@
-{
-  "total_records_processed": 988,
-  "existing_entities": 182,
-  "new_entity_candidates": 800,
-  "duplicate_count": 2,
-  "ambiguous_count": 4,
-  "manual_review_count": 4
-}
