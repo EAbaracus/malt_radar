@@ -39,3 +39,27 @@ here for follow-up on the `fix/pre-existing-test-failures` branch.
   `tests/test_db_adapter_hardening.py`, `tests/test_db_read_api_smoke.py`,
   `tests/test_db_read_service_hardening.py`, `backend/tests/test_security_rechecks.py`)
   passes (113 passed, 1 skipped) on `main`.
+
+## Why these were never observed (added 2026-08-21)
+
+The root `tests/` directory (19 files, including all three failures above)
+**runs in no CI job**. Verified 2026-08-21:
+
+```
+Repo Gates  ->  python -m pytest backend/tests   (24 files)
+root tests/ ->  19 files, referenced by NO workflow
+grep -rn "pytest" .github/workflows/  ->  only the backend/tests invocation
+```
+
+So these are not "known broken tests" that CI reports on every run — they are
+an **unmonitored test surface**. Nobody sees them fail because nothing runs
+them. `tests/conftest.py` sets `MALT_RADAR_DB_PATH=output/import/production.db`,
+which is the likely reason the directory was never wired into CI (the
+production DB is read-only and not present in CI).
+
+**Handoff:** wiring root `tests/` into CI with a synthetic database — and
+fixing the three failures above — is deferred to a dedicated spec. It requires
+a `conftest.py` -> synthetic-DB migration designed under the standing
+"production DB is read-only" constraint. See
+`docs/superpowers/specs/2026-08-21-ci-dead-workflow-removal-design.md` §7 for
+the scope boundary.
