@@ -61,7 +61,9 @@ pydantic==2.13.4
     #   fastapi
 pydantic-core==2.46.4
     # via pydantic
-pytest==8.3.4
+pygments==2.21.0
+    # via pytest
+pytest==9.1.1
     # via -r requirements-dev.txt
 requests==2.34.2
     # via google-auth
