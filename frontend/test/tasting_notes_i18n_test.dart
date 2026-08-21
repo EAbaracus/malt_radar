@@ -42,5 +42,26 @@ void main() {
         'beklenmeyen tadım notu',
       );
     });
+
+    test('English locale with unknown prefix and a colon returns original string', () {
+      expect(
+        localizeTastingNote('Bilinmeyen: bal', 'en'),
+        'Bilinmeyen: bal',
+      );
+    });
+
+    test('English locale with known prefix but unknown body translates prefix and keeps body', () {
+      expect(
+        localizeTastingNote('Burun: elma', 'en'),
+        'Nose: elma',
+      );
+    });
+
+    test('English locale trims whitespace around the colon', () {
+      expect(
+        localizeTastingNote('Burun  :  Zengin vanilya', 'en'),
+        'Nose: Rich vanilla',
+      );
+    });
   });
 }
