@@ -22,8 +22,12 @@ def service(tmp_path, monkeypatch):
         CREATE TABLE whiskies (
           whisky_id TEXT PRIMARY KEY,
           name TEXT,
+          original_name TEXT,
           superseded_by TEXT,
           distillery_id TEXT,
+          type TEXT,
+          region TEXT,
+          brand TEXT,
           data_confidence TEXT
         );
         CREATE TABLE distilleries (
@@ -38,7 +42,7 @@ def service(tmp_path, monkeypatch):
     )
     for i in range(300):
         conn.execute(
-            "INSERT INTO whiskies VALUES (?, ?, NULL, 'D1', 'legacy')",
+            "INSERT INTO whiskies VALUES (?, ?, NULL, NULL, 'D1', 'Single Malt', 'Speyside', 'Test Brand', 'legacy')",
             (f"W-{i:04d}", f"Whisky {i}"),
         )
     conn.execute("INSERT INTO distilleries VALUES ('D1', 'Test Distillery')")

@@ -26,8 +26,6 @@ def test_prepare_chip_filter_unknown_filter(service):
 def test_prepare_chip_filter_single_malt(service):
     cond, params = service._prepare_chip_filter("single malt")
     assert "LOWER(w.type) IN ('malt','single malt')" in cond
-    assert "LOWER(w.category) = 'single malt'" in cond
-    assert "LOWER(w.category) = 'scotch' AND LOWER(w.type) = 'malt'" in cond
     assert "LOWER(w.name) LIKE '%single malt%'" in cond
     assert "LOWER(COALESCE(w.region,'')) IN ('islay','speyside','highland','campbeltown','lowland','islands')" in cond
     assert params == []
@@ -35,18 +33,15 @@ def test_prepare_chip_filter_single_malt(service):
 def test_prepare_chip_filter_blended(service):
     cond, params = service._prepare_chip_filter("blended")
     assert "LOWER(w.type) IN ('blend','blended')" in cond
-    assert "LOWER(w.category) IN ('blended','blend')" in cond
     assert params == []
 
 def test_prepare_chip_filter_bourbon(service):
     cond, params = service._prepare_chip_filter("bourbon")
-    assert "LOWER(w.category) = 'bourbon'" in cond
     assert "LOWER(w.type) = 'bourbon'" in cond
     assert params == []
 
 def test_prepare_chip_filter_rye(service):
     cond, params = service._prepare_chip_filter("rye")
-    assert "LOWER(w.category) = 'rye'" in cond
     assert "LOWER(w.type) = 'rye'" in cond
     assert params == []
 
@@ -105,8 +100,8 @@ def test_prepare_chip_filter_comma_separated_with_whitespace(service):
     cond, params = service._prepare_chip_filter("  bourbon  ,   rye   ")
 
     assert " AND " in cond
-    assert "LOWER(w.category) = 'bourbon'" in cond
-    assert "LOWER(w.category) = 'rye'" in cond
+    assert "LOWER(w.type) = 'bourbon'" in cond
+    assert "LOWER(w.type) = 'rye'" in cond
     assert params == []
 
 def test_prepare_chip_filter_unknown_and_known_filter(service):
@@ -117,5 +112,5 @@ def test_prepare_chip_filter_unknown_and_known_filter(service):
 
     # Recognized gets set to True by 'bourbon', but 'unknown_junk' does not
     # add anything to `conds`.
-    assert "LOWER(w.category) = 'bourbon'" in cond
+    assert "LOWER(w.type) = 'bourbon'" in cond
     assert params == []

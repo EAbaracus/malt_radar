@@ -44,8 +44,16 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install backend dependencies (pinned)
-        run: pip install -r backend/requirements.lock
+      - name: Install backend dependencies (pinned, incl. test deps)
+        run: pip install -r backend/requirements-dev.lock
+
+      - name: Generate synthetic test database
+        run: python scripts/testing/generate_synthetic_test_db.py
+
+      - name: Build anonymous allowlist artifact
+        run: python scripts/build_anonymous_allowlist.py --db output/import/production.db --out artifacts/anonymous_allowlist.json
 
       - name: Run backend test suite
+        env:
+          PYTHONPATH: backend
         run: python -m pytest backend/tests -q
