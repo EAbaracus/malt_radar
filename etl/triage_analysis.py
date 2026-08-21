@@ -1,6 +1,7 @@
 import csv
 import json
 import os
+import re
 from collections import Counter
 
 INPUT_FILE = "output/final_consolidated/review_needed_319_triage.csv"
@@ -51,6 +52,7 @@ def run():
     }
 
     BLENDED_BRANDS = ["scallywag", "big peat", "rock island", "sheep dip", "timorous beastie", "compass box"]
+    BLENDED_BRANDS_PATTERN = re.compile("|".join(re.escape(b) for b in BLENDED_BRANDS))
 
     output_rows = []
 
@@ -76,7 +78,7 @@ def run():
             tclass = "reject_candidate"
         
         # Blended Patch
-        elif tclass == "blended_or_vatted_malt" or any(b in name for b in BLENDED_BRANDS):
+        elif tclass == "blended_or_vatted_malt" or BLENDED_BRANDS_PATTERN.search(name):
             tclass = "blended_or_vatted_malt"
             suggested_action = "Change type to Blended Malt"
             confidence = "High"
