@@ -178,6 +178,12 @@ const Map<String, Map<String, String>> appTranslations = {
     'remove': 'Kaldır',
     'age_gate_preview_prompt': 'Yaş doğrulaması yapmak için aşağıdaki kutuyu işaretleyin.',
     'age_gate_preview_title': 'Herkese Açık Önizleme',
+
+    // Google Sign-In
+    'continue_with_google': 'Google ile devam et',
+    'google_popup_closed': 'Popup kapatıldı. Tekrar deneyin.',
+    'google_sign_in_failed': 'Google ile giriş yapılamadı. Tekrar deneyin.',
+    'google_unknown': 'Bir şeyler ters gitti. Tekrar deneyin.',
   },
   'en': {
     // General
@@ -355,5 +361,11 @@ const Map<String, Map<String, String>> appTranslations = {
     'remove': 'Remove',
     'age_gate_preview_prompt': 'Confirm you are of legal drinking age by checking the box below.',
     'age_gate_preview_title': 'Public Preview',
+
+    // Google Sign-In
+    'continue_with_google': 'Continue with Google',
+    'google_popup_closed': 'Sign-in popup closed. Please try again.',
+    'google_sign_in_failed': 'Google sign-in failed. Please try again.',
+    'google_unknown': 'Something went wrong. Please try again.',
   }
 };

@@ -181,7 +181,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
         referralSource: extractReferralSource(),
       );
     } else {
-      _toast(googleSignInErrorMessage(err, isTr: isTr));
+      final tr = ref.read(trProvider);
+      _toast(googleSignInErrorMessage(err, tr: tr));
     }
   }
 
@@ -195,6 +196,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     final isTr = ref.watch(localizationProvider) == 'tr';
+    final tr = ref.watch(trProvider);
     // Don't watch auth here - let main.dart handle navigation.
     // When login succeeds, main.dart rebuilds and unmounts this widget.
 
@@ -259,9 +261,6 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // TODO(i18n): move the Google button label and the Google
-                    // error strings (_googleErrorMessage) into the app's
-                    // translation table (trProvider) once it exists.
                     // Web uses Google's native GSI `renderButton`; mobile keeps our
                     // styled button driving `authenticate()`. Both are gated behind
                     // the compile-time feature flag (default OFF in production —
@@ -272,9 +271,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                         const GoogleSignInWebButton()
                       else
                         GoogleSignInButton(
-                          label: isTr
-                              ? 'Google ile devam et'
-                              : 'Continue with Google',
+                          label: tr('continue_with_google'),
                           isLoading: _googleBusy,
                           onPressed: _signInWithGoogle,
                         ),

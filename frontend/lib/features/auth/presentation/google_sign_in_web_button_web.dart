@@ -103,10 +103,10 @@ class _GoogleSignInWebButtonState extends ConsumerState<GoogleSignInWebButton> {
 
   void _showError(String code) {
     if (!mounted) return;
-    final isTr = ref.read(localizationProvider) == 'tr';
+    final tr = ref.read(trProvider);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(googleSignInErrorMessage(code, isTr: isTr)),
+        content: Text(googleSignInErrorMessage(code, tr: tr)),
         backgroundColor: AppTheme.error,
       ),
     );
