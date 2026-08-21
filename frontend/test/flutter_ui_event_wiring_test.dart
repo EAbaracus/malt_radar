@@ -45,7 +45,6 @@ class RecordingAnalyticsService extends AnalyticsService {
     required String eventName,
     required Map<String, dynamic> payload,
     required String sessionId,
-    String? userId,
     String envId = 'malt-radar-prod-1',
   }) {
     dispatchedEvents.add(eventName);
@@ -53,7 +52,6 @@ class RecordingAnalyticsService extends AnalyticsService {
       eventName: eventName,
       payload: payload,
       sessionId: sessionId,
-      userId: userId,
       envId: envId,
     );
     statuses.add(result.status);
