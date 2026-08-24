@@ -30,6 +30,23 @@ void main() {
       expect(localizeFlavorTag('', 'tr'), '');
       expect(localizeFlavorTag('   ', 'en'), '');
     });
+
+    test('defaults to English map when language code is not Turkish', () {
+      expect(localizeFlavorTag('elma', 'fr'), 'Apple');
+      expect(localizeFlavorTag('tatlı', 'es'), 'Sweet');
+      expect(localizeFlavorTag('şeri', 'de'), 'Sherry');
+    });
+
+    test('handles single-character tags', () {
+      expect(localizeFlavorTag('a', 'en'), 'A');
+      expect(localizeFlavorTag('a', 'tr'), 'A');
+    });
+
+    test('handles tags containing numbers or special characters', () {
+      expect(localizeFlavorTag('apple123', 'tr'), 'Apple123');
+      expect(localizeFlavorTag('sweet!', 'en'), 'Sweet!');
+      expect(localizeFlavorTag('@citrus', 'tr'), '@citrus'); // Starts with a special char
+    });
   });
 
   group('localizeTastingNote', () {
