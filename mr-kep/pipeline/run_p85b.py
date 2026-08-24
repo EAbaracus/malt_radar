@@ -3,12 +3,27 @@ import json
 import csv
 import hashlib
 from datetime import datetime, timezone
+from pathlib import Path
 
-BASE_DIR = r"C:\Users\eltun\Documents\malt radar CLEAN\mr-kep"
-OUT_DIR = os.path.join(BASE_DIR, "output")
-P85A_OUT_DIR = os.path.join(OUT_DIR, "p85a")
-P85B_OUT_DIR = os.path.join(OUT_DIR, "p85b")
-DB_PATH = os.path.join(BASE_DIR, "production.db")
+# Resolve base directory relative to this script, with environment override
+def get_base_dir():
+    """
+    Resolve the base directory for the pipeline.
+    Priority:
+    1. MALT_RADAR_BASE_DIR environment variable
+    2. Parent directory of this script (mr-kep/)
+    """
+    if env_base := os.environ.get('MALT_RADAR_BASE_DIR'):
+        return Path(env_base)
+    # This script is in mr-kep/pipeline/, so parent.parent is repo root
+    script_dir = Path(__file__).parent  # mr-kep/pipeline/
+    return script_dir.parent  # mr-kep/
+
+BASE_DIR = get_base_dir()
+OUT_DIR = BASE_DIR / "output"
+P85A_OUT_DIR = OUT_DIR / "p85a"
+P85B_OUT_DIR = OUT_DIR / "p85b"
+DB_PATH = BASE_DIR / "production.db"
 
 os.makedirs(P85B_OUT_DIR, exist_ok=True)
 
@@ -21,18 +36,21 @@ def get_file_hash(path):
 
 def run_p85b():
     print("=== MR-KEP Sprint 2 — P85-B Staging Migration Gate ===")
+    print(f"Base directory: {BASE_DIR}")
+    print(f"Database path: {DB_PATH}")
 
-    db_hash_before = get_file_hash(DB_PATH) if os.path.exists(DB_PATH) else None
+    # Early DB isolation guard: capture hash before any work
+    db_hash_before = get_file_hash(DB_PATH) if DB_PATH.exists() else None
 
     # 1. Verify P85-A hash
     p85a_hash_verified = True
-    p85a_integrity_path = os.path.join(P85A_OUT_DIR, "p85a_integrity_hash.json")
-    if os.path.exists(p85a_integrity_path):
+    p85a_integrity_path = P85A_OUT_DIR / "p85a_integrity_hash.json"
+    if p85a_integrity_path.exists():
         with open(p85a_integrity_path, 'r', encoding='utf-8') as f:
             p85a_hashes = json.load(f)
         for fname, expected_hash in p85a_hashes.items():
-            fpath = os.path.join(P85A_OUT_DIR, fname)
-            if os.path.exists(fpath):
+            fpath = P85A_OUT_DIR / fname
+            if fpath.exists():
                 if get_file_hash(fpath) != expected_hash:
                     p85a_hash_verified = False
             else:
@@ -41,9 +59,9 @@ def run_p85b():
         p85a_hash_verified = False
 
     # 2. Load mapping outputs
-    mcr_path = os.path.join(P85A_OUT_DIR, "migration_candidate_rows.csv")
+    mcr_path = P85A_OUT_DIR / "migration_candidate_rows.csv"
     migration_rows = []
-    if os.path.exists(mcr_path):
+    if mcr_path.exists():
         with open(mcr_path, 'r', encoding='utf-8') as f:
             reader = csv.DictReader(f)
             for row in reader:
@@ -70,27 +88,27 @@ def run_p85b():
             "gsd_candidate_id": row["whisky_id"],
             "action": "INSERT",
             "status": "SUCCESS",
-            "evidence_count": 7 - list(row.values()).count("") # Count resolved fields
+            "evidence_count": 7 - list(row.values()).count("")  # Count resolved fields
         })
 
     # Write files
     # 1. pre_migration_snapshot.json
-    with open(os.path.join(P85B_OUT_DIR, "pre_migration_snapshot.json"), 'w', encoding='utf-8') as f:
+    with open(P85B_OUT_DIR / "pre_migration_snapshot.json", 'w', encoding='utf-8') as f:
         json.dump(pre_snapshot, f, indent=2)
 
     # 2. post_migration_snapshot.json
-    with open(os.path.join(P85B_OUT_DIR, "post_migration_snapshot.json"), 'w', encoding='utf-8') as f:
+    with open(P85B_OUT_DIR / "post_migration_snapshot.json", 'w', encoding='utf-8') as f:
         json.dump(post_snapshot, f, indent=2)
 
     # 3. staging_import_preview.csv
-    sip_path = os.path.join(P85B_OUT_DIR, "staging_import_preview.csv")
+    sip_path = P85B_OUT_DIR / "staging_import_preview.csv"
     with open(sip_path, 'w', newline='', encoding='utf-8') as f:
         writer = csv.DictWriter(f, fieldnames=["gsd_candidate_id", "action", "status", "evidence_count"])
         writer.writeheader()
         writer.writerows(import_previews)
 
     # 4. migration_plan.md
-    with open(os.path.join(P85B_OUT_DIR, "migration_plan.md"), 'w', encoding='utf-8') as f:
+    with open(P85B_OUT_DIR / "migration_plan.md", 'w', encoding='utf-8') as f:
         f.write("# P85-B Migration Plan\n\n")
         f.write("This document outlines the step-by-step SQL migration procedure for Malt Radar.\n\n")
         f.write("## Prerequisites\n")
@@ -105,7 +123,7 @@ def run_p85b():
         f.write("6. Commit transaction\n")
 
     # 5. rollback_plan.md
-    with open(os.path.join(P85B_OUT_DIR, "rollback_plan.md"), 'w', encoding='utf-8') as f:
+    with open(P85B_OUT_DIR / "rollback_plan.md", 'w', encoding='utf-8') as f:
         f.write("# P85-B Rollback Plan\n\n")
         f.write("Steps to safely revert flavor profile modifications if migration fails.\n\n")
         f.write("## Steps\n")
@@ -113,8 +131,8 @@ def run_p85b():
         f.write("2. Restore backup copy `production.db.bak` to `production.db`\n")
         f.write("3. Verify database integrity hash matches pre-migration hash\n")
 
-    # DB isolation check
-    db_hash_after = get_file_hash(DB_PATH) if os.path.exists(DB_PATH) else None
+    # DB isolation check: verify no mutations occurred
+    db_hash_after = get_file_hash(DB_PATH) if DB_PATH.exists() else None
     db_untouched = db_hash_before == db_hash_after
 
     # Validation checks
@@ -125,11 +143,11 @@ def run_p85b():
     integrity_hashes = {
         "staging_import_preview.csv": get_file_hash(sip_path)
     }
-    with open(os.path.join(P85B_OUT_DIR, "p85b_integrity_hash.json"), 'w', encoding='utf-8') as f:
+    with open(P85B_OUT_DIR / "p85b_integrity_hash.json", 'w', encoding='utf-8') as f:
         json.dump(integrity_hashes, f, indent=2)
 
     # Write p85b_validation_report.md
-    with open(os.path.join(P85B_OUT_DIR, "p85b_validation_report.md"), 'w', encoding='utf-8') as f:
+    with open(P85B_OUT_DIR / "p85b_validation_report.md", 'w', encoding='utf-8') as f:
         f.write("# P85-B Validation Report\n\n")
         f.write(f"Validation completed at {datetime.now(timezone.utc).isoformat()}.\n\n")
         f.write("## Checklist\n")
