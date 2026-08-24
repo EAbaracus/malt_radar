@@ -28,10 +28,13 @@ import hashlib
 import os
 import re
 import secrets
+import logging
 import sqlite3
 import subprocess
 import sys
 from typing import Any, Iterable, Iterator, List, Optional
+
+logger = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
 # Configuration
@@ -388,12 +391,13 @@ def get_read_connection(db_path: Optional[str] = None) -> Iterator[sqlite3.Conne
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO, format='%(levelname)s:%(name)s:%(message)s')
     # Self-test (no data change): prove the lock blocks direct writes but the
     # gate allows a no-op write. Mirrors minimum_viable_gate_report.md tests.
     import traceback
 
-    print("DB_PATH =", DB_PATH)
-    print("exists =", os.path.exists(DB_PATH))
+    logger.info(f"DB_PATH = {DB_PATH}")
+    logger.info(f"exists = {os.path.exists(DB_PATH)}")
 
     # Test A: direct RW write must FAIL (OS lock)
     try:
@@ -401,17 +405,17 @@ if __name__ == "__main__":
         c.execute("UPDATE whiskies SET name = name WHERE 1 = 0;")
         c.commit()
         c.close()
-        print("TEST A (direct write): UNEXPECTED SUCCESS  <-- LOCK NOT ENFORCED")
+        logger.error("TEST A (direct write): UNEXPECTED SUCCESS  <-- LOCK NOT ENFORCED")
     except sqlite3.OperationalError as e:
-        print(f"TEST A (direct write): EXPECTED FAILURE -> {e}")
+        logger.info(f"TEST A (direct write): EXPECTED FAILURE -> {e}")
 
     # Test B: gate no-op write must SUCCEED (via WriteGate with proof)
     try:
         with get_write_connection(authorized_context="gate_self_test") as conn:
             conn.execute("UPDATE whiskies SET name = name WHERE 1 = 0;")
-        print("TEST B (gate write): SUCCESS")
+        logger.info("TEST B (gate write): SUCCESS")
     except Exception:
-        print("TEST B (gate write): FAILURE")
+        logger.error("TEST B (gate write): FAILURE")
         traceback.print_exc()
 
     # Test C: direct call to _lift_write_access without proof must FAIL
@@ -421,8 +425,8 @@ if __name__ == "__main__":
         bad_proof = "not-a-valid-proof"
         bad_verification = "not-a-valid-verification"
         _lift_write_access(proof=bad_proof, verification_token=bad_verification)
-        print("TEST C (direct _lift_write_access): UNEXPECTED SUCCESS  <-- PROOF NOT ENFORCED")
+        logger.error("TEST C (direct _lift_write_access): UNEXPECTED SUCCESS  <-- PROOF NOT ENFORCED")
     except WriteGuardLiftError as e:
-        print(f"TEST C (direct _lift_write_access): EXPECTED FAILURE -> {e}")
+        logger.info(f"TEST C (direct _lift_write_access): EXPECTED FAILURE -> {e}")
     except Exception as e:
-        print(f"TEST C (direct _lift_write_access): OTHER ERROR -> {e}")
+        logger.error(f"TEST C (direct _lift_write_access): OTHER ERROR -> {e}")
