@@ -15,7 +15,7 @@ from __future__ import annotations
 import datetime
 import logging
 import secrets
-from typing import List, Dict, Any
+from typing import Dict, Any
 
 from app.db.write_guard import get_write_connection  # canonical gate (Faz 0)
 from app.utils.shared_paths import _sha256_file, ALLOWED_TABLES
