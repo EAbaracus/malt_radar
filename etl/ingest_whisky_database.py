@@ -532,11 +532,16 @@ def ingest(input_dir, db_path, reset):
 
                 # Source URLs
                 s_urls = split_urls(row.get('source_urls'))
-                for url in s_urls:
-                    cursor.execute("SELECT 1 FROM entity_sources WHERE entity_type=? AND entity_id=? AND source_url=?", ("whisky_product", product_id, url))
-                    if not cursor.fetchone():
-                        cursor.execute("INSERT INTO entity_sources (entity_type, entity_id, source_url) VALUES (?, ?, ?)", ("whisky_product", product_id, url))
-                        report.source_urls_inserted += 1
+                unique_urls = list(set(s_urls))
+                if unique_urls:
+                    placeholders = ",".join(["?"] * len(unique_urls))
+                    cursor.execute(f"SELECT source_url FROM entity_sources WHERE entity_type='whisky_product' AND entity_id=? AND source_url IN ({placeholders})", [product_id] + unique_urls)
+                    existing_urls = set(r[0] for r in cursor.fetchall())
+
+                    to_insert = [("whisky_product", product_id, u) for u in unique_urls if u not in existing_urls]
+                    if to_insert:
+                        cursor.executemany("INSERT INTO entity_sources (entity_type, entity_id, source_url) VALUES (?, ?, ?)", to_insert)
+                        report.source_urls_inserted += len(to_insert)
 
                 # Cask types
                 casks = split_casks(row.get('cask_type'))
