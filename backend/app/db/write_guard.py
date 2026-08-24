@@ -31,7 +31,7 @@ import secrets
 import sqlite3
 import subprocess
 import sys
-from typing import Any, Iterable, Iterator, List, Optional, Tuple
+from typing import Any, Iterable, Iterator, List, Optional
 
 # ---------------------------------------------------------------------------
 # Configuration
