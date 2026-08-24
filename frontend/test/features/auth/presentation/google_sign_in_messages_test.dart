@@ -63,5 +63,12 @@ void main() {
         'some_backend_error',
       );
     });
+
+    test('returns empty string unchanged when code is empty', () {
+      expect(
+        googleSignInErrorMessage('', tr: (k, [a]) => mockTr('en', k)),
+        '',
+      );
+    });
   });
 }

@@ -46,7 +46,7 @@ class GoogleAuth {
   /// platform plugins fall back to the client ids configured natively; an
   /// *empty string* would crash iOS `GIDConfiguration(clientID: '')`, so we
   /// never pass `''` through.
-  GoogleAuth({this._clientId, this._scopes = const ['email']});
+  GoogleAuth({String? clientId, List<String> scopes = const ['email']}) : _clientId = clientId, _scopes = scopes;
 
   /// Web OAuth client id (`--dart-define=GOOGLE_CLIENT_ID_WEB`). Null on
   /// mobile. Exposed so the web GSI button can initialize the plugin with the
@@ -59,7 +59,7 @@ class GoogleAuth {
   /// On web a missing/empty [clientId] (dart-define not yet wired) fails fast
   /// with a descriptive error instead of a confusing plugin failure.
   Future<String?> fetchIdToken() async {
-    if (kIsWeb && (_clientId == null || _clientId.isEmpty)) {
+    if (kIsWeb && (_clientId == null || _clientId!.isEmpty)) {
       throw StateError(
         'GOOGLE_CLIENT_ID_WEB is not configured '
         '(missing --dart-define=GOOGLE_CLIENT_ID_WEB=...)',
