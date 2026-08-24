@@ -532,28 +532,34 @@ def ingest(input_dir, db_path, reset):
 
                 # Source URLs
                 s_urls = split_urls(row.get('source_urls'))
+                url_tuples = []
                 for url in s_urls:
-                    cursor.execute("SELECT 1 FROM entity_sources WHERE entity_type=? AND entity_id=? AND source_url=?", ("whisky_product", product_id, url))
-                    if not cursor.fetchone():
-                        cursor.execute("INSERT INTO entity_sources (entity_type, entity_id, source_url) VALUES (?, ?, ?)", ("whisky_product", product_id, url))
-                        report.source_urls_inserted += 1
+                    if url:
+                        url_tuples.append(("whisky_product", product_id, url))
+                if url_tuples:
+                    cursor.executemany("INSERT OR IGNORE INTO entity_sources (entity_type, entity_id, source_url) VALUES (?, ?, ?)", url_tuples)
+                    report.source_urls_inserted += cursor.rowcount
 
                 # Cask types
                 casks = split_casks(row.get('cask_type'))
+                cask_tuples = []
                 for c in casks:
                     cid = get_or_create_cask_type(c)
-                    cursor.execute("SELECT 1 FROM product_cask_types WHERE product_id=? AND cask_type_id=?", (product_id, cid))
-                    if not cursor.fetchone():
-                        cursor.execute("INSERT INTO product_cask_types (product_id, cask_type_id) VALUES (?, ?)", (product_id, cid))
+                    if cid is not None:
+                        cask_tuples.append((product_id, cid))
+                if cask_tuples:
+                    cursor.executemany("INSERT OR IGNORE INTO product_cask_types (product_id, cask_type_id) VALUES (?, ?)", cask_tuples)
 
                 # Flavor tags
                 flavors = split_flavors(row.get('flavor_profile_keywords'))
                 flavors.extend(split_flavors(row.get('flavor_profile')))
+                flavor_tuples = []
                 for f in set(flavors):
                     fid = get_or_create_flavor_tag(f)
-                    cursor.execute("SELECT 1 FROM product_flavor_tags WHERE product_id=? AND flavor_tag_id=?", (product_id, fid))
-                    if not cursor.fetchone():
-                        cursor.execute("INSERT INTO product_flavor_tags (product_id, flavor_tag_id) VALUES (?, ?)", (product_id, fid))
+                    if fid is not None:
+                        flavor_tuples.append((product_id, fid))
+                if flavor_tuples:
+                    cursor.executemany("INSERT OR IGNORE INTO product_flavor_tags (product_id, flavor_tag_id) VALUES (?, ?)", flavor_tuples)
 
     # Load rejected matches
     rejected_file = os.path.join(input_dir, 'rejected_matches.csv')
