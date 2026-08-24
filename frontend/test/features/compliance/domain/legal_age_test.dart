@@ -28,6 +28,16 @@ void main() {
         // The implementation does strict `==` check. 'us' would fallback to default.
         expect(legalAgeFor('us'), defaultMinAge);
       });
+
+      test('returns correct minAge for all entries in legalDrinkingAges', () {
+        for (final entry in legalDrinkingAges) {
+          expect(legalAgeFor(entry.code), entry.minAge, reason: 'Failed for ${entry.name} (${entry.code})');
+        }
+      });
+
+      test('returns defaultMinAge for empty string', () {
+        expect(legalAgeFor(''), defaultMinAge);
+      });
     });
 
     group('sortedEntries', () {
