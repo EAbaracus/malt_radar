@@ -63,25 +63,26 @@ class DbReadService:
                 with self._get_connection() as conn:
                     cursor = conn.cursor()
 
-                    # Filter valid tables
-                    valid_list = [t for t in tables if t in VALID_TABLES]
+                    # Filter valid tables and ensure they exist in sqlite_master
+                    # to completely avoid OperationalError and N+1 fallbacks
+                    cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
+                    existing_tables = {row["name"] for row in cursor.fetchall()}
+
+                    valid_list = [t for t in tables if t in VALID_TABLES and t in existing_tables]
 
                     if valid_list:
-                        try:
-                            # Single query with subqueries to avoid N+1 problem
-                            query = "SELECT " + ", ".join([f"(SELECT COUNT(*) FROM {t}) as {t}" for t in valid_list])
-                            cursor.execute(query)
-                            row = cursor.fetchone()
-                            for t in valid_list:
+                        # Single query with subqueries to avoid N+1 problem
+                        query = "SELECT " + ", ".join([f"(SELECT COUNT(*) FROM {t}) as {t}" for t in valid_list])
+                        cursor.execute(query)
+                        row = cursor.fetchone()
+                        for t in tables:
+                            if t in valid_list:
                                 counts[t] = row[t]
-                        except sqlite3.OperationalError:
-                            # Fallback if a table is missing or query fails
-                            for t in valid_list:
-                                try:
-                                    cursor.execute(f"SELECT COUNT(*) as c FROM {t}")
-                                    counts[t] = cursor.fetchone()["c"]
-                                except sqlite3.OperationalError:
-                                    counts[t] = 0
+                            else:
+                                counts[t] = 0
+                    else:
+                        for t in tables:
+                            counts[t] = 0
             except FileNotFoundError:
                 exists = False
 
