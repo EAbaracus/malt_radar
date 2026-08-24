@@ -293,27 +293,28 @@ class UserStore:
         return cur.rowcount > 0
 
     def update_profile(self, uid: int, display_name: Optional[str] = None, **kwargs: Any) -> None:
-        allowed_cols = {"display_name", "age_country", "age_min"}
-        sets: List[str] = []
-        vals: List[Any] = []
-
         if display_name is not None:
             kwargs["display_name"] = display_name
 
-        for key, value in kwargs.items():
-            if key in allowed_cols:
-                sets.append(f"{key} = ?")
-                if isinstance(value, str):
-                    vals.append(value.strip() or None)
-                else:
-                    vals.append(value)
-
-        if not sets:
-            return
-
-        vals.append(uid)
         with self._connect() as conn:
-            conn.execute(f"UPDATE users SET {', '.join(sets)} WHERE id = ?", vals)
+            if "display_name" in kwargs:
+                val = kwargs["display_name"]
+                if isinstance(val, str):
+                    val = val.strip() or None
+                conn.execute("UPDATE users SET display_name = ? WHERE id = ?", (val, uid))
+
+            if "age_country" in kwargs:
+                val = kwargs["age_country"]
+                if isinstance(val, str):
+                    val = val.strip() or None
+                conn.execute("UPDATE users SET age_country = ? WHERE id = ?", (val, uid))
+
+            if "age_min" in kwargs:
+                val = kwargs["age_min"]
+                if isinstance(val, str):
+                    val = val.strip() or None
+                conn.execute("UPDATE users SET age_min = ? WHERE id = ?", (val, uid))
+
             conn.commit()
 
     def _fetch_one(self, sql: str, params: Tuple[Any, ...]) -> Optional[Dict[str, Any]]:
