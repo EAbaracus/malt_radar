@@ -63,6 +63,9 @@ class ProductionReadAdapter:
     backend/app/db/production_read_adapter.py) aynı kalır.
     """
 
+    # Class-level cache for the unified queue UNION query to avoid N+1 PRAGMA calls
+    _queue_query_cache: Optional[str] = None
+
     def __init__(self, db_path: Optional[str] = None) -> None:
         # Faz B: merkezi path resolution (shared_paths.resolve_db_path).
         # Eski copy-paste 3-level-up → tek fonksiyon. caller_file=__file__
@@ -162,38 +165,47 @@ class ProductionReadAdapter:
         ]
         with self._get_connection() as conn:
             cursor = conn.cursor()
-            selects: List[str] = []
-            for t in tables:
-                cursor.execute(f"PRAGMA table_info({t})")
-                cols = [row["name"] for row in cursor.fetchall()]
-                if not cols:
-                    continue
-                c_key = "candidate_name" if t == "staging_manual_review_queue" else "source_record_key"
-                c_key = c_key if c_key in cols else "''"
-                c_disp = "''"
-                for n in ["name", "title", "candidate_name", "term", "whisky_name"]:
-                    if n in cols:
-                        c_disp = n; break
-                c_src = "source_name" if "source_name" in cols else ("source" if "source" in cols else "'unknown'")
-                c_app = "approval_status" if "approval_status" in cols else "'pending_review'"
-                c_ded = "dedupe_action" if "dedupe_action" in cols else "''"
-                c_rec = "import_recommendation" if "import_recommendation" in cols else "''"
-                c_cre = "original_row_index" if "original_row_index" in cols else "'0'"
-                c_con = "'1'" if t == "staging_manual_review_queue" else "'0'"
-                q = (
-                    f"SELECT '{t}' as source_table, "
-                    f"CAST({c_key} AS TEXT) as source_record_key, "
-                    f"CAST({c_disp} AS TEXT) as display_name, "
-                    f"CAST({c_src} AS TEXT) as source_name, "
-                    f"CAST({c_app} AS TEXT) as approval_status, "
-                    f"CAST({c_ded} AS TEXT) as dedupe_action, "
-                    f"CAST({c_rec} AS TEXT) as import_recommendation, "
-                    f"CAST({c_cre} AS TEXT) as created_at, "
-                    f"0 as review_priority, "
-                    f"CAST({c_con} AS TEXT) as conflict_flag FROM {t}"
-                )
-                selects.append(q)
-            union_q = " UNION ALL ".join(selects)
+
+            # Use cached UNION query if available to avoid N+1 schema inspections
+            if self.__class__._queue_query_cache is None:
+                selects: List[str] = []
+                for t in tables:
+                    cursor.execute(f"PRAGMA table_info({t})")
+                    cols = [row["name"] for row in cursor.fetchall()]
+                    if not cols:
+                        continue
+                    c_key = "candidate_name" if t == "staging_manual_review_queue" else "source_record_key"
+                    c_key = c_key if c_key in cols else "''"
+                    c_disp = "''"
+                    for n in ["name", "title", "candidate_name", "term", "whisky_name"]:
+                        if n in cols:
+                            c_disp = n; break
+                    c_src = "source_name" if "source_name" in cols else ("source" if "source" in cols else "'unknown'")
+                    c_app = "approval_status" if "approval_status" in cols else "'pending_review'"
+                    c_ded = "dedupe_action" if "dedupe_action" in cols else "''"
+                    c_rec = "import_recommendation" if "import_recommendation" in cols else "''"
+                    c_cre = "original_row_index" if "original_row_index" in cols else "'0'"
+                    c_con = "'1'" if t == "staging_manual_review_queue" else "'0'"
+                    q = (
+                        f"SELECT '{t}' as source_table, "
+                        f"CAST({c_key} AS TEXT) as source_record_key, "
+                        f"CAST({c_disp} AS TEXT) as display_name, "
+                        f"CAST({c_src} AS TEXT) as source_name, "
+                        f"CAST({c_app} AS TEXT) as approval_status, "
+                        f"CAST({c_ded} AS TEXT) as dedupe_action, "
+                        f"CAST({c_rec} AS TEXT) as import_recommendation, "
+                        f"CAST({c_cre} AS TEXT) as created_at, "
+                        f"0 as review_priority, "
+                        f"CAST({c_con} AS TEXT) as conflict_flag FROM {t}"
+                    )
+                    selects.append(q)
+                self.__class__._queue_query_cache = " UNION ALL ".join(selects)
+
+            union_q = self.__class__._queue_query_cache
+
+            if not union_q:
+                return []
+
             where_clauses: List[str] = []
             params: list[Any] = []
             if status:
