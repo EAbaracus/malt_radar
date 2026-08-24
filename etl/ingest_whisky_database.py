@@ -540,11 +540,13 @@ def ingest(input_dir, db_path, reset):
 
                 # Cask types
                 casks = split_casks(row.get('cask_type'))
+                cask_tuples = []
                 for c in casks:
                     cid = get_or_create_cask_type(c)
-                    cursor.execute("SELECT 1 FROM product_cask_types WHERE product_id=? AND cask_type_id=?", (product_id, cid))
-                    if not cursor.fetchone():
-                        cursor.execute("INSERT INTO product_cask_types (product_id, cask_type_id) VALUES (?, ?)", (product_id, cid))
+                    if cid is not None:
+                        cask_tuples.append((product_id, cid))
+                if cask_tuples:
+                    cursor.executemany("INSERT OR IGNORE INTO product_cask_types (product_id, cask_type_id) VALUES (?, ?)", cask_tuples)
 
                 # Flavor tags
                 flavors = split_flavors(row.get('flavor_profile_keywords'))
