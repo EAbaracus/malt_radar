@@ -160,12 +160,29 @@ class ProductionReadAdapter:
             "staging_historical_menu_prices", "staging_manual_review_queue",
             "knowledge_regions", "knowledge_glossary_terms", "knowledge_guides",
         ]
+
         with self._get_connection() as conn:
             cursor = conn.cursor()
+
+            # Batch schema queries into a single query using pragma_table_info
+            # This is safer than caching because dynamic schema alterations will be instantly available
+            # We construct a parameterized string to query the table info for all relevant tables
+            placeholders = ",".join("?" * len(tables))
+            schema_query = f"""
+                SELECT m.name as table_name, p.name as column_name
+                FROM sqlite_master m
+                JOIN pragma_table_info(m.name) p
+                WHERE m.type = 'table' AND m.name IN ({placeholders})
+            """
+            cursor.execute(schema_query, tables)
+
+            table_cols = {t: [] for t in tables}
+            for row in cursor.fetchall():
+                table_cols[row["table_name"]].append(row["column_name"])
+
             selects: List[str] = []
             for t in tables:
-                cursor.execute(f"PRAGMA table_info({t})")
-                cols = [row["name"] for row in cursor.fetchall()]
+                cols = table_cols[t]
                 if not cols:
                     continue
                 c_key = "candidate_name" if t == "staging_manual_review_queue" else "source_record_key"
