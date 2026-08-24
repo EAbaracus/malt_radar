@@ -35,11 +35,12 @@ class ReviewQueryService:
         key_col = "queue_id" if safe_table == "staging_manual_review_queue" else "source_record_key"
         with self._adapter._get_connection() as conn:
             cursor = conn.cursor()
-            cursor.execute(f"PRAGMA table_info({safe_table})")
+            # safe_table is strictly verified against ALLOWED_TABLES_REVIEW allowlist
+            cursor.execute(f"PRAGMA table_info({safe_table})")  # nosec B608
             cols = [r["name"] for r in cursor.fetchall()]
             if key_col not in cols:
                 return None
-            cursor.execute(f"SELECT * FROM {safe_table} WHERE {key_col} = ?", (source_record_key,))
+            cursor.execute(f"SELECT * FROM {safe_table} WHERE {key_col} = ?", (source_record_key,))  # nosec B608
             row = cursor.fetchone()
         if row:
             item = {k: str(row[k]) if row[k] is not None else "" for k in row.keys()}
