@@ -1,4 +1,4 @@
-package com.example.malt_radar
+package com.maltradar.app
 
 import io.flutter.embedding.android.FlutterActivity
 

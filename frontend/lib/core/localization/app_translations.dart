@@ -23,12 +23,7 @@ const Map<String, Map<String, String>> appTranslations = {
 
     // Home Screen
     'home_title': 'Malt Radar',
-<<<<<<< HEAD
-    'whisky_library':
-        'Viski meraklıları için lezzet profilleri — veriyle okunur',
-=======
     'whisky_library': 'Viski meraklıları için lezzet profilleri — veriyle okunur',
->>>>>>> c18d186 (fix(homepage): add target persona to headline)
     'search_whisky': 'Viski ara',
     'search_library': 'Kütüphanede ara',
     'library': 'Kütüphane',

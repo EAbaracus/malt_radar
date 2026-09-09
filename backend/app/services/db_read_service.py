@@ -115,7 +115,24 @@ class DbReadService:
     APP_AXES: ClassVar = ["fruity", "sweet", "spicy", "smoky_peaty", "oak_cask", "malty_cereal", "floral_herbal", "maritime"]
 
     @staticmethod
-    def _normalize_flavor_profile(raw: Any) -> str | None:
+    def _normalize_flavor_profile(
+        raw: Any, *, allow_component_projection: bool = False
+    ) -> str | None:
+        """Normalize a stored flavor_profile onto the app's display axes.
+
+        `allow_component_projection` gates the Whiskey-Mapper `component_1/2/3`
+        branch. Those values are scatter-plot coordinates from
+        `whiskey_scatter.json`, not axis intensities: projecting them onto the
+        7 display axes produces radars that are near-identical for neighbouring
+        whiskies (four of the seven axes are linear combinations of the other
+        three) and assigns meaningless smoky_peaty values to unpeated bottlings.
+
+        Display callers therefore leave it False and get None, so the API omits
+        the profile and the UI shows "no flavor profile" instead of a fabricated
+        shape. `similarity_service` passes True: there the coordinates ARE the
+        right input, and the projection is preserved byte-for-byte so similarity
+        scores do not move.
+        """
         if not raw:
             return None
 
@@ -139,7 +156,9 @@ class DbReadService:
             except (json.JSONDecodeError, ValueError):
                 return None
             if isinstance(obj, dict):
-                return DbReadService._map_canonical_to_app_axes(obj)
+                return DbReadService._map_canonical_to_app_axes(
+                    obj, allow_component_projection=allow_component_projection
+                )
 
         # key=val, key=val, ... form (certified pilot rows).
         axes: dict[str, float] = {}
@@ -151,10 +170,14 @@ class DbReadService:
                 axes[key.strip().lower()] = float(val.strip())
             except ValueError:
                 pass
-        return DbReadService._map_canonical_to_app_axes(axes)
+        return DbReadService._map_canonical_to_app_axes(
+            axes, allow_component_projection=allow_component_projection
+        )
 
     @staticmethod
-    def _map_canonical_to_app_axes(axes: dict[str, float]) -> str:
+    def _map_canonical_to_app_axes(
+        axes: dict[str, float], *, allow_component_projection: bool = False
+    ) -> str | None:
         """Map a canonical/raw axis dict onto the app's 7-axis vocabulary.
 
         Stored values are never modified; this is a presentation-format
@@ -166,9 +189,13 @@ class DbReadService:
             except (TypeError, ValueError):
                 return 0.0
 
-        # Whiskey-Mapper component form (component_1/2/3) — pass through its
-        # own projection so those 231 rows keep their radar shape.
+        # Whiskey-Mapper component form (component_1/2/3): scatter-plot
+        # coordinates, not axis intensities. Only the similarity path may
+        # project them (see _normalize_flavor_profile); display callers get
+        # None so no fabricated radar is rendered.
         if "component_1" in axes and "component_2" in axes and "component_3" in axes:
+            if not allow_component_projection:
+                return None
             c1, c2, c3 = g("component_1"), g("component_2"), g("component_3")
 
             def scale(v: float) -> float:
