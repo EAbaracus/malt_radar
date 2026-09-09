@@ -226,6 +226,8 @@ class DbReadService:
             # Maritime is a canonical axis; pass it through (do NOT drop).
             "maritime": g("maritime"),
         }
+        if all(v == 0.0 for v in mapped.values()):
+            return None
         return json.dumps(mapped)
 
     def _flavor_profile_for(self, whisky_id: str) -> str | None:
