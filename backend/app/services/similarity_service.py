@@ -130,8 +130,15 @@ class SimilarityService:
                 if _raw_vals and len(set(_raw_vals)) == 1 and _raw_vals[0] > 0:
                     continue  # sentinel / constant-axis fallback → skip
             try:
+                # allow_component_projection=True: Whiskey-Mapper component
+                # rows are scatter coordinates, which is exactly the right
+                # input for a distance metric. The display path suppresses
+                # them; similarity keeps the historical projection so scores
+                # are unchanged by that suppression.
                 app_axes = json.loads(
-                    DbReadService._normalize_flavor_profile(raw) or "{}")
+                    DbReadService._normalize_flavor_profile(
+                        raw, allow_component_projection=True
+                    ) or "{}")
             except (json.JSONDecodeError, TypeError):
                 continue
             if not isinstance(app_axes, dict):

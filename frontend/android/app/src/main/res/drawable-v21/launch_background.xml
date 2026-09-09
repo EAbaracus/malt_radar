@@ -2,9 +2,10 @@
 <!-- Marka native splash: Cask Char zemin + etiketsiz medallion (statik). v21+ -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="@color/launch_cask_char" />
-    <item>
-        <bitmap
-            android:gravity="center"
-            android:src="@drawable/launch_medallion" />
-    </item>
+    <!-- NOTE: launch_medallion is a VECTOR — must be referenced directly.
+         <bitmap android:src> cannot inflate vectors and breaks the system
+         splash (Resources$NotFoundException / SplashScreenView NPE). -->
+    <item
+        android:drawable="@drawable/launch_medallion"
+        android:gravity="center" />
 </layer-list>
