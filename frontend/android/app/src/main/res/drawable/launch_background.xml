@@ -2,9 +2,9 @@
 <!-- Marka native splash: Cask Char zemin + etiketsiz medallion (statik). -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="@color/launch_cask_char" />
-    <item>
-        <bitmap
-            android:gravity="center"
-            android:src="@drawable/launch_medallion" />
-    </item>
+    <!-- NOTE: minSdk=24 so this pre-21 fallback is never used; kept valid by
+         referencing the vector directly (same reason as drawable-v21). -->
+    <item
+        android:drawable="@drawable/launch_medallion"
+        android:gravity="center" />
 </layer-list>
