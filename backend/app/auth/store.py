@@ -18,6 +18,12 @@ from typing import Any, Dict, List, Optional, Tuple
 SESSION_TTL_DAYS = 30
 #: Email verification token lifetime (24h).
 VERIFY_TTL_HOURS = 24
+#: Password-reset code lifetime. Deliberately much shorter than verification:
+#: a 6-digit code is brute-forceable, so exposure time is a defence.
+RESET_TTL_MINUTES = 15
+#: Wrong-code attempts tolerated before the code is destroyed. Together with
+#: RESET_TTL_MINUTES this bounds guessing to 5 tries in 15 minutes.
+RESET_MAX_ATTEMPTS = 5
 
 _SCHEMA = """
 CREATE TABLE IF NOT EXISTS users (
@@ -41,6 +47,17 @@ CREATE TABLE IF NOT EXISTS sessions (
 CREATE TABLE IF NOT EXISTS email_verifications (
   token_hash TEXT PRIMARY KEY,
   user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  created_at TEXT NOT NULL,
+  expires_at TEXT NOT NULL
+);
+-- One active password reset per user (user_id is the key, not a surrogate):
+-- requesting a new code replaces the previous one instead of leaving several
+-- valid codes alive. `attempts` counts WRONG codes so a 6-digit code cannot be
+-- walked through; the row is deleted on success and on exhaustion.
+CREATE TABLE IF NOT EXISTS password_resets (
+  user_id INTEGER PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+  code_hash TEXT NOT NULL,
+  attempts INTEGER NOT NULL DEFAULT 0,
   created_at TEXT NOT NULL,
   expires_at TEXT NOT NULL
 );
@@ -461,6 +478,81 @@ class UserStore:
             )
             conn.commit()
         return True
+
+    # --- password reset ------------------------------------------------
+    # A 6-digit code is NOT a bearer token: it is low entropy and guessable.
+    # Defences, in order of importance:
+    #   1. at most RESET_MAX_ATTEMPTS wrong tries per code, then destroy it;
+    #   2. short TTL (RESET_TTL_MINUTES);
+    #   3. one active code per user — a new request replaces the old code;
+    #   4. constant-time comparison;
+    #   5. the plaintext code is never stored, only sha256 (same as sessions).
+    # A DB dump could brute-force 10^6 hashes offline, but that dump already
+    # contains password hashes, so it is not the boundary this code defends.
+    def create_reset_code(self, uid: int) -> str:
+        """Issue a fresh 6-digit reset code, replacing any previous one."""
+        code = f"{secrets.randbelow(10 ** 6):06d}"
+        now = datetime.now(timezone.utc)
+        expires = (now + timedelta(minutes=RESET_TTL_MINUTES)).isoformat(
+            timespec="seconds"
+        )
+        with self._connect() as conn:
+            conn.execute("DELETE FROM password_resets WHERE user_id = ?", (uid,))
+            conn.execute(
+                """INSERT INTO password_resets
+                   (user_id, code_hash, attempts, created_at, expires_at)
+                   VALUES (?,?,0,?,?)""",
+                (uid, self._hash(code), self._now(), expires),
+            )
+            conn.commit()
+        return code
+
+    def consume_reset_code(self, uid: int, code: str) -> bool:
+        """Validate a reset code. Destroys it on success or on exhaustion."""
+        now = self._now()
+        with self._connect() as conn:
+            row = conn.execute(
+                """SELECT code_hash, attempts FROM password_resets
+                   WHERE user_id = ? AND expires_at > ?""",
+                (uid, now),
+            ).fetchone()
+            if row is None:
+                return False
+            if int(row["attempts"]) >= RESET_MAX_ATTEMPTS:
+                # Already exhausted: never accept, and drop the row.
+                conn.execute("DELETE FROM password_resets WHERE user_id = ?", (uid,))
+                conn.commit()
+                return False
+            if not secrets.compare_digest(row["code_hash"], self._hash(code)):
+                conn.execute(
+                    "UPDATE password_resets SET attempts = attempts + 1 WHERE user_id = ?",
+                    (uid,),
+                )
+                conn.commit()
+                return False
+            conn.execute("DELETE FROM password_resets WHERE user_id = ?", (uid,))
+            conn.commit()
+        return True
+
+    def update_password_hash(self, uid: int, password_hash: str) -> bool:
+        with self._connect() as conn:
+            cur = conn.execute(
+                "UPDATE users SET password_hash = ? WHERE id = ?",
+                (password_hash, uid),
+            )
+            conn.commit()
+        return cur.rowcount > 0
+
+    def delete_sessions_for_user(self, uid: int) -> int:
+        """Kill every session for a user.
+
+        Called after a password reset: any session minted before the reset may
+        belong to whoever stole the account, so it must not survive the reset.
+        """
+        with self._connect() as conn:
+            cur = conn.execute("DELETE FROM sessions WHERE user_id = ?", (uid,))
+            conn.commit()
+        return cur.rowcount
 
     # --- sync store ----------------------------------------------------
     # Merge rules: rows are keyed per (user, whisky/list); on upsert the

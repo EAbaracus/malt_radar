@@ -14,7 +14,11 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
-    expect(find.byType(TextButton), findsNWidgets(2));
+    // Count is now 3: mode toggle, "Forgot password?" (added with the reset
+    // flow), and the guest link. The intent of this test is the guest entry
+    // point, so it is asserted by label below; the count just guards against
+    // losing a control.
+    expect(find.byType(TextButton), findsNWidgets(3));
     expect(
       find.byWidgetPredicate(
         (widget) =>

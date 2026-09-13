@@ -48,6 +48,48 @@ class AuthVerifyEmailRequest(BaseModel):
     token: str = Field(min_length=8)
 
 
+class AuthForgotPasswordRequest(BaseModel):
+    email: str = Field(min_length=3, max_length=254)
+
+    @field_validator("email")
+    @classmethod
+    def _valid_email(cls, v: str) -> str:
+        v = v.strip().lower()
+        if "@" not in v or "." not in v.split("@")[-1]:
+            raise ValueError("invalid email address")
+        return v
+
+
+class AuthResetPasswordRequest(BaseModel):
+    email: str = Field(min_length=3, max_length=254)
+    code: str = Field(min_length=6, max_length=6)
+    new_password: str
+
+    @field_validator("email")
+    @classmethod
+    def _valid_email(cls, v: str) -> str:
+        v = v.strip().lower()
+        if "@" not in v or "." not in v.split("@")[-1]:
+            raise ValueError("invalid email address")
+        return v
+
+    @field_validator("code")
+    @classmethod
+    def _digits(cls, v: str) -> str:
+        v = v.strip()
+        if not v.isdigit():
+            raise ValueError("code must be 6 digits")
+        return v
+
+    @field_validator("new_password")
+    @classmethod
+    def _strong_enough(cls, v: str) -> str:
+        # Same policy as register — a reset must not weaken the account.
+        if len(v) < 8:
+            raise ValueError("password must be at least 8 characters")
+        return v
+
+
 class AuthUpdateProfileRequest(BaseModel):
     display_name: Optional[str] = Field(default=None, max_length=100)
 
