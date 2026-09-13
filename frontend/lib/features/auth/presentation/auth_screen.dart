@@ -33,7 +33,7 @@ class AuthScreen extends ConsumerStatefulWidget {
   ConsumerState<AuthScreen> createState() => _AuthScreenState();
 }
 
-enum AuthMode { login, register }
+enum AuthMode { login, register, forgot, reset }
 
 class _AuthScreenState extends ConsumerState<AuthScreen> {
   late AuthMode _mode;
@@ -41,6 +41,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
   final _password = TextEditingController();
   final _confirm = TextEditingController();
   final _displayName = TextEditingController();
+  final _code = TextEditingController();
   bool _privacyConsent = false;
   bool _ageAffirm = false;
   bool _busy = false;
@@ -58,15 +59,19 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     _password.dispose();
     _confirm.dispose();
     _displayName.dispose();
+    _code.dispose();
     super.dispose();
   }
+
+  /// True while the screen is asking for a reset code instead of a password.
+  bool get _isResetFlow => _mode == AuthMode.forgot || _mode == AuthMode.reset;
 
   Future<void> _submit() async {
     final isTr = ref.read(localizationProvider) == 'tr';
     final email = _email.text.trim();
     final password = _password.text;
 
-    if (email.isEmpty || password.isEmpty) {
+    if (email.isEmpty) {
       _toast(isTr ? 'Tüm alanları doldurun' : 'Please fill in all fields');
       return;
     }
@@ -74,6 +79,11 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     final emailRe = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
     if (!emailRe.hasMatch(email)) {
       _toast(isTr ? 'Geçerli bir e-posta girin' : 'Please enter a valid email');
+      return;
+    }
+    // The "send me a code" step is the only one that needs no password.
+    if (_mode != AuthMode.forgot && password.isEmpty) {
+      _toast(isTr ? 'Tüm alanları doldurun' : 'Please fill in all fields');
       return;
     }
     setState(() => _busy = true);
@@ -95,7 +105,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
         err = await ref
             .read(authControllerProvider.notifier)
             .login(email, password);
-      } else {
+      } else if (_mode == AuthMode.register) {
         if (password.length < 8) {
           setState(() => _busy = false);
           _toast(
@@ -134,6 +144,71 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
               ageMin: minAge,
               privacyConsent: _privacyConsent,
             );
+      } else if (_mode == AuthMode.forgot) {
+        // Step 1 of the reset flow: ask the server to mail a 6-digit code.
+        err = await ref
+            .read(authControllerProvider.notifier)
+            .requestPasswordReset(email);
+        if (err == null) {
+          if (!mounted) return;
+          setState(() {
+            _busy = false;
+            _mode = AuthMode.reset;
+          });
+          // The endpoint answers the same for unknown addresses, so the copy
+          // must not claim the address exists.
+          _toast(
+            isTr
+                ? 'Kod gönderildi. E-postanı kontrol et (15 dakika geçerli).'
+                : 'Code sent. Check your email (valid for 15 minutes).',
+          );
+          return;
+        }
+      } else {
+        // Step 2: exchange email + code for a new password.
+        final code = _code.text.trim();
+        if (!RegExp(r'^\d{6}$').hasMatch(code)) {
+          setState(() => _busy = false);
+          _toast(isTr ? '6 haneli kodu girin' : 'Enter the 6-digit code');
+          return;
+        }
+        if (password.length < 8) {
+          setState(() => _busy = false);
+          _toast(
+            isTr
+                ? 'Şifre en az 8 karakter olmalı'
+                : 'Password must be at least 8 characters',
+          );
+          return;
+        }
+        if (password != _confirm.text) {
+          setState(() => _busy = false);
+          _toast(isTr ? 'Şifreler eşleşmiyor' : 'Passwords do not match');
+          return;
+        }
+        err = await ref
+            .read(authControllerProvider.notifier)
+            .confirmPasswordReset(
+              email: email,
+              code: code,
+              newPassword: password,
+            );
+        if (err == null) {
+          if (!mounted) return;
+          setState(() {
+            _busy = false;
+            _mode = AuthMode.login;
+            _password.clear();
+            _confirm.clear();
+            _code.clear();
+          });
+          _toast(
+            isTr
+                ? 'Şifren değişti. Yeni şifrenle giriş yap.'
+                : 'Password changed. Sign in with your new password.',
+          );
+          return;
+        }
       }
     } catch (e) {
       // Catch any unexpected exception
@@ -233,22 +308,39 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
               ),
               const SizedBox(height: 32),
               Text(
-                _mode == AuthMode.login
-                    ? (isTr ? 'Giriş Yap' : 'Sign in')
-                    : (isTr ? 'Kayıt Ol' : 'Create account'),
+                switch (_mode) {
+                  AuthMode.login => isTr ? 'Giriş Yap' : 'Sign in',
+                  AuthMode.register => isTr ? 'Kayıt Ol' : 'Create account',
+                  AuthMode.forgot =>
+                    isTr ? 'Şifremi Unuttum' : 'Forgot password',
+                  AuthMode.reset => isTr ? 'Yeni Şifre' : 'New password',
+                },
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
               ),
               const SizedBox(height: 8),
               Text(
-                _mode == AuthMode.login
-                    ? (isTr
-                          ? 'Hesabına devam et, kişisel viski verilerini cihazlar arasında sakla.'
-                          : 'Sign in to keep your personal whisky data across devices.')
-                    : (isTr
-                          ? 'Kayıt ile favoriler, listeler ve puanlar sunucuya senkronize olur.'
-                          : 'Create an account to sync favorites, lists and scores.'),
+                switch (_mode) {
+                  AuthMode.login =>
+                    isTr
+                        ? 'Hesabına devam et, kişisel viski verilerini cihazlar arasında sakla.'
+                        : 'Sign in to keep your personal whisky data across devices.',
+                  AuthMode.register =>
+                    isTr
+                        ? 'Kayıt ile favoriler, listeler ve puanlar sunucuya senkronize olur.'
+                        : 'Create an account to sync favorites, lists and scores.',
+                  // No "we found your account" wording: the endpoint answers
+                  // identically for unknown addresses.
+                  AuthMode.forgot =>
+                    isTr
+                        ? 'Hesabının e-postasını gir; 6 haneli sıfırlama kodunu gönderelim.'
+                        : 'Enter your account email and we will send a 6-digit reset code.',
+                  AuthMode.reset =>
+                    isTr
+                        ? 'E-postandaki 6 haneli kodu ve yeni şifreni gir.'
+                        : 'Enter the 6-digit code from your email and your new password.',
+                },
                 style: Theme.of(
                   context,
                 ).textTheme.bodySmall?.copyWith(height: 1.4),
@@ -342,19 +434,82 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 16),
-                    TextField(
-                      controller: _password,
-                      obscureText: true,
-                      style: const TextStyle(color: AppThemeColors.parchment),
-                      decoration: InputDecoration(
-                        labelText: isTr ? 'Şifre' : 'Password',
-                        prefixIcon: const Icon(
-                          Icons.lock_outline,
-                          color: AppTheme.primary,
+                    // Reset step 2: the code that arrived by email goes first,
+                    // before the new password, so the form reads in the order
+                    // the user performs the steps.
+                    if (_mode == AuthMode.reset) ...[
+                      const SizedBox(height: 16),
+                      TextField(
+                        controller: _code,
+                        keyboardType: TextInputType.number,
+                        maxLength: 6,
+                        style: const TextStyle(color: AppThemeColors.parchment),
+                        decoration: InputDecoration(
+                          labelText: isTr ? '6 haneli kod' : '6-digit code',
+                          counterText: '',
+                          prefixIcon: const Icon(
+                            Icons.pin_outlined,
+                            color: AppTheme.primary,
+                          ),
                         ),
                       ),
-                    ),
+                    ],
+                    // No password field while only the code is being requested.
+                    if (_mode != AuthMode.forgot) ...[
+                      const SizedBox(height: 16),
+                      TextField(
+                        controller: _password,
+                        obscureText: true,
+                        style: const TextStyle(color: AppThemeColors.parchment),
+                        decoration: InputDecoration(
+                          labelText: isTr
+                              ? (_mode == AuthMode.reset
+                                    ? 'Yeni şifre'
+                                    : 'Şifre')
+                              : (_mode == AuthMode.reset
+                                    ? 'New password'
+                                    : 'Password'),
+                          prefixIcon: const Icon(
+                            Icons.lock_outline,
+                            color: AppTheme.primary,
+                          ),
+                        ),
+                      ),
+                    ],
+                    // Entry point into the reset flow, offered only on login.
+                    if (_mode == AuthMode.login)
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                          onPressed: () =>
+                              setState(() => _mode = AuthMode.forgot),
+                          child: Text(
+                            isTr ? 'Şifremi unuttum' : 'Forgot password?',
+                            style: const TextStyle(
+                              color: AppTheme.textSecondary,
+                            ),
+                          ),
+                        ),
+                      ),
+                    // Reset step 2 also needs the confirmation field; register
+                    // mode adds its own inside the block below.
+                    if (_mode == AuthMode.reset) ...[
+                      const SizedBox(height: 16),
+                      TextField(
+                        controller: _confirm,
+                        obscureText: true,
+                        style: const TextStyle(color: AppThemeColors.parchment),
+                        decoration: InputDecoration(
+                          labelText: isTr
+                              ? 'Yeni şifre (tekrar)'
+                              : 'Confirm new password',
+                          prefixIcon: const Icon(
+                            Icons.lock_outline,
+                            color: AppTheme.primary,
+                          ),
+                        ),
+                      ),
+                    ],
                     if (_mode == AuthMode.register) ...[
                       const SizedBox(height: 16),
                       TextField(
@@ -403,29 +558,43 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                               height: 20,
                               child: BrandSpinner(),
                             )
-                          : Text(
-                              _mode == AuthMode.login
-                                  ? (isTr ? 'GİRİŞ YAP' : 'SIGN IN')
-                                  : (isTr ? 'KAYIT OL' : 'SIGN UP'),
-                            ),
+                          : Text(switch (_mode) {
+                              AuthMode.login => isTr ? 'GİRİŞ YAP' : 'SIGN IN',
+                              AuthMode.register =>
+                                isTr ? 'KAYIT OL' : 'SIGN UP',
+                              AuthMode.forgot =>
+                                isTr ? 'KOD GÖNDER' : 'SEND CODE',
+                              AuthMode.reset =>
+                                isTr ? 'ŞİFREYİ DEĞİŞTİR' : 'CHANGE PASSWORD',
+                            }),
                     ),
                     const SizedBox(height: 12),
+                    // Login/register toggle only makes sense between those two
+                    // modes; the reset flow gets an explicit way back instead.
                     TextButton(
                       onPressed: () {
                         setState(() {
-                          _mode = _mode == AuthMode.login
-                              ? AuthMode.register
-                              : AuthMode.login;
+                          if (_isResetFlow) {
+                            _mode = AuthMode.login;
+                            _code.clear();
+                            _confirm.clear();
+                          } else {
+                            _mode = _mode == AuthMode.login
+                                ? AuthMode.register
+                                : AuthMode.login;
+                          }
                         });
                       },
                       child: Text(
-                        _mode == AuthMode.login
-                            ? (isTr
-                                  ? 'Hesabın yok mu? Kaydol'
-                                  : "Don't have an account? Sign up")
-                            : (isTr
-                                  ? 'Zaten hesabın var? Giriş yap'
-                                  : 'Already have an account? Sign in'),
+                        _isResetFlow
+                            ? (isTr ? 'Girişe dön' : 'Back to sign in')
+                            : (_mode == AuthMode.login
+                                  ? (isTr
+                                        ? 'Hesabın yok mu? Kaydol'
+                                        : "Don't have an account? Sign up")
+                                  : (isTr
+                                        ? 'Zaten hesabın var? Giriş yap'
+                                        : 'Already have an account? Sign in')),
                         style: const TextStyle(color: AppTheme.textSecondary),
                       ),
                     ),

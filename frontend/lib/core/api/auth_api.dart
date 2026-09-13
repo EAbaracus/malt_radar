@@ -98,6 +98,32 @@ class AuthApi {
     );
   }
 
+  /// Requests a 6-digit password-reset code by email.
+  ///
+  /// The backend answers `{ok: true}` for BOTH registered and unknown
+  /// addresses (no account enumeration), so a successful call does NOT prove
+  /// the address exists — show the same neutral confirmation either way.
+  Future<void> forgotPassword(String email) async {
+    await _send('POST', '/api/auth/forgot-password', body: {'email': email});
+  }
+
+  /// Exchanges email + 6-digit code for a new password.
+  ///
+  /// The backend destroys every existing session on success (any of them may
+  /// belong to whoever took the account), so the caller MUST clear the local
+  /// session too — the stored token is dead by design.
+  Future<void> resetPassword({
+    required String email,
+    required String code,
+    required String newPassword,
+  }) async {
+    await _send(
+      'POST',
+      '/api/auth/reset-password',
+      body: {'email': email, 'code': code, 'new_password': newPassword},
+    );
+  }
+
   Future<Map<String, dynamic>> syncPush(
     String token,
     Map<String, List<Map<String, dynamic>>> payload,

@@ -139,6 +139,44 @@ class AuthController extends StateNotifier<AuthState> {
     }
   }
 
+  Future<String?> requestPasswordReset(String email) async {
+    try {
+      await api.forgotPassword(email.trim());
+      return null;
+    } on AuthApiException catch (e) {
+      return e.message;
+    } catch (e) {
+      return 'Beklenmeyen hata: $e';
+    }
+  }
+
+  /// Completes the reset and drops the local session.
+  ///
+  /// The server invalidates ALL sessions when the password changes, so holding
+  /// on to the old token would leave the app "logged in" with a dead token
+  /// (every later call would 401). Clearing it here keeps local state honest:
+  /// the user signs in again with the new password.
+  Future<String?> confirmPasswordReset({
+    required String email,
+    required String code,
+    required String newPassword,
+  }) async {
+    try {
+      await api.resetPassword(
+        email: email.trim(),
+        code: code.trim(),
+        newPassword: newPassword,
+      );
+      await repo.clearSession();
+      state = const AuthState(AuthStatus.loggedOut);
+      return null;
+    } on AuthApiException catch (e) {
+      return e.message;
+    } catch (e) {
+      return 'Beklenmeyen hata: $e';
+    }
+  }
+
   /// Exchanges a Google id token with the backend and persists the resulting
   /// session. Shared by the mobile `authenticate()` path ([signInWithGoogle])
   /// and the web GSI `renderButton` path ([signInWithGoogleFromCredential]) so

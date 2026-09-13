@@ -20,9 +20,11 @@ from fastapi import APIRouter, Depends, HTTPException, Request
 from app.security import limiter
 from app.auth.passwords import hash_password, verify_password
 from app.auth.schemas import (
+    AuthForgotPasswordRequest,
     AuthGoogleRequest,
     AuthLoginRequest,
     AuthRegisterRequest,
+    AuthResetPasswordRequest,
     AuthUpdateProfileRequest,
     AuthVerifyEmailRequest,
     SyncRequest,
@@ -71,12 +73,13 @@ def _public_user(user: Dict[str, Any]) -> Dict[str, Any]:
     return out
 
 
-def _send_verification_email(email: str, verify_url: str) -> None:
-    """Send the email-verification link via SMTP (Gmail app-password) when
-    configured; otherwise fall back to a server-log stub so dev doesn't break.
+def _send_email(email: str, subject: str, body: str, stub_tag: str) -> None:
+    """Send one plain-text mail via SMTP when configured, else log a stub.
 
     Env (all optional; absent -> stub):
-      MALT_RADAR_SMTP_HOST / _PORT / _USER / _PASS / _FROM  (e.g. smtp.gmail.com)
+      MALT_RADAR_SMTP_HOST / _PORT / _USER / _PASS / _FROM
+    A mail failure is logged and swallowed: it must never break the account
+    flow that triggered it.
     """
     host = os.getenv("MALT_RADAR_SMTP_HOST", "").strip()
     user = os.getenv("MALT_RADAR_SMTP_USER", "").strip()
@@ -85,9 +88,28 @@ def _send_verification_email(email: str, verify_url: str) -> None:
     port = int(os.getenv("MALT_RADAR_SMTP_PORT", "587") or "587")
 
     if not (host and user and pw):
-        logger.info("EMAIL-STUB verify url for %s: %s", email, verify_url)
+        # Dev stub: the payload is logged so the flow is testable without SMTP.
+        logger.info("EMAIL-STUB %s for %s: %s", stub_tag, email, body)
         return
 
+    msg = EmailMessage()
+    msg["Subject"] = subject
+    msg["From"] = fr
+    msg["To"] = email
+    msg.set_content(body)
+
+    try:
+        with smtplib.SMTP(host, port, timeout=20) as s:
+            s.starttls()
+            s.login(user, pw)
+            s.send_message(msg)
+        logger.info("EMAIL sent (%s) to %s", stub_tag, email)
+    except Exception as e:  # noqa: BLE001 — never break the caller on mail failure
+        logger.warning("EMAIL send failed for %s: %s", email, e)
+
+
+def _send_verification_email(email: str, verify_url: str) -> None:
+    """Email the address-verification link (24h validity)."""
     # A relative verify path ("/verify-email?…") is resolved against the app
     # origin so the email carries a clickable absolute link.
     if verify_url.startswith("/"):
@@ -104,20 +126,27 @@ def _send_verification_email(email: str, verify_url: str) -> None:
         "Bu isteği siz yapmadıysanız bu e-postayı yok sayın.\n"
         "Saygılar,\nMalt Radar"
     )
-    msg = EmailMessage()
-    msg["Subject"] = subject
-    msg["From"] = fr
-    msg["To"] = email
-    msg.set_content(body)
+    _send_email(email, subject, body, "verify url")
 
-    try:
-        with smtplib.SMTP(host, port, timeout=20) as s:
-            s.starttls()
-            s.login(user, pw)
-            s.send_message(msg)
-        logger.info("EMAIL sent verification link to %s", email)
-    except Exception as e:  # noqa: BLE001 — never break register on mail failure
-        logger.warning("EMAIL send failed for %s: %s", email, e)
+
+def _send_reset_code_email(email: str, code: str) -> None:
+    """Email a 6-digit password-reset code (15 min validity).
+
+    The code is sent in the body only; it is never put in a URL, so it cannot
+    leak through referrers, browser history, or server access logs.
+    """
+    subject = "Malt Radar – Şifre sıfırlama kodunuz"
+    body = (
+        "Merhaba,\n\n"
+        "Malt Radar hesabınız için şifre sıfırlama kodunuz:\n\n"
+        f"    {code}\n\n"
+        "Kod 15 dakika geçerlidir ve yalnızca bir kez kullanılabilir.\n"
+        "Kodu uygulamadaki 'Şifremi unuttum' ekranına girin.\n\n"
+        "Bu isteği siz yapmadıysanız bu e-postayı yok sayın; şifreniz "
+        "değişmez.\n"
+        "Saygılar,\nMalt Radar"
+    )
+    _send_email(email, subject, body, "reset code")
 
 
 # --- account lifecycle ------------------------------------------------
@@ -361,6 +390,44 @@ async def verify_email(
         raise HTTPException(
             status_code=400, detail="Invalid or expired verification token"
         )
+    return {"ok": True}
+
+
+# --- password reset -----------------------------------------------------
+# Two steps: request a code by email, then exchange email+code+new password.
+# Both endpoints answer identically for known and unknown addresses so the API
+# cannot be used to enumerate registered emails.
+@router.post("/forgot-password")
+@limiter.limit("5/minute")
+async def forgot_password(
+    request: Request,
+    body: AuthForgotPasswordRequest,
+    store: UserStore = Depends(get_store),
+):
+    user = store.get_user_by_email(body.email)
+    if user is not None:
+        code = store.create_reset_code(user["id"])
+        _send_reset_code_email(user["email"], code)
+    return {"ok": True}
+
+
+@router.post("/reset-password")
+@limiter.limit("10/minute")
+async def reset_password(
+    request: Request,
+    body: AuthResetPasswordRequest,
+    store: UserStore = Depends(get_store),
+):
+    user = store.get_user_by_email(body.email)
+    # One generic failure for unknown email, wrong code, exhausted attempts and
+    # expired code — the client learns nothing about which case it hit.
+    if user is None or not store.consume_reset_code(user["id"], body.code):
+        raise HTTPException(status_code=400, detail="Invalid or expired reset code")
+
+    store.update_password_hash(user["id"], hash_password(body.new_password))
+    # Any session minted before this reset may belong to whoever took the
+    # account: drop them all so the new password is the only way in.
+    store.delete_sessions_for_user(user["id"])
     return {"ok": True}
 
 
