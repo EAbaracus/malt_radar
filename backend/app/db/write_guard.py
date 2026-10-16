@@ -208,13 +208,14 @@ def _verify_proof(proof: str, verification_token: str) -> bool:
     verification the proof is consumed (removed from the valid set).
     """
     import hashlib
+    import secrets
     if proof not in _valid_proofs:
         return False
     expected_token = hashlib.sha256(proof.encode()).hexdigest()
-    if expected_token != verification_token:
+    if not verification_token or not secrets.compare_digest(expected_token, verification_token):
         return False
     stored_token = _valid_proofs.pop(proof)  # consume
-    return stored_token == verification_token
+    return secrets.compare_digest(stored_token, verification_token)
 
 
 def _lift_write_access(
