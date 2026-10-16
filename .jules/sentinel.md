@@ -1,0 +1,4 @@
+## 2024-05-18 - API Key Timing Attack Vulnerability
+**Vulnerability:** The API key validation in `backend/app/security.py` used `!=` for comparing the client-provided key against the server secret (`x_api_key != API_KEY`). This string comparison can short-circuit early when characters do not match, potentially allowing a timing attack to incrementally guess the valid API key by measuring response times.
+**Learning:** `secrets.compare_digest` must be used for all sensitive string/token comparisons. However, it raises a `TypeError` if either argument is `None`. Since `x_api_key` can be `None`, it must be explicitly checked (e.g. `if not x_api_key or not secrets.compare_digest(...)`) to avoid unhandled 500 errors.
+**Prevention:** Use constant-time comparison operations for authentication tokens and ensure `None` arguments are appropriately handled or filtered before the comparison check.
